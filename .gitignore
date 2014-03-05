@@ -37,3 +37,6 @@ nosetests.xml
 
 #virtualenv
 env
+
+#configuration
+**/local_settings.py
