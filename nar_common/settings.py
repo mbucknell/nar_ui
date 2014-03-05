@@ -1,5 +1,5 @@
 """
-Django settings for nar_ui project.
+Django settings for nar_common project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.6/topics/settings/
@@ -30,11 +30,11 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
+#    'django.contrib.admin',
+#    'django.contrib.auth',
+#    'django.contrib.contenttypes',
+#    'django.contrib.sessions',
+#    'django.contrib.messages',
     'django.contrib.staticfiles',
 )
 
@@ -47,10 +47,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'nar_ui.urls'
-
-WSGI_APPLICATION = 'nar_ui.wsgi.application'
-
+ROOT_URLCONF = 'nar_common.urls'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -80,3 +77,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+try:
+    from local_settings import *
+except ImportError:
+    pass 
