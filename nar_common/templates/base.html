@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>{% block title %}NAWQA Annual Reports{% endblock %}</title>
+ 	<meta name="description" content="{% block page_description %}{% endblock %}" />
+                                   
+	            
+    {% block page_style %}{% endblock %}
+	       
+   {% block page_script %}{% endblock %}
+	    </head>
+</head>
+<body>
+	<div id="page-header">
+		{% block page_header %}
+		<h1>NAWQA ANNUAL REPORTS</h1>
+		{% endblock %}
+	</div>
+	<div id="page-content">
+		{% block content %}{% endblock %}
+	</div>
+	<div id="page-footer">
+		{% block page_footer %}{% endblock %}
+	</div> 
+</body>
+</html>
