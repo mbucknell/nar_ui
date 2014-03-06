@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+{% load static from staticfiles %}
 <html>
 <head>
 	<meta charset="utf-8">
 	<title>{% block title %}NAWQA Annual Reports{% endblock %}</title>
  	<meta name="description" content="{% block page_description %}{% endblock %}" />
-                                   
+	<link rel="stylesheet" href="{% static 'nar_ui/bootstrap/css/bootstrap.css' %}"/>
 	            
     {% block page_style %}{% endblock %}
 	       

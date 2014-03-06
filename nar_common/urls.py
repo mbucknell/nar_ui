@@ -1,6 +1,8 @@
 from django.conf.urls import patterns, include, url
 from nar_ui.views import HomePageView
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -13,3 +15,4 @@ urlpatterns = patterns('',
     url(r'^$', HomePageView.as_view(), name='home_page'),
 #     url(r'^index/', 'nar_ui.views.index', name='index')
 )
+urlpatterns += static(settings.STATIC_URL)
