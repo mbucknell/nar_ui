@@ -10,6 +10,6 @@ urlpatterns = patterns('',
 
 #     url(r'^admin/', include(admin.site.urls)),
 #     url(r'.*', HomePageView.as_view(), name='home' )
-    url(r'^home/$', HomePageView.as_view(), name='home_page'),
+    url(r'^$', HomePageView.as_view(), name='home_page'),
 #     url(r'^index/', 'nar_ui.views.index', name='index')
 )

@@ -5,7 +5,7 @@
 	<title>{% block title %}NAWQA Annual Reports{% endblock %}</title>
  	<meta name="description" content="{% block page_description %}{% endblock %}" />
                                    
-	{% css "style/custom.css" %}            
+	            
     {% block page_style %}{% endblock %}
 	       
    {% block page_script %}{% endblock %}
@@ -13,7 +13,9 @@
 </head>
 <body>
 	<div id="page-header">
-		{% block page_header %}{% endblock %}
+		{% block page_header %}
+		<h1>NAWQA ANNUAL REPORTS</h1>
+		{% endblock %}
 	</div>
 	<div id="page-content">
 		{% block content %}{% endblock %}
