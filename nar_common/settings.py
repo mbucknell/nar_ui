@@ -21,10 +21,11 @@ SITE_HOME = PROJECT_HOME.rsplit('/', 1)[0]
 INSTALLED_APPS = (
 #    'django.contrib.admin',
 #    'django.contrib.auth',
-#    'django.contrib.contenttypes',
+    'django.contrib.contenttypes',
 #    'django.contrib.sessions',
 #    'django.contrib.messages',
     'django.contrib.staticfiles',
+    'compressor',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -65,14 +66,40 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
+# Absolute path to the directory static files should be collected to.
+# Don't put anything in this directory yourself; store your static files
+# in apps' "static/" subdirectories and in STATICFILES_DIRS.
+# Example: "/var/www/example.com/static/"
+STATIC_ROOT = os.path.join(SITE_HOME, 'static')
+
+# URL prefix for static files.
+# Example: "http://example.com/static/", "http://static.example.com/"
 STATIC_URL = '/static/'
+
+
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_HOME, "static/"),
+)
 
 TEMPLATE_DIRS = (
     os.path.join (PROJECT_HOME, 'templates'),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 )
+
+#less css
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # other finders..
+    'compressor.finders.CompressorFinder',
+)
+
+COMPRESS_PRECOMPILERS = (
+   ('text/less', 'lessc {infile} {outfile}'),
+)
+INTERNAL_IPS = ('127.0.0.1',)
+
 
 
 

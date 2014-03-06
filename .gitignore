@@ -40,3 +40,6 @@ env
 
 #configuration
 **/local_settings.py
+
+#root static folder -- others do not need cached objects placed here
+/static/*
