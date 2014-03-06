@@ -25,6 +25,7 @@ INSTALLED_APPS = (
 #    'django.contrib.sessions',
 #    'django.contrib.messages',
     'django.contrib.staticfiles',
+    'compressor',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -83,9 +84,22 @@ STATICFILES_DIRS = (
 TEMPLATE_DIRS = (
     os.path.join (PROJECT_HOME, 'templates'),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 )
+
+#less css
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # other finders..
+    'compressor.finders.CompressorFinder',
+)
+
+COMPRESS_PRECOMPILERS = (
+   ('text/less', 'lessc {infile} {outfile}'),
+)
+INTERNAL_IPS = ('127.0.0.1',)
+
 
 
 
