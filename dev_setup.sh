@@ -10,5 +10,5 @@ pip install -r requirements.txt
 echo "$PREFIX Creating an example local_settings file"
 cd nar_common
 cp example_local_settings.py local_settings.py
-echo "$PREFIX Setup is ALMOST complete -- modify local_settings.py to complete setup"
+echo "$PREFIX Setup is ALMOST complete -- modify nar_common/local_settings.py to complete setup"
 
