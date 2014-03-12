@@ -16,9 +16,9 @@
       <outputDirectory></outputDirectory>
       <directory>.</directory>
       <excludes>
-      <exclude>/assembly</exclude>
-      <exclude>*.pom</exclude>
-      <exclude>/target</exclude>
+      <exclude>assembly/*</exclude>
+      <exclude>pom.xml</exclude>
+      <exclude>target/*</exclude>
       </excludes>
     </fileSet>
   </fileSets>
