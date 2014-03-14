@@ -95,8 +95,10 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder',
 )
 
+LESS_PATH=os.path.join(SITE_HOME, 'less4j.jar')
+
 COMPRESS_PRECOMPILERS = (
-   ('text/less', 'lessc {infile} {outfile}'),
+   ('text/less', 'java -jar ' + LESS_PATH + ' {infile} {outfile}'),
 )
 INTERNAL_IPS = ('127.0.0.1',)
 
