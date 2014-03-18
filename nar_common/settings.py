@@ -98,8 +98,10 @@ STATICFILES_FINDERS = (
 LESS_PATH=os.path.join(SITE_HOME, 'less4j.jar')
 
 COMPRESS_PRECOMPILERS = (
-   ('text/less', 'java -jar ' + LESS_PATH + ' {infile} {outfile}'),
+      ('text/less', 'lessc {infile} {outfile}'),
 )
+
+
 INTERNAL_IPS = ('127.0.0.1',)
 
 TEMPLATE_CONTEXT_PROCESSORS = (
