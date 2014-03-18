@@ -1,0 +1,130 @@
+/**********************
+       CONSTANTS
+***********************/
+
+@primaryColor:rgb(0,51,102);
+
+@boxColor:#fff;
+
+@titleColor:#fff;
+
+@baseFontFamily:"Source Sans Pro";
+
+@baseFontColor:@primaryColor;
+
+@boxShadow:0 0 4px rgba(0,0,0,.2);
+
+@baseFontWeightlight:300;
+
+@baseFontWeightReg:400;
+
+@baseFontWeightBold:700;
+
+@borderRadius:5px;
+
+/*##########content##########*/
+
+@-moz-document url-prefix() {
+.accordion-heading {
+                    line-height:1.25em;
+}
+
+}
+
+.content{background:none;
+        min-height:400px;
+        margin-top:10px;
+        position:relative;}
+        
+.side_nav{background:none;
+            padding:0;
+            height:721px;
+            margin-right:10px;
+            overflow:hidden;}
+        
+.top_nav{background:@boxColor;
+            min-height:10%;
+            padding:0;
+            margin-bottom:10px;
+            box-shadow:@boxShadow;
+            border-radius:@borderRadius;
+             overflow:hidden;}
+            
+.stripe{background:@primaryColor;
+        height:30px;
+       padding-left:10px;
+       margin-bottom:2px;
+        }
+        
+.stripe h3{color:#fff;
+            margin-top:4px;
+            font-weight:@baseFontWeightReg;
+            font-size:1.25em;}
+            
+.accordion{background:none;
+          }
+            
+.accordion-group{
+                 margin-bottom:5px;
+                 border-bottom:1px solid rgb(240,240,240);
+                 background:none;
+                 }
+
+.no_border{border-bottom:none;}
+                 
+.accordion-heading{background:none;
+                    padding-bottom:5px;
+                    margin-left:10px;}
+
+.accordion-heading a{color:@primaryColor;
+                        font-size:1.2em;
+                        font-weight:@baseFontWeightReg;
+                        font-family:@baseFontFamily;
+}
+.accordion-heading a:hover{text-decoration:none;}
+
+.accordion-inner{margin-left:-30px !important;
+                    margin-bottom:-5px;
+                    margin-top:-7px;
+                    line-height:1.4em;}
+                    
+.accordion-inner ul{list-style-type:none;
+                    font-size:.8em;
+                    
+                    }
+                    
+.accordion-inner ul li{padding-left:10px;
+                        border-radius:5px 0px 0 5px;
+                        }
+                        
+li.last{margin-bottom:10px;}
+
+
+                    
+.accordion-inner ul li a{color:#000;
+                            font-family:@baseFontFamily;
+                            display:inline-block;
+                            height:100%;
+                            width:100%;
+                            padding-left:10px;}
+
+.accordion-inner ul li:hover{text-decoration:none;
+                                 background:@primaryColor;;}
+                                
+.accordion-inner ul li a:hover{text-decoration:none;
+                               color:#fff;}
+
+.bottom_nav{background:@boxColor;
+            min-height:10%;
+            padding:0;
+            box-shadow:@boxShadow;
+             border-radius:@borderRadius;
+             overflow:hidden;
+             }
+            
+.map{background:@boxColor;
+            height:721px;
+            width:867px;
+            box-shadow:@boxShadow;}
+  
+/*##########content_end##########*/
