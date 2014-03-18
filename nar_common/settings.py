@@ -98,7 +98,6 @@ STATICFILES_FINDERS = (
 LESS_PATH=os.path.join(SITE_HOME, 'less4j.jar')
 
 COMPRESS_PRECOMPILERS = (
-#    ('text/less', 'java -jar ' + LESS_PATH + ' {infile} {outfile}'),
       ('text/less', 'lessc {infile} {outfile}'),
 )
 
