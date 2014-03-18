@@ -18,11 +18,12 @@
 		<link rel="stylesheet" type="text/less" media="all" href="{% static 'nar_ui/nar.less' %}"/>
 
 	{% endcompress %}
+<script type="text/javascript" src="{% static 'nar_ui/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/bootstrap/js/bootstrap.js' %}"></script>
 
-<!-- <script type="text/javascript" src="js/jquery.js"></script>
 
-<script type="text/javascript" src="js/bootstrap.js"></script>
--->
+
+
 </head>
 
 <body>
@@ -34,14 +35,14 @@
 	<div class="col-lg-2 logo">
     
     	<a href="http://www.usgs.gov/" target="_blank">
-    		<img src="images/usgslogo.jpg" class="img-responsive" alt="usgs logo"/>
+    		<img src="{% static 'nar_ui/images/usgslogo.jpg' %}" class="img-responsive" alt="usgs logo"/>
     	</a>
         
     </div><!--logo-->
     
     <div class="col-lg-9 banner">
     
-    	<img src="images/banner.png" class="img-responsive"  alt="banner picture"/>
+    	<img src="{% static 'nar_ui/images/banner.png' %}" class="img-responsive"  alt="banner picture"/>
     
     </div><!--banner-->
     
@@ -341,9 +342,9 @@
         
         <div id="pic_links">
         
-        	<a href="http://www.usa.gov/" target="_blank"><img src="images/usa_gov.png" alt="usa.gov pic"/></a>
+        	<a href="http://www.usa.gov/" target="_blank"><img src="{% static 'nar_ui/images/usa_gov.png' %}" alt="usa.gov pic"/></a>
             
-            <a href="http://volunteer.gov/" target="_blank"><img src="images/take_pride.png" alt="usa.gov pic"/></a>
+            <a href="http://volunteer.gov/" target="_blank"><img src="{% static 'nar_ui/images/take_pride.png' %}" alt="usa.gov pic"/></a>
         
         </div>
     
