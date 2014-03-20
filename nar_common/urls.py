@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from nar_ui.views import HomePageView
+from nar_ui.views import *
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
@@ -12,7 +12,8 @@ urlpatterns = patterns('',
 
 #     url(r'^admin/', include(admin.site.urls)),
 #     url(r'.*', HomePageView.as_view(), name='home' )
-    url(r'^$', HomePageView.as_view(), name='home_page'),
+    url(r'^$', HomePageView.as_view()),
+    url(r'^site/summary-report$', SiteSummaryReportView.as_view()),
 #     url(r'^index/', 'nar_ui.views.index', name='index')
 )
 urlpatterns += static(settings.STATIC_URL)

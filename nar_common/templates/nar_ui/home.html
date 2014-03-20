@@ -1,8 +1,264 @@
-{% extends 'base.html' %}
-{% block content%}
-	<p>Here are some shapes:</p>
-	<span class="shape"></span>
-	<span class="shape"></span>
-	<span class="shape"></span>
-	<p>I am content.</p>
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row title_area">
+
+	<div class="col-lg-6 title col-md-6 col-sm-6">
+    
+    	<a href="home.html"><h4>NAWQA Annual Reporting</h4></a>
+    
+    </div><!--title-->
+    
+    <div class="col-lg-6 buttons">
+    	
+        <ul>
+            <a href="https://water.usgs.gov/nawqa/" target="_blank">
+            	<li>NAWQA Home</li>
+            </a>
+            
+            <a href="https://water.usgs.gov/nasqan/" target="_blank">
+            <li>NASQAN Home</li>
+            </a>
+        </ul>
+    
+    </div><!--buttons-->
+
+</div><!--title_area-->
+
+
+<div class="row content">
+
+	<div class="col-lg-3 side_nav col-md-3 col-sm-3">
+    
+    	<div class="col-lg-12 top_nav col-md-12 col-sm-12">
+        
+        	<div class="col-lg-12 stripe">
+            
+            	<h3>Summary Reports</h3>
+            
+            </div><!--stripe-->
+            
+            <div class="accordion" id="accordion2">
+            
+            	<div class="accordion-group">
+                
+                 <div class="accordion-heading">
+                 
+                 	<a class="accordion-toggle" data-toggle="collapse" data-parent=			                 	"#accordion2" href="#collapseOne">
+                    
+                    National
+                    
+                    </a>
+                 
+                 </div><!--accordion-heading-->
+                 
+                 <div id="collapseOne" class="accordion-body collapse in">
+                 
+                 	 <div class="accordion-inner">
+                     
+                     <ul>
+                     
+                     	<li><a href="#">Pesticides</a></li>
+                       <li><a href="#">Nitrate in Coastal Rivers</a></li>
+                       <li><a href="#">Suspend Sediment</a></li>
+                       <li><a href="#">Ecology</a></li>
+                     
+                     </ul>
+                     
+                     </div><!--accordion-inner-->
+                 
+                 </div><!--collapseOne-->
+                
+                </div><!--accordion-group-->
+                
+                <div class="accordion-group">
+                
+    				<div class="accordion-heading">
+                    
+      					<a class="accordion-toggle" data-toggle="collapse" data-parent=				                        "#accordion2" href="#collapseTwo">
+                        
+        					Mississippi River Basin
+      						
+                         </a>
+    
+    				</div><!--accordion-heading-->
+                
+    			<div id="collapseTwo" class="accordion-body collapse in">
+                
+      				<div class="accordion-inner">
+                    
+        				<ul>
+                     
+                     	<li><a href="#">Nitrogen</a></li>
+                       <li><a href="#">Phosphorus</a></li>
+                       
+                     
+                     </ul>
+                        
+      				</div><!--accordion-inner-->
+                
+    			</div><!--collapseTwo-->
+                
+  				</div><!--accordion-group-->
+                
+                <div class="accordion-group no_border">
+                
+    				<div class="accordion-heading">
+                    
+      					<a class="accordion-toggle" data-toggle="collapse" data-parent=				                        "#accordion2" href="#collapseThree">
+                        
+        					Site
+      						
+                         </a>
+    
+    				</div><!--accordion-heading-->
+                
+    			<div id="collapseThree" class="accordion-body collapse in">
+                
+      				<div class="accordion-inner">
+                    
+        				<ul>
+                     
+                     	<li><a href="#">Urban</a></li>
+                       <li><a href="#">Agriculture</a></li>
+                       <li><a href="#">Reference</a></li>
+                       <li><a href="#">Inland Rivers</a></li>
+                       <li class="last"><a href="#">Coastal Rivers</a></li>
+                       
+                     
+                     </ul>
+                        
+      				</div><!--accordion-inner-->
+                
+    			</div><!--collapseTwo-->
+                
+  				</div><!--accordion-group-->
+            
+            </div><!--accordion-->
+    
+        
+        </div><!--top_nav-->
+        
+        <div class="col-lg-12 bottom_nav col-md-12 col-sm-12">
+        
+        	<div class="col-lg-12 stripe">
+            
+            	<h3>Site Information</h3>
+            
+            </div><!--stripe-->
+            
+             <div class="accordion" id="accordion2">
+            
+            	<div class="accordion-group">
+                
+                 <div class="accordion-heading">
+                 
+                 	<a class="accordion-toggle" data-toggle="collapse" data-parent=			                 	"#accordion2" href="#collapseFour">
+                    
+                    Objectives
+                    
+                    </a>
+                 
+                 </div><!--accordion-heading-->
+                 
+                 <div id="collapseFour" class="accordion-body collapse in">
+                 
+                 	 <div class="accordion-inner">
+                     
+                     <ul>
+                     
+                     	<li><a href="#">National Water Quality Assessment</a></li>
+                       <li><a href="#">National Stream Quality Accounting</a></li>
+                       <li><a href="#">National Monitoring Network</a></li>
+                     
+                     </ul>
+                     
+                     </div><!--accordion-inner-->
+                 
+                 </div><!--collapseOne-->
+                
+                </div><!--accordion-group-->
+                
+              
+               
+              <div class="accordion-group">
+                
+    				<div class="accordion-heading">
+                    
+      					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFive">
+                        
+        					Constituents Measured
+      						
+                         </a>
+    
+    				</div><!--accordion-heading-->
+                
+    			<div id="collapseFive" class="accordion-body collapse in">
+                
+      				<div class="accordion-inner">
+                    
+        				<ul>
+                     
+                     	<li><a href="#">Nutrients</a></li>
+                       <li><a href="#">Pesticides</a></li>
+                       <li><a href="#">Sediments</a></li>
+                       <li><a href="#">Ecology</a></li>
+                       
+                     </ul>
+                        
+      				</div><!--accordion-inner-->
+                
+    			</div><!--collapseTwo-->
+                
+  				</div><!--accordion-group-->
+                
+                <div class="accordion-group no_border">
+                
+    				<div class="accordion-heading">
+                    
+      					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseSix">
+                        
+        					Methods
+      						
+                         </a>
+    
+    				</div><!--accordion-heading-->
+                
+    			<div id="collapseSix" class="accordion-body collapse in">
+                
+      				<div class="accordion-inner">
+                    
+        			 <ul>
+                     
+                     	<li><a href="#">Network Design</a></li>
+                       <li><a href="#">Field Sampling</a></li>
+                       <li class="last"><a href="#">Laboratory</a></li>
+                       
+                     </ul>
+                        
+      				</div><!--accordion-inner-->
+                
+    			</div><!--collapseTwo-->
+                
+  				</div><!--accordion-group-->
+                
+           </div><!--accordion-->
+        
+        </div><!--bottom_nav-->
+       
+    	</div><!--side_nav-->
+    
+    	<div class="col-lg-8 map col-md-8 col-sm-8"></div><!--map-->
+    
+
+</div><!--content-->
+
 {% endblock %}
+
+
+
+
+
+
