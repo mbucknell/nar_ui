@@ -1,76 +1,13 @@
-<!doctype html>
-{% load static from staticfiles %}
-<html>
-<head>
-{% load compress %}
-<meta charset="UTF-8">
-<title>{% block title %}NAWQA Annual Reports{% endblock %}</title>
-<meta name="description" content="{% block page_description %}{% endblock %}" />
-<link href='http://fonts.googleapis.com/css?family=Signika+Negative:300,400,700' rel='stylesheet' type='text/css'>
 
-<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700' rel='stylesheet' type='text/css'>
+{% extends "base.html" %}
 
-
-<!-- this is an example of loading a non-less stylesheet-->
-	<link rel="stylesheet" href="{% static 'nar_ui/bootstrap/css/bootstrap.css' %}"/>
-	{% compress css %}
-		<link rel="stylesheet" type="text/less" media="all" href="{% static 'nar_ui/common.less' %}"/>
-		<link rel="stylesheet" type="text/less" media="all" href="{% static 'nar_ui/nar.less' %}"/>
-
-	{% endcompress %}
-<script type="text/javascript" src="{% static 'nar_ui/jquery.js' %}"></script>
-<script type="text/javascript" src="{% static 'nar_ui/bootstrap/js/bootstrap.js' %}"></script>
-
-
-
-
-</head>
-
-<body>
-
-<div class="container">
-
-<header class="row">
-
-	<div class="col-lg-2 logo">
-    
-    	<a href="http://www.usgs.gov/" target="_blank">
-    		<img src="{% static 'nar_ui/images/usgslogo.jpg' %}" class="img-responsive" alt="usgs logo"/>
-    	</a>
-        
-    </div><!--logo-->
-    
-    <div class="col-lg-9 banner">
-    
-    	<img src="{% static 'nar_ui/images/banner.png' %}" class="img-responsive"  alt="banner picture"/>
-    
-    </div><!--banner-->
-    
-    <div class="col-lg-1 header_nav">
-    
-    	<ul>
-        	<a href="http://www.usgs.gov/" target="_blank">
-            	<li>USGS Home</li>
-            </a>
-            
-            <a href="http://answers.usgs.gov/" target="_blank">		
-            	<li>Contact USGS</li>
-            </a>
-            
-             <a href="http://search.usgs.gov/" target="_blank">
-            <li>Search USGS</li>
-            </a>
-        </ul>
-    
-    </div><!--header_nav-->
-
-</header><!--header-->
+{% block content %}
 
 <div class="row title_area">
 
-	<div class="col-lg-6 title">
+	<div class="col-lg-6 title col-md-6 col-sm-6">
     
-    	<a href="index.html"><h4>NAWQA Annual Reporting</h4></a>
+    	<a href="home.html"><h4>NAWQA Annual Reporting</h4></a>
     
     </div><!--title-->
     
@@ -93,9 +30,9 @@
 
 <div class="row content">
 
-	<div class="col-lg-3 side_nav">
+	<div class="col-lg-3 side_nav col-md-3 col-sm-3">
     
-    	<div class="col-lg-12 top_nav">
+    	<div class="col-lg-12 top_nav col-md-12 col-sm-12">
         
         	<div class="col-lg-12 stripe">
             
@@ -123,7 +60,7 @@
                      
                      <ul>
                      
-                     	<li><a href="#">Pesticides in Agriculture and Urban Streams</a></li>
+                     	<li><a href="#">Pesticides</a></li>
                        <li><a href="#">Nitrate in Coastal Rivers</a></li>
                        <li><a href="#">Suspend Sediment</a></li>
                        <li><a href="#">Ecology</a></li>
@@ -204,7 +141,7 @@
         
         </div><!--top_nav-->
         
-        <div class="col-lg-12 bottom_nav">
+        <div class="col-lg-12 bottom_nav col-md-12 col-sm-12">
         
         	<div class="col-lg-12 stripe">
             
@@ -250,7 +187,7 @@
                 
     				<div class="accordion-heading">
                     
-      					<a class="accordion-toggle" data-toggle="collapse" data-parent=				                        "#accordion2" href="#collapseFive">
+      					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFive">
                         
         					Constituents Measured
       						
@@ -281,7 +218,7 @@
                 
     				<div class="accordion-heading">
                     
-      					<a class="accordion-toggle" data-toggle="collapse" data-parent=				                        "#accordion2" href="#collapseSix">
+      					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseSix">
                         
         					Methods
       						
@@ -313,48 +250,15 @@
        
     	</div><!--side_nav-->
     
-    	<div class="col-lg-8 map"></div><!--map-->
+    	<div class="col-lg-8 map col-md-8 col-sm-8"></div><!--map-->
     
 
 </div><!--content-->
 
-<footer class="row">
-	
-    <div class="col-lg-12 footer_top">
-    
-    	<ul>
-        
-        	<li><a href="http://www.usgs.gov/laws/accessibility.html" target="_blank">Accessibility</a></li>
-            <li><a href="http://www.usgs.gov/foia/" target="_blank">FOIA</a></li>
-            <li><a href="http://www.usgs.gov/laws/privacy.html" target="_blank">Privacy</a></li>
-            <li><a href="http://www.usgs.gov/laws/policies_notices.html" target="_blank">Policies and Notices</a></li>
-        
-        </ul>
-    
-    </div>
-    
-    <div class="col-lg-12 footer_bottom">
-    
-    	<p class="first"><a href="http://www.doi.gov/index.cfm" target="_blank">U.S Department of the Interior</a> | <a href="http://www.usgs.gov/" target="_blank">U.S Geological Survey</a></p>
-        <p>URL:https//naqwaannualreports.gov/index.html</p>
-        <p>Contact Information: gs-w_nawq_whq@usgs.gov</p>
-        <p>Page last modified: 03/05/2014</p>
-        
-        <div id="pic_links">
-        
-        	<a href="http://www.usa.gov/" target="_blank"><img src="{% static 'nar_ui/images/usa_gov.png' %}" alt="usa.gov pic"/></a>
-            
-            <a href="http://volunteer.gov/" target="_blank"><img src="{% static 'nar_ui/images/take_pride.png' %}" alt="usa.gov pic"/></a>
-        
-        </div>
-    
-    </div>
-
-</footer>
+{% endblock %}
 
 
 
-</div><!--container-->
 
-</body>
-</html>
+
+
