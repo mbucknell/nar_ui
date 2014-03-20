@@ -63,10 +63,9 @@
     </repositories>
 
     <scm>
-        <connection>scm:git:https://github.com/USGS-CIDA/nar_ui.git</connection>
+        <connection>scm:git:git@github.com:USGS-CIDA/nar_ui.git</connection>
         <developerConnection>scm:git:git@github.com:USGS-CIDA/nar_ui.git</developerConnection>
         <url>https://github.com/USGS-CIDA/nar_ui</url>
-      <tag>HEAD</tag>
   </scm>
 	
     <distributionManagement>
