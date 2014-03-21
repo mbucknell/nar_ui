@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+{% block content %}
+
+<div class="row title_area">
+
+	<div class="col-lg-6 title col-md-6 col-sm-6">
+    
+    	<a href="/"><h4>NAWQA Annual Reporting</h4></a>
+    
+    </div><!--title-->
+    
+    <div class="col-lg-6 buttons">
+    	
+        <ul>
+            <a href="https://water.usgs.gov/nawqa/" target="_blank">
+            	<li>NAWQA Home</li>
+            </a>
+            
+            <a href="https://water.usgs.gov/nasqan/" target="_blank">
+            <li>NASQAN Home</li>
+            </a>
+        </ul>
+    
+    </div><!--buttons-->
+
+</div><!--title_area-->
+
+<div class="row sub_nav">
+
+	<div class="col-lg-4 site_reports col-md-4 col-sm-4">
+	
+		<a href="#">Site Reports</a>
+	
+	</div>
+	
+	<div class="col-lg-4 national col-md-4 col-sm-4">
+	
+		<a href="#">National</a>
+	
+	</div>
+	
+	<div class="col-lg-4 mississippi col-md-4 col-sm-4">
+	
+		<a href="#">Mississippi River Basin</a>
+	
+	</div>
+
+
+</div>
+
+<div class="row summary_info">
+	
+	<div class="col-lg-12 site col-md-12 col-sm-12">
+		<h2>Potomac River at Chain Bridge, Washington DC-Station 01646580</h2>
+		<h3>(Streamflow Station - 01646500)</h3>
+		<h4><i>Highlighted Water-Quality Constituents for 2012</i></h4>
+		
+		<div class=" col-lg-1 full_report col-md-1 col-sm-1">
+		
+			<ul>
+				
+				<li> <a href="#">Full Report</a>
+				
+					<ul>
+					
+						<li><a href="#">Water Quality</a> </li>
+						<li><a href="#">Streamflow</a></li>
+						<li><a href="#">Watershed</a></li>
+					
+					</ul>
+				
+				</li>
+				<img src="{% static 'nar_ui/images/arrow.png' %}" alt="arrow"/>
+			</ul>
+		
+		</div>
+		
+		
+	
+	</div>
+		
+		
+		
+			
+	
+	<div class="col-lg-12 graphs col-md-12 col-sm-12">
+	
+		<div class="col-lg-3 water col-md-3 col-sm-12">
+		
+			<h3>Streamflow and Water Quality</h3>
+			
+			<img src="{% static 'nar_ui/images/graph_01.png' %}" class="img-responsive" alt="graph_01"/>
+			
+			<h6>Mean annual streamflow and constituent load in 2012 compared to the long-term mean (1992-2012) </h6>
+		
+		</div>
+		
+		<div class="col-lg-3 human col-md-3 col-sm-12">
+		
+			<h3>Human-Health Benchmarks Exceedances</h3>
+			
+			<img src="{% static 'nar_ui/images/graph_02.png' %}" class="img-responsive" alt="graph_02"/>
+			
+			<h6>Percent of time with concentrations greater than the benchmark in water year 2012</h6>
+		
+		</div>
+		
+		<div class="col-lg-3 aquatic col-md-3 col-sm-12">
+		
+			<h3>Aquatic-life Benchmark Exceedances</h3>
+			
+			<img src="{% static 'nar_ui/images/graph_03.png' %}" class="img-responsive" alt="graph_03"/>
+			
+			<h6>Percent of time with one or more exceedances in water year 2012</h6>
+		
+		</div>
+	
+	</div>
+
+</div>
+
+
+{% endblock %}
