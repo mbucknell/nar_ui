@@ -1,8 +1,10 @@
-
 {% extends "base.html" %}
 
-{% block content %}
+{% load static from staticfiles %}
+{% load compress %}
 
+{% block content %}
+ 
 <div class="row title_area">
 
 	<div class="col-lg-6 title col-md-6 col-sm-6">
@@ -250,10 +252,15 @@
        
     	</div><!--side_nav-->
     
-    	<div class="col-lg-8 map col-md-8 col-sm-8"></div><!--map-->
+    	<div class="col-lg-8 map col-md-8 col-sm-8" id="siteMap"></div><!--map-->
     
 
 </div><!--content-->
+
+{% compress js %}
+	<script type="text/javascript" src="{% static 'nar_ui/OpenLayers/OpenLayers.debug.js' %}"></script>
+	<script type="text/javascript" src="{% static 'nar_ui/map.js' %}"></script>
+{% endcompress %}
 
 {% endblock %}
 
