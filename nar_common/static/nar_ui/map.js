@@ -26,8 +26,7 @@ var map;
 		buffer : 3,
 		wrapDateLine : false
 	};
-//	options.restrictedExtent = new OpenLayers.Bounds(-179.0, 10.0, -42.0, 75.0).transform(WGS84_GEOGRAPHIC, WGS84_GOOGLE_MERCATOR);
-//	options.maxExtent = new OpenLayers.Bounds(-165.0, 10.0, -65.0, 65.0).transform(WGS84_GEOGRAPHIC, WGS84_GOOGLE_MERCATOR);
+
 	options.restrictedExtent = new OpenLayers.Bounds(-146.0698, 19.1647, -42.9301, 52.8949).transform(WGS84_GEOGRAPHIC, WGS84_GOOGLE_MERCATOR);
 		
 	var zyx = '/MapServer/tile/${z}/${y}/${x}';
@@ -71,6 +70,30 @@ var map;
 	mapLayers.push(sitesLayer);
 	
 	options.layers = mapLayers;
+	
+	var getFeatureInfoControl = new OpenLayers.Control.WMSGetFeatureInfo({
+        title: 'site-identify-control',
+        hover: false,
+        layers: [
+            sitesLayer
+        ],
+        queryVisible: true,
+        output: 'object',
+        drillDown: true,
+        infoFormat: 'application/vnd.ogc.gml',
+        vendorParams: {
+            radius: 5
+        },
+        id: 'sites',
+        autoActivate: true
+    });
+	var getFeatureInfoHandler = function(response){
+		var url = CONFIG.baseUrl + 'site/summary-report';
+		window.location.href = url;
+	};
+	getFeatureInfoControl.events.register("getfeatureinfo", {}, getFeatureInfoHandler);
+	options.controls.push(getFeatureInfoControl);
+	
 	var div = 'siteMap';
 	
 	map = new OpenLayers.Map(div, options);

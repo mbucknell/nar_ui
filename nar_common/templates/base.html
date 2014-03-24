@@ -28,6 +28,15 @@
 		<script type="text/javascript" src="{% static 'nar_ui/bootstrap/js/bootstrap.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/sugar.js' %}"></script>
 	{% endcompress %}
+	
+	{# we will skip minification on the configuration script #}
+	<script type="text/javascript">
+		//global config object
+		var CONFIG = {
+			baseUrl : '{{ settings.BASE_URL|escapejs }}'
+		};
+		
+	</script>
 </head>
 
 <body>
