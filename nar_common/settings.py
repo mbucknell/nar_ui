@@ -95,8 +95,6 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder',
 )
 
-LESS_PATH=os.path.join(SITE_HOME, 'less4j.jar')
-
 COMPRESS_PRECOMPILERS = (
       ('text/less', 'lessc {infile} {outfile}'),
 )
@@ -111,7 +109,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.media",
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
-    "django.contrib.messages.context_processors.messages",                       
+    "django.contrib.messages.context_processors.messages",
+    "nar_common.settings_context_processor.default"                       
 )
 
 
