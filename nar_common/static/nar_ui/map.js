@@ -4,6 +4,9 @@ var map;
 	var WGS84_GOOGLE_MERCATOR = new OpenLayers.Projection('EPSG:900913'); 
 	var WGS84_GEOGRAPHIC = new OpenLayers.Projection('EPSG:4326');
 	options.projection = WGS84_GOOGLE_MERCATOR;
+	
+	var themeFileUrl = CONFIG.staticUrl + 'nar_ui/OpenLayers/theme/default/style.css';
+	options.theme = themeFileUrl;
 	options.controls = [
         new OpenLayers.Control.Navigation(),
         new OpenLayers.Control.MousePosition({
