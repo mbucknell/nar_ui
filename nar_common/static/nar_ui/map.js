@@ -1,5 +1,6 @@
 var map;
 (function() {
+	var themeFileUrl = CONFIG.staticUrl + 'nar_ui/OpenLayers/theme/default/style.css';
 	var options = {};
 	var WGS84_GOOGLE_MERCATOR = new OpenLayers.Projection('EPSG:900913'); 
 	var WGS84_GEOGRAPHIC = new OpenLayers.Projection('EPSG:4326');
