@@ -34,7 +34,10 @@
 		//global config object
 		var CONFIG = {
 			baseUrl : '{{ settings.BASE_URL|escapejs }}',
-			staticUrl : '{{ STATIC_URL|escapejs }}'
+			staticUrl : '{{ STATIC_URL|escapejs }}',
+			endpoint : {
+				geoserver: 'http://' + '{{ settings.GEOSERVER_HOST_NAME|escapejs }}' + '{{ settings.GEOSERVER_PATH|escapejs}}'
+			}
 		};
 		
 	</script>
