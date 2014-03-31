@@ -58,14 +58,14 @@ var map;
 		}
 	);
 	var extraUrlParams = {
-		layers : 'surface',
+		layers : 'NAWQA100_cy3fsmn',
 		transparent: true,
 		tiled: true
 	};
 	
 	var sitesLayer = new OpenLayers.Layer.WMS(
-		'<a href="http://nationalatlas.gov/mld/sw9194x.html">NAWQA Surface Water Sites</a>',
-		'http://webservices.nationalatlas.gov/wms/water',
+		'NAWQA Sites',
+		CONFIG.endpoint.geoserver + 'NAR/wms',
 		extraUrlParams,
 		sitesLayerOptions
 	);
