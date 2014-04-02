@@ -5,6 +5,24 @@
 
 
 {% block content %}
+<script>$(document).ready(function(){
+  $('.map_view').click(function(){
+      $('.map').delay(500).fadeIn(500);
+      $('.sites').fadeOut(500);
+  }); 
+  $('.site_view').click(function(){
+      $('.sites').delay(500).fadeIn(500);
+      $('.map').fadeOut(500);
+  });
+  
+  });</script>
+  
+   <script>jQuery(document).ready(function($) {
+      $(".clickableRow").click(function() {
+            window.document.location = $(this).attr("href");
+      });
+});
+</script>
 
 <div class="row content">
 
