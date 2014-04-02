@@ -1,8 +1,10 @@
-
 {% extends "base.html" %}
 
-{% block content %}
+{% load static from staticfiles %}
+{% load compress %}
 
+
+{% block content %}
 
 <div class="row content">
 
@@ -89,7 +91,6 @@
                        <td>Brazos River Near Rosharon, TX</td>
                        <td>Coastal Rivers</td>
                     </tr>
-                    
                      <tr class="clickableRow" href="#">
                     	<td>08475000</td>
                        <td>Rio Grande near Brownsville, TX</td>
@@ -156,6 +157,16 @@
     
 
 </div><!--content-->
+
+{% compress js %}
+	<script type="text/javascript" src="{% static 'nar_ui/OpenLayers/OpenLayers.debug.js' %}"></script>
+	<script type="text/javascript">
+		//point OL to the correct image path so that it loads control images properly
+		OpenLayers.ImgPath = '{% static 'nar_ui/OpenLayers/img/' %}';
+	</script>
+	<script type="text/javascript" src="{% static 'nar_ui/map.js' %}"></script>
+	
+{% endcompress %}
 
 {% endblock %}
 

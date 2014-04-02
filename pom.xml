@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>gov.usgs.cida.nar</groupId>
     <artifactId>nar-ui</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.5-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>NAWQA Annual Reporting UI</name>
   
@@ -63,22 +63,22 @@
     </repositories>
 
     <scm>
-        <connection>scm:git:https://github.com/USGS-CIDA/nar_ui.git</connection>
+        <connection>scm:git:git@github.com:USGS-CIDA/nar_ui.git</connection>
         <developerConnection>scm:git:git@github.com:USGS-CIDA/nar_ui.git</developerConnection>
         <url>https://github.com/USGS-CIDA/nar_ui</url>
-      <tag>HEAD</tag>
+    <tag>HEAD</tag>
   </scm>
 	
     <distributionManagement>
         <repository>
-            <id>cida-releases</id>
-            <name>CIDA Releases</name>
-            <url>http://internal.cida.usgs.gov/maven/content/repositories/cida-releases</url>
+            <id>cida-python-releases</id>
+            <name>CIDA Python Releases</name>
+            <url>http://internal.cida.usgs.gov/maven/content/repositories/cida-python-releases</url>
         </repository>
         <snapshotRepository>
-            <id>cida-snapshots</id>
-            <name>CIDA Snapshots</name>
-            <url>http://internal.cida.usgs.gov/maven/content/repositories/cida-snapshots</url>
+            <id>cida-python-snapshots</id>
+            <name>CIDA Python Snapshots</name>
+            <url>http://internal.cida.usgs.gov/maven/content/repositories/cida-python-snapshots</url>
         </snapshotRepository>
     </distributionManagement>
   <build>
