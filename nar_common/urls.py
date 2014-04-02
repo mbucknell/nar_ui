@@ -14,6 +14,7 @@ urlpatterns = patterns('',
 #     url(r'.*', HomePageView.as_view(), name='home' )
     url(r'^$', HomePageView.as_view()),
     url(r'^site/summary-report$', SiteSummaryReportView.as_view()),
+    url(r'^site/full-report$', SiteFullReportView.as_view()),
 #     url(r'^index/', 'nar_ui.views.index', name='index')
 )
 urlpatterns += static(settings.STATIC_URL)
