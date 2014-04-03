@@ -149,88 +149,8 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
   
   /*###########################summary_start####################### */
   
-  .sub_nav{background: -webkit-linear-gradient(top,@startColor,@endColor); /* For Safari 5.1 to 6.0 */
-			background: -o-linear-gradient(top,@startColor,@endColor); /* For Opera 11.1 to 12.0 */
-			background: -moz-linear-gradient(top,@startColor,@endColor); /* For Firefox 3.6 to 15 */
-			background: linear-gradient(top,@startColor,@endColor); /* Standard syntax */
-  			height:30px;
-  			
-  }
-  
-  .site_reports{background:none;
-  				height:30px;
-  				text-align:center;
-  				padding-left:0;
-  				border-bottom:@borderDark;
-  				border-left:@borderDark;
-  				border-right:@borderDark;
-  }
-  
-  .site_reports a{display:inline-block;
-  					width:390px;
-  					height:100%;
-  					text-decoration:none;
-  					color:@primaryColor;
-  					font-size:1.4em;
-  					text-shadow:@textShadow;
-  }
-  
-  .site_reports a:hover{background: -webkit-linear-gradient(top,@endColor, @startColor); /* For Safari 5.1 to 6.0 */
-			background: -o-linear-gradient(top,@endColor, @startColor); /* For Opera 11.1 to 12.0 */
-			background: -moz-linear-gradient(top,@endColor, @startColor); /* For Firefox 3.6 to 15 */
-			background: linear-gradient(top,@endColor, @startColor); /* Standard syntax */
-			text-shadow:@reverseTextShadow;}
-  
-  .national{background:none;
-  				height:30px;
-  				padding-left:0;
-  				text-align:center;
-  				border-bottom:@borderDark;
-  				border-left:@borderLight;
-  				border-right:@borderDark;
-  }
-  
- .national a{display:inline-block;
-  					width:390px;
-  					height:100%;
-  					text-decoration:none;
-  					color:@primaryColor;
-  					font-size:1.4em;
-  					text-shadow:@textShadow
-  }
-  
-  .national a:hover{background: -webkit-linear-gradient(top,@endColor, @startColor); /* For Safari 5.1 to 6.0 */
-			background: -o-linear-gradient(top,@endColor, @startColor); /* For Opera 11.1 to 12.0 */
-			background: -moz-linear-gradient(top,@endColor, @startColor); /* For Firefox 3.6 to 15 */
-			background: linear-gradient(top,@endColor, @startColor); /* Standard syntax */
-			text-shadow:@reverseTextShadow;}
-  
-  .mississippi{background:none;
-  				height:30px;
-  				padding-left:0;
-  				text-align:center;
-  				border-bottom:@borderDark;
-  				border-left:@borderLight;
-  				border-right:@borderDark;
-  }
-  
-  .mississippi a{display:inline-block;
-  					width:390px;
-  					height:100%;
-  					text-decoration:none;
-  					color:@primaryColor;
-  					font-size:1.4em;
-  					text-shadow:@textShadow;
-  }
-  
-  .mississippi a:hover{background: -webkit-linear-gradient(top,@endColor, @startColor); /* For Safari 5.1 to 6.0 */
-			background: -o-linear-gradient(top,@endColor, @startColor); /* For Opera 11.1 to 12.0 */
-			background: -moz-linear-gradient(top,@endColor, @startColor); /* For Firefox 3.6 to 15 */
-			background: linear-gradient(top,@endColor, @startColor); /* Standard syntax */
-			text-shadow:@reverseTextShadow;}
-  
   .summary_info{background:rgb(255,255,255);
-  					min-height:521px;
+  					min-height:750px;
   					margin-top:10px;
   					border-radius:10px;
   					overflow:hidden;
@@ -413,7 +333,7 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 
 
 .report_filter{background:@siteBackground;
-				height:621px;
+				height:650px;
 }
 
 .full_report_graphs{background:none;
@@ -425,38 +345,31 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 
 .full_report_graphs img{margin-top:15px;}
 
-.annual_flow{background:none;
-				min-height:100px;
-				margin-top:20px;
-				padding:0;
+.wrapper{background:none;
+		height:590px;
+		overflow:auto;
+		margin-top:10px;
+		padding-top:0;
+}
+
+
+.data{background:none;
+		min-height:300px;
+		padding:0;
+		margin-bottom:10px;
 				
 }
 
-.annual_flow img{margin:0 auto;}
+.data img{margin:0;}
 
-.mean_annual{background:none;
-				min-height:100px;
-				margin-top:10px;
-				padding:0;
-}
+.last{margin-bottom:0;}
 
-.mean_annual img{margin:0 auto;}
 
-.annual_suspended{background:none;
-				min-height:100px;
-				margin-top:10px;
-				padding:0;
-}
-
-.annual_suspended img{margin:0 auto;}
 
 .slider{background:#eee;
 		height:30px;
 		margin:0 auto;
-		position:absolute;
-		bottom:0;
-		left:215px;
-		z-index:3000;
+		margin-top:10px;
 		
 		
 }
@@ -520,77 +433,6 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 
 /*###########################summary_start####################### */
 
- .site_reports{background:none;
-  				height:30px;
-  				text-align:center;
-  				padding-left:0;
-  				border-bottom:@borderDark;
-  				border-left:@borderDark;
-  				border-right:@borderDark;
-  }
-  
-  .site_reports a{display:inline-block;
-  					width:321px;
-  					height:100%;
-  					text-decoration:none;
-  					color:@primaryColor;
-  					font-size:1.4em;
-  					text-shadow:@textShadow
-  }
-  
-  .site_reports a:hover{background: -webkit-linear-gradient(top,@endColor, @startColor); /* For Safari 5.1 to 6.0 */
-			background: -o-linear-gradient(top,@endColor, @startColor); /* For Opera 11.1 to 12.0 */
-			background: -moz-linear-gradient(top,@endColor, @startColor); /* For Firefox 3.6 to 15 */
-			background: linear-gradient(top,@endColor, @startColor); /* Standard syntax */
-			text-shadow:@reverseTextShadow;}
-  
-  .national{background:none;
-  				height:30px;
-  				padding-left:0;
-  				text-align:center;
-  				border-bottom:@borderDark;
-  				border-left:@borderLight;
-  				border-right:@borderDark;
-  }
-  
- .national a{display:inline-block;
-  					width:321px;
-  					height:100%;
-  					text-decoration:none;
-  					color:@primaryColor;
-  					font-size:1.4em;
-  					text-shadow:@textShadow
-  }
-  
-  .national a:hover{background: -webkit-linear-gradient(top,@endColor, @startColor); /* For Safari 5.1 to 6.0 */
-			background: -o-linear-gradient(top,@endColor, @startColor); /* For Opera 11.1 to 12.0 */
-			background: -moz-linear-gradient(top,@endColor, @startColor); /* For Firefox 3.6 to 15 */
-			background: linear-gradient(top,@endColor, @startColor); /* Standard syntax */
-			text-shadow:@reverseTextShadow;}
-  
-  .mississippi{background:none;
-  				height:30px;
-  				padding-left:0;
-  				text-align:center;
-  				border-bottom:@borderDark;
-  				border-left:@borderLight;
-  				border-right:@borderDark;
-  }
-  
-  .mississippi a{display:inline-block;
-  					width:321px;
-  					height:100%;
-  					text-decoration:none;
-  					color:@primaryColor;
-  					font-size:1.4em;
-  					text-shadow:@textShadow;
-  }
-  
-  .mississippi a:hover{background: -webkit-linear-gradient(top,@endColor, @startColor); /* For Safari 5.1 to 6.0 */
-			background: -o-linear-gradient(top,@endColor, @startColor); /* For Opera 11.1 to 12.0 */
-			background: -moz-linear-gradient(top,@endColor, @startColor); /* For Firefox 3.6 to 15 */
-			background: linear-gradient(top,@endColor, @startColor); /* Standard syntax */
-			text-shadow:@reverseTextShadow;}
 			
 .graphs{background:none;
 		height:510px;
@@ -644,6 +486,13 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 
 
 /*###########################summary_end####################### */
+
+.data{background:none;
+		min-height:243px;
+		padding:0;
+		margin-bottom:10px;
+				
+}
 
 /*#########ipad_portrait######## */
 
@@ -744,81 +593,6 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 /*###########################homepage_end####################### */
 
 /*###########################summary_start####################### */
-
- .site_reports{background:none;
-  				height:30px;
-  				text-align:center;
-  				padding-left:0;
-  				border-bottom:@borderDark;
-  				border-left:@borderDark;
-  				border-right:@borderDark;
-  }
-  
-  .site_reports a{display:inline-block;
-  					width:248px;
-  					height:100%;
-  					text-decoration:none;
-  					color:@primaryColor;
-  					font-size:1.3em;
-  					text-shadow:@textShadow;
-  					padding-top:1px;
-  }
-  
-  .site_reports a:active{background: -webkit-linear-gradient(top,@endColor, @startColor); /* For Safari 5.1 to 6.0 */
-			background: -o-linear-gradient(top,@endColor, @startColor); /* For Opera 11.1 to 12.0 */
-			background: -moz-linear-gradient(top,@endColor, @startColor); /* For Firefox 3.6 to 15 */
-			background: linear-gradient(top,@endColor, @startColor); /* Standard syntax */
-			text-shadow:@reverseTextShadow;}
-  
-  .national{background:none;
-  				height:30px;
-  				padding-left:0;
-  				text-align:center;
-  				border-bottom:@borderDark;
-  				border-left:@borderLight;
-  				border-right:@borderDark;
-  }
-  
- .national a{display:inline-block;
-  					width:248px;
-  					height:100%;
-  					text-decoration:none;
-  					color:@primaryColor;
-  					font-size:1.3em;
-  					text-shadow:@textShadow;
-  					padding-top:1px;
-  }
-  
-  .national a:active{background: -webkit-linear-gradient(top,@endColor, @startColor); /* For Safari 5.1 to 6.0 */
-			background: -o-linear-gradient(top,@endColor, @startColor); /* For Opera 11.1 to 12.0 */
-			background: -moz-linear-gradient(top,@endColor, @startColor); /* For Firefox 3.6 to 15 */
-			background: linear-gradient(top,@endColor, @startColor); /* Standard syntax */
-			text-shadow:@reverseTextShadow;}
-  
-  .mississippi{background:none;
-  				height:30px;
-  				padding-left:0;
-  				text-align:center;
-  				border-bottom:@borderDark;
-  				border-left:@borderLight;
-  				border-right:@borderDark;
-  }
-  
-  .mississippi a{display:inline-block;
-  					width:248px;
-  					height:100%;
-  					text-decoration:none;
-  					color:@primaryColor;
-  					font-size:1.3em;
-  					text-shadow:@textShadow;
-  					padding-top:1px;
-  }
-  
-  .mississippi a:active{background: -webkit-linear-gradient(top,@endColor, @startColor); /* For Safari 5.1 to 6.0 */
-			background: -o-linear-gradient(top,@endColor, @startColor); /* For Opera 11.1 to 12.0 */
-			background: -moz-linear-gradient(top,@endColor, @startColor); /* For Firefox 3.6 to 15 */
-			background: linear-gradient(top,@endColor, @startColor); /* Standard syntax */
-			text-shadow:@reverseTextShadow;}
 			
 			
 .summary_info{background:rgb(255,255,255);
@@ -909,6 +683,13 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
  			font-size:1.6em;
  			
  }
+ 
+ .data{background:none;
+		min-height:183px;
+		padding:0;
+		margin-bottom:10px;
+				
+}
 	
 }/*query end */
 
@@ -1008,80 +789,6 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 
 /*###########################summary_start####################### */
 
- .site_reports{background:none;
-  				height:30px;
-  				text-align:center;
-  				padding-left:0;
-  				border-bottom:@borderDark;
-  				border-left:@borderDark;
-  				border-right:@borderDark;
-  }
-  
-  .site_reports a{display:inline-block;
-  					width:248px;
-  					height:100%;
-  					text-decoration:none;
-  					color:@primaryColor;
-  					font-size:1.3em;
-  					text-shadow:@textShadow;
-  					padding-top:1px;
-  }
-  
-  .site_reports a:hover{background: -webkit-linear-gradient(top,@endColor, @startColor); /* For Safari 5.1 to 6.0 */
-			background: -o-linear-gradient(top,@endColor, @startColor); /* For Opera 11.1 to 12.0 */
-			background: -moz-linear-gradient(top,@endColor, @startColor); /* For Firefox 3.6 to 15 */
-			background: linear-gradient(top,@endColor, @startColor); /* Standard syntax */
-			text-shadow:@reverseTextShadow;}
-  
-  .national{background:none;
-  				height:30px;
-  				padding-left:0;
-  				text-align:center;
-  				border-bottom:@borderDark;
-  				border-left:@borderLight;
-  				border-right:@borderDark;
-  }
-  
- .national a{display:inline-block;
-  					width:248px;
-  					height:100%;
-  					text-decoration:none;
-  					color:@primaryColor;
-  					font-size:1.3em;
-  					text-shadow:@textShadow;
-  					padding-top:1px;
-  }
-  
-  .national a:hover{background: -webkit-linear-gradient(top,@endColor, @startColor); /* For Safari 5.1 to 6.0 */
-			background: -o-linear-gradient(top,@endColor, @startColor); /* For Opera 11.1 to 12.0 */
-			background: -moz-linear-gradient(top,@endColor, @startColor); /* For Firefox 3.6 to 15 */
-			background: linear-gradient(top,@endColor, @startColor); /* Standard syntax */
-			text-shadow:@reverseTextShadow;}
-  
-  .mississippi{background:none;
-  				height:30px;
-  				padding-left:0;
-  				text-align:center;
-  				border-bottom:@borderDark;
-  				border-left:@borderLight;
-  				border-right:@borderDark;
-  }
-  
-  .mississippi a{display:inline-block;
-  					width:248px;
-  					height:100%;
-  					text-decoration:none;
-  					color:@primaryColor;
-  					font-size:1.3em;
-  					text-shadow:@textShadow;
-  					padding-top:1px;
-  }
-  
-  .mississippi a:hover{background: -webkit-linear-gradient(top,@endColor, @startColor); /* For Safari 5.1 to 6.0 */
-			background: -o-linear-gradient(top,@endColor, @startColor); /* For Opera 11.1 to 12.0 */
-			background: -moz-linear-gradient(top,@endColor, @startColor); /* For Firefox 3.6 to 15 */
-			background: linear-gradient(top,@endColor, @startColor); /* Standard syntax */
-			text-shadow:@reverseTextShadow;}
 			
 			
 .summary_info{background:rgb(255,255,255);
@@ -1165,9 +872,16 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 			margin:0 auto;
 }
 
+/*###################################### */
+
 .full_site h2{margin-bottom:8px;
  			font-size:1.6em;
  			
  }
+ 
+ .data{background:none;
+		min-height:183px;
+		padding:0;
+		margin-bottom:10px;}
 
 }/*query end */
