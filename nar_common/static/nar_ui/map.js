@@ -97,7 +97,15 @@ var map;
 	getFeatureInfoControl.events.register("getfeatureinfo", {}, getFeatureInfoHandler);
 	options.controls.push(getFeatureInfoControl);
 	
-	var div = 'siteMap';
+	var id = 'siteMap'
+	var div = $('#'+id);
+	if(div.length){
+		div = div[0];
+	}
+	else{
+		throw Error('Error rendering map - could not find element with id "' + id + '".');
+	}
+
 	
 	map = new OpenLayers.Map(div, options);
 	map.zoomToExtent(options.restrictedExtent, true);
