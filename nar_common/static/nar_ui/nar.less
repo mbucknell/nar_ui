@@ -40,113 +40,110 @@
 
 @fullReportBorder:1px solid rgb(200,200,200);
 
+@padding:10px;
+
 /*##########content##########*/
 
  /*###########################homepage_start####################### */
 
 .content{background:none;
-        min-height:400px;
+        min-height:100%;
         margin-top:10px;
         position:relative;}
         
-.side_nav{background:none;
-            padding:0;
+
+            
+.site_map{background:@boxColor;
             height:721px;
-            margin-right:10px;
-            }
-            
-
-        
-.top_nav{background:@boxColor;
-			/*min-height:48.5%;*/
-			height:360.5px;
             padding:0;
-            margin-bottom:10px;
             box-shadow:@boxShadow;
-            border-radius:@borderRadius;
-             overflow:hidden;}
-             
-
+            border-radius:10px 0 0 10px;
+            overflow:hidden;}
             
-.stripe{background:@primaryColor;
-        height:30px;
-       padding-left:10px;
-       margin-bottom:2px;
+.map{background:none;
+    height:721px;}
+
+.sites{background:none;
+        height:721px;
         }
         
-.stripe h3{color:#fff;
-            margin-top:5px;
-            font-weight:@baseFontWeightReg;
-            font-size:1.25em;}
+        
+.site_table{background:none;
+            margin:0 auto;
+            margin-top:15px;
+            width:860px;}
             
-.accordion{background:none;
+.site_table th{background:none;
+                width:400px;
+                padding-left:20px;
+                font-size:1.2em;
+                color:@primaryColor;
+                }
+                
+.site_table th.name{background:none;
+                    width:600px;}
+
+.site_table th.type{background:none;
+                    width:200px;}
+                    
+.site_table a{background:red;
+                        cursor:pointer;
+                        display:inline-block;
+                        height:40px;
+                        width:860px;}
+                        
+tr.clickableRow{cursor:pointer;}
+                        
+tr.clickableRow:hover{color:rgb(0,102,153);}
+                
+.site_table td{ padding-left:20px;
+                height:30px;
+                }
+            
+.filter{background:@siteBackground;
+        height:721px;
+        border-left:1px solid rgb(220,220,220);
+        border-radius:0 10px 10px 0;
+        }
+        
+.statement{background:#fff;
+            height:130px;
+            margin-bottom:10px;
+            margin-top:15px;
+            border-radius:0 10px 0 0;
+            border:@borderDark;
+            overflow:hidden;}
+            
+.statement p{padding-top:@padding;
+                padding-left:@padding;
+                 padding-right:@padding;
+                 text-align:justify;
+                 font-size:.9em;}
+        
+        
+.map_view{width:100px;
+            height:25px;
+           margin-left:27px; 
+           margin-right:5px;
+           border:@borderDark;
+           background: -webkit-linear-gradient(top,@startColor,@endColor); /* For Safari 5.1 to 6.0 */
+			background: -o-linear-gradient(top,@startColor,@endColor); /* For Opera 11.1 to 12.0 */
+			background: -moz-linear-gradient(top,@startColor,@endColor); /* For Firefox 3.6 to 15 */
+			background: linear-gradient(top,@startColor,@endColor); /* Standard syntax */
+			border-radius:5px;
+			color:@primaryColor;
           }
             
-.accordion-group{
-                 margin-bottom:5px;
-                 border-bottom:1px solid rgb(240,240,240);
-                 background:none;
-                 }
-
-.no_border{border-bottom:none;}
-                 
-.accordion-heading{background:none;
-                    padding-bottom:5px;
-                    margin-left:10px;}
-
-.accordion-heading a{color:@primaryColor;
-                        font-size:1.5em;
-                        font-weight:@baseFontWeightReg;
-                        font-family:@baseFontFamily;
-}
-
-.accordion-heading a:hover{text-decoration:none;}
-
-.accordion-inner{margin-left:-30px !important;
-                    margin-bottom:-5px;
-                    margin-top:-7px;
-                    line-height:1.4em;}
-                    
-.accordion-inner ul{list-style-type:none;
-                    font-size:.9em;
-                    
-                    }
-                    
-.accordion-inner ul li{padding-left:10px;
-                        border-radius:5px 0px 0 5px;
-                        }
-                        
-li.last{margin-bottom:10px;}
-
-
-                    
-.accordion-inner ul li a{color:#000;
-                            font-family:@baseFontFamily;
-                            display:inline-block;
-                            height:100%;
-                            width:100%;
-                            padding-left:10px;}
-
-.accordion-inner ul li:hover{text-decoration:none;
-                                 background:@primaryColor;}
-                                
-.accordion-inner ul li a:hover{text-decoration:none;
-                               color:#fff;}
-
-.bottom_nav{background:@boxColor;
-            /*min-height:49%;*/
-            height:350.5px;
-            padding:0;
-            margin-bottom:10px;
-            box-shadow:@boxShadow;
-            border-radius:@borderRadius;
-            overflow:hidden;
-             }
-            
-.map{background:@boxColor;
-            height:721px;
-            width:867px;
-            box-shadow:@boxShadow;}
+.site_view{width:100px;
+            height:25px;
+            border:@borderDark;
+           	background: -webkit-linear-gradient(top,@startColor,@endColor); /* For Safari 5.1 to 6.0 */
+			background: -o-linear-gradient(top,@startColor,@endColor); /* For Opera 11.1 to 12.0 */
+			background: -moz-linear-gradient(top,@startColor,@endColor); /* For Firefox 3.6 to 15 */
+			background: linear-gradient(top,@startColor,@endColor); /* Standard syntax */
+			border-radius:5px;
+			color:@primaryColor;
+            }
             
   /*###########################homepage_end####################### */
   
@@ -232,8 +229,8 @@ li.last{margin-bottom:10px;}
 			background: linear-gradient(top,@endColor, @startColor); /* Standard syntax */
 			text-shadow:@reverseTextShadow;}
   
-    .summary_info{background:rgb(255,255,255);
-  					min-height:400px;
+  .summary_info{background:rgb(255,255,255);
+  					min-height:521px;
   					margin-top:10px;
   					border-radius:10px;
   					overflow:hidden;
@@ -243,12 +240,12 @@ li.last{margin-bottom:10px;}
   .site{background:@siteBackground;
   		height:130px;
   		text-align:center;
-  		border-bottom:@siteBorder;
+  		border-bottom:@borderDark;
   		color:rgb(59,59,59);
   		
   }
   
- .site h2{margin-bottom:-12px;
+ .site h2{margin-bottom:8px;
  			font-size:1.8em;
  			
  }
@@ -350,6 +347,7 @@ li.last{margin-bottom:10px;}
     
 .graphs{background:none;
 		height:510px;
+		margin-top:20px;
 		
 } 
 
@@ -398,56 +396,123 @@ li.last{margin-bottom:10px;}
 
 /*###########################summary_end####################### */
 
+/*###########################full_report_start####################### */
+
+.full_site{background:@siteBackground;
+  		height:100px;
+  		text-align:center;
+  		border-bottom:@borderDark;
+  		color:rgb(59,59,59);
+  		
+  }
+  
+ .full_site h2{margin-bottom:8px;
+ 			font-size:1.8em;
+ 			
+ }
+
+
+.report_filter{background:@siteBackground;
+				height:621px;
+}
+
+.full_report_graphs{background:none;
+				min-height:603px;
+				text-align:center;
+				position:relative;
+				
+}
+
+.full_report_graphs img{margin-top:15px;}
+
+.annual_flow{background:none;
+				min-height:100px;
+				margin-top:20px;
+				padding:0;
+				
+}
+
+.annual_flow img{margin:0 auto;}
+
+.mean_annual{background:none;
+				min-height:100px;
+				margin-top:10px;
+				padding:0;
+}
+
+.mean_annual img{margin:0 auto;}
+
+.annual_suspended{background:none;
+				min-height:100px;
+				margin-top:10px;
+				padding:0;
+}
+
+.annual_suspended img{margin:0 auto;}
+
+.slider{background:#eee;
+		height:30px;
+		margin:0 auto;
+		position:absolute;
+		bottom:0;
+		left:215px;
+		z-index:3000;
+		
+		
+}
+
+
+/*###########################full_report_end####################### */
+
 
 /*#########ipad_landscape######## */
 
 @media (min-width:992px) and (max-width:1199px){
 	
  /*###########################homepage_start####################### */
-                 
-.stripe{background:@primaryColor;
-        height:30px;
-       padding-left:10px;
-       margin-bottom:2px;
-        }
-        
-.stripe h3{color:#fff;
-			padding-top:5px;
-            margin-top:0 !important;
-            font-weight:@baseFontWeightReg;
-            font-size:1.3em;}
+ 
+ 
+ 
+ .statement{background:#fff;
+            height:130px;
+            margin-bottom:10px;
+            margin-top:15px;
+            border-radius:0 10px 0 0;
+            border:@borderDark;
+            overflow:hidden;
+            padding:0;}
             
-.accordion-inner{margin-left:-32px !important;
-                    margin-bottom:-5px;
-                    margin-top:-7px;
-                    line-height:1.4em;}
-                    
-.accordion-inner ul{list-style-type:none;
-                    font-size:.9em;
-                    
-                    }
-                    
-.accordion-inner ul li{padding-left:2px;
-                        border-radius:5px 0px 0 5px;
-                        }
-                  
-.accordion-inner ul li a{color:#000;
-                            font-family:@baseFontFamily;
-                            display:inline-block;
-                            height:100%;
-                            width:100%;
-                            padding-left:10px;}
+.statement p{padding-top:5px;
+                padding-left:8px;
+                 padding-right:8px;
+                 text-align:justify;
+                 font-size:.85em;}
+                 
+.map_view{width:80px;
+            height:25px;
+           margin-left:27px; 
+           margin-right:5px;
+           border:@borderDark;
+           background: -webkit-linear-gradient(top,@startColor,@endColor); /* For Safari 5.1 to 6.0 */
+			background: -o-linear-gradient(top,@startColor,@endColor); /* For Opera 11.1 to 12.0 */
+			background: -moz-linear-gradient(top,@startColor,@endColor); /* For Firefox 3.6 to 15 */
+			background: linear-gradient(top,@startColor,@endColor); /* Standard syntax */
+			border-radius:5px;
+			color:@primaryColor;
+          }
+            
+.site_view{width:80px;
+            height:25px;
+            border:@borderDark;
+           	background: -webkit-linear-gradient(top,@startColor,@endColor); /* For Safari 5.1 to 6.0 */
+			background: -o-linear-gradient(top,@startColor,@endColor); /* For Opera 11.1 to 12.0 */
+			background: -moz-linear-gradient(top,@startColor,@endColor); /* For Firefox 3.6 to 15 */
+			background: linear-gradient(top,@startColor,@endColor); /* Standard syntax */
+			border-radius:5px;
+			color:@primaryColor;
+            }
+            
 
-.accordion-inner ul li:hover{text-decoration:none;
-                                 background:@primaryColor;}
-                                
-.accordion-inner ul li a:hover{text-decoration:none;
-                               color:#fff;}
-	
-.map{background:@boxColor;
-            height:721px;
-            width:717px;
-            box-shadow:@boxShadow;}
 	
 
 
@@ -585,88 +650,96 @@ li.last{margin-bottom:10px;}
 @media (min-width:768px) and (max-width:991px){
 	
  /*###########################homepage_start####################### */
- 	
-.side_nav{background:none;
-            padding:0;
-            height:681px;
-            margin-right:10px;
-            }
-	
-	
-.top_nav{background:@boxColor;
-			/*min-height:48.5%;*/
-			height:345.5px;
-            padding:0;
-            margin-bottom:10px;
-            box-shadow:@boxShadow;
-            border-radius:@borderRadius;
-             overflow:hidden;}
-             
-.bottom_nav{background:@boxColor;
-            /*min-height:49%;*/
-            height:325.5px;
-            padding:0;
-            margin-bottom:10px;
-            box-shadow:@boxShadow;
-            border-radius:@borderRadius;
-            overflow:hidden;
-             }
-	
-.accordion-heading{background:none;
-                    padding-bottom:5px;
-                    margin-left:10px;}
-
-.accordion-heading a{color:@primaryColor;
-                        font-size:1.2em;
-                        font-weight:@baseFontWeightReg;
-                        font-family:@baseFontFamily;
-}
-
-.accordion-heading a:hover{text-decoration:none;}
-	
-.stripe{background:@primaryColor;
-        height:30px;
-       padding-left:10px;
-       margin-bottom:2px;
-        }
-        
-.stripe h3{color:#fff;
-			padding-top:7.5px;
-            margin-top:0 !important;
-            font-weight:@baseFontWeightReg;
-            font-size:1.1em;}
+ 
+ 
+ .site_table{background:none;
+            margin:0 auto;
+            margin-top:15px;
+            width:600px;}
             
-.accordion-inner{margin-left:-32px !important;
-                    margin-bottom:-5px;
-                    margin-top:-7px;
-                    line-height:1.4em;}
-                    
-.accordion-inner ul{list-style-type:none;
-                    font-size:.7em;
-                    
-                    }
-                    
-.accordion-inner ul li{padding-left:2px;
-                        border-radius:5px 0px 0 5px;
-                        }
-                  
-.accordion-inner ul li a{color:#000;
-                            font-family:@baseFontFamily;
-                            display:inline-block;
-                            height:100%;
-                            width:100%;
-                            padding-left:10px;}
+.site_table th{background:none;
+                width:100px;
+                padding-left:20px;
+                font-size:1.2em;
+                color:@primaryColor;
+                }
+                
+.site_table th.name{background:none;
+                    width:350px;}
 
-.accordion-inner ul li:hover{text-decoration:none;
-                                 background:@primaryColor;}
-                                
-.accordion-inner ul li a:hover{text-decoration:none;
-                               color:#fff;}	
-	
-.map{background:@boxColor;
-            height:681px;
-            width:552px;
-            box-shadow:@boxShadow;}	
+.site_table th.type{background:none;
+                    width:200px;}
+                    
+.site_table a{background:none;
+                        cursor:pointer;
+                        display:inline-block;
+                        height:40px;
+                        width:860px;}
+                        
+tr.clickableRow{cursor:pointer;}
+                        
+tr.clickableRow:hover{color:rgb(0,102,153);}
+                
+.site_table td{ padding-left:20px;
+                height:30px;
+                font-size:.85em;
+                }
+ 	
+.statement{background:#fff;
+            min-height:130px;
+            margin-bottom:10px;
+            margin-top:15px;
+            border-radius:0 10px 0 0;
+            border:@borderDark;
+            padding:0;}
+            
+.statement p{padding-top:5px;
+                padding-left:8px;
+                 padding-right:8px;
+                 text-align:justify;
+                 font-size:.85em;}
+                 
+.map_view{width:75px;
+            height:25px;
+           margin-left:1px; 
+           margin-right:1px;
+           border:@borderDark;
+           background: -webkit-linear-gradient(top,@startColor,@endColor); /* For Safari 5.1 to 6.0 */
+			background: -o-linear-gradient(top,@startColor,@endColor); /* For Opera 11.1 to 12.0 */
+			background: -moz-linear-gradient(top,@startColor,@endColor); /* For Firefox 3.6 to 15 */
+			background: linear-gradient(top,@startColor,@endColor); /* Standard syntax */
+			border-radius:5px;
+			color:@primaryColor;
+			overflow:hidden;
+			font-size:.95em;
+          }
+            
+.site_view{width:75px;
+            height:25px;
+            border:@borderDark;
+           	background: -webkit-linear-gradient(top,@startColor,@endColor); /* For Safari 5.1 to 6.0 */
+			background: -o-linear-gradient(top,@startColor,@endColor); /* For Opera 11.1 to 12.0 */
+			background: -moz-linear-gradient(top,@startColor,@endColor); /* For Firefox 3.6 to 15 */
+			background: linear-gradient(top,@startColor,@endColor); /* Standard syntax */
+			border-radius:5px;
+			color:@primaryColor;
+			font-size:.95em;}
+			
+			.statement{background:#fff;
+            height:130px;
+            margin-bottom:10px;
+            margin-top:15px;
+            border-radius:0 10px 0 0;
+            border:@borderDark;
+            overflow:hidden;
+            padding:0;}
+            
+.statement p{padding-top:5px;
+                padding-left:8px;
+                 padding-right:8px;
+                 text-align:justify;
+                 font-size:.85em;}
+            
             
 /*###########################homepage_end####################### */
 
@@ -749,7 +822,7 @@ li.last{margin-bottom:10px;}
 			
 			
 .summary_info{background:rgb(255,255,255);
-  					min-height:1024px;
+  					min-height:721px;
   					margin-top:10px;
   					border-radius:10px;
   					overflow:hidden;
@@ -764,7 +837,7 @@ li.last{margin-bottom:10px;}
   		
   }
 			
-.site h2{margin-bottom:-12px;
+.site h2{margin-bottom:8px;
  			font-size:1.6em;
  			
  }
@@ -831,95 +904,105 @@ li.last{margin-bottom:10px;}
 
 
 /*###########################summary_end####################### */
+
+.full_site h2{margin-bottom:8px;
+ 			font-size:1.6em;
+ 			
+ }
 	
 }/*query end */
 
 
-@media (min-width:320px) and (max-width:767px){ 
+@media (min-width:220px) and (max-width:767px){ 
 
 /*###########################homepage_start####################### */
- 	
-.side_nav{background:none;
-            padding:0;
-            height:681px;
-            margin-right:10px;
-            }
-	
-	
-.top_nav{background:@boxColor;
-			/*min-height:48.5%;*/
-			height:345.5px;
-            padding:0;
-            margin-bottom:10px;
-            box-shadow:@boxShadow;
-            border-radius:@borderRadius;
-             overflow:hidden;}
-             
-.bottom_nav{background:@boxColor;
-            /*min-height:49%;*/
-            height:325.5px;
-            padding:0;
-            margin-bottom:10px;
-            box-shadow:@boxShadow;
-            border-radius:@borderRadius;
-            overflow:hidden;
-             }
-	
-.accordion-heading{background:none;
-                    padding-bottom:5px;
-                    margin-left:10px;}
-
-.accordion-heading a{color:@primaryColor;
-                        font-size:1.2em;
-                        font-weight:@baseFontWeightReg;
-                        font-family:@baseFontFamily;
-}
-
-.accordion-heading a:hover{text-decoration:none;}
-	
-.stripe{background:@primaryColor;
-        height:30px;
-       padding-left:10px;
-       margin-bottom:2px;
-        }
-        
-.stripe h3{color:#fff;
-			padding-top:7.5px;
-            margin-top:0 !important;
-            font-weight:@baseFontWeightReg;
-            font-size:1.1em;}
+ .site_table{background:none;
+            margin:0 auto;
+            margin-top:15px;
+            width:600px;}
             
-.accordion-inner{margin-left:-32px !important;
-                    margin-bottom:-5px;
-                    margin-top:-7px;
-                    line-height:1.4em;}
-                    
-.accordion-inner ul{list-style-type:none;
-                    font-size:.7em;
-                    
-                    }
-                    
-.accordion-inner ul li{padding-left:2px;
-                        border-radius:5px 0px 0 5px;
-                        }
-                  
-.accordion-inner ul li a{color:#000;
-                            font-family:@baseFontFamily;
-                            display:inline-block;
-                            height:100%;
-                            width:100%;
-                            padding-left:10px;}
+.site_table th{background:none;
+                width:100px;
+                padding-left:20px;
+                font-size:1.2em;
+                color:@primaryColor;
+                }
+                
+.site_table th.name{background:none;
+                    width:350px;}
 
-.accordion-inner ul li:hover{text-decoration:none;
-                                 background:@primaryColor;}
-                                
-.accordion-inner ul li a:hover{text-decoration:none;
-                               color:#fff;}	
-	
-.map{background:@boxColor;
-            height:681px;
-            width:530px;
-            box-shadow:@boxShadow;}	
+.site_table th.type{background:none;
+                    width:200px;}
+                    
+.site_table a{background:none;
+                        cursor:pointer;
+                        display:inline-block;
+                        height:40px;
+                        width:860px;}
+                        
+tr.clickableRow{cursor:pointer;}
+                        
+tr.clickableRow:hover{color:rgb(0,102,153);}
+                
+.site_table td{ padding-left:20px;
+                height:30px;
+                font-size:.9em;
+                }
+ 	
+.statement{background:#fff;
+            min-height:130px;
+            margin-bottom:10px;
+            margin-top:15px;
+            border-radius:0 10px 0 0;
+            border:@borderDark;
+            padding:0;}
+            
+.statement p{padding-top:5px;
+                padding-left:8px;
+                 padding-right:8px;
+                 text-align:justify;
+                 font-size:.85em;}
+                 
+.map_view{width:72px;
+            height:25px;
+           margin-left:1px; 
+           margin-right:1px;
+           border:@borderDark;
+           background: -webkit-linear-gradient(top,@startColor,@endColor); /* For Safari 5.1 to 6.0 */
+			background: -o-linear-gradient(top,@startColor,@endColor); /* For Opera 11.1 to 12.0 */
+			background: -moz-linear-gradient(top,@startColor,@endColor); /* For Firefox 3.6 to 15 */
+			background: linear-gradient(top,@startColor,@endColor); /* Standard syntax */
+			border-radius:5px;
+			color:@primaryColor;
+			overflow:hidden;
+			font-size:.85em;
+          }
+            
+.site_view{width:72px;
+            height:25px;
+            border:@borderDark;
+           	background: -webkit-linear-gradient(top,@startColor,@endColor); /* For Safari 5.1 to 6.0 */
+			background: -o-linear-gradient(top,@startColor,@endColor); /* For Opera 11.1 to 12.0 */
+			background: -moz-linear-gradient(top,@startColor,@endColor); /* For Firefox 3.6 to 15 */
+			background: linear-gradient(top,@startColor,@endColor); /* Standard syntax */
+			border-radius:5px;
+			color:@primaryColor;
+			font-size:.85em;}
+			
+			.statement{background:#fff;
+            height:130px;
+            margin-bottom:10px;
+            margin-top:15px;
+            border-radius:0 10px 0 0;
+            border:@borderDark;
+            overflow:hidden;
+            padding:0;}
+            
+.statement p{padding-top:5px;
+                padding-left:8px;
+                 padding-right:8px;
+                 text-align:justify;
+                 font-size:.85em;}
             
 /*###########################homepage_end####################### */
 
@@ -1002,7 +1085,7 @@ li.last{margin-bottom:10px;}
 			
 			
 .summary_info{background:rgb(255,255,255);
-  					min-height:1024px;
+  					min-height:421px;
   					margin-top:10px;
   					border-radius:10px;
   					overflow:hidden;
@@ -1017,7 +1100,7 @@ li.last{margin-bottom:10px;}
   		
   }
 			
-.site h2{margin-bottom:-12px;
+.site h2{margin-bottom:8px;
  			font-size:1.6em;
  			
  }
@@ -1081,5 +1164,10 @@ li.last{margin-bottom:10px;}
 .aquatic img{margin-bottom:10px;
 			margin:0 auto;
 }
+
+.full_site h2{margin-bottom:8px;
+ 			font-size:1.6em;
+ 			
+ }
 
 }/*query end */

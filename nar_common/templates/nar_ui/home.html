@@ -3,256 +3,175 @@
 {% load static from staticfiles %}
 {% load compress %}
 
+
 {% block content %}
- 
-<div class="row title_area">
-
-	<div class="col-lg-6 title col-md-6 col-sm-6 col-xs-6">
-    
-    	<a href="/"><h4>NAWQA Annual Reporting</h4></a>
-    
-    </div><!--title-->
-    
-    <div class="col-lg-6 buttons">
-    	
-        <ul>
-            <a href="https://water.usgs.gov/nawqa/" target="_blank">
-            	<li>NAWQA Home</li>
-            </a>
-            
-            <a href="https://water.usgs.gov/nasqan/" target="_blank">
-            <li>NASQAN Home</li>
-            </a>
-        </ul>
-    
-    </div><!--buttons-->
-
-</div><!--title_area-->
-
+<script>$(document).ready(function(){
+  $('.map_view').click(function(){
+      $('.map').delay(500).fadeIn(500);
+      $('.sites').fadeOut(500);
+  }); 
+  $('.site_view').click(function(){
+      $('.sites').delay(500).fadeIn(500);
+      $('.map').fadeOut(500);
+  });
+  
+  });</script>
+  
+   <script>jQuery(document).ready(function($) {
+      $(".clickableRow").click(function() {
+            window.document.location = $(this).attr("href");
+      });
+});
+</script>
 
 <div class="row content">
 
-	<div class="col-lg-3 side_nav col-md-3 col-sm-3 col-xs-3">
+	
     
-    	<div class="col-lg-12 top_nav col-md-12 col-sm-12 col-xs-12">
-        
-        	<div class="col-lg-12 stripe">
+    	<div class="col-lg-9 site_map col-md-9 col-sm-9 col-xs-9">
+    	
+    		<div class="col-lg-12 map col-md-12 col-sm-12 col-xs-12"></div><!--map-->
+    	
+    		<div class="col-lg-12 sites col-md-12 col-sm-12 col-xs-12">
+    		
+    			<table class="site_table">
+                
+                	<th>Station</th> <th class="name">Station Name</th> <th class="type">Site Type</th>
+                
+                	<tr class="clickableRow" href="#">
+                    	<td>01184000</td>
+                       <td>Connecticut River at Thompsonville, CT</td>
+                       <td>Coastal Rivers</td>
+                    </tr>
+                    
+                    <tr class="clickableRow" href="#">
+                    	<td>01372043</td>
+                       <td>Hudson River near Poughkeepsie, NY</td>
+                       <td>Coastal Rivers</td>
+                    </tr>
+                    
+                    <tr class="clickableRow" href="#">
+                    	<td>01463500</td>
+                       <td>Delaware River at Trenton, NJ</td>
+                       <td>Coastal Rivers</td>
+                    </tr>
+                    
+                    <tr class="clickableRow" href="#">
+                    	<td>01578310</td>
+                       <td>Susquehanna River at Conowingo, MD</td>
+                       <td>Coastal Rivers</td>
+                    </tr>
+                    
+                    <tr class="clickableRow" href="#">
+                    	<td>01646580</td>
+                       <td>Potomac River at Washington, DC</td>
+                       <td>Coastal Rivers</td>
+                    </tr>
+                    
+                    <tr class="clickableRow" href="#">
+                    	<td>02175000</td>
+                       <td>Edisto River near Givhans, SC</td>
+                       <td>Coastal Rivers</td>
+                    </tr>
+                    
+                    <tr class="clickableRow" href="#">
+                    	<td>02226160</td>
+                       <td>Altamaha River near Everett City, GA</td>
+                       <td>Coastal Rivers</td>
+                    </tr>
+                    
+                    <tr class="clickableRow" href="#">
+                    	<td>02359170</td>
+                       <td>Apalachicola River near Sumatra, FL</td>
+                       <td>Coastal Rivers</td>
+                    </tr>
+                    
+                    <tr class="clickableRow" href="#">
+                    	<td>02470500</td>
+                       <td>Mobile River at MT. Vernon, AL</td>
+                       <td>Coastal Rivers</td>
+                    </tr>
+                    
+                    <tr class="clickableRow" href="#">
+                    	<td>07374525</td>
+                       <td>Mississippi River at Belle Chasse, LA</td>
+                       <td>Coastal Rivers</td>
+                    </tr>
+                    
+                    <tr class="clickableRow" href="#">
+                    	<td>07381600</td>
+                       <td>Lower Atchafalaya River at Morgan City, LA</td>
+                       <td>Coastal Rivers</td>
+                    </tr>
+                    
+                    <tr class="clickableRow" href="#">
+                    	<td>08116650</td>
+                       <td>Brazos River Near Rosharon, TX</td>
+                       <td>Coastal Rivers</td>
+                    </tr>
+                     <tr class="clickableRow" href="#">
+                    	<td>08475000</td>
+                       <td>Rio Grande near Brownsville, TX</td>
+                       <td>Coastal Rivers</td>
+                    </tr>
+                    
+                    <tr class="clickableRow" href="#">
+                    	<td>09522000</td>
+                       <td>Colorado River at NIB, above Morelos Dam, AZ</td>
+                       <td>Coastal Rivers</td>
+                    </tr>
+                    
+                    <tr class="clickableRow" href="#">
+                    	<td>11074000</td>
+                       <td>Santa Ana River below Prado Dam, CA</td>
+                       <td>Coastal Rivers</td>
+                    </tr>
+                    
+                    <tr class="clickableRow" href="#">
+                    	<td>11303500</td>
+                       <td>San Joaquin River near Vernalis, CA</td>
+                       <td>Coastal Rivers</td>
+                    </tr>
+                    
+                    <tr class="clickableRow" href="#">
+                    	<td>11447650</td>
+                       <td>Sacramento River at Freeport, CA</td>
+                       <td>Coastal Rivers</td>
+                    </tr>
+                    
+                    <tr class="clickableRow" href="#">
+                    	<td>14246900</td>
+                       <td>Columbia River near Beaver Army Terminal, OR</td>
+                       <td>Coastal Rivers</td>
+                    </tr>
+                    
+                    <tr class="clickableRow" href="#">
+                    	<td>15565447</td>
+                       <td>Yukon River at Pilot Station, AK</td>
+                       <td>Coastal Rivers</td>
+                    </tr>
+                
+                </table>
+    		
+    		
+    		</div><!--sites-->
+    	
+    	</div><!--site_map-->
+    	
+    	<div class="col-lg-3 filter col-md-3 col-sm-3 col-xs-3">
+    	
+    		<div class="col-lg-12 statement">
+             	
+                <p>NAWQA Annuals Reports aims to Praesent pellentesque, libero lacinia tristique sodales, velit urna mattis quam, a ullamcorper neque arcu eu mi. Quisque convallis molestie nunc quis faucibus. 
+
+</p>
+             </div>
+    	
+    		<button class="map_view">Map View</button>
             
-            	<h3>Summary Reports</h3>
-            
-            </div><!--stripe-->
-            
-            <div class="accordion" id="accordion2">
-            
-            	<div class="accordion-group">
-                
-                 <div class="accordion-heading">
-                 
-                 	<a class="accordion-toggle" data-toggle="collapse" data-parent=			                 	"#accordion2" href="#collapseOne">
-                    
-                    National
-                    
-                    </a>
-                 
-                 </div><!--accordion-heading-->
-                 
-                 <div id="collapseOne" class="accordion-body collapse in">
-                 
-                 	 <div class="accordion-inner">
-                     
-                     <ul>
-                     
-                     	<li><a href="#">Pesticides</a></li>
-                       <li><a href="#">Nitrate in Coastal Rivers</a></li>
-                       <li><a href="#">Suspend Sediment</a></li>
-                       <li><a href="#">Ecology</a></li>
-                     
-                     </ul>
-                     
-                     </div><!--accordion-inner-->
-                 
-                 </div><!--collapseOne-->
-                
-                </div><!--accordion-group-->
-                
-                <div class="accordion-group">
-                
-    				<div class="accordion-heading">
-                    
-      					<a class="accordion-toggle" data-toggle="collapse" data-parent=				                        "#accordion2" href="#collapseTwo">
-                        
-        					Mississippi River Basin
-      						
-                         </a>
-    
-    				</div><!--accordion-heading-->
-                
-    			<div id="collapseTwo" class="accordion-body collapse in">
-                
-      				<div class="accordion-inner">
-                    
-        				<ul>
-                     
-                     	<li><a href="#">Nitrogen</a></li>
-                       <li><a href="#">Phosphorus</a></li>
-                       
-                     
-                     </ul>
-                        
-      				</div><!--accordion-inner-->
-                
-    			</div><!--collapseTwo-->
-                
-  				</div><!--accordion-group-->
-                
-                <div class="accordion-group no_border">
-                
-    				<div class="accordion-heading">
-                    
-      					<a class="accordion-toggle" data-toggle="collapse" data-parent=				                        "#accordion2" href="#collapseThree">
-                        
-        					Site
-      						
-                         </a>
-    
-    				</div><!--accordion-heading-->
-                
-    			<div id="collapseThree" class="accordion-body collapse in">
-                
-      				<div class="accordion-inner">
-                    
-        				<ul>
-                     
-                     	<li><a href="#">Urban</a></li>
-                       <li><a href="#">Agriculture</a></li>
-                       <li><a href="#">Reference</a></li>
-                       <li><a href="#">Inland Rivers</a></li>
-                       <li class="last"><a href="#">Coastal Rivers</a></li>
-                       
-                     
-                     </ul>
-                        
-      				</div><!--accordion-inner-->
-                
-    			</div><!--collapseTwo-->
-                
-  				</div><!--accordion-group-->
-            
-            </div><!--accordion-->
-    
-        
-        </div><!--top_nav-->
-        
-        <div class="col-lg-12 bottom_nav col-md-12 col-sm-12 col-xs-12">
-        
-        	<div class="col-lg-12 stripe">
-            
-            	<h3>Site Information</h3>
-            
-            </div><!--stripe-->
-            
-             <div class="accordion" id="accordion2">
-            
-            	<div class="accordion-group">
-                
-                 <div class="accordion-heading">
-                 
-                 	<a class="accordion-toggle" data-toggle="collapse" data-parent=			                 	"#accordion2" href="#collapseFour">
-                    
-                    Objectives
-                    
-                    </a>
-                 
-                 </div><!--accordion-heading-->
-                 
-                 <div id="collapseFour" class="accordion-body collapse in">
-                 
-                 	 <div class="accordion-inner">
-                     
-                     <ul>
-                     
-                     	<li><a href="#">National Water Quality Assessment</a></li>
-                       <li><a href="#">National Stream Quality Accounting</a></li>
-                       <li><a href="#">National Monitoring Network</a></li>
-                     
-                     </ul>
-                     
-                     </div><!--accordion-inner-->
-                 
-                 </div><!--collapseOne-->
-                
-                </div><!--accordion-group-->
-                
-              
-               
-              <div class="accordion-group">
-                
-    				<div class="accordion-heading">
-                    
-      					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFive">
-                        
-        					Constituents Measured
-      						
-                         </a>
-    
-    				</div><!--accordion-heading-->
-                
-    			<div id="collapseFive" class="accordion-body collapse in">
-                
-      				<div class="accordion-inner">
-                    
-        				<ul>
-                     
-                     	<li><a href="#">Nutrients</a></li>
-                       <li><a href="#">Pesticides</a></li>
-                       <li><a href="#">Sediments</a></li>
-                       <li><a href="#">Ecology</a></li>
-                       
-                     </ul>
-                        
-      				</div><!--accordion-inner-->
-                
-    			</div><!--collapseTwo-->
-                
-  				</div><!--accordion-group-->
-                
-                <div class="accordion-group no_border">
-                
-    				<div class="accordion-heading">
-                    
-      					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseSix">
-                        
-        					Methods
-      						
-                         </a>
-    
-    				</div><!--accordion-heading-->
-                
-    			<div id="collapseSix" class="accordion-body collapse in">
-                
-      				<div class="accordion-inner">
-                    
-        			 <ul>
-                     
-                     	<li><a href="#">Network Design</a></li>
-                       <li><a href="#">Field Sampling</a></li>
-                       <li class="last"><a href="#">Laboratory</a></li>
-                       
-                     </ul>
-                        
-      				</div><!--accordion-inner-->
-                
-    			</div><!--collapseTwo-->
-                
-  				</div><!--accordion-group-->
-                
-           </div><!--accordion-->
-        
-        </div><!--bottom_nav-->
-       
-    	</div><!--side_nav-->
-    
-    	<div class="col-lg-8 map col-md-8 col-sm-8 col-xs-8" id="siteMap"></div><!--map-->
+            <button class="site_view">Site List</button>
+    	
+    	</div><!--filter-->
     
 
 </div><!--content-->
