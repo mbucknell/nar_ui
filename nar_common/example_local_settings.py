@@ -11,3 +11,11 @@ DEBUG = True
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
+BASE_URL = '/'
+
+STATIC_URL = BASE_URL + 'static/'
+
+GEOSERVER_HOST_NAME = 'cida-eros-nardev'
+
+GEOSERVER_PATH = ':8080/nawqareports/service/geoserver/'
