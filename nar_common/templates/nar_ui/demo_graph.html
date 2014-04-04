@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+{% block content %}
+	<div class="row">
+		<div class="col-lg-12">
+			<div id="barChart" style="width: 600px; height: 400px;"></div>
+		</div>
+	</div>
+
+{% load compress %}
+
+	{% compress js %}
+		<script type="text/javascript" src="{% static 'nar_ui/flot/jquery.flot.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/flot/jquery.flot.resize.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/flot/jquery.flot.time.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/flot/jquery.flot.stack.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/flot_plugins/jquery.flot.tooltip.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/flot_plugins/jquery.flot.axislabels.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/basic_bar_chart.js' %}"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				var sampleData = [["1985/01/01",0.039417687026515144,0.0038652685950413225,0.005838166107093664,0],["1990/01/01",0.04243742811639118,0.004368558776687327,0.0029794778753443525,0],["1995/01/01",0.04191400632747934,0.004449085205750688,0.004469216813016529,0],["2000/01/01",null,null,null,null],["2005/01/01",0.043564798123278244,0.005355007532713499,0.006301193074207989,0.0016910550103305783]];
+				var sampleLabels = ["PS-WFrTo","DO-WFrTo","IN-WTotl","MI-WTotl"];
+				var sampleGraph = new BasicBarChart('#barChart', sampleData, sampleLabels)
+			});
+		</script>
+	{% endcompress %}
+
+{% endblock %}
