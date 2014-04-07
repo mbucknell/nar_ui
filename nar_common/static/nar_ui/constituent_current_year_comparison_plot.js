@@ -12,7 +12,7 @@
 /**
  * Do not invoke as a constructor (with the 'new' keyword).
  * 
- * @param {String} selector a jquery selector
+ * @param {String} selector a jquery selector for the plot element
  * @param {Object} series an object of the following format:
  * {
 		constituentName: 'myConstituentName',
@@ -22,17 +22,27 @@
 		averageValue: 10,
 		averageColor: '#00FF00'
 	}
+   @param {String} legendSelector a jquery selector for the legend element
  */
 
-var ConstituentCurrentYearComparisonPlot = function(plotSelector, series, legendSelector){
+var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, series, legendSelector){
 	
-	if(!$(plotSelector).length){;
-		throw Error('Bar Chart could not find element with jquery selector "' + plotSelector + '".');
+	if(!$(plotContainerSelector).length){;
+		throw Error('Bar Chart could not find element with jquery selector "' + plotContainerSelector + '".');
 	}
 	
-	if(legendSelector && !$(legendSelector).length){
-		throw Error('Bar Chart could not find element with jquery selector "' + legendSelector + '".');
-	}
+	var plotContainer = $(plotContainerSelector);
+
+	var plotClass= ConstituentCurrentYearComparisonPlot.plotClass;
+	var plotDiv = $('<div class=' + plotClass + '"></div>');
+	var plotDivSelector = plotContainerSelector + ' .' + plotClass;
+	plotContainer.append(plotDiv);
+	
+	var legendClass = ConstituentCurrentYearComparisonPlot.legendClass;
+	var legendDiv = $('<div class=' + legendClass + '"></div>');
+	var legendDivSelector = plotContainerSelector + ' .' + legendClass;
+	plotContainer.append(legendDiv);
+
 	
 	var yearSeries = {
         data: [[series.constituentName, series.yearValue]],
@@ -58,7 +68,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotSelector, series, legend
 	
 	var flotSeries = [yearSeries, averageSeries];
 
-    var plot = $.plot(plotSelector, flotSeries, {
+    var plot = $.plot(plotDivSelector, flotSeries, {
         series: {
             bars: {
                 show: true,
@@ -81,8 +91,11 @@ var ConstituentCurrentYearComparisonPlot = function(plotSelector, series, legend
         	content: '%s: %y ' + series.constituentUnit 
         },
         legend: {
-        	container: legendSelector || null
+        	container: legendDivSelector || null
         }
     });
     return plot;
-}
+};
+
+ConstituentCurrentYearComparisonPlot.legendClass = 'currentYearComparisonLegend';
+ConstituentCurrentYearComparisonPlot.plotClass = 'currentYearComparisonPlot';

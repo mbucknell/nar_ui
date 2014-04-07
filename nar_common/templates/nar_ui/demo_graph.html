@@ -1,27 +1,19 @@
 {% extends "base.html" %}
 {% load static from staticfiles %}
-{% block content %}
-	<div class="row" style="background-color: #FFF;">
-		<div class="col-md-3" >
-			<div id="barChart1" style="height: 300px;"></div>
-			<div id="legend1"></div>
-		</div>
-		<div class="col-md-3" >
-			<div id="barChart2" style="height: 300px;"></div>
-			<div id="legend2"></div>
-		</div>
-		<div class="col-md-3" >
-			<div id="barChart3" style="height: 300px;"></div>
-			<div id="legend3"></div>
-		</div>
-		<div class="col-md-3" >
-			<div id="barChart4" style="height: 300px;"></div>
-			<div id="legend4"></div>
-		</div>
-	</div>
-
 {% load compress %}
 
+{% block style %}
+	{{ block.super }}
+	<style type="text/css">
+		.currentYearComparisonPlot {
+			height: 400px;
+			width: 600px;
+		}
+	</style>
+{% endblock %}
+
+{% block scripts %}
+	{{ block.super }}
 	{% compress js %}
 		<script type="text/javascript" src="{% static 'nar_ui/flot/jquery.flot.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/flot/jquery.flot.resize.js' %}"></script>
@@ -83,5 +75,26 @@
 			});
 		</script>
 	{% endcompress %}
+{% endblock %}
+
+{% block content %}
+	<div class="row" style="background-color: #FFF;">
+		<div class="col-md-3" >
+			<div id="barChart1" style="height: 300px;"></div>
+			<div id="legend1"></div>
+		</div>
+		<div class="col-md-3" >
+			<div id="barChart2" style="height: 300px;"></div>
+			<div id="legend2"></div>
+		</div>
+		<div class="col-md-3" >
+			<div id="barChart3" style="height: 300px;"></div>
+			<div id="legend3"></div>
+		</div>
+		<div class="col-md-3" >
+			<div id="barChart4" style="height: 300px;"></div>
+			<div id="legend4"></div>
+		</div>
+	</div>
 
 {% endblock %}

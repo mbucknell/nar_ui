@@ -11,6 +11,7 @@
 <meta charset="UTF-8">
 <title>{% block title %}NAWQA Annual Reports{% endblock %}</title>
 <meta name="description" content="{% block page_description %}{% endblock %}" />
+{% block style %}
 <link href='http://fonts.googleapis.com/css?family=Signika+Negative:300,400,700' rel='stylesheet' type='text/css'>
 
 <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700' rel='stylesheet' type='text/css'>
@@ -21,8 +22,10 @@
 	{% compress css %}
 		<link rel="stylesheet" type="text/less" media="all" href="{% static 'nar_ui/common.less' %}"/>
 		<link rel="stylesheet" type="text/less" media="all" href="{% static 'nar_ui/nar.less' %}"/>
-
 	{% endcompress %}
+	
+{% endblock %}
+{% block scripts %}
 	{% compress js %}
 		<script type="text/javascript" src="{% static 'nar_ui/jquery.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/bootstrap/js/bootstrap.js' %}"></script>
@@ -41,7 +44,7 @@
 		};
 		
 	</script>
-
+{% endblock %}
 
 </head>
 
