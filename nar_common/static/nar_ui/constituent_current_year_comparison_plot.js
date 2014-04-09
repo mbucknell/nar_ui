@@ -45,7 +45,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
 
 	
 	var yearSeries = {
-        data: [[series.constituentName, series.yearValue]],
+        data: [['', series.yearValue]],
         label: '2014',
         bars: {
                 show: true,
@@ -56,7 +56,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
     };
 	
 	var averageSeries = {
-        data : [[series.constituentName, series.averageValue]],
+        data : [['', series.averageValue]],
 		label : 'Average 1990-2013',
 		bars : {
 			show : true,
@@ -78,10 +78,12 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
         },
         xaxis: {
             mode: "categories",
-            tickLength: 0
+            tickLength: 0,
+            axisLabel: series.constituentName
         },
         yaxis: {
         	axisLabel: series.constituentUnit,
+        	axisLabelUseCanvas: true,
             axisLabelPadding: 3
         },
         grid: { hoverable: true, clickable: true },
