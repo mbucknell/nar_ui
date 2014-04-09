@@ -5,13 +5,13 @@
 {% block style %}
 	{{ block.super }}
 	<style type="text/css">
-		.graphContainer{
+		.graphContainer {
 			border: 1px solid black;
 			padding-left: 5px;
 			padding-right: 5px;	
 		}
 		.currentYearComparisonPlot {
-			height: 400px;
+			min-height: 400px;
 		}
 		.currentYearComparisonLegend {
 			margin-left: 25%
@@ -86,21 +86,13 @@
 
 {% block content %}
 	<div class="row" style="background-color: #FFF;">
-		<div class="col-sm-3 col-xs-6 graphContainer" >
-			<div id="barChart1"></div>
-
+		<div id="barChart1" class="col-sm-3 col-xs-6 graphContainer" >
 		</div>
-		<div class="col-sm-3 col-xs-6 graphContainer" >
-			<div id="barChart2" ></div>
-
+		<div id="barChart2" class="col-sm-3 col-xs-6 graphContainer" >
 		</div>
-		<div class="col-sm-3 col-xs-6 graphContainer" >
-			<div id="barChart3"></div>
-
+		<div id="barChart3" class="col-sm-3 col-xs-6 graphContainer" >
 		</div>
-		<div class="col-sm-3 col-xs-6 graphContainer" >
-			<div id="barChart4"></div>
-
+		<div id="barChart4" class="col-sm-3 col-xs-6 graphContainer" >
 		</div>
 	</div>
 
