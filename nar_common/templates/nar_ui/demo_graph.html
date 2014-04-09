@@ -5,10 +5,18 @@
 {% block style %}
 	{{ block.super }}
 	<style type="text/css">
+		.graphContainer{
+			border: 1px solid black;
+			padding-left: 5px;
+			padding-right: 5px;	
+		}
 		.currentYearComparisonPlot {
 			height: 400px;
-			width: 600px;
 		}
+		.currentYearComparisonLegend {
+			margin-left: 25%
+		}
+		
 	</style>
 {% endblock %}
 
@@ -34,7 +42,7 @@
 				};
 			
 					
-				var nitrateGraph = ConstituentCurrentYearComparisonPlot('#barChart2', nitrateSeries, '#legend2');
+				var nitrateGraph = ConstituentCurrentYearComparisonPlot('#barChart2', nitrateSeries);
 				
 								var phosphorousSeries = {
 					constituentName: 'Total Nitrate',
@@ -46,9 +54,8 @@
 				};
 			
 					
-				var phosphorousGraph = ConstituentCurrentYearComparisonPlot('#barChart3', phosphorousSeries, '#legend3');
-				
-				var nitrateGraph = ConstituentCurrentYearComparisonPlot('#barChart2', nitrateSeries, '#legend2');
+				var phosphorousGraph = ConstituentCurrentYearComparisonPlot('#barChart3', phosphorousSeries);
+		
 				
 				var streamflowSeries = {
 					constituentName: 'Streamflow',
@@ -59,18 +66,18 @@
 					averageColor: 'rgb(0,0,155)'
 				};
 			
-				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart1', streamflowSeries, '#legend1');
+				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart1', streamflowSeries);
 								
 				var streamflowSeries = {
 					constituentName: 'Suspended Sediment',
-					constituentUnit: 'Tons',
+					constituentUnit: 'Million kg',
 					yearValue: 324098.56,
 					yearColor: '#CC6600',
 					averageValue: 894904.8,
 					averageColor: '#8F4700'
 				};
 			
-				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart4', streamflowSeries, '#legend4');
+				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart4', streamflowSeries);
 				
 			});
 		</script>
@@ -79,21 +86,21 @@
 
 {% block content %}
 	<div class="row" style="background-color: #FFF;">
-		<div class="col-md-3" >
-			<div id="barChart1" style="height: 300px;"></div>
-			<div id="legend1"></div>
+		<div class="col-sm-3 col-xs-6 graphContainer" >
+			<div id="barChart1"></div>
+
 		</div>
-		<div class="col-md-3" >
-			<div id="barChart2" style="height: 300px;"></div>
-			<div id="legend2"></div>
+		<div class="col-sm-3 col-xs-6 graphContainer" >
+			<div id="barChart2" ></div>
+
 		</div>
-		<div class="col-md-3" >
-			<div id="barChart3" style="height: 300px;"></div>
-			<div id="legend3"></div>
+		<div class="col-sm-3 col-xs-6 graphContainer" >
+			<div id="barChart3"></div>
+
 		</div>
-		<div class="col-md-3" >
-			<div id="barChart4" style="height: 300px;"></div>
-			<div id="legend4"></div>
+		<div class="col-sm-3 col-xs-6 graphContainer" >
+			<div id="barChart4"></div>
+
 		</div>
 	</div>
 

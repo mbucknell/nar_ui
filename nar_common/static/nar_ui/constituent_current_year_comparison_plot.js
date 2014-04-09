@@ -25,7 +25,7 @@
    @param {String} legendSelector a jquery selector for the legend element
  */
 
-var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, series, legendSelector){
+var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, series){
 	
 	if(!$(plotContainerSelector).length){;
 		throw Error('Bar Chart could not find element with jquery selector "' + plotContainerSelector + '".');
@@ -34,19 +34,19 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
 	var plotContainer = $(plotContainerSelector);
 
 	var plotClass= ConstituentCurrentYearComparisonPlot.plotClass;
-	var plotDiv = $('<div class=' + plotClass + '"></div>');
+	var plotDiv = $('<div/>', {'class': plotClass});;
 	var plotDivSelector = plotContainerSelector + ' .' + plotClass;
 	plotContainer.append(plotDiv);
 	
 	var legendClass = ConstituentCurrentYearComparisonPlot.legendClass;
-	var legendDiv = $('<div class=' + legendClass + '"></div>');
+	var legendDiv = $('<div/>', {'class': legendClass });
 	var legendDivSelector = plotContainerSelector + ' .' + legendClass;
 	plotContainer.append(legendDiv);
 
 	
 	var yearSeries = {
         data: [[series.constituentName, series.yearValue]],
-        label: series.constituentName + ' 2014',
+        label: '2014',
         bars: {
                 show: true,
                 barWidth: 0.4,
@@ -57,7 +57,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
 	
 	var averageSeries = {
         data : [[series.constituentName, series.averageValue]],
-		label : series.constituentName + ' average 1990-2013',
+		label : 'Average 1990-2013',
 		bars : {
 			show : true,
 			barWidth : 0.4,
