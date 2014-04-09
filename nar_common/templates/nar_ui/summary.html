@@ -1,5 +1,109 @@
 {% extends "base.html" %}
 {% load static from staticfiles %}
+{% load compress %}
+
+{% block style %}
+	{{ block.super }}
+	
+	<style type="text/css">
+		.graphContainer {
+			padding:5px;
+			margin:0;
+			margin-right:10px;
+			background:none;
+			height:100%;
+			
+			
+			
+		}
+		.currentYearComparisonPlot {
+			min-height: 400px;
+		}
+		.currentYearComparisonLegend {
+			margin-left: 10%
+			
+		}
+		
+		.currentYearComparisonLegend{ background:none;
+										font-size:.7em;}
+										
+		.xaxisLabel{background:none;
+					text-align:center;
+					font-size:.7em;
+					height:30px;
+					}
+					
+		
+					
+		
+	</style>
+{% endblock %}
+
+{% block scripts %}
+	{{ block.super }}
+	{% compress js %}
+		<script type="text/javascript" src="{% static 'nar_ui/flot/jquery.flot.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/flot/jquery.flot.resize.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/flot/jquery.flot.categories.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/flot_plugins/jquery.flot.axislabels.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/flot_plugins/jquery.flot.tooltip.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/constituent_current_year_comparison_plot.js' %}"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+	
+				var nitrateSeries = {
+					constituentName: 'Phosphorous',
+					constituentUnit: 'Million kg',
+					yearValue: 12,
+					yearColor: 'rgb(0,255,0)',
+					averageValue: 10,
+					averageColor: 'rgb(0,155,0)'
+				};
+			
+					
+				var nitrateGraph = ConstituentCurrentYearComparisonPlot('#barChart2', nitrateSeries);
+				
+				var phosphorousSeries = {
+					constituentName: 'Total Nitrate',
+					constituentUnit: 'Million kg',
+					yearValue: 100,
+					yearColor: 'rgb(255,0,0)',
+					averageValue: 153,
+					averageColor: 'rgb(155,0,0)'
+				};
+			
+					
+				var phosphorousGraph = ConstituentCurrentYearComparisonPlot('#barChart3', phosphorousSeries);
+		
+				
+				var streamflowSeries = {
+					constituentName: 'Streamflow',
+					constituentUnit: 'Million acre-feet',
+					yearValue: 1.7,
+					yearColor: 'rgb(0,0,255)',
+					averageValue: 2.4,
+					averageColor: 'rgb(0,0,155)'
+				};
+			
+				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart1', streamflowSeries);
+								
+				var streamflowSeries = {
+					constituentName: 'Sediment',
+					constituentUnit: 'Million kg',
+					yearValue: 300,
+					yearColor: '#CC6600',
+					averageValue: 100,
+					averageColor: '#8F4700'
+				};
+			
+				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart4', streamflowSeries);
+				
+			});
+		</script>
+	{% endcompress %}
+{% endblock %}
+
+
 {% block content %}
 
 
@@ -41,17 +145,19 @@
 	
 	<div class="col-lg-12 graphs col-md-12 col-sm-12 col-xs-12">
 	
-		<div class="col-lg-3 water col-md-3 col-sm-12 col-xs-12">
+		<div class="col-lg-4 graphContainer col-md-3 col-sm-12 col-xs-12">
 		
-			<h3>Streamflow and Water Quality</h3>
+			<div id="barChart1" class="col-lg-3"></div>
 			
-			<img src="{% static 'nar_ui/images/graph_01.png' %}" class="img-responsive" alt="graph_01"/>
+			<div id="barChart2" class="col-lg-3"></div>
 			
-			<h6>Mean annual streamflow and constituent load in 2012 compared to the long-term mean (1992-2012) </h6>
-		
+			<div id="barChart3" class="col-lg-3"></div>
+			
+			<div id="barChart4" class="col-lg-3"></div>
+			
 		</div>
 		
-		<div class="col-lg-3 human col-md-3 col-sm-12 col-xs-12">
+		<div class="col-lg-4 human col-md-3 col-sm-12 col-xs-12">
 		
 			<h3>Human-Health Benchmarks Exceedances</h3>
 			
@@ -61,7 +167,7 @@
 		
 		</div>
 		
-		<div class="col-lg-3 aquatic col-md-3 col-sm-12 col-xs-12">
+		<div class="col-lg-4 aquatic col-md-3 col-sm-12 col-xs-12">
 		
 			<h3>Aquatic-life Benchmark Exceedances</h3>
 			
