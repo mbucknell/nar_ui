@@ -15,7 +15,9 @@ class SiteSummaryReportView(TemplateView):
         siteId = context.get('siteId', '01646580')
         url = 'http://' + settings.GEOSERVER_HOST_NAME + settings.GEOSERVER_PATH + 'wfs'
         wfs = WebFeatureService(url, '2.0.0')
-       # wfs.getfeature(typename, filter, bbox, featureid, featureversion, propertyname, maxfeatures, srsname, method)
+        typeName = 'NAR:NAWQA100_cy3fsmn'
+        
+        feature = wfs.getfeature(typename=typeName, featureid=siteId, maxfeatures=1)
         
         return context
     
