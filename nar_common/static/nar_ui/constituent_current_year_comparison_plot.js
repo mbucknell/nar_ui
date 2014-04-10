@@ -45,6 +45,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
 
 	
 	var yearSeries = {
+
         data: [['', series.yearValue]],
         label: '2014',
         bars: {
