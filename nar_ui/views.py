@@ -15,7 +15,7 @@ class SiteSummaryReportView(TemplateView):
     def get_context_data(self, **kwargs):
         
         context = super(SiteSummaryReportView, self).get_context_data(**kwargs)
-        site_id = context.get('siteId', '01646580')
+        site_id = context.get('site_id', '01646580')
         url = 'http://' + settings.GEOSERVER_HOST_NAME + settings.GEOSERVER_PATH + 'wfs'
         
         filter = """
