@@ -27,13 +27,12 @@
 		.currentYearComparisonLegend{ background:none;
 										font-size:.7em;}
 										
-		.xaxisLabel{background:none;
-					text-align:center;
-					font-size:.7em;
-					height:10%;
-					}
-					
-		
+
+		.currentYearComparisonTitle {
+			height: 10%;
+			padding-left: 25%;
+		}
+
 					
 		
 	</style>
@@ -52,7 +51,7 @@
 			$(document).ready(function(){
 	
 				var nitrateSeries = {
-					constituentName: 'Phosphorous',
+					constituentName: 'Total Phosphorous',
 					constituentUnit: 'Million kg',
 					yearValue: 12,
 					yearColor: 'rgb(0,255,0)',

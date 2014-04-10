@@ -37,6 +37,12 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
 	var plotDiv = $('<div/>', {'class': plotClass});;
 	var plotDivSelector = plotContainerSelector + ' .' + plotClass;
 	plotContainer.append(plotDiv);
+
+	var titleClass = ConstituentCurrentYearComparisonPlot.titleClass;
+	var titleDiv = $('<div/>', {'class': titleClass });
+	titleDiv.html(series.constituentName);
+	var titleDivSelector = plotContainerSelector + ' .' + titleClass;
+	plotContainer.append(titleDiv);
 	
 	var legendClass = ConstituentCurrentYearComparisonPlot.legendClass;
 	var legendDiv = $('<div/>', {'class': legendClass });
@@ -79,8 +85,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
         },
         xaxis: {
             mode: "categories",
-            tickLength: 0,
-            axisLabel: series.constituentName
+            tickLength: 0
         },
         yaxis: {
         	axisLabel: series.constituentUnit,
@@ -99,6 +104,6 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
     });
     return plot;
 };
-
+ConstituentCurrentYearComparisonPlot.titleClass = 'currentYearComparisonTitle';
 ConstituentCurrentYearComparisonPlot.legendClass = 'currentYearComparisonLegend';
 ConstituentCurrentYearComparisonPlot.plotClass = 'currentYearComparisonPlot';
