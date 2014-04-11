@@ -3,7 +3,7 @@ from django.conf import settings
 import re
 from StringIO import StringIO
 from lxml import etree
-from pip._vendor import requests
+import requests
 
 class HomePageView(TemplateView):
     template_name = 'nar_ui/home.html'
@@ -27,6 +27,7 @@ class SiteSummaryReportView(TemplateView):
            </ogc:PropertyIsEqualTo>
         </ogc:Filter>
         """
+        #kill all whitespace except for 1-length spaces
         filter = re.sub(r'\s{2,}', '',  filter)
         
         params = {

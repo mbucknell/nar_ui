@@ -20,7 +20,7 @@
 		yearValue: 0,
 		yearColor: '#00FF00'
 		averageValue: 10,
-		averageColor: '#00FF00'
+		averageColor: '#00FF00' //optional -- defaults to ConstituentCurrentYearComparisonPlot.defalutAverageColor
 	}
    @param {String} legendSelector a jquery selector for the legend element
  */
@@ -69,7 +69,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
 			show : true,
 			barWidth : 0.4,
 			align : "left",
-			fillColor: series.averageColor
+			fillColor: series.averageColor || ConstituentCurrentYearComparisonPlot.defaultAverageColor
 		}
     };
 	
@@ -104,6 +104,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
     });
     return plot;
 };
+ConstituentCurrentYearComparisonPlot.defaultAverageColor = 'grey';
 ConstituentCurrentYearComparisonPlot.titleClass = 'currentYearComparisonTitle';
 ConstituentCurrentYearComparisonPlot.legendClass = 'currentYearComparisonLegend';
 ConstituentCurrentYearComparisonPlot.plotClass = 'currentYearComparisonPlot';
