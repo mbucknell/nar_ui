@@ -99,6 +99,8 @@ COMPRESS_PRECOMPILERS = (
       ('text/less', 'lessc {infile} {outfile}'),
 )
 
+#We need to set this. See bug: https://github.com/django-compressor/django-compressor/issues/261
+COMPRESS_PARSER = 'compressor.parser.HtmlParser' 
 
 INTERNAL_IPS = ('127.0.0.1',)
 
