@@ -3,6 +3,9 @@ from StringIO import StringIO
 from lxml import etree
 import requests
 
+class SiteNotFoundException(Exception):
+    pass
+    
 # Create your models here.
 def get_site_name(site_id, url):
     filter = """
@@ -28,7 +31,9 @@ def get_site_name(site_id, url):
     my_request = requests.get(url, params=params)
     xml_pseudo_file = StringIO(my_request.content)
     tree = etree.parse(xml_pseudo_file)
-    
-    site_name = tree.xpath('//NAR:staname', namespaces={'NAR':'http://cida.usgs.gov/NAR'})[0].text
-
-    return site_name
+    numberMatchedAttributes = tree.xpath('//@numberMatched')
+    if len(numberMatchedAttributes) and '1' == numberMatchedAttributes[0]:
+        site_name = tree.xpath('//NAR:staname', namespaces={'NAR':'http://cida.usgs.gov/NAR'})[0].text
+        return site_name
+    else:
+        raise SiteNotFoundException("Could not find site with id=" + site_id)
