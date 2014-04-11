@@ -25,17 +25,22 @@
 		}
 		
 		.currentYearComparisonLegend{ background:none;
-										font-size:.7em;}
-										
-
+										}
+		.currentYearComparisonLegend table td{
+			font-size:1em;
+		}										
+		.comparisonGraph {
+			/*border-top: 1px solid black;
+			border-bottom: 1px solid black;
+			*/
+		}
 		.currentYearComparisonTitle {
 			height: 10%;
 			padding-left: 28%;
 			font-size:.9em;
 			text-align:center;
 		}
-
-					
+			
 		
 	</style>
 {% endblock %}
@@ -55,10 +60,11 @@
 				var nitrateSeries = {
 					constituentName: 'Total Phosphorous',
 					constituentUnit: 'Million kg',
+					displayUnitOnYAxis: true,
 					yearValue: 12,
 					yearColor: 'rgb(0,255,0)',
+					averageName: 'Average 1991-2013',
 					averageValue: 10,
-					//averageColor: 'rgb(0,155,0)'
 				};
 			
 					
@@ -69,8 +75,8 @@
 					constituentUnit: 'Million kg',
 					yearValue: 100,
 					yearColor: 'rgb(255,0,0)',
+					averageName: 'Average 1985-2013',
 					averageValue: 153,
-					//averageColor: 'rgb(155,0,0)'
 				};
 			
 					
@@ -80,10 +86,11 @@
 				var streamflowSeries = {
 					constituentName: 'Streamflow',
 					constituentUnit: 'Million acre-feet',
+					displayUnitOnYAxis: true,
 					yearValue: 1.7,
 					yearColor: 'rgb(0,0,255)',
+					averageName: 'Average 1999-2013',
 					averageValue: 2.4,
-					//averageColor: 'rgb(0,0,155)'
 				};
 			
 				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart1', streamflowSeries);
@@ -93,8 +100,8 @@
 					constituentUnit: 'Million kg',
 					yearValue: 300,
 					yearColor: '#CC6600',
+					averageName: 'Average 1990-2013',
 					averageValue: 100,
-					//averageColor: '#8F4700'
 				};
 			
 				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart4', streamflowSeries);
@@ -116,7 +123,7 @@
 		<h3>(Streamflow Station - 01646500)</h3>
 		<h4><i>Highlighted Water-Quality Constituents for 2012</i></h4>
 		
-		<div class=" col-lg-1 full_report col-md-1 col-sm-1 col-xs-1">
+		<div class="col-lg-1 full_report col-md-1 col-sm-1 col-xs-1">
 		
 			<ul>
 				
@@ -148,13 +155,13 @@
 	
 		<div class="col-lg-4 graphContainer col-md-3 col-sm-12 col-xs-12">
 		
-			<div id="barChart1" class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+			<div id="barChart1" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3" ></div>
 			
-			<div id="barChart2" class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+			<div id="barChart2" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
 			
-			<div id="barChart3" class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+			<div id="barChart3" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
 			
-			<div id="barChart4" class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+			<div id="barChart4" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
 			
 		</div>
 		
