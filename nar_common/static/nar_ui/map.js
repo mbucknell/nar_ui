@@ -90,14 +90,16 @@ var map;
         id: 'sites',
         autoActivate: true
     });
-	var getFeatureInfoHandler = function(response){
+	var getFeatureInfoHandler = function(response) {
 		var realFeatures = response.features[0].features;
-		//just grab first feature for now
-		var feature = realFeatures[0];
-		var featureId = feature.data.staid;
-		var uriParam = encodeURI(featureId);
-		var url = CONFIG.baseUrl + 'site/' + uriParam + '/summary-report';
-		window.location.href = url;
+		if(realFeatures.length) {
+			//just grab first feature for now
+			var feature = realFeatures[0];
+			var featureId = feature.data.staid;
+			var uriParam = encodeURI(featureId);
+			var url = CONFIG.baseUrl + 'site/' + uriParam + '/summary-report';
+			window.location.href = url;
+		}
 	};
 	getFeatureInfoControl.events.register("getfeatureinfo", {}, getFeatureInfoHandler);
 	options.controls.push(getFeatureInfoControl);
