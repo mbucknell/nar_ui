@@ -15,12 +15,14 @@
  * @param {String} selector a jquery selector for the plot element
  * @param {Object} series an object of the following format:
  * {
-		constituentName: 'myConstituentName',
-		constituentUnit: '',
+		constituentName: 'Nitrate',
+		constituentUnit: 'Million kg',
+		displayUnitOnYAxis: true, //optional -- defaults to false
 		yearValue: 0,
-		yearColor: '#00FF00'
+		yearColor: '#00FF00',
+		averageName: 'Average 1990-2000',
 		averageValue: 10,
-		averageColor: '#00FF00'
+		averageColor: '#FF' //optional -- defaults to ConstituentCurrentYearComparisonPlot.defalutAverageColor
 	}
    @param {String} legendSelector a jquery selector for the legend element
  */
@@ -57,23 +59,23 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
         bars: {
                 show: true,
                 barWidth: 0.4,
-                align: "right",
+                align: "left",
             	fillColor: series.yearColor
             }
     };
 	
 	var averageSeries = {
         data : [['', series.averageValue]],
-		label : 'Average 1990-2013',
+		label : series.averageName,
 		bars : {
 			show : true,
 			barWidth : 0.4,
-			align : "left",
-			fillColor: series.averageColor
+			align : "right",
+			fillColor: series.averageColor || ConstituentCurrentYearComparisonPlot.defaultAverageColor
 		}
     };
 	
-	var flotSeries = [yearSeries, averageSeries];
+	var flotSeries = [averageSeries, yearSeries];
 
     var plot = $.plot(plotDivSelector, flotSeries, {
         series: {
@@ -88,12 +90,12 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
             tickLength: 0
         },
         yaxis: {
-        	axisLabel: series.constituentUnit,
+        	axisLabel: series.displayUnitOnYAxis ? series.constituentUnit : null,
         	axisLabelUseCanvas: true,
             axisLabelPadding: 3
         },
         grid: { hoverable: true, clickable: true },
-        colors: [series.yearColor, series.averageColor],
+        colors: [series.averageColor, series.yearColor],
         tooltip: true,
         tooltipOpts: {
         	content: '%s: %y ' + series.constituentUnit 
@@ -104,6 +106,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
     });
     return plot;
 };
+ConstituentCurrentYearComparisonPlot.defaultAverageColor = 'grey';
 ConstituentCurrentYearComparisonPlot.titleClass = 'currentYearComparisonTitle';
 ConstituentCurrentYearComparisonPlot.legendClass = 'currentYearComparisonLegend';
 ConstituentCurrentYearComparisonPlot.plotClass = 'currentYearComparisonPlot';

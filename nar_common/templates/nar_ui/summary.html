@@ -12,31 +12,26 @@
 			margin-right:10px;
 			background:none;
 			height:100%;
-			
-			
-			
 		}
 		.currentYearComparisonPlot {
 			min-height: 400px;
 		}
 		.currentYearComparisonLegend {
-			margin-left: 10%
-			
+			margin-left: 10%	
 		}
 		
-		.currentYearComparisonLegend{ background:none;
-										font-size:.7em;}
-										
-
+		.currentYearComparisonLegend{ 
+			background:none;
+		}
+		.currentYearComparisonLegend table td{
+			font-size:1em;
+		}										
 		.currentYearComparisonTitle {
-			height: 10%;
-			padding-left: 28%;
+			height: 8%;
+			padding-left: 22%;
 			font-size:.9em;
 			text-align:center;
 		}
-
-					
-		
 	</style>
 {% endblock %}
 
@@ -54,11 +49,12 @@
 	
 				var nitrateSeries = {
 					constituentName: 'Total Phosphorous',
-					constituentUnit: 'Million kg',
+					constituentUnit: 'Million Tons',
+					displayUnitOnYAxis: true,
 					yearValue: 12,
 					yearColor: 'rgb(0,255,0)',
-					averageValue: 10,
-					averageColor: 'rgb(0,155,0)'
+					averageName: 'Average 1991-2013',
+					averageValue: 10
 				};
 			
 					
@@ -66,11 +62,11 @@
 				
 				var phosphorousSeries = {
 					constituentName: 'Total Nitrate',
-					constituentUnit: 'Million kg',
+					constituentUnit: 'Million Tons',
 					yearValue: 100,
 					yearColor: 'rgb(255,0,0)',
-					averageValue: 153,
-					averageColor: 'rgb(155,0,0)'
+					averageName: 'Average 1985-2013',
+					averageValue: 153
 				};
 			
 					
@@ -80,21 +76,22 @@
 				var streamflowSeries = {
 					constituentName: 'Streamflow',
 					constituentUnit: 'Million acre-feet',
+					displayUnitOnYAxis: true,
 					yearValue: 1.7,
 					yearColor: 'rgb(0,0,255)',
-					averageValue: 2.4,
-					averageColor: 'rgb(0,0,155)'
+					averageName: 'Average 1999-2013',
+					averageValue: 2.4
 				};
 			
 				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart1', streamflowSeries);
 								
 				var streamflowSeries = {
 					constituentName: 'Suspended Sediment',
-					constituentUnit: 'Million kg',
+					constituentUnit: 'Million Tons',
 					yearValue: 300,
 					yearColor: '#CC6600',
-					averageValue: 100,
-					averageColor: '#8F4700'
+					averageName: 'Average 1990-2013',
+					averageValue: 100
 				};
 			
 				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart4', streamflowSeries);
@@ -116,7 +113,7 @@
 		<h3>Station ID : {{ site_id }}</h3>
 		<h4><i>Highlighted Water-Quality Constituents for 2014</i></h4>
 		
-		<div class=" col-lg-1 full_report col-md-1 col-sm-1 col-xs-1">
+		<div class="col-lg-1 full_report col-md-1 col-sm-1 col-xs-1">
 		
 			<ul>
 				
@@ -148,13 +145,13 @@
 	
 		<div class="col-lg-4 graphContainer col-md-3 col-sm-12 col-xs-12">
 		
-			<div id="barChart1" class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+			<div id="barChart1" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3" ></div>
 			
-			<div id="barChart2" class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+			<div id="barChart2" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
 			
-			<div id="barChart3" class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+			<div id="barChart3" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
 			
-			<div id="barChart4" class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+			<div id="barChart4" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
 			
 		</div>
 		

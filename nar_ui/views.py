@@ -5,8 +5,7 @@ import models
 from nar_ui.models import SiteNotFoundException
 
 class HomePageView(TemplateView):
-    template_name = 'nar_ui/home.html'
-    
+    template_name = 'nar_ui/home.html' 
     
 class SiteSummaryReportView(TemplateView):
     template_name = 'nar_ui/summary.html'
