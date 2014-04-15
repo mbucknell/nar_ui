@@ -12,36 +12,26 @@
 			margin-right:10px;
 			background:none;
 			height:100%;
-			
-			
-			
 		}
 		.currentYearComparisonPlot {
 			min-height: 400px;
 		}
 		.currentYearComparisonLegend {
-			margin-left: 10%
-			
+			margin-left: 10%	
 		}
 		
-		.currentYearComparisonLegend{ background:none;
-										}
+		.currentYearComparisonLegend{ 
+			background:none;
+		}
 		.currentYearComparisonLegend table td{
 			font-size:1em;
 		}										
-		.comparisonGraph {
-			border-top: 1px solid black;
-			border-bottom: 1px solid black;
-			
-		}
 		.currentYearComparisonTitle {
-			height: 10%;
-			padding-left: 28%;
+			height: 8%;
+			padding-left: 22%;
 			font-size:.9em;
 			text-align:center;
 		}
-			
-		
 	</style>
 {% endblock %}
 
@@ -64,7 +54,7 @@
 					yearValue: 12,
 					yearColor: 'rgb(0,255,0)',
 					averageName: 'Average 1991-2013',
-					averageValue: 10,
+					averageValue: 10
 				};
 			
 					
@@ -76,7 +66,7 @@
 					yearValue: 100,
 					yearColor: 'rgb(255,0,0)',
 					averageName: 'Average 1985-2013',
-					averageValue: 153,
+					averageValue: 153
 				};
 			
 					
@@ -90,7 +80,7 @@
 					yearValue: 1.7,
 					yearColor: 'rgb(0,0,255)',
 					averageName: 'Average 1999-2013',
-					averageValue: 2.4,
+					averageValue: 2.4
 				};
 			
 				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart1', streamflowSeries);
@@ -101,7 +91,7 @@
 					yearValue: 300,
 					yearColor: '#CC6600',
 					averageName: 'Average 1990-2013',
-					averageValue: 100,
+					averageValue: 100
 				};
 			
 				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart4', streamflowSeries);
@@ -155,13 +145,13 @@
 	
 		<div class="col-lg-4 graphContainer col-md-3 col-sm-12 col-xs-12">
 		
-			<div id="barChart1" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3" style="border-left: 1px solid black;"></div>
+			<div id="barChart1" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3" ></div>
 			
-			<div id="barChart2" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"style="border-left: 1px solid black;"></div>
+			<div id="barChart2" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
 			
 			<div id="barChart3" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
 			
-			<div id="barChart4" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"style="border-right: 1px solid black;"></div>
+			<div id="barChart4" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
 			
 		</div>
 		
