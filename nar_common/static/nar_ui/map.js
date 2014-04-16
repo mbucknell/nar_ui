@@ -5,6 +5,10 @@ var map;
 	var WGS84_GEOGRAPHIC = new OpenLayers.Projection('EPSG:4326');
 	options.projection = WGS84_GOOGLE_MERCATOR;
 	
+	var continentalExtent = new OpenLayers.Bounds(-120.33, 25.8767, -72.6054, 47.9275).transform(WGS84_GEOGRAPHIC, WGS84_GOOGLE_MERCATOR);
+	var continentalCenter = continentalExtent.getCenterLonLat();
+	
+	
 	var themeFileUrl = CONFIG.staticUrl + 'nar_ui/OpenLayers/theme/default/style.css';
 	options.theme = themeFileUrl;
 	options.controls = [
@@ -29,8 +33,6 @@ var map;
 		buffer : 3,
 		wrapDateLine : false
 	};
-
-	options.restrictedExtent = new OpenLayers.Bounds(-146.0698, 19.1647, -42.9301, 52.8949).transform(WGS84_GEOGRAPHIC, WGS84_GOOGLE_MERCATOR);
 		
 	var zyx = '/MapServer/tile/${z}/${y}/${x}';
 	var ArcGisLayer = function(name, identifier){
@@ -41,10 +43,10 @@ var map;
 		)
 	};
 	var mapLayers = [
- 		ArcGisLayer('World Street Map', 'World_Street_Map'),
- 		ArcGisLayer("World Topo Map",'World_Topo_Map'),
+        ArcGisLayer("World Topo Map",'World_Topo_Map'),
  		ArcGisLayer("World Image", "World_Imagery"),
- 		ArcGisLayer("World Terrain Base", "World_Shaded_Relief")
+ 		ArcGisLayer("World Shaded Relief", "World_Shaded_Relief"),
+ 		ArcGisLayer('World Street Map', 'World_Street_Map')
 	];
 	var sitesLayerOptions = {};
 	Object.merge(
@@ -115,5 +117,6 @@ var map;
 
 	
 	map = new OpenLayers.Map(div, options);
-	map.zoomToExtent(options.restrictedExtent, true);
+
+	map.setCenter(continentalCenter, 4);
 }());
