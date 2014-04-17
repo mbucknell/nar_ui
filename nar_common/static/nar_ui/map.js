@@ -31,7 +31,7 @@ var map;
 		projection : options.projection,
 		units : "m",
 		buffer : 3,
-		wrapDateLine : false,
+		wrapDateLine : false
 	};
 	var addBaseLayersTo = function (mapLayers, defaultLayerOptions){
 		var zyx = '/MapServer/tile/${z}/${y}/${x}';
