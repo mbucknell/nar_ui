@@ -42,6 +42,15 @@ var map;
 	 			defaultLayerOptions
 		)
 	};
+
+		
+	var mapLayers = [ 
+        ArcGisLayer("World Topo Map", 'World_Topo_Map'),
+		ArcGisLayer("World Image", "World_Imagery"),
+		ArcGisLayer("World Shaded Relief", "World_Shaded_Relief"),
+		ArcGisLayer('World Street Map', 'World_Street_Map')
+	];
+	
 	var nlcdUrl = 'http://raster.nationalmap.gov/ArcGIS/services/TNM_LandCover/MapServer/WMSServer';
 	
 	var nlcdProjection = 'EPSG:3857';
@@ -50,6 +59,7 @@ var map;
 	nlcdContiguousUsOptions.displayInLayerSwitcher = true;
 	nlcdContiguousUsOptions.isBaseLayer = false;
 	nlcdContiguousUsOptions.projection = nlcdProjection;
+	nlcdContiguousUsOptions.visibility = false;
 	
 	var nlcdContiguousUsParams = {
 		layers : '24',
@@ -57,29 +67,26 @@ var map;
 		tiled: true
 	};
 	
+	var nlcdContiguousUsLayer = new OpenLayers.Layer.WMS('NLCD', nlcdUrl, nlcdContiguousUsParams, nlcdContiguousUsOptions); 
+	mapLayers.push(nlcdContiguousUsLayer);
+		
 	var nlcdAlaskaOptions = Object.clone(defaultLayerOptions);
 	nlcdAlaskaOptions.displayInLayerSwitcher = false;
 	nlcdAlaskaOptions.isBaseLayer = false;
 	nlcdAlaskaOptions.projection = nlcdProjection;
-	
+	nlcdAlaskaOptions.visibility = false;
 	var nlcdAlaskaParams = {
 		layers : '18',
 		transparent: true,
 		tiled: true
-	};	
+	};
 	
-	var nlcdLayers = [
-        new OpenLayers.Layer.WMS('NLCD', nlcdUrl, nlcdContiguousUsParams, nlcdContiguousUsOptions),
-        new OpenLayers.Layer.WMS('NLCD Alaska', nlcdUrl, nlcdAlaskaParams, nlcdAlaskaOptions)
-	];
+	var nlcdAlaskaLayer = new OpenLayers.Layer.WMS('NLCD Alaska', nlcdUrl, nlcdAlaskaParams, nlcdAlaskaOptions); 
+	mapLayers.push(nlcdAlaskaLayer);
 	
-	var mapLayers = [
-        ArcGisLayer("World Topo Map",'World_Topo_Map'),
- 		ArcGisLayer("World Image", "World_Imagery"),
- 		ArcGisLayer("World Shaded Relief", "World_Shaded_Relief"),
- 		ArcGisLayer('World Street Map', 'World_Street_Map'),
-	];
-	mapLayers = mapLayers.concat(nlcdLayers);
+	nlcdContiguousUsLayer.events.register('visibilitychanged', {}, function(){
+		 nlcdAlaskaLayer.setVisibility(nlcdContiguousUsLayer.visibility); 
+    });
 	
 	var sitesLayerOptions = Object.clone(defaultLayerOptions);
 		sitesLayerOptions.isBaseLayer =  false;
