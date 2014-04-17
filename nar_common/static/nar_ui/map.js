@@ -33,78 +33,97 @@ var map;
 		buffer : 3,
 		wrapDateLine : false,
 	};
-		
-	var zyx = '/MapServer/tile/${z}/${y}/${x}';
-	var ArcGisLayer = function(name, identifier){
-		return new OpenLayers.Layer.XYZ(
-	 			name,
-	 			"http://services.arcgisonline.com/ArcGIS/rest/services/" + identifier + zyx, 
-	 			defaultLayerOptions
-		)
+	var addBaseLayersTo = function (mapLayers, defaultLayerOptions){
+		var zyx = '/MapServer/tile/${z}/${y}/${x}';
+		var ArcGisLayer = function(name, identifier){
+			return new OpenLayers.Layer.XYZ(
+		 			name,
+		 			"http://services.arcgisonline.com/ArcGIS/rest/services/" + identifier + zyx, 
+		 			defaultLayerOptions
+			)
+		};
+		var baseLayers = 
+		[ 
+            ArcGisLayer("World Topo Map", 'World_Topo_Map'),
+            ArcGisLayer("World Image", "World_Imagery"),
+            ArcGisLayer("World Shaded Relief", "World_Shaded_Relief"),
+            ArcGisLayer('World Street Map', 'World_Street_Map')
+     	];
+		mapLayers.add(baseLayers);
+		return baseLayers;
 	};
-
 		
-	var mapLayers = [ 
-        ArcGisLayer("World Topo Map", 'World_Topo_Map'),
-		ArcGisLayer("World Image", "World_Imagery"),
-		ArcGisLayer("World Shaded Relief", "World_Shaded_Relief"),
-		ArcGisLayer('World Street Map', 'World_Street_Map')
-	];
-	
-	var nlcdUrl = 'http://raster.nationalmap.gov/ArcGIS/services/TNM_LandCover/MapServer/WMSServer';
-	
-	var nlcdProjection = 'EPSG:3857';
-	
-	var nlcdContiguousUsOptions = Object.clone(defaultLayerOptions);
-	nlcdContiguousUsOptions.displayInLayerSwitcher = true;
-	nlcdContiguousUsOptions.isBaseLayer = false;
-	nlcdContiguousUsOptions.projection = nlcdProjection;
-	nlcdContiguousUsOptions.visibility = false;
-	
-	var nlcdContiguousUsParams = {
-		layers : '24',
-		transparent: true,
-		tiled: true
+	var addNlcdLayersTo = function(mapLayers, defaultLayerOptions){
+		var nlcdUrl = 'http://raster.nationalmap.gov/ArcGIS/services/TNM_LandCover/MapServer/WMSServer';
+		
+		var nlcdProjection = 'EPSG:3857';
+		
+		var nlcdContiguousUsOptions = Object.clone(defaultLayerOptions);
+		nlcdContiguousUsOptions.displayInLayerSwitcher = true;
+		nlcdContiguousUsOptions.isBaseLayer = false;
+		nlcdContiguousUsOptions.projection = nlcdProjection;
+		nlcdContiguousUsOptions.visibility = false;
+		
+		var nlcdContiguousUsParams = {
+			layers : '24',
+			transparent: true,
+			tiled: true
+		};
+		
+		var nlcdContiguousUsLayer = new OpenLayers.Layer.WMS('NLCD', nlcdUrl, nlcdContiguousUsParams, nlcdContiguousUsOptions); 
+		
+			
+		var nlcdAlaskaOptions = Object.clone(defaultLayerOptions);
+		nlcdAlaskaOptions.displayInLayerSwitcher = false;
+		nlcdAlaskaOptions.isBaseLayer = false;
+		nlcdAlaskaOptions.projection = nlcdProjection;
+		nlcdAlaskaOptions.visibility = false;
+		var nlcdAlaskaParams = {
+			layers : '18',
+			transparent: true,
+			tiled: true
+		};
+		
+		var nlcdAlaskaLayer = new OpenLayers.Layer.WMS('NLCD Alaska', nlcdUrl, nlcdAlaskaParams, nlcdAlaskaOptions); 
+				
+		nlcdContiguousUsLayer.events.register('visibilitychanged', {}, function(){
+			 nlcdAlaskaLayer.setVisibility(nlcdContiguousUsLayer.visibility); 
+	    });
+		
+		var nlcdLayers = [
+             nlcdContiguousUsLayer,
+             nlcdAlaskaLayer
+        ];
+		mapLayers.add(nlcdLayers);
+		return nlcdLayers;
 	};
 	
-	var nlcdContiguousUsLayer = new OpenLayers.Layer.WMS('NLCD', nlcdUrl, nlcdContiguousUsParams, nlcdContiguousUsOptions); 
-	mapLayers.push(nlcdContiguousUsLayer);
-		
-	var nlcdAlaskaOptions = Object.clone(defaultLayerOptions);
-	nlcdAlaskaOptions.displayInLayerSwitcher = false;
-	nlcdAlaskaOptions.isBaseLayer = false;
-	nlcdAlaskaOptions.projection = nlcdProjection;
-	nlcdAlaskaOptions.visibility = false;
-	var nlcdAlaskaParams = {
-		layers : '18',
-		transparent: true,
-		tiled: true
-	};
-	
-	var nlcdAlaskaLayer = new OpenLayers.Layer.WMS('NLCD Alaska', nlcdUrl, nlcdAlaskaParams, nlcdAlaskaOptions); 
-	mapLayers.push(nlcdAlaskaLayer);
-	
-	nlcdContiguousUsLayer.events.register('visibilitychanged', {}, function(){
-		 nlcdAlaskaLayer.setVisibility(nlcdContiguousUsLayer.visibility); 
-    });
-	
-	var sitesLayerOptions = Object.clone(defaultLayerOptions);
+	var addSitesLayerTo = function(mapLayers, defaultLayerOptions){
+		var sitesLayerOptions = Object.clone(defaultLayerOptions);
 		sitesLayerOptions.isBaseLayer =  false;
 
-	var sitesLayerParams = {
-		layers : 'NAWQA100_cy3fsmn',
-		transparent: true,
-		tiled: true
+		var sitesLayerParams = {
+			layers : 'NAWQA100_cy3fsmn',
+			transparent: true,
+			tiled: true
+		};
+		
+		var sitesLayer = new OpenLayers.Layer.WMS(
+			'NAWQA Sites',
+			CONFIG.endpoint.geoserver + 'NAR/wms',
+			sitesLayerParams,
+			sitesLayerOptions
+		);
+		
+		mapLayers.push(sitesLayer);
+		return sitesLayer;
 	};
 	
-	var sitesLayer = new OpenLayers.Layer.WMS(
-		'NAWQA Sites',
-		CONFIG.endpoint.geoserver + 'NAR/wms',
-		sitesLayerParams,
-		sitesLayerOptions
-	);
 	
-	mapLayers.push(sitesLayer);
+	mapLayers = [];
+	addBaseLayersTo(mapLayers, defaultLayerOptions);
+	addNlcdLayersTo(mapLayers, defaultLayerOptions);
+	sitesLayer = addSitesLayerTo(mapLayers, defaultLayerOptions);
 	
 	options.layers = mapLayers;
 	
@@ -147,7 +166,6 @@ var map;
 		throw Error('Error rendering map - could not find element with id "' + id + '".');
 	}
 
-	
 	map = new OpenLayers.Map(div, options);
 
 	map.setCenter(continentalCenter, 4);
