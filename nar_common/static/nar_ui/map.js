@@ -31,7 +31,7 @@ var map;
 		projection : options.projection,
 		units : "m",
 		buffer : 3,
-		wrapDateLine : false
+		wrapDateLine : false,
 	};
 		
 	var zyx = '/MapServer/tile/${z}/${y}/${x}';
@@ -42,24 +42,49 @@ var map;
 	 			defaultLayerOptions
 		)
 	};
+	var nlcdUrl = 'http://raster.nationalmap.gov/ArcGIS/services/TNM_LandCover/MapServer/WMSServer';
+	
+	var nlcdProjection = 'EPSG:3857';
+	
+	var nlcdContiguousUsOptions = Object.clone(defaultLayerOptions);
+	nlcdContiguousUsOptions.displayInLayerSwitcher = true;
+	nlcdContiguousUsOptions.isBaseLayer = false;
+	nlcdContiguousUsOptions.projection = nlcdProjection;
+	
+	var nlcdContiguousUsParams = {
+		layers : '24',
+		transparent: true,
+		tiled: true
+	};
+	
+	var nlcdAlaskaOptions = Object.clone(defaultLayerOptions);
+	nlcdAlaskaOptions.displayInLayerSwitcher = false;
+	nlcdAlaskaOptions.isBaseLayer = false;
+	nlcdAlaskaOptions.projection = nlcdProjection;
+	
+	var nlcdAlaskaParams = {
+		layers : '18',
+		transparent: true,
+		tiled: true
+	};	
+	
+	var nlcdLayers = [
+        new OpenLayers.Layer.WMS('NLCD', nlcdUrl, nlcdContiguousUsParams, nlcdContiguousUsOptions),
+        new OpenLayers.Layer.WMS('NLCD Alaska', nlcdUrl, nlcdAlaskaParams, nlcdAlaskaOptions)
+	];
+	
 	var mapLayers = [
         ArcGisLayer("World Topo Map",'World_Topo_Map'),
  		ArcGisLayer("World Image", "World_Imagery"),
  		ArcGisLayer("World Shaded Relief", "World_Shaded_Relief"),
- 		ArcGisLayer('World Street Map', 'World_Street_Map')
+ 		ArcGisLayer('World Street Map', 'World_Street_Map'),
 	];
-	var sitesLayerOptions = {};
-	Object.merge(
-		sitesLayerOptions, 
-		defaultLayerOptions
-	);
-	Object.merge(
-		sitesLayerOptions,
-		{
-			isBaseLayer: false
-		}
-	);
-	var extraUrlParams = {
+	mapLayers = mapLayers.concat(nlcdLayers);
+	
+	var sitesLayerOptions = Object.clone(defaultLayerOptions);
+		sitesLayerOptions.isBaseLayer =  false;
+
+	var sitesLayerParams = {
 		layers : 'NAWQA100_cy3fsmn',
 		transparent: true,
 		tiled: true
@@ -68,7 +93,7 @@ var map;
 	var sitesLayer = new OpenLayers.Layer.WMS(
 		'NAWQA Sites',
 		CONFIG.endpoint.geoserver + 'NAR/wms',
-		extraUrlParams,
+		sitesLayerParams,
 		sitesLayerOptions
 	);
 	
