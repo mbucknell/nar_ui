@@ -5,6 +5,10 @@ var map;
 	var WGS84_GEOGRAPHIC = new OpenLayers.Projection('EPSG:4326');
 	options.projection = WGS84_GOOGLE_MERCATOR;
 	
+	var continentalExtent = new OpenLayers.Bounds(-120.33, 25.8767, -72.6054, 47.9275).transform(WGS84_GEOGRAPHIC, WGS84_GOOGLE_MERCATOR);
+	var continentalCenter = continentalExtent.getCenterLonLat();
+	
+	
 	var themeFileUrl = CONFIG.staticUrl + 'nar_ui/OpenLayers/theme/default/style.css';
 	options.theme = themeFileUrl;
 	options.controls = [
@@ -29,48 +33,98 @@ var map;
 		buffer : 3,
 		wrapDateLine : false
 	};
-
-	options.restrictedExtent = new OpenLayers.Bounds(-146.0698, 19.1647, -42.9301, 52.8949).transform(WGS84_GEOGRAPHIC, WGS84_GOOGLE_MERCATOR);
+	var addBaseLayersTo = function (mapLayers, defaultLayerOptions){
+		var zyx = '/MapServer/tile/${z}/${y}/${x}';
+		var ArcGisLayer = function(name, identifier){
+			return new OpenLayers.Layer.XYZ(
+		 			name,
+		 			"http://services.arcgisonline.com/ArcGIS/rest/services/" + identifier + zyx, 
+		 			defaultLayerOptions
+			)
+		};
+		var baseLayers = 
+		[ 
+            ArcGisLayer("World Topo Map", 'World_Topo_Map'),
+            ArcGisLayer("World Image", "World_Imagery"),
+            ArcGisLayer("World Shaded Relief", "World_Shaded_Relief"),
+            ArcGisLayer('World Street Map', 'World_Street_Map')
+     	];
+		mapLayers.add(baseLayers);
+		return baseLayers;
+	};
 		
-	var zyx = '/MapServer/tile/${z}/${y}/${x}';
-	var ArcGisLayer = function(name, identifier){
-		return new OpenLayers.Layer.XYZ(
-	 			name,
-	 			"http://services.arcgisonline.com/ArcGIS/rest/services/" + identifier + zyx, 
-	 			defaultLayerOptions
-		)
-	};
-	var mapLayers = [
- 		ArcGisLayer('World Street Map', 'World_Street_Map'),
- 		ArcGisLayer("World Topo Map",'World_Topo_Map'),
- 		ArcGisLayer("World Image", "World_Imagery"),
- 		ArcGisLayer("World Terrain Base", "World_Shaded_Relief")
-	];
-	var sitesLayerOptions = {};
-	Object.merge(
-		sitesLayerOptions, 
-		defaultLayerOptions
-	);
-	Object.merge(
-		sitesLayerOptions,
-		{
-			isBaseLayer: false
-		}
-	);
-	var extraUrlParams = {
-		layers : 'NAWQA100_cy3fsmn',
-		transparent: true,
-		tiled: true
+	var addNlcdLayersTo = function(mapLayers, defaultLayerOptions){
+		var nlcdUrl = 'http://raster.nationalmap.gov/ArcGIS/services/TNM_LandCover/MapServer/WMSServer';
+		
+		var nlcdProjection = 'EPSG:3857';
+		
+		var nlcdContiguousUsOptions = Object.clone(defaultLayerOptions);
+		nlcdContiguousUsOptions.displayInLayerSwitcher = true;
+		nlcdContiguousUsOptions.isBaseLayer = false;
+		nlcdContiguousUsOptions.projection = nlcdProjection;
+		nlcdContiguousUsOptions.visibility = false;
+		
+		var nlcdContiguousUsParams = {
+			layers : '24',
+			transparent: true,
+			tiled: true
+		};
+		
+		var nlcdContiguousUsLayer = new OpenLayers.Layer.WMS('NLCD', nlcdUrl, nlcdContiguousUsParams, nlcdContiguousUsOptions); 
+		
+			
+		var nlcdAlaskaOptions = Object.clone(defaultLayerOptions);
+		nlcdAlaskaOptions.displayInLayerSwitcher = false;
+		nlcdAlaskaOptions.isBaseLayer = false;
+		nlcdAlaskaOptions.projection = nlcdProjection;
+		nlcdAlaskaOptions.visibility = false;
+		var nlcdAlaskaParams = {
+			layers : '18',
+			transparent: true,
+			tiled: true
+		};
+		
+		var nlcdAlaskaLayer = new OpenLayers.Layer.WMS('NLCD Alaska', nlcdUrl, nlcdAlaskaParams, nlcdAlaskaOptions); 
+				
+		nlcdContiguousUsLayer.events.register('visibilitychanged', {}, function(){
+			 nlcdAlaskaLayer.setVisibility(nlcdContiguousUsLayer.visibility); 
+	    });
+		
+		var nlcdLayers = [
+             nlcdContiguousUsLayer,
+             nlcdAlaskaLayer
+        ];
+		mapLayers.add(nlcdLayers);
+		return nlcdLayers;
 	};
 	
-	var sitesLayer = new OpenLayers.Layer.WMS(
-		'NAWQA Sites',
-		CONFIG.endpoint.geoserver + 'NAR/wms',
-		extraUrlParams,
-		sitesLayerOptions
-	);
+	var addSitesLayerTo = function(mapLayers, defaultLayerOptions){
+		var sitesLayerOptions = Object.clone(defaultLayerOptions);
+		sitesLayerOptions.isBaseLayer =  false;
+
+		var sitesLayerParams = {
+			layers : 'NAWQA100_cy3fsmn',
+			transparent: true,
+			tiled: true,
+			styles: 'triangles'
+		};
+		
+		var sitesLayer = new OpenLayers.Layer.WMS(
+			'NAWQA Sites',
+			CONFIG.endpoint.geoserver + 'NAR/wms',
+			sitesLayerParams,
+			sitesLayerOptions
+		);
+		
+		mapLayers.push(sitesLayer);
+		return sitesLayer;
+	};
 	
-	mapLayers.push(sitesLayer);
+	
+	mapLayers = [];
+	addBaseLayersTo(mapLayers, defaultLayerOptions);
+	addNlcdLayersTo(mapLayers, defaultLayerOptions);
+	sitesLayer = addSitesLayerTo(mapLayers, defaultLayerOptions);
 	
 	options.layers = mapLayers;
 	
@@ -113,7 +167,7 @@ var map;
 		throw Error('Error rendering map - could not find element with id "' + id + '".');
 	}
 
-	
 	map = new OpenLayers.Map(div, options);
-	map.zoomToExtent(options.restrictedExtent, true);
+
+	map.setCenter(continentalCenter, 4);
 }());
