@@ -35,7 +35,7 @@
 		.unitLabel {
 			border-top: 2px solid black;
 			text-align:center;
-			height: 50px;
+			height: 60px;
 		}
 		.leftBorder {
 			border-left: 2px solid black;
@@ -68,7 +68,7 @@
 				};
 			
 					
-				var nitrateGraph = ConstituentCurrentYearComparisonPlot('#barChart2', nitrateSeries);
+				var nitrateGraph = ConstituentCurrentYearComparisonPlot('#barChart2', nitrateSeries, '#barChartLegend2');
 				
 				var phosphorousSeries = {
 					constituentName: 'Total Nitrate',
@@ -80,7 +80,7 @@
 				};
 			
 					
-				var phosphorousGraph = ConstituentCurrentYearComparisonPlot('#barChart3', phosphorousSeries);
+				var phosphorousGraph = ConstituentCurrentYearComparisonPlot('#barChart3', phosphorousSeries, '#barChartLegend3');
 		
 				
 				var streamflowSeries = {
@@ -92,7 +92,7 @@
 					averageValue: 2.4
 				};
 			
-				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart1', streamflowSeries);
+				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart1', streamflowSeries, '#barChartLegend1');
 								
 				var streamflowSeries = {
 					constituentName: 'Suspended Sediment',
@@ -103,7 +103,7 @@
 					averageValue: 100
 				};
 			
-				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart4', streamflowSeries);
+				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart4', streamflowSeries, '#barChartLegend4');
 				
 			});
 		</script>
@@ -165,6 +165,15 @@
 			<div class="row">
 				<div class="unitLabel col-lg-3 col-md-3 col-sm-3 col-xs-3">Million Acre-Feet</div>
 				<div class="unitLabel leftBorder col-lg-9 col-md-9 col-sm-9 col-xs-9">Million Tons</div>
+			</div>
+			<div class="row">
+				<div id="barChartLegend1" class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ></div>
+				
+				<div id="barChartLegend2" class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+				
+				<div id="barChartLegend3" class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+				
+				<div id="barChartLegend4" class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
 			</div>
 		</div>
 		
