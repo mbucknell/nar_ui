@@ -105,7 +105,8 @@ var map;
 		var sitesLayerParams = {
 			layers : 'NAWQA100_cy3fsmn',
 			transparent: true,
-			tiled: true
+			tiled: true,
+			styles: 'triangles'
 		};
 		
 		var sitesLayer = new OpenLayers.Layer.WMS(
