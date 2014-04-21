@@ -27,10 +27,21 @@
 			font-size:1em;
 		}										
 		.currentYearComparisonTitle {
-			height: 8%;
+			height: 40px;
 			padding-left: 22%;
 			font-size:.9em;
 			text-align:center;
+		}
+		.unitLabel {
+			border-top: 2px solid black;
+			text-align:center;
+			height: 60px;
+		}
+		.leftBorder {
+			border-left: 2px solid black;
+		}
+		.topBorder {
+			border-top: 2px solid black;
 		}
 	</style>
 {% endblock %}
@@ -50,7 +61,6 @@
 				var nitrateSeries = {
 					constituentName: 'Total Phosphorous',
 					constituentUnit: 'Million Tons',
-					displayUnitOnYAxis: true,
 					yearValue: 12,
 					yearColor: 'rgb(0,255,0)',
 					averageName: 'Average 1991-2013',
@@ -58,7 +68,7 @@
 				};
 			
 					
-				var nitrateGraph = ConstituentCurrentYearComparisonPlot('#barChart2', nitrateSeries);
+				var nitrateGraph = ConstituentCurrentYearComparisonPlot('#barChart2', nitrateSeries, '#barChartLegend2');
 				
 				var phosphorousSeries = {
 					constituentName: 'Total Nitrate',
@@ -70,20 +80,19 @@
 				};
 			
 					
-				var phosphorousGraph = ConstituentCurrentYearComparisonPlot('#barChart3', phosphorousSeries);
+				var phosphorousGraph = ConstituentCurrentYearComparisonPlot('#barChart3', phosphorousSeries, '#barChartLegend3');
 		
 				
 				var streamflowSeries = {
 					constituentName: 'Streamflow',
 					constituentUnit: 'Million acre-feet',
-					displayUnitOnYAxis: true,
 					yearValue: 1.7,
 					yearColor: 'rgb(0,0,255)',
 					averageName: 'Average 1999-2013',
 					averageValue: 2.4
 				};
 			
-				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart1', streamflowSeries);
+				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart1', streamflowSeries, '#barChartLegend1');
 								
 				var streamflowSeries = {
 					constituentName: 'Suspended Sediment',
@@ -94,7 +103,7 @@
 					averageValue: 100
 				};
 			
-				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart4', streamflowSeries);
+				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart4', streamflowSeries, '#barChartLegend4');
 				
 			});
 		</script>
@@ -144,15 +153,28 @@
 	<div class="col-lg-12 graphs col-md-12 col-sm-12 col-xs-12">
 	
 		<div class="col-lg-4 graphContainer col-md-3 col-sm-12 col-xs-12">
-		
-			<div id="barChart1" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3" ></div>
-			
-			<div id="barChart2" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
-			
-			<div id="barChart3" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
-			
-			<div id="barChart4" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
-			
+			<div class="row">
+				<div id="barChart1" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3" ></div>
+				
+				<div id="barChart2" class="leftBorder comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+				
+				<div id="barChart3" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+				
+				<div id="barChart4" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+			</div>
+			<div class="row">
+				<div class="unitLabel col-lg-3 col-md-3 col-sm-3 col-xs-3">Million Acre-Feet</div>
+				<div class="unitLabel leftBorder col-lg-9 col-md-9 col-sm-9 col-xs-9">Million Tons</div>
+			</div>
+			<div class="row">
+				<div id="barChartLegend1" class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ></div>
+				
+				<div id="barChartLegend2" class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+				
+				<div id="barChartLegend3" class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+				
+				<div id="barChartLegend4" class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+			</div>
 		</div>
 		
 		<div class="col-lg-4 human col-md-3 col-sm-12 col-xs-12">

@@ -27,10 +27,16 @@
    @param {String} legendSelector a jquery selector for the legend element
  */
 
-var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, series){
+var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, series, legendSelector){
+	var assert_good_selector = function(selector){
+		if(!$(selector).length){;
+			throw Error('Bar Chart could not find element with jquery selector "' + selector + '".');
+		}
+	};
 	
-	if(!$(plotContainerSelector).length){;
-		throw Error('Bar Chart could not find element with jquery selector "' + plotContainerSelector + '".');
+	assert_good_selector(plotContainerSelector);
+	if(legendSelector){
+		assert_good_selector(legendSelector);
 	}
 	
 	var plotContainer = $(plotContainerSelector);
@@ -45,12 +51,12 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
 	titleDiv.html(series.constituentName);
 	var titleDivSelector = plotContainerSelector + ' .' + titleClass;
 	plotContainer.append(titleDiv);
-	
-	var legendClass = ConstituentCurrentYearComparisonPlot.legendClass;
-	var legendDiv = $('<div/>', {'class': legendClass });
-	var legendDivSelector = plotContainerSelector + ' .' + legendClass;
-	plotContainer.append(legendDiv);
-
+	if(!legendSelector){
+		var legendClass = ConstituentCurrentYearComparisonPlot.legendClass;
+		var legendDiv = $('<div/>', {'class': legendClass });
+		legendSelector = plotContainerSelector + ' .' + legendClass;
+		plotContainer.append(legendDiv);
+	}
 	
 	var yearSeries = {
 
@@ -101,7 +107,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
         	content: '%s: %y ' + series.constituentUnit 
         },
         legend: {
-        	container: legendDivSelector || null
+        	container: legendSelector || null
         }
     });
     return plot;
