@@ -1,7 +1,22 @@
 {% extends "base.html" %}
 {% load static from staticfiles %}
-{% block content %}
+{% load compress %}
 
+{% block style %}
+	{{ block.super }}
+	<link rel="stylesheet" href="{% static 'nar_ui/jstree/themes/default/style.min.css' %}"/>
+{% endblock %}
+
+{% block scripts %}
+	{{ block.super }}
+	{% compress js %}
+		<script type="text/javascript" src="{% static 'nar_ui/jstree/jstree.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/full_report.js' %}"></script>
+	{% endcompress %}
+{% endblock %}
+
+
+{% block content %}
 
 <div class="row summary_info">
 	
@@ -10,30 +25,13 @@
 		<h3>(Streamflow Station - 01646500)</h3>
 	</div>
 	
-	<div class="col-lg-2 report_filter col-md-2 col-sm-2 col-xs-2"></div>
+	<div id="plotToggleTree" class="col-lg-3 report_filter col-md-3 col-sm-3 col-xs-3"></div>
 	
-	<div class="col-lg-10 full_report_graphs col-md-10 col-sm-10 col-xs-10">
+	<div class="col-lg-9 full_report_graphs col-md-9 col-sm-9 col-xs-9">
 	
-		<div class=" col-lg-12 wrapper col-md-12 col-sm-12 col-xs-12">
+		<div id="plotsWrapper" class="col-lg-12 wrapper col-md-12 col-sm-12 col-xs-12">
 	
-				<div class="col-lg-12 data col-md-12 col-sm-12 col-xs-12">
-				
-					<img src="{% static 'nar_ui/images/annual_flow.jpg' %}" class="img-responsive"  alt="annual flow graph"/>
-				
-				</div>
-				
-				<div class="col-lg-12 data col-md-12 col-sm-12 col-xs-12">
-				
-					<img src="{% static 'nar_ui/images/mean_annual.jpg' %}" class="img-responsive"  alt="mean annual graph"/>
-				
-				</div>
-				
-				<div class="col-lg-12 data last col-md-12 col-sm-12 col-xs-12">
-				
-					<img src="{% static 'nar_ui/images/annual_suspended.jpg' %}" class="img-responsive"  alt="annual suspended graph"/>
-				
-				</div>
-			
+		
 			</div><!--wrapper-->
 		
 		<div class="col-lg-12 slider col-md-12 col-sm-12 col-xs-12"></div>
