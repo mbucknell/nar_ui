@@ -47,7 +47,7 @@ $(document).ready(function(){
 	graphToggleElt.jstree({
 		'plugins': ['checkbox'],
 		'core' : {
-		    'data' : [
+			'data' : [
 		       {
 		         'text' : 'Water Quality',
 		         'state': {
@@ -102,7 +102,7 @@ $(document).ready(function(){
 	var removePlotContainer = function(jstreeId){
 		var selector = '#' + makePlotContainerIdFromJsTreeId(jstreeId);
 		
-		var plotContainer = get_or_fail(selector)
+		var plotContainer = get_or_fail(selector);
 		plotContainer.remove();
 		
 		numberOfPlots--;
