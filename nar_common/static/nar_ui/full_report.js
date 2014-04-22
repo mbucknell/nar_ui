@@ -96,10 +96,7 @@ $(document).ready(function(){
 	var removeMockPlotContainer = function(jstreeId){
 		var selector = '#' + makePlotContainerIdFromJsTreeId(jstreeId);
 		
-		var plotContainer = $(selector);
-		if(!plotContainer.length){
-			throw Error('Could not find selector ' + selector);
-		}
+		var plotContainer = get_or_fail(selector)
 		plotContainer.remove();
 		
 		var plotsSelector = allPlotsWrapperSelector + ' .' + plotContainerClass;
@@ -153,11 +150,9 @@ $(document).ready(function(){
 			var path = parentTexts.add(leafNode.text).join('/'); 
 			addMockPlotContainer(leafNode.id, path);
 		});
-		console.dir(leafChildren);
 	});
 	graphToggleJqElt.on("deselect_node.jstree", function (e, data) {
 		var leafChildren = getAllLeafChildren(data.node);
-		console.dir(leafChildren);
 		leafChildren.each(function(leafNode){
 			removeMockPlotContainer(leafNode.id);
 		});
