@@ -1,4 +1,5 @@
 $(document).ready(function(){
+		
 	var get_or_fail = function(selector){
 		var jqElt = $(selector);
 		if(!jqElt.length){
@@ -12,6 +13,9 @@ $(document).ready(function(){
 	
 	var allPlotsWrapperSelector = '#plotsWrapper';
 	var allPlotsWrapper = get_or_fail(allPlotsWrapperSelector);
+	
+	var instructionsSelector = '#instructions';
+	var instructionsJqElt = get_or_fail(instructionsSelector);
 	
 	var exampleChildMostItems = [
          {
@@ -72,13 +76,14 @@ $(document).ready(function(){
 		return jstreeId + plotIdSuffix;
 	}
 	
-	var addMockPlotContainer = function(jstreeId){
+	var addMockPlotContainer = function(jstreeId, text){
+		instructionsJqElt.addClass('hide');
 		var plotContainer = $('<div/>', {
 			id: makePlotContainerIdFromJsTreeId(jstreeId),
 			class: plotContainerClass,
 			
 		});
-		var plotContent = $('<h2>'+jstreeId+'</h2>');
+		var plotContent = $('<h2>'+text+'</h2>');
 		plotContainer.append(plotContent);	
 		
 		allPlotsWrapper.append(plotContainer);
@@ -86,12 +91,31 @@ $(document).ready(function(){
 	var removeMockPlotContainer = function(jstreeId){
 		var selector = makePlotContainerIdFromJsTreeId(jstreeId);
 		$('#' + selector).remove();
+		var plotsSelector = allPlotsWrapperSelector + ' .' + plotContainerClass;
+		var noPlotsRemain =!$(plotsSelector).length 
+		if(noPlotsRemain){
+			instructionsJqElt.removeClass('hide');				
+		}
 	};
 	
 	var plotTree = $(graphToggleJqElt).jstree();
 	var getNode = function(selectedItem){
 		return plotTree.get_node(selectedItem);
 	};
+	var getParents = function(node){
+		var parentNodes = [];
+		if(node.parents.length){
+			node.parents.each(function(parentId){
+				if('#' !== parentId){
+					parentNode = getNode(parentId);
+					parentNodes.push(parentNode);
+				}
+			});
+		}
+		return parentNodes;
+	};
+	
+	
 	var getAllLeafChildren = function(node){
 		var leafChildren = [];
 		var getAllLeafChildrenImplementation = function(nodeRef){
@@ -112,7 +136,11 @@ $(document).ready(function(){
 	graphToggleJqElt.on("select_node.jstree", function (e, data) {
 		var leafChildren = getAllLeafChildren(data.node);
 		leafChildren.each(function(leafNode){
-			addMockPlotContainer(leafNode.id);
+			var parents = getParents(leafNode);
+			var parentTexts = parents.map(function(node){return node.text;});
+			parentTexts.reverse();
+			var path = parentTexts.add(leafNode.text).join('/'); 
+			addMockPlotContainer(leafNode.id, path);
 		});
 		console.dir(leafChildren);
 	});
@@ -123,4 +151,5 @@ $(document).ready(function(){
 			removeMockPlotContainer(leafNode.id);
 		});
 	});
+	
 });
