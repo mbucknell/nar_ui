@@ -1,5 +1,5 @@
 $(document).ready(function(){
-		
+	var numberOfPlots = 0;
 	var get_or_fail = function(selector){
 		var jqElt = $(selector);
 		if(!jqElt.length){
@@ -8,16 +8,16 @@ $(document).ready(function(){
 		return jqElt;
 	};
 	
-	var treeSelector = '#plotToggleTree';
-	var graphToggleJqElt = get_or_fail(treeSelector);
+	var graphToggleSelector = '#plotToggleTree';
+	var graphToggleElt = get_or_fail(graphToggleSelector);
 	
 	var allPlotsWrapperSelector = '#plotsWrapper';
 	var allPlotsWrapper = get_or_fail(allPlotsWrapperSelector);
 	
 	var instructionsSelector = '#instructions';
-	var instructionsJqElt = get_or_fail(instructionsSelector);
+	var instructionsElt = get_or_fail(instructionsSelector);
 	
-	var exampleChildMostItems = [
+	var waterQualityConstituentChildren = [
          {
         	 text:'Concentrations',
         	 children: [
@@ -28,13 +28,13 @@ $(document).ready(function(){
 		 },
 		 'Loads'
     ];
-	var secondTierWaterQualityNode = function(name){
+	var waterQualityConstituentNode = function(name){
 		return {
      	   'text' : name,
-    	   'children' : Object.clone(exampleChildMostItems, true)
+    	   'children' : Object.clone(waterQualityConstituentChildren, true)
        };
 	};
-	var secondTierNames = [
+	var constituentNames = [
        'Total Nitrogen',
        'Nitrate',
        'Total Phosphorous',
@@ -42,10 +42,10 @@ $(document).ready(function(){
        'Pesticides',
        'Ecology'
     ];
-	var secondTierWaterQualityNodes = secondTierNames.map(secondTierWaterQualityNode);
+	var waterQualityConstituentNodes = constituentNames.map(waterQualityConstituentNode);
 	
-	graphToggleJqElt.jstree({
-		'plugins': ['wholerow', 'checkbox'],
+	graphToggleElt.jstree({
+		'plugins': ['checkbox'],
 		'core' : {
 		    'data' : [
 		       {
@@ -53,7 +53,7 @@ $(document).ready(function(){
 		         'state': {
 		        	 'opened' : true
 		         },
-		         'children' : secondTierWaterQualityNodes
+		         'children' : waterQualityConstituentNodes
 		      },
 		      {
 		    	  'text' : 'Streamflow',
@@ -76,8 +76,13 @@ $(document).ready(function(){
 		return jstreeId + plotIdSuffix;
 	}
 	
-	var addMockPlotContainer = function(jstreeId, text){
-		instructionsJqElt.addClass('hide');
+	var addPlotContainer = function(jstreeId, text){
+		//if no plots are currently visualized, but one has been
+		//requested to be added.		
+		if(0 === numberOfPlots){
+			instructionsElt.addClass('hide');			
+		}
+		
 		var id = makePlotContainerIdFromJsTreeId(jstreeId);
 		var plotContainerDoesNotYetExist = !$('#' + id).length;
 		
@@ -91,22 +96,24 @@ $(document).ready(function(){
 			plotContainer.append(plotContent);	
 			
 			allPlotsWrapper.append(plotContainer);
+			numberOfPlots++;
 		}
 	};
-	var removeMockPlotContainer = function(jstreeId){
+	var removePlotContainer = function(jstreeId){
 		var selector = '#' + makePlotContainerIdFromJsTreeId(jstreeId);
 		
 		var plotContainer = get_or_fail(selector)
 		plotContainer.remove();
 		
-		var plotsSelector = allPlotsWrapperSelector + ' .' + plotContainerClass;
-		var noPlotsRemain =!$(plotsSelector).length 
+		numberOfPlots--;
+		
+		var noPlotsRemain = !numberOfPlots; 
 		if(noPlotsRemain){
-			instructionsJqElt.removeClass('hide');				
+			instructionsElt.removeClass('hide');				
 		}
 	};
 	
-	var plotTree = $(graphToggleJqElt).jstree();
+	var plotTree = $(graphToggleElt).jstree();
 	var getNode = function(selectedItem){
 		return plotTree.get_node(selectedItem);
 	};
@@ -114,6 +121,7 @@ $(document).ready(function(){
 		var parentNodes = [];
 		if(node.parents.length){
 			node.parents.each(function(parentId){
+				//the absolute root of the tree is '#'. Ignore this case. 
 				if('#' !== parentId){
 					parentNode = getNode(parentId);
 					parentNodes.push(parentNode);
@@ -141,20 +149,20 @@ $(document).ready(function(){
 		return leafChildren;
 	};
 	
-	graphToggleJqElt.on("select_node.jstree", function (e, data) {
+	graphToggleElt.on("select_node.jstree", function (e, data) {
 		var leafChildren = getAllLeafChildren(data.node);
 		leafChildren.each(function(leafNode){
 			var parents = getParents(leafNode);
 			var parentTexts = parents.map(function(node){return node.text;});
 			parentTexts.reverse();
 			var path = parentTexts.add(leafNode.text).join('/'); 
-			addMockPlotContainer(leafNode.id, path);
+			addPlotContainer(leafNode.id, path);
 		});
 	});
-	graphToggleJqElt.on("deselect_node.jstree", function (e, data) {
+	graphToggleElt.on("deselect_node.jstree", function (e, data) {
 		var leafChildren = getAllLeafChildren(data.node);
 		leafChildren.each(function(leafNode){
-			removeMockPlotContainer(leafNode.id);
+			removePlotContainer(leafNode.id);
 		});
 	});
 	
