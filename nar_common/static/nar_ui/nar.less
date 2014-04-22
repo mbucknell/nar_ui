@@ -42,6 +42,8 @@
 
 @padding:10px;
 
+@homePageContentHeight: 400px; 
+
 /*##########content##########*/
 
  /*###########################homepage_start####################### */
@@ -52,7 +54,7 @@
         position:relative;}
         
 
-   @homePageContentHeight: 400px;     
+     
 .site_map{background:@boxColor;
             height:@homePageContentHeight;
             padding:0;
@@ -61,7 +63,12 @@
             overflow:hidden;}
           
 .map{background:none;
-    height:@homePageContentHeight;}
+    height:@homePageContentHeight;
+   }
+   
+.solution{background:none;
+			overflow:auto;
+}
 
 .sites{background:none;
         height:@homePageContentHeight;
@@ -71,7 +78,8 @@
 .site_table{background:none;
             margin:0 auto;
             margin-top:15px;
-            width:860px;}
+            width:860px;
+            }
             
 .site_table th{background:none;
                 width:400px;
@@ -80,8 +88,10 @@
                 color:@primaryColor;
                 }
                 
+.site_table th.first_header{width:250px;}
+                
 .site_table th.name{background:none;
-                    width:600px;}
+                    width:450px;}
 
 .site_table th.type{background:none;
                     width:200px;}
@@ -430,6 +440,16 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 			color:@primaryColor;
             }
             
+.site_table th.first_header{background:none;
+			width:80px;
+}
+ 
+ 
+.site_table th.name{background:none;
+                    width:220px;}
+
+.site_table th.type{background:none;
+                    width:200px;}        
 
 	
 
@@ -516,8 +536,10 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
                 color:@primaryColor;
                 }
                 
+.site_table th.first_header{width:80px;}
+                
 .site_table th.name{background:none;
-                    width:350px;}
+                    width:320px;}
 
 .site_table th.type{background:none;
                     width:200px;}
@@ -697,6 +719,8 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
                 font-size:1.2em;
                 color:@primaryColor;
                 }
+                
+.site_table th.first_header{width:80px;}
                 
 .site_table th.name{background:none;
                     width:350px;}
