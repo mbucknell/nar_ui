@@ -78,19 +78,30 @@ $(document).ready(function(){
 	
 	var addMockPlotContainer = function(jstreeId, text){
 		instructionsJqElt.addClass('hide');
-		var plotContainer = $('<div/>', {
-			id: makePlotContainerIdFromJsTreeId(jstreeId),
-			class: plotContainerClass,
-			
-		});
-		var plotContent = $('<h2>'+text+'</h2>');
-		plotContainer.append(plotContent);	
+		var id = makePlotContainerIdFromJsTreeId(jstreeId);
+		var plotContainerDoesNotYetExist = !$('#' + id).length;
 		
-		allPlotsWrapper.append(plotContainer);
+		if(plotContainerDoesNotYetExist){
+			
+			var plotContainer = $('<div/>', {
+				id: id,
+				class: plotContainerClass
+			});
+			var plotContent = $('<h2>'+text+'</h2>');
+			plotContainer.append(plotContent);	
+			
+			allPlotsWrapper.append(plotContainer);
+		}
 	};
 	var removeMockPlotContainer = function(jstreeId){
-		var selector = makePlotContainerIdFromJsTreeId(jstreeId);
-		$('#' + selector).remove();
+		var selector = '#' + makePlotContainerIdFromJsTreeId(jstreeId);
+		
+		var plotContainer = $(selector);
+		if(!plotContainer.length){
+			throw Error('Could not find selector ' + selector);
+		}
+		plotContainer.remove();
+		
 		var plotsSelector = allPlotsWrapperSelector + ' .' + plotContainerClass;
 		var noPlotsRemain =!$(plotsSelector).length 
 		if(noPlotsRemain){
