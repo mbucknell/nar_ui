@@ -6,13 +6,12 @@ from nar_ui.models import SiteNotFoundException
 
 class HomePageView(TemplateView):
     template_name = 'nar_ui/home.html' 
+
+#abstract class:
+class SiteReportView(TemplateView):    
     
-class SiteSummaryReportView(TemplateView):
-    template_name = 'nar_ui/summary.html'
-    
-    def get_context_data(self, **kwargs):
-        
-        context = super(SiteSummaryReportView, self).get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):        
+        context = super(SiteReportView, self).get_context_data(**kwargs)
         site_id = context.get('site_id', '01646580')
         url = 'http://' + settings.GEOSERVER_HOST_NAME + settings.GEOSERVER_PATH + 'wfs'
         try:
@@ -22,8 +21,7 @@ class SiteSummaryReportView(TemplateView):
         except SiteNotFoundException, e:
             raise Http404
     
-class SiteFullReportView(TemplateView):
+class SiteSummaryReportView(SiteReportView):
+    template_name = 'nar_ui/summary.html'
+class SiteFullReportView(SiteReportView):
     template_name = 'nar_ui/full_reports.html'
-
-class DemoGraphView(TemplateView):
-    template_name = 'nar_ui/demo_graph.html'
