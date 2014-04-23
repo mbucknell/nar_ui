@@ -17,22 +17,34 @@ $(document).ready(function(){
     var instructionsSelector = '#instructions';
     var instructionsElt = get_or_fail(instructionsSelector);
     
+    var nonLeafNode = function(node){
+        return Object.merge(node, {
+            icon: 'glyphicon glyphicon-folder-open'
+        });
+    }
+    var leafNode = function(text){
+        return {
+            text: text,
+            icon: 'glyphicon glyphicon-asterisk'
+        };
+    };
+    
     var waterQualityConstituentChildren = [
-         {
+         nonLeafNode({
              text:'Concentrations',
              children: [
                 'Mean Annual',
                 'Flow-weighted',
                 'Sample'
-            ]
-         },
-         'Loads'
+            ].map(leafNode)
+         }),
+         leafNode('Loads')
     ];
     var waterQualityConstituentNode = function(name){
-        return {
+        return nonLeafNode({
             'text' : name,
             'children' : Object.clone(waterQualityConstituentChildren, true)
-       };
+       });
     };
     var constituentNames = [
        'Total Nitrogen',
@@ -43,7 +55,6 @@ $(document).ready(function(){
        'Ecology'
     ];
     var waterQualityConstituentNodes = constituentNames.map(waterQualityConstituentNode);
-    
     graphToggleElt.jstree({
         'plugins': ['checkbox'],
         'core' : {
@@ -65,9 +76,9 @@ $(document).ready(function(){
                         'Annual',
                         'Hydrograph',
                         'Flow duration'
-                   ]
+                   ].map(leafNode)
               }
-            ]
+            ].map(nonLeafNode)
         }
     });
     var plotContainerClass = 'data'; 
