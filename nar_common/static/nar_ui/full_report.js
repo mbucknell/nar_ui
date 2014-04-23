@@ -94,7 +94,7 @@ $(document).ready(function(){
             var plotContent = $('<h2>'+text+'</h2>');
             plotContainer.append(plotContent);    
             
-            allPlotsWrapper.append(plotContainer);
+            allPlotsWrapper.prepend(plotContainer);
             numberOfPlots++;
         }
     };
@@ -150,10 +150,11 @@ $(document).ready(function(){
     
     graphToggleElt.on("select_node.jstree", function (e, data) {
         var leafChildren = getAllLeafChildren(data.node);
+        leafChildren = leafChildren.reverse();
         leafChildren.each(function(leafNode){
             var parents = getParents(leafNode);
             var parentTexts = parents.map(function(node){return node.text;});
-            parentTexts.reverse();
+            parentTexts = parentTexts.reverse();
             var path = parentTexts.add(leafNode.text).join('/'); 
             addPlotContainer(leafNode.id, path);
         });
