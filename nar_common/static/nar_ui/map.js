@@ -9,7 +9,7 @@ var map;
     var continentalCenter = continentalExtent.getCenterLonLat();
     
     
-    var themeFileUrl = CONFIG.staticUrl + 'nar_ui/lib/OpenLayers/theme/default/style.css';
+    var themeFileUrl = CONFIG.staticUrl + 'nar_ui/js_lib/OpenLayers/theme/default/style.css';
     options.theme = themeFileUrl;
     options.controls = [
         new OpenLayers.Control.Navigation(),
