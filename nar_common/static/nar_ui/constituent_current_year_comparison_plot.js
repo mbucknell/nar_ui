@@ -29,7 +29,7 @@
 
 var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, series, legendSelector){
 	var assert_good_selector = function(selector){
-		if(!$(selector).length){;
+		if(!$(selector).length){
 			throw Error('Bar Chart could not find element with jquery selector "' + selector + '".');
 		}
 	};
@@ -42,7 +42,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
 	var plotContainer = $(plotContainerSelector);
 
 	var plotClass= ConstituentCurrentYearComparisonPlot.plotClass;
-	var plotDiv = $('<div/>', {'class': plotClass});;
+	var plotDiv = $('<div/>', {'class': plotClass});
 	var plotDivSelector = plotContainerSelector + ' .' + plotClass;
 	plotContainer.append(plotDiv);
 
@@ -66,7 +66,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
                 show: true,
                 barWidth: 0.4,
                 align: "left",
-            	fillColor: series.yearColor
+                fillColor: series.yearColor
             }
     };
 	
@@ -96,18 +96,18 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
             tickLength: 0
         },
         yaxis: {
-        	axisLabel: series.displayUnitOnYAxis ? series.constituentUnit : null,
-        	axisLabelUseCanvas: true,
+            axisLabel: series.displayUnitOnYAxis ? series.constituentUnit : null,
+            axisLabelUseCanvas: true,
             axisLabelPadding: 3
         },
         grid: { hoverable: true, clickable: true },
         colors: [series.averageColor, series.yearColor],
         tooltip: true,
         tooltipOpts: {
-        	content: '%s: %y ' + series.constituentUnit 
+            content: '%s: %y ' + series.constituentUnit 
         },
         legend: {
-        	container: legendSelector || null
+            container: legendSelector || null
         }
     });
     return plot;
