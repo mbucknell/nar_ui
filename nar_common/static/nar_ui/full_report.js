@@ -21,7 +21,7 @@ $(document).ready(function(){
         return Object.merge(node, {
             icon: 'glyphicon glyphicon-folder-open'
         });
-    }
+    };
     var leafNode = function(text){
         return {
             text: text,
