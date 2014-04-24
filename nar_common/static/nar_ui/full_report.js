@@ -95,14 +95,16 @@ $(document).ready(function(){
         }
         
         var id = makePlotContainerIdFromJsTreeId(jstreeId);
-        var plotContainerExists = $('#' + id).length;
+        var plotContainerMissing = $('#' + id).length === 0;
         
-        if(!plotContainerExists){
+        if(plotContainerMissing){
             var plotContainer = $('<div/>', {
                 id: id,
                 class: plotContainerClass
             });
-            var plotContent = $('<h2>'+text+'</h2>');
+            var plotContent = $('<h2/>', {
+                text:text
+            });
             plotContainer.append(plotContent);    
             
             allPlotsWrapper.prepend(plotContainer);
