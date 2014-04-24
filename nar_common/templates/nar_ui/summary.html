@@ -49,11 +49,11 @@
 {% block scripts %}
 	{{ block.super }}
 	{% compress js %}
-		<script type="text/javascript" src="{% static 'nar_ui/flot/jquery.flot.js' %}"></script>
-		<script type="text/javascript" src="{% static 'nar_ui/flot/jquery.flot.resize.js' %}"></script>
-		<script type="text/javascript" src="{% static 'nar_ui/flot/jquery.flot.categories.js' %}"></script>
-		<script type="text/javascript" src="{% static 'nar_ui/flot_plugins/jquery.flot.axislabels.js' %}"></script>
-		<script type="text/javascript" src="{% static 'nar_ui/flot_plugins/jquery.flot.tooltip.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/lib/flot/jquery.flot.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/lib/flot/jquery.flot.resize.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/lib/flot/jquery.flot.categories.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/lib/flot_plugins/jquery.flot.axislabels.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/lib/flot_plugins/jquery.flot.tooltip.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/constituent_current_year_comparison_plot.js' %}"></script>
 		<script type="text/javascript">
 			$(document).ready(function(){
