@@ -4,14 +4,14 @@
 
 {% block style %}
 	{{ block.super }}
-	<link rel="stylesheet" href="{% static 'nar_ui/jstree/themes/default/style.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'nar_ui/lib/jstree/themes/default/style.min.css' %}"/>
 {% endblock %}
 
 {% block scripts %}
 	{{ block.super }}
 	{% compress js %}
 		<script type="text/javascript" src="{% static 'nar_ui/lib/jstree/jstree.js' %}"></script>
-		<script type="text/javascript" src="{% static 'nar_ui/lib/full_report.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/full_report.js' %}"></script>
 	{% endcompress %}
 {% endblock %}
 
