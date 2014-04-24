@@ -18,7 +18,7 @@
 
 
 <!-- this is an example of loading a non-less stylesheet-->
-	<link rel="stylesheet" href="{% static 'nar_ui/bootstrap/css/bootstrap.css' %}"/>
+	<link rel="stylesheet" href="{% static 'nar_ui/lib/bootstrap/css/bootstrap.css' %}"/>
 	{% compress css %}
 		<link rel="stylesheet" type="text/less" media="all" href="{% static 'nar_ui/common.less' %}"/>
 		<link rel="stylesheet" type="text/less" media="all" href="{% static 'nar_ui/nar.less' %}"/>
@@ -27,9 +27,9 @@
 {% endblock %}
 {% block scripts %}
 	{% compress js %}
-		<script type="text/javascript" src="{% static 'nar_ui/jquery.js' %}"></script>
-		<script type="text/javascript" src="{% static 'nar_ui/bootstrap/js/bootstrap.js' %}"></script>
-		<script type="text/javascript" src="{% static 'nar_ui/sugar.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/lib/jquery.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/lib/bootstrap/js/bootstrap.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/lib/sugar.js' %}"></script>
 	{% endcompress %}
 	
 	{# we will skip minification on the configuration script #}
