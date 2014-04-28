@@ -2,9 +2,7 @@ $(document).ready(function(){
     var numberOfPlots = 0;
     var get_or_fail = function(selector){
         var jqElt = $(selector);
-        if(!jqElt.length){
-            throw Error('Could not find selector "' + selector + '"');
-        }
+        nar.util.assert_selector_present(jqElt);
         return jqElt;
     };
     
