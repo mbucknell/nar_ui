@@ -39,6 +39,8 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
 		assert_good_selector(legendSelector);
 	}
 	
+	var averageColor = series.averageColor || ConstituentCurrentYearComparisonPlot.defaultAverageColor;
+	
 	var plotContainer = $(plotContainerSelector);
 
 	var plotClass= ConstituentCurrentYearComparisonPlot.plotClass;
@@ -77,7 +79,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
 			show : true,
 			barWidth : 0.4,
 			align : "right",
-			fillColor: series.averageColor || ConstituentCurrentYearComparisonPlot.defaultAverageColor
+			fillColor: averageColor
 		}
     };
 	
@@ -101,7 +103,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
             axisLabelPadding: 3
         },
         grid: { hoverable: true, clickable: true },
-        colors: [series.averageColor, series.yearColor],
+        colors: [averageColor, series.yearColor],
         tooltip: true,
         tooltipOpts: {
             content: '%s: %y ' + series.constituentUnit 
@@ -112,7 +114,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
     });
     return plot;
 };
-ConstituentCurrentYearComparisonPlot.defaultAverageColor = 'grey';
+ConstituentCurrentYearComparisonPlot.defaultAverageColor = '#D8DCDC';
 ConstituentCurrentYearComparisonPlot.titleClass = 'currentYearComparisonTitle';
 ConstituentCurrentYearComparisonPlot.legendClass = 'currentYearComparisonLegend';
 ConstituentCurrentYearComparisonPlot.plotClass = 'currentYearComparisonPlot';

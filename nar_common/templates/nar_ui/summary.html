@@ -57,12 +57,12 @@
 		<script type="text/javascript" src="{% static 'nar_ui/constituent_current_year_comparison_plot.js' %}"></script>
 		<script type="text/javascript">
 			$(document).ready(function(){
-	
+	           var nutrientColor = '#FF66FF';
 				var nitrateSeries = {
 					constituentName: 'Total Phosphorous',
 					constituentUnit: 'Million Tons',
 					yearValue: 12,
-					yearColor: 'rgb(0,255,0)',
+					yearColor: nutrientColor,
 					averageName: 'Average 1991-2013',
 					averageValue: 10
 				};
@@ -71,15 +71,14 @@
 				var nitrateGraph = ConstituentCurrentYearComparisonPlot('#barChart2', nitrateSeries, '#barChartLegend2');
 				
 				var phosphorousSeries = {
-					constituentName: 'Total Nitrate',
+					constituentName: 'Nitrate',
 					constituentUnit: 'Million Tons',
 					yearValue: 100,
-					yearColor: 'rgb(255,0,0)',
+					yearColor: nutrientColor,
 					averageName: 'Average 1985-2013',
 					averageValue: 153
 				};
-			
-					
+
 				var phosphorousGraph = ConstituentCurrentYearComparisonPlot('#barChart3', phosphorousSeries, '#barChartLegend3');
 		
 				
