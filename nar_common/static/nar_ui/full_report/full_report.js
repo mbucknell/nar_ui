@@ -18,25 +18,33 @@ $(document).ready(function(){
     var nonLeafNode = function(node){
         return Object.merge(node, {
             icon: 'glyphicon glyphicon-folder-open'
-        });
-    };
-    var leafNode = function(text){
-        return {
-            text: text,
-            icon: 'glyphicon glyphicon-asterisk'
-        };
+        }, true);
     };
     
+    var leafNode = function(node){
+        return Object.merge(node, {
+            icon: 'glyphicon glyphicon-asterisk'
+        }, true);
+    };
+    var leafNodeFromText = function(text){
+        var node = {
+                text: text
+        };
+        return leafNode(node);
+    };
     var waterQualityConstituentChildren = [
          nonLeafNode({
              text:'Concentrations',
              children: [
-                'Mean Annual',
-                'Flow-weighted',
-                'Sample'
+                {'text': 'Mean Annual'},
+                {'text': 'Flow-weighted'},
+                {
+                    'text': 'Sample',
+                    'plot': nar.fullReport.SampleConcentrationPlot
+                }
             ].map(leafNode)
          }),
-         leafNode('Loads')
+         leafNode({text: 'Loads'})
     ];
     var waterQualityConstituentNode = function(name){
         return nonLeafNode({
@@ -74,7 +82,7 @@ $(document).ready(function(){
                         'Annual',
                         'Hydrograph',
                         'Flow duration'
-                   ].map(leafNode)
+                   ].map(leafNodeFromText)
               }
             ].map(nonLeafNode)
         }
@@ -176,5 +184,7 @@ $(document).ready(function(){
             removePlotContainer(leafNode.id);
         });
     });
+    
+    var d1 = [[0,1],[1,2],[3,8],[5,4],[2,10],[1.2,9],[9,2],[46,41],[22,14],[20,12],[20,25],[7,5],[18,11],[31,20]];
     
 });
