@@ -35,34 +35,47 @@ $(document).ready(function(){
     var waterQualityConstituentChildren = [
          nonLeafNode({
              text:'Concentrations',
+             'type' : 'concentrations',
              children: [
-                {'text': 'Mean Annual'},
-                {'text': 'Flow-weighted'},
+                {
+                    'text': 'Mean Annual',
+                    'type' : 'meanAnnual'
+                },
+                {
+                    'text': 'Flow-weighted',
+                    'type' : 'flowWeighted'         
+                },
                 {
                     'text': 'Sample',
-                    'plot': nar.fullReport.SampleConcentrationPlot
+                    'type' : 'sample',
                 }
             ].map(leafNode)
          }),
-         leafNode({text: 'Loads'})
+         leafNode({text: 'Loads', type: 'loads'})
     ];
-    var waterQualityConstituentNode = function(name){
+    var nameIndex = 0;
+    var typeIndex = 1;
+    var waterQualityConstituentNode = function(nameTypePair){
+        var name = nameTypePair[nameIndex];
+        var type = nameTypePair[typeIndex];
+        
         return nonLeafNode({
             'text' : name,
-            'children' : Object.clone(waterQualityConstituentChildren, true)
+            'children' : Object.clone(waterQualityConstituentChildren, true),
+            'type' : type
        });
     };
     var constituentNames = [
-       'Total Nitrogen',
-       'Nitrate',
-       'Total Phosphorous',
-       'Suspended Sediment',
-       'Pesticides',
-       'Ecology'
+       ['Total Nitrogen', 'totalNitrogen'],
+       ['Nitrate', 'nitrate'],
+       ['Total Phosphorous', 'totalPhosphorous'],
+       ['Suspended Sediment', 'suspendedSediment'],
+       ['Pesticides', 'pesticides'],
+       ['Ecology', 'ecology']
     ];
     var waterQualityConstituentNodes = constituentNames.map(waterQualityConstituentNode);
     graphToggleElt.jstree({
-        'plugins': ['checkbox'],
+        'plugins': ['checkbox', 'types'],
         'core' : {
             'data' : [
                {
@@ -70,10 +83,12 @@ $(document).ready(function(){
                  'state': {
                      'opened' : true
                  },
+                 'type' : 'waterQuality',
                  'children' : waterQualityConstituentNodes
               },
               {
                   'text' : 'Streamflow',
+                  'type' : 'streamflow',
                   'state': {
                      'opened' : true
                   },
@@ -93,9 +108,47 @@ $(document).ready(function(){
         return jstreeId + plotIdSuffix;
     };
     
-    var addPlotContainer = function(jstreeId, text){
+    var typeToPlot = {
+            'waterQuality': {
+                'totalNitrogen' : {
+                    'concentrations':
+                        {
+                            'sample': function(plotContainer){
+                                var d1 = [[0,1],[1,2],[3,8],[5,4],[2,10],[1.2,9],[9,2],[46,41],[22,14],[20,12],[20,25],[7,5],[18,11],[31,20]];
+                                
+                                var plot = nar.fullReport.SampleConcentrationPlot({
+                                    data : d1,
+                                    selector: plotContainer
+                                });
+                                
+                                return plot;
+                            }
+                        }
+                }
+            }
+    };
+    
+    var getPlotForTypePath = function(typePath){
+        var nextValue;
+        var keyIndex = 0;
+        var objectToExamine = typeToPlot;
+        
+        while(keyIndex < typePath.length){
+            var currentKey = typePath[keyIndex];
+            nextValue = objectToExamine[currentKey];
+            if(undefined === nextValue){
+                return;
+            }
+            objectToExamine = nextValue;
+            keyIndex++;
+        }
+        return nextValue;
+    };
+    
+    var addPlotContainer = function(jstreeId, textPath, typePath){
+        var text = textPath.join('/');
         //if no plots are currently visualized, but one has been
-        //requested to be added.        
+        //requested to be added.     
         if(0 === numberOfPlots){
             instructionsElt.addClass('hide');            
         }
@@ -108,12 +161,20 @@ $(document).ready(function(){
                 id: id,
                 class: plotContainerClass
             });
-            var plotContent = $('<h2/>', {
-                text:text
-            });
-            plotContainer.append(plotContent);    
-            
             allPlotsWrapper.prepend(plotContainer);
+            
+            var plotConstructor = getPlotForTypePath(typePath);
+            var plotContent;
+            if(plotConstructor){
+                plotContent = plotConstructor(plotContainer);
+            }
+            else{
+                plotContent = $('<h2/>', {
+                    text:text
+                });
+            }
+            plotContainer.append(plotContent);    
+                        
             numberOfPlots++;
         }
     };
@@ -174,8 +235,16 @@ $(document).ready(function(){
             var parents = getParents(leafNode);
             var parentTexts = parents.map(function(node){return node.text;});
             parentTexts = parentTexts.reverse();
-            var path = parentTexts.add(leafNode.text).join('/'); 
-            addPlotContainer(leafNode.id, path);
+            var textPath = parentTexts.add(leafNode.text);
+            
+            var typePath;
+            if(leafNode.type){
+                var parentTypes = parents.map(function(node){return node.original.type;});
+                parentTypes = parentTypes.reverse();
+                //leave this variable as an array
+                typePath = parentTypes.add(leafNode.original.type);
+            }
+            addPlotContainer(leafNode.id, textPath, typePath);
         });
     });
     graphToggleElt.on("deselect_node.jstree", function (e, data) {
@@ -184,7 +253,5 @@ $(document).ready(function(){
             removePlotContainer(leafNode.id);
         });
     });
-    
-    var d1 = [[0,1],[1,2],[3,8],[5,4],[2,10],[1.2,9],[9,2],[46,41],[22,14],[20,12],[20,25],[7,5],[18,11],[31,20]];
     
 });
