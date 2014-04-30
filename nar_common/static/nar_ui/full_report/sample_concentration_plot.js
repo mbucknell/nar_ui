@@ -20,7 +20,7 @@ nar.fullReport.SampleConcentrationPlot = function(config){
     nar.util.assert_selector_present(selector);
     selection = $(selector);
 
-    $.plot(selection, config.data, {
+    var plot = $.plot(selection, config.data, {
         xaxis: {
             tickSize: 5,
             tickLength: 0,
@@ -49,5 +49,7 @@ nar.fullReport.SampleConcentrationPlot = function(config){
             labelBoxBorderColor: "none",
             position: "right"
         }
-    });  
+    });
+    
+    return plot;
 };

@@ -108,7 +108,7 @@ $(document).ready(function(){
         return jstreeId + plotIdSuffix;
     };
     
-    var typeToPlot = {
+    var typeToPlotConstructor = {
             'waterQuality': {
                 'totalNitrogen' : {
                     'concentrations':
@@ -128,10 +128,40 @@ $(document).ready(function(){
             }
     };
     
-    var getPlotForTypePath = function(typePath){
+    var typeToPlot = {};
+    
+    var putValueAtTypePathIntoObject = function(value, typePath, object){
+        
+        var recursivelyPutTypePathIntoObject = function(typePath, object, typePathIndex){
+            //create property in object if it does not already exist
+            var propertyName = typePath[typePathIndex];
+            if(!Object.has(object, propertyName)){
+                object[propertyName] = {};
+            }
+            
+            //base case
+            if(typePath.length -1 === typePathIndex){
+                //overwrite empty object created above with the user-supplied value
+                object[propertyName] = value;
+            }
+            else{
+                recursivelyPutTypePathIntoObject(typePath, object[propertyName], typePathIndex + 1);
+            }
+        };
+        recursivelyPutTypePathIntoObject(typePath, object, 0);
+    };
+    
+    var storePlotAtTypePath = function(plot, typePath){
+        putValueAtTypePathIntoObject(plot, typePath, typeToPlot);
+    };
+    
+    var getValueForTypePathFromObject = function(typePath, object){
+        if(!typePath || 0 === typePath.length){
+            return;
+        }
         var nextValue;
         var keyIndex = 0;
-        var objectToExamine = typeToPlot;
+        var objectToExamine = object;
         
         while(keyIndex < typePath.length){
             var currentKey = typePath[keyIndex];
@@ -144,15 +174,26 @@ $(document).ready(function(){
         }
         return nextValue;
     };
+    var getPlotConstructorForTypePath = function(typePath){
+        return getValueForTypePathFromObject(typePath, typeToPlotConstructor);
+    };
     
-    var addPlotContainer = function(jstreeId, textPath, typePath){
+    var getPlotForTypePath = function(typePath){
+        return getValueForTypePathFromObject(typePath, typeToPlot);
+    };
+    
+    var addPlotContainer = function(node){
+        var jstreeId = node.id;
+        var textPath = getTextPathForNode(node);
+        var typePath = getTypePathForNode(node);
+        
         var text = textPath.join('/');
         //if no plots are currently visualized, but one has been
         //requested to be added.     
         if(0 === numberOfPlots){
             instructionsElt.addClass('hide');            
         }
-        
+
         var id = makePlotContainerIdFromJsTreeId(jstreeId);
         var plotContainerMissing = $('#' + id).length === 0;
         
@@ -163,30 +204,43 @@ $(document).ready(function(){
             });
             allPlotsWrapper.prepend(plotContainer);
             
-            var plotConstructor = getPlotForTypePath(typePath);
+            var plotConstructor = getPlotConstructorForTypePath(typePath);
             var plotContent;
             if(plotConstructor){
                 plotContent = plotConstructor(plotContainer);
+                storePlotAtTypePath(plotContent, typePath);
             }
             else{
                 plotContent = $('<h2/>', {
                     text:text
                 });
+                plotContainer.append(plotContent); 
             }
-            plotContainer.append(plotContent);    
                         
             numberOfPlots++;
         }
     };
-    var removePlotContainer = function(jstreeId){
+    var removePlotContainer = function(node){
+        //remove plot container
+        var jstreeId = node.id;
         var selector = '#' + makePlotContainerIdFromJsTreeId(jstreeId);
-        
         var plotContainer = get_or_fail(selector);
         plotContainer.remove();
         
+        //remove event handlers, free memory
+        var typePath = getTypePathForNode(node);
+        if(typePath){
+            var plot = getPlotForTypePath(typePath);
+            if(plot){
+                plot.shutdown();
+            }
+        }
+
+        
+        //update counter
         numberOfPlots--;
         
-        var noPlotsRemain = !numberOfPlots; 
+        var noPlotsRemain = 0 === numberOfPlots; 
         if(noPlotsRemain){
             instructionsElt.removeClass('hide');                
         }
@@ -227,30 +281,37 @@ $(document).ready(function(){
         recursivelyGetAllLeafChildren(node, leafChildren);
         return leafChildren;
     };
+    var getTypePathForNode = function(node){
+        var parents = getParents(node);
+        var typePath;
+        if(node.original.type){
+            var parentTypes = parents.map(function(node){return node.original.type;});
+            parentTypes = parentTypes.reverse();
+            //leave this variable as an array
+            typePath = parentTypes.add(node.original.type);
+        }
+        return typePath;
+    };
+    
+    var getTextPathForNode = function(node){
+        var parents = getParents(node);
+        var parentTexts = parents.map(function(node){return node.text;});
+        parentTexts = parentTexts.reverse();
+        var textPath = parentTexts.add(node.text);
+        return textPath;
+    };
     
     graphToggleElt.on("select_node.jstree", function (e, data) {
         var leafChildren = getAllLeafChildren(data.node);
         leafChildren = leafChildren.reverse();
         leafChildren.each(function(leafNode){
-            var parents = getParents(leafNode);
-            var parentTexts = parents.map(function(node){return node.text;});
-            parentTexts = parentTexts.reverse();
-            var textPath = parentTexts.add(leafNode.text);
-            
-            var typePath;
-            if(leafNode.type){
-                var parentTypes = parents.map(function(node){return node.original.type;});
-                parentTypes = parentTypes.reverse();
-                //leave this variable as an array
-                typePath = parentTypes.add(leafNode.original.type);
-            }
-            addPlotContainer(leafNode.id, textPath, typePath);
+            addPlotContainer(leafNode);
         });
     });
     graphToggleElt.on("deselect_node.jstree", function (e, data) {
         var leafChildren = getAllLeafChildren(data.node);
         leafChildren.each(function(leafNode){
-            removePlotContainer(leafNode.id);
+            removePlotContainer(leafNode);
         });
     });
     
