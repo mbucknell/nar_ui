@@ -19,17 +19,12 @@ nar.fullReport.SampleConcentrationPlot = function(config){
     var selector = config.selector;
     nar.util.assert_selector_present(selector);
     selection = $(selector);
-
-    var plot = $.plot(selection, config.data, {
+    var series = [{label: 'Sample Concentration', data: config.data}];
+    var plot = $.plot(selection, series, {
         xaxis: {
-            tickSize: 5,
-            tickLength: 0,
-            tickDecimals: 0,
-            axisLabel: "Minutes",
-            axisLabelUseCanvas: true,
-            axisLabelFontSizePixels: 12,
-            axisLabelFontFamily: "Verdana, Arial, Helvetica, Tahoma, sans-serif",
-            axisLabelPadding: 5
+            mode: 'time',
+            timeformat: "%Y/%m/%d",
+            zero: true
         },
         yaxis: {
             axisLabel: "Temperature (C)",
@@ -46,8 +41,7 @@ nar.fullReport.SampleConcentrationPlot = function(config){
             },
         },
         legend: {
-            labelBoxBorderColor: "none",
-            position: "right"
+               position: "bottom"
         }
     });
     

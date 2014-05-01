@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
     var numberOfPlots = 0;
     var get_or_fail = function(selector){
         var jqElt = $(selector);
@@ -47,7 +48,7 @@ $(document).ready(function(){
                 },
                 {
                     'text': 'Sample',
-                    'type' : 'sample',
+                    'type' : 'sample'
                 }
             ].map(leafNode)
          }),
@@ -74,8 +75,9 @@ $(document).ready(function(){
        ['Ecology', 'ecology']
     ];
     var waterQualityConstituentNodes = constituentNames.map(waterQualityConstituentNode);
+    
     graphToggleElt.jstree({
-        'plugins': ['checkbox', 'types'],
+        'plugins': ['checkbox', 'types', 'state'],
         'core' : {
             'data' : [
                {
@@ -108,16 +110,18 @@ $(document).ready(function(){
         return jstreeId + plotIdSuffix;
     };
     
+    var selectedTypePaths = {};//set to hold plot type paths
+        
     var typeToPlotConstructor = {
             'waterQuality': {
                 'totalNitrogen' : {
                     'concentrations':
                         {
                             'sample': function(plotContainer){
-                                var d1 = [[0,1],[1,2],[3,8],[5,4],[2,10],[1.2,9],[9,2],[46,41],[22,14],[20,12],[20,25],[7,5],[18,11],[31,20]];
+                                var data = mockData(2000, 2010, 0, 100);
                                 
                                 var plot = nar.fullReport.SampleConcentrationPlot({
-                                    data : d1,
+                                    data : data,
                                     selector: plotContainer
                                 });
                                 
