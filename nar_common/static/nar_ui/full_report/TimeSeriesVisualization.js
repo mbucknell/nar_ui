@@ -36,4 +36,5 @@ nar.fullReport.TimeSeriesVisualization.fromId = function(id){
         timeSeriesCollection: new nar.fullReport.TimeSeriesCollection()
     }); 
 };
+
 }());
