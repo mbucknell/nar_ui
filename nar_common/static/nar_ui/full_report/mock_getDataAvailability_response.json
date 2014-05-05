@@ -1,0 +1,107 @@
+{
+  "request" : "GetDataAvailability",
+  "version" : "2.0.0",
+  "service" : "SOS",
+  "dataAvailability" : [
+    {
+      "featureOfInterest" : "http://waterdata.usgs.gov/nwis/nwisman/?site_no=03303280",
+      "procedure" : "http://cida.usgs.gov/NAR/WQ/NH3",
+      "observedProperty" : "http://cida.usgs.gov/NAR/WQ/NH3/ND",
+      "phenomenonTime" : [
+        "1977-10-19T00:00:00.000Z",
+        "2012-08-22T00:00:00.000Z"
+      ],
+      "valueCount" : 78
+    },
+    {
+      "featureOfInterest" : "http://waterdata.usgs.gov/nwis/nwisman/?site_no=03303280",
+      "procedure" : "http://cida.usgs.gov/NAR/WQ/NH3",
+      "observedProperty" : "http://cida.usgs.gov/NAR/WQ/NH3/RS",
+      "phenomenonTime" : [
+        "1978-03-10T00:00:00.000Z",
+        "2012-06-04T00:00:00.000Z"
+      ],
+      "valueCount" : 203
+    },
+    {
+      "featureOfInterest" : "http://waterdata.usgs.gov/nwis/nwisman/?site_no=03303280",
+      "procedure" : "http://cida.usgs.gov/NAR/WQ/TKN",
+      "observedProperty" : "http://cida.usgs.gov/NAR/WQ/TKN/RS",
+      "phenomenonTime" : [
+        "1974-10-31T00:00:00.000Z",
+        "2012-08-22T00:00:00.000Z"
+      ],
+      "valueCount" : 318
+    },
+    {
+      "featureOfInterest" : "http://waterdata.usgs.gov/nwis/nwisman/?site_no=03303280",
+      "procedure" : "http://cida.usgs.gov/NAR/WQ/TKN",
+      "observedProperty" : "http://cida.usgs.gov/NAR/WQ/TKN/ND",
+      "phenomenonTime" : [
+        "1996-07-09T00:00:00.000Z",
+        "1996-07-09T00:00:00.000Z"
+      ],
+      "valueCount" : 1
+    },
+    {
+      "featureOfInterest" : "http://waterdata.usgs.gov/nwis/nwisman/?site_no=03303280",
+      "procedure" : "http://cida.usgs.gov/NAR/WQ/NO23",
+      "observedProperty" : "http://cida.usgs.gov/NAR/WQ/NO23/RS",
+      "phenomenonTime" : [
+        "1974-10-31T00:00:00.000Z",
+        "2012-08-22T00:00:00.000Z"
+      ],
+      "valueCount" : 322
+    },
+    {
+      "featureOfInterest" : "http://waterdata.usgs.gov/nwis/nwisman/?site_no=03303280",
+      "procedure" : "http://cida.usgs.gov/NAR/WQ/TP",
+      "observedProperty" : "http://cida.usgs.gov/NAR/WQ/TP/RS",
+      "phenomenonTime" : [
+        "1974-10-31T00:00:00.000Z",
+        "2012-08-22T00:00:00.000Z"
+      ],
+      "valueCount" : 321
+    },
+    {
+      "featureOfInterest" : "http://waterdata.usgs.gov/nwis/nwisman/?site_no=03303280",
+      "procedure" : "http://cida.usgs.gov/NAR/WQ/TP",
+      "observedProperty" : "http://cida.usgs.gov/NAR/WQ/TP/ND",
+      "phenomenonTime" : [
+        "1996-07-09T00:00:00.000Z",
+        "1998-03-10T00:00:00.000Z"
+      ],
+      "valueCount" : 3
+    },
+    {
+      "featureOfInterest" : "http://waterdata.usgs.gov/nwis/nwisman/?site_no=03303280",
+      "procedure" : "http://cida.usgs.gov/NAR/WQ/OP",
+      "observedProperty" : "http://cida.usgs.gov/NAR/WQ/OP/RS",
+      "phenomenonTime" : [
+        "1979-04-10T00:00:00.000Z",
+        "2012-08-22T00:00:00.000Z"
+      ],
+      "valueCount" : 238
+    },
+    {
+      "featureOfInterest" : "http://waterdata.usgs.gov/nwis/nwisman/?site_no=03303280",
+      "procedure" : "http://cida.usgs.gov/NAR/WQ/OP",
+      "observedProperty" : "http://cida.usgs.gov/NAR/WQ/OP/ND",
+      "phenomenonTime" : [
+        "1982-05-13T00:00:00.000Z",
+        "2007-05-22T00:00:00.000Z"
+      ],
+      "valueCount" : 7
+    },
+    {
+      "featureOfInterest" : "http://waterdata.usgs.gov/nwis/nwisman/?site_no=03303280",
+      "procedure" : "http://cida.usgs.gov/NAR/WQ/Si",
+      "observedProperty" : "http://cida.usgs.gov/NAR/WQ/Si/RS",
+      "phenomenonTime" : [
+        "1974-10-31T00:00:00.000Z",
+        "2012-08-22T00:00:00.000Z"
+      ],
+      "valueCount" : 323
+    }
+  ]
+}

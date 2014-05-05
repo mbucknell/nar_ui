@@ -12,4 +12,13 @@ nar.util = {};
             throw Error( selectorNotPresentMessagePrefix + selector + selectorNotPresentMessageSuffix);
         }
     };
+    /**
+     * {Date|String|Number} dateLike - A valid Date Object, an ISO-8601 date string, or a Number timestamp
+     */
+    nar.util.getTimeStamp = function(dateLike){
+        var dateObj = Date.create(dateLike);
+        var timestamp = dateObj.getTime();
+        return timestamp;
+    };
+    
 }());
