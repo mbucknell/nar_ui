@@ -7,10 +7,15 @@
         data.dataAvailability.each(function(dataAvailability){
             var observedProperty = dataAvailability.observedProperty;
             var timeSeriesViz = getTimeSeriesVisualizationForObservedProperty(observedProperty);
+            
+            var timeRange = new nar.fullReport.TimeRange(
+                    dataAvailability.phenomenonTime[startTimeIndex], 
+                    dataAvailability.phenomenonTime[endTimeIndex]
+            );
+            
             var timeSeries = new nar.fullReport.TimeSeries({
                 observedProperty: observedProperty,
-                startTime: phenomenonTime[startTimeIndex],
-                endTime: phenomenonTime[endTimeIndex]
+                timeRange: timeRange
             });
             timeSeriesViz.timeSeriesCollection.addTimeSeries(timeSeries);
             //@todo: create jstree node and any corresponding parents
@@ -23,12 +28,12 @@
         alert(msg);
         throw Error(msg);
     }; 
-    
-    $.when(getDataAvailabilityRequest).then(
-        successfulGetDataAvailability,
-        failedGetDataAvailability
-    );
-    
+    $(document).ready(function(){
+        $.when(getDataAvailabilityRequest).then(
+            successfulGetDataAvailability,
+            failedGetDataAvailability
+        );
+    });
     /**
      * Some TimeSeriesVisualizations have just one TimeSeries. In this case, the TimeSeriesVisualization id is the observedProperty of the TimeSeries.
      * Other TimeSeriesVisualizations have multiple TimeSeries. In that case, the TimeSeriesVisualization id is a string representative of 
@@ -51,10 +56,10 @@
         //just return itself for now
         return observedProperty;
     };
-    
+
     //map of string ids to instantiations of TimeSeriesVisualizations
     var TimeSeriesVisualizationRegistry = {};
-    
+
     /**
      * Get an existing TimeSeriesVisualization if it has already been instantiated,
      * otherwise return a new TimeSeriesVisualization.
@@ -64,18 +69,17 @@
     var getTimeSeriesVisualizationForId = function(id){
         var existingTimeSeriesViz = TimeSeriesVisualizationRegistry[id]; 
         if(!existingTimeSeriesViz){
-            var newTimeSeriesViz = new TimeSeriesVisualization({id: id});
+            var newTimeSeriesViz = nar.fullReport.TimeSeriesVisualization.fromId(id);
             TimeSeriesVisualizationRegistry[id] = newTimeSeriesViz;
             existingTimeSeries = newTimeSeriesViz;
         }
         return existingTimeSeries;
     };
-    
+
     var getTimeSeriesVisualizationForObservedProperty = function(observedProperty){
         var vizId = getVisualizationIdForObservedProperty(observedProperty);
         var viz = getTimeSeriesVisualizationForId(vizId);
         return viz;
     };
-    
     
 }());

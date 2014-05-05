@@ -1,18 +1,21 @@
 //@requires nar.fullReport.TimeSeries
 var nar = nar || {};
 nar.fullReport = nar.fullReport || {};
-nar.fullReport.TimeSeriesCollection = function(config){
+/**
+ * @class
+ */
+nar.fullReport.TimeSeriesCollection = function(){
     var self = this;
     var timeSeries = [];
 
-    //date range is only calculated after adding new time series
+    //date range is calculated when dirty (after adding new time series)
     var dirty = true;
     /**
      * 
-     * @param {nar.fullReport.TimeSeries} timeSeries
+     * @param {nar.fullReport.TimeSeries} aTimeSeries
      */
-    self.addTimeSeries = function(timeSeries){
-        timeSeries.push(timeSeries);
+    self.addTimeSeries = function(aTimeSeries){
+        timeSeries.push(aTimeSeries);
         dirty = true;
     };
     var cachedTimeRange;
@@ -35,13 +38,24 @@ nar.fullReport.TimeSeriesCollection = function(config){
 
             //compare timestamps from the first TimeSeries with the subsequent TimeSeries in the array. 
             timeSeries.from(1).each(function(aTimeSeries){
-                minStartTime = aTimeSeries.startTime < minStartTime ? TimeSeries.startTime : minStartTime;
-                maxEndTime = aTimeSeries.endTime < maxEndTime ? TimeSeries.endTime : maxEndTime;
+                minStartTime = aTimeSeries.startTime < minStartTime ? aTimeSeries.startTime : minStartTime;
+                maxEndTime = aTimeSeries.endTime < maxEndTime ? aTimeSeries.endTime : maxEndTime;
             });
             
             cachedTimeRange = new TimeRange(minStartTime, maxEndTime);
             dirty=false;
         }
         return cachedTimeRange;
+    };
+    
+    /**
+     * @param {string} observedProperty
+     * @returns {nar.fullReport.TimeSeries}
+     */
+    self.getTimeSeriesByObservedProperty = function(observedProperty){
+        var targetTimeSeries = timeSeries.find(function(potentialTimeSeries){
+            return potentialTimeSeries.observedProperty === observedProperty;
+        });
+        return targetTimeSeries;
     };
 };

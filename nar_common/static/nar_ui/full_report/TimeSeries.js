@@ -5,7 +5,6 @@ nar.fullReport = nar.fullReport || {};
 
 /**
  * @typedef nar.fullReport.TimeSeriesConfig
- * @property {String} id
  * @property {String} observedProperty - a full url identifier for an SOS observedProperty
  * @property {nar.fullReport.TimeRange} timeRange
  */
@@ -17,9 +16,8 @@ nar.fullReport = nar.fullReport || {};
 nar.fullReport.TimeSeries = function(config){
     var self = this;
     
-    self.id = config.id;
-    self.observedProperty = config.id;
-    self.timeRange = config.config.timeRange;
+    self.observedProperty = config.observedProperty;
+    self.timeRange = config.timeRange;
     
     self.data = undefined;
     
