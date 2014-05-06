@@ -1,6 +1,90 @@
 var nar = nar || {};
 nar.fullReport = nar.fullReport || {};
 nar.fullReport.Tree = function(timeSeriesVisualizations){
+    var self = this;
+    var treeNodeIds = {}; //psuedo-set; keys are string TimeSeriesVisualization ids. Values are meaningless.
+    var treeNodes = [];
+    var mostRecentlyCreatedTimeSeriesVizId;
+      
+    self.createTreeNodeFromId = function(id){
+        //@todo, adjust node based on id 
+        return {
+          id: id,
+          text: id
+        };
+    };
+    
+    self.parentIdPrefix = 'http://cida.usgs.gov/NAR';
+    self.idDelim = '/';
+    /**
+     * Given a hierarchical id, return the ids of all parents
+     * in order of nearest parent to farthest parent.
+     * @param {string} childId
+     * @returns {array<string>} - the ids of every parent
+     */
+    self.getParentIds = function(childId){
+        //if present, remove trailing delim before recursion
+        if(childId.last() === self.idDelim){
+            var slashIndex = childId.length - 1; 
+            childId = childId.slice(0, slashIndex);
+        }
+        
+        var parentIds = [];
+        
+        var recursivelyGetParentIds = function(childId){
+            //pull off last delim in the id and the text to the right of it
+            var lastDelimIndex = childId.lastIndexOf(self.idDelim);
+            var newChildId = childId.to(lastDelimIndex);
+            //base case
+            if(newChildId === self.parentIdPrefix){
+                return;
+            }
+            else{
+                //recursive case
+                parentIds.push(newChildId); 
+                recursivelyGetParentIds(newChildId);
+            }
+        };
+        //In case the user specifies the prefix as the initial childId,
+        //prevent infinite recursion.
+        if(childId !== self.parentIdPrefix){
+            recursivelyGetParentIds(childId);
+        }
+        return parentIds;
+    };
+    
+    //construction
+    timeSeriesVisualizations.each(function(timeSeriesVisualization){
+        var id = timeSeriesVisualization.id;
+        
+        //add id to set of already created tree node ids
+        treeNodeIds[id] = true;
+
+        //create jstree node config
+        mostRecentlyCreatedTreeNode = self.createTreeNodeFromId(id);
+        //add to collection of node configs that jstree will instantiate
+        treeNodes.push(mostRecentlyCreatedTreeNode);
+        parentIds = self.getParentIds(id);
+        parentIds.each(function(parentId){
+           //set parent pointer
+           mostRecentlyCreatedTreeNode.parent = parentId;
+           
+           //if parent has already been instantiated
+           //then higher parents have already been created too
+           if(Object.has(treeNodeIds, parentId)){
+               //break loop
+               return false;
+           }
+           else{
+               treeNodeIds[parentId] = true;
+               mostRecentlyCreatedTreeNode = self.createTreeNodeFromId(parentId);
+               treeNodes.push(mostRecentlyCreatedTreeNode);
+           }
+        });
+        if(!mostRecentlyCreatedTreeNode.parent){
+            mostRecentlyCreatedTreeNode.parent = '#';
+        }
+    });
     
     var numberOfPlots = 0;
     var get_or_fail = function(selector){
@@ -22,7 +106,7 @@ nar.fullReport.Tree = function(timeSeriesVisualizations){
     graphToggleElt.jstree({
         'plugins': ['checkbox', 'types', 'state'],
         'core' : {
-            'data' : data
+            'data' : treeNodes
         }
     });
     var plotContainerClass = 'data'; 

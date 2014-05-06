@@ -1,3 +1,4 @@
+//@requires nar.fullReport.Tree, nar.fullReport.TimeSeriesVisualizationRegistry, nar.fullReport.TimeSeriesVisualization
 (function(){
     var getDataAvailabilityUri = CONFIG.staticUrl + 'nar_ui/full_report/mock_getDataAvailability_response.json';
     var getDataAvailabilityRequest = $.ajax(getDataAvailabilityUri);
@@ -23,9 +24,9 @@
                 timeRange: timeRange
             });
             timeSeriesViz.timeSeriesCollection.addTimeSeries(timeSeries);
-            //@todo: create jstree node and any corresponding parents
         });
-        console.dir(tsvRegistry);
+        var allTimeSeriesVizualizations = tsvRegistry.getAll();
+        var tree = new nar.fullReport.Tree(allTimeSeriesVizualizations);
     }; 
     var failedGetDataAvailability = function(data, textStatus, jqXHR){
         var msg = 'Could not determine data availability for this site';
