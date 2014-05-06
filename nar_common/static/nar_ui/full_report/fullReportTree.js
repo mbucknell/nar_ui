@@ -5,7 +5,19 @@ nar.fullReport.Tree = function(timeSeriesVisualizations){
     var treeNodeIds = {}; //psuedo-set; keys are string TimeSeriesVisualization ids. Values are meaningless.
     var treeNodes = [];
     var mostRecentlyCreatedTimeSeriesVizId;
-      
+    
+    self.createLeafNodeFromId = function(id){
+        var leafNode = self.createTreeNodeFromId(id);
+        leafNode.icon = 'glyphicon glyphicon-asterisk';
+        return leafNode;
+    };
+    
+    self.createBranchNodeFromId = function(id){
+        var leafNode = self.createTreeNodeFromId(id);
+        leafNode.icon = 'glyphicon glyphicon-folder-open';
+        return leafNode;
+    };
+    
     self.createTreeNodeFromId = function(id){
         //@todo, adjust node based on id 
         return {
@@ -61,7 +73,7 @@ nar.fullReport.Tree = function(timeSeriesVisualizations){
         treeNodeIds[id] = true;
 
         //create jstree node config
-        mostRecentlyCreatedTreeNode = self.createTreeNodeFromId(id);
+        mostRecentlyCreatedTreeNode = self.createLeafNodeFromId(id);
         //add to collection of node configs that jstree will instantiate
         treeNodes.push(mostRecentlyCreatedTreeNode);
         parentIds = self.getParentIds(id);
@@ -77,7 +89,7 @@ nar.fullReport.Tree = function(timeSeriesVisualizations){
            }
            else{
                treeNodeIds[parentId] = true;
-               mostRecentlyCreatedTreeNode = self.createTreeNodeFromId(parentId);
+               mostRecentlyCreatedTreeNode = self.createBranchNodeFromId(parentId);
                treeNodes.push(mostRecentlyCreatedTreeNode);
            }
         });
@@ -89,9 +101,6 @@ nar.fullReport.Tree = function(timeSeriesVisualizations){
         }
     });
     
-    
-    
-    
     var graphToggleSelector = '#plotToggleTree';
     nar.util.assert_selector_present(graphToggleSelector);
     var graphToggleElt = $(graphToggleSelector);
@@ -101,36 +110,12 @@ nar.fullReport.Tree = function(timeSeriesVisualizations){
         'core' : {
             'data' : treeNodes
         }
-    });
-    
-    var selectedTypePaths = {};//set to hold plot type paths      
-    
-    var addPlotContainer = function(node){
-        
-        
-    };
-    var removePlotContainer = function(node){
-        
-    };
+    });      
     
     var plotTree = $(graphToggleElt).jstree();
     var getNode = function(selectedItem){
         return plotTree.get_node(selectedItem);
-    };
-    var getParents = function(node){
-        var parentNodes = [];
-        if(node.parents.length){
-            node.parents.each(function(parentId){
-                //the absolute root of the tree is '#'. Ignore this case. 
-                if('#' !== parentId){
-                    parentNode = getNode(parentId);
-                    parentNodes.push(parentNode);
-                }
-            });
-        }
-        return parentNodes;
-    };
-    
+    }; 
     
     var getAllLeafChildren = function(node){
         var leafChildren = [];
@@ -147,14 +132,6 @@ nar.fullReport.Tree = function(timeSeriesVisualizations){
         };
         recursivelyGetAllLeafChildren(node, leafChildren);
         return leafChildren;
-    };
-    
-    var getTextPathForNode = function(node){
-        var parents = getParents(node);
-        var parentTexts = parents.map(function(node){return node.text;});
-        parentTexts = parentTexts.reverse();
-        var textPath = parentTexts.add(node.text);
-        return textPath;
     };
     
     var getTimeSeriesVisualizationsForNode = function(leafNode){
