@@ -60,27 +60,32 @@ nar.fullReport.TimeSeriesVisualizationRegistry = new function(){
     
     
     
-    var obsPropertyToVizIdMap = {
+    var strippedObservedPropertyToVizIdMap = {
             //empty for now
     };
-
+    self.urlPrefix = 'http://cida.usgs.gov/NAR/';
+    self.stripUrlPrefix = function(url, urlPrefix){
+        return url.replace(urlPrefix, '');
+    };
     /**
-     * Some TimeSeriesVisualizations have just one TimeSeries. In this case, the TimeSeriesVisualization id is the observedProperty of the TimeSeries.
-     * Other TimeSeriesVisualizations have multiple TimeSeries. In that case, the TimeSeriesVisualization id is a string representative of 
+     * Some TimeSeriesVisualizations have just one TimeSeries. In this case, the TimeSeriesVisualization id is the observedProperty of the TimeSeries 
+     * minus self.urlPrefix.
+     * Other TimeSeriesVisualizations have multiple TimeSeries. In that case, the TimeSeriesVisualization id is be a string representative of 
      * the visualized time series. 
      * @param {string} observedProperty - the full uri for the observedProperty
      * @returns {string} visualization id
      *  
      */
     self.getIdForObservedProperty = function(observedProperty){
-        //@todo check observedProperty to see if it corresponds to a category
+        var strippedObservedProperty = self.stripUrlPrefix(observedProperty, self.urlPrefix);
+        //@todo check striped property id to see if it corresponds to a category
         //where multiple time series correspond to a single visualization
         
-        //@todo failing id lookup by category, also check obsPropertyToVizId to see if the full 
-        //observedProperty has been mapped to an id
+        //@todo failing id lookup by category, also check strippedObservedPropertyToVizIdMap to see if  
+        //it maps to an id
         
         //just return itself for now
-        return observedProperty;
+        return strippedObservedProperty;
     };
     
 }();//end anonymous constructor invocation

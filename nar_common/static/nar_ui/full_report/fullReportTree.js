@@ -9,12 +9,12 @@ nar.fullReport.Tree = function(timeSeriesVisualizations){
     self.createTreeNodeFromId = function(id){
         //@todo, adjust node based on id 
         return {
+          type: id,
           id: id,
           text: id
         };
     };
     
-    self.parentIdPrefix = 'http://cida.usgs.gov/NAR';
     self.idDelim = '/';
     /**
      * Given a hierarchical id, return the ids of all parents
@@ -34,12 +34,12 @@ nar.fullReport.Tree = function(timeSeriesVisualizations){
         var recursivelyGetParentIds = function(childId){
             //pull off last delim in the id and the text to the right of it
             var lastDelimIndex = childId.lastIndexOf(self.idDelim);
-            var newChildId = childId.to(lastDelimIndex);
             //base case
-            if(newChildId === self.parentIdPrefix){
+            if(lastDelimIndex === -1){
                 return;
             }
             else{
+                var newChildId = childId.to(lastDelimIndex);
                 //recursive case
                 parentIds.push(newChildId); 
                 recursivelyGetParentIds(newChildId);
@@ -81,27 +81,20 @@ nar.fullReport.Tree = function(timeSeriesVisualizations){
                treeNodes.push(mostRecentlyCreatedTreeNode);
            }
         });
+        //if the most recently created node lacks a parent
         if(!mostRecentlyCreatedTreeNode.parent){
+            //then it was a root node, and jstree requires its parent attribute
+            //be set to '#'
             mostRecentlyCreatedTreeNode.parent = '#';
         }
     });
     
-    var numberOfPlots = 0;
-    var get_or_fail = function(selector){
-        var jqElt = $(selector);
-        nar.util.assert_selector_present(jqElt);
-        return jqElt;
-    };
+    
+    
     
     var graphToggleSelector = '#plotToggleTree';
-    var graphToggleElt = get_or_fail(graphToggleSelector);
-    
-    var allPlotsWrapperSelector = '#plotsWrapper';
-    var allPlotsWrapper = get_or_fail(allPlotsWrapperSelector);
-    
-    var instructionsSelector = '#instructions';
-    var instructionsElt = get_or_fail(instructionsSelector);
-    
+    nar.util.assert_selector_present(graphToggleSelector);
+    var graphToggleElt = $(graphToggleSelector);
     
     graphToggleElt.jstree({
         'plugins': ['checkbox', 'types', 'state'],
@@ -109,51 +102,12 @@ nar.fullReport.Tree = function(timeSeriesVisualizations){
             'data' : treeNodes
         }
     });
-    var plotContainerClass = 'data'; 
-    var plotIdSuffix = '_' + plotContainerClass;
-    var makePlotContainerIdFromJsTreeId = function(jstreeId){
-        return jstreeId + plotIdSuffix;
-    };
     
     var selectedTypePaths = {};//set to hold plot type paths      
     
     var addPlotContainer = function(node){
-        var jstreeId = node.id;
-        var textPath = getTextPathForNode(node);
-        var typePath = getTypePathForNode(node);
         
-        var text = textPath.join('/');
-        //if no plots are currently visualized, but one has been
-        //requested to be added.     
-        if(0 === numberOfPlots){
-            instructionsElt.addClass('hide');            
-        }
-
-        var id = makePlotContainerIdFromJsTreeId(jstreeId);
-        var plotContainerMissing = $('#' + id).length === 0;
         
-        if(plotContainerMissing){
-            var plotContainer = $('<div/>', {
-                id: id,
-                class: plotContainerClass
-            });
-            allPlotsWrapper.prepend(plotContainer);
-            
-            var plotConstructor = getPlotConstructorForTypePath(typePath);
-            var plotContent;
-            if(plotConstructor){
-                plotContent = plotConstructor(plotContainer);
-                storePlotAtTypePath(plotContent, typePath);
-            }
-            else{
-                plotContent = $('<h2/>', {
-                    text:text
-                });
-                plotContainer.append(plotContent); 
-            }
-                        
-            numberOfPlots++;
-        }
     };
     var removePlotContainer = function(node){
         //remove plot container
@@ -225,17 +179,25 @@ nar.fullReport.Tree = function(timeSeriesVisualizations){
         return textPath;
     };
     
+    var getTimeSeriesVisualizationsForNode = function(leafNode){
+        var tsvId = leafNode.original.type;
+        timeSeriesVisualization = nar.fullReport.TimeSeriesVisualizationRegistry.get(tsvId);
+        return timeSeriesVisualization;
+    };
+    
     graphToggleElt.on("select_node.jstree", function (e, data) {
         var leafChildren = getAllLeafChildren(data.node);
         leafChildren = leafChildren.reverse();
-        leafChildren.each(function(leafNode){
-            addPlotContainer(leafNode);
+        var timeSeriesVisualizations = leafChildren.map(getTimeSeriesVisualizationsForNode); 
+        timeSeriesVisualizations.each(function(leafNode){
+            timeSeriesVisualization.visualize();
         });
     });
     graphToggleElt.on("deselect_node.jstree", function (e, data) {
         var leafChildren = getAllLeafChildren(data.node);
-        leafChildren.each(function(leafNode){
-            removePlotContainer(leafNode);
+        var timeSeriesVisualizations = leafChildren.map(getTimeSeriesVisualizationsForNode);
+        timeSeriesVisualizations.each(function(timeSeriesVisualization){
+            timeSeriesVisualization.destroy();
         });
     });
 };
