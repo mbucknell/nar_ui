@@ -110,29 +110,7 @@ nar.fullReport.Tree = function(timeSeriesVisualizations){
         
     };
     var removePlotContainer = function(node){
-        //remove plot container
-        var jstreeId = node.id;
-        var selector = '#' + makePlotContainerIdFromJsTreeId(jstreeId);
-        var plotContainer = get_or_fail(selector);
-        plotContainer.remove();
         
-        //remove event handlers, free memory
-        var typePath = getTypePathForNode(node);
-        if(typePath){
-            var plot = getPlotForTypePath(typePath);
-            if(plot){
-                plot.shutdown();
-            }
-        }
-
-        
-        //update counter
-        numberOfPlots--;
-        
-        var noPlotsRemain = 0 === numberOfPlots; 
-        if(noPlotsRemain){
-            instructionsElt.removeClass('hide');                
-        }
     };
     
     var plotTree = $(graphToggleElt).jstree();
@@ -189,7 +167,7 @@ nar.fullReport.Tree = function(timeSeriesVisualizations){
         var leafChildren = getAllLeafChildren(data.node);
         leafChildren = leafChildren.reverse();
         var timeSeriesVisualizations = leafChildren.map(getTimeSeriesVisualizationsForNode); 
-        timeSeriesVisualizations.each(function(leafNode){
+        timeSeriesVisualizations.each(function(timeSeriesVisualization){
             timeSeriesVisualization.visualize();
         });
     });
@@ -197,7 +175,7 @@ nar.fullReport.Tree = function(timeSeriesVisualizations){
         var leafChildren = getAllLeafChildren(data.node);
         var timeSeriesVisualizations = leafChildren.map(getTimeSeriesVisualizationsForNode);
         timeSeriesVisualizations.each(function(timeSeriesVisualization){
-            timeSeriesVisualization.destroy();
+            timeSeriesVisualization.remove();
         });
     });
 };

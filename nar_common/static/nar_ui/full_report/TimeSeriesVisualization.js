@@ -19,11 +19,12 @@ nar.fullReport.TimeSeriesVisualization = function(config){
     self.timeSeriesCollection = config.timeSeriesCollection;
     self.plotConstructor = config.plotConstructor;
     self.plot = undefined;
+    self.plotContainer = undefined;
     self.visualize = function(){
         //if no plots are currently visualized, but one has been
         //requested to be added.
         if(0 === numberOfPlots){
-            instructionsElt.addClass('hide');            
+            instructionsElt.addClass(hiddenClass);            
         }
         
         var plotContainerId = makePlotContainerId(self.id);
@@ -54,9 +55,23 @@ nar.fullReport.TimeSeriesVisualization = function(config){
             }
             numberOfPlots++;
         }
+        self.plotContainer = plotContainer;
     };
-    self.destroy = function(){
+    self.remove = function(){
+        var plotContainer = self.plotContainer;
+        plotContainer.remove();
+        var plot = self.plot; 
+        if(plot){
+            plot.shutdown();
+        }
+
+        //update counter
+        numberOfPlots--;
         
+        var noPlotsRemain = 0 === numberOfPlots; 
+        if(noPlotsRemain){
+            instructionsElt.removeClass(hiddenClass);                
+        }
     };
 };
 
@@ -64,7 +79,7 @@ nar.fullReport.TimeSeriesVisualization = function(config){
 var numberOfPlots = 0;
 var plotContainerClass = 'data'; 
 var plotIdSuffix = '_' + plotContainerClass;
-
+var hiddenClass = 'hide';
 
 // private static methods:
 var get_or_fail = function(selector){
