@@ -52,7 +52,7 @@ nar.fullReport.TimeSeriesVisualizationRegistry = new function(){
      * @param {String} observedProperty
      * @returns {nar.fullReport.TimeSeriesVisualization
      */
-    self.getForObservedProperty = function(observedProperty){
+    self.getByObservedProperty = function(observedProperty){
         var vizId = self.getIdForObservedProperty(observedProperty);
         var viz = self.get(vizId);
         return viz;

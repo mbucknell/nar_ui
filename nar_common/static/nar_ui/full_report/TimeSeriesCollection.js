@@ -14,7 +14,7 @@ nar.fullReport.TimeSeriesCollection = function(){
      * 
      * @param {nar.fullReport.TimeSeries} aTimeSeries
      */
-    self.addTimeSeries = function(aTimeSeries){
+    self.add = function(aTimeSeries){
         timeSeries.push(aTimeSeries);
         dirty = true;
     };

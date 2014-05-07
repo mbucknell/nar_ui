@@ -23,7 +23,7 @@
                 observedProperty: observedProperty,
                 timeRange: timeRange
             });
-            timeSeriesViz.timeSeriesCollection.addTimeSeries(timeSeries);
+            timeSeriesViz.timeSeriesCollection.add(timeSeries);
         });
         var allTimeSeriesVizualizations = tsvRegistry.getAll();
         var tree = new nar.fullReport.Tree(allTimeSeriesVizualizations);
