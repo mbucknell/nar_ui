@@ -1,49 +1,57 @@
 var nar = nar || {};
 nar.fullReport = nar.fullReport || {};
-/**
- * @param {Object} config an object of the following format:
- * {
- *      selector: '#myjQuerySelector',
- *      constituentName: 'Nitrate',
- *      constituentColor: 'rgb(255,0,0)',
- *      data: [
- *          [0, 1, ... ,9 ],
- *          .
- *          .
- *          .
- *      ]
- *      
- * }
- */
-nar.fullReport.SampleConcentrationPlot = function(config){
-    var selector = config.selector;
-    nar.util.assert_selector_present(selector);
-    selection = $(selector);
-    var series = [{label: 'Sample Concentration', data: config.data}];
-    var plot = $.plot(selection, series, {
-        xaxis: {
-            mode: 'time',
-            timeformat: "%Y/%m/%d",
-            zero: true
-        },
-        yaxis: {
-            axisLabel: "Temperature (C)",
-            axisLabelUseCanvas: true,
-            axisLabelFontSizePixels: 12,
-            axisLabelFontFamily: "Verdana, Arial, Helvetica, Tahoma, sans-serif",
-            axisLabelPadding: 5
-        },
-        series: {
+(function(){
+    /**
+     * @param {TimeSeriesVisualization} tsViz
+     * returns {jquery.flot}
+     */
+
+    nar.fullReport.SampleConcentrationPlot = function(tsViz){
+        var plotContainer = tsViz.plotContainer;
+        var allData = tsViz.timeSeriesCollection.map(function(timeSeries){
+            return timeSeries.data;
+        });
+        var data = allData[0];//only one time series' worth of data for now.
+        var pointColor = 'rgb(255,0,0)';
+        var series = [{
+            label: tsViz.id,
+            data: data,
             points: {
                 radius: 3,
                 show: true,
-                fill: true
+                fill: true,
+                fillColor: pointColor
+            }
+        }];
+        
+        var plot = $.plot(plotContainer, series, {
+            xaxis: {
+                mode: 'time',
+                timeformat: "%Y"
             },
-        },
-        legend: {
-               position: "bottom"
-        }
-    });
-    
-    return plot;
-};
+            yaxis: {
+                axisLabel: tsViz.id + " concentration in mg/L",
+                axisLabelUseCanvas: true,
+                axisLabelFontSizePixels: 12,
+                axisLabelFontFamily: "Verdana, Arial, Helvetica, Tahoma, sans-serif",
+                axisLabelPadding: 5,
+                ticks: [1, 5, 10, 50, 100, 500, 1000],
+                tickDecimals: 2,
+                transform: function(value){
+                    if(0 >= value){
+                        return 0;
+                    }
+                    else{
+                        return Math.log(value);
+                    }
+                }
+            },
+            legend: {
+                   show: false
+            },
+            colors:[pointColor] 
+        });
+        
+        return plot;
+    };
+}());

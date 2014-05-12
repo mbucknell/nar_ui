@@ -5,7 +5,7 @@ nar.fullReport = nar.fullReport || {};
 /**
  * @typedef nar.fullReport.TimeSeriesVisualizationConfig
  * @property {string} id
- * @property {Function} plotConstructor
+ * @property {Function} plotter
  * @property {nar.fullReport.TimeSeriesCollection} timeSeriesCollection
  */
 
@@ -17,7 +17,7 @@ nar.fullReport.TimeSeriesVisualization = function(config){
     var self = this;
     self.id = config.id;
     self.timeSeriesCollection = config.timeSeriesCollection;
-    self.plotConstructor = config.plotConstructor;
+    self.plotter = config.plotter;
     self.plot = undefined;
     self.plotContainer = undefined;
     self.visualize = function(){
@@ -37,25 +37,33 @@ nar.fullReport.TimeSeriesVisualization = function(config){
                 class: plotContainerClass
             });
             allPlotsWrapper.prepend(plotContainer);
-            
-            
-            //@todo: implement this:
-            //var plotConstructor = getPlotConstructorForTypePath(typePath);
-            var plotConstructor;
-            var plotContent;
-            if(plotConstructor){
-                plotContent = plotConstructor(plotContainer);
-                storePlotAtTypePath(plotContent, typePath);
-            }
-            else{
-                plotContent = $('<h2/>', {
-                    text:self.id
-                });
-                plotContainer.append(plotContent); 
-            }
-            numberOfPlots++;
+            self.plotContainer = plotContainer;
+            var retrievalPromises = self.timeSeriesCollection.retrieveData();
+            //after all retrieval promises have been resolved
+            $.when.apply(null, retrievalPromises).then(                
+                function(){
+                    var plotter = nar.fullReport.TimeSeriesVisualization.getPlotterById(self.id);
+                    var plotContent;
+                    if(plotter){
+                        self.plot = plotter(self);
+                        plotContent = self.plot;
+                        //storePlotAtTypePath(plotContent, typePath);
+                    }
+                    else{
+                        plotContent = $('<h2/>', {
+                            text:self.id
+                        });
+                        plotContainer.append(plotContent); 
+                    }
+                    numberOfPlots++;
+                },
+                function(){
+                    alert('data retrieval failed');
+                    throw Error();
+                }
+            );
         }
-        self.plotContainer = plotContainer;
+        
     };
     self.remove = function(){
         var plotContainer = self.plotContainer;
@@ -119,11 +127,25 @@ nar.fullReport.TimeSeriesVisualization.fromId = function(id){
     
     return new nar.fullReport.TimeSeriesVisualization({
         id: id,
-        plotConstructor: function(){
+        plotter: function(){
             throw Error('not implemented yet');
         },
         timeSeriesCollection: new nar.fullReport.TimeSeriesCollection()
     }); 
+};
+
+/**
+ * @param {string} id - a TimeSeriesVisualization id
+ * @returns {function} a plot constructor accepting two arguments: 
+ *  the element to insert the plot into,
+ *  the data to plot
+ */
+nar.fullReport.TimeSeriesVisualization.getPlotterById = function(id){
+    var idToPlotConstructor = {
+        'WQ/Si/RS' : nar.fullReport.SampleConcentrationPlot
+    };
+    var plotConstructor = idToPlotConstructor[id];
+    return plotConstructor;
 };
 
 //static initialization

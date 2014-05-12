@@ -23,31 +23,25 @@ nar.fullReport.TimeSeries = function(config){
     
     /**
      * Retrieve data and run callback. Does not check to see if data is already present.
-     * @param {nar.fullReport.TimeSeries~successfulCallback}
-     * @param {nar.fullReport.TimeSeries~failedCallback}
-     * @param {Object} extraArgs - any extra arguments you want your callbacks called with
+     * @returns {jQuery.promise} -- the promise callbacks are called with this TimeSeries
      */
-    self.retrieveData = function(successfulCallback, failedCallback, extraArgs){
+    self.retrieveData = function(){
+        //@todo - incorporate self.observedProperty into the call
+        //@todo - point at a real SOS endpoint
+        var deferred = $.Deferred();
         
-        var failedCallbackWrapper = function(){
-            var newArgs = Array.create(arguments).concat(extraArgs);
-            failedCallback.apply(newArgs);
-        };
-        
-        var dataRetrieval = $.ajax(CONFIG.staticUrl + 'nar_ui/full_report/mock_data_0.json');
-        $.when(dataRetrieval).then(
-            function(data, textStatus, jqXHR){
-                try{
-                    var realData = data.data; //it is nested inside the 'data' property of the response
-                    self.data = realData;
-                    successfulCallback.call(realData, extraArgs);
-                }
-                catch(e){
-                    failedCallbackWrapper.apply(arguments);
-                }
-            },
-            failedCallbackWrapper
-        );
+        var dataRetrieval = $.ajax(CONFIG.staticUrl + 'nar_ui/full_report/mock_data_1.json')
+            .success(function(response, textStatus, jqXHR){
+                //@todo: handle exception text
+                self.data = response.data;
+                //pass this entire object to the callback 
+                deferred.resolve(self);
+            })
+            .fail(function(data, textStatus, jqXHR){
+                deferred.reject(parameters);
+            });
+        var promise = deferred.promise();
+        return promise;
     };
     
 };
