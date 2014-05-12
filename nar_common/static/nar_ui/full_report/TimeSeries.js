@@ -29,8 +29,8 @@ nar.fullReport.TimeSeries = function(config){
         //@todo - incorporate self.observedProperty into the call
         //@todo - point at a real SOS endpoint
         var deferred = $.Deferred();
-        
-        var dataRetrieval = $.ajax(CONFIG.staticUrl + 'nar_ui/full_report/mock_data_1.json')
+        var zeroOrOne = self.observedProperty.length % 2;
+        var dataRetrieval = $.ajax(CONFIG.staticUrl + 'nar_ui/full_report/mock_data_' + zeroOrOne +'.json')
             .success(function(response, textStatus, jqXHR){
                 //@todo: handle exception text
                 self.data = response.data;
