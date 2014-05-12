@@ -57,4 +57,33 @@ nar.fullReport.TimeRange = function(startTime, endTime){
   self.endTime = nar.util.getTimeStamp(endTime);
 };
 
+
+
+//private 
+/**
+ * @param {nar.fullReport.TimeRange} init
+ * @param {nar.fullReport.TimeRange} current the current element of iteration
+ */
+var timeExtentExtremityFinder = function(init, current){
+    init.startTime = Math.min(init.startTime, current.startTime);
+    init.endTime = Math.max(init.endTime, current.endTime);
+    return init;
+};
+
+//public static methods
+
+/**
+ * Given a collection of TimeRanges, produce an aggregate TimeRange 
+ * whose startTime is the smallest startTime of timeRanges
+ * and whose endTime is the largest endTime of timeRanges
+ *  
+ * @param {array<TimeRange>} timeRanges
+ * @returns {TimeRange}
+ */
+nar.fullReport.TimeRange.ofAll = function(timeRanges){
+    var biggestPossibleTimeExtent = new TimeRange(Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY);
+    var extent = timeRanges.reduce(timeExtentExtremityFinder, biggestPossibleTimeExtent);
+    return extent;
+};
+
 }());

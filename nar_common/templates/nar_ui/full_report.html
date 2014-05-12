@@ -5,12 +5,14 @@
 {% block style %}
 	{{ block.super }}
 	<link rel="stylesheet" href="{% static 'nar_ui/js_lib/jstree/themes/default/style.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'nar_ui/js_lib/jquery-ui/css/ui-lightness/jquery-ui.min.css' %}"/>
 {% endblock %}
 
 {% block scripts %}
 	{{ block.super }}
 	{% compress js %}
-	   <script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.js' %}"></script>
+        <script type="text/javascript" src="{% static 'nar_ui/js_lib/jquery-ui/jquery-ui.min.js' %}"></script>
+	    <script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.js' %}"></script>
         <script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.resize.js' %}"></script>
         <script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.categories.js' %}"></script>
         <script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.time.js' %}"></script>
@@ -25,6 +27,7 @@
 		<script type="text/javascript" src="{% static 'nar_ui/full_report/TimeSeriesVisualization.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/full_report/TimeSeriesVisualizationRegistry.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/full_report/fullReportTree.js' %}"></script>
+        <script type="text/javascript" src="{% static 'nar_ui/full_report/TimeSlider.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/full_report/main.js' %}"></script>
 	{% endcompress %}
 {% endblock %}
@@ -49,8 +52,10 @@
 			</h3>
 		
 			</div><!--wrapper-->
-		
-		<div class="col-lg-12 slider col-md-12 col-sm-12 col-xs-12"></div>
+		<div class="row">
+		  <div id="timeSlider" class="col-lg-12 slider col-md-12 col-sm-12 col-xs-12">
+		  </div>
+		</div>
 	
 	</div>
 		
