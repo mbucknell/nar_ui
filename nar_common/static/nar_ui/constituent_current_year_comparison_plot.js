@@ -28,15 +28,10 @@
  */
 
 var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, series, legendSelector){
-	var assert_good_selector = function(selector){
-		if(!$(selector).length){
-			throw Error('Bar Chart could not find element with jquery selector "' + selector + '".');
-		}
-	};
-	
-	assert_good_selector(plotContainerSelector);
+
+	nar.util.assert_selector_present(plotContainerSelector);
 	if(legendSelector){
-		assert_good_selector(legendSelector);
+		nar.util.assert_selector_present(legendSelector);
 	}
 	
 	var averageColor = series.averageColor || ConstituentCurrentYearComparisonPlot.defaultAverageColor;
