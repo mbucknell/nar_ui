@@ -12,9 +12,14 @@ nar.fullReport = nar.fullReport || {};
             return timeSeries.data;
         });
         var data = allData[0];//only one time series' worth of data for now.
-        var pointColor = 'rgb(255,0,0)';
+        
+        var idComponents = tsViz.getComponentsOfId();
+        var constituentId = idComponents.constituent;
+        var constituentInfo = nar.Constituents[constituentId];
+        var constituentName = constituentInfo.name;
+        var pointColor = constituentInfo.color;
         var series = [{
-            label: tsViz.id,
+            label: constituentName,
             data: data,
             points: {
                 radius: 3,
@@ -30,7 +35,7 @@ nar.fullReport = nar.fullReport || {};
                 timeformat: "%Y"
             },
             yaxis: {
-                axisLabel: tsViz.id + " concentration in mg/L",
+                axisLabel: constituentName + " concentration in mg/L",
                 axisLabelUseCanvas: true,
                 axisLabelFontSizePixels: 12,
                 axisLabelFontFamily: "Verdana, Arial, Helvetica, Tahoma, sans-serif",
@@ -53,5 +58,5 @@ nar.fullReport = nar.fullReport || {};
         });
         
         return plot;
-    };
+    };    
 }());

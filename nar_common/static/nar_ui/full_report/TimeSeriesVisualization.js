@@ -16,6 +16,10 @@ nar.fullReport = nar.fullReport || {};
 nar.fullReport.TimeSeriesVisualization = function(config){
     var self = this;
     self.id = config.id;
+    self.getComponentsOfId = function(){
+        //delegate to static method
+        return nar.fullReport.TimeSeriesVisualization.getComponentsOfId(self.id);  
+    };
     self.timeSeriesCollection = config.timeSeriesCollection;
     self.plotter = config.plotter;
     self.plot = undefined;
@@ -134,6 +138,27 @@ nar.fullReport.TimeSeriesVisualization.fromId = function(id){
     }); 
 };
 
+var keyToIndex ={
+        constituent : 0,
+        category : 1,
+        subcategory : 2
+};
+/**
+ * @param {string} id
+ * @returns {Object} a simple map of component name to value 
+ */
+nar.fullReport.TimeSeriesVisualization.getComponentsOfId = function(id){
+    var splitId = id.split('/');
+    
+    var components = {};
+    
+    Object.keys(keyToIndex, function(key, indexInArray){
+        components[key] = splitId[indexInArray]; 
+    });
+    
+    return components;
+};
+
 /**
  * @param {string} id - a TimeSeriesVisualization id
  * @returns {function} a plot constructor accepting two arguments: 
@@ -141,11 +166,20 @@ nar.fullReport.TimeSeriesVisualization.fromId = function(id){
  *  the data to plot
  */
 nar.fullReport.TimeSeriesVisualization.getPlotterById = function(id){
-    var idToPlotConstructor = {
-        'WQ/Si/RS' : nar.fullReport.SampleConcentrationPlot
-    };
-    var plotConstructor = idToPlotConstructor[id];
-    return plotConstructor;
+    var plotter;
+    var components = nar.fullReport.TimeSeriesVisualization.getComponentsOfId(id);
+ 
+    if (components.subcategory === 'sample'){
+        plotter = nar.fullReport.SampleConcentrationPlot; 
+    }
+    else{
+        var idToPlotConstructor = {
+                //empty for now 
+        };
+        plotter = idToPlotConstructor[id];
+    }
+    
+    return plotter;
 };
 
 //static initialization
