@@ -55,6 +55,9 @@ nar.fullReport.TimeRange = function(startTime, endTime){
   var self = this;
   self.startTime = nar.util.getTimeStamp(startTime);
   self.endTime = nar.util.getTimeStamp(endTime);
+  self.clone = function(){
+      return nar.fullReport.TimeRange.clone(self);
+  };
 };
 
 
@@ -73,6 +76,14 @@ var timeExtentExtremityFinder = function(init, current){
 //public static methods
 
 /**
+ * Clones the specified time range
+ * @param {nar.fullReport.TimeRange} timeRange
+ */
+nar.fullReport.TimeRange.clone = function(timeRange){
+    return new nar.fullReport.TimeRange(timeRange.startTime,timeRange.endTime);
+};
+
+/**
  * Given a collection of TimeRanges, produce an aggregate TimeRange 
  * whose startTime is the smallest startTime of timeRanges
  * and whose endTime is the largest endTime of timeRanges
@@ -81,7 +92,7 @@ var timeExtentExtremityFinder = function(init, current){
  * @returns {TimeRange}
  */
 nar.fullReport.TimeRange.ofAll = function(timeRanges){
-    var biggestPossibleTimeExtent = new TimeRange(Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY);
+    var biggestPossibleTimeExtent = new nar.fullReport.TimeRange(Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY);
     var extent = timeRanges.reduce(timeExtentExtremityFinder, biggestPossibleTimeExtent);
     return extent;
 };

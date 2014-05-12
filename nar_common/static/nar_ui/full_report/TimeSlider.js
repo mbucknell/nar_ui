@@ -2,7 +2,7 @@
 var nar = nar || {};
 (function(){
 nar.fullReport = nar.fullReport || {};
-nar.fullReport.TimeSlider = function(selector, allVisibleTimeSeriesVisualizations){
+nar.fullReport.TimeSlider = function(selector){
     nar.util.assert_selector_present(selector);
     
     var slider = $(selector).slider({

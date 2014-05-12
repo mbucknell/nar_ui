@@ -1,7 +1,9 @@
 //@requires nar.fullReport.Tree, nar.fullReport.TimeSeriesVisualizationRegistry, nar.fullReport.TimeSeriesVisualization
-(function(){
-    var slider;
-    var allVisibleTimeSeriesVisualizations = {};
+$(document).ready(function(){
+    slider = nar.fullReport.TimeSlider("#timeSlider");
+    var tsvController; //set on document load
+    tsvController = new nar.fullReport.TimeSeriesVisualizationController(slider);
+    
     var getDataAvailabilityUri = CONFIG.staticUrl + 'nar_ui/full_report/mock_getDataAvailability_response.json';
     var getDataAvailabilityRequest = $.ajax(getDataAvailabilityUri);
     var startTimeIndex = 0;
@@ -28,7 +30,7 @@
             timeSeriesViz.timeSeriesCollection.add(timeSeries);
         });
         var allTimeSeriesVizualizations = tsvRegistry.getAll();
-        var tree = new nar.fullReport.Tree(allTimeSeriesVizualizations, allVisibleTimeSeriesVisualizations);
+        var tree = new nar.fullReport.Tree(allTimeSeriesVizualizations, tsvController);
     }; 
     var failedGetDataAvailability = function(data, textStatus, jqXHR){
         var msg = 'Could not determine data availability for this site';
@@ -36,13 +38,10 @@
         alert(msg);
         throw Error(msg);
     }; 
-    $(document).ready(function(){
-        slider = nar.fullReport.TimeSlider("#timeSlider", allVisibleTimeSeriesVisualizations);
-        $.when(getDataAvailabilityRequest).then(
-            successfulGetDataAvailability,
-            failedGetDataAvailability
-        );
-        
-    });
     
-}());
+    $.when(getDataAvailabilityRequest).then(
+        successfulGetDataAvailability,
+        failedGetDataAvailability
+    );
+    
+});

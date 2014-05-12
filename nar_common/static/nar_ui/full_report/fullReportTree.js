@@ -1,10 +1,10 @@
 var nar = nar || {};
 nar.fullReport = nar.fullReport || {};
 /**
- * @param {array<TimeSeriesVisualization>} timeSeriesVisualizations - an array of all possible tsv's
- * @param {Map<{String}, {TimeSeriesVisualization}>} allVisibleTimeSeriesVisualizations - all currently visualized tsv's
+ * @param {array<nar.fullReport.TimeSeriesVisualization>} timeSeriesVisualizations - an array of all possible tsv's
+ * @param {nar.fullReport.TimeSeriesVisualizationController} tsvController - all currently visualized tsv's
  */
-nar.fullReport.Tree = function(timeSeriesVisualizations, allVisibleTimeSeriesVisualizations){
+nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController){
     var self = this;
     var treeNodeIds = {}; //psuedo-set; keys are string TimeSeriesVisualization ids. Values are meaningless.
     var treeNodes = [];
@@ -148,17 +148,11 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, allVisibleTimeSeriesVis
         var leafChildren = getAllLeafChildren(data.node);
         leafChildren = leafChildren.reverse();
         var timeSeriesVisualizations = leafChildren.map(getTimeSeriesVisualizationsForNode); 
-        timeSeriesVisualizations.each(function(timeSeriesVisualization){
-            timeSeriesVisualization.visualize();
-            allVisibleTimeSeriesVisualizations[timeSeriesVisualization.id] = allVisibleTimeSeriesVisualizations;
-        });
+        tsvController.visualizeAll(timeSeriesVisualizations);
     });
     graphToggleElt.on("deselect_node.jstree", function (e, data) {
         var leafChildren = getAllLeafChildren(data.node);
         var timeSeriesVisualizations = leafChildren.map(getTimeSeriesVisualizationsForNode);
-        timeSeriesVisualizations.each(function(timeSeriesVisualization){
-            timeSeriesVisualization.remove();
-            delete allVisibleTimeSeriesVisualizations[timeSeriesVisualization.id];
-        });
+        tsvController.removeAll(timeSeriesVisualizations);
     });
 };

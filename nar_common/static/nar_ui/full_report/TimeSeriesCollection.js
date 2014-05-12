@@ -51,7 +51,7 @@ nar.fullReport.TimeSeriesCollection = function(){
     var cachedTimeRange;
     /**
      * Returns the time range for a collection of time series.
-     * funct
+     * 
      * If no time series have been added since the last time range
      * calculation, it returns the cached time range.
      * If time series have been added since the last time range
@@ -72,7 +72,7 @@ nar.fullReport.TimeSeriesCollection = function(){
                 maxEndTime = aTimeSeries.endTime < maxEndTime ? aTimeSeries.endTime : maxEndTime;
             });
             
-            cachedTimeRange = new TimeRange(minStartTime, maxEndTime);
+            cachedTimeRange = new nar.fullReport.TimeRange(minStartTime, maxEndTime);
             dirty=false;
         }
         return cachedTimeRange;
