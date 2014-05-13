@@ -102,7 +102,7 @@ nar.fullReport.TimeSeriesVisualization = function(config){
 
 // private static properties:
 var numberOfPlots = 0;
-var plotContainerClass = 'data'; 
+var plotContainerClass = 'full_report_plot'; 
 var plotIdSuffix = '_' + plotContainerClass;
 var hiddenClass = 'hide';
 
