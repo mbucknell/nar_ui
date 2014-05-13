@@ -45,26 +45,30 @@ nar.fullReport.TimeSeriesVisualizationController = function(timeSlider){
          * 
          */
         self.setCurrentlyVisibleTimeRange = function(timeRange){
+            if(undefined === timeRange){
+                currentlyVisibleTimeRange = undefined;
+            }
             //prevent cyclic event triggering, expensive updates
-            if(!timeRange.equals(currentlyVisibleTimeRange)){
+            else if(!timeRange.equals(currentlyVisibleTimeRange)){
                 currentlyVisibleTimeRange = timeRange.clone();
                 
-                        
                 Object.values(self.currentlyVisibleTimeSeriesVisualizations, function(tsv){
-                    var plot = tsv.plot;
-                    var options = plot.getOptions();
-                    options.xaxes.each(function(axis){
-                        axis.min = currentlyVisibleTimeRange.startTime;
-                        axis.max = currentlyVisibleTimeRange.endTime;
-                    });
-                    plot.setupGrid();
-                    plot.draw();
+                    zoomTsvToTimeRange(tsv, currentlyVisibleTimeRange);
                 });
                 self.timeSlider.slider('option', 'values', [currentlyVisibleTimeRange.startTime, currentlyVisibleTimeRange.endTime]);
             }
         };
     }());
-      
+    var zoomTsvToTimeRange = function(tsv, timeRange){
+        var plot = tsv.plot;
+        var options = plot.getOptions();
+        options.xaxes.each(function(axis){
+            axis.min = timeRange.startTime;
+            axis.max = timeRange.endTime;
+        });
+        plot.setupGrid();
+        plot.draw();
+    };
     (function(){
        var possibleTimeRange;
        /**
@@ -134,7 +138,13 @@ nar.fullReport.TimeSeriesVisualizationController = function(timeSlider){
             return promise;
         });
         $.when.apply(null, vizPromises).done(function(){
-            self.setPossibleTimeRange(aggregateTimeRange);
+            self.setPossibleTimeRange(aggregateTimeRange);//might adjust currently visible range
+            //now zoom recently added plots to the currently visible range
+            var recentlyVisualizedTimeSeriesVisualizations = Array.create(arguments);
+            var currentTimeRange = self.getCurrentlyVisibleTimeRange();
+            recentlyVisualizedTimeSeriesVisualizations.each(function(tsv){
+                zoomTsvToTimeRange(tsv, currentTimeRange);
+            });
         });
     };
     
@@ -154,8 +164,15 @@ nar.fullReport.TimeSeriesVisualizationController = function(timeSlider){
                 remainingTimeRanges.push(tsv.timeSeriesCollection.getTimeRange());
             }
         );
+        //the only case where we modify the user's selection on removal is if we have .removed() all
+        //time series visualizations -- in that case we undefine the currently visible time range
+        if(remainingTimeRanges.isEmpty()){
+            self.setCurrentlyVisibleTimeRange(undefined);
+        }
+        
         var aggregateTimeRange = nar.fullReport.TimeRange.ofAll(remainingTimeRanges);
         self.setPossibleTimeRange(aggregateTimeRange);
+
     };   
 };
 

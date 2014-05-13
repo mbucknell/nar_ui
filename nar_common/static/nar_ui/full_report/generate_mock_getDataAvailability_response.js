@@ -44,18 +44,26 @@
         
         return finalUrls;
     };
-    
+    var observedPropertyToTimeRange = {
+            0 : [
+                   "1983-01-01T00:00:00.000Z",
+                   "2000-01-01T00:00:00.000Z"
+                 ],
+             1 : [
+                    "1992-01-01T00:00:00.000Z",
+                    "2012-01-01T00:00:00.000Z"
+                  ]
+    };
     var mockGetDataAvailabilityResponse = function(observedProperties){
         var featureOfInterest = 'http://waterdata.usgs.gov/nwis/nwisman/?site_no=03303280';
         var createEntry = function(observedProperty){
+            var oddOrEven = observedProperty.length % 2;
+            var timeRange = observedPropertyToTimeRange[oddOrEven];
             return {
                  "procedure" : observedProperty,
                  "observedProperty" : observedProperty,
                  "featureOfInterest" : featureOfInterest,
-                  "phenomenonTime" : [
-                    "1977-10-19T00:00:00.000Z",
-                    "2012-08-22T00:00:00.000Z"
-                  ],
+                  "phenomenonTime" : timeRange,
                   "valueCount" : 78
             };
         };    
