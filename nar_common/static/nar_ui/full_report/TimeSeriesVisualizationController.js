@@ -14,7 +14,16 @@ nar.fullReport = nar.fullReport || {};
  */
 nar.fullReport.TimeSeriesVisualizationController = function(timeSlider){
     var self = this;
+    timeSlider.on('slidechange', function(event, ui){
+        var timeRange = new nar.fullReport.TimeRange(
+                ui.values[0],
+                ui.values[1]
+        );
+        
+        self.setCurrentlyVisibleTimeRange(timeRange);
+    });
     self.timeSlider = timeSlider;
+    
 
     //force everyone to use the accessors and getters, (including class members)
     //by hiding the inner variable using closures, function-scoping
@@ -36,14 +45,71 @@ nar.fullReport.TimeSeriesVisualizationController = function(timeSlider){
          * 
          */
         self.setCurrentlyVisibleTimeRange = function(timeRange){
-            self.timeSlider.slider('option', 'disabled', false);
-            self.timeSlider.slider('option', 'min', timeRange.startTime);
-            self.timeSlider.slider('option', 'max', timeRange.endTime);
-            self.timeSlider.slider('option', 'values', [timeRange.startTime, timeRange.endTime]);
-            currentlyVisibleTimeRange = timeRange.clone();
+            //prevent cyclic event triggering, expensive updates
+            if(!timeRange.equals(currentlyVisibleTimeRange)){
+                currentlyVisibleTimeRange = timeRange.clone();
+                
+                        
+                Object.values(self.currentlyVisibleTimeSeriesVisualizations, function(tsv){
+                    var plot = tsv.plot;
+                    var options = plot.getOptions();
+                    options.xaxes.each(function(axis){
+                        axis.min = currentlyVisibleTimeRange.startTime;
+                        axis.max = currentlyVisibleTimeRange.endTime;
+                    });
+                    plot.setupGrid();
+                    plot.draw();
+                });
+                self.timeSlider.slider('option', 'values', [currentlyVisibleTimeRange.startTime, currentlyVisibleTimeRange.endTime]);
+            }
         };
     }());
-       
+      
+    (function(){
+       var possibleTimeRange;
+       /**
+        * @returns {nar.fullReport.TimeRange} a copy of the currently visible time range,
+        * or undefined
+        */
+       self.getPossibleTimeRange = function(){
+           if(possibleTimeRange){
+               return possibleTimeRange.clone();
+           }
+       };
+       /**
+        * Sets the currently visible time range to a copy of the time range passed in
+        * @param {nar.fullReport.TimeRange} timeRange
+        * 
+        */
+       self.setPossibleTimeRange = function(timeRange){
+           if(undefined === timeRange){
+               possibleTimeRange = undefined;
+               self.timeSlider.slider('option', 'disabled', true);
+           }
+           else{
+               possibleTimeRange = timeRange.clone();
+               self.timeSlider.slider('option', 'disabled', false);
+               self.timeSlider.slider('option', 'min', possibleTimeRange.startTime);
+               self.timeSlider.slider('option', 'max', possibleTimeRange.endTime);
+               var visibleTimeRange = self.getCurrentlyVisibleTimeRange();
+               //if visible time range has not yet been set 
+               if(undefined === visibleTimeRange){
+                   self.setCurrentlyVisibleTimeRange(possibleTimeRange);
+               }
+               else {
+                   //the possible time range could have shrunk so that it is smaller
+                   //than the visible time range. In this case, restrict the visible 
+                   //time range to bounds the new possible time range
+                   var clampedTimeRange = new nar.fullReport.TimeRange(
+                       Math.max(possibleTimeRange.startTime, visibleTimeRange.startTime),
+                       Math.min(possibleTimeRange.endTime, visibleTimeRange.endTime)
+                   );
+                   self.setCurrentlyVisibleTimeRange(clampedTimeRange);
+               }
+           }
+       };
+    }());
+    
     /*
      * Map<String, TimeSeriesVisualizations>
      */
@@ -54,18 +120,21 @@ nar.fullReport.TimeSeriesVisualizationController = function(timeSlider){
     self.visualizeAll = function(tsvsToVisualize){
         var incomingTimeRanges = tsvsToVisualize.map(function(tsv){return tsv.timeSeriesCollection.getTimeRange();});
         var timeRangesToSearch;
-        var currentlyVisibleTimeRange = self.getCurrentlyVisibleTimeRange();
-        if(currentlyVisibleTimeRange){
-            timeRangesToSearch = incomingTimeRanges.concat(currentlyVisibleTimeRange);
+        var possibleTimeRange = self.getPossibleTimeRange();
+        if(possibleTimeRange){
+            timeRangesToSearch = incomingTimeRanges.concat(possibleTimeRange);
         }
         else{
             timeRangesToSearch = incomingTimeRanges;
         }
         var aggregateTimeRange = nar.fullReport.TimeRange.ofAll(timeRangesToSearch);
-        self.setCurrentlyVisibleTimeRange(aggregateTimeRange);
-        tsvsToVisualize.each(function(tsv){
+        var vizPromises = tsvsToVisualize.map(function(tsv){
             self.currentlyVisibleTimeSeriesVisualizations[tsv.id] = tsv;
-            tsv.visualize();
+            var promise = tsv.visualize();
+            return promise;
+        });
+        $.when.apply(null, vizPromises).done(function(){
+            self.setPossibleTimeRange(aggregateTimeRange);
         });
     };
     
@@ -86,7 +155,7 @@ nar.fullReport.TimeSeriesVisualizationController = function(timeSlider){
             }
         );
         var aggregateTimeRange = nar.fullReport.TimeRange.ofAll(remainingTimeRanges);
-        self.setCurrentlyVisibleTimeRange(aggregateTimeRange);
+        self.setPossibleTimeRange(aggregateTimeRange);
     };   
 };
 

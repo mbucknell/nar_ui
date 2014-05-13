@@ -47,7 +47,7 @@
     
     var mockGetDataAvailabilityResponse = function(observedProperties){
         var featureOfInterest = 'http://waterdata.usgs.gov/nwis/nwisman/?site_no=03303280';
-        var createEntry = function(observedProperty){ 
+        var createEntry = function(observedProperty){
             return {
                  "procedure" : observedProperty,
                  "observedProperty" : observedProperty,

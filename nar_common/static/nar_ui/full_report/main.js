@@ -1,9 +1,5 @@
 //@requires nar.fullReport.Tree, nar.fullReport.TimeSeriesVisualizationRegistry, nar.fullReport.TimeSeriesVisualization
 $(document).ready(function(){
-    slider = nar.fullReport.TimeSlider("#timeSlider");
-    var tsvController; //set on document load
-    tsvController = new nar.fullReport.TimeSeriesVisualizationController(slider);
-    
     var getDataAvailabilityUri = CONFIG.staticUrl + 'nar_ui/full_report/mock_getDataAvailability_response.json';
     var getDataAvailabilityRequest = $.ajax(getDataAvailabilityUri);
     var startTimeIndex = 0;
@@ -30,7 +26,14 @@ $(document).ready(function(){
             timeSeriesViz.timeSeriesCollection.add(timeSeries);
         });
         var allTimeSeriesVizualizations = tsvRegistry.getAll();
+        
+        var slider = nar.fullReport.TimeSlider("#timeSlider");
+        var tsvController = new nar.fullReport.TimeSeriesVisualizationController(slider);
+        
         var tree = new nar.fullReport.Tree(allTimeSeriesVizualizations, tsvController);
+        
+        
+        
     }; 
     var failedGetDataAvailability = function(data, textStatus, jqXHR){
         var msg = 'Could not determine data availability for this site';

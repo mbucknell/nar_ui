@@ -58,6 +58,9 @@ nar.fullReport.TimeRange = function(startTime, endTime){
   self.clone = function(){
       return nar.fullReport.TimeRange.clone(self);
   };
+  self.equals = function(otherTimeRange){
+      return nar.fullReport.TimeRange.equals(self, otherTimeRange);
+  };
 };
 
 
@@ -82,6 +85,18 @@ var timeExtentExtremityFinder = function(init, current){
 nar.fullReport.TimeRange.clone = function(timeRange){
     return new nar.fullReport.TimeRange(timeRange.startTime,timeRange.endTime);
 };
+nar.fullReport.TimeRange.equals = function(timeRangeA, timeRangeB){
+    var equal = false;
+    if(undefined !== timeRangeA && undefined !== timeRangeB){
+        if(timeRangeA.constructor === nar.fullReport.TimeRange &&
+           timeRangeB.constructor === nar.fullReport.TimeRange){
+            
+            equal = timeRangeA.startTime === timeRangeB.startTime &&
+                   timeRangeA.endTime === timeRangeB.endTime;
+        }
+    }
+    return equal;
+};
 
 /**
  * Given a collection of TimeRanges, produce an aggregate TimeRange 
@@ -92,9 +107,13 @@ nar.fullReport.TimeRange.clone = function(timeRange){
  * @returns {TimeRange}
  */
 nar.fullReport.TimeRange.ofAll = function(timeRanges){
-    var biggestPossibleTimeExtent = new nar.fullReport.TimeRange(Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY);
-    var extent = timeRanges.reduce(timeExtentExtremityFinder, biggestPossibleTimeExtent);
-    return extent;
+    var firstTimeRange = timeRanges.first();
+    if(firstTimeRange){
+        //since reduce modifies the init value, we must create a copy to avoid modifying the
+        //original while searching
+        var initValue = firstTimeRange.clone();
+        var maxExtent = timeRanges.reduce(timeExtentExtremityFinder, initValue);
+        return maxExtent;
+    }
 };
-
 }());

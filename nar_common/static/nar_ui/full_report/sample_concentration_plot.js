@@ -54,7 +54,7 @@ nar.fullReport = nar.fullReport || {};
             legend: {
                    show: false
             },
-            colors:[pointColor] 
+            colors:[pointColor]
         });
         
         return plot;

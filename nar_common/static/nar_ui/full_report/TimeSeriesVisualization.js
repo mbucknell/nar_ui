@@ -24,6 +24,11 @@ nar.fullReport.TimeSeriesVisualization = function(config){
     self.plotter = config.plotter;
     self.plot = undefined;
     self.plotContainer = undefined;
+    /**
+     * asynchronously retrieves and plots all of the time series in the 
+     * `this.timeSeriesCollection` using `this.plotter`
+     * @returns {jQuery.promise}
+     */
     self.visualize = function(){
         //if no plots are currently visualized, but one has been
         //requested to be added.
@@ -34,6 +39,9 @@ nar.fullReport.TimeSeriesVisualization = function(config){
         var plotContainerId = makePlotContainerId(self.id);
         var plotContainer = getPlotContainer(plotContainerId);
         var plotContainerMissing = plotContainer.length === 0;
+        var vizDeferred = $.Deferred();
+        var vizPromise = vizDeferred.promise(); 
+        
         
         if(plotContainerMissing){
             plotContainer = $('<div/>', {
@@ -60,14 +68,19 @@ nar.fullReport.TimeSeriesVisualization = function(config){
                         plotContainer.append(plotContent); 
                     }
                     numberOfPlots++;
+                    vizDeferred.resolve(self);
                 },
                 function(){
+                    vizDeferred.reject(self);
                     alert('data retrieval failed');
                     throw Error();
                 }
             );
         }
-        
+        else{
+            vizDeferred.resolve();
+        }
+        return vizPromise;
     };
     self.remove = function(){
         var plotContainer = self.plotContainer;
