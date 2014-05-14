@@ -116,6 +116,7 @@ nar.fullReport.TimeSeriesVisualizationController = function(timeSlider){
                    );
                    self.setCurrentlyVisibleTimeRange(clampedTimeRange);
                }
+               timeSlider.updateLabels();
            }
        };
     }());
