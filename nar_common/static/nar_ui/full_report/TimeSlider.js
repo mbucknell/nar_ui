@@ -39,14 +39,15 @@ nar.fullReport.TimeSlider = function(selector){
         var stepTotal = 10;
         var stepIncrement = possibleDifference / stepTotal;
         var offset = possibleMin;
-        for(var i = 0; i< possibleDifference; i+=stepIncrement){
-            
-            var position = (i/stepIncrement)*100 + '%'; 
-            var label = $('<label>a</label>',{
-                    
-            }).css('left', position);
-            labelsContainer.append(label);   
-        }
+        var percentRange = Number.range(0, 100);
+        
+        percentRange.every(10, function(percent){
+            var year = Date.create(((percent / 100)*possibleDifference) + possibleMin).format('{yyyy}');
+            var label = $('<label>' + year + '</label>',{
+                'class': labelClass
+            }).css('left', percent + '%');
+            labelsContainer.append(label);
+        });
         
         
     };
