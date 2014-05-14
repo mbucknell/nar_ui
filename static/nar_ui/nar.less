@@ -1,0 +1,898 @@
+/**********************
+       CONSTANTS
+***********************/
+
+@primaryColor:rgb(0,51,102);
+
+@boxColor:#fff;
+
+@titleColor:#fff;
+
+@baseFontFamily:"Source Sans Pro";
+
+@baseFontColor:@primaryColor;
+
+@boxShadow:0 0 4px rgba(0,0,0,.2);
+
+@baseFontWeightlight:300;
+
+@baseFontWeightReg:400;
+
+@baseFontWeightBold:700;
+
+@borderRadius:5px;
+
+@startColor:rgb(255,255,255);
+
+@endColor:rgb(230,230,230);
+
+@borderDark:1px solid rgb(190,190,190);
+
+@borderLight:1px solid rgb(230,230,230);
+
+@textShadow:0px 1px 0 #fff;
+
+@reverseTextShadow:0px -1px 0 #fff;
+
+@siteBackground:rgb(250,250,250);
+
+@siteBorder:1px solid rgb(240,240,240);
+
+@fullReportBorder:1px solid rgb(200,200,200);
+
+@padding:10px;
+
+@homePageContentHeight: 600px; 
+
+/*##########content##########*/
+
+ /*###########################homepage_start####################### */
+
+.content{background:none;
+        min-height:100%;
+        margin-top:10px;
+        position:relative;}
+        
+
+     
+.site_map{background:@boxColor;
+            height:@homePageContentHeight;
+            padding:0;
+            box-shadow:@boxShadow;
+            border-radius:10px 0 0 10px;
+            overflow:hidden;}
+          
+.map{background:none;
+    height:@homePageContentHeight;
+   }
+   
+.solution{background:none;
+			overflow:auto;
+}
+
+.sites{background:none;
+        height:@homePageContentHeight;
+        }
+        
+        
+.site_table{background:none;
+            margin:0 auto;
+            margin-top:15px;
+            width:860px;
+            }
+            
+.site_table th{background:none;
+                width:400px;
+                padding-left:20px;
+                font-size:1.2em;
+                color:@primaryColor;
+                }
+                
+.site_table th.first_header{width:250px;}
+                
+.site_table th.name{background:none;
+                    width:450px;}
+
+.site_table th.type{background:none;
+                    width:200px;}
+                    
+.site_table a{background:red;
+                        cursor:pointer;
+                        display:inline-block;
+                        height:40px;
+                        width:860px;}
+                        
+tr.clickableRow{cursor:pointer;}
+                        
+tr.clickableRow:hover{color:rgb(0,102,153);}
+                
+.site_table td{ padding-left:20px;
+                height:30px;
+                }
+            
+.filter{background:@siteBackground;
+        height:@homePageContentHeight;
+        border-left:1px solid rgb(220,220,220);
+        border-radius:0 10px 10px 0;
+        }
+        
+.statement{background:#fff;
+            height:130px;
+            margin-bottom:10px;
+            margin-top:15px;
+            border-radius:0 10px 0 0;
+            border:@borderDark;
+            overflow:hidden;}
+            
+.statement p{padding-top:@padding;
+                padding-left:@padding;
+                 padding-right:@padding;
+                 text-align:justify;
+                 font-size:.9em;}
+        
+        
+.map_view{width:100px;
+            height:25px;
+           margin-left:27px; 
+           margin-right:5px;
+           border:@borderDark;
+           background: -webkit-linear-gradient(top,@startColor,@endColor); /* For Safari 5.1 to 6.0 */
+			background: -o-linear-gradient(top,@startColor,@endColor); /* For Opera 11.1 to 12.0 */
+			background: -moz-linear-gradient(top,@startColor,@endColor); /* For Firefox 3.6 to 15 */
+			background: linear-gradient(top,@startColor,@endColor); /* Standard syntax */
+			border-radius:5px;
+			color:@primaryColor;
+          }
+            
+.site_view{width:100px;
+            height:25px;
+            border:@borderDark;
+           	background: -webkit-linear-gradient(top,@startColor,@endColor); /* For Safari 5.1 to 6.0 */
+			background: -o-linear-gradient(top,@startColor,@endColor); /* For Opera 11.1 to 12.0 */
+			background: -moz-linear-gradient(top,@startColor,@endColor); /* For Firefox 3.6 to 15 */
+			background: linear-gradient(top,@startColor,@endColor); /* Standard syntax */
+			border-radius:5px;
+			color:@primaryColor;
+            }
+            
+  /*###########################homepage_end####################### */
+  
+  /*###########################summary_start####################### */
+  
+  .summary_info{background:rgb(255,255,255);
+  					min-height:750px;
+  					margin-top:10px;
+  					border-radius:10px;
+  					overflow:hidden;
+  					position:relative;
+  }
+  
+  .site{background:@siteBackground;
+  		height:130px;
+  		text-align:center;
+  		border-bottom:@borderDark;
+  		color:rgb(59,59,59);
+  		
+  }
+  
+ .site h2{margin-bottom:8px;
+ 			font-size:1.8em;
+ 			
+ }
+ 
+ .col-lg-1{padding-left:0;}
+ 
+ 
+.full_report{background:none;
+ 				height:35px;
+ 				width:130px;
+ 				padding-bottom:10px;
+ 				position:absolute;
+ 				right:0;
+ 				bottom:0;
+ 				border-left:@fullReportBorder;
+ 				border-top:@fullReportBorder;
+ 				text-align:left;
+ 				color:rgb(160,160,160);
+ 				font-size:1.1em
+ 				
+ }
+ 
+ .full_report ul{background:none;
+			list-style-type:none;
+			padding-left:0;
+			height:35px;
+			width:130px;
+			font-family:@baseFontFamily;
+			font-weight:@baseFontWeightReg;
+			float:left;
+}
+
+ .full_report ul li{background:none;
+				display:inline-block;
+				width:130px;
+				height:35px;
+				padding-left:10px;
+				padding-top:6px;
+				cursor:pointer;
+				margin-bottom:10px;
+				float:left;
+				
+				
+}
+
+.full_report ul li a{color:rgb(160,160,160);
+						text-decoration:none;
+}
+
+ .full_report ul li ul{display:none;
+				margin-top:7px;
+				padding-left:0 important;
+				
+				
+}
+
+ .full_report ul li:hover{background:rgb(225,225,225);
+ 							
+ }
+
+ .full_report ul li:hover ul{display:block;
+						position:absolute;/*prevents content from shifting*/
+						z-index:5000;
+						right:0;
+						
+												
+}
+
+ .full_report ul li:hover ul li{background:rgba(255,255,255,.95);
+					margin-bottom:0;
+					padding:0;
+					border-left:@fullReportBorder;
+					border-bottom:@fullReportBorder;
+					
+					
+}
+
+ .full_report ul li:hover ul li a{background:none;
+						display:inline-block;
+						padding-top:5px;
+						padding-left:5px;
+						margin:0;
+						width:130px;
+						height:34px;
+						text-decoration:none;
+						color:rgb(150,150,150);
+						
+}
+
+ .full_report ul li:hover ul li a:hover{background:rgba(0,51,102,1);
+									color:#fff;
+}
+ 
+ .full_report img{margin-top:11px;
+ 					position:absolute;
+ 					right:15px;
+ }
+ 
+    
+.graphs{background:none;
+		height:510px;
+		margin-top:20px;
+		
+} 
+
+
+#barChart1{background:none;
+			height:100%;
+			padding:0px;
+}
+
+#barChart2{background:none;
+			height:100%;
+			padding:0px;
+}
+
+#barChart3{background:none;
+			height:100%;
+			padding:0px;
+}
+
+#barChart4{background:none;
+			height:100%;
+			padding:0px;
+}
+
+.human{background:none;
+		height:100%;
+		margin-right:10px;
+		text-align:center;
+		padding-left:5px;
+} 
+
+.human h3{font-size:1.5em;
+			color:@primaryColor;
+}
+
+.human h6{padding-left:50px;
+}
+
+.aquatic{background:none;
+		height:100%;
+		width:350px;
+		text-align:center;
+} 
+
+.aquatic h3{font-size:1.5em;
+			color:@primaryColor;
+} 
+
+.aquatic h6{padding-left:50px;
+}  
+
+/*###########################summary_end####################### */
+
+/*###########################full_report_start####################### */
+
+.full_site{background:@siteBackground;
+  		height:100px;
+  		text-align:center;
+  		border-bottom:@borderDark;
+  		color:rgb(59,59,59);
+  		
+  }
+  
+ .full_site h2{margin-bottom:8px;
+ 			font-size:1.8em;
+ 			
+ }
+
+
+.report_filter{background:@siteBackground;
+				height:650px;
+}
+
+.full_report_graphs{background:none;
+				min-height:603px;
+				text-align:center;
+				position:relative;
+}
+
+.full_report_graphs img{margin-top:15px;}
+
+.wrapper{background:none;
+		height:590px;
+		overflow:auto;
+		margin-top:10px;
+		padding-top:0;
+}
+
+
+.full_report_plot{background:none;
+		min-height:183px;
+		padding:0;
+		margin-bottom:10px;
+		cursor: move;
+}
+
+.full_report_plot img{margin:0;}
+
+.last{margin-bottom:0;}
+
+
+
+.slider{background:#eee;
+		height:30px;
+		margin:0 auto;
+		margin-top:10px;
+		margin-left: 12%;
+		width: 80%;
+}
+.slider_label_container label {
+  position: absolute;
+  width: 20px;
+  margin-top: 20px;
+  margin-left: -10px;
+  text-align: center;
+}
+
+/*###########################full_report_end####################### */
+
+
+/*#########ipad_landscape######## */
+
+@media (min-width:992px) and (max-width:1199px){
+	
+ /*###########################homepage_start####################### */
+ 
+ 
+ 
+ .statement{background:#fff;
+            height:130px;
+            margin-bottom:10px;
+            margin-top:15px;
+            border-radius:0 10px 0 0;
+            border:@borderDark;
+            overflow:hidden;
+            padding:0;}
+            
+.statement p{padding-top:5px;
+                padding-left:8px;
+                 padding-right:8px;
+                 text-align:justify;
+                 font-size:.85em;}
+                 
+.map_view{width:80px;
+            height:25px;
+           margin-left:27px; 
+           margin-right:5px;
+           border:@borderDark;
+           background: -webkit-linear-gradient(top,@startColor,@endColor); /* For Safari 5.1 to 6.0 */
+			background: -o-linear-gradient(top,@startColor,@endColor); /* For Opera 11.1 to 12.0 */
+			background: -moz-linear-gradient(top,@startColor,@endColor); /* For Firefox 3.6 to 15 */
+			background: linear-gradient(top,@startColor,@endColor); /* Standard syntax */
+			border-radius:5px;
+			color:@primaryColor;
+          }
+            
+.site_view{width:80px;
+            height:25px;
+            border:@borderDark;
+           	background: -webkit-linear-gradient(top,@startColor,@endColor); /* For Safari 5.1 to 6.0 */
+			background: -o-linear-gradient(top,@startColor,@endColor); /* For Opera 11.1 to 12.0 */
+			background: -moz-linear-gradient(top,@startColor,@endColor); /* For Firefox 3.6 to 15 */
+			background: linear-gradient(top,@startColor,@endColor); /* Standard syntax */
+			border-radius:5px;
+			color:@primaryColor;
+            }
+            
+.site_table th.first_header{background:none;
+			width:80px;
+}
+ 
+ 
+.site_table th.name{background:none;
+                    width:220px;}
+
+.site_table th.type{background:none;
+                    width:200px;}        
+
+	
+
+
+/*###########################homepage_end####################### */
+
+/*###########################summary_start####################### */
+
+			
+.graphs{background:none;
+		height:510px;
+		
+} 
+
+
+.human{background:none;
+		height:100%;
+		width:300px;
+		margin-right:10px;
+		text-align:center;
+		padding-left:5px;
+} 
+
+.human h3{font-size:1.5em;
+			color:@primaryColor;
+}
+
+.human h6{padding-left:50px;
+}
+
+.aquatic{background:none;
+		height:100%;
+		width:300px;
+		text-align:center;
+} 
+
+.aquatic h3{font-size:1.5em;
+			color:@primaryColor;
+} 
+
+.aquatic h6{padding-left:50px;
+} 
+
+.graphContainer {
+			padding:5px;
+			margin:0;
+			margin-right:10px;
+			background:none;
+			height:100%;
+			width:320px;	
+		}
+		
+
+
+			
+}/*media query end */
+
+/*#########ipad_portrait######## */
+
+@media (min-width:768px) and (max-width:991px){
+	
+ /*###########################homepage_start####################### */
+ 
+ 
+ .site_table{background:none;
+            margin:0 auto;
+            margin-top:15px;
+            width:600px;}
+            
+.site_table th{background:none;
+                width:100px;
+                padding-left:20px;
+                font-size:1.2em;
+                color:@primaryColor;
+                }
+                
+.site_table th.first_header{width:80px;}
+                
+.site_table th.name{background:none;
+                    width:320px;}
+
+.site_table th.type{background:none;
+                    width:200px;}
+                    
+.site_table a{background:none;
+                        cursor:pointer;
+                        display:inline-block;
+                        height:40px;
+                        width:860px;}
+                        
+tr.clickableRow{cursor:pointer;}
+                        
+tr.clickableRow:hover{color:rgb(0,102,153);}
+                
+.site_table td{ padding-left:20px;
+                height:30px;
+                font-size:.85em;
+                }
+ 	
+.statement{background:#fff;
+            min-height:130px;
+            margin-bottom:10px;
+            margin-top:15px;
+            border-radius:0 10px 0 0;
+            border:@borderDark;
+            padding:0;}
+            
+.statement p{padding-top:5px;
+                padding-left:8px;
+                 padding-right:8px;
+                 text-align:justify;
+                 font-size:.85em;}
+                 
+.map_view{width:75px;
+            height:25px;
+           margin-left:1px; 
+           margin-right:1px;
+           border:@borderDark;
+           background: -webkit-linear-gradient(top,@startColor,@endColor); /* For Safari 5.1 to 6.0 */
+			background: -o-linear-gradient(top,@startColor,@endColor); /* For Opera 11.1 to 12.0 */
+			background: -moz-linear-gradient(top,@startColor,@endColor); /* For Firefox 3.6 to 15 */
+			background: linear-gradient(top,@startColor,@endColor); /* Standard syntax */
+			border-radius:5px;
+			color:@primaryColor;
+			overflow:hidden;
+			font-size:.95em;
+          }
+            
+.site_view{width:75px;
+            height:25px;
+            border:@borderDark;
+           	background: -webkit-linear-gradient(top,@startColor,@endColor); /* For Safari 5.1 to 6.0 */
+			background: -o-linear-gradient(top,@startColor,@endColor); /* For Opera 11.1 to 12.0 */
+			background: -moz-linear-gradient(top,@startColor,@endColor); /* For Firefox 3.6 to 15 */
+			background: linear-gradient(top,@startColor,@endColor); /* Standard syntax */
+			border-radius:5px;
+			color:@primaryColor;
+			font-size:.95em;}
+			
+			.statement{background:#fff;
+            height:130px;
+            margin-bottom:10px;
+            margin-top:15px;
+            border-radius:0 10px 0 0;
+            border:@borderDark;
+            overflow:hidden;
+            padding:0;}
+            
+.statement p{padding-top:5px;
+                padding-left:8px;
+                 padding-right:8px;
+                 text-align:justify;
+                 font-size:.85em;}
+            
+            
+/*###########################homepage_end####################### */
+
+/*###########################summary_start####################### */
+			
+			
+.summary_info{background:rgb(255,255,255);
+  					min-height:721px;
+  					margin-top:10px;
+  					border-radius:10px;
+  					overflow:hidden;
+  					position:relative;
+  }
+			
+  .site{background:@siteBackground;
+  		height:120px;
+  		text-align:center;
+  		border-bottom:@siteBorder;
+  		color:rgb(59,59,59);
+  		
+  }
+			
+.site h2{margin-bottom:8px;
+ 			font-size:1.6em;
+ 			
+ }
+ 
+ .site h3{font-size:1.4em;}
+			
+.graphs{background:none;
+		height:100%
+		
+} 
+
+
+.human{background:none;
+		height:480px;
+		width:100%;
+		margin-right:10px;
+		margin-top:10px;
+		text-align:center;
+		padding-left:5px;
+} 
+
+.human h3{font-size:1.5em;
+			color:@primaryColor;
+}
+
+.human h6{padding-left:50px;
+}
+
+.human img{margin-bottom:10px;
+			margin:0 auto;
+}
+
+.aquatic{background:none;
+		height:480px;
+		width:100%;
+		text-align:center;
+} 
+
+.aquatic h3{font-size:1.5em;
+			color:@primaryColor;
+} 
+
+.aquatic h6{padding-left:50px;
+} 
+
+.aquatic img{margin-bottom:10px;
+			margin:0 auto;
+}
+
+
+
+/*###########################summary_end####################### */
+
+.full_site h2{margin-bottom:8px;
+ 			font-size:1.6em;
+ 			
+ }
+ 
+ .full_report_plot{background:none;
+		min-height:183px;
+		padding:0;
+		margin-bottom:10px;
+        cursor: move;
+				
+}
+	
+}/*query end */
+
+
+@media (min-width:220px) and (max-width:767px){ 
+
+/*###########################homepage_start####################### */
+ .site_table{background:none;
+            margin:0 auto;
+            margin-top:15px;
+            width:600px;}
+            
+.site_table th{background:none;
+                width:100px;
+                padding-left:20px;
+                font-size:1.2em;
+                color:@primaryColor;
+                }
+                
+.site_table th.first_header{width:80px;}
+                
+.site_table th.name{background:none;
+                    width:350px;}
+
+.site_table th.type{background:none;
+                    width:200px;}
+                    
+.site_table a{background:none;
+                        cursor:pointer;
+                        display:inline-block;
+                        height:40px;
+                        width:860px;}
+                        
+tr.clickableRow{cursor:pointer;}
+                        
+tr.clickableRow:hover{color:rgb(0,102,153);}
+                
+.site_table td{ padding-left:20px;
+                height:30px;
+                font-size:.9em;
+                }
+ 	
+.statement{background:#fff;
+            min-height:130px;
+            margin-bottom:10px;
+            margin-top:15px;
+            border-radius:0 10px 0 0;
+            border:@borderDark;
+            padding:0;}
+            
+.statement p{padding-top:5px;
+                padding-left:8px;
+                 padding-right:8px;
+                 text-align:justify;
+                 font-size:.85em;}
+                 
+.map_view{width:72px;
+            height:25px;
+           margin-left:1px; 
+           margin-right:1px;
+           border:@borderDark;
+           background: -webkit-linear-gradient(top,@startColor,@endColor); /* For Safari 5.1 to 6.0 */
+			background: -o-linear-gradient(top,@startColor,@endColor); /* For Opera 11.1 to 12.0 */
+			background: -moz-linear-gradient(top,@startColor,@endColor); /* For Firefox 3.6 to 15 */
+			background: linear-gradient(top,@startColor,@endColor); /* Standard syntax */
+			border-radius:5px;
+			color:@primaryColor;
+			overflow:hidden;
+			font-size:.85em;
+          }
+            
+.site_view{width:72px;
+            height:25px;
+            border:@borderDark;
+           	background: -webkit-linear-gradient(top,@startColor,@endColor); /* For Safari 5.1 to 6.0 */
+			background: -o-linear-gradient(top,@startColor,@endColor); /* For Opera 11.1 to 12.0 */
+			background: -moz-linear-gradient(top,@startColor,@endColor); /* For Firefox 3.6 to 15 */
+			background: linear-gradient(top,@startColor,@endColor); /* Standard syntax */
+			border-radius:5px;
+			color:@primaryColor;
+			font-size:.85em;}
+			
+			.statement{background:#fff;
+            height:130px;
+            margin-bottom:10px;
+            margin-top:15px;
+            border-radius:0 10px 0 0;
+            border:@borderDark;
+            overflow:hidden;
+            padding:0;}
+            
+.statement p{padding-top:5px;
+                padding-left:8px;
+                 padding-right:8px;
+                 text-align:justify;
+                 font-size:.85em;}
+            
+/*###########################homepage_end####################### */
+
+/*###########################summary_start####################### */
+
+			
+			
+.summary_info{background:rgb(255,255,255);
+  					min-height:421px;
+  					margin-top:10px;
+  					border-radius:10px;
+  					overflow:hidden;
+  					position:relative;
+  }
+			
+  .site{background:@siteBackground;
+  		height:120px;
+  		text-align:center;
+  		border-bottom:@siteBorder;
+  		color:rgb(59,59,59);
+  		
+  }
+			
+.site h2{margin-bottom:8px;
+ 			font-size:1.6em;
+ 			
+ }
+ 
+ .site h3{font-size:1.4em;}
+			
+.graphs{background:none;
+		height:100%
+		
+} 
+
+.water{background:none;
+		height:480px;
+		width:100%;
+		margin-left:0px;
+		margin-right:10px;
+		text-align:center;
+}  
+
+.water h3{font-size:1.5em;
+		  color:@primaryColor;
+			
+}
+
+.water img{margin-bottom:10px;
+			margin:0 auto;
+}
+
+.human{background:none;
+		height:480px;
+		width:100%;
+		margin-right:10px;
+		text-align:center;
+		padding-left:5px;
+} 
+
+.human h3{font-size:1.5em;
+			color:@primaryColor;
+}
+
+.human h6{padding-left:50px;
+}
+
+.human img{margin-bottom:10px;
+			margin:0 auto;
+}
+
+.aquatic{background:none;
+		height:480px;
+		width:100%;
+		text-align:center;
+} 
+
+.aquatic h3{font-size:1.5em;
+			color:@primaryColor;
+} 
+
+.aquatic h6{padding-left:50px;
+} 
+
+.aquatic img{margin-bottom:10px;
+			margin:0 auto;
+}
+
+/*###################################### */
+
+.full_site h2{margin-bottom:8px;
+ 			font-size:1.6em;
+ 			
+ }
+ 
+ .full_report_plot{background:none;
+		min-height:183px;
+		padding:0;
+		margin-bottom:10px;
+        cursor: move;
+		}
+
+}/*query end */
