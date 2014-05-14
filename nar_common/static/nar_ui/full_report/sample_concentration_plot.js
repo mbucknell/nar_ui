@@ -17,24 +17,20 @@ nar.fullReport = nar.fullReport || {};
             return timeSeries.data;
         });
         var data = allData[0];//only one time series' worth of data for now.
-        //do not assume sorted data set
-        var latestPoint = data.max(getXcoord);
+        //assume sorted data set
+        var latestPoint = data.last();
         var lastDate = new Date(getXcoord(latestPoint));
         var lastYear = lastDate.getFullYear();
         //must use string for year
         var startOfLastYear = Date.create(''+lastYear);
-        var endOfLastYear = startOfLastYear.clone().endOfYear();
         var startOfLastYearTimestamp = startOfLastYear.getTime();
-        var endOfLastYearTimestamp = endOfLastYear.getTime();
-        var lastYearMillisecondRange = Number.range(startOfLastYearTimestamp, endOfLastYearTimestamp);
-        var indicesToHighlight = [];
-        data.each(function(dataPoint, index){
+
+        var indexOfFirstDataPointInLastYear = data.findIndex(function(dataPoint){
            var timestamp = getXcoord(dataPoint);
-           if(lastYearMillisecondRange.contains(timestamp)){
-               indicesToHighlight.push(index);
-           }
+           return timestamp >= startOfLastYearTimestamp;
         });
-     
+        var indicesToHighlight = data.from(indexOfFirstDataPointInLastYear);
+        
         var idComponents = tsViz.getComponentsOfId();
         var constituentId = idComponents.constituent;
         var constituentInfo = nar.Constituents[constituentId];
