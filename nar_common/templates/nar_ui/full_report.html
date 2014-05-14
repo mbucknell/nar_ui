@@ -5,11 +5,13 @@
 {% block style %}
 	{{ block.super }}
 	<link rel="stylesheet" href="{% static 'nar_ui/js_lib/jstree/themes/default/style.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'nar_ui/js_lib/jquery-ui/css/ui-lightness/jquery-ui.min.css' %}"/>
 {% endblock %}
 
 {% block scripts %}
 	{{ block.super }}
 	{% compress js %}
+	    <script type="text/javascript" src="{% static 'nar_ui/js_lib/jquery-ui/jquery-ui.min.js' %}"></script>
 	   <script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.js' %}"></script>
         <script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.resize.js' %}"></script>
         <script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.categories.js' %}"></script>
