@@ -19,15 +19,14 @@ nar.fullReport.TimeSlider = function(selector){
     var labelClass = 'slider_label';
     var labelSelector = '.' + labelClass;
     
-    var labelsElt = $('<div></div>', {
+    var labelsContainer = $('<div></div>', {
         class: labelsClass
     });
-    
-    selected.append(labelsElt);
+    var labels = [];
+    selected.append(labelsContainer);
     slider.updateLabels = function(){
-        var labelsContainer = $(labelsSelector);
-        labelsContainer.remove(labelSelector);
-        
+        labels.each(function(label){label.remove();});
+        labels = [];
         var visibleMin = slider.slider('values', 0);
         var visibleMax = slider.slider('values', 1);
         var possibleMin = slider.slider('option', 'min');
@@ -44,10 +43,12 @@ nar.fullReport.TimeSlider = function(selector){
         percentRange.every(10, function(percent){
             var year = Date.create(((percent / 100)*possibleDifference) + possibleMin).format('{yyyy}');
             var label = $('<label>' + year + '</label>',{
-                'class': labelClass
-            }).css('left', percent + '%');
-            labelsContainer.append(label);
+            });
+            label.css('left', percent + '%');
+            label.addClass(labelClass);
+            labels.push(label);
         });
+        labelsContainer.append(labels);
         
         
     };
