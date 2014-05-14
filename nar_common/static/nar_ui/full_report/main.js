@@ -27,8 +27,7 @@ $(document).ready(function(){
         });
         var allTimeSeriesVizualizations = tsvRegistry.getAll();
         
-        var slider = nar.fullReport.TimeSlider("#timeSlider");
-        var tsvController = new nar.fullReport.TimeSeriesVisualizationController(slider);
+        var tsvController = new nar.fullReport.TimeSeriesVisualizationController();
         
         var tree = new nar.fullReport.Tree(allTimeSeriesVizualizations, tsvController);
         

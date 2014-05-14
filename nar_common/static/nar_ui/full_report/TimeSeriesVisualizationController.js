@@ -12,8 +12,9 @@ nar.fullReport = nar.fullReport || {};
  * @class
  * @param {nar.fullReport.TimeSlider}
  */
-nar.fullReport.TimeSeriesVisualizationController = function(timeSlider){
+nar.fullReport.TimeSeriesVisualizationController = function(){
     var self = this;
+    var timeSlider = nar.fullReport.TimeSlider("#timeSlider");
     timeSlider.on('slidechange', function(event, ui){
         var timeRange = new nar.fullReport.TimeRange(
                 ui.values[0],
@@ -31,13 +32,15 @@ nar.fullReport.TimeSeriesVisualizationController = function(timeSlider){
         var currentlyVisibleTimeRange;
         
         /**
-         * @returns {nar.fullReport.TimeRange} a copy of the currently visible time range,
-         * or undefined
+         * @returns {nar.fullReport.TimeRange|undefined} a copy of the currently visible time range,
+         * or undefined if no range is currently visible
          */
         self.getCurrentlyVisibleTimeRange = function(){
+            var timeRange = undefined;
             if(currentlyVisibleTimeRange){
-                return currentlyVisibleTimeRange.clone();
+                timeRange = currentlyVisibleTimeRange.clone();
             }
+            return timeRange;
         };
         /**
          * Sets the currently visible time range to a copy of the time range passed in
@@ -78,16 +81,18 @@ nar.fullReport.TimeSeriesVisualizationController = function(timeSlider){
     (function(){
        var possibleTimeRange;
        /**
-        * @returns {nar.fullReport.TimeRange} a copy of the currently visible time range,
+        * @returns {nar.fullReport.TimeRange|undefined} a copy of the possible time range,
         * or undefined
         */
        self.getPossibleTimeRange = function(){
+           var timeRange = undefined;
            if(possibleTimeRange){
-               return possibleTimeRange.clone();
+               timeRange = possibleTimeRange.clone();
            }
+           return timeRange;
        };
        /**
-        * Sets the currently visible time range to a copy of the time range passed in
+        * Sets the possible time range to a copy of the time range passed in
         * @param {nar.fullReport.TimeRange} timeRange
         * 
         */
