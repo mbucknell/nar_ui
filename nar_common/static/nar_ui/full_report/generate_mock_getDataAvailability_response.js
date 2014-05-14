@@ -23,9 +23,7 @@
             'nitrogen',
             'nitrate',
             'total_phosphorous',
-            'suspended_sediment',
-            'pesticides',
-            'ecology'
+            'suspended_sediment'
         ];
         
         var waterQualitySuffixes = wqConstituents.map(getWqConstituentSuffixes).flatten();
