@@ -40,5 +40,11 @@
             failedGetDataAvailability
         );
     });
-    
+    $(document).ready(function(){
+        var selector = '#plotsWrapper';
+        nar.util.assert_selector_present(selector);
+        var selected = $(selector);
+        selected.sortable();
+        selected.disableSelection();
+    });
 }());

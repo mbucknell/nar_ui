@@ -30,7 +30,16 @@ nar.fullReport.TimeSeries = function(config){
         //@todo - point at a real SOS endpoint
         var deferred = $.Deferred();
         
-        var dataRetrieval = $.ajax(CONFIG.staticUrl + 'nar_ui/full_report/mock_data_1.json')
+        var zeroOrOne = self.observedProperty.length % 2;
+        var monthlyOrAnnual;
+        if(self.observedProperty.has('sample')){
+            monthlyOrAnnual = 'monthly';            
+        }
+        else{
+            monthlyOrAnnual = 'annual';
+        }
+         
+        var dataRetrieval = $.ajax(CONFIG.staticUrl + 'nar_ui/full_report/mock_'+ monthlyOrAnnual +'_data_' + zeroOrOne +'.json')
             .success(function(response, textStatus, jqXHR){
                 //@todo: handle exception text
                 self.data = response.data;
