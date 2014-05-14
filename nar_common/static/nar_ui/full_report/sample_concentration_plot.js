@@ -17,9 +17,9 @@ nar.fullReport = nar.fullReport || {};
             return timeSeries.data;
         });
         var data = allData[0];//only one time series' worth of data for now.
-        //assume sorted data set
-        var lastPoint = data.last();
-        var lastDate = new Date(getXcoord(lastPoint));
+        //do not assume sorted data set
+        var latestPoint = data.max(getXcoord);
+        var lastDate = new Date(getXcoord(latestPoint));
         var lastYear = lastDate.getFullYear();
         //must use string for year
         var startOfLastYear = Date.create(''+lastYear);
