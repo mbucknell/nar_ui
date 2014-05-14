@@ -73,7 +73,7 @@ nar.fullReport = nar.fullReport || {};
             legend: {
                    show: false
             },
-            colors:[pointColor] 
+            colors:[pointColor]
         });
         var seriesIndex = 0; 
         indicesToHighlight.each(function(index){
