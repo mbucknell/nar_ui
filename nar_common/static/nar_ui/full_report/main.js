@@ -41,10 +41,15 @@ $(document).ready(function(){
         alert(msg);
         throw Error(msg);
     }; 
+
     
     $.when(getDataAvailabilityRequest).then(
         successfulGetDataAvailability,
         failedGetDataAvailability
-    );
-    
+    );  
+    var selector = '#plotsWrapper';
+    nar.util.assert_selector_present(selector);
+    var selected = $(selector);
+    selected.sortable();
+    selected.disableSelection();
 });
