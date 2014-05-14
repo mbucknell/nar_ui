@@ -168,9 +168,12 @@ nar.fullReport.TimeSeriesVisualization.getComponentsOfId = function(id){
 nar.fullReport.TimeSeriesVisualization.getPlotterById = function(id){
     var plotter;
     var components = nar.fullReport.TimeSeriesVisualization.getComponentsOfId(id);
- 
+    
     if (components.subcategory === 'sample'){
         plotter = nar.fullReport.SampleConcentrationPlot; 
+    }
+    else if(components.category === 'loads'){
+        plotter = nar.fullReport.LoadPlot;
     }
     else{
         var idToPlotConstructor = {
@@ -181,6 +184,8 @@ nar.fullReport.TimeSeriesVisualization.getPlotterById = function(id){
     
     return plotter;
 };
+
+
 
 //static initialization
 var instructionsSelector = '#instructions';
