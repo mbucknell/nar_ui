@@ -13,7 +13,13 @@ nar.fullReport.TimeSlider = function(selector){
     var slider = selected.slider({
         range: true,
         disabled: true
-    }); 
+    });
+    slider = slider.slider('float', {
+        formatLabel: function(timeStamp){
+            return Date.create(timeStamp).format('{yyyy}');
+        }
+    });
+    
     var labelsClass= 'slider_label_container';
     var labelsSelector = '.' + labelsClass; 
     var labelClass = 'slider_label';
