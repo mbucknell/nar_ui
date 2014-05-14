@@ -10,6 +10,8 @@
             var timestamp = date.getTime();
             mockDataSet.push([timestamp, value]);
         });
+        //remove the last month -- it is in the next year.
+        mockDataSet.pop();
         return mockDataSet;
     };
     
