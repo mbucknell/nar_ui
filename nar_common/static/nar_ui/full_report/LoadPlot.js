@@ -69,7 +69,7 @@ nar.fullReport = nar.fullReport || {};
         });
         var seriesIndex = 0; 
         indicesToHighlight.each(function(index){
-            plot.highlight(seriesIndex, index);
+            //plot.highlight(seriesIndex, index);
         });
         return plot;
     };    
