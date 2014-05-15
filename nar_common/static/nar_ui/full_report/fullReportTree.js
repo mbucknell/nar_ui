@@ -145,7 +145,9 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController){
     };
     
     graphToggleElt.on("select_node.jstree", function (e, data) {
-        var leafChildren = getAllLeafChildren(data.node);
+        var node = data.node;
+        plotTree.open_all(node);
+        var leafChildren = getAllLeafChildren(node);
         leafChildren = leafChildren.reverse();
         var timeSeriesVisualizations = leafChildren.map(getTimeSeriesVisualizationsForNode); 
         tsvController.visualizeAll(timeSeriesVisualizations);
