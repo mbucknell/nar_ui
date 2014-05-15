@@ -51,7 +51,7 @@ nar.fullReport.TimeSeriesCollection = function(){
     var cachedTimeRange;
     /**
      * Returns the time range for a collection of time series.
-     * funct
+     * 
      * If no time series have been added since the last time range
      * calculation, it returns the cached time range.
      * If time series have been added since the last time range
@@ -62,17 +62,8 @@ nar.fullReport.TimeSeriesCollection = function(){
      */
     self.getTimeRange = function(){
         if(dirty && 0 !== timeSeries.length){
-            var firstTimeSeriesTimeRange = timeSeries.first().timeRange;
-            var minStartTime=firstTimeSeriesTimeRange.startTime;
-            var maxEndTime=firstTimeSeriesTimeRange.endTime;
-
-            //compare timestamps from the first TimeSeries with the subsequent TimeSeries in the array. 
-            timeSeries.from(1).each(function(aTimeSeries){
-                minStartTime = aTimeSeries.startTime < minStartTime ? aTimeSeries.startTime : minStartTime;
-                maxEndTime = aTimeSeries.endTime < maxEndTime ? aTimeSeries.endTime : maxEndTime;
-            });
-            
-            cachedTimeRange = new TimeRange(minStartTime, maxEndTime);
+            var timeRanges = timeSeries.map(function(aTimeSeries){return aTimeSeries.timeRange;});
+            cachedTimeRange = nar.fullReport.TimeRange.ofAll(timeRanges); 
             dirty=false;
         }
         return cachedTimeRange;
