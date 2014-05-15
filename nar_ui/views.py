@@ -25,3 +25,5 @@ class SiteSummaryReportView(SiteReportView):
     template_name = 'nar_ui/summary.html'
 class SiteFullReportView(SiteReportView):
     template_name = 'nar_ui/full_report.html'
+class SiteView(TemplateView):
+    template_name = 'nar_ui/site.html'
