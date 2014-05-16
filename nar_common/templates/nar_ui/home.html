@@ -1,199 +1,70 @@
 {% extends "base.html" %}
-
 {% load static from staticfiles %}
 {% load compress %}
 
-
 {% block content %}
-<script>$(document).ready(function(){
-  $('.map_view').click(function(){
-      $('.map').delay(500).fadeIn(500);
-      $('.sites').fadeOut(500);
-  }); 
-  $('.site_view').click(function(){
-      $('.sites').delay(500).fadeIn(500);
-      $('.map').fadeOut(500);
-  });
-  
-  });</script>
-  
-   <script>jQuery(document).ready(function($) {
-      $(".clickableRow").click(function() {
-            window.document.location = $(this).attr("href");
-      });
-});
-</script>
 
-<div class="row content">
+<div class=" row holder">
 
+	<div class="col-lg-12  col-md-12 col-sm-12 col-xs-12 tagline">
 	
-    
-    	<div class="col-lg-9 site_map col-md-9 col-sm-9 col-xs-9">
-    	
-    		<div id="siteMap" class="col-lg-12 map col-md-12 col-sm-12 col-xs-12"></div><!--map-->
-    		
-    		<div class="col-lg-12 solution col-md-12 col-sm-12 col-xs-12">
-    	
-    		<div class="col-lg-12 sites col-md-12 col-sm-12 col-xs-12">
-    		
-    			<table class="site_table">
-                
-                	<th class="first_header">Station</th> <th class="name">Station Name</th> <th class="type">Site Type</th>
-                
-                	<tr class="clickableRow" href="#">
-                    	<td>01184000</td>
-                       <td>Connecticut River at Thompsonville, CT</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>01372043</td>
-                       <td>Hudson River near Poughkeepsie, NY</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>01463500</td>
-                       <td>Delaware River at Trenton, NJ</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>01578310</td>
-                       <td>Susquehanna River at Conowingo, MD</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>01646580</td>
-                       <td>Potomac River at Washington, DC</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>02175000</td>
-                       <td>Edisto River near Givhans, SC</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>02226160</td>
-                       <td>Altamaha River near Everett City, GA</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>02359170</td>
-                       <td>Apalachicola River near Sumatra, FL</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>02470500</td>
-                       <td>Mobile River at MT. Vernon, AL</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>07374525</td>
-                       <td>Mississippi River at Belle Chasse, LA</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>07381600</td>
-                       <td>Lower Atchafalaya River at Morgan City, LA</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>08116650</td>
-                       <td>Brazos River Near Rosharon, TX</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                     <tr class="clickableRow" href="#">
-                    	<td>08475000</td>
-                       <td>Rio Grande near Brownsville, TX</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>09522000</td>
-                       <td>Colorado River at NIB, above Morelos Dam, AZ</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>11074000</td>
-                       <td>Santa Ana River below Prado Dam, CA</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>11303500</td>
-                       <td>San Joaquin River near Vernalis, CA</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>11447650</td>
-                       <td>Sacramento River at Freeport, CA</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>14246900</td>
-                       <td>Columbia River near Beaver Army Terminal, OR</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>15565447</td>
-                       <td>Yukon River at Pilot Station, AK</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                
-                </table>
-    		
-    		
-    		</div><!--sites-->
-    		
-    		</div><!--solution-->
-    	
-    	</div><!--site_map-->
-    	
-    	<div class="col-lg-3 filter col-md-3 col-sm-3 col-xs-3">
-    	
-    		<div class="col-lg-12 statement">
-             	
-                <p>NAWQA Annuals Reports aims to Praesent pellentesque, libero lacinia tristique sodales, velit urna mattis quam, a ullamcorper neque arcu eu mi. Quisque convallis molestie nunc quis faucibus. 
-
-</p>
-             </div>
-    	
-    		<button class="map_view">Map View</button>
-            
-            <button class="site_view">Site List</button>
-    	
-    	</div><!--filter-->
-    
-
-</div><!--content-->
-
-{% compress js %}
-	<script type="text/javascript" src="{% static 'nar_ui/js_lib/OpenLayers/OpenLayers.debug.js' %}"></script>
-	<script type="text/javascript">
-		//point OL to the correct image path so that it loads control images properly
-		OpenLayers.ImgPath = '{% static 'nar_ui/js_lib/OpenLayers/img/' %}';
-	</script>
-	<script type="text/javascript" src="{% static 'nar_ui/map.js' %}"></script>
+		<p>Tracking Water-Quality in Streams and Rivers Across the United States</p>
 	
-{% endcompress %}
+	</div>
+	
+	<div class="center">
+	<a href="{{ settings.BASE_URL }}sites">
+		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 home_icon_holder">
+		
+			<h4>Streams and Rivers Across the US </h4>
+			
+			<div class="inside">
+			
+				<img src="{% static 'nar_ui/images/sites.jpg' %}" class="img-responsive" alt="sites photo"/>
+			
+			</div>
+		
+		</div><!--streams-->
+	</a>
+	
+	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 home_icon_holder">
+	
+		<h4>Rivers Draining to Estuaries</h4>
+		
+		<div class="inside">
+		
+			<img src="{% static 'nar_ui/images/coastalrivers.jpg' %}" class="img-responsive" alt="coastal rivers photo"/>
+		
+		</div>
+	
+	</div><!--coastalriver-->
+	
+	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 home_icon_holder last">
+	
+		<h4>Mississippi River Basin</h4>
+		
+		<div class="inside">
+		
+			<img src="{% static 'nar_ui/images/mrb.png' %}" class="img-responsive" alt="mississippi river basin photo"/>
+		
+		</div>
+	
+	</div><!--coastalriver-->
+	
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 highlight">
+	
+		<h3>2013 Highlight</h3>
+		
+		<p>Mauris in volutpat felis. Sed at odio nulla. Vivamus vitae libero condimentum quam elementum commodo eu vel arcu. Nam adipiscing vehicula mi, eget mattis nisi porta eget. Sed porttitor dui suscipit leo cursus cursus. Morbi a molestie diam, sit amet dictum lorem. Curabitur scelerisque ultrices arcu a malesuada. Morbi nulla velit, viverra id lobortis id, imperdiet vitae urna. Cras est tellus, ultrices eu erat id, blandit auctor eros. Nulla eu massa nec massa tincidunt faucibus. Proin molestie magna non ligula dignissim rutrum mattis at justo. Donec venenatis lorem sapien, nec molestie massa adipiscing ac. Praesent blandit enim in hendrerit viverra. Proin consequat interdum nulla, nec tempor libero pharetra quis.</p>
+	
+	</div>
+	
+	</div><!--center-->
+	
+	
+
+
+
+</div><!--holder-->
 
 {% endblock %}
-
-
-
-
-
-

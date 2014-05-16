@@ -11,8 +11,8 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', HomePageView.as_view()),
+    url(r'^sites$', SiteView.as_view()),
     url(r'^about$', AboutView.as_view()),
-    url(r'^site/summary-report$', SiteSummaryReportView.as_view()),
     url(r'^site/(?P<site_id>\d*)/summary-report$', SiteSummaryReportView.as_view()),
     url(r'^site/(?P<site_id>\d*)/full-report$', SiteFullReportView.as_view()),
 #     url(r'^index/', 'nar_ui.views.index', name='index')
