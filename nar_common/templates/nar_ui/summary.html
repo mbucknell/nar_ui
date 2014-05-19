@@ -43,6 +43,23 @@
 		.topBorder {
 			border-top: 2px dotted #d5d5d5;
 		}
+		.comparisonLegend {
+	      padding-left:22%;
+	      width: 100%;
+		}
+		.comparisonLegend span{
+		  font-size:.9em;
+		    width:50%;
+		    display: inline-block;
+		}
+		.currentYearComparisonYearLegend {
+		    text-align: right;	    
+		    padding-right: 10%;		    
+		}
+		.currentYearComparisonAverageLegend{
+            text-align: left;
+            padding-left: 10%;
+		}
 	</style>
 {% endblock %}
 
@@ -68,7 +85,7 @@
 				};
 			
 					
-				var nitrateGraph = ConstituentCurrentYearComparisonPlot('#barChart2', nitrateSeries, '#barChartLegend2');
+				var nitrateGraph = ConstituentCurrentYearComparisonPlot('#barChart2', nitrateSeries);
 				
 				var phosphorousSeries = {
 					constituentName: 'Nitrate',
@@ -79,7 +96,7 @@
 					averageValue: 153
 				};
 
-				var phosphorousGraph = ConstituentCurrentYearComparisonPlot('#barChart3', phosphorousSeries, '#barChartLegend3');
+				var phosphorousGraph = ConstituentCurrentYearComparisonPlot('#barChart3', phosphorousSeries);
 		
 				
 				var streamflowSeries = {
@@ -91,7 +108,7 @@
 					averageValue: 2.4
 				};
 			
-				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart1', streamflowSeries, '#barChartLegend1');
+				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart1', streamflowSeries);
 								
 				var sedimentSeries = {
 					constituentName: 'Suspended Sediment',
@@ -102,7 +119,7 @@
 					averageValue: 100
 				};
 			
-				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart4', sedimentSeries, '#barChartLegend4');
+				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart4', sedimentSeries);
 				
 			});
 		</script>
@@ -167,15 +184,6 @@
 			<div class="row">
 				<div class="unitLabel col-lg-3 col-md-3 col-sm-3 col-xs-3">Million Acre-Feet</div>
 				<div class="unitLabel leftBorder col-lg-9 col-md-9 col-sm-9 col-xs-9">Million Tons</div>
-			</div>
-			<div class="row">
-				<div id="barChartLegend1" class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ></div>
-				
-				<div id="barChartLegend2" class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
-				
-				<div id="barChartLegend3" class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
-				
-				<div id="barChartLegend4" class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
 			</div>
 		</div>
 		

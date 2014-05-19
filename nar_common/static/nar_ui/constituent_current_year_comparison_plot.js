@@ -42,22 +42,30 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
 	var plotDiv = $('<div/>', {'class': plotClass});
 	var plotDivSelector = plotContainerSelector + ' .' + plotClass;
 	plotContainer.append(plotDiv);
-
+	
+	
+	var legendElt = $('<div/>', {'class': ConstituentCurrentYearComparisonPlot.legendClass});
+	var yearLegendClass = ConstituentCurrentYearComparisonPlot.yearLegendClass;
+    var yearLegendElt = $('<span/>', {'class': yearLegendClass });
+    yearLegendElt.html('2014');
+    var yearLegendEltSelector = plotContainerSelector + ' .' + yearLegendClass;
+    
+    var averageLegendClass = ConstituentCurrentYearComparisonPlot.averageLegendClass;
+    var averageLegendElt = $('<span/>', {'class': averageLegendClass });
+    averageLegendElt.html('Avg.');
+    legendElt.append(averageLegendElt);
+    legendElt.append(yearLegendElt);
+    plotContainer.append(legendElt);
+	
 	var titleClass = ConstituentCurrentYearComparisonPlot.titleClass;
 	var titleDiv = $('<div/>', {'class': titleClass });
 	titleDiv.html(series.constituentName);
 	var titleDivSelector = plotContainerSelector + ' .' + titleClass;
 	plotContainer.append(titleDiv);
-	if(!legendSelector){
-		var legendClass = ConstituentCurrentYearComparisonPlot.legendClass;
-		var legendDiv = $('<div/>', {'class': legendClass });
-		legendSelector = plotContainerSelector + ' .' + legendClass;
-		plotContainer.append(legendDiv);
-	}
 	
 	var yearSeries = {
 
-        data: [['2014', series.yearValue]],
+        data: [['', series.yearValue]],
         label: '2014',
         bars: {
                 show: true,
@@ -82,21 +90,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
 
     var plot = $.plot(plotDivSelector, flotSeries, {
         xaxis: {
-//             tickFormatter: function(val, axis){
-//                 var tickLabel = '';
-//                 if(val > axis.datamax){
-//                     tickLabel = '2014'
-//                 }
-//                 return tickLabel;
-//             }
             mode: "categories",
-//            ticks: [[-0.5, 'asdf'], [0.5, '2014']]
-//            categories: ['2014']
-//            axisLabel: '2014',
-//            axisLabelUseCanvas: true,
-//            axisLabelPadding: 3
-                            
-//            tickLength: 0
         },
         yaxis: {
             axisLabel: series.displayUnitOnYAxis ? series.constituentUnit : null,
@@ -110,12 +104,14 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
             content: '%s: %y ' + series.constituentUnit 
         },
         legend: {
-            container: legendSelector || null
+            show: false
         }
     });
     return plot;
 };
 ConstituentCurrentYearComparisonPlot.defaultAverageColor = '#D8DCDC';
 ConstituentCurrentYearComparisonPlot.titleClass = 'currentYearComparisonTitle';
-ConstituentCurrentYearComparisonPlot.legendClass = 'currentYearComparisonLegend';
+ConstituentCurrentYearComparisonPlot.yearLegendClass = 'currentYearComparisonYearLegend';
+ConstituentCurrentYearComparisonPlot.averageLegendClass = 'currentYearComparisonAverageLegend';
+ConstituentCurrentYearComparisonPlot.legendClass = 'comparisonLegend';
 ConstituentCurrentYearComparisonPlot.plotClass = 'currentYearComparisonPlot';
