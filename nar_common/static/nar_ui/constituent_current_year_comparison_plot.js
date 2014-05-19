@@ -57,11 +57,11 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
 	
 	var yearSeries = {
 
-        data: [['', series.yearValue]],
+        data: [['2014', series.yearValue]],
         label: '2014',
         bars: {
                 show: true,
-                barWidth: 0.4,
+                barWidth: 4,
                 align: "left",
                 fillColor: series.yearColor
             }
@@ -72,7 +72,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
 		label : series.averageName,
 		bars : {
 			show : true,
-			barWidth : 0.4,
+			barWidth : 4,
 			align : "right",
 			fillColor: averageColor
 		}
@@ -81,16 +81,22 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
 	var flotSeries = [averageSeries, yearSeries];
 
     var plot = $.plot(plotDivSelector, flotSeries, {
-        series: {
-            bars: {
-                show: true,
-                barWidth: 0.6,
-                align: "center"
-            }
-        },
         xaxis: {
+//             tickFormatter: function(val, axis){
+//                 var tickLabel = '';
+//                 if(val > axis.datamax){
+//                     tickLabel = '2014'
+//                 }
+//                 return tickLabel;
+//             }
             mode: "categories",
-            tickLength: 0
+//            ticks: [[-0.5, 'asdf'], [0.5, '2014']]
+//            categories: ['2014']
+//            axisLabel: '2014',
+//            axisLabelUseCanvas: true,
+//            axisLabelPadding: 3
+                            
+//            tickLength: 0
         },
         yaxis: {
             axisLabel: series.displayUnitOnYAxis ? series.constituentUnit : null,

@@ -33,15 +33,15 @@
 			text-align:center;
 		}
 		.unitLabel {
-			border-top: 2px solid black;
+			border-top: 2px dotted #d5d5d5;
 			text-align:center;
 			height: 60px;
 		}
 		.leftBorder {
-			border-left: 2px solid black;
+			border-left: 2px dotted #d5d5d5;
 		}
 		.topBorder {
-			border-top: 2px solid black;
+			border-top: 2px dotted #d5d5d5;
 		}
 	</style>
 {% endblock %}
@@ -151,7 +151,10 @@
 	
 	<div class="col-lg-12 graphs col-md-12 col-sm-12 col-xs-12">
 	
-		<div class="col-lg-4 graphContainer col-md-3 col-sm-12 col-xs-12">
+		<div class="col-lg-4 graphContainer human col-md-3 col-sm-12 col-xs-12">
+	        <div class="row">
+	           <h3>Streamflow and Water Quality</h3>
+	        </div>
 			<div class="row">
 				<div id="barChart1" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3" ></div>
 				
@@ -177,19 +180,20 @@
 		</div>
 		
 		<div class="col-lg-4 human col-md-3 col-sm-12 col-xs-12">
-		
-			<h3>Human-Health Benchmarks Exceedances</h3>
+		    <div class="row">
+			 <h3>Human-Health Benchmarks Exceedances</h3>
+            </div>
+            <div class="row">			
+			 <img src="{% static 'nar_ui/images/graph_02.png' %}" class="img-responsive" alt="graph_02"/>
 			
-			<img src="{% static 'nar_ui/images/graph_02.png' %}" class="img-responsive" alt="graph_02"/>
-			
-			<h6>Percent of time with concentrations greater than the benchmark in water year 2012</h6>
-		
+			 <h6>Percent of time with concentrations greater than the benchmark in water year 2012</h6>
+		    </div>
 		</div>
 		
 		<div class="col-lg-4 aquatic col-md-3 col-sm-12 col-xs-12">
-		
-			<h3>Aquatic-life Benchmark Exceedances</h3>
-			
+		  <div class="row">
+            <h3>Aquatic-life Benchmark Exceedances</h3>
+	      </div>
 			<img src="{% static 'nar_ui/images/graph_03.png' %}" class="img-responsive" alt="graph_03"/>
 			
 			<h6>Percent of time with one or more exceedances in water year 2012</h6>
