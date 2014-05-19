@@ -1,0 +1,734 @@
+
+/**********************
+       CONSTANTS
+***********************/
+
+@primaryColor:rgb(0,51,102);
+
+@boxColor:#fff;
+
+@titleColor:#fff;
+
+@baseFontFamily:"Signika Negative";
+
+@baseFontColor:@primaryColor;
+
+@boxShadow:0 0 4px rgba(0,0,0,.2);
+
+@baseFontWeightlight:300;
+
+@baseFontWeightReg:400;
+
+@baseFontWeightBold:700;
+
+@siteBorder:1px solid rgb(230,230,230);
+
+@megaMenuLinkColor:#000;
+
+@megaMenuHoverColor:rgb(102,204,255);
+
+@padding:10px;
+
+@linkLineHeight:.7em;
+
+@linkMarginTop:5px;
+
+@linkMarginLeft:10px;
+
+/*********************************
+   OPERATIONS & COLOR FUNCTIONS
+**********************************/
+
+
+
+/**********************
+         STYLES
+***********************/
+body{background:rgb(213,213,213);
+	min-width:730px;
+}
+
+.container{background:none;
+                min-height:400px;}
+/*##########header##########*/               
+header.row{background:#000;
+            height:72px;
+            margin-top:10px;}
+            
+.logo{background:aqua;
+    height:72px;
+    padding:0;
+   width:178px;
+    }
+    
+.banner{background:none;
+    height:72px;
+    padding:0;
+    }
+    
+
+    
+.header_nav{background:none;
+    height:72px;
+    width:114px;
+    padding:0px;
+    }
+    
+.header_nav ul{list-style-type:none;
+                color:#fff;
+                font-size:1em;
+                 padding:0px;
+                 margin-top:9px;
+                 line-height:1.4em;}
+                 
+.header_nav a{color:@titleColor;}
+
+.header_nav a:hover{text-decoration:underline;}
+/*##########header_end##########*/ 
+ 
+/*##########title_area##########*/
+  
+ .title_area{background:@primaryColor;
+                height:38px;
+                margin-top:1px;
+               }
+               
+.title{background:none;
+        height:38px;
+        padding:0;
+        margin:0;
+        width:775px;}
+        
+.title a{text-decoration:none;}
+                
+.title h4{color:@titleColor;
+                font-family:@baseFontFamily;
+                font-weight:@baseFontWeightReg;
+               padding:0;
+               margin-top:10px;
+               margin-left:10px;
+                }
+ .buttons{  background:none;
+            position:relative;
+            padding:0;
+            margin-top:0;
+            height:38px;
+            width:395px;
+            }
+            
+.buttons ul{list-style-type:none;
+            background:none;
+            height:38px;
+            padding:0;
+            margin:0;
+            }
+
+.buttons li{
+            font-family:@baseFontFamily;
+            float:left;
+            background:none;
+            width:160px;
+           color:#fff;
+           margin-right:5px;
+           padding-top:8px;
+           padding-bottom:10px;
+           text-align:center;
+           font-size:1.1em;
+           cursor:pointer;
+           
+           }
+           
+.buttons li.small{width:110px;}
+           
+.buttons li:hover{background:#fff;
+                    color:@primaryColor;
+                   }
+                    
+.mega_menu{display:none;}
+
+.buttons li:hover .mega_menu{display:block;
+                            background:rgba(255,255,255,.95);
+                            min-height:300px;
+                            width:340px;
+                            margin-top:9px;
+                            position:absolute;
+                            z-index:1000;
+                            text-align:left;
+                            box-shadow:0 1px 5px rgba(0,0,0,.3);} 
+                            
+h3{padding:0;
+    margin:0;
+    font-size:1.4em;}
+                            
+#national{background:none;
+            min-height:80px;
+            width:100%;
+             padding-left:@padding;
+             padding-top:@padding;
+             border-bottom:@siteBorder;
+}
+
+#national p{margin-left:@linkMarginLeft;
+            margin-top:@linkMarginTop;
+            font-family:@baseFontFamily;
+            line-height:@linkLineHeight;}
+            
+#national a{color:@megaMenuLinkColor;
+            text-decoration:none;}
+            
+#national a:hover{color:@megaMenuHoverColor;}
+
+
+#mississippi{background:none;
+            height:80px;
+            width:100%;
+              padding-left:@padding;
+             padding-top:@padding;
+             border-bottom:@siteBorder;}
+             
+#mississippi p{margin-left:@linkMarginLeft;
+            margin-top:@linkMarginTop;
+            font-family:@baseFontFamily;
+            line-height:@linkLineHeight;}
+            
+#mississippi a{color:@megaMenuLinkColor;
+            text-decoration:none;}
+            
+#mississippi a:hover{color:@megaMenuHoverColor;}
+            
+#site{background:none;
+            height:140px;
+            width:100%;
+            padding-left:@padding;
+             padding-top:@padding;}
+            
+#site p{margin-left:@linkMarginLeft;
+            margin-top:@linkMarginTop;
+            font-family:@baseFontFamily;
+            line-height:@linkLineHeight;}
+            
+#site a{color:@megaMenuLinkColor;
+            text-decoration:none;}
+            
+#site a:hover{color:@megaMenuHoverColor;}
+
+.empty{background:none;
+            height:40px;
+            width:100%;
+            padding-left:@padding;
+             padding-top:@padding;
+             border-bottom:@siteBorder;}
+            
+.empty p{margin-left:@linkMarginLeft;
+            margin-top:@linkMarginTop;
+            font-family:@baseFontFamily;
+            line-height:@linkLineHeight;}
+            
+.empty a{color:@megaMenuLinkColor;
+            text-decoration:none;}
+            
+.empty a:hover{color:@megaMenuHoverColor;}
+
+#methods{background:none;
+            height:80px;
+            width:100%;
+            padding-left:@padding;
+             padding-top:@padding;
+             border-bottom:@siteBorder;}
+            
+#methods p{margin-left:@linkMarginLeft;
+            margin-top:@linkMarginTop;
+            font-family:@baseFontFamily;
+            line-height:@linkLineHeight;}
+            
+#methods a{color:@megaMenuLinkColor;
+            text-decoration:none;}
+            
+#methods a:hover{color:@megaMenuHoverColor;}
+
+#nawqa{background:none;
+            height:80px;
+            width:100%;
+            padding-left:@padding;
+             padding-top:@padding;
+             border-bottom:@siteBorder;}
+            
+#nawqa p{margin-left:@linkMarginLeft;
+            margin-top:@linkMarginTop;
+            font-family:@baseFontFamily;
+            line-height:@linkLineHeight;}
+            
+#nawqa a{color:@megaMenuLinkColor;
+            text-decoration:none;}
+            
+#nawqa a:hover{color:@megaMenuHoverColor;}
+
+#nasqan{background:none;
+            height:100px;
+            width:100%;
+            padding-left:@padding;
+             padding-top:@padding;
+             border-bottom:@siteBorder;
+             }
+            
+#nasqan p{margin-left:@linkMarginLeft;
+            margin-top:@linkMarginTop;
+            font-family:@baseFontFamily;
+            line-height:@linkLineHeight;}
+            
+#nasqan a{color:@megaMenuLinkColor;
+            text-decoration:none;}
+            
+#nasqan a:hover{color:@megaMenuHoverColor;}
+
+.link a{color:@primaryColor}
+                
+/*##########title_area_end##########*/
+
+/*##########footer##########*/
+
+footer{min-height:20px;
+        margin-top:10px;
+        position:relative;
+        }
+        
+.footer_top{background:rgb(102,102,102);
+            height:20px;
+            padding:0;
+           font-size:.8em;
+           }
+            
+.footer_top ul{list-style-type:none;
+                 margin-left:-25px; 
+                 }
+
+.footer_top li{float:left;
+                margin-right:40px;
+                padding-top:3px;
+                }
+                
+.footer_top a{color:#fff;}
+            
+.footer_bottom{background:#fff;
+            min-height:20px;}
+            
+.footer_bottom p.first{margin-top:7px;}
+
+.footer_bottom p{line-height:1em;}
+            
+.footer_bottom a{color:@primaryColor;}
+
+#pic_links{background:none;
+            width:175px;
+            height:70px;
+            position:absolute;
+            right:0;
+            top:10px;}
+            
+#pic_links img{float:left;
+                margin-right:10px;}
+
+/*##########footer_end##########*/
+ 
+@media (min-width:768px) and (max-width:1199px){
+	
+header.row{background:#000;
+            height:72px;
+            margin-top:0px;}
+	
+.banner{background:none;
+    height:72px;
+    width:678px;
+    padding:0;
+    }
+    
+.title{background:none;
+        height:38px;
+       width:580px;
+        padding:0;
+        margin:0;}	
+        
+.buttons{  background:none;
+            position:relative;
+            padding:0;
+            margin-top:0;
+            height:38px;
+            width:390px;
+            }
+            
+.buttons li{width:140px;}
+            
+.buttons li.small{width:110px;}
+
+
+.buttons li:hover .mega_menu{display:block;
+                            background:rgba(255,255,255,.95);
+                            min-height:300px;
+                            width:275px;
+                            margin-top:9px;
+                            position:absolute;
+                            z-index:1000;
+                            text-align:left;
+                            box-shadow:0 1px 5px rgba(0,0,0,.3);} 
+                            
+h3{padding:0;
+    margin:0;
+    font-size:1.2em;}
+                            
+#national{background:none;
+            min-height:80px;
+            width:100%;
+             padding-left:@padding;
+             padding-top:@padding;
+             border-bottom:@siteBorder;
+}
+
+
+#national p{margin-left:@linkMarginLeft;
+            margin-top:@linkMarginTop;
+            font-family:@baseFontFamily;
+            line-height:@linkLineHeight;}
+            
+#national a{color:@megaMenuLinkColor;
+            text-decoration:none;}
+            
+#national a:hover{color:@megaMenuHoverColor;}
+
+
+#mississippi{background:none;
+            height:80px;
+            width:100%;
+              padding-left:@padding;
+             padding-top:@padding;
+             border-bottom:@siteBorder;}
+             
+ 
+             
+#mississippi p{margin-left:@linkMarginLeft;
+            margin-top:@linkMarginTop;
+            font-family:@baseFontFamily;
+            line-height:@linkLineHeight;}
+            
+#mississippi a{color:@megaMenuLinkColor;
+            text-decoration:none;}
+            
+#mississippi a:hover{color:@megaMenuHoverColor;}
+            
+#site{background:none;
+            height:140px;
+            width:100%;
+            padding-left:@padding;
+             padding-top:@padding;}
+            
+#site p{margin-left:@linkMarginLeft;
+            margin-top:@linkMarginTop;
+            font-family:@baseFontFamily;
+            line-height:@linkLineHeight;}
+            
+#site a{color:@megaMenuLinkColor;
+            text-decoration:none;}
+            
+#site a:hover{color:@megaMenuHoverColor;}
+
+.empty{background:none;
+            height:40px;
+            width:100%;
+            padding-left:@padding;
+             padding-top:@padding;
+             border-bottom:@siteBorder;}
+            
+.empty p{margin-left:@linkMarginLeft;
+            margin-top:@linkMarginTop;
+            font-family:@baseFontFamily;
+            line-height:@linkLineHeight;}
+            
+.empty a{color:@megaMenuLinkColor;
+            text-decoration:none;}
+            
+.empty a:hover{color:@megaMenuHoverColor;}
+
+#methods{background:none;
+            height:80px;
+            width:100%;
+            padding-left:@padding;
+             padding-top:@padding;
+             border-bottom:@siteBorder;}
+            
+#methods p{margin-left:@linkMarginLeft;
+            margin-top:@linkMarginTop;
+            font-family:@baseFontFamily;
+            line-height:@linkLineHeight;}
+            
+#methods a{color:@megaMenuLinkColor;
+            text-decoration:none;}
+            
+#methods a:hover{color:@megaMenuHoverColor;}
+
+#nawqa{background:none;
+            height:80px;
+            width:100%;
+            padding-left:@padding;
+             padding-top:@padding;
+             border-bottom:@siteBorder;}
+            
+#nawqa p{margin-left:@linkMarginLeft;
+            margin-top:@linkMarginTop;
+            font-family:@baseFontFamily;
+            line-height:@linkLineHeight;}
+            
+#nawqa a{color:@megaMenuLinkColor;
+            text-decoration:none;}
+            
+#nawqa a:hover{color:@megaMenuHoverColor;}
+
+#nasqan{background:none;
+            height:100px;
+            width:100%;
+            padding-left:@padding;
+             padding-top:@padding;
+             border-bottom:@siteBorder;
+             }
+            
+#nasqan p{margin-left:@linkMarginLeft;
+            margin-top:@linkMarginTop;
+            font-family:@baseFontFamily;
+            line-height:@linkLineHeight;}
+            
+#nasqan a{color:@megaMenuLinkColor;
+            text-decoration:none;}
+            
+#nasqan a:hover{color:@megaMenuHoverColor;}
+
+.link a{color:@primaryColor}
+	
+	
+	
+}
+
+@media (min-width:768px) and (max-width:991px){
+	
+header.row{background:#000;
+            height:72px;
+            margin-top:0px;}
+	
+.banner{background:none;
+    height:72px;
+    width:457px;
+    padding:0;
+    }
+    
+.title{background:none;
+        height:38px;
+       width:400px;
+        padding:0;
+        margin:0;}	
+        
+.title h4{color:@titleColor;
+                font-family:@baseFontFamily;
+                font-weight:@baseFontWeightReg;
+                font-size:1.2em;
+               padding:0;
+               margin-top:10px;
+               margin-left:10px;
+                }
+        
+.buttons{  background:none;
+            position:relative;
+            padding:0;
+            margin-top:0;
+            height:38px;
+            width:350px;
+            }
+            
+.buttons li{
+            font-family:@baseFontFamily;
+            float:left;
+            background:none;
+            width:125px;
+           color:#fff;
+           margin-right:5px;
+           padding-top:10px;
+           padding-bottom:10px;
+           text-align:center;
+           font-size:.9em;
+           cursor:pointer;
+           
+           }
+           
+.buttons li.small{width:95px;}		
+	
+	
+
+
+.buttons li:hover .mega_menu{display:block;
+                            background:rgba(255,255,255,.95);
+                            min-height:300px;
+                            width:250px;
+                            margin-top:9px;
+                            position:absolute;
+                            z-index:1000;
+                            text-align:left;
+                            box-shadow:0 1px 5px rgba(0,0,0,.3);} 
+                            
+h3{padding:0;
+    margin:0;
+    font-size:1.2em;}
+    
+    }
+
+@media (min-width:220px) and (max-width:767px){
+	
+	
+header.row{background:#000;
+            height:72px;
+            margin-top:0px;}
+            
+.logo{background:aqua;
+    height:72px;
+    padding:0;
+   width:178px;
+    }
+    
+.banner{background:none;
+    height:72px;
+    width:420px;
+    padding:0;
+    }		
+	
+    
+
+    
+.header_nav{background:none;
+    height:72px;
+    width:114px;
+    padding:0px;
+    }
+    
+.header_nav ul{list-style-type:none;
+                color:#fff;
+                font-size:1em;
+                 padding:0px;
+                 margin-top:9px;
+                 line-height:1.4em;}
+                 
+.header_nav a{color:@titleColor;}
+
+.header_nav a:hover{text-decoration:underline;}
+
+
+/*##########header_end##########*/ 
+ 
+/*##########title_area##########*/
+  
+ .title{background:none;
+        height:38px;
+       width:380px;
+        padding:0;
+        margin:0;}	
+        
+.title h4{color:@titleColor;
+                font-family:@baseFontFamily;
+                font-weight:@baseFontWeightReg;
+                font-size:1.2em;
+               padding:0;
+               margin-top:10px;
+               margin-left:10px;
+                }
+        
+.buttons{  background:none;
+            position:relative;
+            padding:0;
+            margin-top:0;
+            height:38px;
+            width:350px;
+            }
+            
+.buttons li{
+            font-family:@baseFontFamily;
+            float:left;
+            background:none;
+            width:135px;
+           color:#fff;
+           margin-right:5px;
+           padding-top:10px;
+           padding-bottom:10px;
+           text-align:center;
+           font-size:.9em;
+           cursor:pointer;
+           
+           }
+           
+.buttons li.small{width:95px;}	
+
+
+.buttons li:hover .mega_menu{display:block;
+                            background:rgba(255,255,255,.95);
+                            min-height:300px;
+                            width:250px;
+                            margin-top:9px;
+                            position:absolute;
+                            z-index:1000;
+                            text-align:left;
+                            box-shadow:0 1px 5px rgba(0,0,0,.3);} 
+                            
+h3{padding:0;
+    margin:0;
+    font-size:1.2em;}
+	
+	
+
+                
+/*##########title_area_end##########*/
+
+/*##########footer##########*/
+
+footer{min-height:20px;
+        margin-top:10px;
+        position:relative;
+        }
+        
+.footer_top{background:rgb(102,102,102);
+            height:20px;
+            padding:0;
+           font-size:.8em;
+           }
+            
+.footer_top ul{list-style-type:none;
+                 margin-left:-25px; 
+                 }
+
+.footer_top li{float:left;
+                margin-right:40px;
+                padding-top:3px;
+                }
+                
+.footer_top a{color:#fff;}
+            
+.footer_bottom{background:#fff;
+            min-height:20px;}
+            
+.footer_bottom p.first{margin-top:7px;}
+
+.footer_bottom p{line-height:1em;}
+            
+.footer_bottom a{color:@primaryColor;}
+
+#pic_links{background:none;
+            width:175px;
+            height:70px;
+            position:absolute;
+            right:0;
+            top:10px;}
+            
+#pic_links img{float:left;
+                margin-right:10px;}	
+	
+	
+}
+
+
+  
+
+/**********************
+        MIXINS
+***********************/
