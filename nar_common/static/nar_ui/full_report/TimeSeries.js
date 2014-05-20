@@ -64,6 +64,65 @@ nar.fullReport.TimeRange = function(startTime, endTime){
   var self = this;
   self.startTime = nar.util.getTimeStamp(startTime);
   self.endTime = nar.util.getTimeStamp(endTime);
+  self.clone = function(){
+      return nar.fullReport.TimeRange.clone(self);
+  };
+  self.equals = function(otherTimeRange){
+      return nar.fullReport.TimeRange.equals(self, otherTimeRange);
+  };
 };
 
+
+
+//private 
+/**
+ * @param {nar.fullReport.TimeRange} init
+ * @param {nar.fullReport.TimeRange} current the current element of iteration
+ */
+var timeExtentExtremityFinder = function(init, current){
+    init.startTime = Math.min(init.startTime, current.startTime);
+    init.endTime = Math.max(init.endTime, current.endTime);
+    return init;
+};
+
+//public static methods
+
+/**
+ * Clones the specified time range
+ * @param {nar.fullReport.TimeRange} timeRange
+ */
+nar.fullReport.TimeRange.clone = function(timeRange){
+    return new nar.fullReport.TimeRange(timeRange.startTime,timeRange.endTime);
+};
+nar.fullReport.TimeRange.equals = function(timeRangeA, timeRangeB){
+    var equal = false;
+    if(undefined !== timeRangeA && undefined !== timeRangeB){
+        if(timeRangeA.constructor === nar.fullReport.TimeRange &&
+           timeRangeB.constructor === nar.fullReport.TimeRange){
+            
+            equal = timeRangeA.startTime === timeRangeB.startTime &&
+                   timeRangeA.endTime === timeRangeB.endTime;
+        }
+    }
+    return equal;
+};
+
+/**
+ * Given a collection of TimeRanges, produce an aggregate TimeRange 
+ * whose startTime is the smallest startTime of timeRanges
+ * and whose endTime is the largest endTime of timeRanges
+ *  
+ * @param {array<TimeRange>} timeRanges
+ * @returns {TimeRange}
+ */
+nar.fullReport.TimeRange.ofAll = function(timeRanges){
+    var firstTimeRange = timeRanges.first();
+    if(firstTimeRange){
+        //since reduce modifies the init value, we must create a copy to avoid modifying the
+        //original while searching
+        var initValue = firstTimeRange.clone();
+        var maxExtent = timeRanges.reduce(timeExtentExtremityFinder, initValue);
+        return maxExtent;
+    }
+};
 }());

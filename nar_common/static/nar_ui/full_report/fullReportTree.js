@@ -1,6 +1,10 @@
 var nar = nar || {};
 nar.fullReport = nar.fullReport || {};
-nar.fullReport.Tree = function(timeSeriesVisualizations){
+/**
+ * @param {array<nar.fullReport.TimeSeriesVisualization>} timeSeriesVisualizations - an array of all possible tsv's
+ * @param {nar.fullReport.TimeSeriesVisualizationController} tsvController - all currently visualized tsv's
+ */
+nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController){
     var self = this;
     var treeNodeIds = {}; //psuedo-set; keys are string TimeSeriesVisualization ids. Values are meaningless.
     var treeNodes = [];
@@ -141,18 +145,16 @@ nar.fullReport.Tree = function(timeSeriesVisualizations){
     };
     
     graphToggleElt.on("select_node.jstree", function (e, data) {
-        var leafChildren = getAllLeafChildren(data.node);
+        var node = data.node;
+        plotTree.open_all(node);
+        var leafChildren = getAllLeafChildren(node);
         leafChildren = leafChildren.reverse();
         var timeSeriesVisualizations = leafChildren.map(getTimeSeriesVisualizationsForNode); 
-        timeSeriesVisualizations.each(function(timeSeriesVisualization){
-            timeSeriesVisualization.visualize();
-        });
+        tsvController.visualizeAll(timeSeriesVisualizations);
     });
     graphToggleElt.on("deselect_node.jstree", function (e, data) {
         var leafChildren = getAllLeafChildren(data.node);
         var timeSeriesVisualizations = leafChildren.map(getTimeSeriesVisualizationsForNode);
-        timeSeriesVisualizations.each(function(timeSeriesVisualization){
-            timeSeriesVisualization.remove();
-        });
+        tsvController.removeAll(timeSeriesVisualizations);
     });
 };
