@@ -245,7 +245,7 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
  .col-lg-1{padding-left:0;}
  
  
-.full_report{background:none;
+.full_report{background:rgb(230,230,230);
  				height:35px;
  				width:130px;
  				padding-bottom:10px;
@@ -256,8 +256,12 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
  				border-top:@fullReportBorder;
  				text-align:left;
  				color:rgb(160,160,160);
- 				font-size:1.1em
+ 				font-size:1.1em;
+ 				border-radius:5px 0 0 0;
+ 				}
  				
+ .full_report:hover{background:rgb(210,210,210);
+ 					
  }
  
  .full_report ul{background:none;
@@ -279,56 +283,10 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 				cursor:pointer;
 				margin-bottom:10px;
 				float:left;
-				
-				
-}
+				}
 
-.full_report ul li a{color:rgb(160,160,160);
+.full_report ul li a{color:#000;
 						text-decoration:none;
-}
-
- .full_report ul li ul{display:none;
-				margin-top:7px;
-				padding-left:0 important;
-				
-				
-}
-
- .full_report ul li:hover{background:rgb(225,225,225);
- 							
- }
-
- .full_report ul li:hover ul{display:block;
-						position:absolute;/*prevents content from shifting*/
-						z-index:5000;
-						right:0;
-						
-												
-}
-
- .full_report ul li:hover ul li{background:rgba(255,255,255,.95);
-					margin-bottom:0;
-					padding:0;
-					border-left:@fullReportBorder;
-					border-bottom:@fullReportBorder;
-					
-					
-}
-
- .full_report ul li:hover ul li a{background:none;
-						display:inline-block;
-						padding-top:5px;
-						padding-left:5px;
-						margin:0;
-						width:130px;
-						height:34px;
-						text-decoration:none;
-						color:rgb(150,150,150);
-						
-}
-
- .full_report ul li:hover ul li a:hover{background:rgba(0,51,102,1);
-									color:#fff;
 }
  
  .full_report img{margin-top:11px;
