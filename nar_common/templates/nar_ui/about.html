@@ -1,21 +1,46 @@
 {% extends "base.html" %}
+{% load static from staticfiles %}
+{% load compress %}
 
 {% block content %}
-<div class="content" style="background-color: white; padding:15px;">
+
+
+<div class="content">
+
+	<div id="wrapper">
+
 <h1>About</h1>
-<p style="padding:15px;">
-The <a href="http://water.usgs.gov/nawqa/about.html">National Water-Quality Assessment Program</a> <b>(NAWQA)</b>
-provides an understanding of water-quality conditions; whether conditions are getting better or worse over time; 
-and how natural features and human activities affect those conditions. Regional and national assessments are possible 
-because of a consistent study design and uniform methods of data collection and analysis. Monitoring data are 
-integrated with geographic information on hydrological characteristics, land use, and other landscape features in models
- to extend water-quality understanding to unmonitored areas. Local, State, Tribal, and 
- <a href="http://water.usgs.gov/nawqa/xrel.pdf">national stakeholders use NAWQA information</a> to design and implement
- strategies for managing, protecting, and monitoring water resources in many different hydrologic and land-use 
- settings across the Nation.
+
+<p>
+
+The National Fixed Site Network (NFSN) includes 100 sites monitored by the USGS National Water-Quality Assessment 
+(<a href="" target="_blank">NAWQA</a>) Program. The NFSN includes 19 large river coastal sites, 42 large river inland sites, 
+19 wadeable stream reference sites, 10 wadeable stream urban sites, and 10 wadeable stream agricultural sites. The primary 
+objectives to be addressed by the NSFN are to: 
 </p>
-<p style="padding:15px;">
-The National Fixed Site Network (NFSN) includes 19 large river coastal sites, 42 large river inland sites, 19 wadeable stream reference sites, 10 wadeable stream urban sites, and 10 wadeable stream agricultural sites. The primary objectives to be addressed by the NSFN are: 1) determine the status and trends in loads and concentrations of contaminants, nutrients, and sediment in the Nation’s large rivers, including loads to selected major estuaries; 2) determine the status and trends in concentrations of contaminants, nutrients, and sediment for case-study wadeable streams in selected land-use and environmental settings; and 3) determine trends in ecological condition in relation to trends in contaminants, nutrients, sediment, and streamflow alteration for case-study wadeable streams in selected land-use and environmental settings.
-</p> 
+
+	<ul>
+	
+		<li>Determine the status and trends in loads and concentrations of contaminants, nutrients, and sediment in the Nation’s 
+		large rivers, including loads to selected major estuaries;</li>
+		
+		<li>Determine the status and trends in concentrations of contaminants, nutrients, and sediment for case-study wadeable 
+		streams in selected land-use and environmental settings; and</li>
+		
+		<li>Determine trends in ecological condition in relation to trends in contaminants, nutrients, sediment, and streamflow 
+		alteration for case-study wadeable streams in selected land-use and environmental settings. </li>
+	
+	</ul>
+	
+	<p>Learn more about the <a href="" target="_blank">USGS NAWQA Program</a></p>
+	
+	<p>Learn more about <a href="" target="_blank">Nutrients in the Nation’s Streams and Groundwater</a></p>
+	
+	<p>Learn more about <a href="" target="_blank">Pesticides in the Nation’s Streams and Groundwater</a></p>
+	
+	</div>
+
 </div>
+
+
 {% endblock %}
