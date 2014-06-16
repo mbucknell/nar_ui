@@ -52,7 +52,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
     
     var averageLegendClass = ConstituentCurrentYearComparisonPlot.averageLegendClass;
     var averageLegendElt = $('<span/>', {'class': averageLegendClass });
-    averageLegendElt.html('Avg.');
+    averageLegendElt.html('Avg');
     legendElt.append(averageLegendElt);
     legendElt.append(yearLegendElt);
     plotContainer.append(legendElt);
