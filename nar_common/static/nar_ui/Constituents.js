@@ -5,7 +5,8 @@ var nar = nar || {};
      */
     nar.Constituents = {
         nitrogen : {
-            color : 'rgb(128, 0, 128)',
+            color : '#7FFF00',
+            //R-Color:chartreuse1
             name : 'Nitrogen'
         },
         pesticides : {
@@ -21,15 +22,18 @@ var nar = nar || {};
             color : 'rgb(0,255,0)'
         },
         total_phosphorous : {
-            color : 'rgb(255,0,0)',
+            color : '#66CD00',
+            //R-Color:chartreuse3
             name : 'Total Phosphorous'
         },
         suspended_sediment : {
-            color : '#CC6600',
+            color : '#8B0000',
+            //R-Color:darkred
             name : 'Suspended Sediment'
         },
         streamflow : {
-            color : 'rgb(0,0,255)',
+            color : '#0000CD',
+            //R-Color:mediumblue
             name : 'Streamflow'
         }
     };
