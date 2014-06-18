@@ -181,16 +181,21 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
         }
         
 .statement{background:#fff;
-            min-height:130px;
+            min-height:30px;
             margin-bottom:10px;
             margin-top:15px;
             border-radius:0 10px 0 0;
             border:@borderDark;
-            overflow:hidden;}
+            overflow:hidden;
+            text-align:center;}
             
 .statement p{padding:@padding @padding 0 @padding;
-                 text-align:justify;
-                 font-size:.9em;}
+                 font-size:1.1em;
+                 font-family:@baseFontFamily;}
+                 
+.statement i{-webkit-transform:rotate(270deg);
+			color:rgb(7,7,251);
+}
         
         
 .map_view{width:100px;
@@ -513,8 +518,8 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
  
  .statement{padding:0;}
             
-.statement p{padding:5px 8px 0 8px;
-             font-size:.85em;}
+.statement p{padding:8px 8px 0 8px;
+             font-size:.9em;}
                  
 .map_view{width:80px;}
             
