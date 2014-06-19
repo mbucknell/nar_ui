@@ -22,8 +22,8 @@ var nar = nar || {};
             color : 'rgb(0,255,0)'
         },
         total_phosphorous : {
-            color : '#66CD00',
-            //R-Color:chartreuse3
+            color : '#458B00',
+            //R-Color:chartreuse4
             name : 'Total Phosphorous'
         },
         suspended_sediment : {
