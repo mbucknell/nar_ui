@@ -2,9 +2,7 @@ var nar = nar || {};
 nar.fullReport = nar.fullReport || {};
 (function(){
     
-    var getXcoord = function(point){
-        return point[0];
-    };
+    var getXcoord = nar.fullReport.PlotUtils.getXCoord;
     
     /**
      * @param {TimeSeriesVisualization} tsViz
@@ -13,41 +11,33 @@ nar.fullReport = nar.fullReport || {};
 
     nar.fullReport.LoadPlot = function(tsViz){
         var plotContainer = tsViz.plotContainer;
-        var allData = tsViz.timeSeriesCollection.map(function(timeSeries){
-            return timeSeries.data;
-        });
-        var data = allData[0];//only one time series' worth of data for now.
-      //assume sorted data set
-        var latestPoint = data.last();
-        var lastDate = new Date(getXcoord(latestPoint));
-        var lastYear = lastDate.getFullYear();
-        //must use string for year
-        var startOfLastYear = Date.create(''+lastYear);
-        var startOfLastYearTimestamp = startOfLastYear.getTime();
-
-        var indexOfFirstDataPointInLastYear = data.findIndex(function(dataPoint){
-           var timestamp = getXcoord(dataPoint);
-           return timestamp >= startOfLastYearTimestamp;
-        });
-        var indicesToHighlight = data.from(indexOfFirstDataPointInLastYear);
+        var splitData = nar.fullReport.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(tsViz);
+        var previousYearsData = splitData.previousYearsData;
+        var currentYearData = splitData.currentYearData;  
+        var miscConstituentInfo = nar.fullReport.PlotUtils.getConstituentNameAndColors(tsViz);
+        var constituentName =miscConstituentInfo.name; 
+        var previousYearsColor = miscConstituentInfo.colors.previousYears;
+        var currentYearColor= miscConstituentInfo.colors.currentYear;
         
-        var idComponents = tsViz.getComponentsOfId();
-        var constituentId = idComponents.constituent;
-        var constituentInfo = nar.Constituents[constituentId];
-        var constituentName = constituentInfo.name;
-        var pointColor = constituentInfo.color;
-        var series = [{
-            label: constituentName,
-            data: data,
-            bars: {
-                barWidth: 1e10,
-                align: 'center',
-                show: true,
-                fill: true,
-                fillColor: pointColor
-            },
-            highlightColor: 'rgb(255,255,0)'
-        }];
+        var makeSeriesConfig = function(dataSet, color){
+            return {
+                label: constituentName,
+                data: dataSet,
+                bars: {
+                    barWidth: 1e10,
+                    align: 'center',
+                    show: true,
+                    fill: true,
+                    fillColor: color
+                },
+              };
+        };
+        var previousYearsSeries = makeSeriesConfig(previousYearsData, previousYearsColor);
+        var currentYearSeries = makeSeriesConfig(currentYearData, currentYearColor); 
+        var series = [
+          previousYearsSeries,
+          currentYearSeries
+        ];
         
         var plot = $.plot(plotContainer, series, {
             xaxis: {
@@ -65,11 +55,7 @@ nar.fullReport = nar.fullReport || {};
             legend: {
                    show: false
             },
-            colors:[pointColor] 
-        });
-        var seriesIndex = 0; 
-        indicesToHighlight.each(function(index){
-            //plot.highlight(seriesIndex, index);
+            colors:[previousYearsColor, currentYearColor] 
         });
         return plot;
     };    
