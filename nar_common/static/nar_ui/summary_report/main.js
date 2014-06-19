@@ -1,6 +1,6 @@
 $(document).ready(
         function() {
-
+            var ConstituentCurrentYearComparisonPlot = nar.fullReport.ConstituentCurrentYearComparisonPlot;
             var nitrateSeries = {
                     constituentName : nar.Constituents.nitrate.name,
                     constituentUnit : 'Million Tons',
