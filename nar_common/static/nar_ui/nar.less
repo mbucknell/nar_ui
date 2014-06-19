@@ -181,16 +181,21 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
         }
         
 .statement{background:#fff;
-            min-height:130px;
+            min-height:30px;
             margin-bottom:10px;
             margin-top:15px;
             border-radius:0 10px 0 0;
             border:@borderDark;
-            overflow:hidden;}
+            overflow:hidden;
+            text-align:center;}
             
 .statement p{padding:@padding @padding 0 @padding;
-                 text-align:justify;
-                 font-size:.9em;}
+                 font-size:1.1em;
+                 font-family:@baseFontFamily;}
+                 
+.statement i{-webkit-transform:rotate(270deg);
+			color:rgb(7,7,251);
+}
         
         
 .map_view{width:100px;
@@ -245,7 +250,7 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
  .col-lg-1{padding-left:0;}
  
  
-.full_report{background:none;
+.full_report{background:rgb(230,230,230);
  				height:35px;
  				width:130px;
  				padding-bottom:10px;
@@ -256,8 +261,12 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
  				border-top:@fullReportBorder;
  				text-align:left;
  				color:rgb(160,160,160);
- 				font-size:1.1em
+ 				font-size:1.1em;
+ 				border-radius:5px 0 0 0;
+ 				}
  				
+ .full_report:hover{background:rgb(210,210,210);
+ 					
  }
  
  .full_report ul{background:none;
@@ -279,61 +288,16 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 				cursor:pointer;
 				margin-bottom:10px;
 				float:left;
-				
-				
-}
+				}
 
-.full_report ul li a{color:rgb(160,160,160);
+.full_report ul li a{color:#000;
 						text-decoration:none;
-}
-
- .full_report ul li ul{display:none;
-				margin-top:7px;
-				padding-left:0 important;
-				
-				
-}
-
- .full_report ul li:hover{background:rgb(225,225,225);
- 							
- }
-
- .full_report ul li:hover ul{display:block;
-						position:absolute;/*prevents content from shifting*/
-						z-index:5000;
-						right:0;
-						
-												
-}
-
- .full_report ul li:hover ul li{background:rgba(255,255,255,.95);
-					margin-bottom:0;
-					padding:0;
-					border-left:@fullReportBorder;
-					border-bottom:@fullReportBorder;
-					
-					
-}
-
- .full_report ul li:hover ul li a{background:none;
-						display:inline-block;
-						padding-top:5px;
-						padding-left:5px;
-						margin:0;
-						width:130px;
-						height:34px;
-						text-decoration:none;
-						color:rgb(150,150,150);
-						
-}
-
- .full_report ul li:hover ul li a:hover{background:rgba(0,51,102,1);
-									color:#fff;
 }
  
- .full_report img{margin-top:11px;
+ .full_report i{margin-top:9px;
  					position:absolute;
  					right:15px;
+ 					color:#000;
  }
  
     
@@ -392,6 +356,57 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
  			font-size:1.8em;
  			
  }
+ 
+ 
+ .back_to_report{background:rgb(230,230,230);
+ 				height:35px;
+ 				width:150px;
+ 				padding-bottom:10px;
+ 				position:absolute;
+ 				left:0;
+ 				bottom:0;
+ 				border-right:@fullReportBorder;
+ 				border-top:@fullReportBorder;
+ 				text-align:right;
+ 				color:rgb(160,160,160);
+ 				font-size:1.1em;
+ 				border-radius:0 5px 0 0;
+ 				}
+ 				
+ .back_to_report:hover{background:rgb(210,210,210);
+ 					
+ }
+ 
+ .back_to_report ul{background:none;
+			list-style-type:none;
+			padding-left:0;
+			height:35px;
+			width:130px;
+			font-family:@baseFontFamily;
+			font-weight:@baseFontWeightReg;
+			float:left;
+}
+
+ .back_to_report ul li{background:none;
+				display:inline-block;
+				width:150px;
+				height:35px;
+				padding-right:10px;
+				padding-top:6px;
+				cursor:pointer;
+				margin-bottom:10px;
+				float:left;
+				}
+
+ .back_to_report ul li a{color:#000;
+						text-decoration:none;
+}
+
+.back_to_report i{margin-top:9px;
+ 					position:absolute;
+ 					left:10px;
+ 					color:#000;
+ }
 
 
 .report_filter{background:@siteBackground;
@@ -448,6 +463,33 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 
 /*###########################full_report_end####################### */
 
+/*###########################about_start####################### */
+
+.about_content{background:#fff;
+		width:100%;
+		padding:5px 10px 10px 10px;
+}
+
+.about_content p{font-family:@baseFontFamily;
+			font-size:1.2em;
+			line-height:1.5em;
+}
+
+.about_content ul{font-family:@baseFontFamily;
+			font-size:1.2em;
+}
+
+.about_content ul li{margin-top:10px;}
+
+#wrapper{background:none;
+		width:90%;
+		margin:0 auto;
+		
+}
+
+
+/*###########################about_end####################### */
+
 
 /*#########ipad_landscape######## */
 
@@ -476,8 +518,8 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
  
  .statement{padding:0;}
             
-.statement p{padding:5px 8px 0 8px;
-             font-size:.85em;}
+.statement p{padding:8px 8px 0 8px;
+             font-size:.9em;}
                  
 .map_view{width:80px;}
             
