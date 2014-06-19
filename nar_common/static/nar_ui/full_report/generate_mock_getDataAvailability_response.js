@@ -43,26 +43,46 @@
         return finalUrls;
     };
     var observedPropertyToTimeRange = {
-            0 : [
+            monthly: { 
+                0 : [
                    "1983-01-01T00:00:00.000Z",
                    "2000-01-01T00:00:00.000Z"
                  ],
-             1 : [
+                1 : [
                     "1992-01-01T00:00:00.000Z",
                     "2012-01-01T00:00:00.000Z"
                   ]
+            },
+            annual : {
+                0 : [
+                     "1983-01-01T00:00:00.000Z",
+                     "2010-01-01T00:00:00.000Z"
+                   ],
+                  1 : [
+                      "1985-01-01T00:00:00.000Z",
+                      "2005-01-01T00:00:00.000Z"
+                    ]
+            }
     };
     var mockGetDataAvailabilityResponse = function(observedProperties){
         var featureOfInterest = 'http://waterdata.usgs.gov/nwis/nwisman/?site_no=03303280';
         var createEntry = function(observedProperty){
             var oddOrEven = observedProperty.length % 2;
-            var timeRange = observedPropertyToTimeRange[oddOrEven];
+            var monthlyOrAnnual;
+            if(observedProperty.has('sample')){
+                monthlyOrAnnual = 'monthly';            
+            }
+            else{
+                monthlyOrAnnual = 'annual';
+            }
+            
+            var timeRange = observedPropertyToTimeRange[monthlyOrAnnual][oddOrEven];
             return {
                  "procedure" : observedProperty,
                  "observedProperty" : observedProperty,
                  "featureOfInterest" : featureOfInterest,
                   "phenomenonTime" : timeRange,
-                  "valueCount" : 78
+                  "valueCount" : 78// presently unused, so ok to be wrong and hardcoded
             };
         };    
         
