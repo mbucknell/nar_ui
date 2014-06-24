@@ -42,8 +42,8 @@ nar.fullReport = nar.fullReport || {};
                },
                pointLabels: {
                    show: true,
-                   location: 'e'
-//                   edgeTolerance: -15
+                   location: 'e',
+                   edgeTolerance: -30
                }
            },
            seriesColors: seriesOptions,

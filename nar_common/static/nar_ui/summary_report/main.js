@@ -56,7 +56,7 @@ $(document).ready(
                 'humanHealthExceedances', 
                 [
                  {constituent: nar.Constituents.nitrogen, data: [73]},
-                 {constituent: {color: '', name: ''}, data: ['']}
+                 {constituent: {color: '', name: ' '}, data: [' ']}
                 ],
                 exceedancesTitle
             );
@@ -64,8 +64,8 @@ $(document).ready(
             var aquaticHealthExceedancePlot = ExceedancePlot(
                 'aquaticHealthExceedances', 
                 [
-                 {constituent: nar.Constituents.nitrogen, data: [73]},
-                 {constituent: nar.Constituents.total_phosphorous, data: [79]},
+                 {constituent: nar.Constituents.nitrogen, data: [13]},
+                 {constituent: nar.Constituents.total_phosphorous, data: [73]},
                 ],
                 exceedancesTitle
             );
