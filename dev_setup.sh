@@ -5,7 +5,7 @@ sudo pip install virtualenv
 echo "$PREFIX Creating virtualenv for project"
 virtualenv --no-site-packages --python=python2.7 env
 echo "$PREFIX Installing project's python dependencies"
-source  env/bin/activate
+. env/bin/activate
 pip install -r requirements.txt
 echo "$PREFIX Creating an example local_settings file"
 cd nar_common
