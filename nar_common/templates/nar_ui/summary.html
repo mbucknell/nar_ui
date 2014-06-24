@@ -64,6 +64,15 @@
             text-align: left;
             padding-left: 10%;
 		}
+		.exceedancePlot{
+		   min-height: 400px;
+		   margin-right: 10%;
+		   margin-left: 10%;
+		   width: 80%;
+		}
+		.exceedancePlot .jqplot-yaxis-tick{
+		  left: -10%;
+		}
 	</style>
 {% endblock %}
 
@@ -75,59 +84,17 @@
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.categories.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/flot_plugins/jquery.flot.axislabels.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/flot_plugins/jquery.flot.tooltip.js' %}"></script>
-		<script type="text/javascript" src="{% static 'nar_ui/constituent_current_year_comparison_plot.js' %}"></script>
-		<script type="text/javascript" src="{% static 'nar_ui/Constituents.js' %}"></script>
-		<script type="text/javascript">
-			$(document).ready(function(){
-	           
-				var nitrateSeries = {
-					constituentName: nar.Constituents.nitrate.name,
-					constituentUnit: 'Million Tons',
-					yearValue: 12,
-					yearColor: nar.Constituents.nitrate.color,
-					averageName: 'Average 1991-2013',
-					averageValue: 10
-				};
-			
-					
-				var nitrateGraph = ConstituentCurrentYearComparisonPlot('#barChart2', nitrateSeries);
-				
-				var phosphorousSeries = {
-					constituentName: nar.Constituents.total_phosphorous.name,
-					constituentUnit: 'Million Tons',
-					yearValue: 100,
-					yearColor: nar.Constituents.total_phosphorous.color,
-					averageName: 'Average 1985-2013',
-					averageValue: 153
-				};
-
-				var phosphorousGraph = ConstituentCurrentYearComparisonPlot('#barChart3', phosphorousSeries);
+		<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/jquery.jqplot.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.barRenderer.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.categoryAxisRenderer.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.pointLabels.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.canvasTextRenderer.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.canvasAxisTickRenderer.js' %}"></script>
 		
-				
-				var streamflowSeries = {
-					constituentName: nar.Constituents.streamflow.name,
-					constituentUnit: 'Million acre-feet',
-					yearValue: 1.7,
-					yearColor: nar.Constituents.streamflow.color,
-					averageName: 'Average 1999-2013',
-					averageValue: 2.4
-				};
-			
-				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart1', streamflowSeries);
-								
-				var sedimentSeries = {
-					constituentName: nar.Constituents.suspended_sediment.name,
-					constituentUnit: 'Million Tons',
-					yearValue: 300,
-					yearColor: nar.Constituents.suspended_sediment.color,
-					averageName: 'Average 1990-2013',
-					averageValue: 100
-				};
-			
-				var streamflowGraph = ConstituentCurrentYearComparisonPlot('#barChart4', sedimentSeries);
-				
-			});
-		</script>
+		<script type="text/javascript" src="{% static 'nar_ui/Constituents.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/summary_report/ConstituentCurrentYearComparisonPlot.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/summary_report/ExceedancePlot.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/summary_report/main.js' %}"></script>
 	{% endcompress %}
 {% endblock %}
 
@@ -137,74 +104,74 @@
 
 
 <div class="row summary_info">
-	
+
 	<div class="col-lg-12 site col-md-12 col-sm-12 col-xs-12">
 		<h2>{{ site_name }}</h2>
 		<h3>Station ID : {{ site_id }}</h3>
-		<h4><i>Summary of Water-Quality Conditions for 2014</i></h4>
-		
+		<h4>
+			<i>Summary of Water-Quality Conditions for 2014</i>
+		</h4>
+
 		<div class="col-lg-1 full_report col-md-1 col-sm-1 col-xs-1">
-		
+
 			<ul>
-				
-				<li> <a href="full-report">Full Report</a></li>
-				
-				<i class="glyphicon glyphicon-arrow-right"></i>
-				
+				<li><a href="full-report">Full Report<i class="glyphicon glyphicon-arrow-right"></i></a></li>
 			</ul>
-		
+
 		</div>
-		
-		
-	
+
+
+
 	</div>
-		
-		
-		
-			
-	
+
+
+
+
+
 	<div class="col-lg-12 graphs col-md-12 col-sm-12 col-xs-12">
-	
 		<div class="col-lg-4 graphContainer human col-md-3 col-sm-12 col-xs-12">
-	        <div class="row">
-	           <h3>Streamflow and Water Quality</h3>
-	        </div>
 			<div class="row">
-				<div id="barChart1" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3" ></div>
-				
-				<div id="barChart2" class="leftBorder comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
-				
-				<div id="barChart3" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
-				
-				<div id="barChart4" class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+				<h3>Streamflow and Water Quality</h3>
 			</div>
 			<div class="row">
-				<div class="unitLabel col-lg-3 col-md-3 col-sm-3 col-xs-3">Million Acre-Feet</div>
-				<div class="unitLabel leftBorder col-lg-9 col-md-9 col-sm-9 col-xs-9">Million Tons</div>
+				<div id="barChart1"
+					class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+
+				<div id="barChart2"
+					class="leftBorder comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+
+				<div id="barChart3"
+					class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+
+				<div id="barChart4"
+					class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+			</div>
+			<div class="row">
+				<div class="unitLabel col-lg-3 col-md-3 col-sm-3 col-xs-3">Million
+					Acre-Feet</div>
+				<div
+					class="unitLabel leftBorder col-lg-9 col-md-9 col-sm-9 col-xs-9">Million
+					Tons</div>
 			</div>
 		</div>
-		
+
 		<div class="col-lg-4 human col-md-3 col-sm-12 col-xs-12">
-		    <div class="row">
-			 <h3>Human-Health Benchmarks Exceedances</h3>
-            </div>
-            <div class="row">			
-			 <img src="{% static 'nar_ui/images/graph_02.png' %}" class="img-responsive" alt="graph_02"/>
-			
-			 <h6>Percent of time with concentrations greater than the benchmark in water year 2012</h6>
-		    </div>
+			<div class="row">
+				<h3>Human-Health Benchmarks Exceedances</h3>
+			</div>
+			<div class="row">
+				<div id="humanHealthExceedances" class="exceedancePlot"></div>
+			</div>
 		</div>
-		
+
 		<div class="col-lg-4 aquatic col-md-3 col-sm-12 col-xs-12">
-		  <div class="row">
-            <h3>Aquatic-life Benchmark Exceedances</h3>
-	      </div>
-			<img src="{% static 'nar_ui/images/graph_03.png' %}" class="img-responsive" alt="graph_03"/>
-			
-			<h6>Percent of time with one or more exceedances in water year 2012</h6>
-		
+			<div class="row">
+				<h3>Aquatic-life Benchmark Exceedances</h3>
+				<div id="aquaticHealthExceedances" class="exceedancePlot"></div>
+			</div>
+
 		</div>
-	
+
 	</div>
 
 </div>
