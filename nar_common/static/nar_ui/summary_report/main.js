@@ -51,5 +51,11 @@ $(document).ready(
             var sedimentGraph = ConstituentCurrentYearComparisonPlot(
                     '#barChart4', sedimentSeries);
             
-            var humanHealthExceedancePlot = ExceedancePlot('humanHealthExceedances',  [[ [ "Nitrate", 10], [ "Phosphorous", 50]]], 'Percent of time with concentrations greater than the benchmark in water year 2012');
+            var humanHealthExceedancePlot = ExceedancePlot(
+                'humanHealthExceedances', 
+                [
+                 {constituent: nar.Constituents.nitrogen, data: [73]},
+                ],
+                'Percentage of samples with concentrations greater than benchmarks'
+            );
         });
