@@ -78,6 +78,10 @@
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.categories.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/flot_plugins/jquery.flot.axislabels.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/flot_plugins/jquery.flot.tooltip.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/jquery.jqplot.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.barRenderer.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.categoryAxisRenderer.js' %}"></script>
+		
 		<script type="text/javascript" src="{% static 'nar_ui/Constituents.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/summary_report/ConstituentCurrentYearComparisonPlot.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/summary_report/ExceedancePlot.js' %}"></script>
@@ -143,8 +147,6 @@
             </div>
             <div class="row">			
 			 <div id="humanHealthExceedances"/>
-			
-			 <h6>Percent of time with concentrations greater than the benchmark in water year 2012</h6>
 		    </div>
 		</div>
 		
@@ -154,7 +156,7 @@
 	      </div>
 			<img src="{% static 'nar_ui/images/graph_03.png' %}" class="img-responsive" alt="graph_03"/>
 			
-			<h6>Percent of time with one or more exceedances in water year 2012</h6>
+			<h6></h6>
 		
 		</div>
 	

@@ -7,32 +7,32 @@ nar.fullReport = nar.fullReport || {};
      * returns {jquery.flot}
      */
 
-   var ExceedancePlot = function(plotContainerSelector, data){
-       nar.util.assert_selector_present(plotContainerSelector);
-       var plotContainer = $(plotContainerSelector);
-       
-       var plot = $.plot(plotContainer, data, {
-           series: {
-               bars : {
-                   show: true
-               }
-           },
-           bars: {
-               barWidth: 0.6,
-               align:'center',
-           },
-           xaxis: {
-               mode : 'categories',
-               tickLength: 0
-           },
-           yaxis: {
-               min: 0,
-               max: 100
-           }
-        }
-       );
-    return plot;
-    };
     
+    
+   var ExceedancePlot = function(plotEltId, data, title){
+       nar.util.assert_selector_present('#'+plotEltId);
+       $.jqplot.config.enablePlugins = true;
+       data = [1, 2, 3, 4];
+       var ticks = ['nitrate', 'phosphorous', 'total nitrogen', 'orthphosphate'];
+       var plot = $.jqplot(plotEltId, 
+       [data],
+       {
+           title: title,
+           series: [{
+               renderer: $.jqplot.BarRenderer,
+               rendererOptions: {
+                   barDirection: 'horizontal'
+               }
+           }],
+           axes:{
+               yaxis: {
+                   renderer: $.jqplot.CategoryAxisRenderer,
+                   ticks: ticks
+               }
+           }
+       });
+       
+       return plot;
+   };
     nar.fullReport.ExceedancePlot = ExceedancePlot;
 }());
