@@ -1,6 +1,8 @@
 $(document).ready(
         function() {
             var ConstituentCurrentYearComparisonPlot = nar.fullReport.ConstituentCurrentYearComparisonPlot;
+            var ExceedancePlot = nar.fullReport.ExceedancePlot;
+            
             var nitrateSeries = {
                     constituentName : nar.Constituents.nitrate.name,
                     constituentUnit : 'Million Tons',
@@ -48,5 +50,6 @@ $(document).ready(
 
             var sedimentGraph = ConstituentCurrentYearComparisonPlot(
                     '#barChart4', sedimentSeries);
-
+            
+            var humanHealthExceedancePlot = ExceedancePlot('#humanHealthExceedances',  [[ [ "Nitrate", 10], [ "Phosphorous", 50]]]);
         });
