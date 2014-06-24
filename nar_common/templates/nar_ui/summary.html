@@ -64,13 +64,13 @@
             text-align: left;
             padding-left: 10%;
 		}
-		#humanHealthExceedances{
+		.exceedancePlot{
 		   min-height: 400px;
 		   margin-right: 10%;
 		   margin-left: 10%;
 		   width: 80%;
 		}
-		#humanHealthExceedances .jqplot-yaxis-tick{
+		.exceedancePlot .jqplot-yaxis-tick{
 		  left: -10%;
 		}
 	</style>
@@ -88,6 +88,9 @@
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.barRenderer.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.categoryAxisRenderer.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.pointLabels.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.canvasTextRenderer.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.canvasAxisTickRenderer.js' %}"></script>
+		
 		<script type="text/javascript" src="{% static 'nar_ui/Constituents.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/summary_report/ConstituentCurrentYearComparisonPlot.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/summary_report/ExceedancePlot.js' %}"></script>
@@ -157,18 +160,15 @@
 				<h3>Human-Health Benchmarks Exceedances</h3>
 			</div>
 			<div class="row">
-				<div id="humanHealthExceedances"></div>
+				<div id="humanHealthExceedances" class="exceedancePlot"></div>
 			</div>
 		</div>
 
 		<div class="col-lg-4 aquatic col-md-3 col-sm-12 col-xs-12">
 			<div class="row">
 				<h3>Aquatic-life Benchmark Exceedances</h3>
+				<div id="aquaticHealthExceedances" class="exceedancePlot"></div>
 			</div>
-			<img src="{% static 'nar_ui/images/graph_03.png' %}"
-				class="img-responsive" alt="graph_03" />
-
-			<h6></h6>
 
 		</div>
 

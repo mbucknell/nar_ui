@@ -50,12 +50,25 @@ $(document).ready(
 
             var sedimentGraph = ConstituentCurrentYearComparisonPlot(
                     '#barChart4', sedimentSeries);
+            var exceedancesTitle = 'Percentage of samples with concentrations greater than benchmarks'; 
             
             var humanHealthExceedancePlot = ExceedancePlot(
                 'humanHealthExceedances', 
                 [
                  {constituent: nar.Constituents.nitrogen, data: [73]},
+                 {constituent: {color: '', name: ''}, data: ['']}
                 ],
-                'Percentage of samples with concentrations greater than benchmarks'
+                exceedancesTitle
             );
+            
+            var aquaticHealthExceedancePlot = ExceedancePlot(
+                'aquaticHealthExceedances', 
+                [
+                 {constituent: nar.Constituents.nitrogen, data: [73]},
+                 {constituent: nar.Constituents.total_phosphorous, data: [79]},
+                ],
+                exceedancesTitle
+            );
+            
+            
         });

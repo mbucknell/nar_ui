@@ -27,8 +27,7 @@ nar.fullReport = nar.fullReport || {};
        nar.util.assert_selector_present('#'+plotEltId);
        $.jqplot.config.enablePlugins = true;
        var data = seriesSpecifications.map(function(seriesSpec){return [seriesSpec.data, seriesSpec.constituent.name];});
-       data = data.concat([['', '']]);
-       var seriesOptions = seriesSpecifications.map(function(seriesSpec){return {color: seriesSpec.constituent.color};});
+       var seriesOptions = seriesSpecifications.map(function(seriesSpec){return seriesSpec.constituent.color;});
        var plot = $.jqplot(plotEltId, 
        [
         data
@@ -38,7 +37,8 @@ nar.fullReport = nar.fullReport || {};
            seriesDefaults:{
                renderer: $.jqplot.BarRenderer,
                rendererOptions: {
-                   barDirection: 'horizontal'
+                   barDirection: 'horizontal',
+                   varyBarColor: true
                },
                pointLabels: {
                    show: true,
@@ -46,13 +46,15 @@ nar.fullReport = nar.fullReport || {};
 //                   edgeTolerance: -15
                }
            },
-           series: seriesOptions,
+           seriesColors: seriesOptions,
            axes:{
                yaxis: {
                    renderer: $.jqplot.CategoryAxisRenderer,
 //                   ticks: ticks
-                   rendererOptions:{
-                       angle: 45
+                   tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+                   tickOptions:{
+                       angle: -90,
+                       labelPosition: 'middle'
                    }
                },
                xaxis: {
