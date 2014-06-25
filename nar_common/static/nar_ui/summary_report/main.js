@@ -15,17 +15,17 @@ $(document).ready(
             var nitrateGraph = ConstituentCurrentYearComparisonPlot(
                     '#barChart2', nitrateSeries);
 
-            var phosphorousSeries = {
-                    constituentName : nar.Constituents.total_phosphorous.name,
+            var phosphorusSeries = {
+                    constituentName : nar.Constituents.phosphorus.name,
                     constituentUnit : 'Million Tons',
                     yearValue : 100,
-                    yearColor : nar.Constituents.total_phosphorous.color,
+                    yearColor : nar.Constituents.phosphorus.color,
                     averageName : 'Average 1985-2013',
                     averageValue : 153
             };
 
-            var phosphorousGraph = ConstituentCurrentYearComparisonPlot(
-                    '#barChart3', phosphorousSeries);
+            var phosphorusGraph = ConstituentCurrentYearComparisonPlot(
+                    '#barChart3', phosphorusSeries);
 
             var streamflowSeries = {
                     constituentName : nar.Constituents.streamflow.name,
@@ -40,10 +40,10 @@ $(document).ready(
                     '#barChart1', streamflowSeries);
 
             var sedimentSeries = {
-                    constituentName : nar.Constituents.suspended_sediment.name,
+                    constituentName : nar.Constituents.sediment.name,
                     constituentUnit : 'Million Tons',
                     yearValue : 300,
-                    yearColor : nar.Constituents.suspended_sediment.color,
+                    yearColor : nar.Constituents.sediment.color,
                     averageName : 'Average 1990-2013',
                     averageValue : 100
             };
@@ -55,7 +55,7 @@ $(document).ready(
             var humanHealthExceedancePlot = ExceedancePlot(
                 'humanHealthExceedances', 
                 [
-                 {constituent: nar.Constituents.nitrogen, data: [73]},
+                 {constituent: nar.Constituents.nitrate, data: [73]},
                  {constituent: {color: '', name: ' '}, data: [' ']}
                 ],
                 exceedancesTitle
@@ -65,7 +65,7 @@ $(document).ready(
                 'aquaticHealthExceedances', 
                 [
                  {constituent: nar.Constituents.nitrogen, data: [13]},
-                 {constituent: nar.Constituents.total_phosphorous, data: [73]},
+                 {constituent: nar.Constituents.phosphorus, data: [73]},
                 ],
                 exceedancesTitle
             );
