@@ -84,38 +84,8 @@
       "valueCount": 78
     },
     {
-      "procedure": "http:\/\/cida.usgs.gov\/def\/nar\/total_phosphorous\/conc\/mean_annual",
-      "observedProperty": "http:\/\/cida.usgs.gov\/def\/nar\/total_phosphorous\/conc\/mean_annual",
-      "featureOfInterest": "http:\/\/waterdata.usgs.gov\/nwis\/nwisman\/?site_no=03303280",
-      "phenomenonTime": [
-        "1985-01-01T00:00:00.000Z",
-        "2005-01-01T00:00:00.000Z"
-      ],
-      "valueCount": 78
-    },
-    {
-      "procedure": "http:\/\/cida.usgs.gov\/def\/nar\/total_phosphorous\/conc\/flow_weighted",
-      "observedProperty": "http:\/\/cida.usgs.gov\/def\/nar\/total_phosphorous\/conc\/flow_weighted",
-      "featureOfInterest": "http:\/\/waterdata.usgs.gov\/nwis\/nwisman\/?site_no=03303280",
-      "phenomenonTime": [
-        "1985-01-01T00:00:00.000Z",
-        "2005-01-01T00:00:00.000Z"
-      ],
-      "valueCount": 78
-    },
-    {
-      "procedure": "http:\/\/cida.usgs.gov\/def\/nar\/total_phosphorous\/conc\/sample",
-      "observedProperty": "http:\/\/cida.usgs.gov\/def\/nar\/total_phosphorous\/conc\/sample",
-      "featureOfInterest": "http:\/\/waterdata.usgs.gov\/nwis\/nwisman\/?site_no=03303280",
-      "phenomenonTime": [
-        "1983-01-01T00:00:00.000Z",
-        "2000-01-01T00:00:00.000Z"
-      ],
-      "valueCount": 78
-    },
-    {
-      "procedure": "http:\/\/cida.usgs.gov\/def\/nar\/total_phosphorous\/loads",
-      "observedProperty": "http:\/\/cida.usgs.gov\/def\/nar\/total_phosphorous\/loads",
+      "procedure": "http:\/\/cida.usgs.gov\/def\/nar\/phosphorus\/conc\/mean_annual",
+      "observedProperty": "http:\/\/cida.usgs.gov\/def\/nar\/phosphorus\/conc\/mean_annual",
       "featureOfInterest": "http:\/\/waterdata.usgs.gov\/nwis\/nwisman\/?site_no=03303280",
       "phenomenonTime": [
         "1983-01-01T00:00:00.000Z",
@@ -124,8 +94,8 @@
       "valueCount": 78
     },
     {
-      "procedure": "http:\/\/cida.usgs.gov\/def\/nar\/suspended_sediment\/conc\/mean_annual",
-      "observedProperty": "http:\/\/cida.usgs.gov\/def\/nar\/suspended_sediment\/conc\/mean_annual",
+      "procedure": "http:\/\/cida.usgs.gov\/def\/nar\/phosphorus\/conc\/flow_weighted",
+      "observedProperty": "http:\/\/cida.usgs.gov\/def\/nar\/phosphorus\/conc\/flow_weighted",
       "featureOfInterest": "http:\/\/waterdata.usgs.gov\/nwis\/nwisman\/?site_no=03303280",
       "phenomenonTime": [
         "1983-01-01T00:00:00.000Z",
@@ -134,18 +104,8 @@
       "valueCount": 78
     },
     {
-      "procedure": "http:\/\/cida.usgs.gov\/def\/nar\/suspended_sediment\/conc\/flow_weighted",
-      "observedProperty": "http:\/\/cida.usgs.gov\/def\/nar\/suspended_sediment\/conc\/flow_weighted",
-      "featureOfInterest": "http:\/\/waterdata.usgs.gov\/nwis\/nwisman\/?site_no=03303280",
-      "phenomenonTime": [
-        "1983-01-01T00:00:00.000Z",
-        "2010-01-01T00:00:00.000Z"
-      ],
-      "valueCount": 78
-    },
-    {
-      "procedure": "http:\/\/cida.usgs.gov\/def\/nar\/suspended_sediment\/conc\/sample",
-      "observedProperty": "http:\/\/cida.usgs.gov\/def\/nar\/suspended_sediment\/conc\/sample",
+      "procedure": "http:\/\/cida.usgs.gov\/def\/nar\/phosphorus\/conc\/sample",
+      "observedProperty": "http:\/\/cida.usgs.gov\/def\/nar\/phosphorus\/conc\/sample",
       "featureOfInterest": "http:\/\/waterdata.usgs.gov\/nwis\/nwisman\/?site_no=03303280",
       "phenomenonTime": [
         "1992-01-01T00:00:00.000Z",
@@ -154,8 +114,48 @@
       "valueCount": 78
     },
     {
-      "procedure": "http:\/\/cida.usgs.gov\/def\/nar\/suspended_sediment\/loads",
-      "observedProperty": "http:\/\/cida.usgs.gov\/def\/nar\/suspended_sediment\/loads",
+      "procedure": "http:\/\/cida.usgs.gov\/def\/nar\/phosphorus\/loads",
+      "observedProperty": "http:\/\/cida.usgs.gov\/def\/nar\/phosphorus\/loads",
+      "featureOfInterest": "http:\/\/waterdata.usgs.gov\/nwis\/nwisman\/?site_no=03303280",
+      "phenomenonTime": [
+        "1985-01-01T00:00:00.000Z",
+        "2005-01-01T00:00:00.000Z"
+      ],
+      "valueCount": 78
+    },
+    {
+      "procedure": "http:\/\/cida.usgs.gov\/def\/nar\/sediment\/conc\/mean_annual",
+      "observedProperty": "http:\/\/cida.usgs.gov\/def\/nar\/sediment\/conc\/mean_annual",
+      "featureOfInterest": "http:\/\/waterdata.usgs.gov\/nwis\/nwisman\/?site_no=03303280",
+      "phenomenonTime": [
+        "1983-01-01T00:00:00.000Z",
+        "2010-01-01T00:00:00.000Z"
+      ],
+      "valueCount": 78
+    },
+    {
+      "procedure": "http:\/\/cida.usgs.gov\/def\/nar\/sediment\/conc\/flow_weighted",
+      "observedProperty": "http:\/\/cida.usgs.gov\/def\/nar\/sediment\/conc\/flow_weighted",
+      "featureOfInterest": "http:\/\/waterdata.usgs.gov\/nwis\/nwisman\/?site_no=03303280",
+      "phenomenonTime": [
+        "1983-01-01T00:00:00.000Z",
+        "2010-01-01T00:00:00.000Z"
+      ],
+      "valueCount": 78
+    },
+    {
+      "procedure": "http:\/\/cida.usgs.gov\/def\/nar\/sediment\/conc\/sample",
+      "observedProperty": "http:\/\/cida.usgs.gov\/def\/nar\/sediment\/conc\/sample",
+      "featureOfInterest": "http:\/\/waterdata.usgs.gov\/nwis\/nwisman\/?site_no=03303280",
+      "phenomenonTime": [
+        "1992-01-01T00:00:00.000Z",
+        "2012-01-01T00:00:00.000Z"
+      ],
+      "valueCount": 78
+    },
+    {
+      "procedure": "http:\/\/cida.usgs.gov\/def\/nar\/sediment\/loads",
+      "observedProperty": "http:\/\/cida.usgs.gov\/def\/nar\/sediment\/loads",
       "featureOfInterest": "http:\/\/waterdata.usgs.gov\/nwis\/nwisman\/?site_no=03303280",
       "phenomenonTime": [
         "1985-01-01T00:00:00.000Z",

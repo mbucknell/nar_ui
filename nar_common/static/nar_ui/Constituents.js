@@ -7,7 +7,7 @@ var nar = nar || {};
         nitrogen : {
             color : '#7FFF00',
             //R-Color:chartreuse1
-            name : 'Nitrogen'
+            name : 'Total Nitrogen'
         },
         pesticides : {
             color : 'rgb(0, 128, 128)',
@@ -21,12 +21,12 @@ var nar = nar || {};
             name : 'Nitrate',
             color : 'rgb(0,255,0)'
         },
-        total_phosphorous : {
+        phosphorus : {
             color : '#458B00',
             //R-Color:chartreuse4
-            name : 'Total Phosphorous'
+            name : 'Total Phosphorus'
         },
-        suspended_sediment : {
+        sediment : {
             color : '#8B0000',
             //R-Color:darkred
             name : 'Suspended Sediment'

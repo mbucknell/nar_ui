@@ -22,8 +22,8 @@
         var wqConstituents = [
             'nitrogen',
             'nitrate',
-            'total_phosphorous',
-            'suspended_sediment'
+            'phosphorus',
+            'sediment'
         ];
         
         var waterQualitySuffixes = wqConstituents.map(getWqConstituentSuffixes).flatten();

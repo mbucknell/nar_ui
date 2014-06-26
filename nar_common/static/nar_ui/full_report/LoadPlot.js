@@ -1,9 +1,7 @@
 var nar = nar || {};
 nar.fullReport = nar.fullReport || {};
 (function(){
-    
-    var getXcoord = nar.fullReport.PlotUtils.getXCoord;
-    
+
     /**
      * @param {TimeSeriesVisualization} tsViz
      * returns {jquery.flot}
