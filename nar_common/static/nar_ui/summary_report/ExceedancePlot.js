@@ -22,7 +22,7 @@ nar.fullReport = nar.fullReport || {};
 
     
     
-   var ExceedancePlot = function(plotEltId, seriesSpecifications, title){
+   var ExceedancePlot = function(plotEltId, seriesSpecifications, axisLabel){
        
        nar.util.assert_selector_present('#'+plotEltId);
        $.jqplot.config.enablePlugins = true;
@@ -33,7 +33,6 @@ nar.fullReport = nar.fullReport || {};
         data
        ],
        {
-           title: title,
            seriesDefaults:{
                renderer: $.jqplot.BarRenderer,
                rendererOptions: {
@@ -60,7 +59,8 @@ nar.fullReport = nar.fullReport || {};
                xaxis: {
                    //restrict to percent range
                    max: 100,
-                   min: 0
+                   min: 0,
+                   label: axisLabel 
                }
            }
        
@@ -69,7 +69,17 @@ nar.fullReport = nar.fullReport || {};
        $(window).resize(function() {
            plot.replot();
        });
+       //make a download button
+       var plotSelector = '#'+plotEltId; 
        
+       var plotExportButtonContainer = $(plotSelector).after('<div></div>').next();
+       
+       plotExportButtonContainer.addClass('plotExportButtonContainer')
+           .append('<button>Download Plot</button>', {
+                   'class': 'plotExportButton'
+           }).click(function(){
+               $(plotSelector).jqplotSaveImage();
+           });
        return plot;
    };
     nar.fullReport.ExceedancePlot = ExceedancePlot;

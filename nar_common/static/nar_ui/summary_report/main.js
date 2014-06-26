@@ -69,6 +69,4 @@ $(document).ready(
                 ],
                 exceedancesTitle
             );
-            
-            
         });
