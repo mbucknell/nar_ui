@@ -45,6 +45,25 @@
 		};
 		
 	</script>
+	
+		<script>
+			
+			$(function() {
+			$('#show_hide').click( function() {
+			  $('#header').toggle('5000');
+			  $('#footer').toggle('5000', function(){
+				if ($('#header').is(':visible')) {
+				 $('#show_hide').val('Hide') 
+				} else {
+					$('#show_hide').val('Show') 
+				  }
+			    });
+			  });
+			});
+	
+	
+		</script>
+	
 {% endblock %}
 
 </head>
@@ -53,7 +72,7 @@
 
 <div class="container">
 
-<header class="row">
+<header id="header" class="row">
 
 	<div class="col-lg-2 logo col-md-2 col-sm-2 col-xs-2">
     
@@ -101,17 +120,11 @@
     	
         <ul>
         
-        	<li class="small">Findings
+        	<li>Data and Findings
             
             	 <div class="menu-item">
       <h4><a href="{{ settings.BASE_URL }}sites">Streams and Rivers Across the US</a></h4>
-      <ul>
-        <li><a href="#"><strong>Urban</strong></a></li>
-        <li><a href="#"><strong>Agriculture</strong></a></li>
-        <li><a href="#"><strong>Reference</strong></a></li>
-        <li><a href="#"><strong>Inland Rivers</strong></a></li>
-        <li><a href="#"><strong>Coastal Rivers</strong></a></li>
-      </ul>
+      
     </div>
     
                     
@@ -144,10 +157,7 @@
       <div class="menu-item">
       <h4><a href="#">Objectives</a></h4>
       <ul>
-        <li><a href="#"><strong>Subnetwork</strong></a></li>
-        <li class="indent"><a href="#">National Water Quality Assessment Program</a></li>
-         <li class="indent"><a href="#">National Stream Accounting Network</a></li>
-          <li class="indent"><a href="#">National Monitoring Network</a></li>
+        <li><a href="#"><strong>National Fixed SiteNetwork</strong></a></li>
         <li><a href="#"><strong>Complete station list</strong></a></li>
       </ul>
     </div>
@@ -205,7 +215,7 @@
 {% endblock %}
 
 
-<footer class="row">
+<footer id="footer" class="row">
 	
     <div class="col-lg-12 footer_top col-md-12 col-sm-12 col-xs-12">
     
