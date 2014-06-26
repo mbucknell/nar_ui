@@ -139,7 +139,7 @@ var map;
         drillDown: true,
         infoFormat: 'application/vnd.ogc.gml',
         vendorParams: {
-            radius: 5
+        	buffer: 8
         },
         id: 'sites',
         autoActivate: true
