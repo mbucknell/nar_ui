@@ -104,6 +104,7 @@ var map;
 
         var sitesLayerParams = {
             layers : 'NAWQA100_cy3fsmn',
+            buffer: 8,
             transparent: true,
             tiled: true,
             styles: 'triangles'
@@ -121,7 +122,7 @@ var map;
     };
     
     
-    mapLayers = [];
+    var mapLayers = [];
     addBaseLayersTo(mapLayers, defaultLayerOptions);
     addNlcdLayersTo(mapLayers, defaultLayerOptions);
     sitesLayer = addSitesLayerTo(mapLayers, defaultLayerOptions);
@@ -170,4 +171,5 @@ var map;
     map = new OpenLayers.Map(div, options);
 
     map.setCenter(continentalCenter, 4);
+    map.updateSize();
 }());

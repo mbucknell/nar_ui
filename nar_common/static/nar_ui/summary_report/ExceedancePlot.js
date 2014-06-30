@@ -37,7 +37,8 @@ nar.fullReport = nar.fullReport || {};
                renderer: $.jqplot.BarRenderer,
                rendererOptions: {
                    barDirection: 'horizontal',
-                   varyBarColor: true
+                   varyBarColor: true,
+                   barWidth: 40
                },
                pointLabels: {
                    show: true,
