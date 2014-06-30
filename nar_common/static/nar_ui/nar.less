@@ -263,19 +263,21 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
  .col-lg-1{padding-left:0;}
  
  
-.full_report{	background:rgb(255,255,255);
+.full_report,
+.back_to_report{background:rgb(255,255,255);
 				height:45px;
  				width:160px;
  				padding-bottom:10px;
  				position:absolute;
- 				right:120px;
- 				bottom:40px;
  				border:@fullReportBorder;
  				text-align:left;
  				color:rgb(160,160,160);
  				font-size:1.1em;
  				border-radius:5px;
  				}
+ 				
+ .full_report{right:120px;
+ 				bottom:40px;}
  				
  .full_report:hover{background:rgb(210,210,210);
  					
@@ -370,18 +372,9 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
  }
  
  
- .back_to_report{background:rgb(255,255,255);
- 				height:45px;
- 				width:160px;
- 				padding-bottom:10px;
- 				position:absolute;
- 				left:120px;
+ .back_to_report{left:120px;
  				bottom:25px;
- 				border:@fullReportBorder;
  				text-align:right;
- 				color:rgb(160,160,160);
- 				font-size:1.1em;
- 				border-radius:5px;
  				}
  				
  .back_to_report:hover{background:rgb(210,210,210);
