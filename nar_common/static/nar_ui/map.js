@@ -100,13 +100,13 @@ var map;
     
     var addSitesLayerTo = function(mapLayers, defaultLayerOptions){
         var sitesLayerOptions = Object.clone(defaultLayerOptions);
+        sitesLayerOptions.singleTile = true; //If we're not going to cache, might as well singleTile
         sitesLayerOptions.isBaseLayer =  false;
 
         var sitesLayerParams = {
             layers : 'NAWQA100_cy3fsmn',
             buffer: 8,
             transparent: true,
-            tiled: true,
             styles: 'triangles'
         };
         
@@ -140,7 +140,7 @@ var map;
         drillDown: true,
         infoFormat: 'application/vnd.ogc.gml',
         vendorParams: {
-        	buffer: 8
+            buffer: 8
         },
         id: 'sites',
         autoActivate: true
@@ -169,7 +169,25 @@ var map;
     }
 
     map = new OpenLayers.Map(div, options);
-
     map.setCenter(continentalCenter, 4);
-    map.updateSize();
+    sitesLayer.events.register("loadend", {}, function() {
+    	map.updateSize();
+    });
+    
+    (function setupFiltering(name, layer) {
+        var writeCQLFilter = function(selectedTypes) {
+            var cqlFilter = "c3type IS NOT NULL";
+            if (selectedTypes && 0 < selectedTypes.length) {
+                cqlFilter = "c3type IN ('";
+                cqlFilter = cqlFilter + selectedTypes.join("','");
+                cqlFilter = cqlFilter + "')";
+            }
+            return cqlFilter;
+        };
+        $("input[name='" + name + "']").change(function() {
+            var selectedTypes = $.makeArray($("input[name='" + name + "']:checked").map(function(){return $(this).val()}));
+            var cqlFilter = writeCQLFilter(selectedTypes);
+            layer.mergeNewParams({cql_filter: cqlFilter});
+        });
+    })("siteFilter", sitesLayer);
 }());

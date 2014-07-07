@@ -228,12 +228,14 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 			margin:0 auto;
 			margin-top:30px;
 			font-family:@baseFontFamily;
-			font-size:1.3em;
-}
+			font-size:1.2em;
+			}
+
 
 .filter input{background:lime;
 			width:25px;
 			margin-left:15px;
+			
 }
             
   /*###########################site_end####################### */
@@ -263,20 +265,21 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
  .col-lg-1{padding-left:0;}
  
  
-.full_report{background:rgb(230,230,230);
- 				height:35px;
- 				width:145px;
+.full_report,
+.back_to_report{background:rgb(255,255,255);
+				height:45px;
+ 				width:160px;
  				padding-bottom:10px;
  				position:absolute;
- 				right:0;
- 				bottom:0;
- 				border-left:@fullReportBorder;
- 				border-top:@fullReportBorder;
+ 				border:@fullReportBorder;
  				text-align:left;
  				color:rgb(160,160,160);
  				font-size:1.1em;
- 				border-radius:5px 0 0 0;
+ 				border-radius:5px;
  				}
+ 				
+ .full_report{right:120px;
+ 				bottom:40px;}
  				
  .full_report:hover{background:rgb(210,210,210);
  					
@@ -296,18 +299,18 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 				display:inline-block;
 				width:130px;
 				height:35px;
-				padding-left:10px;
-				padding-top:6px;
+				padding:9px 0 0 10px;
 				cursor:pointer;
-				margin-bottom:10px;
+				margin-bottom:12px;
 				float:left;
 				}
 
 .full_report ul li a{color:#000;
 						text-decoration:none;
+						font-size:1.1em;
 }
  
- .full_report i{margin-top:9px;
+ .full_report i{margin-top:12px;
  					position:absolute;
  					right:15px;
  					color:#000;
@@ -371,19 +374,9 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
  }
  
  
- .back_to_report{background:rgb(230,230,230);
- 				height:35px;
- 				width:150px;
- 				padding-bottom:10px;
- 				position:absolute;
- 				left:0;
- 				bottom:0;
- 				border-right:@fullReportBorder;
- 				border-top:@fullReportBorder;
+ .back_to_report{left:120px;
+ 				bottom:25px;
  				text-align:right;
- 				color:rgb(160,160,160);
- 				font-size:1.1em;
- 				border-radius:0 5px 0 0;
  				}
  				
  .back_to_report:hover{background:rgb(210,210,210);
@@ -404,8 +397,7 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 				display:inline-block;
 				width:150px;
 				height:35px;
-				padding-right:10px;
-				padding-top:6px;
+				padding-top:9px;
 				cursor:pointer;
 				margin-bottom:10px;
 				float:left;
@@ -413,9 +405,10 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 
  .back_to_report ul li a{color:#000;
 						text-decoration:none;
+						font-size:1.1em;
 }
 
-.back_to_report i{margin-top:9px;
+.back_to_report i{margin-top:13px;
  					position:absolute;
  					left:10px;
  					color:#000;
@@ -555,6 +548,14 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 .aquatic{width:300px;}
 
 .graphContainer {width:320px;}
+
+.full_report{right:70px;
+ 				bottom:30px;}
+ 				
+ /*###########################full_start####################### */
+ 				
+ 				
+ .back_to_report{left:40px;}
 		
 		
 }/*media query end */
@@ -665,9 +666,35 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 			margin:0 auto;
 }
 
+.full_report{	height:35px;
+				width:140px;
+				right:15px;
+ 				bottom:35px;}
+ 				
+ .full_report ul li{padding-top:5px;}
+ 				
+ .full_report ul li a{font-size:1em;}
+ 
+ .full_report i{margin-top:8px;
+ 				right:10px;
+ }
+
 /*###########################summary_end####################### */
 
 .full_site h2{font-size:1.6em;}
+
+.back_to_report{height:35px;
+				width:140px;
+				left:15px;
+ 				bottom:20px;}
+ 				
+.back_to_report ul li{padding:6px 20px 0 0;}
+ 				
+.back_to_report ul li a{font-size:1em !important;}
+
+.back_to_report i{margin-top:9px;
+ 				left:5px;
+ }
 	
 }/*query end */
 
@@ -770,7 +797,37 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 			margin:0 auto;
 }
 
+.full_report{	height:35px;
+				width:140px;
+				right:15px;
+ 				bottom:35px;}
+ 				
+ .full_report ul li{padding-top:5px;}
+ 				
+ .full_report ul li a{font-size:1em !important;
+ 				padding-top:4px !important;
+ }
+ 
+ .full_report i{margin-top:8px;
+ 				right:10px;
+ }
+
 /*###################################### */
+
+
+ 
+ .back_to_report{height:35px;
+				width:140px;
+				left:15px;
+ 				bottom:20px;}
+ 				
+.back_to_report ul li{padding:6px 20px 0 0;}
+ 				
+.back_to_report ul li a{font-size:1em !important;}
+
+.back_to_report i{margin-top:9px;
+ 				left:5px;
+ }
 
 .full_site h2{font-size:1.6em;}
  
