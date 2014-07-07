@@ -16,6 +16,12 @@ BASE_URL = '/'
 
 STATIC_URL = BASE_URL + 'static/'
 
+SOS_HOST_NAME = 'cida-eros-nardev.er.usgs.gov'
+
+//no trailing slash
+
+SOS_PATH = ':8080/sos/sos'
+
 GEOSERVER_HOST_NAME = 'cida-eros-nardev'
 
 GEOSERVER_PATH = ':8080/nawqareports/service/geoserver/'

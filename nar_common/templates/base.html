@@ -40,7 +40,8 @@
 			baseUrl : '{{ settings.BASE_URL|escapejs }}',
 			staticUrl : '{{ STATIC_URL|escapejs }}',
 			endpoint : {
-				geoserver: 'http://' + '{{ settings.GEOSERVER_HOST_NAME|escapejs }}' + '{{ settings.GEOSERVER_PATH|escapejs}}'
+				geoserver: 'http://' + '{{ settings.GEOSERVER_HOST_NAME|escapejs }}' + '{{ settings.GEOSERVER_PATH|escapejs}}',
+				sos: 'http://' + '{{ settings.SOS_HOST_NAME|escapejs }}' + '{{ settings.SOS_PATH|escapejs}}'
 			}
 		};
 		

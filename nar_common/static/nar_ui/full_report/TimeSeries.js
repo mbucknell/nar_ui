@@ -15,40 +15,71 @@ nar.fullReport = nar.fullReport || {};
  */
 nar.fullReport.TimeSeries = function(config){
     var self = this;
-    
+    self.procedure= config.procedure;
     self.observedProperty = config.observedProperty;
     self.timeRange = config.timeRange;
     
     self.data = undefined;
-    
+    self.parseSosGetResultResponse = function(response){
+        var errorMessage ='error retrieving data';
+        var dataToReturn = null;
+        if(response.exception){
+            console.dir(response.exception);
+            alert(errorMessage);
+        }
+        else{
+            if(response.resultValues){
+                
+                var rows = response.resultValues.split('@');
+                //the first row is just the record count. Throw it away.
+                rows = rows.from(1);
+                var dateIndex = 0;
+                var rowSplitToken = ',';
+                dataToReturn = rows.map(function(row){
+                    var tokens = row.split(rowSplitToken);
+                    var timeStamp = Date.create(tokens[dateIndex]).getTime();
+                    //overwrite
+                    tokens[dateIndex] = timeStamp;
+                    return tokens;
+                });
+            }
+            else{
+                console.dir(response);
+                alert(errorMessage);
+            }
+        }
+        return dataToReturn;
+    };
     /**
      * Retrieve data and run callback. Does not check to see if data is already present.
      * @returns {jQuery.promise} -- the promise callbacks are called with this TimeSeries
      */
     self.retrieveData = function(){
-        //@todo - incorporate self.observedProperty into the call
-        //@todo - point at a real SOS endpoint
-        var deferred = $.Deferred();
+        var getResultParams = {
+            "request": "GetResult",
+            "service": "SOS",
+            "version": "2.0.0",
+            "offering" : self.procedure,
+            "observedProperty" : self.observedProperty,
+            "featureOfInterest" : PARAMS.siteId
+        };
         
-        var zeroOrOne = self.observedProperty.length % 2;
-        var monthlyOrAnnual;
-        if(self.observedProperty.has('sample')){
-            monthlyOrAnnual = 'monthly';            
-        }
-        else{
-            monthlyOrAnnual = 'annual';
-        }
-         
-        var dataRetrieval = $.ajax(CONFIG.staticUrl + 'nar_ui/full_report/mock_'+ monthlyOrAnnual +'_data_' + zeroOrOne +'.json')
-            .success(function(response, textStatus, jqXHR){
-                //@todo: handle exception text
-                self.data = response.data;
+        var deferred = $.Deferred();
+
+        var dataRetrieval = $.ajax({
+            url: CONFIG.endpoint.sos + '/json',
+            type: 'POST',
+            data: JSON.stringify(getResultParams),
+            contentType:'application/json',
+            success: function(response, textStatus, jqXHR){
+                self.data = self.parseSosGetResultResponse(response);
                 //pass this entire object to the callback 
                 deferred.resolve(self);
-            })
-            .fail(function(data, textStatus, jqXHR){
+            },
+            fail: function(data, textStatus, jqXHR){
                 deferred.reject(parameters);
-            });
+            }
+        });
         var promise = deferred.promise();
         return promise;
     };

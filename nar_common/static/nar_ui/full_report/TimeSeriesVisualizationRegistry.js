@@ -63,7 +63,7 @@ nar.fullReport.TimeSeriesVisualizationRegistry = new function(){
     var strippedObservedPropertyToVizIdMap = {
             //empty for now
     };
-    self.urlPrefix = 'http://cida.usgs.gov/def/nar/';
+    self.urlPrefix = 'http://cida.usgs.gov/def/NAR/';
     self.stripUrlPrefix = function(url, urlPrefix){
         return url.replace(urlPrefix, '');
     };
@@ -77,7 +77,7 @@ nar.fullReport.TimeSeriesVisualizationRegistry = new function(){
      *  
      */
     self.getIdForObservedProperty = function(observedProperty){
-        var strippedObservedProperty = self.stripUrlPrefix(observedProperty, self.urlPrefix);
+        var strippedObservedProperty = self.stripUrlPrefix(observedProperty, self.urlPrefix + 'property/');
         //@todo check striped property id to see if it corresponds to a category
         //where multiple time series correspond to a single visualization
         

@@ -152,7 +152,9 @@ nar.fullReport.TimeSeriesVisualizationController = function(){
         $.when.apply(null, vizPromises).done(function(){
             self.setPossibleTimeRange(aggregateTimeRange);//might adjust currently visible range
             //now zoom recently added plots to the currently visible range
-            var recentlyVisualizedTimeSeriesVisualizations = Array.create(arguments);
+            var recentlyVisualizedTimeSeriesVisualizations = Array.create(arguments).filter(function(arg){
+                return arg !== undefined;
+            });
             var currentTimeRange = self.getCurrentlyVisibleTimeRange();
             recentlyVisualizedTimeSeriesVisualizations.each(function(tsv){
                 zoomTsvToTimeRange(tsv, currentTimeRange);

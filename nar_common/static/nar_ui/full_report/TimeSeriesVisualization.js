@@ -151,11 +151,16 @@ nar.fullReport.TimeSeriesVisualization.fromId = function(id){
     }); 
 };
 
-var keyToIndex ={
-        constituent : 0,
-        category : 1,
-        subcategory : 2
+nar.fullReport.TimeSeriesVisualization.serverToClientConstituentIdMap = {
+    'nh3': 'nitrogen',
+    'no23': 'nitrate',
+    'op':'phosphorus',
+    'si':'sediment',
+    'ssc':'sediment',
+    'tkn': 'nitrogen',
+    'tp':'phosphorus'
 };
+
 /**
  * @param {string} id
  * @returns {Object} a simple map of component name to value 
@@ -165,9 +170,18 @@ nar.fullReport.TimeSeriesVisualization.getComponentsOfId = function(id){
     
     var components = {};
     
-    Object.keys(keyToIndex, function(key, indexInArray){
-        components[key] = splitId[indexInArray]; 
-    });
+    var serverConstituentId = splitId[0];
+    var clientConstituentId = nar.fullReport.TimeSeriesVisualization.serverToClientConstituentIdMap[serverConstituentId.toLowerCase()];
+    components.constituent = clientConstituentId;
+    potential_category = splitId[1];
+    split_potential_category = potential_category.split('_');
+    if(2 === split_potential_category.length){
+        components.category = split_potential_category[1];
+        components.subcategory = potential_category;
+    }
+    else{
+        components.category = potential_category;
+    }
     
     return components;
 };
@@ -182,10 +196,10 @@ nar.fullReport.TimeSeriesVisualization.getPlotterById = function(id){
     var plotter;
     var components = nar.fullReport.TimeSeriesVisualization.getComponentsOfId(id);
     
-    if (components.subcategory === 'sample'){
+    if (components.category === 'discrete'){
         plotter = nar.fullReport.SampleConcentrationPlot; 
     }
-    else if(components.category === 'loads'){
+    else if(components.category === 'load'){
         plotter = nar.fullReport.LoadPlot;
     }
     else{
