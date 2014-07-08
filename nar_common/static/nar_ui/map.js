@@ -169,9 +169,10 @@ var map;
     }
 
     map = new OpenLayers.Map(div, options);
-
     map.setCenter(continentalCenter, 4);
-    map.updateSize();
+    sitesLayer.events.register("loadend", {}, function() {
+    	map.updateSize();
+    });
     
     (function setupFiltering(name, layer) {
         var writeCQLFilter = function(selectedTypes) {
@@ -189,5 +190,4 @@ var map;
             layer.mergeNewParams({cql_filter: cqlFilter});
         });
     })("siteFilter", sitesLayer);
-    
 }());
