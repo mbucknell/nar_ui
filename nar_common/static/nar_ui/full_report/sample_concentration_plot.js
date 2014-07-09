@@ -27,6 +27,7 @@ nar.fullReport = nar.fullReport || {};
                     fill: true,
                     fillColor: color
                 },
+                shadowSize: 0
             };   
         };
         
