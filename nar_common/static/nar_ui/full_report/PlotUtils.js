@@ -67,7 +67,47 @@ nar.fullReport = nar.fullReport || {};
                     previousYears: previousYearsColor                    
                 }
             };
-        }
+        },
+        /**
+         * @callback plotHoverFormatter
+         * @param x
+         * @param y
+         * @returns {string} - The text to be displayed in the hover element
+         */
+        /**
+         * Sets the given formatter handler on the specified flotchart plot.
+         * Note that the flotchart must have 'grid{hoverable:true}' in order for this to work.
+         * 
+         * @param {HTMLElement|string} - Either an element or a valid string jquery selector
+         * @param {plotHoverFormatter} - the callback that formats the raw data into human-readable hover text
+         */
+        setPlotHoverFormatter : function(plotContainer, formatter){
+            //create or obtain a div just for chart tooltips
+            var toolTipId = 'flot-tooltip';
+            var toolTipSelector = '#' + toolTipId;
+            var toolTipSelection = $(toolTipSelector);
+            var toolTipElt;
+            if(0 === toolTipSelection.length){
+                toolTipElt = $('<div></div>', {'id':toolTipId});
+                toolTipElt.appendTo('body');
+            }
+            else{
+                toolTipElt = toolTipSelection[0];
+            }
+            $(plotContainer).bind("plothover", function (event, pos, item) {
+                if (item) {
+                    var x = item.datapoint[0],
+                        y = item.datapoint[1];
+                    var hoverText = formatter(x, y);
+                    
+                    $(toolTipElt).html(hoverText)
+                        .css({top: item.pageY+5, left: item.pageX+5})
+                        .fadeIn(200);
+                } else {
+                    $(toolTipElt).hide();
+                }
+            });
             
+        }
     };
 }());
