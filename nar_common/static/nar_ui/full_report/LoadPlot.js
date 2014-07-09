@@ -58,13 +58,7 @@ nar.fullReport = nar.fullReport || {};
             },
             colors:[previousYearsColor, currentYearColor] 
         });
-        var hoverFormatter = function(x, y){
-            //use utc(true) to prevent timezone offset from modifying date
-            var date = Date.create(x).utc(true);
-            var dateStr = date.format(Date.ISO8601_DATE);
-            var formatted = dateStr + " : " + y;
-            return formatted;
-        };
+        var hoverFormatter = nar.fullReport.PlotUtils.utcDatePlotHoverFormatter;
         nar.fullReport.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
         return plot;
     };    

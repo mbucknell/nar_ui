@@ -108,6 +108,19 @@ nar.fullReport = nar.fullReport || {};
                 }
             });
             
+        },
+        /**
+         * This is a commonly-used {plotHoverFormatter}.
+         * @param x
+         * @param y
+         * returns {string}
+         */
+        utcDatePlotHoverFormatter: function(x, y){
+            //use utc(true) to prevent timezone offset from modifying date
+            var date = Date.create(x).utc(true);
+            var dateStr = date.format(Date.ISO8601_DATE);
+            var formatted = dateStr + " : " + y;
+            return formatted;
         }
     };
 }());
