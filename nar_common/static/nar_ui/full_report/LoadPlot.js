@@ -53,8 +53,13 @@ nar.fullReport = nar.fullReport || {};
             legend: {
                    show: false
             },
+            grid:{
+                hoverable: true
+            },
             colors:[previousYearsColor, currentYearColor] 
         });
+        var hoverFormatter = nar.fullReport.PlotUtils.utcDatePlotHoverFormatter;
+        nar.fullReport.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
         return plot;
     };    
 }());

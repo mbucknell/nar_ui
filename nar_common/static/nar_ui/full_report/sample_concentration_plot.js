@@ -36,7 +36,8 @@ nar.fullReport = nar.fullReport || {};
           previousYearsSeries,
           currentYearSeries
         ];
-        
+        var logBase = 10;
+        var logFactor = Math.log(logBase);
         var plot = $.plot(plotContainer, series, {
             xaxis: {
                 mode: 'time',
@@ -56,15 +57,23 @@ nar.fullReport = nar.fullReport || {};
                         return 0;
                     }
                     else{
-                        return Math.log(value);
+                        return Math.log(value)/logFactor;
                     }
+                },
+                inverseTransform: function(value){
+                    return Math.pow(logBase, value);
                 }
+            },
+            grid:{
+                hoverable: true
             },
             legend: {
                    show: false
             },
             colors:[previousYearsColor, currentYearColor]
         });
+        var hoverFormatter = nar.fullReport.PlotUtils.utcDatePlotHoverFormatter;
+        nar.fullReport.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
         return plot;
     };    
 }());
