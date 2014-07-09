@@ -42,6 +42,7 @@ nar.fullReport = nar.fullReport || {};
             xaxis: {
                 mode: 'time',
                 timeformat: "%Y/%m",
+                tickLength: 10,
                 minTickSize: [1, 'month']
             },
             yaxis: {
@@ -50,8 +51,10 @@ nar.fullReport = nar.fullReport || {};
                 axisLabelFontSizePixels: 12,
                 axisLabelFontFamily: "Verdana, Arial, Helvetica, Tahoma, sans-serif",
                 axisLabelPadding: 5,
-                ticks: [1, 5, 10, 50, 100, 500, 1000],
+                ticks: [0.001,0.01,0.1,1,10,100, 1000],
                 tickDecimals: 2,
+                tickLength: 10,
+                min: 0.001,
                 transform: function(value){
                     if(0 >= value){
                         return 0;
@@ -62,10 +65,11 @@ nar.fullReport = nar.fullReport || {};
                 },
                 inverseTransform: function(value){
                     return Math.pow(logBase, value);
-                }
+                } 
             },
             grid:{
-                hoverable: true
+                hoverable: true,
+                autoHighlight: true
             },
             legend: {
                    show: false
