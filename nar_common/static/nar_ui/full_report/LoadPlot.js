@@ -41,14 +41,16 @@ nar.fullReport = nar.fullReport || {};
             xaxis: {
                 mode: 'time',
                 timeformat: "%Y",
-                minTickSize: [1, 'year']
+                minTickSize: [1, 'year'],
+                tickLength: 10
             },
             yaxis: {
                 axisLabel: constituentName + " load (kg*10^6)",
                 axisLabelUseCanvas: true,
                 axisLabelFontSizePixels: 10,
                 axisLabelFontFamily: "Verdana, Arial, Helvetica, Tahoma, sans-serif",
-                axisLabelPadding: 40
+                axisLabelPadding: 40,
+                tickLength: 10
             },
             legend: {
                    show: false
