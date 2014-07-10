@@ -36,8 +36,12 @@
         <script type="text/javascript" src="{% static 'nar_ui/full_report/TimeSlider.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/full_report/main.js' %}"></script>
 	{% endcompress %}
+		<script type="text/javascript">
+			var PARAMS = {
+				'siteId' : '{{ site_id|escapejs}}'
+			};
+		</script>
 {% endblock %}
-
 
 {% block content %}
 
@@ -52,9 +56,7 @@
 		
 			<ul>
 				
-				<li> <a href="summary-report">Summary Report</a></li>
-				
-				<i class="glyphicon glyphicon-arrow-left"></i>
+				<li><a href="summary-report"><i class="glyphicon glyphicon-arrow-left"></i>Summary Report</a></li>
 				
 			</ul>
 		
@@ -88,11 +90,5 @@
 	</div>
 		
 </div><!--summary_info-->
-
-
-
-
-
-
 
 {% endblock %}

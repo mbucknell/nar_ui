@@ -1,13 +1,28 @@
 //@requires nar.fullReport.Tree, nar.fullReport.TimeSeriesVisualizationRegistry, nar.fullReport.TimeSeriesVisualization
 $(document).ready(function(){
-    var getDataAvailabilityUri = CONFIG.staticUrl + 'nar_ui/full_report/mock_getDataAvailability_response.json';
-    var getDataAvailabilityRequest = $.ajax(getDataAvailabilityUri);
+    
+    var getDataAvailabilityUri = CONFIG.endpoint.sos + '/json';
+    var getDataAvailabilityParams = {
+        "request": "GetDataAvailability",
+        "service": "SOS",
+        "version": "2.0.0",
+        "featureOfInterest": PARAMS.siteId
+    };
+    
+    var getDataAvailabilityRequest = $.ajax({
+        url:getDataAvailabilityUri,
+        data: JSON.stringify(getDataAvailabilityParams),
+        type: 'POST',
+        contentType:'application/json'
+        
+    });
     var startTimeIndex = 0;
     var endTimeIndex = 1;
     var tsvRegistry = nar.fullReport.TimeSeriesVisualizationRegistry;
     var successfulGetDataAvailability = function(data, textStatus, jqXHR){
         data.dataAvailability.each(function(dataAvailability){
             var observedProperty = dataAvailability.observedProperty;
+            var procedure = dataAvailability.procedure;
             var timeSeriesVizId = tsvRegistry.getIdForObservedProperty(observedProperty);
             var timeSeriesViz = tsvRegistry.get(timeSeriesVizId);
             if(!timeSeriesViz){
@@ -21,7 +36,8 @@ $(document).ready(function(){
             
             var timeSeries = new nar.fullReport.TimeSeries({
                 observedProperty: observedProperty,
-                timeRange: timeRange
+                timeRange: timeRange,
+                procedure: procedure
             });
             timeSeriesViz.timeSeriesCollection.add(timeSeries);
         });
