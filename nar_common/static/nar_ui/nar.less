@@ -278,22 +278,26 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
  
  
 .full_report,
-.back_to_report{background:rgb(255,255,255);
-				height:45px;
+.back_to_report,
+ .back_to_site,
+  .back_to_site_right{background:rgb(255,255,255);
+				height:35px;
  				width:160px;
- 				padding-bottom:10px;
  				position:absolute;
  				border:@fullReportBorder;
  				text-align:left;
  				color:rgb(160,160,160);
  				font-size:1.1em;
  				border-radius:5px;
+ 				cursor:pointer;
  				}
  				
- .full_report{right:120px;
- 				bottom:35px;}
+ .full_report{right:10px;
+ 				bottom:10px;}
  				
- .full_report:hover{background:rgb(210,210,210);
+ .full_report:hover,
+ .back_to_site:hover,
+  .back_to_site_right:hover{background:rgb(210,210,210);
  					
  }
  
@@ -311,7 +315,7 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 				display:inline-block;
 				width:130px;
 				height:35px;
-				padding:9px 0 0 10px;
+				padding:4px 0 0 10px;
 				cursor:pointer;
 				margin-bottom:12px;
 				float:left;
@@ -322,11 +326,21 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 						font-size:1.1em;
 }
  
- .full_report i{margin-top:12px;
+ .full_report i{margin-top:8px;
  					position:absolute;
  					right:15px;
  					color:#000;
  }
+ 
+ .back_to_site,
+ .back_to_site_right{text-align:center;
+ 				color:#000;
+ 				height:30px;
+ 				width:120px;
+ 				padding:3px 0 0 0;
+ 				}
+ 				
+ .back_to_site{bottom:10px;}
  
     
 .graphs{background:none;
@@ -392,8 +406,8 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
   }
  
  
- .back_to_report{left:60px;
- 				bottom:15px;
+ .back_to_report{left:10px;
+ 				bottom:10px;
  				text-align:right;
  				}
  				
@@ -415,7 +429,7 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 				display:inline-block;
 				width:150px;
 				height:35px;
-				padding-top:9px;
+				padding-top:4px;
 				cursor:pointer;
 				margin-bottom:10px;
 				float:left;
@@ -426,11 +440,14 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 						font-size:1.1em;
 }
 
-.back_to_report i{margin-top:13px;
+.back_to_report i{margin-top:8px;
  					position:absolute;
  					left:10px;
  					color:#000;
  }
+ 
+ .back_to_site_right{right:10px;
+ 					bottom:10px;}
 
 
 .report_filter{background:@siteBackground;
@@ -567,8 +584,6 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 
 .graphContainer {width:320px;}
 
-.full_report{right:70px;
- 				bottom:30px;}
  				
  .graphs{padding:0 0 0 25px;
 		
@@ -695,9 +710,7 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 }
 
 .full_report{	height:35px;
-				width:140px;
-				right:15px;
- 				bottom:35px;}
+				width:140px;}
  				
  .full_report ul li{padding-top:5px;}
  				
@@ -714,7 +727,7 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 .back_to_report{height:35px;
 				width:140px;
 				left:15px;
- 				bottom:15px;}
+ 				bottom:10px;}
  				
 .back_to_report ul li{padding:6px 20px 0 0;}
  				
@@ -826,9 +839,7 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 }
 
 .full_report{	height:35px;
-				width:140px;
-				right:15px;
- 				bottom:35px;}
+				width:140px;}
  				
  .full_report ul li{padding-top:5px;}
  				
@@ -847,7 +858,7 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
  .back_to_report{height:35px;
 				width:140px;
 				left:15px;
- 				bottom:15px;}
+ 				bottom:10px;}
  				
 .back_to_report ul li{padding:6px 20px 0 0;}
  				
