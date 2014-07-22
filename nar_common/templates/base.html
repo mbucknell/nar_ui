@@ -24,6 +24,14 @@
 		<link rel="stylesheet" type="text/less" media="all" href="{% static 'nar_ui/nar.less' %}"/>
 	{% endcompress %}
 	
+	<!--[if lt IE 9]>
+<link href="{% static 'nar_ui/ie_fix.css' %} rel="stylesheet" type="text/css">
+		<div id="block">
+<h1>We apologize, but this site does not support Internet Explorer versions lower than 9.0</h1>
+<p>Other supported browsers are Firefox, Chrome, and Safari.</p>
+</div>
+	<![endif]-->
+	
 {% endblock %}
 {% block scripts %}
 	{% compress js %}
@@ -64,6 +72,8 @@
 	
 	
 		</script>
+		
+
 
 {% endblock %}
 
