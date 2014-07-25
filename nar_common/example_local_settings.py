@@ -18,7 +18,7 @@ STATIC_URL = BASE_URL + 'static/'
 
 SOS_HOST_NAME = 'cida-eros-nardev.er.usgs.gov'
 
-//no trailing slash
+#no trailing slash
 
 SOS_PATH = ':8080/sos/sos'
 
