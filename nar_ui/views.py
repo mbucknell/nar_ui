@@ -20,7 +20,8 @@ class SiteReportView(TemplateView):
             return context
         except SiteNotFoundException, e:
             raise Http404
-    
+        
+ 
 class SiteSummaryReportView(SiteReportView):
     template_name = 'nar_ui/summary.html'
     
@@ -32,3 +33,9 @@ class SiteView(TemplateView):
     
 class AboutView(TemplateView):
     template_name = 'nar_ui/about.html' 
+    
+class MississippiView(TemplateView):
+    template_name = 'nar_ui/mississippi.html'
+    
+class CoastalView(TemplateView):
+    template_name = 'nar_ui/coastal.html'
