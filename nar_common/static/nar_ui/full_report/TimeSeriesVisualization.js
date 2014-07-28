@@ -107,11 +107,6 @@ var plotIdSuffix = '_' + plotContainerClass;
 var hiddenClass = 'hide';
 
 // private static methods:
-var get_or_fail = function(selector){
-    var jqElt = $(selector);
-    nar.util.assert_selector_present(jqElt);
-    return jqElt;
-};
 
 /**
  * Given a viz id, make a selector for a plot container

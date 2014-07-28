@@ -2,15 +2,15 @@
 var nar = nar || {};
 (function(){
 nar.fullReport = nar.fullReport || {};
-nar.fullReport.TimeSlider = function(selector){
-    nar.util.assert_selector_present(selector);
-
+/**
+ * @param {jquery Element}
+ */
+nar.fullReport.TimeSlider = function(timeSliderElt){
     //Do not initialize any event handlers here;
     //event handling is added when you
     //pass a TimeSlider instance to the
     //TimeSeriesVisualizationController constructor
-    var selected = $(selector); 
-    var slider = selected.slider({
+    var slider = timeSliderElt.slider({
         range: true,
         disabled: true
     });
@@ -29,7 +29,7 @@ nar.fullReport.TimeSlider = function(selector){
         class: labelsClass
     });
     var labels = [];
-    selected.append(labelsContainer);
+    timeSliderElt.append(labelsContainer);
     slider.updateLabels = function(){
         labels.each(function(label){label.remove();});
         labels = [];
@@ -37,8 +37,8 @@ nar.fullReport.TimeSlider = function(selector){
         var visibleMax = slider.slider('values', 1);
         var possibleMin = slider.slider('option', 'min');
         var possibleMax = slider.slider('option', 'max');
-        
-        
+     return nar.TimeSlider.getPercentageRange(visible, );   
+    }
         var possibleRange = Number.range(possibleMin, possibleMax);
         var possibleDifference = possibleMax - possibleMin;
         var stepTotal = 10;
