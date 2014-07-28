@@ -191,7 +191,7 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
         border-radius:0 10px 10px 0;
         }
         
-.statement{background:#fff;
+.statement{background:@boxColor;
             min-height:30px;
             margin-bottom:10px;
             margin-top:15px;
@@ -251,6 +251,195 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 }
             
   /*###########################site_end####################### */
+  
+ /*###########################mississippi_start####################### */
+ 
+ .mississippi_holder{min-height:400px;}
+ 
+ .mississippi_title{background:@siteBackground;
+ 					height:90px;
+ 					border-radius:10px 10px 0 0;
+ 					border-bottom:@borderDark;
+ 					text-align:center;
+ 					position:relative;}
+ 					
+ .mississippi_title h3{padding-top:25px;
+ 						margin:0 0 2px 0;
+ 						font-size:1.6em;}
+ 					
+ .mississippi_title h6{margin:0;}
+ 
+
+.mississippi_title button{font-size:.85em;
+  							width:100px;
+  							border-radius:5px;
+  							border:@borderDark;
+  							background:@boxColor;
+  							height:20px;
+  							padding:1px 0 0 0;
+  							margin:4.5px 10px 0 0;}
+  							
+.mississippi_title button:hover{background:@primaryColor;
+ 								color:#fff;}
+ 								
+#pie{position:absolute;
+	right:5px;
+	top:5px;
+}
+
+#download{position:absolute;
+	right:5px;
+	top:30px;
+}
+
+#tool{position:absolute;
+	right:5px;
+	top:55px;
+}
+ 
+ #mississippi_info{border:@borderDark;
+ 					width:153px;
+ 					min-height:22px;
+ 					position:absolute;
+ 					left:10px;
+ 					top:10px;
+ 					border-radius:10px 0 0 0;
+ 					background:@boxColor;
+ 					text-align:left;
+ 					font-size:.7em;
+ 					padding:2px 2px 0 5px;
+ 					line-height:1.4em;}
+ 					
+ #mississippi_info i{-webkit-transform:rotate(270deg);
+			-moz-transform:rotate(270deg);}
+			
+			
+.mississippi_buttons{height:30px;
+					background:@siteBackground;
+					clear:both;
+					margin:0;
+					border-bottom:@borderDark;
+					text-align:right;
+}
+
+.mississippi_buttons button{font-size:.85em;
+  							width:100px;
+  							border-radius:5px;
+  							border:@borderDark;
+  							background:@boxColor;
+  							height:20px;
+  							padding:1px 0 0 0;
+  							margin:4.5px 10px 0 0;}
+  							
+.mississippi_buttons button:hover{background:@primaryColor;
+ 								color:#fff;}
+			
+.mississippi_filters{height:35px;
+					background:@siteBackground;
+					border-bottom:@borderDark;
+					clear:both;
+					margin:0;
+					padding:0;}
+					
+.left_filter,
+.right_filter{height:35px;}
+					
+.left_filter{border-right:@borderDark;}
+
+.left_filter select,
+.right_filter select{margin-top:6px;
+					background:@boxColor;
+					height:22px;
+					outline:none;
+					border:@borderDark;
+					font-family:@baseFontFamily;
+					width:160px;
+					margin-right:33px;
+					font-size:.85em;}
+
+select.last{margin-right:0;}
+
+.mississippi_maps{height:487px;
+					background:@boxColor;
+					margin:0;}
+					
+.left_map,
+right_map{height:487px;}
+
+.left_map{border-right:@borderDark;}
+			
+
+ .relative{background:@siteBackground;
+ 			height:30px;
+ 			margin:0;
+ 			clear:both;
+ 			border-top:@borderDark;}
+ 			
+  .relative p{padding:4px 0 0 10px;}
+  
+  .relative a{color:@primaryColor;}					
+ 	
+   
+ /*###########################mississippi_end####################### */
+ 
+ /*###########################coastal_start####################### */
+ 
+ .coastal_holder{min-height:400px;}
+ 
+ .coastal_title{background:@siteBackground;
+ 					height:54px;
+ 					border-radius:10px 10px 0 0;
+ 					border-bottom:@borderDark;
+ 					text-align:center;
+ 					position:relative;}
+ 					
+  .coastal_title h3{margin:15px 0 0 0;
+  					font-size:1.4em;
+  }
+  
+  .coastal_content{margin:0;
+  				min-height:487px;
+  				clear:both;}
+  				
+ .coastal_map{background:#fff;
+ 				height:487px;
+ 				border-right:@borderDark;}
+ 				
+  .coastal_filter{background:@siteBackground;
+  					height:487px;
+  					padding:10px;
+  					text-align:center;}
+  					
+ #coastal_info{background:@boxColor;
+ 				border:@borderDark;
+ 				width:100%;
+ 				height:100px;}
+ 				
+ .coastal_filter button{background:@boxColor;
+ 						border:@borderDark;
+ 						width:100%;
+ 						height:42px;
+ 						border-radius:5px;
+ 						margin-top:20px;
+ 						font-size:1.7em;
+ 						font-family:@baseFontFamily;
+ 						outline:none;}
+ 						
+.coastal_filter button:nth-child(6){margin:55px 0 0 0;}
+
+.coastal_filter button:nth-child(7){margin:10px 0 0 0;}
+ 						
+ .coastal_filter button:hover{background:@primaryColor;
+ 								color:@boxColor;}
+ 								
+ .coastal_filter button.additional{width:80%;
+ 									height:25px;
+ 									font-size:1em;
+ 									padding-top:1px;}
+ 
+ 
+ 
+ /*###########################coastal_end####################### */
   
   /*###########################summary_start####################### */
   
@@ -576,6 +765,17 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 
 /*###########################site_end####################### */
 
+/*###########################mississippi_start####################### */
+
+.left_filter select,
+.right_filter select{width:136px;
+					margin-right:18px;
+					}
+					
+select.last{margin-right:0;}
+					
+/*###########################mississippi_end####################### */
+
 /*###########################summary_start####################### */
 
 .human{width:300px;} 
@@ -676,6 +876,17 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 			font-size:.95em;}
             
 /*###########################site_end####################### */
+
+/*###########################mississippi_start####################### */
+
+.left_filter select,
+.right_filter select{width:100px;
+					margin-right:18px;
+					}
+					
+select.last{margin-right:0;}
+					
+/*###########################mississippi_end####################### */
 
 /*###########################summary_start####################### */
 			
@@ -805,6 +1016,17 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 			font-size:.85em;}
             
 /*###########################site_end####################### */
+
+/*###########################mississippi_start####################### */
+
+.left_filter select,
+.right_filter select{width:100px;
+					margin-right:10px;
+					}
+					
+select.last{margin-right:0;}
+					
+/*###########################mississippi_end####################### */
 
 /*###########################summary_start####################### */
 		
