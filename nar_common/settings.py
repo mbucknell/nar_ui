@@ -13,7 +13,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 PROJECT_HOME = os.path.dirname(__file__)
-SITE_HOME = PROJECT_HOME.rsplit('/', 1)[0]
+SITE_HOME = PROJECT_HOME.rsplit(os.sep, 1)[0]
 
 
 # Application definition
@@ -78,7 +78,7 @@ STATIC_URL = '/static/'
 
 
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_HOME, "static/"),
+    os.path.join(PROJECT_HOME, "static"),
 )
 
 TEMPLATE_DIRS = (
