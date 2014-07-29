@@ -32,11 +32,9 @@ nar.fullReport.TimeSlider = function(timeSliderElt){
     timeSliderElt.append(labelsContainer);
     slider.updateLabels = function(){
         labels.each(function(label){label.remove();});
-        var visibleMin = slider.slider('values', 0);
-        var visibleMax = slider.slider('values', 1);
         var possibleMin = slider.slider('option', 'min');
         var possibleMax = slider.slider('option', 'max');
-        var years = nar.fullReport.TimeSlider.getYearTicks(visibleMin, visibleMax, possibleMin, possibleMax);
+        var years = nar.fullReport.TimeSlider.getYearTicks(possibleMin, possibleMax);
         
         labels = years.map(function(year, index){
             var percent = index * 10;
@@ -52,7 +50,7 @@ nar.fullReport.TimeSlider = function(timeSliderElt){
     return slider;
 };
 
-nar.fullReport.TimeSlider.getYearTicks = function(visibleMin, visibleMax, possibleMin, possibleMax){
+nar.fullReport.TimeSlider.getYearTicks = function(possibleMin, possibleMax){
     var years = [];
     var possibleRange = Number.range(possibleMin, possibleMax);
     var possibleDifference = possibleMax - possibleMin;
