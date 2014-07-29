@@ -33,9 +33,9 @@ var map;
         buffer : 3,
         wrapDateLine : false
     };
-    var addBaseLayersTo = function (mapLayers, defaultLayerOptions){
+    var addBaseLayersTo = function(mapLayers, defaultLayerOptions) {
         var zyx = '/MapServer/tile/${z}/${y}/${x}';
-        var ArcGisLayer = function(name, identifier){
+        var ArcGisLayer = function(name, identifier) {
             return new OpenLayers.Layer.XYZ(
                 name,
                 "http://services.arcgisonline.com/ArcGIS/rest/services/" + identifier + zyx,
@@ -53,7 +53,7 @@ var map;
         return baseLayers;
     };
         
-    var addNlcdLayersTo = function(mapLayers, defaultLayerOptions){
+    var addNlcdLayersTo = function(mapLayers, defaultLayerOptions) {
         var nlcdUrl = 'http://raster.nationalmap.gov/ArcGIS/services/TNM_LandCover/MapServer/WMSServer';
         
         var nlcdProjection = 'EPSG:3857';
@@ -173,6 +173,10 @@ var map;
     sitesLayer.events.register("loadend", {}, function() {
     	map.updateSize();
     });
+    
+    var insetControl = new nar.inset({});
+    map.addControl(insetControl, new OpenLayers.Pixel(0, map.getSize().h - 260));
+    insetControl.activate();
     
     (function setupFiltering(name, layer) {
         var writeCQLFilter = function(selectedTypes) {
