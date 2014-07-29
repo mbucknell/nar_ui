@@ -168,7 +168,6 @@
 		         	<include>map.js</include>
 		         	<include>summary_report/main.js</include>
 		         	<include>full_report/main.js</include>
-		         	<include>full_report/TimeSeriesVisualization.js</include>
 		         </sourceExcludes>
 		     </configuration>
 		</plugin>
