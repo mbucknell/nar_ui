@@ -1,25 +1,23 @@
 //@requires nar.fullReport.Tree, nar.fullReport.TimeSeriesVisualizationRegistry, nar.fullReport.TimeSeriesVisualization
 $(document).ready(function(){
-    
-    var get_or_fail = function(selector){
+
+    var selectorElementPair = function(selector){
         var jqElt = $(selector);
         nar.util.assert_selector_present(jqElt);
-        return jqElt;
+        return {
+            selector: selector,
+            element: jqElt
+        };
     };
     
     //dom setup
-    var instructionsSelector = '#instructions';
-    var instructionsElt = $(instructionsSelector);
+    var selectorElementPairs = {
+        instructions : selectorElementPair('#instructions'),
+        allPlotsWrapper : selectorElementPair('#plotsWrapper'),
+        timeSlider : selectorElementPair('#timeSlider'),
+        graphToggle : selectorElementPair('#plotToggleTree')
+    };
 
-    var allPlotsWrapperSelector = '#plotsWrapper';
-    var allPlotsWrapperElt = $(allPlotsWrapperSelector);
-    
-    var timeSliderSelector = "#timeSlider"; 
-    var timeSliderElt = $(timeSliderSelector);
-    
-    var graphToggleSelector = '#plotToggleTree';
-    var graphToggleElt = $(graphToggleSelector);
-    
     var getDataAvailabilityUri = CONFIG.endpoint.sos + '/json';
     var getDataAvailabilityParams = {
         "request": "GetDataAvailability",
@@ -47,8 +45,8 @@ $(document).ready(function(){
             if(!timeSeriesViz){
                 timeSeriesViz = new nar.fullReport.TimeSeriesVisualization({
                     id: timeSeriesVizId,
-                    instructionsElt: instructionsElt,
-                    allPlotsWrapperElt: allPlotsWrapperElt,
+                    instructionsElt: selectorElementPairs.instructions.element,
+                    allPlotsWrapperElt: selectorElementPairs.allPlotsWrapper.element,
                     timeSeriesCollection: new nar.fullReport.TimeSeriesCollection(),
                     plotter: function(){
                         throw Error('not implemented yet');
@@ -69,10 +67,10 @@ $(document).ready(function(){
             timeSeriesViz.timeSeriesCollection.add(timeSeries);
         });
         var allTimeSeriesVizualizations = tsvRegistry.getAll();
-        var timeSlider = nar.fullReport.TimeSlider(timeSliderElt);
+        var timeSlider = nar.fullReport.TimeSlider(selectorElementPairs.timeSlider.element);
         var tsvController = new nar.fullReport.TimeSeriesVisualizationController(timeSlider);
         
-        var tree = new nar.fullReport.Tree(allTimeSeriesVizualizations, tsvController, graphToggleElt);
+        var tree = new nar.fullReport.Tree(allTimeSeriesVizualizations, tsvController, selectorElementPairs.graphToggle.element);
     }; 
     var failedGetDataAvailability = function(data, textStatus, jqXHR){
         var msg = 'Could not determine data availability for this site';
@@ -86,9 +84,7 @@ $(document).ready(function(){
         successfulGetDataAvailability,
         failedGetDataAvailability
     );  
-    var selector = '#plotsWrapper';
-    nar.util.assert_selector_present(selector);
-    var selected = $(selector);
-    selected.sortable();
-    selected.disableSelection();
+    
+    selectorElementPairs.allPlotsWrapper.element.sortable();
+    selectorElementPairs.allPlotsWrapper.element.disableSelection();
 });
