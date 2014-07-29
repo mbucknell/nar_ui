@@ -38,6 +38,7 @@ describe('nar.fullReport.TimeSeries', function(){
 	var TimeSeries = nar.fullReport.TimeSeries;
 	var timeSeries = new TimeSeries({
 		observedProperty: 'mockPropertyUrl',
+		procedure: 'mockProcedureUrl',
 		timeRange : new nar.fullReport.TimeRange(0, 10000)
 	});
 	
