@@ -12,7 +12,7 @@ $(document).ready(function(){
     var instructionsElt = $(instructionsSelector);
 
     var allPlotsWrapperSelector = '#plotsWrapper';
-    var allPlotsWrapper = $(allPlotsWrapperSelector);
+    var allPlotsWrapperElt = $(allPlotsWrapperSelector);
     
     var timeSliderSelector = "#timeSlider"; 
     var timeSliderElt = $(timeSliderSelector);
@@ -45,8 +45,15 @@ $(document).ready(function(){
             var timeSeriesVizId = tsvRegistry.getIdForObservedProperty(observedProperty);
             var timeSeriesViz = tsvRegistry.get(timeSeriesVizId);
             if(!timeSeriesViz){
-                
-                timeSeriesViz = nar.fullReport.TimeSeriesVisualization.fromId(timeSeriesVizId, instructionsElt, allPlotsWrapper);
+                timeSeriesViz = new nar.fullReport.TimeSeriesVisualization({
+                    id: timeSeriesVizId,
+                    instructionsElt: instructionsElt,
+                    allPlotsWrapperElt: allPlotsWrapperElt,
+                    timeSeriesCollection: new nar.fullReport.TimeSeriesCollection(),
+                    plotter: function(){
+                        throw Error('not implemented yet');
+                    }
+                });
                 tsvRegistry.register(timeSeriesViz);
             }
             var timeRange = new nar.fullReport.TimeRange(

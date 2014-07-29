@@ -32,34 +32,39 @@ nar.fullReport.TimeSlider = function(timeSliderElt){
     timeSliderElt.append(labelsContainer);
     slider.updateLabels = function(){
         labels.each(function(label){label.remove();});
-        labels = [];
         var visibleMin = slider.slider('values', 0);
         var visibleMax = slider.slider('values', 1);
         var possibleMin = slider.slider('option', 'min');
         var possibleMax = slider.slider('option', 'max');
-     return nar.TimeSlider.getPercentageRange(visible, );   
-    }
-        var possibleRange = Number.range(possibleMin, possibleMax);
-        var possibleDifference = possibleMax - possibleMin;
-        var stepTotal = 10;
-        var stepIncrement = possibleDifference / stepTotal;
-        var offset = possibleMin;
-        var percentRange = Number.range(0, 100);
+        var years = nar.fullReport.TimeSlider.getYearTicks(visibleMin, visibleMax, possibleMin, possibleMax);
         
-        percentRange.every(10, function(percent){
-            var year = Date.create(((percent / 100)*possibleDifference) + possibleMin).format('{yyyy}');
+        labels = years.map(function(year, index){
+            var percent = index * 10;
             var label = $('<label>' + year + '</label>',{
             });
             label.css('left', percent + '%');
             label.addClass(labelClass);
-            labels.push(label);
+            return label;
         });
         labelsContainer.append(labels);
-        
-        
     };
-    
+
     return slider;
+};
+
+nar.fullReport.TimeSlider.getYearTicks = function(visibleMin, visibleMax, possibleMin, possibleMax){
+    var years = [];
+    var possibleRange = Number.range(possibleMin, possibleMax);
+    var possibleDifference = possibleMax - possibleMin;
+    var stepTotal = 10;
+    var stepIncrement = possibleDifference / stepTotal;
+    var offset = possibleMin;
+    var percentRange = Number.range(0, 100);
+    percentRange.every(10, function(percent){
+        var year = Date.create(((percent / 100)*possibleDifference) + possibleMin).format('{yyyy}');
+        years.push(year);
+    });
+    return years;
 };
 
 }());
