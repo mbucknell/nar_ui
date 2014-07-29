@@ -35,5 +35,28 @@ describe('nar.fullReport.TimeRange', function(){
 	});
 });
 describe('nar.fullReport.TimeSeries', function(){
+	var TimeSeries = nar.fullReport.TimeSeries;
+	var timeSeries = new TimeSeries({
+		observedProperty: 'mockPropertyUrl',
+		timeRange : new nar.fullReport.TimeRange(0, 10000)
+	});
 	
+	it('should correctly parse SOS GetResult Responses', function(){
+		var mockResponse = {resultValues:'3@1970-01-01T00:00:00Z,1@1970-01-02T00:00:00Z,2@1970-01-03T00:00:00Z,3'};
+		var resultData = timeSeries.parseSosGetResultResponse(mockResponse);
+		expect(resultData).not.toBe(null);
+		expect(resultData.length).toBe(3);
+		resultData.every(function(row){
+			expect(row.length).toBe(2);
+		});
+		
+		expect(resultData[0][0]).toBe(0);
+		expect(resultData[0][1]).toBe('1');
+		
+		expect(resultData[1][0]).toBe(86400000);
+		expect(resultData[1][1]).toBe('2');
+		
+		expect(resultData[2][0]).toBe(172800000);
+		expect(resultData[2][1]).toBe('3');
+	});
 });
