@@ -4,7 +4,7 @@ nar.fullReport = nar.fullReport || {};
  * @param {array<nar.fullReport.TimeSeriesVisualization>} timeSeriesVisualizations - an array of all possible tsv's
  * @param {nar.fullReport.TimeSeriesVisualizationController} tsvController - all currently visualized tsv's
  */
-nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController){
+nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphToggleElt){
     var self = this;
     var treeNodeIds = {}; //psuedo-set; keys are string TimeSeriesVisualization ids. Values are meaningless.
     var treeNodes = [];
@@ -104,10 +104,6 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController){
             mostRecentlyCreatedTreeNode.parent = '#';
         }
     });
-    
-    var graphToggleSelector = '#plotToggleTree';
-    nar.util.assert_selector_present(graphToggleSelector);
-    var graphToggleElt = $(graphToggleSelector);
     
     graphToggleElt.jstree({
         'plugins': ['checkbox', 'types', 'state'],
