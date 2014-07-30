@@ -1,6 +1,23 @@
 //@requires nar.fullReport.Tree, nar.fullReport.TimeSeriesVisualizationRegistry, nar.fullReport.TimeSeriesVisualization
 $(document).ready(function(){
+
+    var selectorElementPair = function(selector){
+        var jqElt = $(selector);
+        nar.util.assert_selector_present(jqElt);
+        return {
+            selector: selector,
+            element: jqElt
+        };
+    };
     
+    //dom setup
+    var selectorElementPairs = {
+        instructions : selectorElementPair('#instructions'),
+        allPlotsWrapper : selectorElementPair('#plotsWrapper'),
+        timeSlider : selectorElementPair('#timeSlider'),
+        graphToggle : selectorElementPair('#plotToggleTree')
+    };
+
     var getDataAvailabilityUri = CONFIG.endpoint.sos + '/json';
     var getDataAvailabilityParams = {
         "request": "GetDataAvailability",
@@ -26,7 +43,15 @@ $(document).ready(function(){
             var timeSeriesVizId = tsvRegistry.getIdForObservedProperty(observedProperty);
             var timeSeriesViz = tsvRegistry.get(timeSeriesVizId);
             if(!timeSeriesViz){
-                timeSeriesViz = nar.fullReport.TimeSeriesVisualization.fromId(timeSeriesVizId);
+                timeSeriesViz = new nar.fullReport.TimeSeriesVisualization({
+                    id: timeSeriesVizId,
+                    instructionsElt: selectorElementPairs.instructions.element,
+                    allPlotsWrapperElt: selectorElementPairs.allPlotsWrapper.element,
+                    timeSeriesCollection: new nar.fullReport.TimeSeriesCollection(),
+                    plotter: function(){
+                        throw Error('not implemented yet');
+                    }
+                });
                 tsvRegistry.register(timeSeriesViz);
             }
             var timeRange = new nar.fullReport.TimeRange(
@@ -42,13 +67,10 @@ $(document).ready(function(){
             timeSeriesViz.timeSeriesCollection.add(timeSeries);
         });
         var allTimeSeriesVizualizations = tsvRegistry.getAll();
+        var timeSlider = nar.fullReport.TimeSlider(selectorElementPairs.timeSlider.element);
+        var tsvController = new nar.fullReport.TimeSeriesVisualizationController(timeSlider);
         
-        var tsvController = new nar.fullReport.TimeSeriesVisualizationController();
-        
-        var tree = new nar.fullReport.Tree(allTimeSeriesVizualizations, tsvController);
-        
-        
-        
+        var tree = new nar.fullReport.Tree(allTimeSeriesVizualizations, tsvController, selectorElementPairs.graphToggle.element);
     }; 
     var failedGetDataAvailability = function(data, textStatus, jqXHR){
         var msg = 'Could not determine data availability for this site';
@@ -62,9 +84,7 @@ $(document).ready(function(){
         successfulGetDataAvailability,
         failedGetDataAvailability
     );  
-    var selector = '#plotsWrapper';
-    nar.util.assert_selector_present(selector);
-    var selected = $(selector);
-    selected.sortable();
-    selected.disableSelection();
+    
+    selectorElementPairs.allPlotsWrapper.element.sortable();
+    selectorElementPairs.allPlotsWrapper.element.disableSelection();
 });

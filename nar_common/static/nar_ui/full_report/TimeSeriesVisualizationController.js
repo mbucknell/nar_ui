@@ -12,9 +12,8 @@ nar.fullReport = nar.fullReport || {};
  * @class
  * @param {nar.fullReport.TimeSlider}
  */
-nar.fullReport.TimeSeriesVisualizationController = function(){
+nar.fullReport.TimeSeriesVisualizationController = function(timeSlider){
     var self = this;
-    var timeSlider = nar.fullReport.TimeSlider("#timeSlider");
     timeSlider.on('slidechange', function(event, ui){
         var timeRange = new nar.fullReport.TimeRange(
                 ui.values[0],

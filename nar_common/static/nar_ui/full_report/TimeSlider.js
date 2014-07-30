@@ -2,15 +2,15 @@
 var nar = nar || {};
 (function(){
 nar.fullReport = nar.fullReport || {};
-nar.fullReport.TimeSlider = function(selector){
-    nar.util.assert_selector_present(selector);
-
+/**
+ * @param {jquery Element}
+ */
+nar.fullReport.TimeSlider = function(timeSliderElt){
     //Do not initialize any event handlers here;
     //event handling is added when you
     //pass a TimeSlider instance to the
     //TimeSeriesVisualizationController constructor
-    var selected = $(selector); 
-    var slider = selected.slider({
+    var slider = timeSliderElt.slider({
         range: true,
         disabled: true
     });
@@ -29,37 +29,40 @@ nar.fullReport.TimeSlider = function(selector){
         class: labelsClass
     });
     var labels = [];
-    selected.append(labelsContainer);
+    timeSliderElt.append(labelsContainer);
     slider.updateLabels = function(){
         labels.each(function(label){label.remove();});
-        labels = [];
-        var visibleMin = slider.slider('values', 0);
-        var visibleMax = slider.slider('values', 1);
         var possibleMin = slider.slider('option', 'min');
         var possibleMax = slider.slider('option', 'max');
+        var years = nar.fullReport.TimeSlider.getYearTicks(possibleMin, possibleMax);
         
-        
-        var possibleRange = Number.range(possibleMin, possibleMax);
-        var possibleDifference = possibleMax - possibleMin;
-        var stepTotal = 10;
-        var stepIncrement = possibleDifference / stepTotal;
-        var offset = possibleMin;
-        var percentRange = Number.range(0, 100);
-        
-        percentRange.every(10, function(percent){
-            var year = Date.create(((percent / 100)*possibleDifference) + possibleMin).format('{yyyy}');
+        labels = years.map(function(year, index){
+            var percent = index * 10;
             var label = $('<label>' + year + '</label>',{
             });
             label.css('left', percent + '%');
             label.addClass(labelClass);
-            labels.push(label);
+            return label;
         });
         labelsContainer.append(labels);
-        
-        
     };
-    
+
     return slider;
+};
+
+nar.fullReport.TimeSlider.getYearTicks = function(possibleMin, possibleMax){
+    var years = [];
+    var possibleRange = Number.range(possibleMin, possibleMax);
+    var possibleDifference = possibleMax - possibleMin;
+    var stepTotal = 10;
+    var stepIncrement = possibleDifference / stepTotal;
+    var offset = possibleMin;
+    var percentRange = Number.range(0, 100);
+    percentRange.every(10, function(percent){
+        var year = Date.create(((percent / 100)*possibleDifference) + possibleMin).format('{yyyy}');
+        years.push(year);
+    });
+    return years;
 };
 
 }());

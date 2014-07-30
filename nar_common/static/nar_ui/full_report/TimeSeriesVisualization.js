@@ -7,6 +7,8 @@ nar.fullReport = nar.fullReport || {};
  * @property {string} id
  * @property {Function} plotter
  * @property {nar.fullReport.TimeSeriesCollection} timeSeriesCollection
+ * @property {jQuery} instructionsElt
+ * @property {jQuery} allPlotsWrapperElt
  */
 
 /**
@@ -16,12 +18,16 @@ nar.fullReport = nar.fullReport || {};
 nar.fullReport.TimeSeriesVisualization = function(config){
     var self = this;
     self.id = config.id;
+    self.instructionsElt = config.instructionsElt;
+    self.allPlotsWrapperElt = config.allPlotsWrapperElt;
+    self.plotter = config.plotter;
+
     self.getComponentsOfId = function(){
         //delegate to static method
         return nar.fullReport.TimeSeriesVisualization.getComponentsOfId(self.id);  
     };
     self.timeSeriesCollection = config.timeSeriesCollection;
-    self.plotter = config.plotter;
+    
     self.plot = undefined;
     self.plotContainer = undefined;
     /**
@@ -33,7 +39,7 @@ nar.fullReport.TimeSeriesVisualization = function(config){
         //if no plots are currently visualized, but one has been
         //requested to be added.
         if(0 === numberOfPlots){
-            instructionsElt.addClass(hiddenClass);            
+            self.instructionsElt.addClass(hiddenClass);            
         }
         
         var plotContainerId = makePlotContainerId(self.id);
@@ -48,7 +54,7 @@ nar.fullReport.TimeSeriesVisualization = function(config){
                 id: plotContainerId,
                 class: plotContainerClass
             });
-            allPlotsWrapper.prepend(plotContainer);
+            self.allPlotsWrapperElt.prepend(plotContainer);
             self.plotContainer = plotContainer;
             var retrievalPromises = self.timeSeriesCollection.retrieveData();
             //after all retrieval promises have been resolved
@@ -95,7 +101,7 @@ nar.fullReport.TimeSeriesVisualization = function(config){
         
         var noPlotsRemain = 0 === numberOfPlots; 
         if(noPlotsRemain){
-            instructionsElt.removeClass(hiddenClass);                
+            self.instructionsElt.removeClass(hiddenClass);                
         }
     };
 };
@@ -107,11 +113,6 @@ var plotIdSuffix = '_' + plotContainerClass;
 var hiddenClass = 'hide';
 
 // private static methods:
-var get_or_fail = function(selector){
-    var jqElt = $(selector);
-    nar.util.assert_selector_present(jqElt);
-    return jqElt;
-};
 
 /**
  * Given a viz id, make a selector for a plot container
@@ -135,21 +136,6 @@ var getPlotContainer = function(plotContainerId){
 };
 
 // public static properties:
-
-// public static methods:
-
-nar.fullReport.TimeSeriesVisualization.fromId = function(id){
-    
-    //@todo: select plot constructor based on id
-    
-    return new nar.fullReport.TimeSeriesVisualization({
-        id: id,
-        plotter: function(){
-            throw Error('not implemented yet');
-        },
-        timeSeriesCollection: new nar.fullReport.TimeSeriesCollection()
-    }); 
-};
 
 nar.fullReport.TimeSeriesVisualization.serverToClientConstituentIdMap = {
     'nh3': 'nitrogen',
@@ -211,19 +197,4 @@ nar.fullReport.TimeSeriesVisualization.getPlotterById = function(id){
     
     return plotter;
 };
-
-
-
-//static initialization
-var instructionsSelector = '#instructions';
-var instructionsElt;
-
-var allPlotsWrapperSelector = '#plotsWrapper';
-var allPlotsWrapper;
-
-$(document).ready(function(){
-    instructionsElt = get_or_fail(instructionsSelector);
-    allPlotsWrapper = get_or_fail(allPlotsWrapperSelector);
-});
-
 }());
