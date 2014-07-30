@@ -249,15 +249,6 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 			margin-left:15px;
 			
 }
-
-/* Style the popup for sites */
-#siteMap .olPopup {
-	border-radius: 5px;
-	border: 1px solid #aaa !important;
-}
-#siteMap .olPopup .glyphicon-remove:hover{
-	cursor: pointer;
-}
             
   /*###########################site_end####################### */
   
@@ -278,6 +269,8 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
  					
  .mississippi_title h6{margin:0;}
  
+ .icon-large{background-image:url('nar_ui/nar_common/static/nar_ui/js_lib/bootstrap/img/glyphicons.png');}
+ 
 
 .mississippi_title button{font-size:1.1em;
   							width:70px;
@@ -289,8 +282,7 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
   							margin:4.5px 10px 0 0;}
   							
 .mississippi_title button:hover{background:@primaryColor;
- 								color:#fff;}
- 								
+ 								color:#fff;} 								
 
 #help{position:absolute;
 	right:5px;
@@ -545,44 +537,55 @@ right_map{height:487px;}
  
     
 .graphs{background:none;
-		height:510px;
+		min-height:510px;
 		margin-top:20px;
-		padding:0 15px 0 25px;
-		
-} 
+		padding:0 0 0 55px;
+		margin-bottom:10px;
+		} 
 
 
 .comparisonGraph {background:none;
 			height:100%;
-			padding:0px;
+			padding:0px;}
+			
+.graphContainer{width:30%;}
+
+.stream{background:none;
+		height:50%;
+		margin-left:10px;
+		text-align:center;
+		padding-left:5px;}
+
+.stream_row,
+.human_row,
+.aquatic_row{margin:0;
+			
 }
 
-.human{background:none;
+.stream,
+.human,
+.aquatic{background:none;
 		height:100%;
 		margin-right:10px;
 		text-align:center;
-		padding-left:5px;
-} 
+		padding:0;
+		} 
+		
+.human{margin-left:15px;}
 
-.human h3{font-size:1.5em;
-			color:@primaryColor;
-}
+.stream h3,
+.human h3,
+.aquatic h3{font-size:1.5em;
+			color:@primaryColor;}
 
-.human h6{padding-left:50px;
-}
+.stream h6,
+.human h6,
+.aquatic h6{padding-left:50px;}
 
 .aquatic{background:none;
-		height:100%;
-		width:350px;
-		text-align:center;
-} 
+		margin-right:0;
+}
 
-.aquatic h3{font-size:1.5em;
-			color:@primaryColor;
-} 
-
-.aquatic h6{padding-left:50px;
-}  
 
 /*###########################summary_end####################### */
 
@@ -792,16 +795,15 @@ select.last{margin-right:0;}
 
 /*###########################summary_start####################### */
 
-.human{width:300px;} 
+.graphContainer,
+.human,
+.aquatic{width:31.8%;}
 
-.aquatic{width:300px;}
+.human{margin-left:10px;}
 
-.graphContainer {width:320px;}
-
+.stream h3{font-size:1.4em;}
  				
- .graphs{padding:0 0 0 25px;
-		
-} 
+ .graphs{padding:0 0 0 25px;} 
  				
  /*###########################full_start####################### */
  				
@@ -922,25 +924,17 @@ select.last{margin-right:0;}
  
 .site h3{font-size:1.4em;}
 			
-.graphs{height:100%;} 
-
-.human{	height:480px;
-		width:100%;
-		margin-top:10px;
-	} 
-
-.human img{margin-bottom:10px;
-			margin:0 auto;
-}
-
-.aquatic{height:480px;
-		width:100%;
-		
+.graphs{height:100%;
+		padding:0 0 0 10px;
 } 
 
-.aquatic img{margin-bottom:10px;
-			margin:0 auto;
-}
+.graphContainer,
+.human,
+.aquatic{width:100%;
+		height:480px;
+		margin:10px 0 5px 0;}
+		
+.bar_row{margin:0;}
 
 .full_report{	height:35px;
 				width:140px;}
@@ -1071,24 +1065,13 @@ select.last{margin-right:0;}
 			
 .graphs{height:100%;} 
 
-
-.human{	height:480px;
-		width:100%;
-		margin-top:10px;
-	} 
-
-.human img{margin-bottom:10px;
-			margin:0 auto;
-}
-
-.aquatic{height:480px;
-		width:100%;
+.graphContainer,
+.human,
+.aquatic{width:100%;
+		height:480px;
+		margin:10px 0 5px 0;}
 		
-} 
-
-.aquatic img{margin-bottom:10px;
-			margin:0 auto;
-}
+.bar_row{margin:0;}
 
 .full_report{	height:35px;
 				width:140px;}
