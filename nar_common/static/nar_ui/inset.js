@@ -52,9 +52,9 @@ var nar = nar || {};
 			
 			var baseLayers = nar.commons.mapUtils.createBaseLayers();
 			var nlcdLayers = nar.commons.mapUtils.createNlcdLayers();
-			var sitesLayers = nar.commons.mapUtils.createSitesLayers();
+			var sitesLayer = nar.commons.mapUtils.createSitesLayer();
 
-		    var mapLayers = [].add(baseLayers).add(nlcdLayers).add(sitesLayers);
+		    var mapLayers = [].add(baseLayers).add(nlcdLayers).add(sitesLayer);
 
 			var insetOptions = {
 					extent : alaskaExtent,
@@ -104,11 +104,16 @@ var nar = nar || {};
 			map.events.register("changelayer", this, function(e) {
 				var name = e.layer.name;
 				var visibility = e.layer.getVisibility();
+				
 				var layer = insetMap.getLayersByName(name)[0];
 				if (layer) {
 					layer.setVisibility(visibility);
 				}
 			});
+			nar.siteFilter.addChangeHandler(function setupFiltering() {
+		    	var cqlFilter = nar.siteFilter.writeCQLFilter();
+		    	sitesLayer.mergeNewParams({cql_filter: cqlFilter});
+		    });
 
 			return this.div;
 		},

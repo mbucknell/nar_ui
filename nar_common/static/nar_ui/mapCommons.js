@@ -80,7 +80,7 @@ nar.commons.map = nar.commons.map || {};
 	        ];
 	        return nlcdLayers;
 	    },
-	    createSitesLayers : function(layerOptions){
+	    createSitesLayer : function(layerOptions){
 	    	var _layerOptions = layerOptions || DEFAULT_LAYER_OPTIONS;
 	        var sitesLayerOptions = Object.clone(_layerOptions);
 	        sitesLayerOptions.singleTile = true; //If we're not going to cache, might as well singleTile

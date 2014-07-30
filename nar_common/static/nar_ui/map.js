@@ -24,7 +24,7 @@ var map;
         new OpenLayers.Control.Zoom()
     ];
     
-    var sitesLayer = nar.commons.mapUtils.createSitesLayers();
+    var sitesLayer = nar.commons.mapUtils.createSitesLayer();
     var mapLayers = [].add(nar.commons.mapUtils.createBaseLayers())
     	.add(nar.commons.mapUtils.createNlcdLayers())
 		.add(sitesLayer);
@@ -85,20 +85,8 @@ var map;
     map.addControl(insetControl, new OpenLayers.Pixel(0, map.getSize().h - 260));
     insetControl.activate();
     
-    (function setupFiltering(name, layer) {
-        var writeCQLFilter = function(selectedTypes) {
-            var cqlFilter = "c3type IS NOT NULL";
-            if (selectedTypes && 0 < selectedTypes.length) {
-                cqlFilter = "c3type IN ('";
-                cqlFilter = cqlFilter + selectedTypes.join("','");
-                cqlFilter = cqlFilter + "')";
-            }
-            return cqlFilter;
-        };
-        $("input[name='" + name + "']").change(function() {
-            var selectedTypes = $.makeArray($("input[name='" + name + "']:checked").map(function(){return $(this).val()}));
-            var cqlFilter = writeCQLFilter(selectedTypes);
-            layer.mergeNewParams({cql_filter: cqlFilter});
-        });
-    })("siteFilter", sitesLayer);
+    nar.siteFilter.addChangeHandler(function setupFiltering() {
+    	var cqlFilter = nar.siteFilter.writeCQLFilter();
+    	sitesLayer.mergeNewParams({cql_filter: cqlFilter});
+    });
 }());
