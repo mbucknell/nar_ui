@@ -66,7 +66,7 @@ nar.fullReport.TimeSeriesCollection = function(){
             cachedTimeRange = nar.fullReport.TimeRange.ofAll(timeRanges); 
             dirty=false;
         }
-        return cachedTimeRange;
+        return cachedTimeRange.clone();
     };
     
     /**

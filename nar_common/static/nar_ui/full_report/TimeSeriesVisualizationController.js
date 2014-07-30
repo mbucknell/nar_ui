@@ -24,9 +24,10 @@ nar.fullReport.TimeSeriesVisualizationController = function(timeSlider){
     });
     self.timeSlider = timeSlider;
     
-
-    //force everyone to use the accessors and getters, (including class members)
-    //by hiding the inner variable using closures, function-scoping
+    //During initial implementation, difficulties arose from accidentally modifying
+    //TimeRange objects instead of modifying copies of TimeRange objects. To avoid these bugs 
+    //we force everyone, including class members, to use accessors and setters that deal in clones.
+    //We hide the inner variables from class members using closures and function-scoping
     (function(){
         var currentlyVisibleTimeRange;
         
