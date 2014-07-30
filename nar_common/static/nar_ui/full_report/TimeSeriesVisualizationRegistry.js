@@ -17,8 +17,7 @@ nar.fullReport.TimeSeriesVisualizationRegistry = new function(){
     var entries = {};
     
     /**
-     * Get an existing TimeSeriesVisualization if it has already been instantiated,
-     * otherwise return a new TimeSeriesVisualization.
+     * Get the TimeSeriesVisualization for a given id if it has already been registered. Return undefined if no such id is registered.
      * @param {string} id - the TimeSeriesVisualization id
      * @returns {nar.fullReport.TimeSeriesVisualization|undefined} - undefined if not present 
      */
