@@ -5,6 +5,9 @@ var nar = nar || {};
 	var alaskaExtent = new OpenLayers.Bounds(-175.0, 55.0, -135.0, 71.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection);
     var alaskaCenter = alaskaExtent.getCenterLonLat();
     var maxZoomLevel = 3;
+    // These need to match @insetWidth and @insetHeight in nar.less
+    var insetWidth = 250;
+    var insetHeight = 250;
 	
 	nar.inset = OpenLayers.Class(OpenLayers.Control, {
 		type : OpenLayers.Control.TYPE_TOOL,
@@ -14,7 +17,7 @@ var nar = nar || {};
 		dragStart : null,
 		mapInsetContainerElement : null,
 		element : null,
-		size: new OpenLayers.Size(250, 250),
+		size: new OpenLayers.Size(insetWidth, insetHeight),
 		insetMap : null,
 		handlers : {},
 		initialize : function(options) {
