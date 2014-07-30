@@ -1,10 +1,10 @@
 var nar = nar || {};
 
 (function() {
-	var WGS84_GOOGLE_MERCATOR = new OpenLayers.Projection('EPSG:900913'); 
-    var WGS84_GEOGRAPHIC = new OpenLayers.Projection('EPSG:4326');
-	var alaskaExtent = new OpenLayers.Bounds(-178.0, 50.0, -130.0, 71.5).transform(WGS84_GEOGRAPHIC, WGS84_GOOGLE_MERCATOR);
+
+	var alaskaExtent = new OpenLayers.Bounds(-175.0, 55.0, -135.0, 71.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection);
     var alaskaCenter = alaskaExtent.getCenterLonLat();
+    var maxZoomLevel = 3;
 	
 	nar.inset = OpenLayers.Class(OpenLayers.Control, {
 		type : OpenLayers.Control.TYPE_TOOL,
@@ -16,7 +16,6 @@ var nar = nar || {};
 		element : null,
 		size: new OpenLayers.Size(250, 250),
 		insetMap : null,
-		insetOptions : {},
 		handlers : {},
 		initialize : function(options) {
 			"use strict";
@@ -48,179 +47,64 @@ var nar = nar || {};
 			this.element.appendChild(this.mapInsetContainerElement);
 			this.div.appendChild(this.element);
 			
-		    var defaultLayerOptions = {
-	            sphericalMercator : true,
-	            layers : "0",
-	            isBaseLayer : true,
-	            projection : WGS84_GOOGLE_MERCATOR,
-	            units : "m",
-	            buffer : 3,
-	            wrapDateLine : false
-	        };
-	        var addBaseLayersTo = function(mapLayers, defaultLayerOptions) {
-	            var zyx = '/MapServer/tile/${z}/${y}/${x}';
-	            var ArcGisLayer = function(name, identifier) {
-	                return new OpenLayers.Layer.XYZ(
-	                    name,
-	                    "http://services.arcgisonline.com/ArcGIS/rest/services/" + identifier + zyx,
-	                    defaultLayerOptions
-	                );
-	            };
-	            var baseLayers = 
-	            [ 
-	                ArcGisLayer("World Topo Map", 'World_Topo_Map'),
-	                ArcGisLayer("World Image", "World_Imagery"),
-	                ArcGisLayer("World Shaded Relief", "World_Shaded_Relief"),
-	                ArcGisLayer('World Street Map', 'World_Street_Map')
-	            ];
-	            mapLayers.add(baseLayers);
-	            return baseLayers;
-	        };
-	            
-	        var addNlcdLayersTo = function(mapLayers, defaultLayerOptions) {
-	            var nlcdUrl = 'http://raster.nationalmap.gov/ArcGIS/services/TNM_LandCover/MapServer/WMSServer';
-	            
-	            var nlcdProjection = 'EPSG:3857';
-	            
-	            var nlcdContiguousUsOptions = Object.clone(defaultLayerOptions);
-	            nlcdContiguousUsOptions.displayInLayerSwitcher = true;
-	            nlcdContiguousUsOptions.isBaseLayer = false;
-	            nlcdContiguousUsOptions.projection = nlcdProjection;
-	            nlcdContiguousUsOptions.visibility = false;
-	            
-	            var nlcdContiguousUsParams = {
-	                layers : '24',
-	                transparent: true,
-	                tiled: true
-	            };
-	            
-	            var nlcdContiguousUsLayer = new OpenLayers.Layer.WMS('NLCD', nlcdUrl, nlcdContiguousUsParams, nlcdContiguousUsOptions); 
-	            
-	                
-	            var nlcdAlaskaOptions = Object.clone(defaultLayerOptions);
-	            nlcdAlaskaOptions.displayInLayerSwitcher = false;
-	            nlcdAlaskaOptions.isBaseLayer = false;
-	            nlcdAlaskaOptions.projection = nlcdProjection;
-	            nlcdAlaskaOptions.visibility = false;
-	            var nlcdAlaskaParams = {
-	                layers : '18',
-	                transparent: true,
-	                tiled: true
-	            };
-	            
-	            var nlcdAlaskaLayer = new OpenLayers.Layer.WMS('NLCD Alaska', nlcdUrl, nlcdAlaskaParams, nlcdAlaskaOptions); 
-	                    
-	            nlcdContiguousUsLayer.events.register('visibilitychanged', {}, function(){
-	                 nlcdAlaskaLayer.setVisibility(nlcdContiguousUsLayer.visibility); 
-	            });
-	            
-	            var nlcdLayers = [
-	                 nlcdContiguousUsLayer,
-	                 nlcdAlaskaLayer
-	            ];
-	            mapLayers.add(nlcdLayers);
-	            return nlcdLayers;
-	        };
-	        
-	        var addSitesLayerTo = function(mapLayers, defaultLayerOptions) {
-	            var sitesLayerOptions = Object.clone(defaultLayerOptions);
-	            sitesLayerOptions.singleTile = true; //If we're not going to cache, might as well singleTile
-	            sitesLayerOptions.isBaseLayer =  false;
+			var baseLayers = nar.commons.mapUtils.createBaseLayers();
+			var nlcdLayers = nar.commons.mapUtils.createNlcdLayers();
+			var sitesLayers = nar.commons.mapUtils.createSitesLayers();
 
-	            var sitesLayerParams = {
-	                layers : 'NAWQA100_cy3fsmn',
-	                buffer: 8,
-	                transparent: true,
-	                styles: 'triangles'
-	            };
-	            
-	            var sitesLayer = new OpenLayers.Layer.WMS(
-	                'NAWQA Sites',
-	                CONFIG.endpoint.geoserver + 'NAR/wms',
-	                sitesLayerParams,
-	                sitesLayerOptions
-	            );
-	            
-	            mapLayers.push(sitesLayer);
-	            return sitesLayer;
-	        };
-	        
-	        var mapLayers = [];
-	        addBaseLayersTo(mapLayers, defaultLayerOptions);
-	        addNlcdLayersTo(mapLayers, defaultLayerOptions);
-	        sitesLayer = addSitesLayerTo(mapLayers, defaultLayerOptions);
+		    var mapLayers = [].add(baseLayers).add(nlcdLayers).add(sitesLayers);
 
-			this.insetOptions = {
+			var insetOptions = {
 					extent : alaskaExtent,
+					maxExtent : alaskaExtent,
 		            restrictedExtent : alaskaExtent,
 		            layers : mapLayers,
-		            projection : WGS84_GOOGLE_MERCATOR,
+		            projection : nar.commons.map.projection,
 		            size : this.size.clone(),
-		            numZoomLevels: 7,
 		            controls : [
-                        new OpenLayers.Control.Navigation(),
-                        new OpenLayers.Control.ScaleLine({
-                            geodesic: true
+                        new OpenLayers.Control.Navigation({
+                        	zoomWheelEnabled : true
                         })
                     ]
 			};
 	        
-			this.insetMap = new OpenLayers.Map(this.mapInsetContainerElement, this.insetOptions);
-			this.insetMap.setCenter(alaskaCenter, 4, true, true);
-		    mapLayers[0].events.register("loadend", this, function() {
-		    	this.insetMap.updateSize();
-			});
-		    
+			var insetMap = new OpenLayers.Map(this.mapInsetContainerElement, insetOptions);
+			this.insetMap = insetMap; // this is mostly for getting access to this map
+			
+			insetMap.setCenter(alaskaCenter, 3, true, true);
+			var scale = new OpenLayers.Control.ScaleLine({
+                geodesic: true,
+                displayClass: 'olAlaskaInsetControlScaleLine',
+                autoActivate: true,
+                allowSelection: true
+            });
+			insetMap.addControl(scale, new OpenLayers.Pixel(10, this.insetMap.size.h - 35));
+			
 			if (!this.outsideViewport) {
 				this.div.className += " " + this.displayClass + 'Container';
 			}
-
-			this.handlers.drag = new OpenLayers.Handler.Drag(
-				this, {}, {
-				documentDrag: false,
-				map: this.map
+			
+		    mapLayers[0].events.register("loadend", this, function() {
+		    	insetMap.updateSize();
 			});
-
-			// Cancel or catch events 
-			OpenLayers.Event.observe(this.div, 'click', OpenLayers.Function.bind(function (ctrl, evt) {
-				OpenLayers.Event.stop(evt ? evt : window.event);
-			}, this, this.div));
-			OpenLayers.Event.observe(this.div, 'dblclick', OpenLayers.Function.bind(function (ctrl, evt) {
-				OpenLayers.Event.stop(evt ? evt : window.event);
-			}, this, this.div));
-			OpenLayers.Event.observe(this.div, 'mouseover', OpenLayers.Function.bind(function () {
-				this.handlers.drag.activate();
-			}, this, this.div));
-			OpenLayers.Event.observe(this.div, 'mouseout', OpenLayers.Function.bind(function () {
-				this.handlers.drag.deactivate();
-			}, this, this.div));
-			OpenLayers.Event.observe(this.div, 'touchstart', OpenLayers.Function.bind(function (ele, evt) {
-				// The user is actually dragging the legend (or at least touched it) so mark the y coord where
-				// that happened because dragging (touchmove) directionality and distance will  be based on 
-				// this delta
-				this.dragStart = evt.changedTouches[0].clientY;
-				OpenLayers.Event.stop(evt);
-			}, this, this.div));
-			OpenLayers.Event.observe(this.div, 'touchmove', OpenLayers.Function.bind(function (ele, evt) {
-				// The user is actively dragging the legend. I need to figure out the scroll amount so I take the starting
-				// point (dragStart) and as the user scrolls, I calculate the distance from the starting point and 
-				// programatically scroll the container
-				var container = this.mapInsetContainerElement,
-					currentY = evt.changedTouches[0].clientY,
-					scrollAmount = currentY - this.dragStart,
-					scrollToY = -scrollAmount + container.scrollTop;
-
-				container.scrollTop = scrollToY;
-				OpenLayers.Event.stop(evt ? evt : window.event);
-			}, this, this.div));
-			OpenLayers.Event.observe(this.div, 'touchend', OpenLayers.Function.bind(function (ele, evt) {
-				OpenLayers.Event.stop(evt);
-			}, this, this.div));
-
-			this.map.events.on({
-				buttonclick: this.onButtonClick,
-				scope: this,
-				updatesize: this.updateSize
+			
+			insetMap.events.register("zoomend", this, function(e) {
+				if (insetMap.getZoom() < maxZoomLevel) {
+					insetMap.zoomToMaxExtent({restricted: true});
+				}
+			});
+			map.events.register("changebaselayer", this, function(e) {
+				var layer = insetMap.getLayersByName(map.baseLayer.name)[0];
+				if (layer) {
+					insetMap.setBaseLayer(layer);
+				}
+			});
+			map.events.register("changelayer", this, function(e) {
+				var name = e.layer.name;
+				var visibility = e.layer.getVisibility();
+				var layer = insetMap.getLayersByName(name)[0];
+				if (layer) {
+					layer.setVisibility(visibility);
+				}
 			});
 
 			return this.div;
