@@ -190,6 +190,7 @@
                 <pattern>.+/.+Spec\.js</pattern>
                 <pattern>.+/vendor_libs/.+\.js</pattern>
                 <pattern>.+/js_lib/.+\.js</pattern>
+                <pattern>.+/full_report/mock/.+\.js</pattern>
                 <!-- Add patterns for files that don't need to be analyzed such as library files -->
           	</noInstrumentPatterns>
      	</configuration>
