@@ -160,7 +160,8 @@
 					  <source>js_lib/TinyColor/tinycolor.js</source>
 		         </preloadSources>
 		         <sourceIncludes> <!-- Varies for each project -->
-		               <include>*.js</include>
+		         		<include>mapCommons.js</include>
+						<include>*.js</include>
 		               <include>summary_report/*.js</include>
 		               <include>full_report/*.js</include>
 		         </sourceIncludes>
