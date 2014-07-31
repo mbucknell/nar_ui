@@ -16,6 +16,10 @@
 			$('.map').fadeOut(500);
 		});
 		nar.siteFilter.loadSitesToDom();
+		nar.siteFilter.addChangeHandler(function(){
+			nar.siteFilter.clearRows();
+			nar.siteFilter.loadSitesToDom();
+		});
   });
 </script>
   

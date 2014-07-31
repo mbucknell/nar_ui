@@ -118,7 +118,9 @@ nar.commons.map = nar.commons.map || {};
 	    	if (protocol) {
 	    		protocol.read({
 	    			callback : callback,
-	    			filter : filter
+	    			params: {
+	    				cql_filter : filter
+	    			}
 	    		});
 	    	}
 	    }

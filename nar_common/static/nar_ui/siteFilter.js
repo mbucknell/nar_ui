@@ -25,6 +25,7 @@ var nar = nar || {};
             }
             return cqlFilter;
 		},
+		// Need to implement this as regular filter (can't use automatic translation)
 		addChangeHandler : function(fn) {
 			$("input[name='" + siteFilterName + "']").change(fn);
 		},
@@ -41,7 +42,8 @@ var nar = nar || {};
 		},
 		onEachSite : function(doThis) {
 			var protocol = nar.commons.mapUtils.createSitesFeatureProtocol();
-			var filter = null;//new OpenLayers.Filter({}); // will add cql filter later
+			//var filter = nar.siteFilter.filterFromCQLText(nar.siteFilter.writeCQLFilter());
+			var filter = nar.siteFilter.writeCQLFilter();
 			nar.commons.mapUtils.getData(protocol, filter, function(response) {
 				if (response.success()) {
 					response.features.each(function(feature) {
@@ -51,11 +53,18 @@ var nar = nar || {};
 				}
 			});
 		},
+		filterFromCQLText : function(text) {
+			var cql = new OpenLayers.Format.CQL();
+			return cql.read(text);
+		},
 		loadSitesToDom : function() {
 			var $table = $('.site_table');
 			nar.siteFilter.onEachSite(function(site) {
 				$table.append(nar.siteFilter.buildRow(site));
 			});
+		},
+		clearRows : function() {
+			$(".clickableRow").remove();
 		}
 	};
 }());
