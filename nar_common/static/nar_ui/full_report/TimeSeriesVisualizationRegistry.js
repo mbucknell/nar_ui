@@ -24,8 +24,8 @@ nar.fullReport.TimeSeriesVisualizationRegistry = function(){
     	console.warn(
 			'This object should be treated as a singleton unless testing.' + 
 			'You are instatiating an object that is meant to be used as a singleton, and it has already been instantiated.'+
-    		'Did you mean nar.fullReport.TimeSeriesVisualizationRegistryInstance ?.'
-			);
+    		'Did you mean "nar.fullReport.TimeSeriesVisualizationRegistryInstance" ?.'
+		);
     }
     else{
     	alreadyBeenInstantiated = true;
