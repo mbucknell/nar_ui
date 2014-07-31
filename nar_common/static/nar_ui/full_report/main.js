@@ -17,7 +17,8 @@ $(document).ready(function(){
         timeSlider : selectorElementPair('#timeSlider'),
         graphToggle : selectorElementPair('#plotToggleTree')
     };
-
+    nar.fullReport.TimeSeriesVisualizationRegistryInstance = new nar.fullReport.TimeSeriesVisualizationRegistry();
+    
     var getDataAvailabilityUri = CONFIG.endpoint.sos + '/json';
     var getDataAvailabilityParams = {
         "request": "GetDataAvailability",
@@ -35,7 +36,7 @@ $(document).ready(function(){
     });
     var startTimeIndex = 0;
     var endTimeIndex = 1;
-    var tsvRegistry = nar.fullReport.TimeSeriesVisualizationRegistry;
+    var tsvRegistry = nar.fullReport.TimeSeriesVisualizationRegistryInstance;
     var successfulGetDataAvailability = function(data, textStatus, jqXHR){
         data.dataAvailability.each(function(dataAvailability){
             var observedProperty = dataAvailability.observedProperty;
