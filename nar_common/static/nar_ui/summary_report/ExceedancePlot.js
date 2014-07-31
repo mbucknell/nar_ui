@@ -50,20 +50,27 @@ nar.fullReport = nar.fullReport || {};
            axes:{
                yaxis: {
                    renderer: $.jqplot.CategoryAxisRenderer,
-//                   ticks: ticks
                    tickRenderer: $.jqplot.CanvasAxisTickRenderer,
                    tickOptions:{
                        angle: -90,
-                       labelPosition: 'middle'
+                       labelPosition: 'middle',
+                       showGridline: false
                    }
                },
                xaxis: {
                    //restrict to percent range
                    max: 100,
                    min: 0,
-                   label: axisLabel 
+                   label: axisLabel,
+                   tickOptions: {
+                	   showGridline: false
+                   }
+                  
                }
-           }
+           },
+           grid: {
+    		   drawGridLine: false
+    	   }
        
        });
        //make plots responsive by replotting on window resize event 
