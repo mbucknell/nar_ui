@@ -6,6 +6,7 @@ nar.fullReport = nar.fullReport || {};
 /**
  * @typedef nar.fullReport.TimeSeriesConfig
  * @property {String} observedProperty - a full url identifier for an SOS observedProperty
+ * @property {String} procedure - a full url identifier for an SOS procedure
  * @property {nar.fullReport.TimeRange} timeRange
  */
 
@@ -29,7 +30,6 @@ nar.fullReport.TimeSeries = function(config){
         }
         else{
             if(response.resultValues){
-                
                 var rows = response.resultValues.split('@');
                 //the first row is just the record count. Throw it away.
                 rows = rows.from(1);
