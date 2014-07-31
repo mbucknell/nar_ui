@@ -1,8 +1,12 @@
 var nar = nar || {};
-(function(){
+(function() {
 	var siteFilterName = "siteFilter";
 	var getSelectedTypes = function() {
-		selectedTypes = $.makeArray($("input[name='" + siteFilterName + "']:checked").map(function(){return $(this).val()}));
+		selectedTypes = $.makeArray(
+			$("input[name='" + siteFilterName + "']:checked").map(function() {
+				return $(this).val();
+			})
+		);
 		return selectedTypes;
 	};
 	var makeTd = function(content) {
@@ -19,22 +23,31 @@ var nar = nar || {};
 			var selectedTypes = getSelectedTypes();
 			var cqlFilter = "c3type IS NOT NULL";
 			if (selectedTypes && 0 < selectedTypes.length) {
-				cqlFilter = "c3type IN ('" 
-					+ selectedTypes.join("','")
-					+ "')";
+				cqlFilter = "c3type IN ('" + selectedTypes.join("','") + "')";
 			}
 			return cqlFilter;
 		},
-		// Need to implement this as regular filter (can't use automatic translation)
+		writeOGCFilter : function() {
+			var selectedTypes = getSelectedTypes();
+			var ogcFilter = nar.siteFilter.filterBuilder.notNull("c3type");
+			if (selectedTypes && 0 < selectedTypes.length) {
+				var filters = [];
+				selectedTypes.each(function(type) {
+					var filter = nar.siteFilter.filterBuilder.equalTo("c3type", type);
+					filters.add(filter);
+				});
+				ogcFilter = nar.siteFilter.filterBuilder.or(filters);
+			}
+			return ogcFilter;
+		},
 		addChangeHandler : function(fn) {
 			$("input[name='" + siteFilterName + "']").change(fn);
 		},
 		buildRow : function(site) {
-			var $tableRow = $('<tr />').addClass('clickableRow')
-				.attr('href', CONFIG.baseUrl + 'site/' + site.id + '/summary-report');
-			$tableRow.append(makeTd(site.id))
-				.append(makeTd(site.name))
-				.append(makeTd(site.type));
+			var $tableRow = $('<tr />').addClass('clickableRow').attr('href',
+				CONFIG.baseUrl + 'site/' + site.id + '/summary-report');
+			$tableRow.append(makeTd(site.id)).append(makeTd(site.name)).append(
+				makeTd(site.type));
 			$tableRow.click(function() {
 				window.document.location = $(this).attr("href");
 			});
@@ -42,12 +55,14 @@ var nar = nar || {};
 		},
 		onEachSite : function(doThis) {
 			var protocol = nar.commons.mapUtils.createSitesFeatureProtocol();
-			//var filter = nar.siteFilter.filterFromCQLText(nar.siteFilter.writeCQLFilter());
-			var filter = nar.siteFilter.writeCQLFilter();
+			var filter = nar.siteFilter.writeOGCFilter();
 			nar.commons.mapUtils.getData(protocol, filter, function(response) {
 				if (response.success()) {
-					response.features.each(function(feature) {
-						var site = new nar.siteFilter.Site(feature.data.staid, feature.data.staname, feature.data.c3type);
+					response.features.sortBy(function(feature){
+						return feature.data.c3type;
+					}).each(function(feature) {
+						var site = new nar.siteFilter.Site(feature.data.staid,
+							feature.data.staname, feature.data.c3type);
 						doThis(site);
 					});
 				}
@@ -65,6 +80,50 @@ var nar = nar || {};
 		},
 		clearRows : function() {
 			$(".clickableRow").remove();
+		}
+	};
+	/**
+	 *  separate functionality for filter building
+	 *  only implementing what needed for now, could pull out into
+	 *  handy library at some point
+	 */
+	nar.siteFilter.filterBuilder = {
+		/**
+		 * {OpenLayers.Filter[]}
+		 */
+		or : function(filterArray) {
+			var filter;
+			if (Array.isArray(filterArray)) {
+				filter = new OpenLayers.Filter.Logical({
+					type : OpenLayers.Filter.Logical.OR,
+					// May want to check that each filter is OpenLayers.Filter
+					filters : filterArray
+				});
+			} else {
+				// An or of one item is just that item
+				filter = clone(filterArray);
+			}
+			return filter;
+		},
+		equalTo : function(property, value) {
+			var filter;
+			filter = new OpenLayers.Filter.Comparison({
+				type : OpenLayers.Filter.Comparison.EQUAL_TO,
+				property : property,
+				value : value
+			});
+			return filter;
+		},
+		notNull : function(property) {
+			var filter;
+			filter = new OpenLayers.Filter.Logical({
+				type : OpenLayers.Filter.Logical.NOT,
+				filters : [new OpenLayers.Filter.Comparison({
+					type : OpenLayers.Filter.Comparison.IS_NULL,
+					property : property
+				})]
+			});
+			return filter;
 		}
 	};
 }());
