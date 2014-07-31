@@ -8,6 +8,8 @@ var map;
     
     
     var themeFileUrl = CONFIG.staticUrl + 'nar_ui/js_lib/OpenLayers/theme/default/style.css';
+   
+    options.restrictedExtent = continentalExtent;
     options.theme = themeFileUrl;
     options.controls = [
         new OpenLayers.Control.Navigation(),
@@ -35,7 +37,7 @@ var map;
     options.controls.push(new nar.SiteIdentificationControl({
     	layers : [sitesLayer]
     }));
-    
+
     var getFeatureInfoControl = new OpenLayers.Control.WMSGetFeatureInfo({
         title: 'site-identify-control',
         hover: false,
