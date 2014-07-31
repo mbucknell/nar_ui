@@ -17,13 +17,13 @@ var nar = nar || {};
 		},
 		writeCQLFilter : function() {
 			var selectedTypes = getSelectedTypes();
-            var cqlFilter = "c3type IS NOT NULL";
-            if (selectedTypes && 0 < selectedTypes.length) {
-                cqlFilter = "c3type IN ('" 
-                	+ selectedTypes.join("','")
-                	+ "')";
-            }
-            return cqlFilter;
+			var cqlFilter = "c3type IS NOT NULL";
+			if (selectedTypes && 0 < selectedTypes.length) {
+				cqlFilter = "c3type IN ('" 
+					+ selectedTypes.join("','")
+					+ "')";
+			}
+			return cqlFilter;
 		},
 		// Need to implement this as regular filter (can't use automatic translation)
 		addChangeHandler : function(fn) {
@@ -36,7 +36,7 @@ var nar = nar || {};
 				.append(makeTd(site.name))
 				.append(makeTd(site.type));
 			$tableRow.click(function() {
-	            window.document.location = $(this).attr("href");
+				window.document.location = $(this).attr("href");
 			});
 			return $tableRow;
 		},
