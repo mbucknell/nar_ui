@@ -42,7 +42,11 @@
 
 @padding:10px;
 
-@homePageContentHeight: 600px; 
+@homePageContentHeight: 600px;
+
+@insetWidth: 250px;
+
+@insetHeight: 250px;
 
 
 /*##########content##########*/
@@ -250,8 +254,9 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 			
 }
 
+/* Alaska Inset */
 .olControlScaleLine {
-	left: 270px !important; 
+	left: (@insetWidth + 20) !important; 
 }
 
 .olAlaskaInsetControlScaleLine {
@@ -274,6 +279,30 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 	margin-top: -2px;
 	text-align: center;
 }
+
+.narAlaskaMapInset {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
+.narAlaskaMapInsetElement {
+	padding: 5px;
+	-moz-border-radius: 0px 6px 0px 0px;
+	-webkit-border-radius: 0px 6px 0px 0px;
+	border-radius: 0px 6px 0px 0px;
+	-khtml-border-radius: 0px 6px 0px 0px;
+	background: rgba(0,51,102,0.7) !important;
+}
+
+#narAlaskaMapInsetInnerContainer {
+	background-color: #f5f5f5;
+	padding: 4px;
+	height: @insetHeight;
+	width: @insetWidth;
+}
+
+/* End Alaska Inset */
 
 /* Style the popup for sites */
 #siteMap .olPopup {
