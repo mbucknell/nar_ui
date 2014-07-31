@@ -160,7 +160,8 @@
 					  <source>js_lib/TinyColor/tinycolor.js</source>
 		         </preloadSources>
 		         <sourceIncludes> <!-- Varies for each project -->
-		               <include>*.js</include>
+		         		<include>mapCommons.js</include>
+						<include>*.js</include>
 		               <include>summary_report/*.js</include>
 		               <include>full_report/*.js</include>
 		         </sourceIncludes>
@@ -168,7 +169,6 @@
 		         	<include>map.js</include>
 		         	<include>summary_report/main.js</include>
 		         	<include>full_report/main.js</include>
-		         	<include>full_report/TimeSeriesVisualization.js</include>
 		         </sourceExcludes>
 		     </configuration>
 		</plugin>
@@ -191,6 +191,7 @@
                 <pattern>.+/.+Spec\.js</pattern>
                 <pattern>.+/vendor_libs/.+\.js</pattern>
                 <pattern>.+/js_lib/.+\.js</pattern>
+                <pattern>.+/full_report/mock/.+\.js</pattern>
                 <!-- Add patterns for files that don't need to be analyzed such as library files -->
           	</noInstrumentPatterns>
      	</configuration>
