@@ -97,7 +97,6 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 	    	popup.maxSize = new OpenLayers.Size(map.size.w / 2 , map.size.h / 2);
 	    	popup.displayClass = 'site-identification-popup';
 	    	popup.contentDisplayClass = 'site-identification-popup-content';
-	    	popup.opacity = 0.9;
 	    	
 	    	// If another popup is opened, close all other popups first
 	    	map.popups.each(function(p) {
