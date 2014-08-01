@@ -2,8 +2,9 @@ var nar = nar || {};
 (function() {
 	var siteFilterName = "siteFilter";
 	var getSelectedTypes = function() {
+		var selectedSelector = "input[name='" + siteFilterName + "']:checked";
 		selectedTypes = $.makeArray(
-			$("input[name='" + siteFilterName + "']:checked").map(function() {
+			$(selectedSelector).map(function() {
 				return $(this).val();
 			})
 		);
