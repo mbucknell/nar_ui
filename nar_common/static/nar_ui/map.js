@@ -8,6 +8,9 @@ var map;
     
     
     var themeFileUrl = CONFIG.staticUrl + 'nar_ui/js_lib/OpenLayers/theme/default/style.css';
+   
+    options.maxZoomLevel = 4;
+    options.maxExtent = continentalExtent;
     options.theme = themeFileUrl;
     options.controls = [
         new OpenLayers.Control.Navigation(),
@@ -35,7 +38,7 @@ var map;
     options.controls.push(new nar.SiteIdentificationControl({
     	layers : [sitesLayer]
     }));
-    
+
     var getFeatureInfoControl = new OpenLayers.Control.WMSGetFeatureInfo({
         title: 'site-identify-control',
         hover: false,
@@ -80,6 +83,11 @@ var map;
     sitesLayer.events.register("loadend", {}, function() {
     	map.updateSize();
     });
+    map.events.register("zoomend", this, function(e) {
+		if (map.getZoom() < map.maxZoomLevel) {
+			map.setCenter(continentalCenter, 4);
+		}
+	});
     
     var insetControl = new nar.inset({});
     map.addControl(insetControl, new OpenLayers.Pixel(0, map.getSize().h - 260));

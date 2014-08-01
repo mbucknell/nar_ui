@@ -136,7 +136,7 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
     
     var getTimeSeriesVisualizationsForNode = function(leafNode){
         var tsvId = leafNode.original.type;
-        timeSeriesVisualization = nar.fullReport.TimeSeriesVisualizationRegistry.get(tsvId);
+        timeSeriesVisualization = nar.fullReport.TimeSeriesVisualizationRegistryInstance.get(tsvId);
         return timeSeriesVisualization;
     };
     

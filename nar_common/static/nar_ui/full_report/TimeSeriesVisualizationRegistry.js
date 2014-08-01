@@ -7,11 +7,30 @@ nar.fullReport = nar.fullReport || {};
 
 /**
  * @class
+ * In the application, this should be used as a singleton by constructing a single instance
+ * from the onready/main file.
+ * 
+ * In testing this can be used in non-singleton form.
+ * 
+ * While the first instantiation of this class proceeds without further ado,
+ * a warning is printed during each subsequent instantiation.
  */
 
-//create a singleton using an anonymous constructor function and nulling out the constructor
-nar.fullReport.TimeSeriesVisualizationRegistry = new function(){
-    var self = this;
+//private class variable
+var alreadyBeenInstantiated = false;
+
+nar.fullReport.TimeSeriesVisualizationRegistry = function(){
+    if(alreadyBeenInstantiated){
+    	console.warn(
+			'This object should be treated as a singleton unless testing.' + 
+			'You are instatiating an object that is meant to be used as a singleton, and it has already been instantiated.'+
+    		'Did you mean "nar.fullReport.TimeSeriesVisualizationRegistryInstance" ?.'
+		);
+    }
+    else{
+    	alreadyBeenInstantiated = true;
+    }
+	var self = this;
     
     //registry entries, a map of string ids to instantiations of TimeSeriesVisualizations
     var entries = {};
@@ -86,9 +105,6 @@ nar.fullReport.TimeSeriesVisualizationRegistry = new function(){
         //just return itself for now
         return strippedObservedProperty;
     };
-    
-}();//end anonymous constructor invocation
-//..and nulling out the constructor to prevent subsequent new-ing
-nar.fullReport.TimeSeriesVisualizationRegistry.constructor = null;
+};
 
 }());

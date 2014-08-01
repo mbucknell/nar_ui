@@ -19,6 +19,7 @@
 
 <!-- this is an example of loading a non-less stylesheet-->
 	<link rel="stylesheet" href="{% static 'nar_ui/js_lib/bootstrap/css/bootstrap.css' %}"/>
+	<link rel="stylesheet" href="{% static 'nar_ui/js_lib/bootstrap/css/bootstrap.icon-large.min.css' %}"/>
 	{% compress css %}
 		<link rel="stylesheet" type="text/less" media="all" href="{% static 'nar_ui/common.less' %}"/>
 		<link rel="stylesheet" type="text/less" media="all" href="{% static 'nar_ui/nar.less' %}"/>
@@ -143,14 +144,14 @@
     
                     
     <div class="menu-item">
-      <h4><a href="#">Nitrate in Coastal Rivers</a></h4>
+      <h4><a href="{{ settings.BASE_URL }}coastal">Nitrate in Coastal Rivers</a></h4>
      
     </div>
                     
                    
                     
                      <div class="menu-item">
-      <h4><a href="#">Mississippi River Basin</a></h4>
+      <h4><a href="{{ settings.BASE_URL }}mississippi">Mississippi River Basin</a></h4>
       
     </div>
                     

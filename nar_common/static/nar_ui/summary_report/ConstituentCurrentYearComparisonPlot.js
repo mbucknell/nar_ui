@@ -94,13 +94,19 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
     var plot = $.plot(plotDivSelector, flotSeries, {
         xaxis: {
             mode: "categories",
+            tickLength: 0
         },
         yaxis: {
             axisLabel: series.displayUnitOnYAxis ? series.constituentUnit : null,
             axisLabelUseCanvas: true,
-            axisLabelPadding: 3
+            axisLabelPadding: 3,
+            tickLength: 3,
+            tickColor: '#000000'
         },
-        grid: { hoverable: true, clickable: true },
+        grid: { 
+        	hoverable: true, 
+        	clickable: true
+    	},
         colors: [averageColor, series.yearColor],
         tooltip: true,
         tooltipOpts: {
