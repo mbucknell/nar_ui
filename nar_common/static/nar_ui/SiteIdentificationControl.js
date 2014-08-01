@@ -30,7 +30,6 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 		"use strict";
 		var features = response.features,
 	    	$featureDescriptionHTML = $('<div />').addClass('container-fluid').attr('id', 'site-identification-popup-content-container'),
-	    	wellPaddingHeight = 35,
 	    	feature,
 	    	popup,
 	    	popupPixel,
@@ -78,7 +77,7 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 				$container.append($titleRow, $stationIdRow, $reportsAndGraphsRow, $relevantLinksRow);
 				return $container;
 			};
-    	
+
     	// Only care about this if user hoevered over an actual feature
     	if (features.length > 0) {
     		// If more than one feature, create a list. Otherwise, just create a single div
@@ -87,70 +86,28 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 	    		$featureDescriptionHTML.append(createSiteDisplayWell(feature));
 	    	}
 	    
-	    	popup = new OpenLayers.Popup("site-identification-" + Date.now(),
-	    			map.getLonLatFromPixel(new OpenLayers.Pixel(response.xy.x, response.xy.y)),
-	    			null,
-	    			$('<div />').append($featureDescriptionHTML).html(),
-	                true);
-	    	
-	    	popup.autoSize = true;
-	    	popup.maxSize = new OpenLayers.Size(map.size.w / 2 , map.size.h / 2);
-	    	popup.displayClass = 'site-identification-popup';
-	    	popup.contentDisplayClass = 'site-identification-popup-content';
-	    	
-	    	// If another popup is opened, close all other popups first
-	    	map.popups.each(function(p) {
-	    		p.destroy();
+	    	nar.sitePopup.createPopup({
+	    		content : $('<div />').append($featureDescriptionHTML).html(),
+	    		width : map.size.w / 1.25,
+	    		title : 'Site Identification',
+	    		onOpen : function (evt, ui) {
+	    			// The container may have more than one item in it. If so, 
+	    			// resize to the height of the first well (+ padding) 
+	    			var $container = $(this),
+	    				wellPaddingHeight = 20;
+	    			
+    				$container.dialog().height($container.find('.well').first().outerHeight() + wellPaddingHeight);
+    				
+    				// Reattach a handler to the checbox filter list to remove the dialog 
+    				$('form').children('input').off('change', nar.sitePopup.destroyDialog);
+    				$('form').children('input').on('change', nar.sitePopup.destroyDialog);
+    				
+    				// Reattach a handler to the 
+    				$('button.site_view').off('click', nar.sitePopup.destroyDialog);
+    				$('button.site_view').on('click', nar.sitePopup.destroyDialog);
+	    		}
 	    	});
-	    	
-			map.addPopup(popup);
-			
-			// Make sure that if the user is hovering over the popup and a site is underneath the popup, that the 
-			// hover doesn't drop through and trigger that site's popup
-			OpenLayers.Event.observe(popup.div, 'mouseover', OpenLayers.Function.bind(function (div, evt) {
-				this.map.getControlsBy('title', 'site-identify-on-hover-control')[0].deactivate();
-			}, popup, popup.div));
-    		OpenLayers.Event.observe(popup.div, 'mouseout', OpenLayers.Function.bind(function (div, evt) {
-    			this.map.getControlsBy('title', 'site-identify-on-hover-control')[0].activate();
-			}, popup, popup.div));
-			
-    		// Create proper width/height/overflow styling
-	    	popup.contentDiv.style.height = 'auto';
-	    	popup.closeDiv.className = 'glyphicon glyphicon-remove';
-	    	popup.div.style['overflow-y'] = 'auto';
-			popup.div.style.width = 'auto';
-			popup.div.style.height = ($(popup.contentDiv).find('.well').outerHeight() + wellPaddingHeight) + 'px';
-	    	
-	    	// Figure out if popup scrolls off the side/bottom of the map and reposition if so
-	    	$popupDiv = $(popup.div);
-	    	popupPixel = map.getPixelFromLonLat(popup.lonlat),
-	    	popupLeft = popupPixel.x;
-	    	popupTop = popupPixel.y;
-	    	popupWidth = $popupDiv.width();
-	    	popupHeight = $popupDiv.height();
-	    	newLeft = popupLeft;
-	    	newTop = popupTop;
-	    	newLonLat = popup.lonlat;
-	    	
-	    	// Check of the width of the popup goes beyond the right side of the map
-	    	if (popupLeft + popupWidth > mapWidth) {
-	    		newLeft = popupLeft - popupWidth;
-	    	}
-	    	
-	    	// Check if the height of the popup goes below the bottom of the map
-	    	if (popupTop + popupHeight > mapHeight) {
-	    		newTop = popupTop - popupHeight;
-	    	}
-	    	
-	    	// If the popup needs to be repositioned, do so
-	    	newPx = new OpenLayers.Pixel(newLeft, newTop);
-	    	newLonLat = map.getLonLatFromPixel(newPx);
-	    	if (popup.lonlat !== newLonLat) {
-	    		popup.lonlat = newLonLat;
-	    		popup.updatePosition();
-	    	}
-	    	
-	    	
+	    	return;
     	}
 	},
 	CLASS_NAME: "OpenLayers.Control.WMSGetFeatureInfo"

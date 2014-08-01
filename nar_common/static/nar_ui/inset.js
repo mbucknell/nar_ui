@@ -66,7 +66,10 @@ var nar = nar || {};
 		            controls : [
                         new OpenLayers.Control.Navigation({
                         	zoomWheelEnabled : true
-                        })
+                        }),
+                        new nar.SiteIdentificationControl({
+            		    	layers : mapLayers
+            		    })
                     ]
 			};
 	        
