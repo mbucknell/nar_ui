@@ -14,6 +14,12 @@ nar.fullReport = nar.fullReport || {};
     var getXcoord = function(point){
         return point[0];
     };
+    /**
+     * For symmetry, get the Y coord
+     */
+    var getYcoord = function(point) {
+    	return point[1];
+    };
     var log10 = function(val) {
         return Math.log(val) / Math.LN10;
     };
@@ -62,13 +68,28 @@ nar.fullReport = nar.fullReport || {};
             var constituentName = constituentInfo.name;
             var currentYearColor = constituentInfo.color;
             var previousYearsColor = tinycolor.lighten(tinycolor(currentYearColor), 30).toRgbString();
+            var longTermMeanColor = tinycolor.lighten(tinycolor(currentYearColor), 15).toRgbString();
             return {
                 name : constituentName,
                 colors:{
                     currentYear: currentYearColor,
-                    previousYears: previousYearsColor
+                    previousYears: previousYearsColor,
+                    longTermMean: longTermMeanColor
                 }
             };
+        },
+        /**
+         * This will probably eventually come from a service, but for now I'm just going to calculate
+         */
+        calculateLongTermAverage: function(timeSeriesVisualization) {
+            var allData = timeSeriesVisualization.timeSeriesCollection.map(function(timeSeries){
+                return timeSeries.data;
+            });
+            var data = allData[0];
+            var avg = data.average(function(n){
+                return parseFloat(getYcoord(n));
+            });
+            return avg;
         },
         /**
          * @callback plotHoverFormatter
