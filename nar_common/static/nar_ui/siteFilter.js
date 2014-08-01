@@ -66,6 +66,8 @@ var nar = nar || {};
 							feature.data.staname, feature.data.c3type);
 						doThis(site);
 					});
+				} else {
+					throw Error('Error loading sites - could not retrieve data from feature service.');
 				}
 			});
 		},
