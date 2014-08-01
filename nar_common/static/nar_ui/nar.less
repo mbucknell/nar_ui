@@ -347,37 +347,36 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
  					
  .mississippi_title h6{margin:0;}
  
-.mississippi_title button{font-size:1.1em;
-  							width:70px;
+.mississippi_title button{font-size:1em;
+  							width:72px;
   							border-radius:5px;
   							border:@borderDark;
   							background:@boxColor;
   							height:25px;
   							padding:1px 0 0 0;
-  							margin:4.5px 10px 0 0;}
+  							margin:4.5px 10px 0 0;
+  							outline:none;}
   							
 .mississippi_title button:hover{background:@primaryColor;
- 								color:#fff;} 								
-
+ 								color:#fff;} 
+ 								
+ .mississippi_title a:hover{text-decoration:underline;
+ 							color:#428bca;}
+ 								
+ #toggle{position:absolute;
+ 		right:5px;
+ 		top:50px;
+ 		width:110px;}
+ 		
+ #toggle i{font-size:.9em;}
+ 		
 #help{position:absolute;
 	right:5px;
-	top:50px;
+	top:10px;
 	}
- 
- #mississippi_info{border:@borderDark;
- 					width:153px;
- 					min-height:22px;
- 					position:absolute;
- 					right:10px;
- 					top:10px;
- 					border-radius:0 10px 0 0;
- 					background:@boxColor;
- 					text-align:left;
- 					font-size:.7em;
- 					padding:2px 2px 0 5px;
- 					line-height:1.4em;}
  					
- #mississippi_info i{-webkit-transform:rotate(270deg);
+ #mississippi_info i,
+  #toggle i{-webkit-transform:rotate(270deg);
 			-moz-transform:rotate(270deg);}
 			
 			
@@ -386,8 +385,7 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 					clear:both;
 					margin:0;
 					border-bottom:@borderDark;
-					text-align:right;
-}
+					text-align:right;}
 
 .mississippi_buttons button{font-size:.85em;
   							width:100px;
@@ -396,7 +394,8 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
   							background:@boxColor;
   							height:20px;
   							padding:1px 0 0 0;
-  							margin:4.5px 10px 0 0;}
+  							margin:4.5px 10px 0 0;
+  							}
   							
 .mississippi_buttons button:hover{background:@primaryColor;
  								color:#fff;}
@@ -430,6 +429,19 @@ select.last{margin-right:0;}
 					background:@boxColor;
 					margin:0;
 					position:relative;}
+					
+#mississippi_info{border-bottom:@borderDark;
+					border-left:@borderDark;
+ 					width:153px;
+ 					min-height:22px;
+ 					position:absolute;
+ 					right:0;
+ 					top:0;
+ 					background:@boxColor;
+ 					text-align:left;
+ 					font-size:.7em;
+ 					padding:4px 2px 0 5px;
+ 					line-height:1.4em;}
 					
 .left_map,
 right_map{height:487px;}
@@ -974,7 +986,24 @@ select.last{margin-right:0;}
  					
  .mississippi_title h6{font-size:.8em;}
  
- #mississippi_info{width:90px}
+ #mississippi_info{width:90px;
+ 					padding:2px 0 2px 5px;
+ }
+ 
+ #toggle{width:70px;
+ 		height:38px;
+ 		text-align:center;
+ 		font-size:.9em;
+ 		top:40px;
+ }
+ 		
+  #toggle,
+  #help{right:0;}
+  
+   #help{top:4px;}
+ 
+.mississippi_title button{
+ 							background:@boxColor;}
 
 .left_filter select,
 .right_filter select{width:100px;
@@ -1114,7 +1143,19 @@ select.last{margin-right:0;}
  					
  .mississippi_title h6{font-size:.8em;}
  
- #mississippi_info{width:90px}
+ #mississippi_info{width:90px;
+ 					padding:2px 0 2px 5px;
+ }
+ 
+ #toggle{width:60px;
+ 		height:38px;
+ 		text-align:center;
+ 		font-size:.9em;
+ 		top:40px;
+ }
+ 		
+  #toggle,
+  #help{right:0;}
 
 .left_filter select,
 .right_filter select{width:100px;
