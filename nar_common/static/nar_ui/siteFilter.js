@@ -104,7 +104,7 @@ var nar = nar || {};
 				});
 			} else {
 				// An or of one item is just that item
-				filter = clone(filterArray);
+				filter = Object.clone(filterArray);
 			}
 			return filter;
 		},
