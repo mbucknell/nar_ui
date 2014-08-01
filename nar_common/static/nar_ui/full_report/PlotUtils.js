@@ -14,7 +14,9 @@ nar.fullReport = nar.fullReport || {};
     var getXcoord = function(point){
         return point[0];
     };
-    
+    var log10 = function(val) {
+        return Math.log(val) / Math.LN10;
+    };
     
     
     nar.fullReport.PlotUtils = {
@@ -64,7 +66,7 @@ nar.fullReport = nar.fullReport || {};
                 name : constituentName,
                 colors:{
                     currentYear: currentYearColor,
-                    previousYears: previousYearsColor                    
+                    previousYears: previousYearsColor
                 }
             };
         },
@@ -121,6 +123,18 @@ nar.fullReport = nar.fullReport || {};
             var dateStr = date.format(Date.ISO8601_DATE);
             var formatted = dateStr + " : " + y;
             return formatted;
+        },
+        /**
+         * Pulling out tick formatter for testing it
+         * Note, only works for powers of 10
+         * @param val value to format
+         * @param axis axis being formatted (not used currently)
+         * returns format for which tick should be formatted
+         */
+        logTickFormatter: function(val, axis) {
+            var roundedLog = Math.round(log10(val));
+            var tickDecimals = (roundedLog > 0) ? 0 : -roundedLog;
+            return val.toFixed(tickDecimals);
         }
     };
 }());

@@ -53,7 +53,7 @@ nar.fullReport = nar.fullReport || {};
                 axisLabelFontFamily: "Verdana, Arial, Helvetica, Tahoma, sans-serif",
                 axisLabelPadding: 5,
                 ticks: [0.001,0.01,0.1,1,10,100, 1000],
-                tickDecimals: 2,
+                tickFormatter: nar.fullReport.PlotUtils.logTickFormatter,
                 tickLength: 10,
                 min: 0.001,
                 transform: function(value){
