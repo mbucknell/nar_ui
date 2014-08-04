@@ -53,9 +53,9 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 					$summaryGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-summary-graph-link'),
 					$detailedGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-detailed-graph-link'),
 					$downloadLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-download-link'),
-					$summaryGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-th-list').html('Summary Graphs')),
-					$detailedGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-signal').html('Detailed Graphs')),
-					$downloadLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-save').html('Download Data')),
+					$summaryGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-th-list'),' Summary Graphs'),
+					$detailedGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-signal'), ' Detailed Graphs'),
+					$downloadLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-save'),' Download Data'),
 					data = feature.data,
 					title = data.staname,
 					id = data.staid;
@@ -88,8 +88,8 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 	    
 	    	nar.sitePopup.createPopup({
 	    		content : $('<div />').append($featureDescriptionHTML).html(),
-	    		width : map.size.w / 2.25,
-	    		title : 'Site Identification',
+	    		width : map.size.w / 1.5,
+	    		title : '',
 	    		onOpen : function (evt, ui) {
 	    			// The container may have more than one item in it. If so, 
 	    			// resize to the height of the first well (+ padding) 

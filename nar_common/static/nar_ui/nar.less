@@ -324,6 +324,10 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 	border: 1px solid #999999;
 	color: #888888;
 	font-size: 0.9em;
+	background: -webkit-linear-gradient(#EEE, #888888); /* For Safari  >= 6.0 */
+    background: -o-linear-gradient(#EEE, #888888); /* For Opera  >= 12.0 */
+    background: -moz-linear-gradient(#EEE, #888888); /* For Firefox >= 3.6 */
+    background: linear-gradient(#EEE, #888888); /* Standard syntax (must be last) */
 }
 
 .nar-popup-dialog .ui-dialog-titlebar > span {
@@ -344,7 +348,9 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 .nar-popup-dialog #site-identification-popup-content-container .well {
 	padding-top: 2px !important;
 	padding-bottom: 2px !important;
-	margin-bottom: 5px !important;
+	margin-top: 10px !important;
+	margin-bottom: 0px !important;
+	line-height: 1.5em
 }
 
 #nar-dialog-content .site-identification-popup-content-title {
@@ -354,7 +360,7 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 	font-size: 0.9em;
 }             
 #nar-dialog-content .site-identification-popup-content-links-and-graphs {
-	font-size: 0.85em;
+	font-size: 0.8em;
 }  
 #nar-dialog-content .site-identification-popup-content-links-and-graphs a{
 	color: #428bca; 
