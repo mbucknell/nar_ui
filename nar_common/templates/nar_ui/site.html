@@ -5,6 +5,7 @@
 
 
 {% block content %}
+
 <script>$(document).ready(function(){
   $('.map_view').click(function(){
       $('.map').delay(500).fadeIn(500);
@@ -23,6 +24,24 @@
       });
 });
 </script>
+
+
+<script>
+
+//check on div click
+
+$(document).on("click", ".check_filter", function (event) {
+    var target = $(event.target);
+    if (target.is('input:checkbox')) {
+        return;
+    }
+    var checkbox = $(this).find("input[type='checkbox']");
+    checkbox.prop("checked", !checkbox.is(':checked'));
+    checkbox.change();
+});
+
+</script>
+
 
 <div class="row content">
 
@@ -176,19 +195,31 @@
             <button class="site_view">Site List</button>
             
             <form>
-            	Filter by Site Type</br>
+            	<h4>Filter by Site Type:</h4>
             	
-            	<input type="checkbox" name="siteFilter" value="Urban">Urban<br>
+            	<div class="check_filter">
+            	<input type="checkbox" name="siteFilter" value="Urban"><p>Urban</p><br>
+            	</div>
             	
-            	<input type="checkbox" name="siteFilter" value="Agriculture">Agriculture<br>
+            	<div class="check_filter">
+            	<input type="checkbox" name="siteFilter" value="Agriculture"><p>Agriculture</p><br>
+            	</div>
             	
-            	<input type="checkbox" name="siteFilter" value="Reference">Reference<br>
+            	<div class="check_filter">
+            	<input type="checkbox" name="siteFilter" value="Reference"><p>Reference</p><br>
+            	</div>
             	
-            	<input type="checkbox" name="siteFilter" value="Large Inland Rivers">Inland Rivers<br>
+            	<div class="check_filter">
+            	<input type="checkbox" name="siteFilter" value="Large Inland Rivers"><p>Inland Rivers</p><br>
+            	</div>
             	
-            	<input type="checkbox" name="siteFilter" value="Coastal Rivers">Coastal Rivers<br>
-            
+            	<div class="check_filter">
+            	<input type="checkbox" name="siteFilter" value="Coastal Rivers"><p>Coastal Rivers</p><br>
+            	</div>
+            	
             </form>
+            
+            <button id="siteDownload">Download Data</button>
     	
     	</div><!--filter-->
     
