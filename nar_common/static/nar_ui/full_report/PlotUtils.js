@@ -14,10 +14,31 @@ nar.fullReport = nar.fullReport || {};
     var getXcoord = function(point){
         return point[0];
     };
+    /**
+     * For symmetry, get the Y coord
+     */
+    var getYcoord = function(point) {
+    	return point[1];
+    };
     var log10 = function(val) {
         return Math.log(val) / Math.LN10;
     };
     
+    var getPlotTooltipDiv = function() {
+    	//create or obtain a div just for chart tooltips
+        var toolTipId = 'flot-tooltip';
+        var toolTipSelector = '#' + toolTipId;
+        var toolTipSelection = $(toolTipSelector);
+        var toolTipElt;
+        if (0 === toolTipSelection.length) {
+            toolTipElt = $('<div></div>', {'id':toolTipId});
+            toolTipElt.appendTo('body');
+        }
+        else {
+            toolTipElt = toolTipSelection[0];
+        }
+        return toolTipElt;
+    };
     
     nar.fullReport.PlotUtils = {
             
@@ -62,13 +83,28 @@ nar.fullReport = nar.fullReport || {};
             var constituentName = constituentInfo.name;
             var currentYearColor = constituentInfo.color;
             var previousYearsColor = tinycolor.lighten(tinycolor(currentYearColor), 30).toRgbString();
+            var longTermMeanColor = tinycolor.lighten(tinycolor(currentYearColor), 15).toRgbString();
             return {
                 name : constituentName,
                 colors:{
                     currentYear: currentYearColor,
-                    previousYears: previousYearsColor
+                    previousYears: previousYearsColor,
+                    longTermMean: longTermMeanColor
                 }
             };
+        },
+        /**
+         * This will probably eventually come from a service, but for now I'm just going to calculate
+         */
+        calculateLongTermAverage: function(timeSeriesVisualization) {
+            var allData = timeSeriesVisualization.timeSeriesCollection.map(function(timeSeries){
+                return timeSeries.data;
+            });
+            var data = allData[0];
+            var avg = data.average(function(n){
+                return parseFloat(getYcoord(n));
+            });
+            return avg;
         },
         /**
          * @callback plotHoverFormatter
@@ -84,18 +120,7 @@ nar.fullReport = nar.fullReport || {};
          * @param {plotHoverFormatter} - the callback that formats the raw data into human-readable hover text
          */
         setPlotHoverFormatter : function(plotContainer, formatter){
-            //create or obtain a div just for chart tooltips
-            var toolTipId = 'flot-tooltip';
-            var toolTipSelector = '#' + toolTipId;
-            var toolTipSelection = $(toolTipSelector);
-            var toolTipElt;
-            if(0 === toolTipSelection.length){
-                toolTipElt = $('<div></div>', {'id':toolTipId});
-                toolTipElt.appendTo('body');
-            }
-            else{
-                toolTipElt = toolTipSelection[0];
-            }
+            var toolTipElt = getPlotTooltipDiv();
             $(plotContainer).bind("plothover", function (event, pos, item) {
                 if (item) {
                     var x = item.datapoint[0],
@@ -110,6 +135,19 @@ nar.fullReport = nar.fullReport || {};
                 }
             });
             
+        },
+        setLineHoverFormatter : function(plotContainer, yvalue, text) {
+            var toolTipElt = getPlotTooltipDiv();
+            var hoverThreshold = 0.05; // Arbitrary for now
+            $(plotContainer).bind("plothover", function (event, pos, item) {
+                if (!item) {
+                    if (Math.abs(log10(pos.y) - log10(yvalue)) < hoverThreshold) {
+                        $(toolTipElt).html(text)
+                            .css({top: pos.pageY+5, left: pos.pageX+5})
+                            .fadeIn(200);
+                    }
+                }
+            });
         },
         /**
          * This is a commonly-used {plotHoverFormatter}.
