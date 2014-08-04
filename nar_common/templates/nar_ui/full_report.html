@@ -12,6 +12,7 @@
 {% block scripts %}
 	{{ block.super }}
 	{% compress js %}
+		{# third-party #}
         <script type="text/javascript" src="{% static 'nar_ui/js_lib/jquery-ui/jquery-ui.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'nar_ui/js_lib/jquery-ui-slider-pips/jquery-ui-slider-pips.min.js' %}"></script>
 	    <script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.js' %}"></script>
@@ -23,6 +24,9 @@
         <script type="text/javascript" src="{% static 'nar_ui/js_lib/flot_plugins/jquery.flot.tooltip.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/jstree/jstree.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/TinyColor/tinycolor.js' %}"></script>
+		
+		{# local #}
+		<script type="text/javascript" src="{% static 'nar_ui/full_report/WaterYearUtils.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/full_report/PlotUtils.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/Constituents.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/full_report/sample_concentration_plot.js' %}"></script>
