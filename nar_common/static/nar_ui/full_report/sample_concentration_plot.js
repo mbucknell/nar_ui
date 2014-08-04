@@ -12,6 +12,7 @@ nar.fullReport = nar.fullReport || {};
         var splitData = nar.fullReport.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(tsViz);
         var previousYearsData = splitData.previousYearsData;
         var currentYearData = splitData.currentYearData;  
+        var longTermMean = nar.fullReport.PlotUtils.calculateLongTermAverage(tsViz);
         var miscConstituentInfo = nar.fullReport.PlotUtils.getConstituentNameAndColors(tsViz);
         var constituentName =miscConstituentInfo.name; 
         var previousYearsColor = miscConstituentInfo.colors.previousYears;
@@ -33,7 +34,6 @@ nar.fullReport = nar.fullReport || {};
         };
         
         var makeLongTermMeanConfig = function(dataSet, color) {
-        	var longTermMean = nar.fullReport.PlotUtils.calculateLongTermAverage(tsViz);
             return {
                 label: constituentName,
                 data: [[-FUTURE_TIME,longTermMean],[FUTURE_TIME,longTermMean]],
@@ -47,11 +47,11 @@ nar.fullReport = nar.fullReport || {};
         
         var previousYearsSeries = makeSeriesConfig(previousYearsData, previousYearsColor);
         var currentYearSeries = makeSeriesConfig(currentYearData, currentYearColor);
-        var longTermMean = makeLongTermMeanConfig(tsViz, longTermMeanColor);
+        var longTermMeanSeries = makeLongTermMeanConfig(tsViz, longTermMeanColor);
         var series = [
           previousYearsSeries,
           currentYearSeries,
-          longTermMean
+          longTermMeanSeries
         ];
         var logBase = 10;
         var logFactor = Math.log(logBase);
@@ -95,6 +95,7 @@ nar.fullReport = nar.fullReport || {};
         });
         var hoverFormatter = nar.fullReport.PlotUtils.utcDatePlotHoverFormatter;
         nar.fullReport.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
+        nar.fullReport.PlotUtils.setLineHoverFormatter(plotContainer, longTermMean, nar.fullReport.terms['Long-term mean'].short)
         return plot;
     };    
 }());

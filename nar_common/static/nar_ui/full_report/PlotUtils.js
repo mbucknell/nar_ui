@@ -24,6 +24,21 @@ nar.fullReport = nar.fullReport || {};
         return Math.log(val) / Math.LN10;
     };
     
+    var getPlotTooltipDiv = function() {
+    	//create or obtain a div just for chart tooltips
+        var toolTipId = 'flot-tooltip';
+        var toolTipSelector = '#' + toolTipId;
+        var toolTipSelection = $(toolTipSelector);
+        var toolTipElt;
+        if (0 === toolTipSelection.length) {
+            toolTipElt = $('<div></div>', {'id':toolTipId});
+            toolTipElt.appendTo('body');
+        }
+        else {
+            toolTipElt = toolTipSelection[0];
+        }
+        return toolTipElt;
+    };
     
     nar.fullReport.PlotUtils = {
             
@@ -105,18 +120,7 @@ nar.fullReport = nar.fullReport || {};
          * @param {plotHoverFormatter} - the callback that formats the raw data into human-readable hover text
          */
         setPlotHoverFormatter : function(plotContainer, formatter){
-            //create or obtain a div just for chart tooltips
-            var toolTipId = 'flot-tooltip';
-            var toolTipSelector = '#' + toolTipId;
-            var toolTipSelection = $(toolTipSelector);
-            var toolTipElt;
-            if(0 === toolTipSelection.length){
-                toolTipElt = $('<div></div>', {'id':toolTipId});
-                toolTipElt.appendTo('body');
-            }
-            else{
-                toolTipElt = toolTipSelection[0];
-            }
+            var toolTipElt = getPlotTooltipDiv();
             $(plotContainer).bind("plothover", function (event, pos, item) {
                 if (item) {
                     var x = item.datapoint[0],
@@ -131,6 +135,19 @@ nar.fullReport = nar.fullReport || {};
                 }
             });
             
+        },
+        setLineHoverFormatter : function(plotContainer, yvalue, text) {
+            var toolTipElt = getPlotTooltipDiv();
+            var hoverThreshold = 0.05; // Arbitrary for now
+            $(plotContainer).bind("plothover", function (event, pos, item) {
+                if (!item) {
+                    if (Math.abs(log10(pos.y) - log10(yvalue)) < hoverThreshold) {
+                        $(toolTipElt).html(text)
+                            .css({top: pos.pageY+5, left: pos.pageX+5})
+                            .fadeIn(200);
+                    }
+                }
+            });
         },
         /**
          * This is a commonly-used {plotHoverFormatter}.
