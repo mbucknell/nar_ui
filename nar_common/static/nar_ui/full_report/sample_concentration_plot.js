@@ -1,7 +1,6 @@
 var nar = nar || {};
 nar.fullReport = nar.fullReport || {};
 (function(){
-    var FUTURE_TIME = 99999999999000;
     /**
      * @param {TimeSeriesVisualization} tsViz
      * returns {jquery.flot}
@@ -36,14 +35,15 @@ nar.fullReport = nar.fullReport || {};
         var makeLongTermMeanConfig = function(dataSet, color) {
             return {
                 label: constituentName,
-                data: [[-FUTURE_TIME,longTermMean],[FUTURE_TIME,longTermMean]],
+                data: [[nar.fullReport.PlotUtils.YEAR_NINETEEN_HUNDRED,longTermMean],
+                       [nar.fullReport.PlotUtils.ONE_YEAR_IN_THE_FUTURE,longTermMean]],
                 lines: {
                     show: true,
                     fillColor: color
                 },
                 shadowSize: 0
             };
-        }
+        };
         
         var previousYearsSeries = makeSeriesConfig(previousYearsData, previousYearsColor);
         var currentYearSeries = makeSeriesConfig(currentYearData, currentYearColor);

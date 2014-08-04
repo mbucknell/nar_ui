@@ -41,7 +41,8 @@ nar.fullReport = nar.fullReport || {};
     };
     
     nar.fullReport.PlotUtils = {
-            
+        YEAR_NINETEEN_HUNDRED: Date.create('1900').getTime(),
+        ONE_YEAR_IN_THE_FUTURE: Date.create().addYears(1).getTime(),
         /**
          * @param {nar.fullReport.TimeSeriesVisualization}
          * @returns {Object} - a map of the data set split into the current year's data, and the 
