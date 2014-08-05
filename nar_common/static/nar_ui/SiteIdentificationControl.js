@@ -53,9 +53,13 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 					$summaryGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-summary-graph-link'),
 					$detailedGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-detailed-graph-link'),
 					$downloadLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-download-link'),
-					$summaryGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-th-list').html('View Summary Graph')),
-					$detailedGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-signal').html('View Detailed Graph')),
-					$downloadLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-save').html('Download Water Data')),
+					$summaryGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-th-list'),' Summary Graphs'),
+					$detailedGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-signal'), ' Detailed Graphs'),
+					$downloadLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-save'),' Download Data'),
+					// query-ui has a hierarchy of things it tries to auto-focus on. This hack has it auto-focus on a hidden span.
+					// Otherwise it trues to focus on the first link, which in some browsers will draw an outline around it. (ugly)
+					// http://api.jqueryui.com/dialog/
+					$hiddenAutoFocus = $('<span />').addClass('hidden').attr('autofocus', ''),
 					data = feature.data,
 					title = data.staname,
 					id = data.staid;
@@ -71,7 +75,7 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 				$detailedGraphsLinkContainer.append($detailedGraphsLink);
 				$downloadLinkContainer.append($downloadLink);
 				
-				$reportsAndGraphsRow.append($summaryGraphsLinkContainer, $detailedGraphsLinkContainer, $downloadLinkContainer);
+				$reportsAndGraphsRow.append($summaryGraphsLinkContainer, $detailedGraphsLinkContainer, $downloadLinkContainer, $hiddenAutoFocus);
 				
 				$relevantLinksRow.html('Relevant Links: Some Link, Some Other Link');
 				$container.append($titleRow, $stationIdRow, $reportsAndGraphsRow, $relevantLinksRow);
@@ -88,13 +92,13 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 	    
 	    	nar.sitePopup.createPopup({
 	    		content : $('<div />').append($featureDescriptionHTML).html(),
-	    		width : map.size.w / 1.25,
-	    		title : 'Site Identification',
+	    		width : map.size.w / 1.5,
+	    		title : '',
 	    		onOpen : function (evt, ui) {
 	    			// The container may have more than one item in it. If so, 
 	    			// resize to the height of the first well (+ padding) 
 	    			var $container = $(this),
-	    				wellPaddingHeight = 20;
+	    				wellPaddingHeight = 5;
 	    			
     				$container.dialog().height($container.find('.well').first().outerHeight() + wellPaddingHeight);
     				

@@ -311,6 +311,10 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 /* End Alaska Inset */
 
 /* Site popup styling */
+.nar-popup-dialog .ui-dialog-titlebar {
+	padding: 0.1em !important; /* bootstrap override */
+}
+
 .nar-popup-dialog .ui-dialog-titlebar .nar-popup-dialog-close-icon{
 	color: #888888;
 }
@@ -319,26 +323,51 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 	background: none;
 	border: 1px solid #999999;
 	color: #888888;
+	font-size: 0.9em;
+	background: -webkit-linear-gradient(#EEE, #888888); /* For Safari  >= 6.0 */
+    background: -o-linear-gradient(#EEE, #888888); /* For Opera  >= 12.0 */
+    background: -moz-linear-gradient(#EEE, #888888); /* For Firefox >= 3.6 */
+    background: linear-gradient(#EEE, #888888); /* Standard syntax (must be last) */
+}
+
+.nar-popup-dialog .ui-dialog-titlebar > span {
+	margin-left: 10px;
 }
 
 /* Site popup content styling */
 #nar-dialog-content {
 	color : #888888;
+	padding: 0em;
+}
+
+.nar-popup-dialog #site-identification-popup-content-container {
+	padding-right: 5px !important;
+	padding-left: 5px !important; 
+}
+
+.nar-popup-dialog #site-identification-popup-content-container .well {
+	padding-top: 2px !important;
+	padding-bottom: 2px !important;
+	margin-top: 10px !important;
+	margin-bottom: 0px !important;
+	line-height: 1.5em
 }
 
 #nar-dialog-content .site-identification-popup-content-title {
-	font-size: 1.2em;
+	font-size: 1em;
 }
 #nar-dialog-content .site-identification-popup-content-station-id {
-	font-size: 1.1em;
+	font-size: 0.9em;
 }             
 #nar-dialog-content .site-identification-popup-content-links-and-graphs {
-	font-size: 1.1em;
-	
+	font-size: 0.8em;
 }  
 #nar-dialog-content .site-identification-popup-content-links-and-graphs a{
 	color: #428bca; 
-}           
+}      
+#nar-dialog-content .site-identification-popup-content-relevant-links {
+	font-size: 0.8em;
+}     
 
   /*###########################site_end####################### */
   
