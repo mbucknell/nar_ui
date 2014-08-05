@@ -17,7 +17,7 @@ nar.WaterYearUtils = (function () {
 	 * Converts a provided date (yyyy) to a water year
 	 */
 	var convertDateToWaterYear = function (date) {
-		var sDate = Date.create(date);
+		var sDate = date ? Date.create(date) : Date.create();
 		var year = extractYear(sDate);
 		if (sDate.is('October') || sDate.is('November') || sDate.is('December')) {
 			year = year + 1;

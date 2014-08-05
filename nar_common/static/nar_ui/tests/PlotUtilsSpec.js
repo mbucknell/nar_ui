@@ -24,4 +24,68 @@ describe('nar.fullReport.PlotUtils', function() {
 			expect(testFunc('12/11/1929', 0.13)).toBe('1929-12-11 : 0.13');
 		});
 	});
+	
+	describe('getDataSplitIntoCurrentAndPreviousYears using dates not up to current date', function () {
+		var yearAndRndRandomNumber = [];
+		for (var year = 1980;year < new Date().getFullYear();year++) {
+			yearAndRndRandomNumber.push([new Date(year,'0','1','0','0','0').getTime(), Math.floor(Math.random() * 10) + 1]);
+		}
+		
+		var allYearsExceptFewMostCurrent = { 
+				data : [yearAndRndRandomNumber.slice(0, yearAndRndRandomNumber.length - 2)]
+		};
+		
+		var inputObjectWithoutRecentYears = {
+				timeSeriesCollection : {
+					timeSeries : allYearsExceptFewMostCurrent,
+					map : function(c) {
+						return this.timeSeries.data;
+					}
+				}
+		};
+		
+		var result = nar.fullReport.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(inputObjectWithoutRecentYears);
+		
+		it('should return the expected result object with two properties', function () {
+			expect(result).not.toBe(null);
+			expect(Object.keys(result).length).toBe(2);
+		});
+		
+		it('should have a currentYearDataElement array of length 0', function () {
+			expect(result.currentYearData.length).toBe(0);
+		});
+		it('should have a currentYearDataElement array of length > 1', function () {
+			expect(result.previousYearsData.length).not.toBe(0);
+		});
+		
+	});
+	
+	describe('getDataSplitIntoCurrentAndPreviousYears using dates including current date', function () {
+		var yearAndRndRandomNumber = [];
+		for (var year = 1980;year < new Date().getFullYear();year++) {
+			yearAndRndRandomNumber.push([new Date(year,'0','1','0','0','0').getTime(), Math.floor(Math.random() * 10) + 1]);
+		}
+		
+		var inputObjectWithRecentYears = {
+				timeSeriesCollection : {
+					timeSeries : {
+						data : [yearAndRndRandomNumber]
+					},
+					map : function(c) {
+						return this.timeSeries.data;
+					}
+				}
+		};
+		
+		var result = nar.fullReport.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(inputObjectWithRecentYears);
+		it('should have a currentYearDataElement array of length 1', function () {
+			expect(result.currentYearData.length).not.toBe(0);
+			expect(result.currentYearData.length).toBe(1);
+		});
+		it('should have a currentYearDataElement array of length == 1', function () {
+			expect(result.previousYearsData.length).not.toBe(0);
+		});
+		
+	});
+	
 });

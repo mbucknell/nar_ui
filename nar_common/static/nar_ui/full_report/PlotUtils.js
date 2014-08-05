@@ -24,7 +24,8 @@ nar.fullReport = nar.fullReport || {};
         /**
          * @param {nar.fullReport.TimeSeriesVisualization}
          * @returns {Object} - a map of the data set split into the current year's data, and the 
-         * previous years' data 
+         * previous years' data. Previous years' data will be null if last years' data does not 
+         * fall on the last water year. 
          */
         getDataSplitIntoCurrentAndPreviousYears: function(timeSeriesVisualization) {
             var allData = timeSeriesVisualization.timeSeriesCollection.map(function(timeSeries){
@@ -35,6 +36,9 @@ nar.fullReport = nar.fullReport || {};
             var latestPoint = data.last();
             var lastDate = new Date(getXcoord(latestPoint));
             var lastYear = lastDate.getFullYear();
+            var lastCurrentDateWaterYear = nar.WaterYearUtils.convertDateToWaterYear() - 1;
+            var lastDateWaterYear = nar.WaterYearUtils.convertDateToWaterYear(lastDate.format('{yyyy}/{MM}/{dd}'));
+            
             //must use string for year
             var startOfLastYear = Date.create(''+lastYear);
             var startOfLastYearTimestamp = startOfLastYear.getTime();
@@ -43,12 +47,24 @@ nar.fullReport = nar.fullReport || {};
                var timestamp = getXcoord(dataPoint);
                return timestamp >= startOfLastYearTimestamp;
             });
-            var previousYearsData = data.to(indexOfFirstDataPointInLastYear);
-            var currentYearData = data.from(indexOfFirstDataPointInLastYear);
-            return {
-                previousYearsData: previousYearsData,
-                currentYearData: currentYearData
-            };
+            
+            var result = {
+				previousYearsData : [],
+				currentYearData : []
+			};
+            
+            // If the last water year in not the data set is the actual last water year,
+            // don't put anything into the currentYearData array and put everything into
+            // previousYearsData array. Otherwise, include just the last item in the array
+            // into currentYearData
+            if (lastDateWaterYear !== lastCurrentDateWaterYear) {
+        		result.previousYearsData = data;
+			} else {
+				result.previousYearsData = data.to(indexOfFirstDataPointInLastYear);
+				result.currentYearData = data.from(indexOfFirstDataPointInLastYear);
+			}
+            
+            return result;
         },
         /**
          * @param {nar.fullReport.TimeSeriesVisualization}
