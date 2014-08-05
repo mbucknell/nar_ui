@@ -56,6 +56,10 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 					$summaryGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-th-list'),' Summary Graphs'),
 					$detailedGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-signal'), ' Detailed Graphs'),
 					$downloadLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-save'),' Download Data'),
+					// query-ui has a hierarchy of things it tries to auto-focus on. This hack has it auto-focus on a hidden span.
+					// Otherwise it trues to focus on the first link, which in some browsers will draw an outline around it. (ugly)
+					// http://api.jqueryui.com/dialog/
+					$hiddenAutoFocus = $('<span />').addClass('hidden').attr('autofocus', ''),
 					data = feature.data,
 					title = data.staname,
 					id = data.staid;
@@ -71,7 +75,7 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 				$detailedGraphsLinkContainer.append($detailedGraphsLink);
 				$downloadLinkContainer.append($downloadLink);
 				
-				$reportsAndGraphsRow.append($summaryGraphsLinkContainer, $detailedGraphsLinkContainer, $downloadLinkContainer);
+				$reportsAndGraphsRow.append($summaryGraphsLinkContainer, $detailedGraphsLinkContainer, $downloadLinkContainer, $hiddenAutoFocus);
 				
 				$relevantLinksRow.html('Relevant Links: Some Link, Some Other Link');
 				$container.append($titleRow, $stationIdRow, $reportsAndGraphsRow, $relevantLinksRow);
