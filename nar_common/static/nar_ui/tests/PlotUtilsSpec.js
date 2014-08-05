@@ -54,7 +54,7 @@ describe('nar.fullReport.PlotUtils', function() {
 		it('should have a currentYearDataElement array of length 0', function () {
 			expect(result.currentYearData.length).toBe(0);
 		});
-		it('should have a currentYearDataElement array of length > 1', function () {
+		it('should have a previousYearsData array of length > 1', function () {
 			expect(result.previousYearsData.length).not.toBe(0);
 		});
 		
@@ -82,7 +82,7 @@ describe('nar.fullReport.PlotUtils', function() {
 			expect(result.currentYearData.length).not.toBe(0);
 			expect(result.currentYearData.length).toBe(1);
 		});
-		it('should have a currentYearDataElement array of length == 1', function () {
+		it('should have a previousYearsData array of length == 1', function () {
 			expect(result.previousYearsData.length).not.toBe(0);
 		});
 		
