@@ -9,7 +9,11 @@
 {% endblock %}
 
 {% block content %}
+
 <script>
+
+//map view to site view
+
 	$(document).ready(function(){
 		$('.map_view').click(function(){
 			$('.map').delay(500).fadeIn(500);
@@ -24,13 +28,32 @@
 			nar.siteFilter.clearRows();
 			nar.siteFilter.loadSitesToDom();
 		});
+		
+//site list click funtion
+  
+      $(".clickableRow").click(function() {
+            window.document.location = $(this).attr("href");
+      });
+
+//check_filter "click" checks input checkbox
+
+$(document).on("click", ".check_filter", function (event) {
+    var target = $(event.target);
+    if (target.is('input:checkbox')) {
+        return;
+    }
+    var checkbox = $(this).find("input[type='checkbox']");
+    checkbox.prop("checked", !checkbox.is(':checked'));
+    checkbox.change();
+});
+
 	});
+
 </script>
 
-<div class="row content">
 
-	
-    
+<div class="row content">
+   
     	<div class="col-lg-9 site_map col-md-9 col-sm-9 col-xs-9">
     	
     		<div id="siteMap" class="col-lg-12 map col-md-12 col-sm-12 col-xs-12"></div><!--map-->
@@ -68,19 +91,31 @@
             <button class="site_view">Site List</button>
             
             <form>
-            	Filter by Site Type</br>
+            	<h4>Filter by Site Type:</h4>
             	
-            	<input type="checkbox" name="siteFilter" value="Urban">Urban<br>
+            	<div class="check_filter">
+            	<input type="checkbox" name="siteFilter" value="Urban"/><p>Urban</p>
+            	</div>
             	
-            	<input type="checkbox" name="siteFilter" value="Agriculture">Agriculture<br>
+            	<div class="check_filter">
+            	<input type="checkbox" name="siteFilter" value="Agriculture"/><p>Agriculture</p>
+            	</div>
             	
-            	<input type="checkbox" name="siteFilter" value="Reference">Reference<br>
+            	<div class="check_filter">
+            	<input type="checkbox" name="siteFilter" value="Reference"/><p>Reference</p>
+            	</div>
             	
-            	<input type="checkbox" name="siteFilter" value="Large Inland Rivers">Inland Rivers<br>
+            	<div class="check_filter">
+            	<input type="checkbox" name="siteFilter" value="Large Inland Rivers"/><p>Inland Rivers</p>
+            	</div>
             	
-            	<input type="checkbox" name="siteFilter" value="Coastal Rivers">Coastal Rivers<br>
-            
+            	<div class="check_filter">
+            	<input type="checkbox" name="siteFilter" value="Coastal Rivers"/><p>Coastal Rivers</p>
+            	</div>
+            	
             </form>
+            
+            <button id="siteDownload">Download Data</button>
     	
     	</div><!--filter-->
     
