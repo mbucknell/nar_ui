@@ -4,26 +4,37 @@ var nar = nar || {};
      * A map of a constituent's programmatic identifier to its metadata
      */
     nar.Constituents = {
+		ammonia : {
+            color : '',
+            //R-Color:unknown
+            name : 'Ammonia'
+        },
+        orthoP : {
+            color : '',
+            //R-Color:unknown
+            name : 'orthoP'
+        },
         nitrogen : {
-            color : '#7FFF00',
-            //R-Color:chartreuse1
+            color : '#6E8B3D',
+            //R-Color:darkolivegreen4
             name : 'Total Nitrogen'
         },
         pesticides : {
-            color : 'rgb(0, 128, 128)',
+            color : '#008080',
             name: 'Pesticides'
         },
         ecology : {
-            color : 'rgb(128, 128, 0)',
+            color : '#808000',
             name : 'Ecology'
         },
         nitrate : {
-            name : 'Nitrate',
-            color : 'rgb(0,255,0)'
+        	color : '#7FFF00',
+        	//R-Color:chartreuse1
+            name : 'Nitrate'
         },
         phosphorus : {
-            color : '#458B00',
-            //R-Color:chartreuse4
+            color : '#698B69',
+            //R-Color:darkgreenseagreen4
             name : 'Total Phosphorus'
         },
         sediment : {
