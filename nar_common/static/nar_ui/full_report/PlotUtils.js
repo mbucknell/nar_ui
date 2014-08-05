@@ -24,7 +24,7 @@ nar.fullReport = nar.fullReport || {};
         /**
          * @param {nar.fullReport.TimeSeriesVisualization}
          * @returns {Object} - a map of the data set split into the current year's data, and the 
-         * previous years' data. Previous years' data will be null if last years' data does not 
+         * previous years' data. Previous years' data will be an empty array if last years' data does not 
          * fall on the last water year. 
          */
         getDataSplitIntoCurrentAndPreviousYears: function(timeSeriesVisualization) {
