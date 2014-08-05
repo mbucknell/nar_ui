@@ -5,6 +5,8 @@ nar.commons.map = nar.commons.map || {};
 	
 	nar.commons.map.projection = new OpenLayers.Projection('EPSG:900913');
 	nar.commons.map.geographicProjection = new OpenLayers.Projection('EPSG:4326');
+	nar.commons.map.narNamespace = 'http://cida.usgs.gov/NAR';
+	nar.commons.map.sitesName = 'NAWQA100_cy3fsmn';
 	
 	var DEFAULT_LAYER_OPTIONS = {
         sphericalMercator : true,
@@ -80,14 +82,14 @@ nar.commons.map = nar.commons.map || {};
 	        ];
 	        return nlcdLayers;
 	    },
-	    createSitesLayers : function(layerOptions){
+	    createSitesLayer : function(layerOptions){
 	    	var _layerOptions = layerOptions || DEFAULT_LAYER_OPTIONS;
 	        var sitesLayerOptions = Object.clone(_layerOptions);
 	        sitesLayerOptions.singleTile = true; //If we're not going to cache, might as well singleTile
 	        sitesLayerOptions.isBaseLayer =  false;
 	
 	        var sitesLayerParams = {
-	            layers : 'NAWQA100_cy3fsmn',
+	            layers : nar.commons.map.sitesName,
 	            buffer: 8,
 	            transparent: true,
 	            styles: 'triangles'
@@ -101,6 +103,24 @@ nar.commons.map = nar.commons.map || {};
 	        );
 	        
 	        return sitesLayer;
+	    },
+	    createSitesFeatureProtocol : function(protocolOptions) {
+	    	// protocolOptions unused for now
+	    	var protocol = new OpenLayers.Protocol.WFS({
+	    		version: '1.1.0',
+	    		url: CONFIG.endpoint.geoserver + 'NAR/wfs',
+	    		featureType: nar.commons.map.sitesName,
+	    		featureNS: nar.commons.map.narNamespace
+	    	});
+	    	return protocol;
+	    },
+	    getData : function(protocol, filter, callback) {
+	    	if (protocol) {
+	    		protocol.read({
+	    			callback : callback,
+	    			filter : filter
+	    		});
+	    	}
 	    }
 	}
 }());

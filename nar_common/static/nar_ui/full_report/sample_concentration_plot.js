@@ -1,7 +1,7 @@
 var nar = nar || {};
 nar.fullReport = nar.fullReport || {};
 (function(){
-    
+    var FUTURE_TIME = 99999999999000;
     /**
      * @param {TimeSeriesVisualization} tsViz
      * returns {jquery.flot}
@@ -12,10 +12,12 @@ nar.fullReport = nar.fullReport || {};
         var splitData = nar.fullReport.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(tsViz);
         var previousYearsData = splitData.previousYearsData;
         var currentYearData = splitData.currentYearData;  
+        var longTermMean = nar.fullReport.PlotUtils.calculateLongTermAverage(tsViz);
         var miscConstituentInfo = nar.fullReport.PlotUtils.getConstituentNameAndColors(tsViz);
         var constituentName =miscConstituentInfo.name; 
         var previousYearsColor = miscConstituentInfo.colors.previousYears;
         var currentYearColor= miscConstituentInfo.colors.currentYear;
+        var longTermMeanColor = miscConstituentInfo.colors.longTermMean;
         
         var makeSeriesConfig = function(dataSet, color){
             return {
@@ -31,11 +33,25 @@ nar.fullReport = nar.fullReport || {};
             };   
         };
         
+        var makeLongTermMeanConfig = function(dataSet, color) {
+            return {
+                label: constituentName,
+                data: [[-FUTURE_TIME,longTermMean],[FUTURE_TIME,longTermMean]],
+                lines: {
+                    show: true,
+                    fillColor: color
+                },
+                shadowSize: 0
+            };
+        }
+        
         var previousYearsSeries = makeSeriesConfig(previousYearsData, previousYearsColor);
-        var currentYearSeries = makeSeriesConfig(currentYearData, currentYearColor); 
+        var currentYearSeries = makeSeriesConfig(currentYearData, currentYearColor);
+        var longTermMeanSeries = makeLongTermMeanConfig(tsViz, longTermMeanColor);
         var series = [
           previousYearsSeries,
-          currentYearSeries
+          currentYearSeries,
+          longTermMeanSeries
         ];
         var logBase = 10;
         var logFactor = Math.log(logBase);
@@ -53,7 +69,7 @@ nar.fullReport = nar.fullReport || {};
                 axisLabelFontFamily: "Verdana, Arial, Helvetica, Tahoma, sans-serif",
                 axisLabelPadding: 5,
                 ticks: [0.001,0.01,0.1,1,10,100, 1000],
-                tickDecimals: 2,
+                tickFormatter: nar.fullReport.PlotUtils.logTickFormatter,
                 tickLength: 10,
                 min: 0.001,
                 transform: function(value){
@@ -75,10 +91,11 @@ nar.fullReport = nar.fullReport || {};
             legend: {
                    show: false
             },
-            colors:[previousYearsColor, currentYearColor]
+            colors:[previousYearsColor, currentYearColor, longTermMeanColor]
         });
         var hoverFormatter = nar.fullReport.PlotUtils.utcDatePlotHoverFormatter;
         nar.fullReport.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
+        nar.fullReport.PlotUtils.setLineHoverFormatter(plotContainer, longTermMean, nar.fullReport.terms.longTermMean.shortDef)
         return plot;
     };    
 }());

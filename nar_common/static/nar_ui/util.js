@@ -20,5 +20,10 @@ nar.util = {};
         var timestamp = dateObj.getTime();
         return timestamp;
     };
-    
+
+    window.onerror = function(errorMsg, url, lineNumber) {
+        var msg = errorMsg.replace(/Uncaught .*Error: /, '');
+        $('#alert').html(msg).show().alert();
+        $('#alert').delay(5000).fadeOut();
+    };
 }());
