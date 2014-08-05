@@ -24,7 +24,7 @@ describe('nar.fullReport.PlotUtils', function() {
 			expect(testFunc('12/11/1929', 0.13)).toBe('1929-12-11 : 0.13');
 		});
 	});
-	
+
 	describe('getDataSplitIntoCurrentAndPreviousYears using dates not up to current date', function () {
 		var yearAndRndRandomNumber = [];
 		for (var year = 1980;year < new Date().getFullYear();year++) {
@@ -88,4 +88,18 @@ describe('nar.fullReport.PlotUtils', function() {
 		
 	});
 	
+	describe('longTermMean', function() {
+		var start = nar.fullReport.PlotUtils.YEAR_NINETEEN_HUNDRED;
+		var end = nar.fullReport.PlotUtils.ONE_YEAR_IN_THE_FUTURE;
+		it('start should be before end', function() {
+			expect(start).toBeLessThan(end);
+		});
+		it('values should be reasonable', function() {
+			expect(start).toBeLessThan(0);
+			expect(end).toBeGreaterThan(0);
+			// Now restrict further, these may need to change
+			expect(start).toBe(-2208967200000);
+			expect(end).toBeGreaterThan(1438723569000);
+		});
+	});
 });
