@@ -28,7 +28,7 @@ nar.fullReport = nar.fullReport || {};
 		},
 		longTermMean: {
 			name: 'Long-term mean',
-			shortDef: 'Average for the period or record',
+			shortDef: 'Average for the period of record',
 			longDef: 'Mathematical average of the constituent concentration or load for the period of record.'
 		},
 		periodOfRecord: {
