@@ -28,8 +28,7 @@
 			nar.siteFilter.clearRows();
 			nar.siteFilter.loadSitesToDom();
 		});
-	});
-
+		
 //site list click funtion
   
       $(".clickableRow").click(function() {
@@ -47,6 +46,8 @@ $(document).on("click", ".check_filter", function (event) {
     checkbox.prop("checked", !checkbox.is(':checked'));
     checkbox.change();
 });
+
+	});
 
 </script>
 
