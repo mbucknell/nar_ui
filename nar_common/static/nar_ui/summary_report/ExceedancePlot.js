@@ -61,10 +61,7 @@ nar.fullReport = nar.fullReport || {};
                    //restrict to percent range
                    max: 100,
                    min: 0,
-                   label: axisLabel,
-                   tickOptions: {
-                	   showGridline: false
-                   }
+                   label: axisLabel
                   
                }
            },
