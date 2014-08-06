@@ -5,13 +5,13 @@ var nar = nar || {};
      */
     nar.Constituents = {
 		ammonia : {
-            color : '',
-            //R-Color:unknown
+            color : '#CAFF70',
+            //R-Color:darkolivegreen1
             name : 'Ammonia'
         },
         orthoP : {
-            color : '',
-            //R-Color:unknown
+            color : '#C1FFC1',
+            //R-Color:darkseagreen1
             name : 'orthoP'
         },
         nitrogen : {

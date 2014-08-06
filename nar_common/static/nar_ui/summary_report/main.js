@@ -13,7 +13,7 @@ $(document).ready(
             };
 
             var nitrateGraph = ConstituentCurrentYearComparisonPlot(
-                    '#barChart2', nitrateSeries);
+                    '#barChart3', nitrateSeries);
 
             var phosphorusSeries = {
                     constituentName : nar.Constituents.phosphorus.name,
@@ -25,7 +25,7 @@ $(document).ready(
             };
 
             var phosphorusGraph = ConstituentCurrentYearComparisonPlot(
-                    '#barChart3', phosphorusSeries);
+                    '#barChart4', phosphorusSeries);
 
             var streamflowSeries = {
                     constituentName : nar.Constituents.streamflow.name,
@@ -38,6 +38,18 @@ $(document).ready(
 
             var streamflowGraph = ConstituentCurrentYearComparisonPlot(
                     '#barChart1', streamflowSeries);
+            
+            var nitrogenSeries = {
+                    constituentName : nar.Constituents.nitrogen.name,
+                    constituentUnit : 'Million acre-feet',
+                    yearValue : 1.1,
+                    yearColor : nar.Constituents.nitrogen.color,
+                    averageName : 'Average 1999-2013',
+                    averageValue : 1.9
+            };
+
+            var nitrogenGraph = ConstituentCurrentYearComparisonPlot(
+                    '#barChart2', nitrogenSeries);
 
             var sedimentSeries = {
                     constituentName : nar.Constituents.sediment.name,
@@ -49,7 +61,7 @@ $(document).ready(
             };
 
             var sedimentGraph = ConstituentCurrentYearComparisonPlot(
-                    '#barChart4', sedimentSeries);
+                    '#barChart5', sedimentSeries);
             var exceedancesTitle = 'Percentage of samples with concentrations greater than benchmarks'; 
             
             var humanHealthExceedancePlot = ExceedancePlot(
