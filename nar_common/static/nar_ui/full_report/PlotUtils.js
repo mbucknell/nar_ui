@@ -100,7 +100,7 @@ nar.fullReport = nar.fullReport || {};
             var constituentName = constituentInfo.name;
             var currentYearColor = constituentInfo.color;
             var previousYearsColor = tinycolor.lighten(tinycolor(currentYearColor), 30).toRgbString();
-            var longTermMeanColor = tinycolor.lighten(tinycolor(currentYearColor), 15).toRgbString();
+            var longTermMeanColor = tinycolor.lighten(tinycolor.gray, 75).toRgbString();
             return {
                 name : constituentName,
                 colors:{

@@ -11,12 +11,10 @@ nar.fullReport = nar.fullReport || {};
         var splitData = nar.fullReport.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(tsViz);
         var previousYearsData = splitData.previousYearsData;
         var currentYearData = splitData.currentYearData;  
-        var longTermMean = nar.fullReport.PlotUtils.calculateLongTermAverage(tsViz);
         var miscConstituentInfo = nar.fullReport.PlotUtils.getConstituentNameAndColors(tsViz);
         var constituentName =miscConstituentInfo.name; 
         var previousYearsColor = miscConstituentInfo.colors.previousYears;
         var currentYearColor= miscConstituentInfo.colors.currentYear;
-        var longTermMeanColor = miscConstituentInfo.colors.longTermMean;
         
         var makeSeriesConfig = function(dataSet, color){
             return {
@@ -32,26 +30,11 @@ nar.fullReport = nar.fullReport || {};
             };   
         };
         
-        var makeLongTermMeanConfig = function(dataSet, color) {
-            return {
-                label: constituentName,
-                data: [[nar.fullReport.PlotUtils.YEAR_NINETEEN_HUNDRED,longTermMean],
-                       [nar.fullReport.PlotUtils.ONE_YEAR_IN_THE_FUTURE,longTermMean]],
-                lines: {
-                    show: true,
-                    fillColor: color
-                },
-                shadowSize: 0
-            };
-        };
-        
         var previousYearsSeries = makeSeriesConfig(previousYearsData, previousYearsColor);
         var currentYearSeries = makeSeriesConfig(currentYearData, currentYearColor);
-        var longTermMeanSeries = makeLongTermMeanConfig(tsViz, longTermMeanColor);
         var series = [
           previousYearsSeries,
-          currentYearSeries,
-          longTermMeanSeries
+          currentYearSeries
         ];
         var logBase = 10;
         var logFactor = Math.log(logBase);
@@ -91,11 +74,10 @@ nar.fullReport = nar.fullReport || {};
             legend: {
                    show: false
             },
-            colors:[previousYearsColor, currentYearColor, longTermMeanColor]
+            colors:[previousYearsColor, currentYearColor]
         });
         var hoverFormatter = nar.fullReport.PlotUtils.utcDatePlotHoverFormatter;
         nar.fullReport.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
-        nar.fullReport.PlotUtils.setLineHoverFormatter(plotContainer, longTermMean, nar.fullReport.terms.longTermMean.shortDef)
         return plot;
     };    
 }());
