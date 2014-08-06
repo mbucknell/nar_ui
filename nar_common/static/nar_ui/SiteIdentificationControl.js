@@ -54,7 +54,7 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 					$detailedGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-detailed-graph-link'),
 					$downloadLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-download-link'),
 					$summaryGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-th-list'),' Summary Graphs'),
-					$detailedGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-signal'), ' Detailed Graphs'),
+					$detailedGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'), ' Detailed Graphs'),
 					$downloadLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-save'),' Download Data'),
 					// query-ui has a hierarchy of things it tries to auto-focus on. This hack has it auto-focus on a hidden span.
 					// Otherwise it trues to focus on the first link, which in some browsers will draw an outline around it. (ugly)
