@@ -190,6 +190,35 @@ nar.fullReport = nar.fullReport || {};
             var roundedLog = Math.round(log10(val));
             var tickDecimals = (roundedLog > 0) ? 0 : -roundedLog;
             return val.toFixed(tickDecimals);
+        },
+        /**
+         * Use to format time series axis when you want the ticks to represent a year. 
+         * Can be assigned to the ticks property for an axis.
+         * @ return Array of utc time.
+         */
+        getTicksByYear : function(axis) {
+        	var tFirstYear, tLastYear;
+        	var thisDate, maxDate;
+        	
+        	var result  = axis.tickGenerator(axis);
+        	if (result.length > 1) {
+        		// If the number of ticks is greater than the range of years
+        		// need to generate the ticks for just years.
+        		tFirstYear = (new Date(result[0])).getFullYear();
+        		tLastYear = (new Date(result[result.length - 1])).getFullYear();
+        		
+        		if (tLastYear - tFirstYear < result.length) {
+        			thisDate = new Date(tFirstYear, 0, 1);
+        			maxDate = new Date(axis.max);
+        			
+        			result = [];
+        			while(thisDate < maxDate) {
+        				result.push(thisDate.getTime());
+        				thisDate.setFullYear(thisDate.getFullYear() + 1);
+        			}
+        		}
+        	}
+        	return result;
         }
     };
 }());
