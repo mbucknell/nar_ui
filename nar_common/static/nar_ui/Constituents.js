@@ -12,7 +12,7 @@ var nar = nar || {};
         orthoP : {
             color : '#C1FFC1',
             //R-Color:darkseagreen1
-            name : 'orthoP'
+            name : 'Ortho Phosphate'
         },
         nitrogen : {
             color : '#6E8B3D',
