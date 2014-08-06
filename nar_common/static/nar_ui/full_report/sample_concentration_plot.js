@@ -58,7 +58,7 @@ nar.fullReport = nar.fullReport || {};
         var plot = $.plot(plotContainer, series, {
             xaxis: {
                 mode: 'time',
-                timeformat: "%Y/%m",
+                timeformat: "%m/%Y",
                 tickLength: 10,
                 minTickSize: [1, 'month']
             },
