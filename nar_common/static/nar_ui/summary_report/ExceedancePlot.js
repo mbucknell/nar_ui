@@ -50,7 +50,6 @@ nar.fullReport = nar.fullReport || {};
            axes:{
                yaxis: {
                    renderer: $.jqplot.CategoryAxisRenderer,
-//                   ticks: ticks
                    tickRenderer: $.jqplot.CanvasAxisTickRenderer,
                    tickOptions:{
                        angle: -90,
