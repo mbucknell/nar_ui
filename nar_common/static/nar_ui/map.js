@@ -83,11 +83,6 @@ var map;
     sitesLayer.events.register("loadend", {}, function() {
     	map.updateSize();
     });
-    map.events.register("zoomend", this, function(e) {
-		if (map.getZoom() < map.maxZoomLevel) {
-			map.setCenter(continentalCenter, 4);
-		}
-	});
     
     var insetControl = new nar.inset({});
     map.addControl(insetControl, new OpenLayers.Pixel(0, map.getSize().h - 260));
