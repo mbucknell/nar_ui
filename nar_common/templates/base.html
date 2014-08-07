@@ -20,6 +20,8 @@
 <!-- this is an example of loading a non-less stylesheet-->
 	<link rel="stylesheet" href="{% static 'nar_ui/js_lib/bootstrap/css/bootstrap.css' %}"/>
 	<link rel="stylesheet" href="{% static 'nar_ui/js_lib/bootstrap/css/bootstrap.icon-large.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'nar_ui/select2.css' %}"/>
+	<link rel="stylesheet" href="{% static 'nar_ui/select2-bootstrap.css' %}"/>
 	{% compress css %}
 		<link rel="stylesheet" type="text/less" media="all" href="{% static 'nar_ui/common.less' %}"/>
 		<link rel="stylesheet" type="text/less" media="all" href="{% static 'nar_ui/nar.less' %}"/>
@@ -39,7 +41,9 @@
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/jquery.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/bootstrap/js/bootstrap.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/sugar.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/js_lib/select2.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/util.js' %}"></script>
+
 	{% endcompress %}
 	
 	{# we will skip minification on the configuration script #}

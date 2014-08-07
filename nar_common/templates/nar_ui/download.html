@@ -4,6 +4,183 @@
 
 {% block content %}
 
+<script>//select2 script
+	
+        $(document).ready(function() { 
+        
+        $("#e1").select2(); 
+		
+		$("#e2").select2();
+		
+		$("#e3").select2({
+    placeholder: "Select a  State"
+}); 
+		$("#e4").select2({
+    placeholder: "Select a Station ID",
+    allowClear: true
+});
 
+		$("#e5").select2({
+    placeholder: "Select a Site Type",
+    allowClear: true
+});
+
+		$("#e6").select2({
+    placeholder: "Select a HUC",
+    allowClear: true
+});
+
+		$("#e7").select2({
+    placeholder: "Select a Constituent",
+    allowClear: true
+});
+
+		$("#e8").select2({
+    placeholder: "Select a Constituent Value Type",
+    allowClear: true
+});
+
+
+$('#clear-filters-button').on('click', function () {
+$('.select2-container').select2('val','');
+$('input[type="checkbox"]').prop('checked', false);
+});
+
+
+		
+});//doc ready
+
+    </script>
+    
+    <div id="downloadTop">
+	
+		<h2>Data Download</h2>
+		
+		<p>If you selected 'Data Download' for a specific graph or page of interest this form has been pre-populated
+		to provide only that data. You can adjust the pre-populated criteria before downloading.</p>
+	
+	</div><!--downloadTop-->
+
+<div id="downloadForm">
+
+    <select id="e1" class="populate select2-offscreen" tabindex="-1" title="and turns it into:">
+          
+            <option value="1">Start Date Example 1</option>
+            
+            <option value="2">Start Date Example 2</option>
+            
+             <option value="3">Start Date Example 3</option>
+        
+    </select>
+    
+    <select id="e2" class="populate select2-offscreen" tabindex="-1" title="and turns it into:">
+          
+            <option value="1">End Date Example 1</option>
+            
+            <option value="2">End Date Example 2</option>
+            
+             <option value="3">End Date Example 3</option>
+        
+    </select>
+    
+     <select multiple="multiple" id="e3" class="populate select2-offscreen" tabindex="-1" title="and turns it into:">
+          
+            <option value="1">Example 1</option>
+            
+            <option value="2">Example 2</option>
+            
+             <option value="3">Example 3</option>
+        
+    </select>
+    
+     <select multiple="multiple" id="e4" class="populate select2-offscreen" tabindex="-1" title="and turns it into:">
+          
+            <option value="1">Example 1</option>
+            
+            <option value="2">Example 2</option>
+            
+             <option value="3">Example 3</option>
+        
+    </select>
+    
+    <select multiple="multiple" id="e5" class="populate select2-offscreen" tabindex="-1" title="and turns it into:">
+          
+            <option value="1">Example 1</option>
+            
+            <option value="2">Example 2</option>
+            
+             <option value="3">Example 3</option>
+        
+    </select>
+    
+    <select multiple="multiple" id="e6" class="populate select2-offscreen" tabindex="-1" title="and turns it into:">
+          
+            <option value="1">Example 1</option>
+            
+            <option value="2">Example 2</option>
+            
+             <option value="3">Example 3</option>
+        
+    </select>
+    
+    <select multiple="multiple" id="e7" class="populate select2-offscreen" tabindex="-1" title="and turns it into:">
+          
+            <option value="1">Example 1</option>
+            
+            <option value="2">Example 2</option>
+            
+             <option value="3">Example 3</option>
+        
+    </select>
+    
+    <select multiple="multiple" id="e8" class="populate select2-offscreen" tabindex="-1" title="and turns it into:">
+          
+            <option value="1">Example 1</option>
+            
+            <option value="2">Example 2</option>
+            
+             <option value="3">Example 3</option>
+        
+    </select>
+    
+    <div id="checkbox_holder">
+    
+	    <input id="first" type="checkbox"/>Site Information Only
+	    
+	     <input type="checkbox"/>Water Quality Data Only
+	     
+	     <input type="checkbox"/>Stream Flow Data Only
+	     
+	      <input type="checkbox"/>Inlcude Benchmark Values
+      
+    	</div><!--checkbox_holder-->
+    	
+    	<div id="box">
+    	
+	    	<p id="format">Choose a File Format:</p>
+	    	
+	    	<div id="format_holder">
+	    	
+	    		<input type="checkbox"/>.csv
+		    
+		     	<input type="checkbox"/>.tsv
+		     
+		    	 <input type="checkbox"/>excel
+	    		
+	    	</div><!--format_holder-->
+	    	
+		</div><!--box-->
+		
+		<div id="downloadButtons">
+		
+			<button id="clear-filters-button">Clear Filters</button>
+			
+			<button>Download</button>
+		
+		</div>
+	
+	
+
+</div><!--downloadForm-->
 
 {% endblock %}
