@@ -40,7 +40,8 @@ nar.fullReport = nar.fullReport || {};
                        [nar.fullReport.PlotUtils.ONE_YEAR_IN_THE_FUTURE,longTermMean]],
                 lines: {
                     show: true,
-                    fillColor: color
+                    fillColor: color,
+                    lineWidth: 1
                 },
                 shadowSize: 0
             };
@@ -77,7 +78,7 @@ nar.fullReport = nar.fullReport || {};
             grid:{
                 hoverable: true
             },
-            colors:[previousYearsColor, currentYearColor] 
+            colors:[previousYearsColor, currentYearColor, longTermMeanColor] 
         });
         var hoverFormatter = nar.fullReport.PlotUtils.utcDatePlotHoverFormatter;
         nar.fullReport.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
