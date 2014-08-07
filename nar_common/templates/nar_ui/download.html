@@ -41,6 +41,12 @@
 });
 
 
+$('#clear-filters-button').on('click', function () {
+$('.select2-container').select2('val','');
+$('input[type="checkbox"]').prop('checked', false);
+});
+
+
 		
 });//doc ready
 
@@ -167,7 +173,7 @@
 		
 		<div id="downloadButtons">
 		
-			<button>Clear Filters</button>
+			<button id="clear-filters-button">Clear Filters</button>
 			
 			<button>Download</button>
 		
