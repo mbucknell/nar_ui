@@ -61,6 +61,12 @@
 	background-color: #fee;
 	opacity: 0.80;
 }
+#alert {
+	display: none;
+	position: absolute;
+	right: 15px;
+	top: 15px;
+}
 
  /*###########################home_start####################### */
  
@@ -147,17 +153,19 @@
    
 .solution{background:none;
 			overflow:auto;
+			padding-left:0px;
 }
 
 .sites{background:none;
         height:@homePageContentHeight;
+		padding-left:40px;
         }
         
         
 .site_table{background:none;
             margin:0 auto;
             margin-top:15px;
-            width:860px;
+            width:820px;
             }
             
 .site_table th{background:none;
@@ -193,7 +201,7 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
         height:@homePageContentHeight;
         border-left:1px solid rgb(220,220,220);
         border-radius:0 10px 10px 0;
-        }
+        text-align:center;}
         
 .statement{background:@boxColor;
             min-height:30px;
@@ -216,13 +224,9 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
         
 .map_view{width:100px;
             height:25px;
-           margin-left:27px; 
-           margin-right:5px;
+            margin-right:5px;
            border:@borderDark;
-           background: -webkit-linear-gradient(top,@startColor,@endColor); /* For Safari 5.1 to 6.0 */
-			background: -o-linear-gradient(top,@startColor,@endColor); /* For Opera 11.1 to 12.0 */
-			background: -moz-linear-gradient(top,@startColor,@endColor); /* For Firefox 3.6 to 15 */
-			background: linear-gradient(top,@startColor,@endColor); /* Standard syntax */
+            background:@boxColor;
 			border-radius:5px;
 			color:@primaryColor;
           }
@@ -230,13 +234,18 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 .site_view{width:100px;
             height:25px;
             border:@borderDark;
-           	background: -webkit-linear-gradient(top,@startColor,@endColor); /* For Safari 5.1 to 6.0 */
-			background: -o-linear-gradient(top,@startColor,@endColor); /* For Opera 11.1 to 12.0 */
-			background: -moz-linear-gradient(top,@startColor,@endColor); /* For Firefox 3.6 to 15 */
-			background: linear-gradient(top,@startColor,@endColor); /* Standard syntax */
+           	background:@boxColor;
 			border-radius:5px;
 			color:@primaryColor;
             }
+            
+.map_view,
+.site_view{outline:none;}
+
+.map_view:hover,
+.site_view:hover{background:@primaryColor;
+				color:#fff;
+}
             
 .filter form{background:none;
 			width:100%;
@@ -246,12 +255,48 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 			font-family:@baseFontFamily;
 			font-size:1.2em;
 			}
-
-
-.filter input{background:lime;
-			width:25px;
-			margin-left:15px;
 			
+.filter form h4{text-align:left;
+				font-style:normal;
+				font-weight:600;}
+				
+.filter form p{cursor:pointer;}
+			
+.check_filter{background:@boxColor;
+		border:@borderDark;
+		border-radius:5px;
+		width:100%;
+		height:42px;
+		position:relative;
+		text-align:center;
+		margin:20px 0 0 0;}
+		
+		
+.check_filter p{font-size:1.3em;
+	text-align:center;
+	margin:0 auto;
+	margin-top:5px;
+	}
+
+
+.filter input{font-size:1.5em;
+		position:absolute;
+		left:10px;
+		top:9px;}
+		
+.filter button#siteDownload{background:@boxColor;
+ 						border:@borderDark;
+ 						width:70%;
+ 						height:30px;
+ 						border-radius:5px;
+ 						margin-top:60px;
+ 						font-size:1.2em;
+ 						padding:0;
+ 						font-family:@baseFontFamily;
+ 						outline:none;}
+ 						
+.filter button#siteDownload:hover{background:@primaryColor;
+									color:#fff;
 }
 
 /* Alaska Inset */
@@ -304,24 +349,72 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 
 /* End Alaska Inset */
 
-/* Style the popup for sites */
-#siteMap .olPopup {
-	border-radius: 5px;
-	border: 1px solid #aaa !important;
+/* Site popup styling */
+.nar-popup-dialog .ui-dialog-titlebar {
+	padding: 0.1em !important; /* bootstrap override */
 }
-#siteMap .olPopup .glyphicon-remove:hover{
-	cursor: pointer;
+
+.nar-popup-dialog .ui-dialog-titlebar .nar-popup-dialog-close-icon{
+	color: #888888;
 }
+
+.nar-popup-dialog .ui-dialog-titlebar {
+	background: none;
+	border: 1px solid #999999;
+	color: #888888;
+	font-size: 0.9em;
+	background: -webkit-linear-gradient(#EEE, #888888); /* For Safari  >= 6.0 */
+    background: -o-linear-gradient(#EEE, #888888); /* For Opera  >= 12.0 */
+    background: -moz-linear-gradient(#EEE, #888888); /* For Firefox >= 3.6 */
+    background: linear-gradient(#EEE, #888888); /* Standard syntax (must be last) */
+}
+
+.nar-popup-dialog .ui-dialog-titlebar > span {
+	margin-left: 10px;
+}
+
 /* Site popup content styling */
-#siteMap .olPopup .site-identification-popup-content-title {
-	font-size: 1.2em;
+#nar-dialog-content {
+	color : #888888;
+	padding: 0em;
 }
+
 #siteMap .olPopup .site-identification-popup-content-station-id {
 	font-size: 1.1em;
 }             
 #siteMap .olPopup .site-identification-popup-content-links-and-graphs {
 	font-size: 1.1em;
+}
+      
+.nar-popup-dialog #site-identification-popup-content-container {
+	padding-right: 5px !important;
+	padding-left: 5px !important; 
+}
+
+.nar-popup-dialog #site-identification-popup-content-container .well {
+	padding-top: 2px !important;
+	padding-bottom: 2px !important;
+	margin-top: 10px !important;
+	margin-bottom: 0px !important;
+	line-height: 1.5em
+}
+
+#nar-dialog-content .site-identification-popup-content-title {
+	font-size: 1em;
+}
+#nar-dialog-content .site-identification-popup-content-station-id {
+	font-size: 0.9em;
 }             
+#nar-dialog-content .site-identification-popup-content-links-and-graphs {
+	font-size: 0.8em;
+}  
+#nar-dialog-content .site-identification-popup-content-links-and-graphs a{
+	color: #428bca; 
+}      
+#nar-dialog-content .site-identification-popup-content-relevant-links {
+	font-size: 0.8em;
+}     
+
   /*###########################site_end####################### */
   
  /*###########################mississippi_start####################### */
@@ -341,39 +434,36 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
  					
  .mississippi_title h6{margin:0;}
  
-
-.mississippi_title button{font-size:1.1em;
-  							width:70px;
+.mississippi_title button{font-size:1em;
+  							width:72px;
   							border-radius:5px;
   							border:@borderDark;
   							background:@boxColor;
   							height:25px;
   							padding:1px 0 0 0;
-  							margin:4.5px 10px 0 0;}
+  							margin:4.5px 10px 0 0;
+  							outline:none;}
   							
 .mississippi_title button:hover{background:@primaryColor;
- 								color:#fff;}
+ 								color:#fff;} 
  								
-
+ .mississippi_title a:hover{text-decoration:underline;
+ 							color:#428bca;}
+ 								
+ #toggle{position:absolute;
+ 		right:5px;
+ 		top:48px;
+ 		width:110px;}
+ 		
+ #toggle i{font-size:.9em;}
+ 		
 #help{position:absolute;
 	right:5px;
-	top:50px;
+	top:10px;
 	}
- 
- #mississippi_info{border:@borderDark;
- 					width:153px;
- 					min-height:22px;
- 					position:absolute;
- 					right:10px;
- 					top:10px;
- 					border-radius:0 10px 0 0;
- 					background:@boxColor;
- 					text-align:left;
- 					font-size:.7em;
- 					padding:2px 2px 0 5px;
- 					line-height:1.4em;}
  					
- #mississippi_info i{-webkit-transform:rotate(270deg);
+ #mississippi_info i,
+  #toggle i{-webkit-transform:rotate(270deg);
 			-moz-transform:rotate(270deg);}
 			
 			
@@ -382,8 +472,7 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 					clear:both;
 					margin:0;
 					border-bottom:@borderDark;
-					text-align:right;
-}
+					text-align:right;}
 
 .mississippi_buttons button{font-size:.85em;
   							width:100px;
@@ -392,7 +481,8 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
   							background:@boxColor;
   							height:20px;
   							padding:1px 0 0 0;
-  							margin:4.5px 10px 0 0;}
+  							margin:4.5px 10px 0 0;
+  							}
   							
 .mississippi_buttons button:hover{background:@primaryColor;
  								color:#fff;}
@@ -426,6 +516,19 @@ select.last{margin-right:0;}
 					background:@boxColor;
 					margin:0;
 					position:relative;}
+					
+#mississippi_info{border-bottom:@borderDark;
+					border-left:@borderDark;
+ 					width:153px;
+ 					min-height:22px;
+ 					position:absolute;
+ 					right:0;
+ 					top:0;
+ 					background:@boxColor;
+ 					text-align:left;
+ 					font-size:.7em;
+ 					padding:4px 2px 0 5px;
+ 					line-height:1.4em;}
 					
 .left_map,
 right_map{height:487px;}
@@ -608,44 +711,55 @@ right_map{height:487px;}
  
     
 .graphs{background:none;
-		height:510px;
+		min-height:510px;
 		margin-top:20px;
-		padding:0 15px 0 25px;
-		
-} 
+		padding:0 0 0 55px;
+		margin-bottom:10px;
+		} 
 
 
 .comparisonGraph {background:none;
 			height:100%;
-			padding:0px;
+			padding:0px;}
+			
+.graphContainer{width:30%;}
+
+.stream{background:none;
+		height:50%;
+		margin-left:10px;
+		text-align:center;
+		padding-left:5px;}
+
+.stream_row,
+.human_row,
+.aquatic_row{margin:0;
+			
 }
 
-.human{background:none;
+.stream,
+.human,
+.aquatic{background:none;
 		height:100%;
 		margin-right:10px;
 		text-align:center;
-		padding-left:5px;
-} 
+		padding:0;
+		} 
+		
+.human{margin-left:15px;}
 
-.human h3{font-size:1.5em;
-			color:@primaryColor;
-}
+.stream h3,
+.human h3,
+.aquatic h3{font-size:1.5em;
+			color:@primaryColor;}
 
-.human h6{padding-left:50px;
-}
+.stream h6,
+.human h6,
+.aquatic h6{padding-left:50px;}
 
 .aquatic{background:none;
-		height:100%;
-		width:350px;
-		text-align:center;
-} 
+		margin-right:0;
+}
 
-.aquatic h3{font-size:1.5em;
-			color:@primaryColor;
-} 
-
-.aquatic h6{padding-left:50px;
-}  
 
 /*###########################summary_end####################### */
 
@@ -822,7 +936,9 @@ right_map{height:487px;}
 	
  /*###########################site_start####################### */
  
- .statement{padding:0;}
+ .sites{padding-left:0px;}
+ 
+.statement{padding:0;}
             
 .statement p{padding:8px 8px 0 8px;
              font-size:.9em;}
@@ -836,7 +952,10 @@ right_map{height:487px;}
  
 .site_table th.name{width:220px;}
 
-.site_table th.type{ width:200px;}        
+.site_table th.type{ width:200px;} 
+
+
+.check_filter p{font-size:1.2em;}       
 
 /*###########################site_end####################### */
 
@@ -855,16 +974,15 @@ select.last{margin-right:0;}
 
 /*###########################summary_start####################### */
 
-.human{width:300px;} 
+.graphContainer,
+.human,
+.aquatic{width:31.8%;}
 
-.aquatic{width:300px;}
+.human{margin-left:10px;}
 
-.graphContainer {width:320px;}
-
+.stream h3{font-size:1.4em;}
  				
- .graphs{padding:0 0 0 25px;
-		
-} 
+ .graphs{padding:0 0 0 25px;} 
  				
  /*###########################full_start####################### */
  				
@@ -923,6 +1041,7 @@ select.last{margin-right:0;}
 	
  /*###########################site_start####################### */
  
+ .sites{padding-left:0px;}
  
  .site_table{width:600px;}
             
@@ -951,6 +1070,13 @@ select.last{margin-right:0;}
 .site_view{width:75px;
             height:25px;
 			font-size:.95em;}
+			
+.check_filter p{font-size:1em;
+				margin:8px 0 0 10px;}
+				
+.filter button#siteDownload{width:85%;
+							margin-top:60px;
+}       
             
 /*###########################site_end####################### */
 
@@ -960,7 +1086,24 @@ select.last{margin-right:0;}
  					
  .mississippi_title h6{font-size:.8em;}
  
- #mississippi_info{width:90px}
+ #mississippi_info{width:90px;
+ 					padding:2px 0 2px 5px;
+ }
+ 
+ #toggle{width:70px;
+ 		height:38px;
+ 		text-align:center;
+ 		font-size:.9em;
+ 		top:40px;
+ }
+ 		
+  #toggle,
+  #help{right:0;}
+  
+   #help{top:4px;}
+ 
+.mississippi_title button{
+ 							background:@boxColor;}
 
 .left_filter select,
 .right_filter select{width:100px;
@@ -985,25 +1128,17 @@ select.last{margin-right:0;}
  
 .site h3{font-size:1.4em;}
 			
-.graphs{height:100%;} 
-
-.human{	height:480px;
-		width:100%;
-		margin-top:10px;
-	} 
-
-.human img{margin-bottom:10px;
-			margin:0 auto;
-}
-
-.aquatic{height:480px;
-		width:100%;
-		
+.graphs{height:100%;
+		padding:0 0 0 10px;
 } 
 
-.aquatic img{margin-bottom:10px;
-			margin:0 auto;
-}
+.graphContainer,
+.human,
+.aquatic{width:100%;
+		height:480px;
+		margin:10px 0 5px 0;}
+		
+.bar_row{margin:0;}
 
 .full_report{	height:35px;
 				width:140px;}
@@ -1070,6 +1205,9 @@ select.last{margin-right:0;}
  /*###########################home_end####################### */
 
 /*###########################site_start####################### */
+
+ .sites{padding-left:0px;}
+
  .site_table{width:600px;}
             
 .site_table th{width:100px;}
@@ -1099,6 +1237,13 @@ select.last{margin-right:0;}
 .site_view{width:72px;
             height:25px;
 			font-size:.85em;}
+			
+.check_filter p{font-size:1em;
+				margin:8px 0 0 10px;}
+				
+.filter button#siteDownload{width:85%;
+							margin-top:60px;
+}     
             
 /*###########################site_end####################### */
 
@@ -1108,7 +1253,19 @@ select.last{margin-right:0;}
  					
  .mississippi_title h6{font-size:.8em;}
  
- #mississippi_info{width:90px}
+ #mississippi_info{width:90px;
+ 					padding:2px 0 2px 5px;
+ }
+ 
+ #toggle{width:60px;
+ 		height:38px;
+ 		text-align:center;
+ 		font-size:.9em;
+ 		top:40px;
+ }
+ 		
+  #toggle,
+  #help{right:0;}
 
 .left_filter select,
 .right_filter select{width:100px;
@@ -1134,24 +1291,13 @@ select.last{margin-right:0;}
 			
 .graphs{height:100%;} 
 
-
-.human{	height:480px;
-		width:100%;
-		margin-top:10px;
-	} 
-
-.human img{margin-bottom:10px;
-			margin:0 auto;
-}
-
-.aquatic{height:480px;
-		width:100%;
+.graphContainer,
+.human,
+.aquatic{width:100%;
+		height:480px;
+		margin:10px 0 5px 0;}
 		
-} 
-
-.aquatic img{margin-bottom:10px;
-			margin:0 auto;
-}
+.bar_row{margin:0;}
 
 .full_report{	height:35px;
 				width:140px;}

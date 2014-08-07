@@ -53,16 +53,21 @@ nar.fullReport = nar.fullReport || {};
                    tickRenderer: $.jqplot.CanvasAxisTickRenderer,
                    tickOptions:{
                        angle: -90,
-                       labelPosition: 'middle'
+                       labelPosition: 'middle',
+                       showGridline: false
                    }
                },
                xaxis: {
                    //restrict to percent range
                    max: 100,
                    min: 0,
-                   label: axisLabel 
+                   label: axisLabel
+                  
                }
-           }
+           },
+           grid: {
+    		   drawGridLine: false
+    	   }
        
        });
        //make plots responsive by replotting on window resize event 

@@ -14,15 +14,40 @@ nar.fullReport = nar.fullReport || {};
     var getXcoord = function(point){
         return point[0];
     };
+    /**
+     * For symmetry, get the Y coord
+     */
+    var getYcoord = function(point) {
+    	return point[1];
+    };
+    var log10 = function(val) {
+        return Math.log(val) / Math.LN10;
+    };
     
-    
+    var getPlotTooltipDiv = function() {
+    	//create or obtain a div just for chart tooltips
+        var toolTipId = 'flot-tooltip';
+        var toolTipSelector = '#' + toolTipId;
+        var toolTipSelection = $(toolTipSelector);
+        var toolTipElt;
+        if (0 === toolTipSelection.length) {
+            toolTipElt = $('<div></div>', {'id':toolTipId});
+            toolTipElt.appendTo('body');
+        }
+        else {
+            toolTipElt = toolTipSelection[0];
+        }
+        return toolTipElt;
+    };
     
     nar.fullReport.PlotUtils = {
-            
+        YEAR_NINETEEN_HUNDRED: Date.create('1900').getTime(),
+        ONE_YEAR_IN_THE_FUTURE: Date.create().addYears(1).getTime(),
         /**
          * @param {nar.fullReport.TimeSeriesVisualization}
          * @returns {Object} - a map of the data set split into the current year's data, and the 
-         * previous years' data 
+         * previous years' data. Previous years' data will be an empty array if last years' data does not 
+         * fall on the last water year. 
          */
         getDataSplitIntoCurrentAndPreviousYears: function(timeSeriesVisualization) {
             var allData = timeSeriesVisualization.timeSeriesCollection.map(function(timeSeries){
@@ -33,6 +58,9 @@ nar.fullReport = nar.fullReport || {};
             var latestPoint = data.last();
             var lastDate = new Date(getXcoord(latestPoint));
             var lastYear = lastDate.getFullYear();
+            var lastCurrentDateWaterYear = nar.WaterYearUtils.convertDateToWaterYear() - 1;
+            var lastDateWaterYear = nar.WaterYearUtils.convertDateToWaterYear(lastDate.format('{yyyy}/{MM}/{dd}'));
+            
             //must use string for year
             var startOfLastYear = Date.create(''+lastYear);
             var startOfLastYearTimestamp = startOfLastYear.getTime();
@@ -41,12 +69,24 @@ nar.fullReport = nar.fullReport || {};
                var timestamp = getXcoord(dataPoint);
                return timestamp >= startOfLastYearTimestamp;
             });
-            var previousYearsData = data.to(indexOfFirstDataPointInLastYear);
-            var currentYearData = data.from(indexOfFirstDataPointInLastYear);
-            return {
-                previousYearsData: previousYearsData,
-                currentYearData: currentYearData
-            };
+            
+            var result = {
+				previousYearsData : [],
+				currentYearData : []
+			};
+            
+            // If the last water year in not the data set is the actual last water year,
+            // don't put anything into the currentYearData array and put everything into
+            // previousYearsData array. Otherwise, include just the last item in the array
+            // into currentYearData
+            if (lastDateWaterYear !== lastCurrentDateWaterYear) {
+        		result.previousYearsData = data;
+			} else {
+				result.previousYearsData = data.to(indexOfFirstDataPointInLastYear);
+				result.currentYearData = data.from(indexOfFirstDataPointInLastYear);
+			}
+            
+            return result;
         },
         /**
          * @param {nar.fullReport.TimeSeriesVisualization}
@@ -60,13 +100,28 @@ nar.fullReport = nar.fullReport || {};
             var constituentName = constituentInfo.name;
             var currentYearColor = constituentInfo.color;
             var previousYearsColor = tinycolor.lighten(tinycolor(currentYearColor), 30).toRgbString();
+            var longTermMeanColor = tinycolor.lighten(tinycolor.gray, 75).toRgbString();
             return {
                 name : constituentName,
                 colors:{
                     currentYear: currentYearColor,
-                    previousYears: previousYearsColor                    
+                    previousYears: previousYearsColor,
+                    longTermMean: longTermMeanColor
                 }
             };
+        },
+        /**
+         * This will probably eventually come from a service, but for now I'm just going to calculate
+         */
+        calculateLongTermAverage: function(timeSeriesVisualization) {
+            var allData = timeSeriesVisualization.timeSeriesCollection.map(function(timeSeries){
+                return timeSeries.data;
+            });
+            var data = allData[0];
+            var avg = data.average(function(n){
+                return parseFloat(getYcoord(n));
+            });
+            return avg;
         },
         /**
          * @callback plotHoverFormatter
@@ -82,18 +137,7 @@ nar.fullReport = nar.fullReport || {};
          * @param {plotHoverFormatter} - the callback that formats the raw data into human-readable hover text
          */
         setPlotHoverFormatter : function(plotContainer, formatter){
-            //create or obtain a div just for chart tooltips
-            var toolTipId = 'flot-tooltip';
-            var toolTipSelector = '#' + toolTipId;
-            var toolTipSelection = $(toolTipSelector);
-            var toolTipElt;
-            if(0 === toolTipSelection.length){
-                toolTipElt = $('<div></div>', {'id':toolTipId});
-                toolTipElt.appendTo('body');
-            }
-            else{
-                toolTipElt = toolTipSelection[0];
-            }
+            var toolTipElt = getPlotTooltipDiv();
             $(plotContainer).bind("plothover", function (event, pos, item) {
                 if (item) {
                     var x = item.datapoint[0],
@@ -109,6 +153,19 @@ nar.fullReport = nar.fullReport || {};
             });
             
         },
+        setLineHoverFormatter : function(plotContainer, yvalue, text) {
+            var toolTipElt = getPlotTooltipDiv();
+            var hoverThreshold = 0.05; // Arbitrary for now
+            $(plotContainer).bind("plothover", function (event, pos, item) {
+                if (!item) {
+                    if (Math.abs(log10(pos.y) - log10(yvalue)) < hoverThreshold) {
+                        $(toolTipElt).html(text)
+                            .css({top: pos.pageY+5, left: pos.pageX+5})
+                            .fadeIn(200);
+                    }
+                }
+            });
+        },
         /**
          * This is a commonly-used {plotHoverFormatter}.
          * @param x
@@ -121,6 +178,18 @@ nar.fullReport = nar.fullReport || {};
             var dateStr = date.format(Date.ISO8601_DATE);
             var formatted = dateStr + " : " + y;
             return formatted;
+        },
+        /**
+         * Pulling out tick formatter for testing it
+         * Note, only works for powers of 10
+         * @param val value to format
+         * @param axis axis being formatted (not used currently)
+         * returns format for which tick should be formatted
+         */
+        logTickFormatter: function(val, axis) {
+            var roundedLog = Math.round(log10(val));
+            var tickDecimals = (roundedLog > 0) ? 0 : -roundedLog;
+            return val.toFixed(tickDecimals);
         }
     };
 }());

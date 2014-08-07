@@ -3,31 +3,57 @@
 {% load static from staticfiles %}
 {% load compress %}
 
+{% block style %}
+	{{ block.super }}
+	<link rel="stylesheet" href="{% static 'nar_ui/js_lib/jquery-ui/css/ui-lightness/jquery-ui.min.css' %}"/>
+{% endblock %}
 
 {% block content %}
-<script>$(document).ready(function(){
-  $('.map_view').click(function(){
-      $('.map').delay(500).fadeIn(500);
-      $('.sites').fadeOut(500);
-  }); 
-  $('.site_view').click(function(){
-      $('.sites').delay(500).fadeIn(500);
-      $('.map').fadeOut(500);
-  });
+
+<script>
+
+//map view to site view
+
+	$(document).ready(function(){
+		$('.map_view').click(function(){
+			$('.map').delay(500).fadeIn(500);
+			$('.sites').fadeOut(500);
+		}); 
+		$('.site_view').click(function(){
+			$('.sites').delay(500).fadeIn(500);
+			$('.map').fadeOut(500);
+		});
+		nar.siteFilter.loadSitesToDom();
+		nar.siteFilter.addChangeHandler(function(){
+			nar.siteFilter.clearRows();
+			nar.siteFilter.loadSitesToDom();
+		});
+		
+//site list click funtion
   
-  });</script>
-  
-   <script>jQuery(document).ready(function($) {
       $(".clickableRow").click(function() {
             window.document.location = $(this).attr("href");
       });
+
+//check_filter "click" checks input checkbox
+
+$(document).on("click", ".check_filter", function (event) {
+    var target = $(event.target);
+    if (target.is('input:checkbox')) {
+        return;
+    }
+    var checkbox = $(this).find("input[type='checkbox']");
+    checkbox.prop("checked", !checkbox.is(':checked'));
+    checkbox.change();
 });
+
+	});
+
 </script>
 
-<div class="row content">
 
-	
-    
+<div class="row content">
+   
     	<div class="col-lg-9 site_map col-md-9 col-sm-9 col-xs-9">
     	
     		<div id="siteMap" class="col-lg-12 map col-md-12 col-sm-12 col-xs-12"></div><!--map-->
@@ -39,119 +65,8 @@
     			<table class="site_table">
                 
                 	<th class="first_header">Station</th> <th class="name">Station Name</th> <th class="type">Site Type</th>
-                
-                	<tr class="clickableRow" href="#">
-                    	<td>01184000</td>
-                       <td>Connecticut River at Thompsonville, CT</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>01372043</td>
-                       <td>Hudson River near Poughkeepsie, NY</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>01463500</td>
-                       <td>Delaware River at Trenton, NJ</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>01578310</td>
-                       <td>Susquehanna River at Conowingo, MD</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>01646580</td>
-                       <td>Potomac River at Washington, DC</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>02175000</td>
-                       <td>Edisto River near Givhans, SC</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>02226160</td>
-                       <td>Altamaha River near Everett City, GA</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>02359170</td>
-                       <td>Apalachicola River near Sumatra, FL</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>02470500</td>
-                       <td>Mobile River at MT. Vernon, AL</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>07374525</td>
-                       <td>Mississippi River at Belle Chasse, LA</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>07381600</td>
-                       <td>Lower Atchafalaya River at Morgan City, LA</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>08116650</td>
-                       <td>Brazos River Near Rosharon, TX</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                     <tr class="clickableRow" href="#">
-                    	<td>08475000</td>
-                       <td>Rio Grande near Brownsville, TX</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>09522000</td>
-                       <td>Colorado River at NIB, above Morelos Dam, AZ</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>11074000</td>
-                       <td>Santa Ana River below Prado Dam, CA</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>11303500</td>
-                       <td>San Joaquin River near Vernalis, CA</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>11447650</td>
-                       <td>Sacramento River at Freeport, CA</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>14246900</td>
-                       <td>Columbia River near Beaver Army Terminal, OR</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
-                    
-                    <tr class="clickableRow" href="#">
-                    	<td>15565447</td>
-                       <td>Yukon River at Pilot Station, AK</td>
-                       <td>Coastal Rivers</td>
-                    </tr>
+                	
+                	<!-- This is populated by nar.siteFilter.loadSitesToDom() -->
                 
                 </table>
     		
@@ -166,7 +81,7 @@
     	
     		<div class="col-lg-12 statement">
              	
-                <p>Click on a <i class="glyphicon glyphicon-play"></i> to go to a site report
+                <p>Hover over a <i class="glyphicon glyphicon-play"></i> to see site info and visit site graphs
 
 </p>
              </div>
@@ -176,19 +91,31 @@
             <button class="site_view">Site List</button>
             
             <form>
-            	Filter by Site Type</br>
+            	<h4>Filter by Site Type:</h4>
             	
-            	<input type="checkbox" name="siteFilter" value="Urban">Urban<br>
+            	<div class="check_filter">
+            	<input type="checkbox" name="siteFilter" value="Urban"/><p>Urban</p>
+            	</div>
             	
-            	<input type="checkbox" name="siteFilter" value="Agriculture">Agriculture<br>
+            	<div class="check_filter">
+            	<input type="checkbox" name="siteFilter" value="Agriculture"/><p>Agriculture</p>
+            	</div>
             	
-            	<input type="checkbox" name="siteFilter" value="Reference">Reference<br>
+            	<div class="check_filter">
+            	<input type="checkbox" name="siteFilter" value="Reference"/><p>Reference</p>
+            	</div>
             	
-            	<input type="checkbox" name="siteFilter" value="Large Inland Rivers">Inland Rivers<br>
+            	<div class="check_filter">
+            	<input type="checkbox" name="siteFilter" value="Large Inland Rivers"/><p>Inland Rivers</p>
+            	</div>
             	
-            	<input type="checkbox" name="siteFilter" value="Coastal Rivers">Coastal Rivers<br>
-            
+            	<div class="check_filter">
+            	<input type="checkbox" name="siteFilter" value="Coastal Rivers"/><p>Coastal Rivers</p>
+            	</div>
+            	
             </form>
+            
+            <button id="siteDownload">Download Data</button>
     	
     	</div><!--filter-->
     
@@ -196,8 +123,11 @@
 </div><!--content-->
 
 {% compress js %}
+	<script type="text/javascript" src="{% static 'nar_ui/js_lib/jquery-ui/jquery-ui.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'nar_ui/js_lib/OpenLayers/OpenLayers.debug.js' %}"></script>
 	<script type="text/javascript" src="{% static 'nar_ui/mapCommons.js' %}"></script>
+	<script type="text/javascript" src="{% static 'nar_ui/siteFilter.js' %}"></script>
+	<script type="text/javascript" src="{% static 'nar_ui/sitePopup.js' %}"></script>
 	<script type="text/javascript">
 		//point OL to the correct image path so that it loads control images properly
 		OpenLayers.ImgPath = '{% static 'nar_ui/js_lib/OpenLayers/img/' %}';
@@ -205,7 +135,6 @@
 	<script type="text/javascript" src="{% static 'nar_ui/SiteIdentificationControl.js' %}"></script>
 	<script type="text/javascript" src="{% static 'nar_ui/inset.js' %}"></script>
 	<script type="text/javascript" src="{% static 'nar_ui/map.js' %}"></script>
-	
 {% endcompress %}
 
 {% endblock %}

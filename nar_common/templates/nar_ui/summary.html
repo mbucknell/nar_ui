@@ -114,7 +114,7 @@
 
 	<div class="col-lg-12 site col-md-12 col-sm-12 col-xs-12">
 		<h2>{{ site_name }}</h2>
-		<h3>Station ID : {{ site_id }}</h3>
+		<h3>Station ID: {{ site_id }}</h3>
 		<h4>
 			<i>Summary of Water-Quality Conditions for 2014</i>
 		</h4>
@@ -139,11 +139,14 @@
 
 
 	<div class="col-lg-12 graphs col-md-12 col-sm-12 col-xs-12">
-		<div class="col-lg-4 graphContainer human col-md-3 col-sm-12 col-xs-12">
-			<div class="row">
+	
+		<div class="col-lg-4 graphContainer stream col-md-3 col-sm-12 col-xs-12">
+		
+			<div class="row stream_row">
 				<h3>Streamflow and Water Quality</h3>
 			</div>
-			<div class="row">
+			
+			<div class="row bar_row">
 				<div id="barChart1"
 					class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
 
@@ -156,6 +159,7 @@
 				<div id="barChart4"
 					class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
 			</div>
+			
 			<div class="row">
 				<div class="unitLabel col-lg-3 col-md-3 col-sm-3 col-xs-3">Million
 					Acre-Feet</div>
@@ -163,24 +167,25 @@
 					class="unitLabel leftBorder col-lg-9 col-md-9 col-sm-9 col-xs-9">Million
 					Tons</div>
 			</div>
-		</div>
+			
+		</div><!--streams-->
 
 		<div class="col-lg-4 human col-md-3 col-sm-12 col-xs-12">
-			<div class="row">
-				<h3>Comparisons to Benchmarks Protective of Human Health</h3>
+			<div class="row human_row">
+				<h3>Comparisons to Benchmarks<br />Protective of Human Health</h3>
 			</div>
 			<div class="row">
 				<div id="humanHealthExceedances" class="exceedancePlot"></div>
 			</div>
-		</div>
+		</div><!--human-->
 
 		<div class="col-lg-4 aquatic col-md-3 col-sm-12 col-xs-12">
-			<div class="row">
-				<h3>Comparisons to Benchmarks Protective of Aquatic Life</h3>
+			<div class="row aquatic_row">
+				<h3>Comparisons to Benchmarks<br />Protective of Aquatic Life</h3>
 				<div id="aquaticHealthExceedances" class="exceedancePlot"></div>
 			</div>
 
-		</div>
+		</div><!--aquatic-->
 
 	</div>
 
