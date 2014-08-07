@@ -102,4 +102,43 @@ describe('nar.fullReport.PlotUtils', function() {
 			expect(end).toBeGreaterThan(1438723569000);
 		});
 	});
+	
+	describe('getTimeByYearTicks', function() {
+		var tickGenerator;
+		var getUtcTime;
+		
+		beforeEach(function() {
+			getUtcTime = function(year, month, day) {
+				return (new Date(year, month, day)).getTime();
+			};
+			tickGenerator = jasmine.createSpy('tickGenerator');
+			
+		})
+		
+		it('Should use the results from tickGenerator if the range of years if larger than the number of results', function() {
+			var axis;
+			var results = [getUtcTime(2000, 0, 1), getUtcTime(2002, 0, 1), getUtcTime(2004, 0, 1), getUtcTime(2006, 0, 1), getUtcTime(2008, 0, 1)];
+			tickGenerator.andReturn(results);
+			
+			axis = {
+				min : (new Date(2000, 0, 1)).getTime(),
+				max : (new Date(2008, 0, 1)).getTime(),
+				tickGenerator : tickGenerator
+			};
+			expect(nar.fullReport.PlotUtils.getTicksByYear(axis)).toEqual(results);
+		});
+		
+		it('Should generate ticks on the year if the range of years is less than the number of results', function() {
+			var axis;
+			var results = [getUtcTime(2008, 4, 1), getUtcTime(2008, 10, 1), getUtcTime(2009, 4, 1), getUtcTime(2009, 10, 1)];
+			tickGenerator.andReturn(results);
+			
+			axis = {
+				min : (new Date(2008, 0, 1)).getTime(),
+				max : (new Date(2010, 0, 1)).getTime(),
+				tickGenerator : tickGenerator
+			};
+			expect(nar.fullReport.PlotUtils.getTicksByYear(axis)).toEqual([getUtcTime(2008, 0, 1), getUtcTime(2009, 0, 1)]);
+		});
+	})
 });

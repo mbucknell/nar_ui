@@ -61,8 +61,8 @@ nar.fullReport = nar.fullReport || {};
             xaxis: {
                 mode: 'time',
                 timeformat: "%Y",
-                minTickSize: [1, 'year'],
-                tickLength: 10
+                tickLength: 10,
+                ticks : nar.fullReport.PlotUtils.getTicksByYear
             },
             yaxis: {
                 axisLabel: constituentName + " load (kg*10^6)",
