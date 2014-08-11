@@ -52,7 +52,8 @@ nar.fullReport.TimeSeriesVisualization = function(config){
         if(plotContainerMissing){
             plotContainer = $('<div/>', {
                 id: plotContainerId,
-                class: plotContainerClass
+                class: plotContainerClass,
+                style: 'box-shadow: 7px 7px 2px #888888'
             });
             self.allPlotsWrapperElt.prepend(plotContainer);
             self.plotContainer = plotContainer;
