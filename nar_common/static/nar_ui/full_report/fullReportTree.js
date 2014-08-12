@@ -7,7 +7,14 @@ nar.fullReport = nar.fullReport || {};
 nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphToggleElt){
     var self = this;
     var treeNodeIds = {}; //psuedo-set; keys are string TimeSeriesVisualization ids. Values are meaningless.
-    var treeNodes = [];
+    //make new root node to enable a select all
+    var treeNodes = [{
+		icon: "glyphicon glyphicon-ok",
+		id: "root",
+		parent: "#",
+		text: "Select All",
+		type: "Select All"
+	}];
     var mostRecentlyCreatedTimeSeriesVizId;
     
     self.createLeafNodeFromId = function(id){
@@ -101,7 +108,7 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
         if(!mostRecentlyCreatedTreeNode.parent){
             //then it was a root node, and jstree requires its parent attribute
             //be set to '#'
-            mostRecentlyCreatedTreeNode.parent = '#';
+            mostRecentlyCreatedTreeNode.parent = 'root';
         }
     });
     
