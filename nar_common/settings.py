@@ -26,6 +26,8 @@ INSTALLED_APPS = (
 #    'django.contrib.messages',
     'django.contrib.staticfiles',
     'compressor',
+    'utils',
+    
 )
 
 MIDDLEWARE_CLASSES = (
@@ -115,9 +117,18 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "nar_common.settings_context_processor.default"                       
 )
 
-
-
 try:
     from local_settings import *
 except ImportError:
     pass 
+
+if os.getenv('JENKINS_URL', False):
+    INSTALLED_APPS += ('django_jenkins',)
+    
+    JENKINS_TASKS = (
+        'django_jenkins.tasks.run_pylint',
+    )
+    PYLINT_RCFILE = (
+        '--ignore=utils/tests' # Tests are not processed through pylint
+    )
+    PROJECT_APPS = ('utils',) #Specify which apps you want to test
