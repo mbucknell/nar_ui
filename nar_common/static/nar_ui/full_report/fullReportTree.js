@@ -160,4 +160,6 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
         var timeSeriesVisualizations = leafChildren.map(getTimeSeriesVisualizationsForNode);
         tsvController.removeAll(timeSeriesVisualizations);
     });
+    //open root node by default
+    $(graphToggleElt).jstree("open_node", "root")
 };
