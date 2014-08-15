@@ -34,6 +34,10 @@ $(document).ready(function(){
         contentType:'application/json'
         
     });
+    
+    // Wait for definitions to load
+    $.when(nar.definitions_promise).done(function() { return; });
+    
     var startTimeIndex = 0;
     var endTimeIndex = 1;
     var tsvRegistry = nar.fullReport.TimeSeriesVisualizationRegistryInstance;
