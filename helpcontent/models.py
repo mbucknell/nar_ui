@@ -9,7 +9,7 @@ class Definition(models.Model):
     short_definition = models.CharField(max_length=128)
     long_definition = models.CharField(max_length=1024)
     
-    def __unicode(self):
+    def __unicode__(self):
         return u'%s' %self.term
     
     class Meta:
