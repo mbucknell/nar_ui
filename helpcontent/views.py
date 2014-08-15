@@ -4,9 +4,16 @@ import simplejson
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms import model_to_dict
 from django.http import HttpResponse, Http404
-from django.views.generic import View
+from django.views.generic import View, ListView
 
 from .models import Definition, SiteLinkInfo, SiteEcoregionCriteriaInfo
+
+
+class DefinitionsView(ListView):
+    model = Definition
+    context_object_name = 'definitions'
+    template_name = 'definition_of_terms.html'
+    
 
 class DefinitionsJsonView(View):
 
@@ -16,6 +23,7 @@ class DefinitionsJsonView(View):
             defs[d.get_dict_key()] = model_to_dict(d)
             
         return HttpResponse(simplejson.dumps(defs), content_type='application/json')
+    
     
 class SiteInfoJsonView(View):
     
