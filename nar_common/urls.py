@@ -9,7 +9,7 @@ admin.autodiscover()
 
 
 urlpatterns = patterns('',
-    url(r'^home$', HomePageView.as_view()),
+    url(r'^home$', HomePageView.as_view(), name='home'),
     url(r'^sites$', SiteView.as_view()),
     url(r'^content/about/$', 
         TemplateView.as_view(template_name='about.html'),
