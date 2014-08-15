@@ -10,7 +10,7 @@ $(document).ready(function(){
         };
     };
     
-    //dom setup
+    // dom setup
     var selectorElementPairs = {
         instructions : selectorElementPair('#instructions'),
         allPlotsWrapper : selectorElementPair('#plotsWrapper'),
@@ -34,9 +34,6 @@ $(document).ready(function(){
         contentType:'application/json'
         
     });
-    
-    // Wait for definitions to load
-    $.when(nar.definitions_promise).done(function() { return; });
     
     var startTimeIndex = 0;
     var endTimeIndex = 1;
@@ -79,17 +76,20 @@ $(document).ready(function(){
     }; 
     var failedGetDataAvailability = function(data, textStatus, jqXHR){
         var msg = 'Could not determine data availability for this site';
-        //@todo make this modal dialog
+        // @todo make this modal dialog
         alert(msg);
         throw Error(msg);
     }; 
-
-    
-    $.when(getDataAvailabilityRequest).then(
-        successfulGetDataAvailability,
-        failedGetDataAvailability
-    );  
-    
-    selectorElementPairs.allPlotsWrapper.element.sortable();
-    selectorElementPairs.allPlotsWrapper.element.disableSelection();
+		
+    // Wait for definitions and site_info to load.
+    $.when(nar.definitions_promise).done(function() {
+    	$.when(nar.site_help_info_promise).done(function() {
+    		$.when(getDataAvailabilityRequest).then(
+    				successfulGetDataAvailability,
+    				failedGetDataAvailability
+    		);
+    		selectorElementPairs.allPlotsWrapper.element.sortable();
+    		selectorElementPairs.allPlotsWrapper.element.disableSelection();
+    	});
+    });
 });

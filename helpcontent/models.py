@@ -25,7 +25,7 @@ class Definition(models.Model):
         
         
     
-class Site_Link_Info(models.Model):
+class SiteLinkInfo(models.Model):
     
     network = models.CharField(max_length=16)
     natqw_site = models.CharField(unique=True, max_length=20)
@@ -44,7 +44,7 @@ class Site_Link_Info(models.Model):
         db_table = 'site_link_info'
         
         
-class Site_Ecoregion_Criteria_Info(models.Model):
+class SiteEcoregionCriteriaInfo(models.Model):
     network = models.CharField(max_length=16)
     natqw_site = models.CharField(unique=True, max_length=20)
     station_nm = models.CharField(max_length=128)

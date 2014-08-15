@@ -56,7 +56,8 @@
 				geoserver: 'http://' + '{{ settings.GEOSERVER_HOST_NAME|escapejs }}' + '{{ settings.GEOSERVER_PATH|escapejs}}',
 				sos: 'http://' + '{{ settings.SOS_HOST_NAME|escapejs }}' + '{{ settings.SOS_PATH|escapejs}}'
 			},
-			definitionsUrl : "{% url 'helpcontent-definitions' %}"
+			definitionsUrl : "{% url 'helpcontent-definitions' %}",
+			siteInfoUrl : "{% url 'helpcontent-site_info' %}"
 		};
 		
 	</script>

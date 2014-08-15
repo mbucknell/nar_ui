@@ -85,6 +85,11 @@
 
 {% block scripts %}
 	{{ block.super }}
+	<script type="text/javascript">
+			var PARAMS = {
+				'siteId' : '{{ site_id|escapejs}}'
+			};
+	</script>
 	{% compress js %}
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.resize.js' %}"></script>
@@ -99,6 +104,7 @@
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.canvasAxisTickRenderer.js' %}"></script>
 		
 		<script type="text/javascript" src="{% static 'nar_ui/Constituents.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/SiteInfo.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/summary_report/ConstituentCurrentYearComparisonPlot.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/summary_report/ExceedancePlot.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/summary_report/main.js' %}"></script>

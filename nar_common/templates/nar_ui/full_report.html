@@ -11,6 +11,12 @@
 
 {% block scripts %}
 	{{ block.super }}
+	
+	<script type="text/javascript">
+			var PARAMS = {
+				'siteId' : '{{ site_id|escapejs}}'
+			};
+	</script>
 	{% compress js %}
 		{# third-party #}
         <script type="text/javascript" src="{% static 'nar_ui/js_lib/jquery-ui/jquery-ui.min.js' %}"></script>
@@ -30,6 +36,7 @@
 		<script type="text/javascript" src="{% static 'nar_ui/full_report/PlotUtils.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/Constituents.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/Definitions.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/SiteInfo.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/full_report/sample_concentration_plot.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/full_report/LoadPlot.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/full_report/TimeSeries.js' %}"></script>
@@ -41,11 +48,7 @@
         <script type="text/javascript" src="{% static 'nar_ui/full_report/TimeSlider.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/full_report/main.js' %}"></script>
 	{% endcompress %}
-		<script type="text/javascript">
-			var PARAMS = {
-				'siteId' : '{{ site_id|escapejs}}'
-			};
-		</script>
+		
 {% endblock %}
 
 {% block content %}
