@@ -2,7 +2,7 @@ var nar = nar || {};
 (function() {
 	nar.definitions = {};
 	
-	nar.definitions_promise = $.ajax({
+	nar.definitionsPromise = $.ajax({
 		url : CONFIG.definitionsUrl,
 		type : 'GET',
 		success : function(data) {

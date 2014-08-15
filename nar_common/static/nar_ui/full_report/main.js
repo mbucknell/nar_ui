@@ -82,8 +82,8 @@ $(document).ready(function(){
     }; 
 		
     // Wait for definitions and site_info to load.
-    $.when(nar.definitions_promise).done(function() {
-    	$.when(nar.site_help_info_promise).done(function() {
+    $.when(nar.definitionsPromise).done(function() {
+    	$.when(nar.siteHelpInfoPromise).done(function() {
     		$.when(getDataAvailabilityRequest).then(
     				successfulGetDataAvailability,
     				failedGetDataAvailability
