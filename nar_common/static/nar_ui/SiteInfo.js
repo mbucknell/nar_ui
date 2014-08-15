@@ -1,10 +1,10 @@
 var nar = nar || {};
 
-(function() {
+nar.loadSiteHelpInfo = function(url) {
 	nar.siteHelpInfo = {};
 	
 	nar.siteHelpInfoPromise = $.ajax({
-		url : CONFIG.siteInfoUrl,
+		url : url,
 		type : 'GET',
 		data : {
 			site_id : PARAMS.siteId
@@ -17,4 +17,4 @@ var nar = nar || {};
 		}
 	});
 	
-})();
+};
