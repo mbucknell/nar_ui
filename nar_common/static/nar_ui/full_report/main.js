@@ -10,7 +10,7 @@ $(document).ready(function(){
         };
     };
     
-    //dom setup
+    // dom setup
     var selectorElementPairs = {
         instructions : selectorElementPair('#instructions'),
         allPlotsWrapper : selectorElementPair('#plotsWrapper'),
@@ -34,6 +34,7 @@ $(document).ready(function(){
         contentType:'application/json'
         
     });
+    
     var startTimeIndex = 0;
     var endTimeIndex = 1;
     var tsvRegistry = nar.fullReport.TimeSeriesVisualizationRegistryInstance;
@@ -75,17 +76,20 @@ $(document).ready(function(){
     }; 
     var failedGetDataAvailability = function(data, textStatus, jqXHR){
         var msg = 'Could not determine data availability for this site';
-        //@todo make this modal dialog
+        // @todo make this modal dialog
         alert(msg);
         throw Error(msg);
     }; 
-
-    
-    $.when(getDataAvailabilityRequest).then(
-        successfulGetDataAvailability,
-        failedGetDataAvailability
-    );  
-    
-    selectorElementPairs.allPlotsWrapper.element.sortable();
-    selectorElementPairs.allPlotsWrapper.element.disableSelection();
+		
+    // Wait for definitions and site_info to load.
+    $.when(nar.definitionsPromise).done(function() {
+    	$.when(nar.siteHelpInfoPromise).done(function() {
+    		$.when(getDataAvailabilityRequest).then(
+    				successfulGetDataAvailability,
+    				failedGetDataAvailability
+    		);
+    		selectorElementPairs.allPlotsWrapper.element.sortable();
+    		selectorElementPairs.allPlotsWrapper.element.disableSelection();
+    	});
+    });
 });

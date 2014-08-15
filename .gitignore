@@ -45,3 +45,6 @@ env
 /static/*
 #target folder where maven artifacts are placed
 /target
+/phantomjsdriver.log
+/static/
+/reports/

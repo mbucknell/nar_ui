@@ -27,6 +27,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'compressor',
     'utils',
+    'helpcontent',
     
 )
 
@@ -131,4 +132,4 @@ if os.getenv('JENKINS_URL', False):
     PYLINT_RCFILE = (
         '--ignore=utils/tests' # Tests are not processed through pylint
     )
-    PROJECT_APPS = ('utils',) #Specify which apps you want to test
+    PROJECT_APPS = ('utils', 'helpcontent') #Specify which apps you want to test
