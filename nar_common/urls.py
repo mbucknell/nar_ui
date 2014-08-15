@@ -11,7 +11,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^$', HomePageView.as_view()),
     url(r'^sites$', SiteView.as_view()),
-    url(r'^about/$', 
+    url(r'^content/about/$', 
         TemplateView.as_view(template_name='about.html'),
         name='about'),
     url(r'^mississippi$', MississippiView.as_view()),
