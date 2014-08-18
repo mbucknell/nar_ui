@@ -82,7 +82,7 @@ nar.fullReport = nar.fullReport || {};
         });
         var hoverFormatter = nar.fullReport.PlotUtils.utcDatePlotHoverFormatter;
         nar.fullReport.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
-        nar.fullReport.PlotUtils.setLineHoverFormatter(plotContainer, longTermMean, nar.fullReport.terms.longTermMean.shortDef)
+        nar.fullReport.PlotUtils.setLineHoverFormatter(plotContainer, longTermMean, nar.definitions.longTermMean.short_definition)
         return plot;
     };    
 }());

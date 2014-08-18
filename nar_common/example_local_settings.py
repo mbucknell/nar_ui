@@ -1,6 +1,13 @@
 
+from sys import argv
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
+
+# This checks to see if django tests are running (i.e. manage.py test)
+if argv and 1 < len(argv):  
+    RUNNING_TESTS = 'test' in argv
+else:  
+    RUNNING_TESTS= False  
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'ChangeMe'
@@ -9,6 +16,20 @@ SECRET_KEY = 'ChangeMe'
 DEBUG = True
 
 TEMPLATE_DEBUG = True
+
+#Fill in the HOST and password for the desired database
+if not RUNNING_TESTS:
+    DATABASES = {
+        'default' : {
+            'ENGINE' : 'django.db.backends.postgresql_psycopg2',
+            'NAME' : 'postgres',
+            'USER' : 'postgres',
+            'PASSWORD' : '',
+            'HOST' : '127.0.0.1',
+            'PORT' : '5432'
+        }
+    }
+
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
