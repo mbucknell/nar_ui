@@ -139,9 +139,9 @@ nar.fullReport.MostRecentWaterYearTimeRange = function(dataAvailability) {
         }
     }
     
-    // Back up just a bit because during is not inclusive
-    var startTime = nar.util.forceUTC(nar.WaterYearUtils.getWaterYearStart(wy)).rewind('1 minute');
-    var endTime = nar.util.forceUTC(nar.WaterYearUtils.getWaterYearEnd(wy));
+    // Back up and forward just a bit because during is not inclusive
+    var startTime = nar.WaterYearUtils.getWaterYearStart(wy, true).rewind('1 minute');
+    var endTime = nar.WaterYearUtils.getWaterYearEnd(wy, true).advance('1 minute');
     var yearRange = new nar.fullReport.TimeRange(
         startTime,
         endTime

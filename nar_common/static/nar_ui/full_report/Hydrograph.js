@@ -8,38 +8,56 @@ nar.fullReport = nar.fullReport || {};
 	 */
 	nar.fullReport.Hydrograph = function(tsViz) {
 		
-		var plot = new PlotWrapper();
+		var plot;
 		var plotContainer = tsViz.plotContainer;
-		var flowData = nar.fullReport.PlotUtils.getPreviousYearsData(tsViz);
-		var miscConstituentInfo = nar.fullReport.PlotUtils.getConstituentNameAndColors(tsViz);
-		var constituentName = miscConstituentInfo.name;
+		// going to cheat for now and make two divs at 50% width
+		var div1 = $('<div>').attr('id', 'test1').addClass('hydrograph');
+		var div2 = $('<div>').attr('id', 'test2').addClass('hydrograph');
+		plotContainer.append(div1).append(div2);
+		var flowData = nar.fullReport.PlotUtils.getData(tsViz);
+		
+		var makeSeriesConfig = function(dataSet, color){
+			return {
+				label: '2013',
+				data: dataSet,
+				lines: {
+					show: true,
+					fill: true,
+					lineWidth: 1,
+					fillColor: color
+				}
+			};
+		};
+		
+		var flowSeries = makeSeriesConfig(flowData, 'lightgrey');
+		
+		plot = $.plot(div1, [ flowSeries ], {
+			xaxis : {
+				mode : 'time',
+				timeformat : "%b",
+				tickLength : 10,
+				minTickSize : [ 1, 'month' ]
+			},
+			yaxis : {
+				axisLabel : 'cfs',
+				axisLabelUseCanvas : true,
+				axisLabelFontSizePixels : 12,
+				axisLabelFontFamily : "Verdana, Arial, Helvetica, Tahoma, sans-serif",
+				axisLabelPadding : 5,
+				tickLength : 10
+			},
+			grid : {
+				hoverable : true,
+				autoHighlight : true
+			},
+			legend : {
+				show : false
+			},
+			colors: ['black']
+		});
+		var hoverFormatter = nar.fullReport.PlotUtils.utcDatePlotHoverFormatter;
+		nar.fullReport.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
 		
 		return plot;
 	};
-	/**
-	 * This wraps the plot so that flot calls will cause the anticipated result
-	 * 
-	 * Note: sometimes that result is a noop based on the needs of Hydrograph
-	 */
-	var PlotWrapper = function() {
-		return {
-			getOptions : function() {
-				return {
-					xaxes : [{
-						min : undefined,
-						max : undefined
-					}]
-				}
-			},
-			setupGrid : function() {
-				// ignore this for now
-			},
-			draw : function() {
-				// ignore this for now
-			},
-			shutdown : function() {
-				// ignore this for now
-			}
-		}
-	} 
 })();
