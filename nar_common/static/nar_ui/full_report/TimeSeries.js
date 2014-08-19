@@ -61,7 +61,18 @@ nar.fullReport.TimeSeries = function(config){
             "version": "2.0.0",
             "offering" : self.procedure,
             "observedProperty" : self.observedProperty,
-            "featureOfInterest" : PARAMS.siteId
+            "featureOfInterest" : PARAMS.siteId,
+            "temporalFilter": [
+                {
+                    "during": {
+                        "ref": "om:phenomenonTime",
+                        "value": [
+                            nar.util.toISOString(self.timeRange.startTime),
+                            nar.util.toISOString(self.timeRange.endTime)
+                        ]
+                    }
+                }
+            ]
         };
         
         var deferred = $.Deferred();
@@ -101,9 +112,42 @@ nar.fullReport.TimeRange = function(startTime, endTime){
   self.equals = function(otherTimeRange){
       return nar.fullReport.TimeRange.equals(self, otherTimeRange);
   };
+  self.contains = function(date) {
+      var timestamp = nar.util.getTimeStamp(date);
+      return (timestamp >= self.startTime && timestamp <= self.endTime);
+  };
 };
 
+nar.fullReport.DataAvailabilityTimeRange = function(dataAvailability) {
+    var startTimeIndex = 0;
+    var endTimeIndex = 1;
+    var timeRange = new nar.fullReport.TimeRange(
+        dataAvailability.phenomenonTime[startTimeIndex],
+        dataAvailability.phenomenonTime[endTimeIndex]
+    );
+    return timeRange;
+};
 
+nar.fullReport.MostRecentWaterYearTimeRange = function(dataAvailability) {
+    var yearRange;
+    var dataRange = nar.fullReport.DataAvailabilityTimeRange(dataAvailability);
+    var wy = nar.WaterYearUtils.convertDateToWaterYear(Date.create());
+    while (!dataRange.contains(nar.WaterYearUtils.getWaterYearEnd(wy))) {
+        wy = wy - 1;
+        if (wy < 2000) {
+            throw Error("No data available for recent year's data");
+        }
+    }
+    
+    // Back up just a bit because during is not inclusive
+    var startTime = nar.util.forceUTC(nar.WaterYearUtils.getWaterYearStart(wy)).rewind('1 minute');
+    var endTime = nar.util.forceUTC(nar.WaterYearUtils.getWaterYearEnd(wy));
+    var yearRange = new nar.fullReport.TimeRange(
+        startTime,
+        endTime
+    );
+    return yearRange;
+}
 
 //private 
 /**
@@ -156,4 +200,5 @@ nar.fullReport.TimeRange.ofAll = function(timeRanges){
         return maxExtent;
     }
 };
+
 }());

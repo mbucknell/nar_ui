@@ -20,6 +20,33 @@ nar.util = {};
         var timestamp = dateObj.getTime();
         return timestamp;
     };
+    /**
+     * sugar doesn't let me leave out millis and n52 doesn't like millis
+     */
+    nar.util.toISOString = function(dateLike) {
+        var dateObj = Date.create(dateLike);
+        return dateObj.getUTCFullYear().pad(4) + '-' +
+            (dateObj.getUTCMonth() + 1).pad(2) + '-' +
+            dateObj.getUTCDate().pad(2) + 'T' +
+            dateObj.getUTCHours().pad(2) + ':' +
+            dateObj.getUTCMinutes().pad(2) + ':' +
+            dateObj.getUTCSeconds().pad(2) + 'Z';
+    };
+    
+    nar.util.forceUTC = function(dateLike) {
+        var dateObj = Date.create(dateLike);
+        var offset = dateObj.getTimezoneOffset();
+        if (offset >= 0) {
+            dateObj.rewind({ minute : offset });
+        } else {
+            dateObj.advance({ minute : offset });
+        }
+        return dateObj.utc();
+    }
+    
+    nar.util.Unimplemented = function() {
+        throw Error('This functionality is not yet implemented');
+    };
 
     window.onerror = function(errorMsg, url, lineNumber) {
         var msg = errorMsg.replace(/Uncaught .*Error: /, '');
