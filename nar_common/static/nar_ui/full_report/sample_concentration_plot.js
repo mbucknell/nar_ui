@@ -19,10 +19,12 @@ nar.fullReport = nar.fullReport || {};
         var criteriaLineColor = miscConstituentInfo.colors.criteriaLine;
         
         if (constituentName == "Total Phosphorus") {
-        	var criteriaLineValue =  nar.siteHelpInfo.tp_criteria;
+        	criteriaLineValue =  nar.siteHelpInfo.tp_criteria;
         } else if (constituentName == "Total Nitrogen") {
-        	var criteriaLineValue =  nar.siteHelpInfo.tn_criteria;
-        } 
+        	criteriaLineValue =  nar.siteHelpInfo.tn_criteria;
+        } else if (constituentName == "Nitrate") {
+        	criteriaLineValue =  10;
+        }
         
         var makeSeriesConfig = function(dataSet, color){
             return {
