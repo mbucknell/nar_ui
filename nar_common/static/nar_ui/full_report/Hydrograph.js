@@ -17,17 +17,30 @@ nar.fullReport = nar.fullReport || {};
 		var flowData = nar.fullReport.PlotUtils.getData(tsViz);
 		
 		var flowSeries = {
-				label: '2013',
-				data: flowData,
-				lines: {
-					show: true,
-					fill: true,
-					lineWidth: 1,
-					fillColor: 'lightgrey'
-				}
+			label: '2013',
+			data: flowData[0],
+			lines: {
+				show: true,
+				fill: true,
+				lineWidth: 1,
+				fillColor: 'lightgrey'
 			}
+		};
 		
-		plot = $.plot(div1, [ flowSeries ], {
+		var tnData = massageTNData(flowData[1], flowData[0]);
+		
+		var tnSeries = {
+			data: tnData,
+			points: {
+				show: true,
+				fill: true,
+				fillColor: nar.Constituents.nitrogen.color,
+				radius: 3,
+				symbol: 'triangle'
+			}
+		}
+		
+		plot = $.plot(div1, [ flowSeries, tnSeries ], {
 			xaxis : {
 				mode : 'time',
 				timeformat : "%b",
@@ -55,5 +68,19 @@ nar.fullReport = nar.fullReport || {};
 		nar.fullReport.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
 		
 		return plot;
+	};
+	
+	var massageTNData = function(tnData, lineData) {
+		tnData.each(function(point) {
+			point[1] = findNearestYValueAtX(lineData, point[0]);
+		});
+		return tnData;
+	};
+	
+	var findNearestYValueAtX = function(array, xvalue) {
+		var point = array.reduce(function(prev, curr) {
+			return (Math.abs(curr[0] - xvalue)) < Math.abs(prev[0]- xvalue) ? curr : prev;
+		});
+		return point[1];
 	};
 })();
