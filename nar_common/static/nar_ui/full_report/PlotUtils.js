@@ -108,12 +108,14 @@ nar.fullReport = nar.fullReport || {};
             var currentYearColor = constituentInfo.color;
             var previousYearsColor = tinycolor.lighten(tinycolor(currentYearColor), 30).toRgbString();
             var longTermMeanColor = tinycolor.lighten(tinycolor.gray, 75).toRgbString();
+            var criteriaLineColor = tinycolor.lighten(tinycolor.gray, 75).toRgbString();
             return {
                 name : constituentName,
                 colors:{
                     currentYear: currentYearColor,
                     previousYears: previousYearsColor,
-                    longTermMean: longTermMeanColor
+                    longTermMean: longTermMeanColor,
+                    criteriaLine: criteriaLineColor
                 }
             };
         },
