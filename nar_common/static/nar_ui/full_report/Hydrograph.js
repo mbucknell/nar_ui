@@ -16,20 +16,16 @@ nar.fullReport = nar.fullReport || {};
 		plotContainer.append(div1).append(div2);
 		var flowData = nar.fullReport.PlotUtils.getData(tsViz);
 		
-		var makeSeriesConfig = function(dataSet, color){
-			return {
+		var flowSeries = {
 				label: '2013',
-				data: dataSet,
+				data: flowData,
 				lines: {
 					show: true,
 					fill: true,
 					lineWidth: 1,
-					fillColor: color
+					fillColor: 'lightgrey'
 				}
-			};
-		};
-		
-		var flowSeries = makeSeriesConfig(flowData, 'lightgrey');
+			}
 		
 		plot = $.plot(div1, [ flowSeries ], {
 			xaxis : {
