@@ -28,32 +28,49 @@ nar.WaterYearUtils = (function () {
 	/**
 	 * Given a water year, provides a date that signifies the start of the water year
 	 */
-	var getWaterYearStart = function (waterYear) {
+	var getWaterYearStart = function (waterYear, utc) {
 		// Months are 0-indexed
-		return Date.create(waterYear - 1, 9, 1);
+		var start;
+		if (utc) {
+			start = Date.create(Date.UTC(waterYear - 1, 9, 1))
+		} else {
+			start = Date.create(waterYear - 1, 9, 1);
+		}
+		return start;
 	};
 	
 	/**
 	 * Given a water year, provides a date that signifies the end of the water year
 	 */
-	var getWaterYearEnd = function (wy) {
-        return Date.create(wy, 8, 30); // months are 0 indexed for some reason
-    };
-    
+	var getWaterYearEnd = function (waterYear, utc) {
+		// months are 0 indexed
+		var end;
+		if (utc) {
+			end = Date.create(Date.UTC(waterYear, 8, 30));
+		} else {
+			end = Date.create(waterYear, 8, 30);
+		}
+		return end;
+	};
 
-    /**
-     * Given a range, provides the start and end water years
-     * 
-     * range : {
-     *   start : Integer,
-     *   end : Integer
-     * }
-     */
-    var getWaterYearRange = function(range) {
+
+	/**
+	 * Given a range, provides the start and end water years
+	 * 
+	 * range : {
+	 *   start : Integer,
+	 *   end : Integer
+	 * }
+	 */
+	var getWaterYearRange = function(range, utc) {
 		var wyStart,
-			wyEnd,
-			oct1 = Date.create(extractYear(range.start), 9, 1), // Oct 1 start year
-			sep30 = Date.create(extractYear(range.end), 8, 30); // Sep 30 end year
+			wyEnd;
+		var oct1 = (utc) ?
+				Date.create(Date.UTC(extractYear(range.start), 9, 1)) :
+				Date.create(extractYear(range.start), 9, 1); // Oct 1 start year
+		var sep30 = (utc) ? 
+				Date.create(Date.UTC(extractYear(range.end), 8, 30)) :
+				Date.create(extractYear(range.end), 8, 30); // Sep 30 end year
 		
 		if (oct1.isAfter(range.start) || oct1.is(range.start)) {
 			wyStart = oct1;
