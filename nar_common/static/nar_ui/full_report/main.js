@@ -61,6 +61,15 @@ $(document).ready(function(){
                 procedure: procedure
             });
             timeSeriesViz.timeSeriesCollection.add(timeSeries);
+            
+            timeSeriesViz.ancillaryData.each(function(props) {
+                var ancilSeries = new nar.fullReport.TimeSeries({
+                    observedProperty: props.observedProperty,
+                    timeRange: timeRange,
+                    procedure: props.procedure
+                });
+                timeSeriesViz.timeSeriesCollection.add(ancilSeries);
+            });
         });
         var allTimeSeriesVizualizations = tsvRegistry.getAll();
         var timeSlider = nar.fullReport.TimeSlider(selectorElementPairs.timeSlider.element);
