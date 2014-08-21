@@ -10,6 +10,7 @@ nar.fullReport.TimeSeriesCollection = function(){
     
     //date range is calculated when dirty (after adding new time series)
     var dirty = true;
+    var cachedTimeRange;
     
     /**
      * A wrapper around sugarjs' map function
@@ -48,7 +49,7 @@ nar.fullReport.TimeSeriesCollection = function(){
         timeSeries.push(aTimeSeries);
         dirty = true;
     };
-    var cachedTimeRange;
+
     /**
      * Returns the time range for a collection of time series.
      * 
