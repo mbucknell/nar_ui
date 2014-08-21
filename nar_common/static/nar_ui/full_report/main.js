@@ -35,8 +35,6 @@ $(document).ready(function(){
         
     });
     
-    var startTimeIndex = 0;
-    var endTimeIndex = 1;
     var tsvRegistry = nar.fullReport.TimeSeriesVisualizationRegistryInstance;
     var successfulGetDataAvailability = function(data, textStatus, jqXHR){
         data.dataAvailability.each(function(dataAvailability){
@@ -50,16 +48,12 @@ $(document).ready(function(){
                     instructionsElt: selectorElementPairs.instructions.element,
                     allPlotsWrapperElt: selectorElementPairs.allPlotsWrapper.element,
                     timeSeriesCollection: new nar.fullReport.TimeSeriesCollection(),
-                    plotter: function(){
-                        throw Error('not implemented yet');
-                    }
+                    plotter: nar.util.Unimplemented
                 });
                 tsvRegistry.register(timeSeriesViz);
             }
-            var timeRange = new nar.fullReport.TimeRange(
-                    dataAvailability.phenomenonTime[startTimeIndex], 
-                    dataAvailability.phenomenonTime[endTimeIndex]
-            );
+            
+            var timeRange = timeSeriesViz.ranger(dataAvailability);
             
             var timeSeries = new nar.fullReport.TimeSeries({
                 observedProperty: observedProperty,
@@ -76,14 +70,13 @@ $(document).ready(function(){
     }; 
     var failedGetDataAvailability = function(data, textStatus, jqXHR){
         var msg = 'Could not determine data availability for this site';
-        // @todo make this modal dialog
-        alert(msg);
+        // Errors are caught by window and alert is displayed
         throw Error(msg);
     }; 
 		
     // Wait for definitions and site_info to load.
-    $.when(nar.definitions_promise).done(function() {
-    	$.when(nar.site_help_info_promise).done(function() {
+    $.when(nar.definitionsPromise).done(function() {
+    	$.when(nar.siteHelpInfoPromise).done(function() {
     		$.when(getDataAvailabilityRequest).then(
     				successfulGetDataAvailability,
     				failedGetDataAvailability

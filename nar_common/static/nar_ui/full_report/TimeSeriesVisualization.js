@@ -21,10 +21,11 @@ nar.fullReport.TimeSeriesVisualization = function(config){
     self.instructionsElt = config.instructionsElt;
     self.allPlotsWrapperElt = config.allPlotsWrapperElt;
     self.plotter = config.plotter;
+    self.ranger = nar.fullReport.TimeSeriesVisualization.getRangerById(self.id);
 
     self.getComponentsOfId = function(){
         //delegate to static method
-        return nar.fullReport.TimeSeriesVisualization.getComponentsOfId(self.id);  
+        return nar.fullReport.TimeSeriesVisualization.getComponentsOfId(self.id);
     };
     self.timeSeriesCollection = config.timeSeriesCollection;
     
@@ -39,7 +40,7 @@ nar.fullReport.TimeSeriesVisualization = function(config){
         //if no plots are currently visualized, but one has been
         //requested to be added.
         if(0 === numberOfPlots){
-            self.instructionsElt.addClass(hiddenClass);            
+            self.instructionsElt.addClass(hiddenClass);
         }
         
         var plotContainerId = makePlotContainerId(self.id);
@@ -47,7 +48,6 @@ nar.fullReport.TimeSeriesVisualization = function(config){
         var plotContainerMissing = plotContainer.length === 0;
         var vizDeferred = $.Deferred();
         var vizPromise = vizDeferred.promise(); 
-        
         
         if(plotContainerMissing){
             plotContainer = $('<div/>', {
@@ -58,7 +58,7 @@ nar.fullReport.TimeSeriesVisualization = function(config){
             self.plotContainer = plotContainer;
             var retrievalPromises = self.timeSeriesCollection.retrieveData();
             //after all retrieval promises have been resolved
-            $.when.apply(null, retrievalPromises).then(                
+            $.when.apply(null, retrievalPromises).then(
                 function(){
                     var plotter = nar.fullReport.TimeSeriesVisualization.getPlotterById(self.id);
                     var plotContent;
@@ -78,8 +78,7 @@ nar.fullReport.TimeSeriesVisualization = function(config){
                 },
                 function(){
                     vizDeferred.reject(self);
-                    alert('data retrieval failed');
-                    throw Error();
+                    throw Error('data retrieval failed');
                 }
             );
         }
@@ -101,7 +100,7 @@ nar.fullReport.TimeSeriesVisualization = function(config){
         
         var noPlotsRemain = 0 === numberOfPlots; 
         if(noPlotsRemain){
-            self.instructionsElt.removeClass(hiddenClass);                
+            self.instructionsElt.removeClass(hiddenClass);
         }
     };
 };
@@ -144,7 +143,8 @@ nar.fullReport.TimeSeriesVisualization.serverToClientConstituentIdMap = {
     'si':'sediment',
     'ssc':'sediment',
     'tkn': 'nitrogen',
-    'tp':'phosphorus'
+    'tp':'phosphorus',
+    'q':'streamflow'
 };
 
 /**
@@ -159,16 +159,17 @@ nar.fullReport.TimeSeriesVisualization.getComponentsOfId = function(id){
     var serverConstituentId = splitId[0];
     var clientConstituentId = nar.fullReport.TimeSeriesVisualization.serverToClientConstituentIdMap[serverConstituentId.toLowerCase()];
     components.constituent = clientConstituentId;
-    potential_category = splitId[1];
-    split_potential_category = potential_category.split('_');
-    if(2 === split_potential_category.length){
-        components.category = split_potential_category[1];
-        components.subcategory = potential_category;
+    var potential_category = splitId[1];
+    if (potential_category) {
+	    var split_potential_category = potential_category.split('_');
+	    if(2 === split_potential_category.length){
+	        components.category = split_potential_category[1];
+	        components.subcategory = potential_category;
+	    }
+	    else{
+	        components.category = potential_category;
+	    }
     }
-    else{
-        components.category = potential_category;
-    }
-    
     return components;
 };
 
@@ -182,19 +183,42 @@ nar.fullReport.TimeSeriesVisualization.getPlotterById = function(id){
     var plotter;
     var components = nar.fullReport.TimeSeriesVisualization.getComponentsOfId(id);
     
-    if (components.category === 'discrete'){
-        plotter = nar.fullReport.SampleConcentrationPlot; 
+    var vizType = nar.fullReport.TimeSeriesVisualization.types[components.category];
+    if (vizType) {
+        plotter = vizType.plotter;
+    } else {
+    	plotter = nar.util.Unimplemented;
     }
-    else if(components.category === 'load'){
-        plotter = nar.fullReport.LoadPlot;
-    }
-    else{
-        var idToPlotConstructor = {
-                //empty for now 
-        };
-        plotter = idToPlotConstructor[id];
-    }
-    
     return plotter;
+};
+
+nar.fullReport.TimeSeriesVisualization.getRangerById = function(id) {
+    var ranger;
+    var components = nar.fullReport.TimeSeriesVisualization.getComponentsOfId(id);
+    var vizType = nar.fullReport.TimeSeriesVisualization.types[components.category];
+    if (vizType) {
+        ranger = vizType.range;
+    } else {
+        ranger = nar.util.Unimplemented;
+    }
+    return ranger;
+};
+
+/**
+ * 
+ */
+nar.fullReport.TimeSeriesVisualization.types = {
+		discrete : {
+			plotter : nar.fullReport.SampleConcentrationPlot,
+			range : nar.fullReport.DataAvailabilityTimeRange
+		},
+		load : {
+			plotter : nar.fullReport.LoadPlot,
+			range : nar.fullReport.DataAvailabilityTimeRange
+		},
+		flow : {
+			plotter : nar.fullReport.Hydrograph,
+			range : nar.fullReport.MostRecentWaterYearTimeRange
+		}
 };
 }());

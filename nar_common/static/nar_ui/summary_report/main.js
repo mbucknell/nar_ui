@@ -1,7 +1,7 @@
 $(document).ready(
         function() {
         	// Wait for site info to load
-        	$.when(nar.site_help_info_promise).done(function() {
+        	$.when(nar.siteHelpInfoPromise).done(function() {
 	            var ConstituentCurrentYearComparisonPlot = nar.fullReport.ConstituentCurrentYearComparisonPlot;
 	            var ExceedancePlot = nar.fullReport.ExceedancePlot;
 	            

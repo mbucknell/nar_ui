@@ -10,10 +10,12 @@ admin.autodiscover()
 
 
 urlpatterns = patterns('',
-    url(r'^$', HomePageView.as_view()),
+    url(r'^home$', HomePageView.as_view(), name='home'),
     url(r'^sites$', SiteView.as_view()),
     
-    url(r'^about$', AboutView.as_view()),
+    url(r'^content/about/$', 
+        TemplateView.as_view(template_name='about.html'),
+        name='about'),
     url(r'^definition_of_terms$', 
         DefinitionsView.as_view(),
         name='definition_of_terms'),

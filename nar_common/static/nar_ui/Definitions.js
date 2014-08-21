@@ -1,9 +1,9 @@
 var nar = nar || {};
-(function() {
+nar.loadDefinitions = function(url) {
 	nar.definitions = {};
 	
-	nar.definitions_promise = $.ajax({
-		url : CONFIG.definitionsUrl,
+	nar.definitionsPromise = $.ajax({
+		url : url,
 		type : 'GET',
 		success : function(data) {
 			nar.definitions = data;
@@ -12,4 +12,4 @@ var nar = nar || {};
 			throw Error('Unable to contact the definitions URL service: ' & textStatus);
 		}
 	});
-})();
+};

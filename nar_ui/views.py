@@ -31,9 +31,6 @@ class SiteFullReportView(SiteReportView):
 class SiteView(TemplateView):
     template_name = 'nar_ui/site.html'
     
-class AboutView(TemplateView):
-    template_name = 'nar_ui/about.html' 
-    
 class MississippiView(TemplateView):
     template_name = 'nar_ui/mississippi.html'
     
