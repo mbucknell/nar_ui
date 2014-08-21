@@ -50,7 +50,7 @@ nar.fullReport = nar.fullReport || {};
          * fall on the last water year. 
          */
         getDataSplitIntoCurrentAndPreviousYears: function(timeSeriesVisualization) {
-            var data = nar.fullReport.PlotUtils.getData(timeSeriesVisualization);
+            var data = nar.fullReport.PlotUtils.getData(timeSeriesVisualization, true);
             //assume sorted data set
             var latestPoint = data.last();
             var lastDate = new Date(getXcoord(latestPoint));
@@ -85,14 +85,19 @@ nar.fullReport = nar.fullReport || {};
             
             return result;
         },
-        getData: function(timeSeriesVisualization) {
-        	var allData = timeSeriesVisualization.timeSeriesCollection.map(function(timeSeries){
+        /**
+         * @param {nar.fullReport.TimeSeriesVisualization}
+         * @param {boolean} first 2D array only for compatibility with existing plots
+         * @returns {Array} - 2D or 3D Array of data
+         */
+        getData: function(timeSeriesVisualization, firstOnly) {
+            var data = timeSeriesVisualization.timeSeriesCollection.map(function(timeSeries){
                 return timeSeries.data;
             });
-            var data = allData[0];//only one time series' worth of data for now.
-            data.map(function(timestep) {
-                timestep[1] = parseFloat(timestep[1]);
-            });
+            if (firstOnly) {
+                var data = data[0];
+            }
+            
             return data;
         },
         /**

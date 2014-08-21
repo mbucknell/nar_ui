@@ -22,6 +22,7 @@ nar.fullReport.TimeSeriesVisualization = function(config){
     self.allPlotsWrapperElt = config.allPlotsWrapperElt;
     self.plotter = config.plotter;
     self.ranger = nar.fullReport.TimeSeriesVisualization.getRangerById(self.id);
+    self.ancillaryData = nar.fullReport.TimeSeriesVisualization.getAncilDataById(self.id);
 
     self.getComponentsOfId = function(){
         //delegate to static method
@@ -119,7 +120,7 @@ var hiddenClass = 'hide';
  * @returns {string} id for a plot
  */
 var makePlotContainerId = function(vizId){
-    return vizId+plotIdSuffix;
+    return vizId + plotIdSuffix;
 };
 /**
  * Given a plot container id (NOT a viz ID), safely look up
@@ -192,6 +193,10 @@ nar.fullReport.TimeSeriesVisualization.getPlotterById = function(id){
     return plotter;
 };
 
+/**
+ * @param {string} id - a TimeSeriesVisualization id
+ * @returns {function} a way to get the data range based on plot type
+ */
 nar.fullReport.TimeSeriesVisualization.getRangerById = function(id) {
     var ranger;
     var components = nar.fullReport.TimeSeriesVisualization.getComponentsOfId(id);
@@ -205,20 +210,44 @@ nar.fullReport.TimeSeriesVisualization.getRangerById = function(id) {
 };
 
 /**
- * 
+ * This may end up going away at some point
+ * @param {string} id - a TimeSeriesVisualization id
+ * @returns {array} array of SOS getResult parameters for ancillary data
+ */
+nar.fullReport.TimeSeriesVisualization.getAncilDataById = function(id) {
+    var ancillaryData;
+    var components = nar.fullReport.TimeSeriesVisualization.getComponentsOfId(id);
+    var vizType = nar.fullReport.TimeSeriesVisualization.types[components.category];
+    if (vizType) {
+        ancillaryData = vizType.ancillary;
+    } else {
+        ancillaryData = [];
+    }
+    return ancillaryData;
+};
+
+/**
+ * Some configuration for which category of data gets which graph
  */
 nar.fullReport.TimeSeriesVisualization.types = {
 		discrete : {
 			plotter : nar.fullReport.SampleConcentrationPlot,
-			range : nar.fullReport.DataAvailabilityTimeRange
+			range : nar.fullReport.DataAvailabilityTimeRange,
+			ancillary : []
 		},
 		load : {
 			plotter : nar.fullReport.LoadPlot,
-			range : nar.fullReport.DataAvailabilityTimeRange
+			range : nar.fullReport.DataAvailabilityTimeRange,
+			ancillary : []
 		},
 		flow : {
 			plotter : nar.fullReport.Hydrograph,
-			range : nar.fullReport.MostRecentWaterYearTimeRange
+			range : nar.fullReport.MostRecentWaterYearTimeRange,
+			ancillary : [{
+				// @todo We will want to store these somewhere so this can just be nar .discrete.nitrogen
+				procedure : "http://cida.usgs.gov/def/NAR/procedure/TKN",
+				observedProperty : "http://cida.usgs.gov/def/NAR/property/TKN/discrete",
+			}]
 		}
 };
 }());
