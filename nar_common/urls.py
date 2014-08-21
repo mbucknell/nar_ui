@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 
 from nar_ui.views import *
-from helpcontent.views import DefinitionsView
+from helpcontent.views import DefinitionsView, AboutView
 
 admin.autodiscover()
 
@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     url(r'^sites$', SiteView.as_view()),
     
     url(r'^content/about/$', 
-        TemplateView.as_view(template_name='about.html'),
+        AboutView.as_view(),
         name='about'),
     url(r'^definition_of_terms$', 
         DefinitionsView.as_view(),
