@@ -18,14 +18,6 @@ nar.fullReport = nar.fullReport || {};
         var currentYearColor= miscConstituentInfo.colors.currentYear;
         var criteriaLineColor = miscConstituentInfo.colors.criteriaLine;
         
-        if (constituentName == "Total Phosphorus") {
-        	criteriaLineValue =  nar.siteHelpInfo.tp_criteria;
-        } else if (constituentName == "Total Nitrogen") {
-        	criteriaLineValue =  nar.siteHelpInfo.tn_criteria;
-        } else if (constituentName == "Nitrate") {
-        	criteriaLineValue =  10;
-        }
-        
         var makeSeriesConfig = function(dataSet, color){
             return {
                 label: constituentName,
@@ -40,23 +32,29 @@ nar.fullReport = nar.fullReport || {};
             };   
         };
         
-        var makeCriteriaLineConfig = function(dataSet, color) {
-            return {
-                label: constituentName,
-                data: [[nar.fullReport.PlotUtils.YEAR_NINETEEN_HUNDRED,criteriaLineValue],
-                       [nar.fullReport.PlotUtils.ONE_YEAR_IN_THE_FUTURE,criteriaLineValue]],
-                lines: {
-                    show: true,
-                    fillColor: color,
-                    lineWidth: 1
-                },
-                shadowSize: 0
-            };
+        var constituentToCriteria = {
+		   nitrogen: nar.siteHelpInfo.tn_criteria,
+		   phosphorus: nar.siteHelpInfo.tp_criteria,
+		   nitrate: 10
+		};
+        
+		var constituentId = tsViz.getComponentsOfId().constituent;
+		var criteriaLineValue = constituentToCriteria[constituentId] || null;
+        
+        var criteriaLineSeries = {
+            label: constituentName,
+            data: [[nar.fullReport.PlotUtils.YEAR_NINETEEN_HUNDRED,criteriaLineValue],
+                   [nar.fullReport.PlotUtils.ONE_YEAR_IN_THE_FUTURE,criteriaLineValue]],
+            lines: {
+                show: true,
+                fillColor: criteriaLineColor,
+                lineWidth: 1
+            },
+            shadowSize: 0
         };
         
         var previousYearsSeries = makeSeriesConfig(previousYearsData, previousYearsColor);
         var currentYearSeries = makeSeriesConfig(currentYearData, currentYearColor);
-        var criteriaLineSeries = makeCriteriaLineConfig(tsViz, criteriaLineColor);
         
         var series = [
           previousYearsSeries,
@@ -105,7 +103,7 @@ nar.fullReport = nar.fullReport || {};
         });
         var hoverFormatter = nar.fullReport.PlotUtils.utcDatePlotHoverFormatter;
         nar.fullReport.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
-        nar.fullReport.PlotUtils.setLineHoverFormatter(plotContainer, criteriaLineValue, nar.definitions.longTermMean.short_definition)
+        nar.fullReport.PlotUtils.setLineHoverFormatter(plotContainer, criteriaLineValue, "Criteria line")
         return plot;
     };    
 }());
