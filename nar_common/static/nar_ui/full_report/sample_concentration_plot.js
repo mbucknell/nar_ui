@@ -11,7 +11,6 @@ nar.fullReport = nar.fullReport || {};
         var splitData = nar.fullReport.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(tsViz);
         var previousYearsData = splitData.previousYearsData;
         var currentYearData = splitData.currentYearData;  
-        var criteriaLineValue = null;
         var miscConstituentInfo = nar.fullReport.PlotUtils.getConstituentNameAndColors(tsViz);
         var constituentName =miscConstituentInfo.name; 
         var previousYearsColor = miscConstituentInfo.colors.previousYears;
