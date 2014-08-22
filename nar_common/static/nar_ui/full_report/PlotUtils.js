@@ -50,7 +50,10 @@ nar.fullReport = nar.fullReport || {};
          * fall on the last water year. 
          */
         getDataSplitIntoCurrentAndPreviousYears: function(timeSeriesVisualization) {
-            var data = nar.fullReport.PlotUtils.getData(timeSeriesVisualization, true);
+            var allData = nar.fullReport.PlotUtils.getData(timeSeriesVisualization);
+            
+            // this can only split a single series, so assume allData has it in index 0
+            var data = allData[0]; 
             //assume sorted data set
             var latestPoint = data.last();
             var lastDate = new Date(getXcoord(latestPoint));
@@ -87,17 +90,12 @@ nar.fullReport = nar.fullReport || {};
         },
         /**
          * @param {nar.fullReport.TimeSeriesVisualization}
-         * @param {boolean} first 2D array only for compatibility with existing plots
-         * @returns {Array} - 2D or 3D Array of data
+         * @returns {Array} - data within the timeSeriesCollection
          */
-        getData: function(timeSeriesVisualization, firstOnly) {
+        getData: function(timeSeriesVisualization) {
             var data = timeSeriesVisualization.timeSeriesCollection.map(function(timeSeries){
                 return timeSeries.data;
             });
-            if (firstOnly) {
-                var data = data[0];
-            }
-            
             return data;
         },
         /**
@@ -231,6 +229,35 @@ nar.fullReport = nar.fullReport || {};
         		}
         	}
         	return result;
+        },
+        /**
+         * We have point data that we only care about the x is, so pin the y to line
+         * Assumes x is [0] and y is [1] for both series
+         * @todo interpolation
+         * @param {Array} pointData - points to pin
+         * @param {Array} lineData - line to pin to
+         * @return {Array} points pinned to line
+         */
+        createPinnedPointData : function(pointData, lineData) {
+            var pinnedPoints = pointData.map(function(point) {
+                point[1] = nar.fullReport.PlotUtils.findNearestYValueAtX(lineData, point[0]);
+                return point;
+            });
+            return pinnedPoints;
+        },
+        /**
+         * This pins the point to the line, can be pulled out and reused, but it
+         * is specific to this relation for now
+         * @todo interpolate
+         * @param {Array} array - array of line points 2d
+         * @param {Number} xvalue - x value of point to pin to line
+         * @return {Number} yvalue on line near xvalue
+         */
+        findNearestYValueAtX : function(array, xvalue) {
+            var point = array.reduce(function(prev, curr) {
+                return (Math.abs(curr[0] - xvalue)) < Math.abs(prev[0]- xvalue) ? curr : prev;
+            });
+            return point[1];
         }
     };
 }());
