@@ -23,6 +23,7 @@ nar.fullReport.TimeSeriesVisualization = function(config){
     self.plotter = config.plotter;
     self.ranger = nar.fullReport.TimeSeriesVisualization.getCustomizationById(self.id, 'range', nar.util.Unimplemented);
     self.ancillaryData = nar.fullReport.TimeSeriesVisualization.getCustomizationById(self.id, 'ancillary', []);
+    self.allowTimeSlider = nar.fullReport.TimeSeriesVisualization.getCustomizationById(self.id, 'allowTimeSlider', true);
 
     self.getComponentsOfId = function(){
         //delegate to static method
@@ -209,12 +210,14 @@ nar.fullReport.TimeSeriesVisualization.types = {
 		discrete : {
 			plotter : nar.fullReport.SampleConcentrationPlot,
 			range : nar.fullReport.DataAvailabilityTimeRange,
-			ancillary : []
+			ancillary : [],
+			allowTimeSlider : true
 		},
 		load : {
 			plotter : nar.fullReport.LoadPlot,
 			range : nar.fullReport.DataAvailabilityTimeRange,
-			ancillary : []
+			ancillary : [],
+			allowTimeSlider : true
 		},
 		flow : {
 			plotter : nar.fullReport.Hydrograph,
@@ -223,7 +226,8 @@ nar.fullReport.TimeSeriesVisualization.types = {
 				// @todo We will want to store these somewhere so this can just be nar .discrete.nitrogen
 				procedure : "http://cida.usgs.gov/def/NAR/procedure/TKN",
 				observedProperty : "http://cida.usgs.gov/def/NAR/property/TKN/discrete",
-			}]
+			}],
+			allowTimeSlider : false
 		}
 };
 }());
