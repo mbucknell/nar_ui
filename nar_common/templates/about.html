@@ -1,16 +1,10 @@
-{% extends "base.html" %}
-{% load static from staticfiles %}
-{% load compress %}
+{% extends "base_content.html" %}
+
 {% load feeds %}
 
-{% block content %}
+{% block content_title %}About{% endblock %}
 
-<div class="about_content">
-
-	<div id="wrapper">
-		<h1>About</h1>
-
-		{% pull_feed 'https://my.usgs.gov/confluence/createrssfeed.action?types=page&pageSubTypes=attachment&spaces=TrackingWaterQuality&title=NAR+about+feed&labelString%3D&excludedSpaceKeys%3D&sort=modified&maxResults=5&timeSpan=3650&showContent=true&confirm=Create+RSS+Feed' %}
-	</div>
-</div>
+{% block content_body %}
+	{% pull_feed about_feed %}
 {% endblock %}
+
