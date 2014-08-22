@@ -11,13 +11,14 @@ nar.fullReport = nar.fullReport || {};
 		var plot;
 		var plotContainer = tsViz.plotContainer;
 		// going to cheat for now and make two divs at 50% width
-		var div1 = $('<div>').attr('id', 'test1').addClass('hydrograph');
-		var div2 = $('<div>').attr('id', 'test2').addClass('hydrograph');
-		plotContainer.append(div1).append(div2);
+		var hydrographDiv = $('<div>').attr('id', 'hydrograph').addClass('hydrograph');
+		var flowDurationDiv = $('<div>').attr('id', 'flowDuration').addClass('hydrograph');
+		plotContainer.append(hydrographDiv).append(flowDurationDiv);
 		var flowData = nar.fullReport.PlotUtils.getData(tsViz);
+		// get the last x value from hydrograph data as year
+		var waterYear = Date.create(flowData[0].last()[0]).getFullYear();
 		
 		var flowSeries = {
-			label: '2013',
 			data: flowData[0],
 			lines: {
 				show: true,
@@ -27,7 +28,7 @@ nar.fullReport = nar.fullReport || {};
 			}
 		};
 		
-		var tnData = massageTNData(flowData[1], flowData[0]);
+		var tnData = nar.fullReport.PlotUtils.createPinnedPointData(flowData[1], flowData[0]);
 		
 		var tnSeries = {
 			data: tnData,
@@ -38,17 +39,18 @@ nar.fullReport = nar.fullReport || {};
 				radius: 3,
 				symbol: 'triangle'
 			}
-		}
+		};
 		
-		plot = $.plot(div1, [ flowSeries, tnSeries ], {
+		plot = $.plot(hydrographDiv, [ flowSeries, tnSeries ], {
 			xaxis : {
+				axisLabel : waterYear,
 				mode : 'time',
 				timeformat : "%b",
 				tickLength : 10,
 				minTickSize : [ 1, 'month' ]
 			},
 			yaxis : {
-				axisLabel : 'cfs',
+				axisLabel : 'Streamflow (cfs)',
 				axisLabelUseCanvas : true,
 				axisLabelFontSizePixels : 12,
 				axisLabelFontFamily : "Verdana, Arial, Helvetica, Tahoma, sans-serif",
@@ -68,19 +70,5 @@ nar.fullReport = nar.fullReport || {};
 		nar.fullReport.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
 		
 		return plot;
-	};
-	
-	var massageTNData = function(tnData, lineData) {
-		tnData.each(function(point) {
-			point[1] = findNearestYValueAtX(lineData, point[0]);
-		});
-		return tnData;
-	};
-	
-	var findNearestYValueAtX = function(array, xvalue) {
-		var point = array.reduce(function(prev, curr) {
-			return (Math.abs(curr[0] - xvalue)) < Math.abs(prev[0]- xvalue) ? curr : prev;
-		});
-		return point[1];
 	};
 })();

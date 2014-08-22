@@ -21,8 +21,9 @@ nar.fullReport.TimeSeriesVisualization = function(config){
     self.instructionsElt = config.instructionsElt;
     self.allPlotsWrapperElt = config.allPlotsWrapperElt;
     self.plotter = config.plotter;
-    self.ranger = nar.fullReport.TimeSeriesVisualization.getRangerById(self.id);
-    self.ancillaryData = nar.fullReport.TimeSeriesVisualization.getAncilDataById(self.id);
+    self.ranger = nar.fullReport.TimeSeriesVisualization.getCustomizationById(self.id, 'range', nar.util.Unimplemented);
+    self.ancillaryData = nar.fullReport.TimeSeriesVisualization.getCustomizationById(self.id, 'ancillary', []);
+    self.allowTimeSlider = nar.fullReport.TimeSeriesVisualization.getCustomizationById(self.id, 'allowTimeSlider', true);
 
     self.getComponentsOfId = function(){
         //delegate to static method
@@ -176,54 +177,30 @@ nar.fullReport.TimeSeriesVisualization.getComponentsOfId = function(id){
 
 /**
  * @param {string} id - a TimeSeriesVisualization id
+ * @param {string} field - customization field
+ * @param {Function|Array} defaultValue - default return if id doesn't have customization
+ * @returns {Function|Array} Custom configuration for plot
+ */
+nar.fullReport.TimeSeriesVisualization.getCustomizationById = function(id, field, defaultValue) {
+    var result;
+    var components = nar.fullReport.TimeSeriesVisualization.getComponentsOfId(id);
+    var vizType = nar.fullReport.TimeSeriesVisualization.types[components.category];
+    if (vizType) {
+        result = vizType[field];
+    } else {
+        result = defaultValue;
+    }
+    return result;
+};
+
+/**
+ * @param {string} id - a TimeSeriesVisualization id
  * @returns {function} a plot constructor accepting two arguments: 
  *  the element to insert the plot into,
  *  the data to plot
  */
 nar.fullReport.TimeSeriesVisualization.getPlotterById = function(id){
-    var plotter;
-    var components = nar.fullReport.TimeSeriesVisualization.getComponentsOfId(id);
-    
-    var vizType = nar.fullReport.TimeSeriesVisualization.types[components.category];
-    if (vizType) {
-        plotter = vizType.plotter;
-    } else {
-    	plotter = nar.util.Unimplemented;
-    }
-    return plotter;
-};
-
-/**
- * @param {string} id - a TimeSeriesVisualization id
- * @returns {function} a way to get the data range based on plot type
- */
-nar.fullReport.TimeSeriesVisualization.getRangerById = function(id) {
-    var ranger;
-    var components = nar.fullReport.TimeSeriesVisualization.getComponentsOfId(id);
-    var vizType = nar.fullReport.TimeSeriesVisualization.types[components.category];
-    if (vizType) {
-        ranger = vizType.range;
-    } else {
-        ranger = nar.util.Unimplemented;
-    }
-    return ranger;
-};
-
-/**
- * This may end up going away at some point
- * @param {string} id - a TimeSeriesVisualization id
- * @returns {array} array of SOS getResult parameters for ancillary data
- */
-nar.fullReport.TimeSeriesVisualization.getAncilDataById = function(id) {
-    var ancillaryData;
-    var components = nar.fullReport.TimeSeriesVisualization.getComponentsOfId(id);
-    var vizType = nar.fullReport.TimeSeriesVisualization.types[components.category];
-    if (vizType) {
-        ancillaryData = vizType.ancillary;
-    } else {
-        ancillaryData = [];
-    }
-    return ancillaryData;
+    return nar.fullReport.TimeSeriesVisualization.getCustomizationById(id, 'plotter', nar.util.Unimplemented);
 };
 
 /**
@@ -233,12 +210,14 @@ nar.fullReport.TimeSeriesVisualization.types = {
 		discrete : {
 			plotter : nar.fullReport.SampleConcentrationPlot,
 			range : nar.fullReport.DataAvailabilityTimeRange,
-			ancillary : []
+			ancillary : [],
+			allowTimeSlider : true
 		},
 		load : {
 			plotter : nar.fullReport.LoadPlot,
 			range : nar.fullReport.DataAvailabilityTimeRange,
-			ancillary : []
+			ancillary : [],
+			allowTimeSlider : true
 		},
 		flow : {
 			plotter : nar.fullReport.Hydrograph,
@@ -247,7 +226,8 @@ nar.fullReport.TimeSeriesVisualization.types = {
 				// @todo We will want to store these somewhere so this can just be nar .discrete.nitrogen
 				procedure : "http://cida.usgs.gov/def/NAR/procedure/TKN",
 				observedProperty : "http://cida.usgs.gov/def/NAR/property/TKN/discrete",
-			}]
+			}],
+			allowTimeSlider : false
 		}
 };
 }());
