@@ -37,11 +37,30 @@ class DefinitionsView(ListView):
     context_object_name = 'definitions'
     template_name = 'definition_of_terms.html'
     
+
 class AboutView(FeedContextMixin, TemplateView):
     
     template_name = 'about.html'
     feed_titles = [{'context_name' : 'about_feed', 'title' :'NAR+about+feed', 'label' : 'about_nawqa_annual_reports'}]
     
+
+class NationalFixedSiteNetworkView(FeedContextMixin, TemplateView):
+    
+    template_name = 'national_fixed_site_network.html'
+    feed_titles = [{'context_name' : 'fixed_site_feed', 'title' : 'National+Fixed+Site+Network', 'label' : 'objectives_national_fixed_site_network'}]
+
+
+class NetworkSiteListView(FeedContextMixin, TemplateView):
+    
+    template_name = 'network_site_list.html'
+    feed_titles = [{'context_name' : 'network_site_list_feed', 'title' : 'Network+Site+List', 'label' : 'network_site_list'}]
+
+
+class QualityControlView(FeedContextMixin, TemplateView):
+    
+    template_name = 'quality_control.html'
+    feed_titles = [{'context_name' : 'quality_control_feed', 'title' : 'Quality+Control', 'label' : 'quality_control'}]
+
 
 class DefinitionsJsonView(View):
 

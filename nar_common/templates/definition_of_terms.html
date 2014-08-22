@@ -1,13 +1,11 @@
-{% extends "base.html" %}
+{% extends "base_content.html" %}
 
-{% block content %}
-	<div id="definition-of-terms-div" class="about_content">
-		<h1>Definition of Terms</h1>
+{% block content_title %}Definition of Terms{% endblock %}
+
+{% block content_body %}
+	{% for definition in definitions %}
 		<br/>
-		{% for definition in definitions %}
-			<h4>{{ definition.short_definition }}</h4>
-			<p>{{ definition.long_definition }}</p>
-			<br/>
-		{% endfor %}
-	</div>
+		<h4>{{ definition.short_definition }}</h4>
+		<p>{{ definition.long_definition }}</p>
+	{% endfor %}
 {% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base_content.html" %}
+
+{% load feeds %}
+
+{% block content_title %}National Fixed Site Network{% endblock %}
+
+{% block content_body %}
+	{% pull_feed fixed_site_feed %}
+{% endblock %}

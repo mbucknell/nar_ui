@@ -1,21 +1,28 @@
 from django.conf.urls import patterns, include, url
 from django.conf.urls.static import static
-from django.contrib import admin
-from django.views.generic import TemplateView
 
 from nar_ui.views import *
-from helpcontent.views import DefinitionsView, AboutView
-
-admin.autodiscover()
+from helpcontent.views import DefinitionsView, AboutView, NationalFixedSiteNetworkView, NetworkSiteListView 
+from helpcontent.views import QualityControlView
 
 
 urlpatterns = patterns('',
     url(r'^home$', HomePageView.as_view(), name='home'),
     url(r'^sites$', SiteView.as_view()),
     
-    url(r'^content/about/$', 
+    url(r'^about$', 
         AboutView.as_view(),
         name='about'),
+    url(r'^national_fixed_site_network$',
+        NationalFixedSiteNetworkView.as_view(),
+        name='fixed_site_network'),
+    url(r'^network_site_list$',
+        NetworkSiteListView.as_view(),
+        name='network_site_list'),
+    url(r'^quality_control$',
+        QualityControlView.as_view(),
+        name='quality_control'),
+                       
     url(r'^definition_of_terms$', 
         DefinitionsView.as_view(),
         name='definition_of_terms'),
