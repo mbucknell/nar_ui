@@ -11,9 +11,9 @@ nar.fullReport = nar.fullReport || {};
 		var plot;
 		var plotContainer = tsViz.plotContainer;
 		// going to cheat for now and make two divs at 50% width
-		var div1 = $('<div>').attr('id', 'test1').addClass('hydrograph');
-		var div2 = $('<div>').attr('id', 'test2').addClass('hydrograph');
-		plotContainer.append(div1).append(div2);
+		var hydrographDiv = $('<div>').attr('id', 'hydrograph').addClass('hydrograph');
+		var flowDurationDiv = $('<div>').attr('id', 'flowDuration').addClass('hydrograph');
+		plotContainer.append(hydrographDiv).append(flowDurationDiv);
 		var flowData = nar.fullReport.PlotUtils.getData(tsViz);
 		
 		var flowSeries = {
@@ -40,7 +40,7 @@ nar.fullReport = nar.fullReport || {};
 			}
 		};
 		
-		plot = $.plot(div1, [ flowSeries, tnSeries ], {
+		plot = $.plot(hydrographDiv, [ flowSeries, tnSeries ], {
 			xaxis : {
 				mode : 'time',
 				timeformat : "%b",
