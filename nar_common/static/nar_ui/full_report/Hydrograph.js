@@ -15,9 +15,10 @@ nar.fullReport = nar.fullReport || {};
 		var flowDurationDiv = $('<div>').attr('id', 'flowDuration').addClass('hydrograph');
 		plotContainer.append(hydrographDiv).append(flowDurationDiv);
 		var flowData = nar.fullReport.PlotUtils.getData(tsViz);
+		// get the last x value from hydrograph data as year
+		var waterYear = Date.create(flowData[0].last()[0]).getFullYear();
 		
 		var flowSeries = {
-			label: '2013',
 			data: flowData[0],
 			lines: {
 				show: true,
@@ -42,13 +43,14 @@ nar.fullReport = nar.fullReport || {};
 		
 		plot = $.plot(hydrographDiv, [ flowSeries, tnSeries ], {
 			xaxis : {
+				axisLabel : waterYear,
 				mode : 'time',
 				timeformat : "%b",
 				tickLength : 10,
 				minTickSize : [ 1, 'month' ]
 			},
 			yaxis : {
-				axisLabel : 'cfs',
+				axisLabel : 'Streamflow (cfs)',
 				axisLabelUseCanvas : true,
 				axisLabelFontSizePixels : 12,
 				axisLabelFontFamily : "Verdana, Arial, Helvetica, Tahoma, sans-serif",
