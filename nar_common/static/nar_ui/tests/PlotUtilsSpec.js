@@ -140,5 +140,25 @@ describe('nar.fullReport.PlotUtils', function() {
 			};
 			expect(nar.fullReport.PlotUtils.getTicksByYear(axis)).toEqual([getUtcTime(2008, 0, 1), getUtcTime(2009, 0, 1)]);
 		});
-	})
+	});
+	
+	describe('createPinnedPointData', function() {
+		it('Should be point with adjusted Y value', function() {
+			var point = [[2,2]];
+			var line = [[0,10], [3,20], [7,30]];
+			expect(nar.fullReport.PlotUtils.createPinnedPointData(point, line)).toEqual([[2,20]]);
+		});
+	});
+	
+	describe('findNearestYValueAtX', function() {
+		it('Should return y on line of nearest x', function() {
+			var line = [[0,10], [3,20], [7,30]];
+			expect(nar.fullReport.PlotUtils.findNearestYValueAtX(line, 0)).toBe(10);
+			expect(nar.fullReport.PlotUtils.findNearestYValueAtX(line, 1)).toBe(10);
+			expect(nar.fullReport.PlotUtils.findNearestYValueAtX(line, 2)).toBe(20);
+			// this one is indeterminate
+			expect(nar.fullReport.PlotUtils.findNearestYValueAtX(line, 5)).toBe(20);
+			expect(nar.fullReport.PlotUtils.findNearestYValueAtX(line, 7)).toBe(30);
+		});
+	});
 });

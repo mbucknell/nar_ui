@@ -27,7 +27,7 @@ nar.fullReport = nar.fullReport || {};
 			}
 		};
 		
-		var tnData = massageTNData(flowData[1], flowData[0]);
+		var tnData = nar.fullReport.PlotUtils.createPinnedPointData(flowData[1], flowData[0]);
 		
 		var tnSeries = {
 			data: tnData,
@@ -38,7 +38,7 @@ nar.fullReport = nar.fullReport || {};
 				radius: 3,
 				symbol: 'triangle'
 			}
-		}
+		};
 		
 		plot = $.plot(div1, [ flowSeries, tnSeries ], {
 			xaxis : {
@@ -68,19 +68,5 @@ nar.fullReport = nar.fullReport || {};
 		nar.fullReport.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
 		
 		return plot;
-	};
-	
-	var massageTNData = function(tnData, lineData) {
-		tnData.each(function(point) {
-			point[1] = findNearestYValueAtX(lineData, point[0]);
-		});
-		return tnData;
-	};
-	
-	var findNearestYValueAtX = function(array, xvalue) {
-		var point = array.reduce(function(prev, curr) {
-			return (Math.abs(curr[0] - xvalue)) < Math.abs(prev[0]- xvalue) ? curr : prev;
-		});
-		return point[1];
 	};
 })();
