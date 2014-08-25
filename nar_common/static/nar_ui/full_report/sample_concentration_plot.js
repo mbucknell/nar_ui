@@ -102,7 +102,7 @@ nar.fullReport = nar.fullReport || {};
         });
         var hoverFormatter = nar.fullReport.PlotUtils.utcDatePlotHoverFormatter;
         nar.fullReport.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
-        nar.fullReport.PlotUtils.setLineHoverFormatter(plotContainer, criteriaLineValue, "Criteria line")
+        nar.fullReport.PlotUtils.setLineHoverFormatter(plotContainer, criteriaLineValue, criteriaLineValue)
         return plot;
     };    
 }());
