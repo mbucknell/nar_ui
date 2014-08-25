@@ -99,27 +99,25 @@ $(document).ready(function() {
 	};
 
 	// Wait for definitions and site_info to load.
-	$.when(nar.definitionsPromise).done(function() {
-		$.when(nar.siteHelpInfoPromise).done(function() {
-			// Create links
-			var addLink = function(el, link) {
-				if (link) {
-					el.attr('href', link);
-				}
-				else {
-					el.parent().hide();
-				}
-			};
-			
-			addLink($('#realtime_link'), nar.siteHelpInfo.realtime_streamflow_link);
-			addLink($('#nwisweb_link'), nar.siteHelpInfo.nwisweb_link);
-			addLink($('#daily_flows_link'), nar.siteHelpInfo.flow_compared_to_historic_link);
+	$.when(nar.definitionsPromise, nar.siteHelpInfoPromise).done(function() {
+		// Create links
+		var addLink = function(el, link) {
+			if (link) {
+				el.attr('href', link);
+			}
+			else {
+				el.parent().hide();
+			}
+		};
+		
+		addLink($('#realtime_link'), nar.siteHelpInfo.realtime_streamflow_link);
+		addLink($('#nwisweb_link'), nar.siteHelpInfo.nwisweb_link);
+		addLink($('#daily_flows_link'), nar.siteHelpInfo.flow_compared_to_historic_link);
 
-			$.when(getDataAvailabilityRequest).then(
-				successfulGetDataAvailability,
-				failedGetDataAvailability);
-			selectorElementPairs.allPlotsWrapper.element.sortable();
-			selectorElementPairs.allPlotsWrapper.element.disableSelection();
-		});
+		$.when(getDataAvailabilityRequest).then(
+			successfulGetDataAvailability,
+			failedGetDataAvailability);
+		selectorElementPairs.allPlotsWrapper.element.sortable();
+		selectorElementPairs.allPlotsWrapper.element.disableSelection();
 	});
 });
