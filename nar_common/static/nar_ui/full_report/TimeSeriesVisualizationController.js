@@ -64,16 +64,18 @@ nar.fullReport.TimeSeriesVisualizationController = function(timeSlider){
     }());
     var zoomTsvToTimeRange = function(tsv, timeRange){
         var plot = tsv.plot;
-
+        var allowTimeSlider = tsv.allowTimeSlider;
         //plot may not be defined yet. In that case, skip it --
         //zooming on that plot will be handled by a subsequent 
         //asynchronous call
         if(plot){
             var options = plot.getOptions();
-            options.xaxes.each(function(axis){
-                axis.min = timeRange.startTime;
-                axis.max = timeRange.endTime;
-            });
+            if (allowTimeSlider) {
+	            options.xaxes.each(function(axis){
+	                axis.min = timeRange.startTime;
+	                axis.max = timeRange.endTime;
+	            });
+            }
             plot.setupGrid();
             plot.draw();
         }

@@ -1,0 +1,11 @@
+{% extends "base_content.html" %}
+
+{% block content_title %}Definition of Terms{% endblock %}
+
+{% block content_body %}
+	{% for definition in definitions %}
+		<br/>
+		<h4>{{ definition.short_definition }}</h4>
+		<p>{{ definition.long_definition }}</p>
+	{% endfor %}
+{% endblock %}

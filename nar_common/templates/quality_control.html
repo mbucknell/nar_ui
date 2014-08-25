@@ -1,0 +1,9 @@
+{% extends "base_content.html" %}
+
+{% load feeds %}
+
+{% block content_title %}Quality Control Procedures{% endblock %}
+
+{% block content_body %}
+	{% pull_feed quality_control_feed %}
+{% endblock %}
