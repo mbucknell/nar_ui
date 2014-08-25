@@ -53,9 +53,9 @@ nar.fullReport = nar.fullReport || {};
 				minTickSize : [ 1, 'month' ]
 			},
 			yaxis : {
-				axisLabel : 'Streamflow (cfs)',
+				axisLabel : 'Daily mean streamflow, in cubic feet per second',
 				axisLabelUseCanvas : true,
-				axisLabelFontSizePixels : 12,
+				axisLabelFontSizePixels : 10,
 				axisLabelFontFamily : "Verdana, Arial, Helvetica, Tahoma, sans-serif",
 				axisLabelPadding : 5,
 				tickLength : 10
