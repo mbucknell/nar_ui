@@ -1,0 +1,20 @@
+{% extends "base_content.html" %}
+
+{% load feeds %}
+
+{% block content_title %}Previous Network Information{% endblock %}
+
+{% block content_body %}
+    <h2><a name="nawqa">NAWQA</a></h2>
+    <h4><a name="nawqa_1991">NAWQA 1991-2001</a></h4>
+    {% pull_feed nawqa_1991_2001_feed %}
+    <h4><a name="nawqa_2002">NAWQA 2002-2012</a></h4>
+    {% pull_feed nawqa_2002_2012_feed %}
+    <h2><a name="nasqan">NASQAN</a></h2>
+    <h4><a name="nasqan_1974">NASQAN 1974-1995</a></h4>
+    {% pull_feed nasqan_1974_1995_feed %}
+    <h4><a name="nasqan_1996">NASQAN 1996-2000</a></h4>
+    {% pull_feed nasqan_1996_2000_feed %}
+    <h4><a name="nasqan_2001">NASQAN 2001-2007</a></h4>
+    {% pull_feed nasqan_2001_2007_feed %}
+{% endblock %}
