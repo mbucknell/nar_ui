@@ -184,27 +184,27 @@
        
     <div class="menu-item">
       <h4><a href="#">Constituents Measured and Methods</a></h4>
-      <ul id="constituents">
-        <li><a href="#"><strong>Constituents Measured</strong></a></li>
+      <ul id="constituents" >
+        <li><a href="{% url 'constituents' %}"><strong>Constituents Measured</strong></a></li>
         <li><a href="#"><strong>Methods</strong></a></li>
-        <li class="indent"><a href="#">Sample Collection</a></li>
-        <li class="indent"><a href="#">Laboratory</a></li>
-        <li class="indent"><a href="#">Technical Information</a></li>
+        <li class="indent"><a href="{% url 'sample_collection' %}">Sample Collection</a></li>
+        <li class="indent"><a href="{% url 'laboratory' %}">Laboratory</a></li>
+        <li class="indent"><a href="{% url 'technical_information' %}">Technical Information</a></li>
         <li><a href="{% url 'quality_control' %}"><strong>Quality Control</strong></a></li>
         <li><a href="{% url 'definition_of_terms' %}"><strong>Definition of Terms</strong></a></li>
       </ul>
     </div>
        
-    <div class="menu-item">
-      <h4><a href="#">Previous Network Information</a></h4>
+    <div class="menu-item" style="display:block">
+      <h4><a href="{% url 'previous_network_info' %}">Previous Network Information</a></h4>
       <ul id="previous">
-        <li><a href="#"><strong>NAWQA</strong></a></li>
-        <li class="indent"><a href="#">1991-2001</a></li>
-        <li class="indent"><a href="#">2002-2012</a></li>
-        <li><a href="#"><strong>NASQAN</strong></a></li>
-        <li class="indent"><a href="#">1974-1995</a></li>
-        <li class="indent"><a href="#">1996-2000</a></li>
-        <li class="indent"><a href="#">2001-2007</a></li>
+        <li><a href="{% url 'previous_network_info'%}#nawqa"><strong>NAWQA</strong></a></li>
+        <li class="indent"><a href="{% url 'previous_network_info'%}#nawqa_1991">1991-2001</a></li>
+        <li class="indent"><a href="{% url 'previous_network_info'%}#nawqa_2002">2002-2012</a></li>
+        <li><a href="{% url 'previous_network_info'%}#nasqan"><strong>NASQAN</strong></a></li>
+        <li class="indent"><a href="{% url 'previous_network_info'%}#nasqan_1974">1974-1995</a></li>
+        <li class="indent"><a href="{% url 'previous_network_info'%}#nasqan_1996">1996-2000</a></li>
+        <li class="indent"><a href="{% url 'previous_network_info'%}#nasqan_2001">2001-2007</a></li>
       </ul>
     </div>
                      
