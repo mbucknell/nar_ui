@@ -20,6 +20,7 @@ nar.fullReport = nar.fullReport || {};
 		
 		var flowSeries = {
 			data: flowData[0],
+			color: 'black',
 			lines: {
 				show: true,
 				fill: true,
@@ -28,14 +29,16 @@ nar.fullReport = nar.fullReport || {};
 			}
 		};
 		
-		var tnData = nar.fullReport.PlotUtils.createPinnedPointData(flowData[1], flowData[0]);
+		var sampleDates = nar.fullReport.PlotUtils.createPinnedPointData(flowData[1], flowData[0]);
 		
 		var tnSeries = {
-			data: tnData,
+			label: 'Water-quality sample',
+			data: sampleDates,
+			color: 'red',
 			points: {
 				show: true,
 				fill: true,
-				fillColor: nar.Constituents.nitrogen.color,
+				fillColor: 'red',
 				radius: 3,
 				symbol: 'triangle'
 			}
@@ -62,9 +65,8 @@ nar.fullReport = nar.fullReport || {};
 				autoHighlight : true
 			},
 			legend : {
-				show : false
-			},
-			colors: ['black']
+				show : true
+			}
 		});
 		var hoverFormatter = nar.fullReport.PlotUtils.utcDatePlotHoverFormatter;
 		nar.fullReport.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
