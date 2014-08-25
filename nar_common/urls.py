@@ -2,8 +2,9 @@ from django.conf.urls import patterns, include, url
 from django.conf.urls.static import static
 
 from nar_ui.views import *
-from helpcontent.views import DefinitionsView, AboutView, NationalFixedSiteNetworkView, NetworkSiteListView 
-from helpcontent.views import QualityControlView
+from helpcontent.views import DefinitionsView, AboutView, NationalFixedSiteNetworkView, NetworkSiteListView, \
+    QualityControlView, PreviousNetworkInformationView, LaboratoryView, TechnicalInformationView,\
+    SampleCollectionView, ConstituentView
 
 
 urlpatterns = patterns('',
@@ -22,7 +23,21 @@ urlpatterns = patterns('',
     url(r'^quality_control$',
         QualityControlView.as_view(),
         name='quality_control'),
-                       
+    url(r'^previous_network_information$',
+        PreviousNetworkInformationView.as_view(),
+        name='previous_network_info'),
+    url(r'sample_collection$',
+        SampleCollectionView.as_view(),
+        name='sample_collection'),
+    url(r'^laboratory$',
+        LaboratoryView.as_view(),
+        name='laboratory'), 
+    url(r'^technical_information$',
+        TechnicalInformationView.as_view(),
+        name='technical_information'),
+    url(r'^constituents$',
+        ConstituentView.as_view(),
+        name='constituents'),         
     url(r'^definition_of_terms$', 
         DefinitionsView.as_view(),
         name='definition_of_terms'),

@@ -1,0 +1,9 @@
+{% extends "base_content.html" %}
+
+{% load feeds %}
+
+{% block content_title %}Laboratory{% endblock %}
+
+{% block content_body %}
+    {% pull_feed laboratory_feed %}
+{% endblock %}
