@@ -62,6 +62,41 @@ class QualityControlView(FeedContextMixin, TemplateView):
     feed_titles = [{'context_name' : 'quality_control_feed', 'title' : 'Quality+Control', 'label' : 'quality_control'}]
 
 
+class PreviousNetworkInformationView(FeedContextMixin, TemplateView):
+    
+    template_name = 'previous_network_info.html'
+    feed_titles = [
+        {'context_name' : 'nasqan_1974_1995_feed', 'title' : 'NASQAN+1974-1995', 'label' : 'nasqan_1974_1995'},
+        {'context_name' : 'nasqan_1996_2000_feed', 'title' : 'NASQAN+1996-2000', 'label' : 'nasqan_1996_2000'},
+        {'context_name' : 'nasqan_2001_2007_feed', 'title' : 'NASQAN+2001-2007', 'label' : 'nasqan_2001_2007'},
+        {'context_name' : 'nawqa_1991_2001_feed', 'title' : 'NAWQA+1991-2001', 'label' : 'nawqa_1991_2001'},
+        {'context_name' : 'nawqa_2002_2012_feed', 'title' : 'NAWQA+2002-2012', 'label' : 'nawqa_2002_2012'}
+    ]
+
+class LaboratoryView(FeedContextMixin, TemplateView):
+    
+    template_name = 'laboratory.html'
+    feed_titles = [{'context_name' : 'laboratory_feed', 'title' : 'Laboratory', 'label' : 'laboratory'}]
+    
+    
+class SampleCollectionView(FeedContextMixin, TemplateView):
+    
+    template_name = 'sample_collection.html'
+    feed_titles = [{'context_name' : 'sample_collection_feed', 'title' : 'Sample+Collection', 'label' : 'sample_collection'}]    
+    
+    
+class TechnicalInformationView(FeedContextMixin, TemplateView):
+    
+    template_name = 'technical_information.html'
+    feed_titles = [{'context_name' : 'technical_info_feed', 'title' : 'Technical+Information', 'label' : 'technical_info'}]
+    
+    
+class ConstituentView(FeedContextMixin, TemplateView):
+    
+    template_name = 'constituents.html'
+    feed_titles = [{'context_name' : 'constituent_feed', 'title' : 'Constituent+List', 'label' : 'constituent'}]
+    
+    
 class DefinitionsJsonView(View):
 
     def get(self, request, *args, **kwargs):

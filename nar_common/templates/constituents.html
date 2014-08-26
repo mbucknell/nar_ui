@@ -1,0 +1,9 @@
+{% extends "base_content.html" %}
+
+{% load feeds %}
+
+{% block content_title %}Constituents Measured{% endblock %}
+
+{% block content_body %}
+    {% pull_feed constituent_feed %}
+{% endblock %}
