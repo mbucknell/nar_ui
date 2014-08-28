@@ -76,7 +76,7 @@ $(document).ready(
 	            	$anchor : $('#link-hover-benchmark-human'),
 	            	content : '<div class="popover-benchmark-content">\
 	            		The human-health benchmark for nitrate is<br />\
-	            		a EPA Maximum Contaminant Level<br />\
+	            		an EPA Maximum Contaminant Level<br />\
 	            		MCL = 10 mg/L as N<br />\
 	            		<a href="http://water.epa.gov/drink/contaminants/index.cfm" target="_new">http:// water.epa.gov/drink/contaminants/index.cfm</a></div>'
 	            });
