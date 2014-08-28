@@ -220,7 +220,7 @@ nar.fullReport.TimeSeriesVisualization.types = {
 			allowTimeSlider : true
 		},
 		flow : {
-			plotter : nar.fullReport.Hydrograph,
+			plotter : nar.fullReport.FlowWrapper,
 			range : nar.fullReport.MostRecentWaterYearTimeRange,
 			ancillary : [{
 				// @todo We will want to store these somewhere so this can just be nar .discrete.nitrogen
