@@ -71,5 +71,46 @@ $(document).ready(
 	                ],
 	                exceedancesTitle
 	            );
+	            
+	            nar.summaryReport.informativePopup({
+	            	$anchor : $('#link-hover-benchmark-human'),
+	            	content : '<div class="popover-benchmark-content">\
+	            		The human-health benchmark for nitrate is<br />\
+	            		a USEPA Maximum Contaminant Level<br />\
+	            		MCL = 10 mg/L as N<br />\
+	            		<a href="http://water.epa.gov/drink/contaminants/index.cfm" target="_new">http:// water.epa.gov/drink/contaminants/index.cfm</a></div>'
+	            });
+
+	            $.ajax(CONFIG.siteInfoUrl, {
+	            	data : {
+	            		'site_id' : PARAMS.siteId
+	            	},
+	            	success : function (data) {
+	            		var $anchor = $('#link-hover-benchmark-aquatic');
+	            		if (data.nutrient_ecoregion && data.tn_criteria && data.tp_criteria) {
+				            nar.summaryReport.informativePopup({
+				            	$anchor : $anchor,
+				            	title : 'Ecoregion ' + data.nutrient_ecoregion + ' Recommended Nutrient Criteria',
+				            	content : '<div class="popover-benchmark-content">\
+				            		Total nitrogen = ' + data.tn_criteria + ' mg/L<br />\
+				            		Total phosphorous = ' + data.tp_criteria + ' mg/L<br />\
+				            		<a href="http://www2.epa.gov/nutrient-policy-data/ecoregional-nutrient-criteria-documents-rivers-streams" target="_new">http://www2.epa.gov/nutrient-policy-data/ecoregional-nutrient-criteria-documents-rivers-streams</a></div>',
+			            		placement : function () {
+			            			var BOOTSTRAP_MAGIC_RESIZE_THRESHOLD = 976;
+			            			// If bootstrap has the app in narrow mode, the popup needs to be on the bottom because 
+				            		// otherwise it will go past the edge of the screen. In wide mode, this is not a problem
+				            		var placement =  $('body').width() <= BOOTSTRAP_MAGIC_RESIZE_THRESHOLD ? 'bottom' : 'left';
+				            		return placement;
+			            		}
+				            });
+	            		} else {
+	            			$anchor.removeClass('link-popover-anchor');
+	            		}
+		            }, error : function () {
+		            	// If the webservice errors out, I don't want the "Benchmarks" text to be 
+		            	// decorated
+		            	$anchor.removeClass('link-popover-anchor');
+		            }
+	            });
         	});
         });
