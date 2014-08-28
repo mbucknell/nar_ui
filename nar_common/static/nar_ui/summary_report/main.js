@@ -90,7 +90,7 @@ $(document).ready(
 	            		if (data.nutrient_ecoregion && data.tn_criteria && data.tp_criteria) {
 				            nar.summaryReport.informativePopup({
 				            	$anchor : $anchor,
-				            	title : 'Ecoregion ' + data.nutrient_ecoregion + ' Recommended Nutrient Criteria',
+				            	title : 'EPA Ecoregion ' + data.nutrient_ecoregion + ' Recommended Nutrient Criteria',
 				            	content : '<div class="popover-benchmark-content">\
 				            		Total nitrogen = ' + data.tn_criteria + ' mg/L<br />\
 				            		Total phosphorous = ' + data.tp_criteria + ' mg/L<br />\
