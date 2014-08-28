@@ -96,10 +96,10 @@ $(document).ready(
 				            		Total phosphorous = ' + data.tp_criteria + ' mg/L<br />\
 				            		<a href="http://www2.epa.gov/nutrient-policy-data/ecoregional-nutrient-criteria-documents-rivers-streams" target="_new">\
 				            		http://www2.epa.gov/nutrient-policy-data/ecoregional-nutrient-criteria-documents-rivers-streams\
-				            		</a></div><br />\
-				            		See <a href="http://cfpub.epa.gov/wqsits/nnc-development/">\
+				            		</a><br /><br />\
+				            		See <a href="http://cfpub.epa.gov/wqsits/nnc-development/" target="_new">\
 				            		http://cfpub.epa.gov/wqsits/nnc-development/\
-				            		</a>for status of State development of numeric criteria for nitrogen and phosphorus',
+				            		</a>for status of State development of numeric criteria for nitrogen and phosphorus</div>',
 			            		placement : function () {
 			            			var BOOTSTRAP_MAGIC_RESIZE_THRESHOLD = 976;
 			            			// If bootstrap has the app in narrow mode, the popup needs to be on the bottom because 
