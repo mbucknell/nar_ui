@@ -1,5 +1,6 @@
 var nar = nar || {};
 nar.fullReport = nar.fullReport || {};
+nar.fullReport.canvases = nar.fullReport.canvases || [];
 (function() {
 
 	/**
@@ -45,8 +46,13 @@ nar.fullReport = nar.fullReport || {};
 		};
 		
 		plot = $.plot(hydrographDiv, [ flowSeries, tnSeries ], {
+			canvas : true,
 			xaxis : {
 				axisLabel : waterYear,
+				axisLabelUseCanvas : true,
+				axisLabelFontSizePixels : 12,
+				axisLabelFontFamily : "Verdana, Arial, Helvetica, Tahoma, sans-serif",
+				axisLabelPadding : 5,
 				mode : 'time',
 				timeformat : "%b",
 				tickLength : 10,
@@ -65,11 +71,14 @@ nar.fullReport = nar.fullReport || {};
 				autoHighlight : true
 			},
 			legend : {
-				show : true
+				show : true,
+				canvas : true
 			}
 		});
 		var hoverFormatter = nar.fullReport.PlotUtils.utcDatePlotHoverFormatter;
 		nar.fullReport.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
+		
+		nar.fullReport.canvases.push(plot.getCanvas());
 		
 		return plot;
 	};
