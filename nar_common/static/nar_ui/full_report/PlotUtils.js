@@ -253,13 +253,17 @@ nar.fullReport = nar.fullReport || {};
          * @todo interpolate
          * @param {Array} array - array of line points 2d
          * @param {Number} xvalue - x value of point to pin to line
+         * @param {Number} xindex - index of array to compare against (default 0)
+         * @param {Number} yindex - index of array to get value for (default 1)
          * @return {Number} yvalue on line near xvalue
          */
-        findNearestYValueAtX : function(array, xvalue) {
+        findNearestYValueAtX : function(array, xvalue, xindex, yindex) {
+            var xi = (xindex === undefined) ? 0 : xindex;
+            var yi = (yindex === undefined) ? 1 : yindex;
             var point = array.reduce(function(prev, curr) {
-                return (Math.abs(curr[0] - xvalue)) < Math.abs(prev[0]- xvalue) ? curr : prev;
+                return (Math.abs(curr[xi] - xvalue)) < Math.abs(prev[xi]- xvalue) ? curr : prev;
             });
-            return point[1];
+            return point[yi];
         }
     };
 }());
