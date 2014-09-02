@@ -73,6 +73,7 @@ nar.mississippi.map = (function() {
 	          			CONFIG.endpoint.geoserver + 'NAR/wms',
 	          			{
 	          				layers:'NAR:statesl48_alb',
+	          				transparent: true,
 	          				sld_body: me.createOutlineSldBody('NAR:statesl48_alb')
 	          			},{
 	          				isBaseLayer: true
