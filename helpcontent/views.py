@@ -33,7 +33,7 @@ class FeedContextMixin(ContextMixin):
     
 
 class DefinitionsView(ListView):
-    model = Definition
+    queryset = Definition.objects.all().order_by('term')
     context_object_name = 'definitions'
     template_name = 'definition_of_terms.html'
     
