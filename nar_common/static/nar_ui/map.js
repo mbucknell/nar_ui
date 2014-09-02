@@ -5,7 +5,7 @@ var map;
     
     var continentalExtent = new OpenLayers.Bounds(-140.5, 10.5, -64.5, 53.5).transform(nar.commons.map.geographicProjection, nar.commons.map.projection);
     var continentalCenter = continentalExtent.getCenterLonLat();
-    
+    var id = 'siteMap';
     
     var themeFileUrl = CONFIG.staticUrl + 'nar_ui/js_lib/OpenLayers/theme/default/style.css';
    
@@ -36,7 +36,8 @@ var map;
     
     // Add an on-hover site identification control
     options.controls.push(new nar.SiteIdentificationControl({
-    	layers : [sitesLayer]
+    	layers : [sitesLayer],
+    	popupAnchor : '#' + id
     }));
 
     var getFeatureInfoControl = new OpenLayers.Control.WMSGetFeatureInfo({
@@ -69,7 +70,7 @@ var map;
     getFeatureInfoControl.events.register("getfeatureinfo", {}, getFeatureInfoHandler);
     options.controls.push(getFeatureInfoControl);
     
-    var id = 'siteMap';
+    
     var div = $('#'+id);
     if(div.length){
         div = div[0];

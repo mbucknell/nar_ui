@@ -1,12 +1,14 @@
 var nar = nar || {};
 nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatureInfo, {
 	title : 'site-identify-on-hover-control',
+	popupAnchor : null,
 	hover : true,
 	layers : [ ],
 	queryVisible : true,
 	output : 'object',
 	drillDown : false,
 	infoFormat : 'application/vnd.ogc.gml',
+	popupWidth : null,
 	vendorParams : {
 		buffer : 8
 	},
@@ -33,8 +35,8 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 	    	feature,
 	    	popup,
 	    	popupPixel,
-	    	mapWidth = map.size.w,
-	    	mapHeight = map.size.h,
+	    	mapWidth = this.map.size.w,
+	    	mapHeight = this.map.size.h,
 	    	popupWidth,
 	    	popupHeight,
 	    	popupTop,
@@ -44,7 +46,7 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 	    	newPx,
 	    	newLonLat,
 	    	$popupDiv,
-	    	createSiteDisplayWell = function (feature) {
+	    	createSiteDisplayWell = this.createSiteDisplayWell || function (feature) {
 				var $container = $('<div />').addClass('well well-sm text-center'),
 					$titleRow = $('<div />').addClass('row site-identification-popup-content-title'),
 					$stationIdRow = $('<div />').addClass('row site-identification-popup-content-station-id'),
@@ -90,10 +92,11 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 	    		$featureDescriptionHTML.append(createSiteDisplayWell(feature));
 	    	}
 	    
-	    	nar.sitePopup.createPopup({
-	    		content : $('<div />').append($featureDescriptionHTML).html(),
-	    		width : map.size.w / 1.5,
+	    	return nar.sitePopup.createPopup({
+	    		content : $featureDescriptionHTML,
+	    		width : this.popupWidth || this.map.size.w / 1.5,
 	    		title : '',
+	    		popupAnchor : this.popupAnchor,
 	    		onOpen : function (evt, ui) {
 	    			// The container may have more than one item in it. If so, 
 	    			// resize to the height of the first well (+ padding) 
@@ -111,7 +114,6 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
     				$('button.site_view').on('click', nar.sitePopup.destroyDialog);
 	    		}
 	    	});
-	    	return;
     	}
 	},
 	CLASS_NAME: "OpenLayers.Control.WMSGetFeatureInfo"

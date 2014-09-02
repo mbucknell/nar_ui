@@ -23,10 +23,12 @@ nar.sitePopup = (function() {
 				width = args.width || null,
 				maxHeight = args.maxHeight || null,
 				dialogClass = args.dialogClass || 'nar-popup-dialog',
+				popupAnchor = args.popupAnchor || 'body',
 				$dialog,
 				$container,
 				$closeButtonContent = $('<span />').addClass('glyphicon glyphicon-remove nar-popup-dialog-close-icon'),
-				open = args.onOpen;
+				open = args.onOpen,
+				close = args.onClose;
 			
 			if (content) {
 				// First, destroy any dialog that may exist
@@ -57,7 +59,7 @@ nar.sitePopup = (function() {
 					position : {
 						my: 'center top',
 						at: 'center top',
-						of: '#siteMap'
+						of: popupAnchor
 					}
 				});
 				
