@@ -4,7 +4,7 @@ from django.conf.urls.static import static
 from nar_ui.views import *
 from helpcontent.views import DefinitionsView, AboutView, NationalFixedSiteNetworkView, NetworkSiteListView, \
     QualityControlView, PreviousNetworkInformationView, LaboratoryView, TechnicalInformationView,\
-    SampleCollectionView, ConstituentView
+    SampleCollectionView, ConstituentView, ContactsAndCitationsView
 
 
 urlpatterns = patterns('',
@@ -37,7 +37,10 @@ urlpatterns = patterns('',
         name='technical_information'),
     url(r'^constituents$',
         ConstituentView.as_view(),
-        name='constituents'),         
+        name='constituents'),
+    url(r'^contacts_and_citations$',
+        ContactsAndCitationsView.as_view(),
+        name='contacts_and_citations'),         
     url(r'^definition_of_terms$', 
         DefinitionsView.as_view(),
         name='definition_of_terms'),
