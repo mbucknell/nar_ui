@@ -25,7 +25,28 @@ nar.mississippi.map = (function() {
 			}
 		}
 		return topic;
-	};
+	},
+	me.createOutlineSldBody = function(layerName) {
+		var rule = new OpenLayers.Rule({
+			symbolizer : {
+				"Line" : {
+					fillOpacity : "0.1",
+					strokeColor : "#000000",
+					strokeWidth : "1",
+					strokeOpacity : "0.1"
+				}
+			}
+		});
+
+		return new OpenLayers.Format.SLD().write({
+			namedLayers : [ {
+				name : layerName,
+				userStyles : [ new OpenLayers.Style("Style", {
+					rules : [ rule ]
+				}) ]
+			} ]
+		});
+	},
 	me.createDefaultOptions = function() {
 		return {
 			projection : nar.commons.map.projection,
@@ -47,10 +68,29 @@ nar.mississippi.map = (function() {
 				}), 
 				new OpenLayers.Control.Zoom()
 				],
-			layers : nar.commons.mapUtils.createBaseLayers()	
+			layers : [
+	          	new OpenLayers.Layer.WMS("Lower 48",
+	          			CONFIG.endpoint.geoserver + 'NAR/wms',
+	          			{
+	          				layers:'NAR:statesl48_alb',
+	          				sld_body: me.createOutlineSldBody('NAR:statesl48_alb')
+	          			},{
+	          				isBaseLayer: true
+	          			}),
+      			new OpenLayers.Layer.WMS("Great Lakes",
+	          			CONFIG.endpoint.geoserver + 'NAR/wms',
+	          			{
+	          				layers:'NAR:gtlakes_alb',
+	          				transparent: true,
+	          				sld_body: me.createOutlineSldBody('NAR:gtlakes_alb')
+	          			},{
+	          				isBaseLayer: false,
+	          				ratio: 1,
+	          				singleTile: true
+	          			})
+	          	]
 		};
 	},
-	
 	me.createMap = function(args) {
 		var mapDiv = args.div,
 			options = args.options || {},
@@ -83,6 +123,7 @@ nar.mississippi.map = (function() {
 				});
 			}
 			me.maps[mapId] = map;
+			map.zoomToExtent(me.mississippiExtent, false);
 			return map;
 	};
 	
