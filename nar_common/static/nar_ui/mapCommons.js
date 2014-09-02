@@ -86,7 +86,7 @@ nar.commons.map = nar.commons.map || {};
 	    	var _layerOptions = layerOptions || DEFAULT_LAYER_OPTIONS;
 	        var sitesLayerOptions = Object.clone(_layerOptions);
 	        sitesLayerOptions.singleTile = true; //If we're not going to cache, might as well singleTile
-	        sitesLayerOptions.isBaseLayer =  false;
+	        sitesLayerOptions.isBaseLayer = false;
 	
 	        var sitesLayerParams = {
 	            layers : nar.commons.map.sitesName,
