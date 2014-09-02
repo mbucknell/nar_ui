@@ -68,29 +68,30 @@ nar.mississippi.map = (function() {
 				}), 
 				new OpenLayers.Control.Zoom()
 				],
-			layers : [
-	          	new OpenLayers.Layer.WMS("Lower 48",
-	          			CONFIG.endpoint.geoserver + 'NAR/wms',
-	          			{
-	          				layers:'NAR:statesl48_alb',
-	          				transparent: true,
-	          				sld_body: me.createOutlineSldBody('NAR:statesl48_alb')
-	          			},{
-	          				isBaseLayer: true
-	          			}),
-      			new OpenLayers.Layer.WMS("Great Lakes",
-	          			CONFIG.endpoint.geoserver + 'NAR/wms',
-	          			{
-	          				layers:'NAR:gtlakes_alb',
-	          				transparent: true,
-	          				sld_body: me.createOutlineSldBody('NAR:gtlakes_alb')
-	          			},{
-	          				isBaseLayer: false,
-	          				ratio: 1,
-	          				singleTile: true
-	          			})
-	          	]
-		};
+				layers : [
+					new OpenLayers.Layer.WMS(
+							"Lower 48",
+							CONFIG.endpoint.geoserver + 'NAR/wms',
+							{
+								layers : 'NAR:statesl48_alb',
+								transparent : true,
+								sld_body : me.createOutlineSldBody('NAR:statesl48_alb')
+							}, {
+								isBaseLayer : true
+							}),
+					new OpenLayers.Layer.WMS(
+							"Great Lakes",
+							CONFIG.endpoint.geoserver + 'NAR/wms',
+							{
+								layers : 'NAR:gtlakes_alb',
+								transparent : true,
+								sld_body : me.createOutlineSldBody('NAR:gtlakes_alb')
+							}, {
+								isBaseLayer : false,
+								ratio : 1,
+								singleTile : true
+							}) ]
+			};
 	},
 	me.createMap = function(args) {
 		var mapDiv = args.div,
