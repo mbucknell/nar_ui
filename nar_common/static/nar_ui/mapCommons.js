@@ -114,26 +114,6 @@ nar.commons.map = nar.commons.map || {};
 	    	});
 	    	return protocol;
 	    },
-		createMississippiBasinsLayer : function(layerOptions) {
-			var _layerOptions = layerOptions || DEFAULT_LAYER_OPTIONS;
-			var basinsLayerOptions = Object.clone(_layerOptions);
-			basinsLayerOptions.isBaseLayer = false;
-
-			var basinsLayerParams = {
-				layers : 'MS_8update',
-				transparent: true,
-				styles: 'miss8'
-			};
-
-			var basinsLayer = new OpenLayers.Layer.WMS(
-				'Mississippi Basins',
-				CONFIG.endpoint.geoserver + 'NAR/wms',
-				basinsLayerParams,
-				basinsLayerOptions
-			);
-
-			return basinsLayer;
-		},
 	    getData : function(protocol, filter, callback) {
 	    	if (protocol) {
 	    		protocol.read({

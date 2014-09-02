@@ -90,8 +90,20 @@ nar.mississippi.map = (function() {
 						isBaseLayer: false,
 						ratio: 1,
 						singleTile: true
+					}),
+				new OpenLayers.Layer.WMS(
+					'Mississippi Basins',
+					CONFIG.endpoint.geoserver + 'NAR/wms',
+					{
+						layers : 'MS_8update',
+						transparent: true,
+						styles: 'miss8'
+					}, {
+						isBaseLayer: false,
+						ratio: 1,
+						singleTile: true
 					})
-			].add(nar.commons.mapUtils.createMississippiBasinsLayer())
+			]
 		};
 	}
 	me.createMap = function(args) {
