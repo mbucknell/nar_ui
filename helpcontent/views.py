@@ -95,6 +95,11 @@ class ConstituentView(FeedContextMixin, TemplateView):
     
     template_name = 'constituents.html'
     feed_titles = [{'context_name' : 'constituent_feed', 'title' : 'Constituent+List', 'label' : 'constituent'}]
+  
+  
+class ContactsAndCitationsView(FeedContextMixin, TemplateView):
+    template_name = 'contacts_and_citations.html'
+    feed_titles = [{'context_name' : 'contacts_feed', 'title' : 'Contacts+and+Citations', 'label' : 'contacts_and_citations'}]  
     
     
 class DefinitionsJsonView(View):
