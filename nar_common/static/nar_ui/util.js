@@ -33,17 +33,6 @@ nar.util = {};
             dateObj.getUTCSeconds().pad(2) + 'Z';
     };
     
-//    nar.util.forceUTC = function(dateLike) {
-//        var dateObj = Date.create(dateLike);
-//        var offset = dateObj.getTimezoneOffset();
-//        if (offset >= 0) {
-//            dateObj.rewind({ minute : offset });
-//        } else {
-//            dateObj.advance({ minute : offset });
-//        }
-//        return dateObj.utc();
-//    }
-    
     nar.util.Unimplemented = function() {
         throw Error('This functionality is not yet implemented');
     };
