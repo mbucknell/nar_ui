@@ -48,6 +48,9 @@ $(document).ready(function() {
 	// Add the layers to the map
 	rightMap.addLayers([marbLayer,fakeLayer]);
 	
+	nar.mississippi.createLoadSelect(leftMap, $('.left_filter'));
+	nar.mississippi.createLoadSelect(rightMap, $('.right_filter'));
+	
 	// Now that the layers are in the map, I want to add the identification
 	// control for them
 	siteIdentificationControl = new nar.SiteIdentificationControl({
@@ -181,4 +184,6 @@ $(document).ready(function() {
 	});
 	
 	rightMap.addControls([siteIdentificationControl, fakeSiteIdentificationControl]);
+	
+	// Show load layer when all 
 });
