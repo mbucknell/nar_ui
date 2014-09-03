@@ -141,17 +141,14 @@ class MrbSubBasinContributionsJsonView(View):
         """given adequate query params, return a map of basin name to contribution amount"""
         
         safe_query_values = {}
-        
+
         for query_param in MrbSubBasinContributionsJsonView.query_params:
             if query_param in request.GET:
                 safe_query_values[query_param] = request.GET[query_param]
             else:
                 #require all query parameters
                 return HttpResponseBadRequest('Missing Parameter - "{}"'.format(query_param))
-            
-        if 0 == len(safe_query_values):
-            raise Http404
-        
+
         try:
             mrbSubBasinContributions = MrbSubBasinContributions.objects.filter(**safe_query_values)
             if(0 == len(mrbSubBasinContributions)):
