@@ -351,6 +351,10 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 /* End Alaska Inset */
 
 /* Site popup styling */
+.nar-popup-dialog {
+	z-index: 755 !important;
+}
+
 .nar-popup-dialog .ui-dialog-titlebar {
 	padding: 0.1em !important; /* bootstrap override */
 }
@@ -518,18 +522,21 @@ select.last{margin-right:0;}
 					margin:0;
 					position:relative;}
 					
-#mississippi_info{border-bottom:@borderDark;
-					border-left:@borderDark;
- 					width:240px;
- 					min-height:22px;
- 					position:absolute;
- 					right:0;
- 					top:0;
- 					background:@boxColor;
- 					text-align:left;
- 					font-size:.7em;
- 					padding:4px 2px 0 5px;
- 					line-height:1.4em;}
+#mississippi_info{
+	border-bottom:@borderDark;
+	border-left:@borderDark;
+	width:240px;
+	min-height:22px;
+	position:absolute;
+	right:0;
+	top:0;
+	background:@boxColor;
+	text-align:left;
+	font-size:.7em;
+	padding:4px 2px 0 5px;
+	line-height:1.4em;
+	z-index: 750;
+}
 					
 #left-map,
 #right-map{height:487px;}
