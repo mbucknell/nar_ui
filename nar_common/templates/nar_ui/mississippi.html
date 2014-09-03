@@ -3,6 +3,10 @@
 {% load compress %}
 
 {% block content %}
+{% block style %}
+	{{ block.super }}
+	<link rel="stylesheet" href="{% static 'nar_ui/js_lib/jquery-ui/css/ui-lightness/jquery-ui.min.css' %}"/>
+{% endblock %}
 
 <div class=" row mississippi_holder">
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mississippi_title">
@@ -99,8 +103,12 @@
 	
 </div><!--mississippi_holder-->
 {% compress js %}
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/jquery-ui/jquery-ui.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/js_lib/OpenLayers/OpenLayers.debug.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/commons/sitePopup.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/commons/SiteIdentificationControl.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/mapCommons.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/mississippi/GraphPopup.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/mississippi/map.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/mississippi/main.js' %}"></script>
 {% endcompress %}

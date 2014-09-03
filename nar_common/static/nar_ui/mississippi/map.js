@@ -27,28 +27,7 @@ nar.mississippi.map = (function() {
 		}
 		return topic;
 	};
-	me.createOutlineSldBody = function(layerName) {
-		var rule = new OpenLayers.Rule({
-			symbolizer : {
-				"Line" : {
-					fillOpacity : "0.1",
-					strokeColor : "#000000",
-					strokeWidth : "1",
-					strokeOpacity : "0.1"
-				}
-			}
-		});
-
-		return new OpenLayers.Format.SLD().write({
-			namedLayers : [ {
-				name : layerName,
-				userStyles : [ new OpenLayers.Style("Style", {
-					rules : [ rule ]
-				}) ]
-			} ]
-		});
-	},
-
+	
 	me.createDefaultOptions = function() {
 		return {
 			projection : nar.commons.map.projection,
@@ -76,7 +55,7 @@ nar.mississippi.map = (function() {
 					{
 						layers:'NAR:statesl48_alb',
 						transparent: true,
-						sld_body: me.createOutlineSldBody('NAR:statesl48_alb')
+						styles : 'ms_grey_outline'
 					},{
 						isBaseLayer: true
 					}),
@@ -85,7 +64,7 @@ nar.mississippi.map = (function() {
 					{
 						layers:'NAR:gtlakes_alb',
 						transparent: true,
-						sld_body: me.createOutlineSldBody('NAR:gtlakes_alb')
+						styles : 'ms_grey_outline'
 					},{
 						isBaseLayer: false,
 						ratio: 1,
@@ -105,7 +84,8 @@ nar.mississippi.map = (function() {
 					})
 			]
 		};
-	}
+	};
+
 	me.createMap = function(args) {
 		var mapDiv = args.div,
 			options = args.options || {},

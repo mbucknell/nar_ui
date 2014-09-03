@@ -72,7 +72,7 @@ $(document).ready(
 	                exceedancesTitle
 	            );
 	            
-	            nar.summaryReport.informativePopup({
+	            nar.informativePopup({
 	            	$anchor : $('#link-hover-benchmark-human'),
 	            	content : '<div class="popover-benchmark-content">\
 	            		The human-health benchmark for nitrate is<br />\
@@ -88,7 +88,7 @@ $(document).ready(
 	            	success : function (data) {
 	            		var $anchor = $('#link-hover-benchmark-aquatic');
 	            		if (data.nutrient_ecoregion && data.tn_criteria && data.tp_criteria) {
-				            nar.summaryReport.informativePopup({
+				            nar.informativePopup({
 				            	$anchor : $anchor,
 				            	title : 'EPA Ecoregion ' + data.nutrient_ecoregion + ' Recommended Nutrient Criteria',
 				            	content : '<div class="popover-benchmark-content">\

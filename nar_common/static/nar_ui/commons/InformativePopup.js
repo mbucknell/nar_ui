@@ -1,7 +1,6 @@
 var nar = nar || {};
 
-nar.summaryReport = nar.summaryReport || {};
-nar.summaryReport.informativePopup = function(args) {
+nar.informativePopup = function(args) {
 
 	"use strict";
 
