@@ -142,6 +142,9 @@ nar.fullReport = nar.fullReport || {};
 			return point[1];
 		}, true);
 		
+		var maxFlow = sortedFlowData.first()[1];
+		var minFlow = sortedFlowData.last()[1];
+		
 		var exceedanceWithDates = sortedFlowData.map(function(point, index) {
 			var exceedance = 100 * ((index + 1) / sortedFlowData.length);
 			return [exceedance, point[1], point[0]];
@@ -225,14 +228,15 @@ nar.fullReport = nar.fullReport || {};
 					var result = [];
 					var tick = axis.min;
 					var i = 0;
-					while (tick < axis.max) {
+					while (tick <= axis.max) {
 						result.add(tick);
-						tick = (i.isEven()) ? tick * 5 : tick * 2;
+						tick = tick * 10;
 						i++;
 					}
 					return result;
 				},
-				min: 100
+				min: nar.fullReport.PlotUtils.getLogAxisForValue(minFlow, Math.floor),
+				max: nar.fullReport.PlotUtils.getLogAxisForValue(maxFlow, Math.ceil)
 			},
 			grid : {
 				hoverable : true,

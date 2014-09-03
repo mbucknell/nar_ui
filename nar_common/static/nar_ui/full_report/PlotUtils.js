@@ -264,6 +264,17 @@ nar.fullReport = nar.fullReport || {};
                 return (Math.abs(curr[xi] - xvalue)) < Math.abs(prev[xi]- xvalue) ? curr : prev;
             });
             return point[yi];
+        },
+        /**
+         * Get the axis min or max values fitting to traditional log scale
+         * @param {Number} value - actual max of the data
+         * @param {Function} func - Math.ceil for max, Math.floor for min
+         * @returns
+         */
+        getLogAxisForValue : function(value, func) {
+            var logValue = log10(value);
+            var factor = func(logValue);
+            return Math.pow(10, factor);
         }
     };
 }());

@@ -64,9 +64,9 @@ $(document).ready(function() {
 			$reportsAndGraphsRow = $('<div />').addClass('row site-identification-popup-content-links-and-graphs'),
 			$relevantLinksRow = $('<div />').addClass('row site-identification-popup-content-relevant-links'),
 			$summaryGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-summary-graph-link'),
-			$annualLoadGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-annual-load-link'),
+			$annualLoadGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4-offset-2 site-identification-popup-content-annual-load-link'),
 			$mayLoadGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-may-load-link'),
-			$detailedGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4-offset-2 site-identification-popup-content-detailed-graph-link'),
+			$detailedGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-detailed-graph-link'),
 			$downloadLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-download-link'),
 			$annualLoadGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'),' Annual Load'),
 			$mayLoadGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'),' May Load'),
@@ -111,7 +111,7 @@ $(document).ready(function() {
 			$detailedGraphsLinkContainer.append($detailedGraphsLink);
 			$downloadLinkContainer.append($downloadLink);
 			
-			$reportsAndGraphsRow.append($annualLoadGraphsLinkContainer, $mayLoadGraphsLinkContainer, $summaryGraphsLinkContainer, $detailedGraphsLinkContainer, $downloadLinkContainer, $hiddenAutoFocus);
+			$reportsAndGraphsRow.append($summaryGraphsLinkContainer, $detailedGraphsLinkContainer, $downloadLinkContainer, $annualLoadGraphsLinkContainer, $mayLoadGraphsLinkContainer, $hiddenAutoFocus);
 			
 			$container.append($titleRow, $stationIdRow, $reportsAndGraphsRow);
 			return $container;
