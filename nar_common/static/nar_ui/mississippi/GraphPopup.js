@@ -18,7 +18,7 @@ nar.GraphPopup = (function() {
 		// TODO - Put graph content into the graph row
 		$graphRow.append($('<img />').attr('src', CONFIG.staticUrl + 'nar_ui/images/miss-stock-graph.png'));
 		
-		$container.append($graphRow);
+		$container.append($graphRow, $hiddenAutoFocus);
 		return $container;
 	};
 	
