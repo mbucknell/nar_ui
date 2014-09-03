@@ -37,10 +37,10 @@ $(document).ready(function() {
 			}, {
 				isBaseLayer : false
 			}),
-			cqlFilter = {
-					'CQL_FILTER' : "type = 'MARB'"
-			},
-			siteIdentificationControl,fakeSiteIdentificationControl;
+		cqlFilter = {
+				'CQL_FILTER' : "type = 'MARB'"
+		},
+		siteIdentificationControl,fakeSiteIdentificationControl;
 	
 	// Filter only for MARB sites on the marb layer
 	marbLayer.mergeNewParams(cqlFilter);
@@ -54,9 +54,6 @@ $(document).ready(function() {
 		layers : [ marbLayer ],
 		popupAnchor : '#right-map',
 		popupWidth : rightMap.size.w,
-		createMayLoadGraphPopup : function (args) {
-			var id = args.id;
-		},
 		createSiteDisplayWell : function(feature) {
 			var $container = $('<div />').addClass('well well-sm text-center'),
 			$titleRow = $('<div />').addClass('row site-identification-popup-content-title'),
@@ -73,9 +70,6 @@ $(document).ready(function() {
 			$summaryGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-th-list'),' Summary Graphs'),
 			$detailedGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'), ' Detailed Graphs'),
 			$downloadLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-save'),' Download Data'),
-			// query-ui has a hierarchy of things it tries to auto-focus on. This hack has it auto-focus on a hidden span.
-			// Otherwise it trues to focus on the first link, which in some browsers will draw an outline around it. (ugly)
-			// http://api.jqueryui.com/dialog/
 			$hiddenAutoFocus = $('<span />').addClass('hidden').attr('autofocus', ''),
 			data = feature.data,
 			title = data.staname,
@@ -121,13 +115,13 @@ $(document).ready(function() {
 		}
 	});
 	
+	// The control should only handle MARB type sites
+	siteIdentificationControl.vendorParams = cqlFilter;
+	
 	fakeSiteIdentificationControl = new nar.SiteIdentificationControl({
 		layers : [ fakeLayer ],
 		popupAnchor : '#right-map',
 		popupWidth : rightMap.size.w,
-		createMayLoadGraphPopup : function (args) {
-			var id = args.id;
-		},
 		createSiteDisplayWell : function(feature) {
 			var $container = $('<div />').addClass('well well-sm text-center'),
 			$titleRow = $('<div />').addClass('row site-identification-popup-content-title'),
@@ -142,9 +136,6 @@ $(document).ready(function() {
 			$summaryGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-th-list'),' Summary Graphs'),
 			$detailedGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'), ' Detailed Graphs'),
 			$downloadLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-save'),' Download Data'),
-			// query-ui has a hierarchy of things it tries to auto-focus on. This hack has it auto-focus on a hidden span.
-			// Otherwise it trues to focus on the first link, which in some browsers will draw an outline around it. (ugly)
-			// http://api.jqueryui.com/dialog/
 			$hiddenAutoFocus = $('<span />').addClass('hidden').attr('autofocus', ''),
 			data = feature.data,
 			title = data.staname,
@@ -189,8 +180,5 @@ $(document).ready(function() {
 		}
 	});
 	
-	// The control should only 
-	siteIdentificationControl.vendorParams = cqlFilter;
 	rightMap.addControls([siteIdentificationControl, fakeSiteIdentificationControl]);
-	
 });
