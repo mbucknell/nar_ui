@@ -38,7 +38,7 @@ $(document).ready(function() {
 			cqlFilter = {
 					'CQL_FILTER' : "type = 'MARB'"
 			},
-			siteIdentificationControl;
+			siteIdentificationControl,fakeSiteIdentificationControl;
 	
 	// Filter only for MARB sites on the marb layer
 	marbLayer.mergeNewParams(cqlFilter);
@@ -77,11 +77,7 @@ $(document).ready(function() {
 			$hiddenAutoFocus = $('<span />').addClass('hidden').attr('autofocus', ''),
 			data = feature.data,
 			title = data.staname,
-			id = data.staid,
-			createMayLoadGraphPopup = function (args) {
-				var id = args.id;
-				debugger;
-			};
+			id = data.staid;
 		
 			$titleRow.html(title);
 			$stationIdRow.html('Station ID: ' + id);
@@ -118,13 +114,81 @@ $(document).ready(function() {
 			
 			$reportsAndGraphsRow.append($annualLoadGraphsLinkContainer, $mayLoadGraphsLinkContainer, $summaryGraphsLinkContainer, $detailedGraphsLinkContainer, $downloadLinkContainer, $hiddenAutoFocus);
 			
-			$relevantLinksRow.html('Relevant Links: Some Link, Some Other Link');
-			$container.append($titleRow, $stationIdRow, $reportsAndGraphsRow, $relevantLinksRow);
+			$container.append($titleRow, $stationIdRow, $reportsAndGraphsRow);
 			return $container;
 		}
 	});
+	
+	fakeSiteIdentificationControl = new nar.SiteIdentificationControl({
+		layers : [ fakeLayer ],
+		popupAnchor : '#right-map',
+		popupWidth : rightMap.size.w,
+		createMayLoadGraphPopup : function (args) {
+			var id = args.id;
+		},
+		createSiteDisplayWell : function(feature) {
+			var $container = $('<div />').addClass('well well-sm text-center'),
+			$titleRow = $('<div />').addClass('row site-identification-popup-content-title'),
+			$reportsAndGraphsRow = $('<div />').addClass('row site-identification-popup-content-links-and-graphs'),
+			$summaryGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-summary-graph-link'),
+			$annualLoadGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-annual-load-link'),
+			$mayLoadGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-may-load-link'),
+			$detailedGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4-offset-2 site-identification-popup-content-detailed-graph-link'),
+			$downloadLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-download-link'),
+			$annualLoadGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'),' Annual Load'),
+			$mayLoadGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'),' May Load'),
+			$summaryGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-th-list'),' Summary Graphs'),
+			$detailedGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'), ' Detailed Graphs'),
+			$downloadLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-save'),' Download Data'),
+			// query-ui has a hierarchy of things it tries to auto-focus on. This hack has it auto-focus on a hidden span.
+			// Otherwise it trues to focus on the first link, which in some browsers will draw an outline around it. (ugly)
+			// http://api.jqueryui.com/dialog/
+			$hiddenAutoFocus = $('<span />').addClass('hidden').attr('autofocus', ''),
+			data = feature.data,
+			title = data.staname,
+			id = data.staid;
+		
+			$titleRow.html('Mississippi River at Gulf');
+			
+			$annualLoadGraphsLink.
+				attr('href', '#').
+				click('click', function () {
+					nar.GraphPopup.create({
+						feature : feature,
+						popupAnchor : '#left-map',
+						type : 'annual',
+						title : 'Annual Nitrate Load'
+					});
+				});
+			$mayLoadGraphsLink.
+				attr('href', '#').
+				on('click', function () {
+					nar.GraphPopup.create({
+						feature : feature,
+						popupAnchor : '#left-map',
+						type : 'may',
+						title : 'May Nitrate Load'
+					});
+				});
+			$summaryGraphsLink.attr('href', CONFIG.baseUrl + 'site/' + id + '/summary-report');
+			$detailedGraphsLink.attr('href',CONFIG.baseUrl + 'site/' + id + '/full-report');
+			$downloadLink.attr('href', '#');
+			
+			$annualLoadGraphsLinkContainer.append($annualLoadGraphsLink);
+			$mayLoadGraphsLinkContainer.append($mayLoadGraphsLink);
+			$summaryGraphsLinkContainer.append($summaryGraphsLink);
+			$detailedGraphsLinkContainer.append($detailedGraphsLink);
+			$downloadLinkContainer.append($downloadLink);
+			
+			$reportsAndGraphsRow.append($annualLoadGraphsLinkContainer, $mayLoadGraphsLinkContainer, $downloadLinkContainer, $hiddenAutoFocus);
+			
+			$container.append($titleRow, $reportsAndGraphsRow);
+			return $container;
+		}
+	});
+	
 	// The control should only 
 	siteIdentificationControl.vendorParams = cqlFilter;
-	rightMap.addControls([siteIdentificationControl]);
+	rightMap.addControls([siteIdentificationControl, fakeSiteIdentificationControl]);
 	
 });
