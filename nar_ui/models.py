@@ -3,6 +3,23 @@ from StringIO import StringIO
 import xml.etree.ElementTree as etree
 import requests
 
+from django.db import models
+
+
+class MississippiYear(models.Model):
+    value = models.CharField(max_length=32, unique=True)
+    text = models.CharField(max_length=64)
+    is_range = models.BooleanField()
+    
+    def __unicode__(self):
+        return u'%s' %self.value
+    
+    class Meta:
+        
+        managed = False
+        db_table = 'mississippi_year'
+
+
 class SiteNotFoundException(Exception):
     pass
     
