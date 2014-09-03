@@ -22,7 +22,8 @@ $(document).ready(function() {
 			CONFIG.endpoint.geoserver + 'NAR/wms',
 			{
 				layers : 'NAR:NAWQA100_cy3fsmn',
-				transparent : true
+				transparent : true,
+				styles: 'triangles'
 			}, {
 				isBaseLayer : false
 			}),
@@ -31,7 +32,8 @@ $(document).ready(function() {
 			CONFIG.endpoint.geoserver + 'NAR/wms',
 			{
 				layers : 'NAR:MS_ATCH_delta',
-				transparent : true
+				transparent : true,
+				styles: 'triangles'
 			}, {
 				isBaseLayer : false
 			}),
