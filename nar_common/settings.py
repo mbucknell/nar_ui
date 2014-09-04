@@ -29,6 +29,7 @@ INSTALLED_APPS = (
     'nar_ui',
     'utils',
     'helpcontent',
+    'nar_values',
     
 )
 

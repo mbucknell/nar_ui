@@ -9,7 +9,4 @@ urlpatterns= patterns("",
     url(r'^site_info/$',
         views.SiteInfoJsonView.as_view(),
         name='helpcontent-site_info'),
-    url(r'^mrbSubBasinContributions/$',
-        views.MrbSubBasinContributionsJsonView.as_view(),
-        name='helpcontent-mrbSubBasinContributions'),
 )
