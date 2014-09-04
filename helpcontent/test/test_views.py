@@ -33,7 +33,7 @@ class MrbContributionsJsonViewTestCase(TestCase):
                     'basin_name': 'MISS',
                     }
     @staticmethod
-    def getContributions(params):
+    def get_contributions(params):
         client = Client()
         response = client.get(reverse('helpcontent-mrbSubBasinContributions'), params)
         
@@ -45,7 +45,7 @@ class MrbContributionsJsonViewTestCase(TestCase):
         
     def test_empty_parameters(self):
         
-        response = self.getContributions({})
+        response = self.get_contributions({})
         self.assertIsInstance(response, HttpResponseBadRequest)
         
     def test_missing_parameters(self):
@@ -55,7 +55,7 @@ class MrbContributionsJsonViewTestCase(TestCase):
         for key in parameter_keys:
             params[key] = 'dummy'
             
-        response = self.getContributions(params)
+        response = self.get_contributions(params)
         self.assertIsInstance(response, HttpResponseBadRequest)
         
     def test_valid_parameters_but_no_matching_record(self):
@@ -63,10 +63,10 @@ class MrbContributionsJsonViewTestCase(TestCase):
         #override one of the values so that the query fails
         params[params.keys()[0]] = 'dummy'
 
-        self.assertIsInstance(self.getContributions(params), HttpResponseNotFound)
+        self.assertIsInstance(self.get_contributions(params), HttpResponseNotFound)
     
     def test_valid_parameters_and_matching_record(self):
-        response = self.getContributions(self.contribution)
+        response = self.get_contributions(self.contribution)
         self.assertEqual(response.status_code, 200)
         response_map = json.loads(response.content)
         expected_contribution_map = {}
