@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponseBadRequest
 from ..models import MrbSubBasinContributions
 
-from ..views import FeedContextMixin, MrbSubBasinContributionsJsonView
+from ..views import FeedContextMixin
 
 class FeedContextMixinTestCase(SimpleTestCase):
     
@@ -24,7 +24,7 @@ class FeedContextMixinTestCase(SimpleTestCase):
         self.assertNotEqual(result['feed2'].find('Feed+2'), -1)
         self.assertNotEqual(result['feed2'].find('test_feed2'), -1)
 
-class MrbContributionsJsonViewTestCase(SimpleTestCase):
+class MrbContributionsJsonViewTestCase(TestCase):
     contribution = {
                     'contribution': 0.314159,
                     'constituent': 'NO23',
@@ -32,14 +32,16 @@ class MrbContributionsJsonViewTestCase(SimpleTestCase):
                     'water_year' : '2012',
                     'basin_name': 'MISS',
                     }
-    def getContributions(self, params):
+    @staticmethod
+    def getContributions(params):
         client = Client()
         response = client.get(reverse('helpcontent-mrbSubBasinContributions'), params)
         
         return response
     def setUp(self):
         
-        MrbSubBasinContributions.objects.create(**MrbContributionsJsonViewTestCase.contribution)
+        MrbSubBasinContributions.objects.create(**self.contribution)
+        
     def test_missing_parameters(self):
         
         response = self.getContributions({})
