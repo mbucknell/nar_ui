@@ -28,6 +28,7 @@ INSTALLED_APPS = (
     'compressor',
     'utils',
     'helpcontent',
+    'nar_values',
     
 )
 
