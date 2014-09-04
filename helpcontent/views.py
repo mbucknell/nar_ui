@@ -142,7 +142,7 @@ class MrbSubBasinContributionsJsonView(View):
         
         safe_query_values = {}
 
-        for query_param in MrbSubBasinContributionsJsonView.query_params:
+        for query_param in self.query_params:
             if query_param in request.GET:
                 safe_query_values[query_param] = request.GET[query_param]
             else:
