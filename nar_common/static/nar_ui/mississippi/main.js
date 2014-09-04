@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	"use strict";
+	
 	// Hide/Show the "Hover-on-click" tag
 	$('#toggle').click(function() {
 		$('#mississippi_info').toggle('5000', function() {
@@ -8,6 +9,17 @@ $(document).ready(function() {
 			} else {
 				$('#toggle').val('Show');
 			}
+		});
+	});
+	
+	$('#link-chart-contribution').on('click', function () {
+		nar.ContributionDisplay.create({
+			containerSelector : '#left-map',
+			placement : 'bl'
+		});
+		nar.ContributionDisplay.create({
+			containerSelector : '#right-map',
+			placement : 'br'
 		});
 	});
 	
@@ -61,8 +73,8 @@ $(document).ready(function() {
 			$reportsAndGraphsRow = $('<div />').addClass('row site-identification-popup-content-links-and-graphs'),
 			$relevantLinksRow = $('<div />').addClass('row site-identification-popup-content-relevant-links'),
 			$summaryGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-summary-graph-link'),
-			$annualLoadGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4-offset-2 site-identification-popup-content-annual-load-link'),
-			$mayLoadGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-may-load-link'),
+			$annualLoadGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-6-offset-1 site-identification-popup-content-annual-load-link'),
+			$mayLoadGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-6 site-identification-popup-content-may-load-link'),
 			$detailedGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-detailed-graph-link'),
 			$downloadLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-download-link'),
 			$annualLoadGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'),' Annual Load'),
