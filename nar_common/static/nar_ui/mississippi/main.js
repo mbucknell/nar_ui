@@ -12,14 +12,39 @@ $(document).ready(function() {
 	});
 	
 	$('#link-chart-contribution').on('click', function () {
-		nar.ContributionDisplay.create({
-			containerSelector : '#left-map',
-			placement : 'bl'
-		});
-		nar.ContributionDisplay.create({
-			containerSelector : '#right-map',
-			placement : 'br'
-		});
+		var loadTypeSelectCtrls = $('select[name="load"]'),
+			nutrientTypeSelectCtrls = $('select[name="chemical"]'),
+			yearRangeSelectCtrls = $('select[name="year"]'),
+			leftSelections = {
+				parameter_type : loadTypeSelectCtrls[0].value.toUpperCase(),
+				constituent : nutrientTypeSelectCtrls[0].value.toUpperCase(),
+				water_year : yearRangeSelectCtrls[0].value
+			},
+			rightSelections = {
+				parameter_type : loadTypeSelectCtrls[1].value.toUpperCase(),
+				constituent : nutrientTypeSelectCtrls[1].value.toUpperCase(),
+				water_year : yearRangeSelectCtrls[1].value
+			};
+		
+		if (leftSelections.parameter_type && leftSelections.constituent && leftSelections.water_year) {
+			nar.ContributionDisplay.create({
+				containerSelector : '#left-map',
+				placement : 'bl',
+				parameters : leftSelections,
+				width: 250,
+				height : 250
+			});
+		}
+		
+		if (rightSelections.parameter_type && rightSelections.constituent && rightSelections.water_year) {
+			nar.ContributionDisplay.create({
+				containerSelector : '#right-map',
+				placement : 'br',
+				parameters : rightSelections,
+				width: 250,
+				height : 250
+			});
+		}
 	});
 	
 	var leftMapName = 'left-map',

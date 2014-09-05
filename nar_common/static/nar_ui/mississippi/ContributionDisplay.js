@@ -4,81 +4,97 @@ nar.ContributionDisplay = (function() {
 	var me = {};
 
 	me.attributeColorMap = {
-		"atch" : {
+		"ATCHAFALAYA" : {
 			"color" : "#B3A6A3",
-			"title" : "Atchafalaya River"
+			"title" : "Atchafalaya River",
+			"shpAttr" : "atch"
 		},
-		"missouri" : {
+		"MISSOURI" : {
 			"color" : "#BFEBA8",
-			"title" : "Missouri River"
+			"title" : "Missouri River",
+			"shpAttr" : "missouri"
 		},
-		"arkansas" : {
+		"ARKANSAS" : {
 			"color" : "#FFCFD5",
-			"title" : "Arkansas River"
+			"title" : "Arkansas River",
+			"shpAttr" : "missouri"
 		},
-		"ohio" : {
+		"OHIO" : {
 			"color" : "#FCEFBE",
-			"title" : "Ohio River"
+			"title" : "Ohio River",
+			"shpAttr" : "ohio"
 		},
-		"upper" : {
+		"UPPERMISS" : {
 			"color" : "#00C9E2",
-			"title" : "Upper Mississippi"
+			"title" : "Upper Mississippi",
+			"shpAttr" : "upper"
 		},
-		"upperMiddle" : {
+		"UPPERMIDDLEMISS" : {
 			"color" : "#00F5FA",
-			"title" : "Upper Middle Mississippi"
+			"title" : "Upper Middle Mississippi",
+			"shpAttr" : "upperMiddle"
 		},
-		"lowerMiddle" : {
+		"LOWERMIDDLEMISS" : {
 			"color" : "#CCE7F0",
-			"title" : "Lower Middle Mississippi"
+			"title" : "Lower Middle Mississippi",
+			"shpAttr" : "lowerMiddle"
 		},
-		"lower" : {
+		"LOWERMISS" : {
 			"color" : "#F3F2FB",
-			"title" : "Lower Mississippi"
+			"title" : "Lower Mississippi",
+			"shpAttr" : "lower"
 		}
 	};
 	
-	me.create = function (args) {
+	me.getConstituentData = function (args) {
 		args = args || {};
-		var containerSelector = args.containerSelector || 'body',
+		var callbacks = args.callbacks,
+			parameters = args.parameters;
+		
+		$.ajax(CONFIG.baseUrl + 'values/mrbSubBasinContributions/', {
+			data : parameters,
+			scope : me,
+			success : callbacks.success,
+			error : callbacks.error
+		});
+	};
+	
+	me.createPie = function (args) {
+		var data = args.data,
+			containerSelector = args.containerSelector,
 			$container = $(containerSelector),
 			placement = args.placement,
-			width = args.width || 200,
-			height = args.height || 200,
-			attributeKeys = Object.keys(me.attributeColorMap),
-			// This goes away when we have real data
-			generateRands = function(max, thecount) {
-				var r = [];
-				var currsum = 0;
-				var randombetween = function(min, max) {
-					  return Math.floor(Math.random()*(max-min+1)+min);
-				};
-				
-				for(var i=0; i<thecount-1; i++) {
-					r[i] = randombetween(1, max-(thecount-i-1)-currsum);
-					currsum += r[i];
+			width = args.width,
+			height = args.height,
+			sortedData = (function(data){
+				var sortedData = [];
+				for (var k in data) {
+					if (data.hasOwnProperty(k) && data[k] && me.attributeColorMap[k]) {
+						var percentage = (data[k] * 100).toFixed(2),
+							label = me.attributeColorMap[k].title,
+							color = me.attributeColorMap[k].color;
+						sortedData.push({
+							label : label,
+							data : percentage,
+							color : color
+						});
+					}
 				}
-				r[thecount-1] = max - currsum;
-				return r;
-			},
-			// This goes away when we have real data
-			randomCounts = generateRands(100, attributeKeys.length),
-			data = args.data || (function (k, d) {
-				// This goes away when we have real data
-				var r = [];
-				for (var kIdx = 0;kIdx < k.length;kIdx++) {
-					r.push({
-						'label' : k[kIdx],
-						'data' : d[kIdx]
-					});
-				}
-				return r;
-			}(attributeKeys, randomCounts)),
+				return sortedData;
+			}(data)),
 			$chartDiv = $('<div />')
 				.addClass('chart-miss-pie')
 				.css({
 					width : width,
 					height : height
+				}),
+			$legendContainer = $('<div />')
+				.addClass('chart-miss-legend')
+				.css({
+					width : width,
+					height : height,
+					position : 'absolute',
+					'z-index' : 750
 				});
 		
 		if (placement === 'bl') {
@@ -88,6 +104,10 @@ nar.ContributionDisplay = (function() {
 				'position' : 'absolute',
 				'z-index' : 750
 			});
+			$legendContainer.css({
+				'left' : width,
+				'bottom' : 0
+			})
 		} else if (placement === 'br') {
 			$chartDiv.css({
 				'right' : 0,
@@ -95,20 +115,39 @@ nar.ContributionDisplay = (function() {
 				'position' : 'absolute',
 				'z-index' : 750
 			});
+			$legendContainer.css({
+				'right' : -width,
+				'bottom' : 0
+			})
 		}
 		
-		$container.append($chartDiv);
+		$container.append($chartDiv, $legendContainer);
 		
-		$.plot($chartDiv, data, {
-		    series: {
-		        pie: {
-		            show: true
-		        }
-		    },
-		    grid: {
-		        hoverable: true,
-		        clickable: true
-		    }
+		$.plot($chartDiv, sortedData, {
+			series : {
+				pie : {
+					show : true,
+					radius: 1,
+					label : {
+						show: true,
+		                radius: 2/3,
+						formatter : function (label, series) {
+							return "<div style='font-size:8pt; text-align:center; padding:2px; color:black;'>" + Math.round(series.percent) + "%</div>";
+						}
+					}
+				}
+			},
+			legend : {
+				show: true,
+				container : $legendContainer,
+				backgroundColor : '#FFFFFF',
+				backgroundOpacity : 0.99
+				
+			},
+			grid : {
+				hoverable : true,
+				clickable : true
+			}
 		});
 		
 		$chartDiv.on('plothover', function(event, pos, obj) {
@@ -116,42 +155,35 @@ nar.ContributionDisplay = (function() {
 				return;
 			}
 		});
-		
 	};
 	
-	/**
-	 * Try to get an up-to-date SLD from Geoserver.
-	 */
-	me.retrieveSLD = function (args) {
+	me.create = function (args) {
 		args = args || {};
-		var sldName = args.sldName || 'miss8';
 		
-		// TODO - This should go against a live geoserver instance - This can be
-		// done when we have access to the styles section of the REST api without
-		// needing authentication
-		$.ajax(CONFIG.staticUrl + 'nar_ui/mississippi/' + sldName + '.sld', {
-			scope: {
-				me : me
-			},
-			success : function (sldXml) {
-				var sld = new OpenLayers.Format.SLD().read(sldXml),
-					rules = sld.namedLayers[sldName].userStyles[0].rules;
-				
-				while (rules.length) {
-					var rule = rules.pop();
-					me.attributeColorMap[rule.name] = {
-							color : rule.symbolizer.Polygon.fillColor,
-							title : rule.title
-					};
+		var containerSelector = args.containerSelector || 'body',
+		placement = args.placement,
+		width = args.width || 200,
+		height = args.height || 200,
+		attributeKeys = Object.keys(me.attributeColorMap);
+		
+		me.getConstituentData({
+			parameters : args.parameters,
+			callbacks : {
+				success : function(data) {
+					me.createPie({
+						data : data,
+						containerSelector : containerSelector,
+						placement : placement,
+						width : width,
+						height : height
+					});
+				},
+				error : function() {
+					// Do nothing. The data was (probably) not found
 				}
-			},
-			error : function () {
-				// Couldn't find SLD. Use the stand-by version
 			}
 		});
 	};
-	
-	me.retrieveSLD();
 	
 	return {
 		create : me.create
