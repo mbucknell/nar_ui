@@ -465,7 +465,10 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 #help{position:absolute;
 	right:5px;
 	top:10px;
+	color:#000;
 	}
+	
+#help:hover{color:#fff;}
  					
  #mississippi_info i,
   #toggle i{-webkit-transform:rotate(270deg);
@@ -767,8 +770,7 @@ select.last{margin-right:0;}
 		margin-bottom:10px;
 		} 
 		
-#downloadButton{
- 				width:170px;
+#downloadButton{width:170px;
  				height:40px;
  				margin:0 auto;
  				border-left:@borderDark;
@@ -1097,17 +1099,21 @@ select.last{margin-right:0;}
 						
 .select2-search-choice div{margin-top:4px;
 							padding-top:0;}
-						
-#checkbox_holder{font-size:.85em;
-				text-align:left;
+							
+#checkbox_holder{border:@borderDark;
+	height:30px;
+	margin:0 0 0 0;
+	border-radius:5px;
+	text-align:left;
+	
 }				
 				
-#checkbox_holder input{margin:0 5px 0 10px;
+#checkbox_holder input{margin:8px 5px 0 10px;
 					text-align:left;
 					padding:0;
 }
 
-#checkbox_holder input#first{margin:0 5px 0 3px;}
+#checkbox_holder input#first{margin:0 5px 0 10px;}
 
 #box{border:@borderDark;
 	height:30px;
@@ -1117,7 +1123,7 @@ select.last{margin-right:0;}
 }
 
 
- p#format{text-align:left;
+ p.format{text-align:left;
 				margin:4px 0 0 10px;
 				float:left;
 				font-weight:600;
