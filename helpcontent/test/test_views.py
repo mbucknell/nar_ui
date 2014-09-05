@@ -1,5 +1,7 @@
-from django.test import SimpleTestCase
-
+from django.test import SimpleTestCase, Client, TestCase
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseNotFound, HttpResponseBadRequest
+import json
 from ..views import FeedContextMixin
 
 class FeedContextMixinTestCase(SimpleTestCase):

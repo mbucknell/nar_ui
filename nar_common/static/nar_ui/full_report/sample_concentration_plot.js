@@ -31,11 +31,26 @@ nar.fullReport = nar.fullReport || {};
             };   
         };
         
-        var constituentToCriteria = {
-		   nitrogen: nar.siteHelpInfo.tn_criteria,
-		   phosphorus: nar.siteHelpInfo.tp_criteria,
-		   nitrate: 10
+
+		var constituentToCriteria = {
+			nitrogen : nar.siteHelpInfo.tn_criteria,
+			phosphorus : nar.siteHelpInfo.tp_criteria,
+			nitrate : 10
 		};
+        
+
+		var criteriaLineDescription = function(constituentId) {
+			var result;
+			if (constituentId === 'nitrogen' || constituentId === 'phosphorus') {
+				result = 'EPA Ecoregion ' + nar.siteHelpInfo.nutrient_ecoregion + 
+					' Recommended Nutrient Criteria, Total ' + constituentId + ' = ' + 
+					constituentToCriteria[constituentId] + ' mg/L.';
+			} else {
+				result = 'EPA Maximum Contaminant Level (MCL) = ' + constituentToCriteria[constituentId] + ' mg/L as N.';
+			}
+
+			return result + ' See Constituents Measured above for more information.';
+        };
         
 		var constituentId = tsViz.getComponentsOfId().constituent;
 		var criteriaLineValue = constituentToCriteria[constituentId] || null;
@@ -102,7 +117,7 @@ nar.fullReport = nar.fullReport || {};
         });
         var hoverFormatter = nar.fullReport.PlotUtils.utcDatePlotHoverFormatter;
         nar.fullReport.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
-        nar.fullReport.PlotUtils.setLineHoverFormatter(plotContainer, criteriaLineValue, criteriaLineValue)
+        nar.fullReport.PlotUtils.setLineHoverFormatter(plotContainer, criteriaLineValue, criteriaLineDescription(constituentId));
         return plot;
     };    
 }());

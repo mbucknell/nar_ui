@@ -65,3 +65,5 @@ class SiteEcoregionCriteriaInfo(models.Model):
         
         managed = False
         db_table = 'site_ecoregion_criteria_info'
+        
+        

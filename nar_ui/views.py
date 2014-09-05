@@ -2,7 +2,8 @@ from django.views.generic.base import TemplateView
 from django.http import Http404
 from django.conf import settings
 import models
-from nar_ui.models import SiteNotFoundException
+from nar_ui.models import SiteNotFoundException, MississippiYear
+
 
 class HomePageView(TemplateView):
     template_name = 'nar_ui/home.html' 
@@ -31,8 +32,15 @@ class SiteFullReportView(SiteReportView):
 class SiteView(TemplateView):
     template_name = 'nar_ui/site.html'
     
+    
 class MississippiView(TemplateView):
     template_name = 'nar_ui/mississippi.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super(MississippiView, self).get_context_data(**kwargs)
+        context['year_pick_list'] = MississippiYear.objects.all().order_by('is_range', 'text')
+        return context
+    
     
 class CoastalView(TemplateView):
     template_name = 'nar_ui/coastal.html'

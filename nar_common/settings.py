@@ -26,8 +26,10 @@ INSTALLED_APPS = (
 #    'django.contrib.messages',
     'django.contrib.staticfiles',
     'compressor',
+    'nar_ui',
     'utils',
     'helpcontent',
+    'nar_values',
     
 )
 
@@ -118,12 +120,17 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "nar_common.settings_context_processor.default"                       
 )
 
+TEST_RUNNER = 'nar_common.test_runner.ManagedModelTestRunner' 
+
 try:
     from local_settings import *
 except ImportError:
     pass 
 
 if os.getenv('JENKINS_URL', False):
+    
+    JENKINS_TEST_RUNNER = 'nar_common.test_jenkins_runner.ManagedModelTestRunner'
+    
     INSTALLED_APPS += ('django_jenkins',)
     
     JENKINS_TASKS = (

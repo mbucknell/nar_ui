@@ -259,7 +259,11 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 			
 .filter form h4{text-align:left;
 				font-style:normal;
-				font-weight:600;}
+				font-weight:normal;
+				background:@boxColor;
+				border:@borderDark;
+				border-radius:5px;
+				padding:5px;}
 				
 .filter form p{cursor:pointer;}
 			
@@ -761,13 +765,36 @@ select.last{margin-right:0;}
  				
  .back_to_site{bottom:10px;}
  
+ 
+ 
     
 .graphs{background:none;
 		min-height:510px;
-		margin-top:20px;
 		padding:0 0 0 55px;
 		margin-bottom:10px;
 		} 
+		
+#downloadButton{
+ 				width:170px;
+ 				height:40px;
+ 				margin:0 auto;
+ 				border-left:@borderDark;
+ 				border-right:@borderDark;
+ 				border-bottom:@borderDark;
+ 				text-align:center;
+ }
+ 
+#downloadButton button{width:150px;
+						font-size:1em;
+						padding:0 0 0 0;
+						margin:6px 0 0 0;
+						height:25px;
+						border-radius:5px;
+  						border:@borderDark;
+  						background:#eee;}
+  						
+#downloadButton button:hover{background:@primaryColor;
+ 								color:#fff;}
 
 
 .comparisonGraph {background:none;
@@ -874,7 +901,7 @@ select.last{margin-right:0;}
 				display:inline-block;
 				width:150px;
 				height:35px;
-				padding-top:4px;
+				padding-top:6px;
 				cursor:pointer;
 				margin-bottom:10px;
 				float:left;
@@ -882,7 +909,7 @@ select.last{margin-right:0;}
 
  .back_to_report ul li a{color:#000;
 						text-decoration:none;
-						font-size:1.1em;
+						font-size:1em;
 }
 
 .back_to_report i{margin-top:8px;
@@ -897,14 +924,12 @@ select.last{margin-right:0;}
 
 .report_filter{background:@siteBackground;
 				height:650px;
-				overflow-y: auto;
-}
+				padding:0 5px 0 5px;}
 
 .full_report_graphs{background:none;
 				min-height:603px;
 				text-align:center;
-				position:relative;
-}
+				position:relative;}
 
 .full_report_graphs img{margin-top:15px;}
 
@@ -953,6 +978,38 @@ select.last{margin-right:0;}
 .full_report_instructions i{
     font-size: 5em;
 } 
+
+#plotToggleTree{
+				overflow:auto;
+				height:590px;
+				width:100%;}
+				
+#siteDataLinkDiv{background:none;
+				text-align:center;
+}
+
+#siteDataLinkDiv button{width:150px;
+						font-size:1em;
+						padding:0 0 0 0;
+						margin:6px 0 0 0;
+						height:25px;
+						border-radius:5px;
+  						border:@borderDark;
+  						background:@boxColor;}
+  						
+#siteDataLinkDiv button:hover{background:@primaryColor;
+ 								color:#fff;}
+
+#siteDataLinkDiv ul{list-style:none;
+					padding:5px 0 0 18px;
+					
+					font-size:.8em;
+}
+
+#siteDataLinkDiv ul li{float:left;
+						margin-right:10px;
+						text-align:center;
+}
 
 /*###########################full_report_end####################### */
 
@@ -1184,9 +1241,12 @@ select.last{margin-right:0;}
  				bottom:10px;
  				height:35px;}
  				
- .back_to_report ul li{padding-top:4px;}
+ .back_to_report ul li{padding-top:5px;}
  
   .back_to_report i{margin-top:7px;}
+  
+#plotToggleTree{
+				height:570px;}
 		
 		
 }/*media query end */
@@ -1355,11 +1415,14 @@ select.last{margin-right:0;}
  				
 .back_to_report ul li{padding:6px 20px 0 0;}
  				
-.back_to_report ul li a{font-size:1em !important;}
+.back_to_report ul li a{font-size:.95em !important;}
 
 .back_to_report i{margin-top:9px;
  				left:5px;
  }
+ 
+ #plotToggleTree{
+				height:575px;}
 	
 }/*query end */
 

@@ -131,3 +131,5 @@ class SiteInfoJsonView(View):
             return HttpResponse(simplejson.dumps(result), content_type='application/json')
         
         raise Http404
+    
+    
