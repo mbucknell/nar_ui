@@ -111,6 +111,12 @@ nar.ContributionDisplay = (function() {
 		    }
 		});
 		
+		$chartDiv.on('plothover', function(event, pos, obj) {
+			if (!obj) {
+				return;
+			}
+		});
+		
 	};
 	
 	/**
