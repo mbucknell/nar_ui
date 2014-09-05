@@ -7,7 +7,6 @@ nar.fullReport = nar.fullReport || {};
  * @property {string} id
  * @property {Function} plotter
  * @property {nar.fullReport.TimeSeriesCollection} timeSeriesCollection
- * @property {jQuery} instructionsElt
  * @property {jQuery} allPlotsWrapperElt
  */
 
@@ -18,7 +17,6 @@ nar.fullReport = nar.fullReport || {};
 nar.fullReport.TimeSeriesVisualization = function(config){
     var self = this;
     self.id = config.id;
-    self.instructionsElt = config.instructionsElt;
     self.allPlotsWrapperElt = config.allPlotsWrapperElt;
     self.plotter = config.plotter;
     self.ranger = nar.fullReport.TimeSeriesVisualization.getCustomizationById(self.id, 'range', nar.util.Unimplemented);
@@ -39,11 +37,6 @@ nar.fullReport.TimeSeriesVisualization = function(config){
      * @returns {jQuery.promise}
      */
     self.visualize = function(){
-        //if no plots are currently visualized, but one has been
-        //requested to be added.
-        if(0 === numberOfPlots){
-            self.instructionsElt.addClass(hiddenClass);
-        }
         
         var plotContainerId = makePlotContainerId(self.id);
         var plotContainer = getPlotContainer(plotContainerId);
@@ -102,7 +95,7 @@ nar.fullReport.TimeSeriesVisualization = function(config){
         
         var noPlotsRemain = 0 === numberOfPlots; 
         if(noPlotsRemain){
-            self.instructionsElt.removeClass(hiddenClass);
+            
         }
     };
 };
@@ -111,7 +104,6 @@ nar.fullReport.TimeSeriesVisualization = function(config){
 var numberOfPlots = 0;
 var plotContainerClass = 'full_report_plot'; 
 var plotIdSuffix = '_' + plotContainerClass;
-var hiddenClass = 'hide';
 
 // private static methods:
 

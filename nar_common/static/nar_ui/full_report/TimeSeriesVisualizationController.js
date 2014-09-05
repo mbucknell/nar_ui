@@ -4,6 +4,10 @@ var nar = nar || {};
 (function(){
 
 nar.fullReport = nar.fullReport || {};
+
+//private static properties:
+var hiddenClass = 'hide';
+
 /**
  * 
  * This class handles updating the time slider when 
@@ -12,8 +16,9 @@ nar.fullReport = nar.fullReport || {};
  * @class
  * @param {nar.fullReport.TimeSlider}
  */
-nar.fullReport.TimeSeriesVisualizationController = function(timeSlider){
+nar.fullReport.TimeSeriesVisualizationController = function(timeSlider, instructionsElt){
     var self = this;
+    self.instructionsElt = instructionsElt;
     timeSlider.on('slidechange', function(event, ui){
         var timeRange = new nar.fullReport.TimeRange(
                 ui.values[0],
@@ -149,6 +154,9 @@ nar.fullReport.TimeSeriesVisualizationController = function(timeSlider){
         var vizPromises = tsvsToVisualize.map(function(tsv){
             self.currentlyVisibleTimeSeriesVisualizations[tsv.id] = tsv;
             var promise = tsv.visualize();
+            promise.done(function(){
+            	self.instructionsElt.addClass(hiddenClass);
+            });
             return promise;
         });
         $.when.apply(null, vizPromises).done(function(){
@@ -171,6 +179,9 @@ nar.fullReport.TimeSeriesVisualizationController = function(timeSlider){
         tsvsToRemove.each(function(tsv){
             tsv.remove();
             delete self.currentlyVisibleTimeSeriesVisualizations[tsv.id];
+            if(Object.keys(self.currentlyVisibleTimeSeriesVisualizations).length == 0){
+            	self.instructionsElt.removeClass(hiddenClass);
+            }
         });
         
         var remainingTimeRanges = [];

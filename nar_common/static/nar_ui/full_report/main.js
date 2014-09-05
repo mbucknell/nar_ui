@@ -49,7 +49,6 @@ $(document).ready(function() {
 				timeSeriesViz = new nar.fullReport.TimeSeriesVisualization(
 						{
 							id : timeSeriesVizId,
-							instructionsElt : selectorElementPairs.instructions.element,
 							allPlotsWrapperElt : selectorElementPairs.allPlotsWrapper.element,
 							timeSeriesCollection : new nar.fullReport.TimeSeriesCollection(),
 							plotter : nar.util.Unimplemented
@@ -85,7 +84,7 @@ $(document).ready(function() {
 		var timeSlider = nar.fullReport
 				.TimeSlider(selectorElementPairs.timeSlider.element);
 		var tsvController = new nar.fullReport.TimeSeriesVisualizationController(
-				timeSlider);
+				timeSlider, selectorElementPairs.instructions.element);
 
 		var tree = new nar.fullReport.Tree(
 				allTimeSeriesVizualizations, tsvController,
