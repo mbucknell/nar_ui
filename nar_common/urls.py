@@ -52,6 +52,7 @@ urlpatterns = patterns('',
     url(r'^site/(?P<site_id>\d*)/full-report$', SiteFullReportView.as_view()),
     
     url(r'^helpcontent/', include('helpcontent.urls')),
+    url(r'^values/', include('nar_values.urls'))
 #     url(r'^index/', 'nar_ui.views.index', name='index')
 
 )
