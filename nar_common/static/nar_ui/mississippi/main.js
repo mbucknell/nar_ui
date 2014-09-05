@@ -11,11 +11,13 @@ $(document).ready(function() {
 		});
 	});
 	
-	var leftMap = nar.mississippi.map.createMap({
-			div : document.getElementById('left-map')
+	var leftMapName = 'left-map',
+		rightMapName = 'right-map',
+		leftMap = nar.mississippi.map.createMap({
+			div : document.getElementById(leftMapName)
 		}),
 		rightMap = nar.mississippi.map.createMap({
-			div : document.getElementById('right-map')
+			div : document.getElementById(rightMapName)
 		}),
 		cqlFilter = {
 				'CQL_FILTER' : "MSLoadSite = 'MSL'"
@@ -208,30 +210,30 @@ $(document).ready(function() {
 	// control for them
 	rightSiteIdentificationControl = createSiteIdentificationControl({
 		layer : rightMarbLayer,
-		popupAnchor : '#right-map',
+		popupAnchor : '#' + rightMapName,
 		width : rightMap.size.w,
-		graphContainer : '#left-map'
+		graphContainer : '#' + leftMapName
 	});
 	
 	leftSiteIdentificationControl = createSiteIdentificationControl({
 		layer : leftMarbLayer,
-		popupAnchor : '#left-map',
+		popupAnchor : '#' + leftMapName,
 		width : leftMap.size.w,
-		graphContainer : '#right-map'
+		graphContainer : '#' + rightMapName
 	});
 	
 	rightFakeSiteIdentificationControl = createFakeSiteIdentificationControl({
-		popupAnchor : '#right-map',
+		popupAnchor : '#' + rightMapName,
 		layer : rightFakeLayer,
 		width : rightMap.size.w,
-		graphContainer : '#left-map'
+		graphContainer : '#' + leftMapName
 	});
 	
 	leftFakeSiteIdentificationControl = createFakeSiteIdentificationControl({
-		popupAnchor : '#left-map',
+		popupAnchor :  '#' + leftMapName,
 		layer : leftFakeLayer,
 		width : leftMap.size.w,
-		graphContainer : '#right-map'
+		graphContainer : '#' + rightMapName
 	});
 	
 	rightMap.addControls([rightSiteIdentificationControl, rightFakeSiteIdentificationControl]);
