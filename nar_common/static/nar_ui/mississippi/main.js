@@ -52,6 +52,7 @@ $(document).ready(function() {
 				popupAnchor = args.popupAnchor,
 				width = args.width,
 				graphContainer = args.graphContainer,
+				filterSubject = args.filterSubject,
 				control = new nar.SiteIdentificationControl({
 					layers : [ layer ],
 					popupAnchor : popupAnchor,
@@ -125,6 +126,7 @@ $(document).ready(function() {
 				popupAnchor = args.popupAnchor,
 				width = args.width,
 				graphContainer = args.graphContainer,
+				filterSubject = args.filterSubject,
 				control = new nar.SiteIdentificationControl({
 					layers : [ layer ],
 					popupAnchor : popupAnchor,
@@ -202,9 +204,20 @@ $(document).ready(function() {
 	leftMap.addLayers([leftMarbLayer,leftFakeLayer]);
 	rightMap.addLayers([rightMarbLayer,rightFakeLayer]);
 	
+	var leftFiltersName = '.left_filter';
+	var leftFilters = $(leftFilterName);
+	var rightFiltersName = '.right_filter';
+	var rightFilters= $(rightFilterName);
 	
-	nar.mississippi.createLoadSelect(leftMap, $('.left_filter'));
-	nar.mississippi.createLoadSelect(rightMap, $('.right_filter'));
+	nar.mississippi.createLoadSelect(leftMap, leftFilters);
+	nar.mississippi.createLoadSelect(rightMap, rightFilters);
+	
+	var leftFiltersSubject = new nar.mississippi.FiltersSubject(leftFilters);
+	var rightFiltersSubject =new nar.mississippi.FiltersSubject(rightFilters);
+	
+	
+	makeSubjectObserveFilters(leftFiltersSubject, leftFilters);
+	makeSubjectObserveFilters(rightFiltersSubject, rightFilters);
 	
 	// Now that the layers are in the map, I want to add the identification
 	// control for them
@@ -212,28 +225,32 @@ $(document).ready(function() {
 		layer : rightMarbLayer,
 		popupAnchor : '#' + rightMapName,
 		width : rightMap.size.w,
-		graphContainer : '#' + leftMapName
+		graphContainer : '#' + leftMapName,
+		filterSubject: leftFilterSubject
 	});
 	
 	leftSiteIdentificationControl = createSiteIdentificationControl({
 		layer : leftMarbLayer,
 		popupAnchor : '#' + leftMapName,
 		width : leftMap.size.w,
-		graphContainer : '#' + rightMapName
+		graphContainer : '#' + rightMapName,
+		filterSubject: rightFilterSubject
 	});
 	
 	rightFakeSiteIdentificationControl = createFakeSiteIdentificationControl({
 		popupAnchor : '#' + rightMapName,
 		layer : rightFakeLayer,
 		width : rightMap.size.w,
-		graphContainer : '#' + leftMapName
+		graphContainer : '#' + leftMapName,
+		filterSubject: leftFilterSubject
 	});
 	
 	leftFakeSiteIdentificationControl = createFakeSiteIdentificationControl({
 		popupAnchor :  '#' + leftMapName,
 		layer : leftFakeLayer,
 		width : leftMap.size.w,
-		graphContainer : '#' + rightMapName
+		graphContainer : '#' + rightMapName,
+		filterSubject: rightFilterSubject
 	});
 	
 	rightMap.addControls([rightSiteIdentificationControl, rightFakeSiteIdentificationControl]);

@@ -1,4 +1,8 @@
 /**
+ * @requires _
+ */
+
+/**
  * @class nar.commons.Subject
  * Used to implement the observer pattern.
  */
@@ -31,6 +35,5 @@ nar.commons.Subject = function(){
 			handler.apply(null, args);
 		});
 	};
-
 };
 
