@@ -213,11 +213,7 @@ $(document).ready(function() {
 	nar.mississippi.createLoadSelect(rightMap, rightFilters);
 	
 	var leftFiltersSubject = new nar.mississippi.FiltersSubject(leftFilters);
-	var rightFiltersSubject =new nar.mississippi.FiltersSubject(rightFilters);
-	
-	
-	makeSubjectObserveFilters(leftFiltersSubject, leftFilters);
-	makeSubjectObserveFilters(rightFiltersSubject, rightFilters);
+	var rightFiltersSubject = new nar.mississippi.FiltersSubject(rightFilters);
 	
 	// Now that the layers are in the map, I want to add the identification
 	// control for them
@@ -226,7 +222,7 @@ $(document).ready(function() {
 		popupAnchor : '#' + rightMapName,
 		width : rightMap.size.w,
 		graphContainer : '#' + leftMapName,
-		filterSubject: leftFilterSubject
+		filterSubject: leftFiltersSubject
 	});
 	
 	leftSiteIdentificationControl = createSiteIdentificationControl({
@@ -234,7 +230,7 @@ $(document).ready(function() {
 		popupAnchor : '#' + leftMapName,
 		width : leftMap.size.w,
 		graphContainer : '#' + rightMapName,
-		filterSubject: rightFilterSubject
+		filterSubject: rightFiltersSubject
 	});
 	
 	rightFakeSiteIdentificationControl = createFakeSiteIdentificationControl({
@@ -242,7 +238,7 @@ $(document).ready(function() {
 		layer : rightFakeLayer,
 		width : rightMap.size.w,
 		graphContainer : '#' + leftMapName,
-		filterSubject: leftFilterSubject
+		filterSubject: leftFiltersSubject
 	});
 	
 	leftFakeSiteIdentificationControl = createFakeSiteIdentificationControl({
@@ -250,7 +246,7 @@ $(document).ready(function() {
 		layer : leftFakeLayer,
 		width : leftMap.size.w,
 		graphContainer : '#' + rightMapName,
-		filterSubject: rightFilterSubject
+		filterSubject: rightFiltersSubject
 	});
 	
 	rightMap.addControls([rightSiteIdentificationControl, rightFakeSiteIdentificationControl]);

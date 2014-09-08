@@ -6,8 +6,8 @@ nar.mississippi = nar.mississippi || {};
 (function(){
 	/**
 	 * @class nar.mississippi.FiltersState
-	 * @property changed - a map of field name to field value
-	 * @property same - a map of field name to field value
+	 * @property changed - a map of field name to field value for all changed field
+	 * @property same - a map of field name to field value for all fields that have not changes
 	 */
 	nar.mississippi.FiltersState = function(changed, same){
 		self.changed = changed;
@@ -19,7 +19,6 @@ nar.mississippi = nar.mississippi || {};
 	 * Returns a Subject whose observers are called 
 	 * with a nar.mississippi.FiltersState object.
 	 */
-	
 	/**
 	 * @param {jQuery} filters - the parent of several form elements
 	 */
@@ -39,13 +38,6 @@ nar.mississippi = nar.mississippi || {};
 		
 		filterInputs.change(function(event){
 			
-			/**
-			 * Each handler observing the filters subject will receive
-			 * an object with two properties. Both properties are a map of 
-			 * field name to field value. The 'changed' property is a map of 
-			 * the newly changed field. The 'same' property is a map of the
-			 * other unchanged fields
-			 */
 			var changedNameValuePair = getNameValuePairFromFormElement(event.target);
 			var changedFiltersStateEntry = {};
 			changedFilterStateEntry[changedNameValuePair.name] = changedNameValuePair.value;
