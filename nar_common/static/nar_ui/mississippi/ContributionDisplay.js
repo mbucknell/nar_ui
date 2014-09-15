@@ -66,6 +66,7 @@ nar.ContributionDisplay = (function() {
 			placement = args.placement,
 			width = args.width,
 			height = args.height,
+			zIndex = 1006,
 			sortedData = (function(data){
 				var sortedData = [];
 				for (var k in data) {
@@ -86,7 +87,8 @@ nar.ContributionDisplay = (function() {
 				.addClass('chart-miss-pie')
 				.css({
 					width : width,
-					height : height
+					height : height,
+					'z-index' : zIndex
 				}),
 			$legendContainer = $('<div />')
 				.addClass('chart-miss-legend')
@@ -94,7 +96,7 @@ nar.ContributionDisplay = (function() {
 					width : width,
 					height : height,
 					position : 'absolute',
-					'z-index' : 750
+					'z-index' : zIndex
 				});
 		
 		if (placement === 'bl') {
@@ -102,22 +104,24 @@ nar.ContributionDisplay = (function() {
 				'left' : 0,
 				'bottom' : 0,
 				'position' : 'absolute',
-				'z-index' : 750
+				'z-index' : zIndex
 			});
 			$legendContainer.css({
 				'left' : width,
-				'bottom' : 0
+				'bottom' : 0,
+				'z-index' : zIndex
 			});
 		} else if (placement === 'br') {
 			$chartDiv.css({
 				'right' : 0,
 				'bottom' : 0,
 				'position' : 'absolute',
-				'z-index' : 750
+				'z-index' : zIndex
 			});
 			$legendContainer.css({
 				'left' : $container.width() - width * 2,
-				'bottom' : 0
+				'bottom' : 0,
+				'z-index' : zIndex
 			});
 		}
 		
@@ -126,20 +130,22 @@ nar.ContributionDisplay = (function() {
 		$.plot($chartDiv, sortedData, {
 			series : {
 				pie : {
+					legendContainer : $legendContainer,
+					container : $chartDiv,
 					show : true,
 					radius: 1,
 					label : {
 						show: true,
-						radius: 2/3,
+						radius: 4/5,
 						formatter : function (label, series) {
-							return "<div style='font-size:8pt; text-align:center; padding:2px; color:black;'>" + Math.round(series.percent) + "%</div>";
+							return "<div style='font-size:8pt; text-align:center; padding:2px; color:black; opacity:0.2'>" + series.percent.toFixed(2) + "%</div>";
 						}
 					}
 				}
 			},
 			legend : {
 				show: true,
-				container : $legendContainer,
+				container : $legendContainer
 				// The backgroundColor and backgroundOpacity options don't seem 
 				// to work here so it's been added to CSS instead
 			},
@@ -150,8 +156,21 @@ nar.ContributionDisplay = (function() {
 		});
 		
 		$chartDiv.on('plothover', function(event, pos, obj) {
-			if (!obj) {
-				return;
+			var $legend,
+				$label,
+				$labels;
+			if (obj) {
+				$(event.target.getElementsByClassName('pieLabel')).find('div').css('opacity', '0.2');
+				obj.series.pie.legendContainer.find('table tr').css('font-weight', '');
+				$(obj.series.pie.legendContainer.find('table tr')[obj.seriesIndex]).css('font-weight', 'bold');
+				$labels = $(event.target.getElementsByClassName('pieLabel')).find('div');
+				$label = $($labels.get(obj.seriesIndex));
+				$label.css('opacity', '1');
+				
+			} else {
+				$legend = $(event.target.nextElementSibling);
+				$legend.find('table tr').css('font-weight', '');
+				$(event.target.getElementsByClassName('pieLabel')).find('div').css('opacity', '0.2');
 			}
 		});
 	};
