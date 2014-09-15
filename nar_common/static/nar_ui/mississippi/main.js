@@ -31,8 +31,8 @@ $(document).ready(function() {
 				containerSelector : '#left-map',
 				placement : 'bl',
 				parameters : leftSelections,
-				width: 250,
-				height : 250
+				width: 200,
+				height : 200
 			});
 		}
 		
@@ -41,8 +41,8 @@ $(document).ready(function() {
 				containerSelector : '#right-map',
 				placement : 'br',
 				parameters : rightSelections,
-				width: 250,
-				height : 250
+				width: 200,
+				height : 200
 			});
 		}
 	});
