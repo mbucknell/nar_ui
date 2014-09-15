@@ -116,7 +116,7 @@ nar.ContributionDisplay = (function() {
 				'z-index' : 750
 			});
 			$legendContainer.css({
-				'right' : -width,
+				'left' : $container.width() - width * 2,
 				'bottom' : 0
 			})
 		}
