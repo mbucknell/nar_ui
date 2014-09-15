@@ -355,6 +355,10 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 /* End Alaska Inset */
 
 /* Site popup styling */
+.nar-popup-dialog {
+	z-index: 755 !important;
+}
+
 .nar-popup-dialog .ui-dialog-titlebar {
 	padding: 0.1em !important; /* bootstrap override */
 }
@@ -522,18 +526,21 @@ select.last{margin-right:0;}
 					margin:0;
 					position:relative;}
 					
-#mississippi_info{border-bottom:@borderDark;
-					border-left:@borderDark;
- 					width:220px;
- 					min-height:22px;
- 					position:absolute;
- 					right:0;
- 					top:0;
- 					background:@boxColor;
- 					text-align:left;
- 					font-size:.7em;
- 					padding:4px 2px 0 5px;
- 					line-height:1.4em;}
+#mississippi_info{
+	border-bottom:@borderDark;
+	border-left:@borderDark;
+	width:240px;
+	min-height:22px;
+	position:absolute;
+	right:0;
+	top:0;
+	background:@boxColor;
+	text-align:left;
+	font-size:.7em;
+	padding:4px 2px 0 5px;
+	line-height:1.4em;
+	z-index: 750;
+}
 					
 #left-map,
 #right-map{height:487px;}
@@ -592,8 +599,21 @@ select.last{margin-right:0;}
 	color : #888888;
 	padding: 0em;
 } 								
- 								
-			
+ 	
+.chart-miss-legend > table {
+	background-color: #FFFFFF;
+	
+}
+
+.left_filter select,
+.right_filter select{width:136px;
+					margin-right:18px;
+					}
+					
+select.last{margin-right:0;}
+
+#download_holder{left:41.5%}
+
  /*###########################mississippi_end####################### */
  
  /*###########################coastal_start####################### */
@@ -1202,19 +1222,6 @@ select.last{margin-right:0;}
 
 /*###########################site_end####################### */
 
-/*###########################mississippi_start####################### */
-
-.left_filter select,
-.right_filter select{width:136px;
-					margin-right:18px;
-					}
-					
-select.last{margin-right:0;}
-
-#download_holder{left:41.5%}
-					
-/*###########################mississippi_end####################### */
-
 /*###########################summary_start####################### */
 
 .graphContainer,
@@ -1328,37 +1335,7 @@ select.last{margin-right:0;}
 
 /*###########################mississippi_start####################### */
 
-.mississippi_title h3{font-size:1.4em;}
- 					
- .mississippi_title h6{font-size:.8em;}
- 
- #mississippi_info{
- 					padding:2px 0 2px 5px;
- }
- 
- #toggle{width:70px;
- 		height:38px;
- 		text-align:center;
- 		font-size:.9em;
- 		top:40px;
- }
- 		
-  #toggle,
-  #help{right:0;}
-  
-   #help{top:4px;}
- 
-.mississippi_title button{
- 							background:@boxColor;}
 
-.left_filter select,
-.right_filter select{width:100px;
-					margin-right:18px;
-					}
-					
-select.last{margin-right:0;}
-
-#download_holder{left:39%}
 					
 /*###########################mississippi_end####################### */
 
@@ -1495,37 +1472,6 @@ select.last{margin-right:0;}
 }     
             
 /*###########################site_end####################### */
-
-/*###########################mississippi_start####################### */
-
-.mississippi_title h3{font-size:1.4em;}
- 					
- .mississippi_title h6{font-size:.8em;}
- 
- #mississippi_info{
- 					padding:2px 0 2px 5px;
- }
- 
- #toggle{width:60px;
- 		height:38px;
- 		text-align:center;
- 		font-size:.9em;
- 		top:40px;
- }
- 		
-  #toggle,
-  #help{right:0;}
-
-.left_filter select,
-.right_filter select{width:100px;
-					margin-right:10px;
-					}
-					
-select.last{margin-right:0;}
-
-#download_holder{left:39%}
-					
-/*###########################mississippi_end####################### */
 
 /*###########################summary_start####################### */
 		

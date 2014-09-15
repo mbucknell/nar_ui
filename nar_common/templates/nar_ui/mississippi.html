@@ -15,7 +15,7 @@
 		
 		<h6>The width of each river shows its relative contribution to nutrient loading 
 		
-		<a href="#">( Show percentage contributions 
+		<a href="#" id="link-chart-contribution">( Show percentage contributions 
 		
 		<i class="icon-large">
 		
@@ -122,11 +122,18 @@
 	
 </div><!--mississippi_holder-->
 {% compress js %}
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.resize.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.categories.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.pie.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/flot_plugins/jquery.flot.axislabels.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/flot_plugins/jquery.flot.tooltip.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/js_lib/jquery-ui/jquery-ui.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/js_lib/OpenLayers/OpenLayers.debug.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/commons/sitePopup.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/commons/SiteIdentificationControl.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/mapCommons.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/mississippi/ContributionDisplay.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/mississippi/GraphPopup.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/mississippi/map.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/mississippi/main.js' %}"></script>
