@@ -107,7 +107,7 @@ nar.ContributionDisplay = (function() {
 			$legendContainer.css({
 				'left' : width,
 				'bottom' : 0
-			})
+			});
 		} else if (placement === 'br') {
 			$chartDiv.css({
 				'right' : 0,
@@ -118,7 +118,7 @@ nar.ContributionDisplay = (function() {
 			$legendContainer.css({
 				'left' : $container.width() - width * 2,
 				'bottom' : 0
-			})
+			});
 		}
 		
 		$container.append($chartDiv, $legendContainer);
@@ -130,7 +130,7 @@ nar.ContributionDisplay = (function() {
 					radius: 1,
 					label : {
 						show: true,
-		                radius: 2/3,
+						radius: 2/3,
 						formatter : function (label, series) {
 							return "<div style='font-size:8pt; text-align:center; padding:2px; color:black;'>" + Math.round(series.percent) + "%</div>";
 						}
@@ -140,9 +140,8 @@ nar.ContributionDisplay = (function() {
 			legend : {
 				show: true,
 				container : $legendContainer,
-				backgroundColor : '#FFFFFF',
-				backgroundOpacity : 0.99
-				
+				// The backgroundColor and backgroundOpacity options don't seem 
+				// to work here so it's been added to CSS instead
 			},
 			grid : {
 				hoverable : true,
