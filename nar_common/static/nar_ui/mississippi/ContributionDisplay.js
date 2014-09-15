@@ -197,7 +197,7 @@ nar.ContributionDisplay = (function() {
 					});
 				},
 				error : function() {
-					// Do nothing. The data was (probably) not found
+					throw Error('Could not find data for constituent combination');
 				}
 			}
 		});
