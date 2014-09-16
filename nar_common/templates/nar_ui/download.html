@@ -16,17 +16,17 @@
     placeholder: "Select a State"
 }); 
 		$("#e4").select2({
-    placeholder: "Select a Station ID",
+    placeholder: "Select a Station Name",
     allowClear: true
 });
 
 		$("#e5").select2({
-    placeholder: "Select a Site Type",
+    placeholder: "Select a Station ID",
     allowClear: true
 });
 
 		$("#e6").select2({
-    placeholder: "Select a HUC",
+    placeholder: "Select a Site Type",
     allowClear: true
 });
 
@@ -36,7 +36,7 @@
 });
 
 		$("#e8").select2({
-    placeholder: "Select a Constituent Value Type",
+    placeholder: "Select a Water Quality Data Type",
     allowClear: true
 });
 
@@ -145,19 +145,19 @@ $('input[type="checkbox"]').prop('checked', false);
     
     <div id="checkbox_holder">
     
-	    <input id="first" type="checkbox"/>Site Information Only
+    	<p class="format">Choose a data type(s):</p>
+    
+	    <input id="first" type="checkbox"/>Site Information
 	    
-	     <input type="checkbox"/>Water Quality Data Only
+	     <input type="checkbox"/>Water Quality
 	     
-	     <input type="checkbox"/>Stream Flow Data Only
-	     
-	      <input type="checkbox"/>Inlcude Benchmark Values
+	     <input type="checkbox"/>Stream Flow
       
     	</div><!--checkbox_holder-->
     	
     	<div id="box">
     	
-	    	<p id="format">Choose a File Format:</p>
+	    	<p class="format">Choose a File Format:</p>
 	    	
 	    	<div id="format_holder">
 	    	
