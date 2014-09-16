@@ -38,7 +38,8 @@ nar.fullReport = nar.fullReport || {};
                rendererOptions: {
                    barDirection: 'horizontal',
                    varyBarColor: true,
-                   barWidth: 40
+                   barWidth: 40,
+                   shadowDepth : 0
                },
                pointLabels: {
                    show: true,
