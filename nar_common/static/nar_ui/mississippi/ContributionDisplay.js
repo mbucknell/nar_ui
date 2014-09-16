@@ -59,6 +59,45 @@ nar.ContributionDisplay = (function() {
 		});
 	};
 	
+	me.createLegendData = function (data,parameters) {
+		var sortedData = [];
+		for (var k in data) {
+			if (data.hasOwnProperty(k) && data[k] && me.attributeColorMap[k]) {
+				var percentage = (data[k] * 100).toFixed(2),
+					label = me.attributeColorMap[k].title,
+					color = me.attributeColorMap[k].color,
+					year = parameters.water_year,
+					ttipSpan = ' <span class="combined-tooltip" title="Portions of the Mississippi River basin were combined because of missing load data">*</span>';
+				
+				// For 1993-1994, when only the Upper Mississippi River is missing, change 
+				// the legend for the "Upper Middle Mississippi" to "Upper/Upper Middle Mississippi". 
+				// For 1995, change the legend for "Lower Middle Mississippi" to 
+				// "Upper/Upper Middle/Lower Middle Mississippi". For 1996, change the legend for 
+				// "Lower Middle Mississippi" to "Upper Middle/Lower Middle Mississippi". 
+				//
+				// Include an asterisk on these legend labels and somehow indicate 
+				// "Portions of the Mississippi River basin were combined because of missing load data".
+				
+				if (!data.UPPERMISS && data.LOWERMIDDLEMISS && data.LOWERMISS && data.UPPERMIDDLEMISS) {
+					if (year === '1993' || year === '1994' && k === 'UPPERMIDDLEMISS') {
+						label = 'Upper/Upper Middle Mississippi' + ttipSpan;
+					} else if (year === '1995' && k === 'LOWERMISS') {
+						label = 'Upper/Upper Middle/Lower Middle Mississippi' + ttipSpan;
+					} else if (year === '1996' && k === 'LOWERMIDDLEMISS') {
+						label = 'Upper Middle/Lower Middle Mississippi' + ttipSpan;
+					}
+				}
+				
+				sortedData.push({
+					label : label,
+					data : percentage,
+					color : color
+				});
+			}
+		}
+		return sortedData;
+	};
+	
 	me.createPie = function (args) {
 		var data = args.data,
 			containerSelector = args.containerSelector,
@@ -68,44 +107,7 @@ nar.ContributionDisplay = (function() {
 			height = args.height,
 			zIndex = 1006,
 			parameters = args.parameters,
-			sortedData = (function(data,parameters){
-				var sortedData = [];
-				for (var k in data) {
-					if (data.hasOwnProperty(k) && data[k] && me.attributeColorMap[k]) {
-						var percentage = (data[k] * 100).toFixed(2),
-							label = me.attributeColorMap[k].title,
-							color = me.attributeColorMap[k].color,
-							year = parameters.water_year,
-							ttipSpan = ' <span class="combined-tooltip" title="Portions of the Mississippi River basin were combined because of missing load data">*</span>';
-						
-						// For 1993-1994, when only the Upper Mississippi River is missing, change 
-						// the legend for the "Upper Middle Mississippi" to "Upper/Upper Middle Mississippi". 
-						// For 1995, change the legend for "Lower Middle Mississippi" to 
-						// "Upper/Upper Middle/Lower Middle Mississippi". For 1996, change the legend for 
-						// "Lower Middle Mississippi" to "Upper Middle/Lower Middle Mississippi". 
-						//
-						// Include an asterisk on these legend labels and somehow indicate 
-						// "Portions of the Mississippi River basin were combined because of missing load data".
-						
-						if (!data.UPPERMIDDLEMISS && data.LOWERMIDDLEMISS && data.LOWERMISS && data.UPPERMISS) {
-							if (year === '1993' || year === '1994' && k === 'UPPERMIDDLEMISS') {
-								label = 'Upper/Upper Middle Mississippi' + ttipSpan;
-							} else if (year === '1995' && k === 'LOWERMISS') {
-								label = 'Upper/Upper Middle/Lower Middle Mississippi' + ttipSpan;
-							} else if (year === '1996' && k === 'LOWERMIDDLEMISS') {
-								label = 'Upper Middle/Lower Middle Mississippi' + ttipSpan;
-							}
-						}
-						
-						sortedData.push({
-							label : label,
-							data : percentage,
-							color : color
-						});
-					}
-				}
-				return sortedData;
-			}(data,parameters)),
+			sortedData = me.createLegendData(data,parameters),
 			$chartDiv = $('<div />')
 				.addClass('chart-miss-pie')
 				.css({
@@ -230,7 +232,8 @@ nar.ContributionDisplay = (function() {
 	};
 	
 	return {
-		create : me.create
+		create : me.create,
+		createLegendData : me.createLegendData
 	};
 	
 })();

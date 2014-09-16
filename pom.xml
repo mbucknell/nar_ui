@@ -164,11 +164,13 @@
 						<include>*.js</include>
 		               <include>summary_report/*.js</include>
 		               <include>full_report/*.js</include>
+		               <include>mississippi/*.js</include>
 		         </sourceIncludes>
 		         <sourceExcludes>
 		         	<include>map.js</include>
 		         	<include>summary_report/main.js</include>
 		         	<include>full_report/main.js</include>
+		         	<include>mississippi/main.js</include>
 		         </sourceExcludes>
 		     </configuration>
 		</plugin>
