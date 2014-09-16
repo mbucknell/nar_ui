@@ -62,7 +62,7 @@ $(document).ready(
 	                ],
 	                exceedancesTitle
 	            );
-	            
+	            /*
 	            var aquaticHealthExceedancePlot = ExceedancePlot(
 	                'aquaticHealthExceedances', 
 	                [
@@ -71,16 +71,21 @@ $(document).ready(
 	                ],
 	                exceedancesTitle
 	            );
+	            */
 	            
 	            nar.informativePopup({
 	            	$anchor : $('#link-hover-benchmark-human'),
 	            	content : '<div class="popover-benchmark-content">\
-	            		The human-health benchmark for nitrate is<br />\
-	            		an EPA Maximum Contaminant Level<br />\
-	            		MCL = 10 mg/L as N<br />\
-	            		<a href="http://water.epa.gov/drink/contaminants/index.cfm" target="_new">http:// water.epa.gov/drink/contaminants/index.cfm</a></div>'
+	            		Measured concentrations in water samples from <br/>\
+	            		streams and rivers are compared to one of three <br/>\
+	            		types of human-health benchmarks to place the data <br/>\
+	            		in a human-health context. Generally, concentrations <br/>\
+	            		above a benchmark may indicate a potential human-health<br/>\
+	            		concern if the water were to be consumed without <br/>\
+	            		treatment for many years. None of the samples were <br/>\
+	            		collected from drinking-water intakes.</div>'
 	            });
-
+	            /* Used for the aquatic benchmark which we are not showing at this time
 	            $.ajax(CONFIG.siteInfoUrl, {
 	            	data : {
 	            		'site_id' : PARAMS.siteId
@@ -117,5 +122,6 @@ $(document).ready(
 		            	$anchor.removeClass('link-popover-anchor');
 		            }
 	            });
+	            */
         	});
         });
