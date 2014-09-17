@@ -108,21 +108,29 @@ nar.ContributionDisplay = (function() {
 			zIndex = 1006,
 			parameters = args.parameters,
 			sortedData = me.createLegendData(data,parameters),
+			chartContainerClass = 'chart-miss-pie',
+			legendContainerClass = 'chart-miss-legend',
+			$closeLinkRow = $('<tr />').attr('colspan', '2'),
+			$closeLinkCell = $('<td />').attr('colspan', '2').addClass('text-right'),
+			$closeLink = $('<div />').addClass('glyphicon glyphicon-remove chart-miss-legend-link-close'),
 			$chartDiv = $('<div />')
-				.addClass('chart-miss-pie')
+				.addClass(chartContainerClass)
 				.css({
 					width : width,
 					height : height,
 					'z-index' : zIndex
 				}),
 			$legendContainer = $('<div />')
-				.addClass('chart-miss-legend')
+				.addClass(legendContainerClass)
 				.css({
 					width : width,
 					height : height,
 					position : 'absolute',
 					'z-index' : zIndex
-				});
+				}),
+			removePieChart = function() {
+				$container.find('[class^=chart-miss]').remove();
+			};
 		
 		if (placement === 'bl') {
 			$chartDiv.css({
@@ -149,6 +157,8 @@ nar.ContributionDisplay = (function() {
 				'z-index' : zIndex
 			});
 		}
+		
+		removePieChart();
 		
 		$container.append($chartDiv, $legendContainer);
 		
@@ -180,6 +190,9 @@ nar.ContributionDisplay = (function() {
 			}
 		});
 		
+		$closeLinkRow.append($closeLinkCell.append($closeLink));
+		$legendContainer.find('tbody').prepend($closeLinkRow)
+		
 		$chartDiv.on('plothover', function(event, pos, obj) {
 			var $legend,
 				$label,
@@ -187,7 +200,7 @@ nar.ContributionDisplay = (function() {
 			if (obj) {
 				$(event.target.getElementsByClassName('pieLabel')).find('div').css('opacity', '0.2');
 				obj.series.pie.legendContainer.find('table tr').css('font-weight', '');
-				$(obj.series.pie.legendContainer.find('table tr')[obj.seriesIndex]).css('font-weight', 'bold');
+				$(obj.series.pie.legendContainer.find('table tr')[obj.seriesIndex + 1]).css('font-weight', 'bold');
 				$labels = $(event.target.getElementsByClassName('pieLabel')).find('div');
 				$label = $($labels.get(obj.seriesIndex));
 				$label.css('opacity', '1');
@@ -197,6 +210,8 @@ nar.ContributionDisplay = (function() {
 				$(event.target.getElementsByClassName('pieLabel')).find('div').css('opacity', '0.2');
 			}
 		});
+		
+		$closeLink.on('click', removePieChart);
 		
 		$( document ).tooltip();
 	};
