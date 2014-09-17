@@ -155,9 +155,10 @@ nar.fullReport.MostRecentWaterYearTimeRange = function(dataAvailability) {
  * @param {nar.fullReport.TimeRange} current the current element of iteration
  */
 var timeExtentExtremityFinder = function(init, current){
-    init.startTime = Math.min(init.startTime, current.startTime);
-    init.endTime = Math.max(init.endTime, current.endTime);
-    return init;
+	// We do not want to show any data in the graphs previous to 1993
+	init.startTime = Math.max(CONFIG.msFor1993, Math.min(init.startTime, current.startTime));
+	init.endTime = Math.max(init.endTime, current.endTime);
+	return init;
 };
 
 //public static methods
