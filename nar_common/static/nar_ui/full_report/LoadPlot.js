@@ -70,7 +70,12 @@ nar.fullReport = nar.fullReport || {};
                 axisLabelFontSizePixels: 10,
                 axisLabelFontFamily: "Verdana, Arial, Helvetica, Tahoma, sans-serif",
                 axisLabelPadding: 40,
-                tickLength: 10
+                tickLength: 10,
+                tickFormatter : function(val) {
+                	// Use Sugar to properly format numbers with commas
+                	// http://sugarjs.com/api/Number/format
+                	return (val).format();
+                }
             },
             legend: {
                    show: false
