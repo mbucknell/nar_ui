@@ -57,7 +57,8 @@
 				sos: 'http://' + '{{ settings.SOS_HOST_NAME|escapejs }}' + '{{ settings.SOS_PATH|escapejs}}'
 			},
 			definitionsUrl : "{% url 'helpcontent-definitions' %}",
-			siteInfoUrl : "{% url 'helpcontent-site_info' %}"
+			siteInfoUrl : "{% url 'helpcontent-site_info' %}",
+			msFor1993 : new Date(1993,0,1).getTime()
 		};
 		
 	</script>

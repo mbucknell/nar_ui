@@ -104,8 +104,6 @@ nar.fullReport.TimeSeries = function(config){
  */
 nar.fullReport.TimeRange = function(startTime, endTime){
   var self = this;
-  // Used in timeExtentExtremityFinder() to lowerbound the date range to 1993
-  self.msFor1993 = new Date(1993,0,1).getTime();
   self.startTime = nar.util.getTimeStamp(startTime);
   self.endTime = nar.util.getTimeStamp(endTime);
   self.clone = function(){
@@ -158,9 +156,9 @@ nar.fullReport.MostRecentWaterYearTimeRange = function(dataAvailability) {
  */
 var timeExtentExtremityFinder = function(init, current){
 	// We do not want to show any data in the graphs previous to 1993
-    init.startTime = Math.max(init.msFor1993, Math.min(init.startTime, current.startTime));
-    init.endTime = Math.max(init.endTime, current.endTime);
-    return init;
+	init.startTime = Math.max(CONFIG.msFor1993, Math.min(init.startTime, current.startTime));
+	init.endTime = Math.max(init.endTime, current.endTime);
+	return init;
 };
 
 //public static methods
