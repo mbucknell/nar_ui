@@ -2,7 +2,9 @@ var nar = nar || {};
 nar.ContributionDisplay = (function() {
 	"use strict";
 	var me = {};
-
+	
+	me.plots = {};
+	
 	me.attributeColorMap = {
 		"ATCHAFALAYA" : {
 			"color" : "#B3A6A3",
@@ -129,6 +131,10 @@ nar.ContributionDisplay = (function() {
 					'z-index' : zIndex
 				}),
 			removePieChart = function() {
+				if (me.plots[containerSelector]) {
+					me.plots[containerSelector].shutdown();
+					delete me.plots[containerSelector];
+				}
 				$container.find('[class^=chart-miss]').remove();
 			};
 		
@@ -162,7 +168,7 @@ nar.ContributionDisplay = (function() {
 		
 		$container.append($chartDiv, $legendContainer);
 		
-		$.plot($chartDiv, sortedData, {
+		me.plots[containerSelector] = $.plot($chartDiv, sortedData, {
 			series : {
 				pie : {
 					legendContainer : $legendContainer,
