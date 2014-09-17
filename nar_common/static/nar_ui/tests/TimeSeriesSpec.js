@@ -25,6 +25,7 @@ describe('nar.fullReport.TimeRange', function(){
 	});
 	describe('nar.fullReport.TimeRange.ofAll', function(){
 		it('should include the lowest of lows and highest of highs among multiple time ranges,', function(){
+			CONFIG.msFor1993 = globalLowestTime;
 			var copyOfTimeRangeA = timeRangeA.clone();
 			aggregateTimeRange = TimeRange.ofAll([timeRangeA, timeRangeB]);
 			expect(aggregateTimeRange.startTime).toBe(globalLowestTime);
