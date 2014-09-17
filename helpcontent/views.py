@@ -102,6 +102,12 @@ class ContactsAndCitationsView(FeedContextMixin, TemplateView):
     feed_titles = [{'context_name' : 'contacts_feed', 'title' : 'Contacts+and+Citations', 'label' : 'contacts_and_citations'}]  
     
     
+class MrbReportHelpInfoView(FeedContextMixin, TemplateView):
+    template_name = 'help.html'
+    feed_titles = [{'context_name' : 'mrb_help_feed', 'title' : 'MRB+Report+Help+Info', 'label' : 'mrb_report_help'}]  
+    
+    
+    
 class DefinitionsJsonView(View):
 
     def get(self, request, *args, **kwargs):
