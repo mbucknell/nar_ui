@@ -82,7 +82,7 @@ nar.ContributionDisplay = (function() {
 					// "Portions of the Mississippi River basin were combined because of missing load data".
 					
 					if (!data.UPPERMISS && data.LOWERMIDDLEMISS && data.LOWERMISS && data.UPPERMIDDLEMISS) {
-						if (year === '1993' || year === '1994' && k === 'UPPERMIDDLEMISS') {
+						if ((year === '1993' || year === '1994') && k === 'UPPERMIDDLEMISS') {
 							label = 'Upper/Upper Middle Mississippi' + ttipSpan;
 						} else if (year === '1995' && k === 'LOWERMISS') {
 							label = 'Upper/Upper Middle/Lower Middle Mississippi' + ttipSpan;
