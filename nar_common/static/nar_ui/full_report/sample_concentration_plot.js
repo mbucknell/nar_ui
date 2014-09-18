@@ -85,9 +85,8 @@ nar.fullReport = nar.fullReport || {};
                 minTickSize: [1, 'month']
             },
             yaxis: {
-                axisLabel: constituentName + " (mg/L)",
-                axisLabelUseCanvas: true,
-                axisLabelFontSizePixels: 12,
+                axisLabel: constituentName + ",<br /> in milligrams per liter",
+                axisLabelFontSizePixels: 10,
                 axisLabelFontFamily: "Verdana, Arial, Helvetica, Tahoma, sans-serif",
                 axisLabelPadding: 5,
                 ticks: [0.001,0.01,0.1,1,10,100, 1000],

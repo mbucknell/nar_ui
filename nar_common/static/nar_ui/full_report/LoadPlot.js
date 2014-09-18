@@ -65,8 +65,7 @@ nar.fullReport = nar.fullReport || {};
                 ticks : nar.fullReport.PlotUtils.getTicksByYear
             },
             yaxis: {
-                axisLabel: constituentName + " load (kg*10^6)",
-                axisLabelUseCanvas: true,
+                axisLabel: constituentName + " load,<br />in thousands of tons",
                 axisLabelFontSizePixels: 10,
                 axisLabelFontFamily: "Verdana, Arial, Helvetica, Tahoma, sans-serif",
                 axisLabelPadding: 40,
