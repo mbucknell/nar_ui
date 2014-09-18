@@ -38,7 +38,8 @@ nar.fullReport = nar.fullReport || {};
                rendererOptions: {
                    barDirection: 'horizontal',
                    varyBarColor: true,
-                   barWidth: 40
+                   barWidth: 40,
+                   shadowDepth : 0
                },
                pointLabels: {
                    show: true,
@@ -74,17 +75,7 @@ nar.fullReport = nar.fullReport || {};
        $(window).resize(function() {
            plot.replot();
        });
-       //make a download button
-       var plotSelector = '#'+plotEltId; 
        
-       var plotExportButtonContainer = $(plotSelector).after('<div></div>').next();
-       
-       plotExportButtonContainer.addClass('plotExportButtonContainer')
-           .append('<button>Download Plot</button>', {
-                   'class': 'plotExportButton'
-           }).click(function(){
-               $(plotSelector).jqplotSaveImage();
-           });
        return plot;
    };
     nar.fullReport.ExceedancePlot = ExceedancePlot;
