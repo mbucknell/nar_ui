@@ -55,8 +55,6 @@ nar.fullReport = nar.fullReport || {};
                    tickOptions:{
                        labelPosition: 'middle',
                        showGridline: false
-//                       fontWeight : 'bold',
-//                       textColor : 'black'
                    }
                },
                xaxis: {

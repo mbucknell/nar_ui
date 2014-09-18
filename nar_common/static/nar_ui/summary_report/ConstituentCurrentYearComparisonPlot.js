@@ -103,10 +103,10 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
             tickLength: 3,
             tickColor: '#000000'
         },
-        grid: { 
-        	hoverable: true, 
-        	clickable: true
-    	},
+		grid : {
+			hoverable : true,
+			clickable : true
+		},
         colors: [averageColor, series.yearColor],
         tooltip: true,
         tooltipOpts: {

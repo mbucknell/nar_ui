@@ -84,17 +84,7 @@ $(document).ready(
                 ],
                 exceedancesTitle
             );
-            /*
-            var aquaticHealthExceedancePlot = ExceedancePlot(
-                'aquaticHealthExceedances', 
-                [
-                 {constituent: nar.Constituents.nitrogen, data: [13]},
-                 {constituent: nar.Constituents.phosphorus, data: [73]},
-                ],
-                exceedancesTitle
-            );
-            */
-            
+
             nar.informativePopup({
             	$anchor : $('#link-hover-benchmark-human'),
             	content : '<div class="popover-benchmark-content">\
@@ -106,44 +96,7 @@ $(document).ready(
             		concern if the water were to be consumed without <br/>\
             		treatment for many years. None of the samples were <br/>\
             		collected from drinking-water intakes.</div>'
-            });
-            /* Used for the aquatic benchmark which we are not showing at this time
-            $.ajax(CONFIG.siteInfoUrl, {
-            	data : {
-            		'site_id' : PARAMS.siteId
-            	},
-            	success : function (data) {
-            		var $anchor = $('#link-hover-benchmark-aquatic');
-            		if (data.nutrient_ecoregion && data.tn_criteria && data.tp_criteria) {
-			            nar.informativePopup({
-			            	$anchor : $anchor,
-			            	title : 'EPA Ecoregion ' + data.nutrient_ecoregion + ' Recommended Nutrient Criteria',
-			            	content : '<div class="popover-benchmark-content">\
-			            		Total nitrogen = ' + data.tn_criteria + ' mg/L<br />\
-			            		Total phosphorous = ' + data.tp_criteria + ' mg/L<br />\
-			            		<a href="http://www2.epa.gov/nutrient-policy-data/ecoregional-nutrient-criteria-documents-rivers-streams" target="_new">\
-			            		http://www2.epa.gov/nutrient-policy-data/ecoregional-nutrient-criteria-documents-rivers-streams\
-			            		</a><br /><br />\
-			            		See <a href="http://cfpub.epa.gov/wqsits/nnc-development/" target="_new">\
-			            		http://cfpub.epa.gov/wqsits/nnc-development/\
-			            		</a>for status of State development of numeric criteria for nitrogen and phosphorus</div>',
-		            		placement : function () {
-		            			var BOOTSTRAP_MAGIC_RESIZE_THRESHOLD = 976;
-		            			// If bootstrap has the app in narrow mode, the popup needs to be on the bottom because 
-			            		// otherwise it will go past the edge of the screen. In wide mode, this is not a problem
-			            		var placement =  $('body').width() <= BOOTSTRAP_MAGIC_RESIZE_THRESHOLD ? 'bottom' : 'left';
-			            		return placement;
-		            		}
-			            });
-            		} else {
-            			$anchor.removeClass('link-popover-anchor');
-            		}
-	            }, error : function () {
-	            	// If the webservice errors out, I don't want the "Benchmarks" text to be 
-	            	// decorated
-	            	$anchor.removeClass('link-popover-anchor');
-	            }
-            });
-            */
-    	});
-    });
+			});
+
+	});
+});
