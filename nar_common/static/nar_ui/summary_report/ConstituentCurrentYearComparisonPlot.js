@@ -116,6 +116,26 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
             show: false
         }
     });
+    
+    // If no data for year, add a label on the chart.
+    if (series.yearValue === 0) {
+		var NO_DATA = 'No data';
+
+		var ctx = plot.getCanvas().getContext("2d");
+		var xaxis = plot.getAxes().xaxis;
+		var yaxis = plot.getAxes().yaxis;
+		var plotOffset = plot.getPlotOffset();
+		var metrics = ctx.measureText(NO_DATA);
+		var tx = xaxis.p2c(2) + plotOffset.left;
+		var ty = yaxis.p2c(yaxis.max / 2) + plotOffset.bottom;
+		
+		ctx.save();
+		ctx.translate(tx, ty);
+		ctx.rotate(0.5 * Math.PI);
+		ctx.fillText("No data", -metrics.width / 2, 4);
+		ctx.restore();
+	}
+	
     return plot;
 };
 ConstituentCurrentYearComparisonPlot.defaultAverageColor = '#D8DCDC';
