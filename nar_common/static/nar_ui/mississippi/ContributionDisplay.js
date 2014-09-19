@@ -110,6 +110,7 @@ nar.ContributionDisplay = (function() {
 			width = args.width,
 			height = args.height,
 			zIndex = 1006,
+			paddingRight = 15,
 			parameters = args.parameters,
 			sortedData = me.createLegendData(data,parameters),
 			chartContainerClass = 'chart-miss-pie',
@@ -129,7 +130,6 @@ nar.ContributionDisplay = (function() {
 				.css({
 					width : width,
 					height : height,
-					position : 'absolute',
 					'z-index' : zIndex
 				}),
 			removePieChart = function() {
@@ -140,35 +140,38 @@ nar.ContributionDisplay = (function() {
 				$container.find('[class^=chart-miss]').remove();
 			};
 		
+		removePieChart();
+			
 		if (placement === 'bl') {
 			$chartDiv.css({
 				'left' : 0,
 				'bottom' : 0,
-				'position' : 'absolute',
 				'z-index' : zIndex
 			});
 			$legendContainer.css({
-				'left' : width,
+				'left' : width + 20, // 15 = padding-left, +5. 
 				'bottom' : 0,
-				'z-index' : zIndex
+				'z-index' : zIndex,
+				'position' : 'absolute',
 			});
+			
+			$container.append($chartDiv, $legendContainer);
 		} else if (placement === 'br') {
 			$chartDiv.css({
-				'right' : 0,
+				'right' : 0 + paddingRight,
 				'bottom' : 0,
 				'position' : 'absolute',
 				'z-index' : zIndex
 			});
 			$legendContainer.css({
-				'left' : $container.width() - width * 2,
+				'left' : $container.width() - (width * 2) + paddingRight, // Container - pie chart width - legend width
 				'bottom' : 0,
-				'z-index' : zIndex
+				'z-index' : zIndex,
+				'position' : 'inherit'
 			});
+			
+			$container.append($legendContainer, $chartDiv);
 		}
-		
-		removePieChart();
-		
-		$container.append($chartDiv, $legendContainer);
 		
 		me.plots[containerSelector] = $.plot($chartDiv, sortedData, {
 			series : {

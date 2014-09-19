@@ -27,8 +27,9 @@ $(document).ready(function() {
 			};
 		
 		if (leftSelections.parameter_type && leftSelections.constituent && leftSelections.water_year) {
+			
 			nar.ContributionDisplay.create({
-				containerSelector : '#left-map',
+				containerSelector : '#left-pie-chart-container',
 				placement : 'bl',
 				parameters : leftSelections,
 				width: 200,
@@ -38,7 +39,7 @@ $(document).ready(function() {
 		
 		if (rightSelections.parameter_type && rightSelections.constituent && rightSelections.water_year) {
 			nar.ContributionDisplay.create({
-				containerSelector : '#right-map',
+				containerSelector : '#right-pie-chart-container',
 				placement : 'br',
 				parameters : rightSelections,
 				width: 200,
