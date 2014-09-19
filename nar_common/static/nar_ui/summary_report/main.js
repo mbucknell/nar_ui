@@ -84,19 +84,5 @@ $(document).ready(
                 ],
                 exceedancesTitle
             );
-
-            nar.informativePopup({
-            	$anchor : $('#link-hover-benchmark-human'),
-            	content : '<div class="popover-benchmark-content">\
-            		Measured concentrations in water samples from <br/>\
-            		streams and rivers are compared to one of three <br/>\
-            		types of human-health benchmarks to place the data <br/>\
-            		in a human-health context. Generally, concentrations <br/>\
-            		above a benchmark may indicate a potential human-health<br/>\
-            		concern if the water were to be consumed without <br/>\
-            		treatment for many years. None of the samples were <br/>\
-            		collected from drinking-water intakes.</div>'
-			});
-
 	});
 });
