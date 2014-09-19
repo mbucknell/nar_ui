@@ -25,7 +25,6 @@ describe('nar.fullReport.TimeRange', function(){
 	});
 	describe('nar.fullReport.TimeRange.ofAll', function(){
 		it('should include the lowest of lows and highest of highs among multiple time ranges,', function(){
-			CONFIG.msFor1993 = globalLowestTime;
 			var copyOfTimeRangeA = timeRangeA.clone();
 			aggregateTimeRange = TimeRange.ofAll([timeRangeA, timeRangeB]);
 			expect(aggregateTimeRange.startTime).toBe(globalLowestTime);
@@ -60,5 +59,35 @@ describe('nar.fullReport.TimeSeries', function(){
 		
 		expect(resultData[2][0]).toBe(172800000);
 		expect(resultData[2][1]).toBe('3');
+	});
+});
+
+describe('nar.fullReport.DataAvailabilityTimeRange', function() {
+	var cutoffTime = new Date(1993, 0, 1).getTime();
+	var startTime = new Date(1990, 0, 1).getTime();
+	var endTime = new Date(2014, 0, 1).getTime();
+	
+	it('should give me start and end dates by trimming', function() {
+		var result = nar.fullReport.DataAvailabilityTimeRange({
+			phenomenonTime : [startTime, endTime]
+		})
+		
+		expect(result).not.toBe(null);
+		expect(result.startTime == cutoffTime).toBeTruthy();
+		expect(result.startTime == startTime).toBeFalsy();
+		expect(result.endTime == endTime).toBeTruthy();
+	});
+	
+	it('should give me start and end dates by not trimming', function() {
+		var useOriginalStartTime = true;
+		
+		var result = nar.fullReport.DataAvailabilityTimeRange({
+			phenomenonTime : [startTime, endTime]
+		}, useOriginalStartTime)
+		
+		expect(result).not.toBe(null);
+		expect(result.startTime == cutoffTime).toBeFalsy();
+		expect(result.startTime == startTime).toBeTruthy();
+		expect(result.endTime == endTime).toBeTruthy();
 	});
 });
