@@ -105,13 +105,13 @@ nar.fullReport = nar.fullReport || {};
         });
         
         if (useCriteriaLine) {
-    		var criteriaLineDescription = 'EPA Maximum Contaminant Level (MCL) = ' 
-    			+ constituentToCriteria[constituentId] 
-    			+ ' mg/L as N.<br />See Constituents Measured above for more information.';
-            
-	        nar.fullReport.PlotUtils.setPlotHoverFormatter(plotContainer, nar.fullReport.PlotUtils.utcDatePlotHoverFormatter);
-	        nar.fullReport.PlotUtils.setLineHoverFormatter(plotContainer, criteriaLineValue, criteriaLineDescription);
-        }
+			var criteriaLineDescription = 'EPA MCL = ' +
+					constituentToCriteria[constituentId] +
+					' mg/L as N. See technical information for details.';
+
+			nar.fullReport.PlotUtils.setPlotHoverFormatter(plotContainer, nar.fullReport.PlotUtils.utcDatePlotHoverFormatter);
+			nar.fullReport.PlotUtils.setLineHoverFormatter(plotContainer, criteriaLineValue, criteriaLineDescription);
+		}
         
         return plot;
     };    
