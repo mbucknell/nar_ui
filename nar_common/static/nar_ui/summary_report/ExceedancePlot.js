@@ -72,7 +72,7 @@ nar.fullReport = nar.fullReport || {};
     		   show : true,
     		   tooltipLocation : 'n',
     		   tooltipOffset : 15,
-    		   formatString : 'EPA MCL = 10 mg/L as N. See Technical Information for details'
+    		   formatString : 'EPA MCL = 10 mg/L as N. See Technical Information for details.'
     	   }
        
        });
