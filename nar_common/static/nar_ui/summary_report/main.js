@@ -95,7 +95,9 @@ $(document).ready(
             		above a benchmark may indicate a potential human-health<br/>\
             		concern if the water were to be consumed without <br/>\
             		treatment for many years. None of the samples were <br/>\
-            		collected from drinking-water intakes.</div>'
+            		collected from drinking-water intakes. Click on each <br/> \
+            		bar in the graph to obtain specific benchmark <br /> \
+            		information for each constituent.</div>'
 			});
 	});
 });
