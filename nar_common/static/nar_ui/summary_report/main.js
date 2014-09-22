@@ -73,7 +73,7 @@ $(document).ready(
 
             var sedimentGraph = ConstituentCurrentYearComparisonPlot(
                     '#barChart4', sedimentSeries);
-            var exceedancesTitle = 'Percentage of samples with concentrations greater than benchmarks'; 
+            var exceedancesTitle = 'Percent of samples with concentrations greater than benchmarks'; 
             
             var nitrateData = isSiteForDummyNullData ? [0]: [73];
             var humanHealthExceedancePlot = ExceedancePlot(
