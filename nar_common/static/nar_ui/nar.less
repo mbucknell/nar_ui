@@ -555,7 +555,9 @@ select.last{margin-right:0;}
 				position:absolute;
 				bottom:0;
 				left:43%;
-				border:@borderDark;
+				border-left:@borderDark;
+				border-right:@borderDark;
+				border-top:@borderDark;
 				text-align:center;}
 				
 #download_holder button{width:150px;
@@ -569,14 +571,6 @@ select.last{margin-right:0;}
   						
 #download_holder button:hover{background:@primaryColor;
  								color:#fff;}
- 								
-#left-pie-chart-container {
-	background-color: #FFFFFF;
-}
-
-#right-pie-chart-container {
-	background-color: #FFFFFF;
-}
  								
 /* Site popup styling */
 .miss-popup-dialog .ui-dialog-titlebar {
@@ -711,7 +705,7 @@ select.last{margin-right:0;}
   }
   
   .site{background:@siteBackground;
-  		height:130px;
+  		height:150px;
   		text-align:center;
   		border-bottom:@borderDark;
   		color:rgb(59,59,59);
@@ -719,17 +713,17 @@ select.last{margin-right:0;}
   }
   
  .site h2{	margin-bottom:-8px;
- 			font-size:1.8em;
- 			
- }
+ 			font-size:1.8em;}
  
  .col-lg-1{padding-left:0;}
  
- 
+  
 .full_report,
 .back_to_report,
- .back_to_site,
-  .back_to_site_right{background:rgb(255,255,255);
+.back_to_site,
+.back_to_site_right,
+#summaryDownload,
+#fullDownload{background:rgb(255,255,255);
 				height:35px;
  				width:160px;
  				position:absolute;
@@ -738,17 +732,21 @@ select.last{margin-right:0;}
  				color:rgb(160,160,160);
  				font-size:1.1em;
  				border-radius:5px;
- 				cursor:pointer;
- 				}
+ 				cursor:pointer;}
+ 				
+ #summaryDownload{text-align:center;
+ 					right:10px;
+ 					bottom:55px;
+ 					color:#000;}
  				
  .full_report{right:10px;
  				bottom:10px;}
  				
  .full_report:hover,
  .back_to_site:hover,
-  .back_to_site_right:hover{background:rgb(210,210,210);
- 					
- }
+ .back_to_site_right:hover,
+ #summaryDownload:hover,
+ #fullDownload:hover{background:rgb(210,210,210);}
  
  .full_report ul{background:none;
 			list-style-type:none;
@@ -777,7 +775,7 @@ select.last{margin-right:0;}
  
  .full_report i{margin-top:8px;
  					position:absolute;
- 					right:15px;
+ 					right:10px;
  					color:#000;
  }
  
@@ -797,32 +795,7 @@ select.last{margin-right:0;}
 		margin-bottom:10px;
 		position:relative;
 		} 
-		
-#downloadButton{width:170px;
- 				height:40px;
- 				margin:0 auto;
- 				position:absolute;
- 				bottom:0;
- 				left:45%;
- 				border-left:@borderDark;
- 				border-right:@borderDark;
- 				border-top:@borderDark;
- 				text-align:center;
- }
- 
-#downloadButton button{width:150px;
-						font-size:1em;
-						padding:0 0 0 0;
-						margin:6px 0 0 0;
-						height:25px;
-						border-radius:5px;
-  						border:@borderDark;
-  						background:#eee;}
-  						
-#downloadButton button:hover{background:@primaryColor;
- 								color:#fff;}
-
-
+	
 .comparisonGraph {background:none;
 			height:100%;
 			padding:0px;}
@@ -876,7 +849,7 @@ select.last{margin-right:0;}
 /*###########################full_report_start####################### */
 
 .full_site{background:@siteBackground;
-  		height:100px;
+  		height:140px;
   		text-align:center;
   		border-bottom:@borderDark;
   		color:rgb(59,59,59);
@@ -891,6 +864,13 @@ select.last{margin-right:0;}
   .full_site h3{padding:0;
   				margin:0;
   				font-size:1.2em;
+  }
+  
+  #fullDownload{text-align:center;
+  				color:#000;
+  				bottom:50px;
+  				right:10px;
+  				width:121px;
   }
  
  
@@ -997,28 +977,15 @@ select.last{margin-right:0;}
 
 #plotToggleTree{
 				overflow:auto;
-				height:590px;
+				height:620px;
 				width:100%;}
 				
 #siteDataLinkDiv{background:none;
 				text-align:center;
 }
 
-#siteDataLinkDiv button{width:150px;
-						font-size:1em;
-						padding:0 0 0 0;
-						margin:6px 0 0 0;
-						height:25px;
-						border-radius:5px;
-  						border:@borderDark;
-  						background:@boxColor;}
-  						
-#siteDataLinkDiv button:hover{background:@primaryColor;
- 								color:#fff;}
-
 #siteDataLinkDiv ul{list-style:none;
 					padding:5px 0 0 18px;
-					
 					font-size:.8em;
 }
 
@@ -1254,8 +1221,6 @@ select.last{margin-right:0;}
 	.stream h3{font-size:1.4em;}
 	 				
 	 .graphs{padding:0 0 0 25px;} 
-	 
-	 #downloadButton{left:42%;}
 	 				
 	 /*###########################full_start####################### */
 	 				
@@ -1272,7 +1237,7 @@ select.last{margin-right:0;}
 					height:570px;}
 			
 			
-	}/*media query end */
+}/*media query end */
 	
 	/*#########ipad_portrait######## */
 
@@ -1387,8 +1352,6 @@ select.last{margin-right:0;}
 						}
 						
 	select.last{margin-right:0;}
-	
-	#download_holder{left:39%}
 						
 	/*###########################mississippi_end####################### */
 	
@@ -1397,7 +1360,7 @@ select.last{margin-right:0;}
 				
 	.summary_info{min-height:721px;}
 				
-	.site{height:120px;
+	.site{height:140px;
 	  	border-bottom:@borderDark;}
 	  		
 	.site h2{font-size:1.6em;}
@@ -1408,8 +1371,6 @@ select.last{margin-right:0;}
 			padding:0 0 0 10px;
 	} 
 	
-	#downloadButton{left:39%;}
-	
 	.graphContainer,
 	.human{width:100%;
 			height:480px;
@@ -1417,7 +1378,10 @@ select.last{margin-right:0;}
 			
 	.bar_row{margin:0;}
 	
-	.full_report{	height:35px;
+	#summaryDownload{bottom:50px;}
+	
+	.full_report,
+	#summaryDownload{height:35px;
 					width:140px;}
 	 				
 	 .full_report ul li{padding-top:5px;}
@@ -1425,7 +1389,7 @@ select.last{margin-right:0;}
 	 .full_report ul li a{font-size:1em;}
 	 
 	 .full_report i{margin-top:8px;
-	 				right:10px;
+	 				right:5px;
 	 }
 	
 	/*###########################summary_end####################### */
@@ -1562,7 +1526,7 @@ select.last{margin-right:0;}
 			
 	.summary_info{min-height:721px;}
 				
-	.site{height:120px;
+	.site{height:140px;
 	  	border-bottom:@borderDark;}
 	  		
 	.site h2{font-size:1.5em;}
@@ -1571,8 +1535,6 @@ select.last{margin-right:0;}
 				
 	.graphs{height:100%;} 
 	
-	#downloadButton{left:39%;}
-	
 	.graphContainer,
 	.human{width:100%;
 			height:480px;
@@ -1580,7 +1542,10 @@ select.last{margin-right:0;}
 			
 	.bar_row{margin:0;}
 	
-	.full_report{	height:35px;
+	#summaryDownload{bottom:50px;}
+	
+	.full_report,
+	#summaryDownload{height:35px;
 					width:140px;}
 	 				
 	 .full_report ul li{padding-top:5px;}
