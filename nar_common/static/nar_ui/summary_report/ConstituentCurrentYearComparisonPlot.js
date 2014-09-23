@@ -131,7 +131,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
 		
 		ctx.save();
 		ctx.translate(tx, ty);
-		ctx.rotate(0.5 * Math.PI);
+		ctx.rotate(-0.5 * Math.PI);
 		ctx.fillText("No data", -metrics.width / 2, 4);
 		ctx.restore();
 	}
