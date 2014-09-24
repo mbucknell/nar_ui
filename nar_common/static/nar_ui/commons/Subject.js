@@ -1,5 +1,5 @@
 /**
- * @requires _
+ * @requires sugarjs
  */
 
 /**
@@ -21,17 +21,26 @@ nar.commons.Subject = function(){
 	};
 	/**
 	 * @param {function} handler
+	 * @returns {Boolean} true if handler was observing, false if it was not observing
 	 */
 	self.unobserve = function (handler) {
-		handlers = _.without(handlers, handler);
+		var handlerIndex = handlers.indexOf(handler);
+		var handlerWasFound = false;
+		if(-1 !== handlerIndex){
+			handlers.removeAt(handlerIndex);
+			handlerWasFound = true;
+		}
+		
+		console.log('removed observer');
+		return handlerWasFound;
 	};
 	/**
 	 * @param * - any arguments you specify will be 
 	 * passed to observing handlers
 	 */
 	self.notify = function notifyObservers() {
-		var args = _.toArray(arguments);
-		_.map(handlers, function(handler){
+		var args = Array.create(arguments);
+		handlers.map(function(handler){
 			handler.apply(null, args);
 		});
 	};
