@@ -8,7 +8,6 @@
 	<style type="text/css">
 		.graphContainer {
 			padding:5px;
-			margin:0;
 			margin-right:10px;
 			background:none;
 			height:100%;
@@ -73,6 +72,7 @@
 		}
 		.exceedancePlot .jqplot-yaxis-tick{
 		  left: -10%;
+		  font-weight: bold;
 		}
 		.exceedancePlot .jqplot-xaxis-label {
 		  text-align: center;
@@ -102,6 +102,7 @@
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.pointLabels.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.canvasTextRenderer.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.canvasAxisTickRenderer.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.highlighter.js' %}"></script>
 		
 		<script type="text/javascript" src="{% static 'nar_ui/Constituents.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/SiteInfo.js' %}"></script>
@@ -129,6 +130,8 @@
 		<h4>
 			<i>Summary of Water-Quality Conditions for 2014</i>
 		</h4>
+		
+		<button id="summaryDownload">Download Data</button>
 
 		<div class="col-lg-1 full_report col-md-1 col-sm-1 col-xs-1">
 
@@ -151,13 +154,9 @@
 
 	<div class="col-lg-12 graphs col-md-12 col-sm-12 col-xs-12">
 	
-		<div id="downloadButton">
 		
-			<button>Download Data</button>
-		
-		</div>
 	
-		<div class="col-lg-4 graphContainer stream col-md-3 col-sm-12 col-xs-12">
+		<div class="col-lg-4 graphContainer stream col-sm-12 col-xs-12">
 		
 			<div class="row stream_row">
 				<h3>Streamflow and Water Quality</h3>
@@ -187,22 +186,14 @@
 			
 		</div><!--streams-->
 
-		<div class="col-lg-4 human col-md-3 col-sm-12 col-xs-12">
+		<div class="col-lg-4 human col-sm-12 col-xs-12">
 			<div class="row human_row">
-				<h3>Comparisons to <span id="link-hover-benchmark-human" class="link-popover-anchor">Benchmarks</span><br />Protective of Human Health</h3>
+				<h3>Comparisons to Human-Health<br/><span id="link-hover-benchmark-human" class="link-popover-anchor">Benchmarks</span></h3>
 			</div>
 			<div class="row">
 				<div id="humanHealthExceedances" class="exceedancePlot"></div>
 			</div>
 		</div><!--human-->
-
-		<div class="col-lg-4 aquatic col-md-3 col-sm-12 col-xs-12">
-			<div class="row aquatic_row">
-				<h3>Comparisons to <span id="link-hover-benchmark-aquatic" class="link-popover-anchor">Benchmarks</span><br />Protective of Aquatic Life</h3>
-				<div id="aquaticHealthExceedances" class="exceedancePlot"></div>
-			</div>
-
-		</div><!--aquatic-->
 
 	</div>
 

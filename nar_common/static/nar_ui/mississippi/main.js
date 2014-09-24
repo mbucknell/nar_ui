@@ -11,6 +11,43 @@ $(document).ready(function() {
 		});
 	});
 	
+	$('#link-chart-contribution').on('click', function () {
+		var loadTypeSelectCtrls = $('select[name="load"]'),
+			nutrientTypeSelectCtrls = $('select[name="chemical"]'),
+			yearRangeSelectCtrls = $('select[name="year"]'),
+			leftSelections = {
+				parameter_type : loadTypeSelectCtrls[0].value.toUpperCase(),
+				constituent : nutrientTypeSelectCtrls[0].value.toUpperCase(),
+				water_year : yearRangeSelectCtrls[0].value
+			},
+			rightSelections = {
+				parameter_type : loadTypeSelectCtrls[1].value.toUpperCase(),
+				constituent : nutrientTypeSelectCtrls[1].value.toUpperCase(),
+				water_year : yearRangeSelectCtrls[1].value
+			};
+		
+		if (leftSelections.parameter_type && leftSelections.constituent && leftSelections.water_year) {
+			
+			nar.ContributionDisplay.create({
+				containerSelector : '#left-pie-chart-container',
+				placement : 'bl',
+				parameters : leftSelections,
+				width: 200,
+				height : 200
+			});
+		}
+		
+		if (rightSelections.parameter_type && rightSelections.constituent && rightSelections.water_year) {
+			nar.ContributionDisplay.create({
+				containerSelector : '#right-pie-chart-container',
+				placement : 'br',
+				parameters : rightSelections,
+				width: 200,
+				height : 200
+			});
+		}
+	});
+	
 	var leftMapName = 'left-map',
 		rightMapName = 'right-map',
 		leftMap = nar.mississippi.map.createMap({

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>gov.usgs.cida.nar</groupId>
     <artifactId>nar-ui</artifactId>
-    <version>0.0.11-SNAPSHOT</version>
+    <version>0.0.13-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>NAWQA Annual Reporting UI</name>
   
@@ -164,11 +164,13 @@
 						<include>*.js</include>
 		               <include>summary_report/*.js</include>
 		               <include>full_report/*.js</include>
+		               <include>mississippi/*.js</include>
 		         </sourceIncludes>
 		         <sourceExcludes>
 		         	<include>map.js</include>
 		         	<include>summary_report/main.js</include>
 		         	<include>full_report/main.js</include>
+		         	<include>mississippi/main.js</include>
 		         </sourceExcludes>
 		     </configuration>
 		</plugin>

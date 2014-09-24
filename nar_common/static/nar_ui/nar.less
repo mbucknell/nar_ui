@@ -355,6 +355,10 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 /* End Alaska Inset */
 
 /* Site popup styling */
+.nar-popup-dialog {
+	z-index: 755 !important;
+}
+
 .nar-popup-dialog .ui-dialog-titlebar {
 	padding: 0.1em !important; /* bootstrap override */
 }
@@ -421,8 +425,7 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 }     
 
   /*###########################site_end####################### */
-  
- /*###########################mississippi_start####################### */
+  /*###########################mississippi_start####################### */
  
  .mississippi_holder{min-height:400px;}
  
@@ -465,7 +468,10 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 #help{position:absolute;
 	right:5px;
 	top:10px;
+	color:#000;
 	}
+	
+#help:hover{color:#fff;}
  					
  #mississippi_info i,
   #toggle i{-webkit-transform:rotate(270deg);
@@ -522,18 +528,21 @@ select.last{margin-right:0;}
 					margin:0;
 					position:relative;}
 					
-#mississippi_info{border-bottom:@borderDark;
-					border-left:@borderDark;
- 					width:220px;
- 					min-height:22px;
- 					position:absolute;
- 					right:0;
- 					top:0;
- 					background:@boxColor;
- 					text-align:left;
- 					font-size:.7em;
- 					padding:4px 2px 0 5px;
- 					line-height:1.4em;}
+#mississippi_info{
+	border-bottom:@borderDark;
+	border-left:@borderDark;
+	width:240px;
+	min-height:22px;
+	position:absolute;
+	right:0;
+	top:0;
+	background:@boxColor;
+	text-align:left;
+	font-size:.7em;
+	padding:4px 2px 0 5px;
+	line-height:1.4em;
+	z-index: 750;
+}
 					
 #left-map,
 #right-map{height:487px;}
@@ -592,7 +601,25 @@ select.last{margin-right:0;}
 	color : #888888;
 	padding: 0em;
 } 								
- 								
+ 		
+.chart-miss-legend > table {
+	background-color: #FFFFFF;
+} 
+
+.chart-miss-legend-link-close {
+	color:#0000FF;
+}
+
+.chart-miss-legend-link-close:hover {
+	cursor: pointer;
+}
+
+.combined-tooltip {
+	color: #0000FF;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+							
 			
  /*###########################mississippi_end####################### */
  
@@ -678,7 +705,7 @@ select.last{margin-right:0;}
   }
   
   .site{background:@siteBackground;
-  		height:130px;
+  		height:150px;
   		text-align:center;
   		border-bottom:@borderDark;
   		color:rgb(59,59,59);
@@ -686,17 +713,17 @@ select.last{margin-right:0;}
   }
   
  .site h2{	margin-bottom:-8px;
- 			font-size:1.8em;
- 			
- }
+ 			font-size:1.8em;}
  
  .col-lg-1{padding-left:0;}
  
- 
+  
 .full_report,
 .back_to_report,
- .back_to_site,
-  .back_to_site_right{background:rgb(255,255,255);
+.back_to_site,
+.back_to_site_right,
+#summaryDownload,
+#fullDownload{background:rgb(255,255,255);
 				height:35px;
  				width:160px;
  				position:absolute;
@@ -705,17 +732,21 @@ select.last{margin-right:0;}
  				color:rgb(160,160,160);
  				font-size:1.1em;
  				border-radius:5px;
- 				cursor:pointer;
- 				}
+ 				cursor:pointer;}
+ 				
+ #summaryDownload{text-align:center;
+ 					right:10px;
+ 					bottom:55px;
+ 					color:#000;}
  				
  .full_report{right:10px;
  				bottom:10px;}
  				
  .full_report:hover,
  .back_to_site:hover,
-  .back_to_site_right:hover{background:rgb(210,210,210);
- 					
- }
+ .back_to_site_right:hover,
+ #summaryDownload:hover,
+ #fullDownload:hover{background:rgb(210,210,210);}
  
  .full_report ul{background:none;
 			list-style-type:none;
@@ -744,7 +775,7 @@ select.last{margin-right:0;}
  
  .full_report i{margin-top:8px;
  					position:absolute;
- 					right:15px;
+ 					right:10px;
  					color:#000;
  }
  
@@ -757,39 +788,14 @@ select.last{margin-right:0;}
  				}
  				
  .back_to_site{bottom:10px;}
- 
- 
- 
     
 .graphs{background:none;
 		min-height:510px;
 		padding:0 0 0 55px;
 		margin-bottom:10px;
+		position:relative;
 		} 
-		
-#downloadButton{
- 				width:170px;
- 				height:40px;
- 				margin:0 auto;
- 				border-left:@borderDark;
- 				border-right:@borderDark;
- 				border-bottom:@borderDark;
- 				text-align:center;
- }
- 
-#downloadButton button{width:150px;
-						font-size:1em;
-						padding:0 0 0 0;
-						margin:6px 0 0 0;
-						height:25px;
-						border-radius:5px;
-  						border:@borderDark;
-  						background:#eee;}
-  						
-#downloadButton button:hover{background:@primaryColor;
- 								color:#fff;}
-
-
+	
 .comparisonGraph {background:none;
 			height:100%;
 			padding:0px;}
@@ -798,19 +804,15 @@ select.last{margin-right:0;}
 
 .stream{background:none;
 		height:50%;
-		margin-left:10px;
+		margin-left:165px;
 		text-align:center;
 		padding-left:5px;}
 
 .stream_row,
-.human_row,
-.aquatic_row{margin:0;
-			
-}
+.human_row{margin:0;}
 
 .stream,
-.human,
-.aquatic{background:none;
+.human{background:none;
 		height:100%;
 		margin-right:10px;
 		text-align:center;
@@ -820,17 +822,11 @@ select.last{margin-right:0;}
 .human{margin-left:15px;}
 
 .stream h3,
-.human h3,
-.aquatic h3{font-size:1.5em;
+.human h3{font-size:1.5em;
 			color:@primaryColor;}
 
 .stream h6,
-.human h6,
-.aquatic h6{padding-left:50px;}
-
-.aquatic{background:none;
-		margin-right:0;
-}
+.human h6{padding-left:50px;}
 
 .link-popover-anchor {
 	border-bottom: 1px dashed #003366;
@@ -853,7 +849,7 @@ select.last{margin-right:0;}
 /*###########################full_report_start####################### */
 
 .full_site{background:@siteBackground;
-  		height:100px;
+  		height:140px;
   		text-align:center;
   		border-bottom:@borderDark;
   		color:rgb(59,59,59);
@@ -868,6 +864,13 @@ select.last{margin-right:0;}
   .full_site h3{padding:0;
   				margin:0;
   				font-size:1.2em;
+  }
+  
+  #fullDownload{text-align:center;
+  				color:#000;
+  				bottom:50px;
+  				right:10px;
+  				width:121px;
   }
  
  
@@ -974,28 +977,15 @@ select.last{margin-right:0;}
 
 #plotToggleTree{
 				overflow:auto;
-				height:590px;
+				height:620px;
 				width:100%;}
 				
 #siteDataLinkDiv{background:none;
 				text-align:center;
 }
 
-#siteDataLinkDiv button{width:150px;
-						font-size:1em;
-						padding:0 0 0 0;
-						margin:6px 0 0 0;
-						height:25px;
-						border-radius:5px;
-  						border:@borderDark;
-  						background:@boxColor;}
-  						
-#siteDataLinkDiv button:hover{background:@primaryColor;
- 								color:#fff;}
-
 #siteDataLinkDiv ul{list-style:none;
 					padding:5px 0 0 18px;
-					
 					font-size:.8em;
 }
 
@@ -1097,17 +1087,21 @@ select.last{margin-right:0;}
 						
 .select2-search-choice div{margin-top:4px;
 							padding-top:0;}
-						
-#checkbox_holder{font-size:.85em;
-				text-align:left;
+							
+#checkbox_holder{border:@borderDark;
+	height:30px;
+	margin:0 0 0 0;
+	border-radius:5px;
+	text-align:left;
+	
 }				
 				
-#checkbox_holder input{margin:0 5px 0 10px;
+#checkbox_holder input{margin:8px 5px 0 10px;
 					text-align:left;
 					padding:0;
 }
 
-#checkbox_holder input#first{margin:0 5px 0 3px;}
+#checkbox_holder input#first{margin:0 5px 0 10px;}
 
 #box{border:@borderDark;
 	height:30px;
@@ -1117,10 +1111,10 @@ select.last{margin-right:0;}
 }
 
 
- p#format{text-align:left;
-				margin:4px 0 0 10px;
-				float:left;
-				font-weight:600;
+ p.format{text-align:left;
+		margin:4px 0 0 10px;
+		float:left;
+		font-weight:600;
 }
 
 #format_holder{text-align:left;
@@ -1131,7 +1125,7 @@ select.last{margin-right:0;}
 					
 }
 
-#downloadButtons{margin-top:20px;}
+#downloadButtons{margin-top:15px;}
 
 #downloadButtons button{background:@primaryColor;
 						color:#fff;
@@ -1156,266 +1150,267 @@ select.last{margin-right:0;}
 
 @media (min-width:992px) and (max-width:1199px){
 	
-/*###########################home_start####################### */
- 
- .holder{height:620px;}
- 
-.center{width:935px;}
- 
- .home_icon_holder{	width:305px;
- 					height:310px;
- 					margin-right:10px;}
- 					
- .home_icon_holder h4{font-size:1.1em;}
- 
- .inside{width:270px;
- 		height:238px;}
- 
- .last{margin-right:0;}
- 
- /*###########################home_end####################### */
+	/*###########################home_start####################### */
+	 
+	 .holder{height:620px;}
+	 
+	.center{width:935px;}
+	 
+	 .home_icon_holder{	width:305px;
+	 					height:310px;
+	 					margin-right:10px;}
+	 					
+	 .home_icon_holder h4{font-size:1.1em;}
+	 
+	 .inside{width:270px;
+	 		height:238px;}
+	 
+	 .last{margin-right:0;}
+	 
+	 /*###########################home_end####################### */
+		
+	 /*###########################site_start####################### */
+	 
+	 .sites{padding-left:0px;}
+	 
+	.statement{padding:0;}
+	            
+	.statement p{padding:8px 8px 0 8px;
+	             font-size:.9em;}
+	                 
+	.map_view{width:80px;}
+	            
+	.site_view{width:80px;}
+	            
+	.site_table th.first_header{background:none;
+				width:80px;}
+	 
+	.site_table th.name{width:220px;}
 	
- /*###########################site_start####################### */
- 
- .sites{padding-left:0px;}
- 
-.statement{padding:0;}
-            
-.statement p{padding:8px 8px 0 8px;
-             font-size:.9em;}
-                 
-.map_view{width:80px;}
-            
-.site_view{width:80px;}
-            
-.site_table th.first_header{background:none;
-			width:80px;}
- 
-.site_table th.name{width:220px;}
-
-.site_table th.type{ width:200px;} 
-
-
-.check_filter p{font-size:1em;
-				margin:8px 0 0 8px;
-}       
-
-/*###########################site_end####################### */
-
-/*###########################mississippi_start####################### */
-
-.left_filter select,
-.right_filter select{width:136px;
-					margin-right:18px;
-					}
-					
-select.last{margin-right:0;}
-
-#download_holder{left:41.5%}
-					
-/*###########################mississippi_end####################### */
-
-/*###########################summary_start####################### */
-
-.graphContainer,
-.human,
-.aquatic{width:31.8%;}
-
-.human{margin-left:10px;}
-
-.stream h3{font-size:1.4em;}
- 				
- .graphs{padding:0 0 0 25px;} 
- 				
- /*###########################full_start####################### */
- 				
- 				
- .back_to_report{left:20px;
- 				bottom:10px;
- 				height:35px;}
- 				
- .back_to_report ul li{padding-top:5px;}
- 
-  .back_to_report i{margin-top:7px;}
-  
-#plotToggleTree{
-				height:570px;}
-		
-		
+	.site_table th.type{ width:200px;} 
+	
+	
+	.check_filter p{font-size:1em;
+					margin:8px 0 0 8px;
+	}       
+	
+	/*###########################site_end####################### */
+	
+	/*###########################mississippi_start####################### */
+	
+	.left_filter select,
+	.right_filter select{width:136px;
+						margin-right:18px;
+						}
+						
+	select.last{margin-right:0;}
+	
+	#download_holder{left:41.5%}
+						
+	/*###########################mississippi_end####################### */
+	
+	/*###########################summary_start####################### */
+	
+	.graphContainer,
+	.human{width:31.8%;}
+	
+	.human{margin-left:10px;}
+	
+	.stream{margin-left:145px;}
+	
+	.stream h3{font-size:1.4em;}
+	 				
+	 .graphs{padding:0 0 0 25px;} 
+	 				
+	 /*###########################full_start####################### */
+	 				
+	 				
+	 .back_to_report{left:20px;
+	 				bottom:10px;
+	 				height:35px;}
+	 				
+	 .back_to_report ul li{padding-top:5px;}
+	 
+	  .back_to_report i{margin-top:7px;}
+	  
+	#plotToggleTree{
+					height:570px;}
+			
+			
 }/*media query end */
-
-/*#########ipad_portrait######## */
+	
+	/*#########ipad_portrait######## */
 
 @media (min-width:768px) and (max-width:991px){
 	
 	
-/*###########################home_start####################### */
- 
- .holder{
- 		height:600px;
- 		 }
- 
- 
- .tagline h2{
- 			font-size:1.5em;
- }
- 
- .tagline p{
- 			font-size:1em;
- }
- 
-.center{width:725px;
-}
- 
- .home_icon_holder{width:235px;
- 					height:260px;
- 					margin-right:10px;}
- 					
- .home_icon_holder h4{font-size:1.2em;
- }
- 
- 
- .inside{
- 		width:200px;
- 		height:168px;
- }
- 
-  .last{margin-right:0;}
- 
- 
- /*###########################home_end####################### */
-	
- /*###########################site_start####################### */
- 
- .sites{padding-left:0px;}
- 
- .site_table{width:600px;}
-            
-.site_table th{ width:100px;}
-
-.site_table th.first_header{width:80px;}
-                
-.site_table th.name{width:320px;}
-
-.site_table th.type{width:200px;}
-                        
-.site_table td{ font-size:.85em;
-                }
-.statement{padding:0;}
-            
-.statement p{padding:5px 8px 0 8px;
-             font-size:.85em;}
-                 
-.map_view{width:75px;
-          margin-left:1px; 
-          margin-right:1px;
-		  overflow:hidden;
-		  font-size:.95em;
-          }
-            
-.site_view{width:75px;
-            height:25px;
-			font-size:.95em;}
-			
-.check_filter p{font-size:.85em;
-				margin:11px 0 0 20px;}
-				
-.filter button#siteDownload{width:85%;
-							margin-top:60px;
-}       
-            
-/*###########################site_end####################### */
-
-/*###########################mississippi_start####################### */
-
-.mississippi_title h3{font-size:1.4em;}
- 					
- .mississippi_title h6{font-size:.8em;}
- 
- #mississippi_info{
- 					padding:2px 0 2px 5px;
- }
- 
- #toggle{width:70px;
- 		height:38px;
- 		text-align:center;
- 		font-size:.9em;
- 		top:40px;
- }
- 		
-  #toggle,
-  #help{right:0;}
-  
-   #help{top:4px;}
- 
-.mississippi_title button{
- 							background:@boxColor;}
-
-.left_filter select,
-.right_filter select{width:100px;
-					margin-right:18px;
-					}
-					
-select.last{margin-right:0;}
-
-#download_holder{left:39%}
-					
-/*###########################mississippi_end####################### */
-
-/*###########################summary_start####################### */
-			
-			
-.summary_info{min-height:721px;}
-			
-.site{height:120px;
-  	border-bottom:@borderDark;}
-  		
-.site h2{font-size:1.6em;}
- 
-.site h3{font-size:1.4em;}
-			
-.graphs{height:100%;
-		padding:0 0 0 10px;
-} 
-
-.graphContainer,
-.human,
-.aquatic{width:100%;
-		height:480px;
-		margin:10px 0 5px 0;}
+	/*###########################home_start####################### */
+	 
+	 .holder{
+	 		height:600px;
+	 		 }
+	 
+	 
+	 .tagline h2{
+	 			font-size:1.5em;
+	 }
+	 
+	 .tagline p{
+	 			font-size:1em;
+	 }
+	 
+	.center{width:725px;
+	}
+	 
+	 .home_icon_holder{width:235px;
+	 					height:260px;
+	 					margin-right:10px;}
+	 					
+	 .home_icon_holder h4{font-size:1.2em;
+	 }
+	 
+	 
+	 .inside{
+	 		width:200px;
+	 		height:168px;
+	 }
+	 
+	  .last{margin-right:0;}
+	 
+	 
+	 /*###########################home_end####################### */
 		
-.bar_row{margin:0;}
-
-.full_report{	height:35px;
-				width:140px;}
- 				
- .full_report ul li{padding-top:5px;}
- 				
- .full_report ul li a{font-size:1em;}
- 
- .full_report i{margin-top:8px;
- 				right:10px;
- }
-
-/*###########################summary_end####################### */
-
-.full_site h2{font-size:1.6em;}
-
-.back_to_report{height:35px;
-				width:140px;
-				left:15px;
- 				bottom:10px;}
- 				
-.back_to_report ul li{padding:6px 20px 0 0;}
- 				
-.back_to_report ul li a{font-size:.95em !important;}
-
-.back_to_report i{margin-top:9px;
- 				left:5px;
- }
- 
- #plotToggleTree{
-				height:575px;}
+	 /*###########################site_start####################### */
+	 
+	 .sites{padding-left:0px;}
+	 
+	 .site_table{width:600px;}
+	            
+	.site_table th{ width:100px;}
+	
+	.site_table th.first_header{width:80px;}
+	                
+	.site_table th.name{width:320px;}
+	
+	.site_table th.type{width:200px;}
+	                        
+	.site_table td{ font-size:.85em;
+	                }
+	.statement{padding:0;}
+	            
+	.statement p{padding:5px 8px 0 8px;
+	             font-size:.85em;}
+	                 
+	.map_view{width:75px;
+	          margin-left:1px; 
+	          margin-right:1px;
+			  overflow:hidden;
+			  font-size:.95em;
+	          }
+	            
+	.site_view{width:75px;
+	            height:25px;
+				font-size:.95em;}
+				
+	.check_filter p{font-size:.85em;
+					margin:11px 0 0 20px;}
+					
+	.filter button#siteDownload{width:85%;
+								margin-top:60px;
+	}       
+	            
+	/*###########################site_end####################### */
+	
+	/*###########################mississippi_start####################### */
+	
+	.mississippi_title h3{font-size:1.4em;}
+	 					
+	 .mississippi_title h6{font-size:.8em;}
+	 
+	 #mississippi_info{
+	 					padding:2px 0 2px 5px;
+	 }
+	 
+	 #toggle{width:70px;
+	 		height:38px;
+	 		text-align:center;
+	 		font-size:.9em;
+	 		top:40px;
+	 }
+	 		
+	  #toggle,
+	  #help{right:0;}
+	  
+	   #help{top:4px;}
+	 
+	.mississippi_title button{
+	 							background:@boxColor;}
+	
+	.left_filter select,
+	.right_filter select{width:100px;
+						margin-right:18px;
+						}
+						
+	select.last{margin-right:0;}
+						
+	/*###########################mississippi_end####################### */
+	
+	/*###########################summary_start####################### */
+				
+				
+	.summary_info{min-height:721px;}
+				
+	.site{height:140px;
+	  	border-bottom:@borderDark;}
+	  		
+	.site h2{font-size:1.6em;}
+	 
+	.site h3{font-size:1.4em;}
+				
+	.graphs{height:100%;
+			padding:0 0 0 10px;
+	} 
+	
+	.graphContainer,
+	.human{width:100%;
+			height:480px;
+			margin:10px 0 5px 0;}
+			
+	.bar_row{margin:0;}
+	
+	#summaryDownload{bottom:50px;}
+	
+	.full_report,
+	#summaryDownload{height:35px;
+					width:140px;}
+	 				
+	 .full_report ul li{padding-top:5px;}
+	 				
+	 .full_report ul li a{font-size:1em;}
+	 
+	 .full_report i{margin-top:8px;
+	 				right:5px;
+	 }
+	
+	/*###########################summary_end####################### */
+	
+	.full_site h2{font-size:1.6em;}
+	
+	.back_to_report{height:35px;
+					width:140px;
+					left:15px;
+	 				bottom:10px;}
+	 				
+	.back_to_report ul li{padding:6px 20px 0 0;}
+	 				
+	.back_to_report ul li a{font-size:.95em !important;}
+	
+	.back_to_report i{margin-top:9px;
+	 				left:5px;
+	 }
+	 
+	 #plotToggleTree{
+					height:575px;}
 	
 }/*query end */
 
@@ -1423,162 +1418,164 @@ select.last{margin-right:0;}
 @media (min-width:220px) and (max-width:767px){ 
 	
 	
-/*###########################home_start####################### */
- 
- .holder{height:600px;}
- 
- .tagline h2{
- 			font-size:1.5em;
- }
- 
- .tagline p{
- 			font-size:1em;
- }
- 
-.center{width:725px;}
- 
- .home_icon_holder{	width:235px;
- 					height:260px;
- 					margin-right:10px;
- 					}
- 					
- .home_icon_holder h4{font-size:1.2em;}
- 
- 
- .inside{width:200px;
- 		height:168px;}
- 
-  .last{margin-right:0;}
- 
- 
- /*###########################home_end####################### */
-
-/*###########################site_start####################### */
-
- .sites{padding-left:0px;}
-
- .site_table{width:600px;}
-            
-.site_table th{width:100px;}
-                
-.site_table th.first_header{width:80px;}
-                
-.site_table th.name{width:350px;}
-
-.site_table th.type{width:200px;}
-
-.site_table td{font-size:.9em;}
- 	
-.statement{padding:0;}
-            
-.statement p{padding-top:5px 8px 0 8px;
-			font-size:.85em;
-}
-                 
-.map_view{width:72px;
-            height:25px;
-           margin-left:1px; 
-           margin-right:1px;
-			overflow:hidden;
-			font-size:.85em;
-          }
-            
-.site_view{width:72px;
-            height:25px;
-			font-size:.85em;}
-			
-.check_filter p{font-size:.75em;
-				margin:11px 0 0 15px;}
+	/*###########################home_start####################### */
+	 
+	 .holder{height:600px;}
+	 
+	 .tagline h2{
+	 			font-size:1.5em;
+	 }
+	 
+	 .tagline p{
+	 			font-size:1em;
+	 }
+	 
+	.center{width:725px;}
+	 
+	 .home_icon_holder{	width:235px;
+	 					height:260px;
+	 					margin-right:10px;
+	 					}
+	 					
+	 .home_icon_holder h4{font-size:1.2em;}
+	 
+	 
+	 .inside{width:200px;
+	 		height:168px;}
+	 
+	  .last{margin-right:0;}
+	 
+	 
+	 /*###########################home_end####################### */
+	
+	/*###########################site_start####################### */
+	
+	 .sites{padding-left:0px;}
+	
+	 .site_table{width:600px;}
+	            
+	.site_table th{width:100px;}
+	                
+	.site_table th.first_header{width:80px;}
+	                
+	.site_table th.name{width:350px;}
+	
+	.site_table th.type{width:200px;}
+	
+	.site_table td{font-size:.9em;}
+	 	
+	.statement{padding:0;}
+	            
+	.statement p{padding-top:5px 8px 0 8px;
+				font-size:.85em;
+	}
+	                 
+	.map_view{width:72px;
+	            height:25px;
+	           margin-left:1px; 
+	           margin-right:1px;
+				overflow:hidden;
+				font-size:.85em;
+	          }
+	            
+	.site_view{width:72px;
+	            height:25px;
+				font-size:.85em;}
 				
-.filter button#siteDownload{width:85%;
-							margin-top:60px;
-}     
-            
-/*###########################site_end####################### */
-
-/*###########################mississippi_start####################### */
-
-.mississippi_title h3{font-size:1.4em;}
- 					
- .mississippi_title h6{font-size:.8em;}
- 
- #mississippi_info{
- 					padding:2px 0 2px 5px;
- }
- 
- #toggle{width:60px;
- 		height:38px;
- 		text-align:center;
- 		font-size:.9em;
- 		top:40px;
- }
- 		
-  #toggle,
-  #help{right:0;}
-
-.left_filter select,
-.right_filter select{width:100px;
-					margin-right:10px;
-					}
+	.check_filter p{font-size:.75em;
+					margin:11px 0 0 15px;}
 					
-select.last{margin-right:0;}
-
-#download_holder{left:39%}
-					
-/*###########################mississippi_end####################### */
-
-/*###########################summary_start####################### */
-		
-.summary_info{min-height:721px;}
+	.filter button#siteDownload{width:85%;
+								margin-top:60px;
+	}     
+	            
+	/*###########################site_end####################### */
+	
+	/*###########################mississippi_start####################### */
+	
+	.mississippi_title h3{font-size:1.4em;}
+	 					
+	 .mississippi_title h6{font-size:.8em;}
+	 
+	 #mississippi_info{
+	 					padding:2px 0 2px 5px;
+	 }
+	 
+	 #toggle{width:60px;
+	 		height:38px;
+	 		text-align:center;
+	 		font-size:.9em;
+	 		top:40px;
+	 }
+	 		
+	  #toggle,
+	  #help{right:0;}
+	
+	.left_filter select,
+	.right_filter select{width:100px;
+						margin-right:10px;
+						}
+						
+	select.last{margin-right:0;}
+	
+	#download_holder{left:39%}
+						
+	/*###########################mississippi_end####################### */
+	
+	/*###########################summary_start####################### */
 			
-.site{height:120px;
-  	border-bottom:@borderDark;}
-  		
-.site h2{font-size:1.6em;}
- 
-.site h3{font-size:1.4em;}
+	.summary_info{min-height:721px;}
+				
+	.site{height:140px;
+	  	border-bottom:@borderDark;}
+	  		
+	.site h2{font-size:1.5em;}
+	 
+	.site h3{font-size:1.4em;}
+				
+	.graphs{height:100%;} 
+	
+	.graphContainer,
+	.human{width:100%;
+			height:480px;
+			margin:10px 0 5px 0;}
 			
-.graphs{height:100%;} 
-
-.graphContainer,
-.human,
-.aquatic{width:100%;
-		height:480px;
-		margin:10px 0 5px 0;}
-		
-.bar_row{margin:0;}
-
-.full_report{	height:35px;
-				width:140px;}
- 				
- .full_report ul li{padding-top:5px;}
- 				
- .full_report ul li a{font-size:1em !important;
- 				padding-top:4px !important;
- }
- 
- .full_report i{margin-top:8px;
- 				right:10px;
- }
-
-/*###################################### */
-
-
- 
- .back_to_report{height:35px;
-				width:140px;
-				left:15px;
- 				bottom:10px;}
- 				
-.back_to_report ul li{padding:6px 20px 0 0;}
- 				
-.back_to_report ul li a{font-size:1em !important;}
-
-.back_to_report i{margin-top:9px;
- 				left:5px;
- }
-
-.full_site h2{font-size:1.6em;}
+	.bar_row{margin:0;}
+	
+	#summaryDownload{bottom:50px;}
+	
+	.full_report,
+	#summaryDownload{height:35px;
+					width:140px;}
+	 				
+	 .full_report ul li{padding-top:5px;}
+	 				
+	 .full_report ul li a{font-size:1em !important;
+	 				padding-top:4px !important;
+	 }
+	 
+	 .full_report i{margin-top:8px;
+	 				right:10px;
+	 }
+	
+	/*###################################### */
+	
+	
+	 
+	 .back_to_report{height:35px;
+					width:140px;
+					left:15px;
+	 				bottom:10px;}
+	 				
+	.back_to_report ul li{padding:6px 20px 0 0;}
+	 				
+	.back_to_report ul li a{font-size:1em !important;}
+	
+	.back_to_report i{margin-top:9px;
+	 				left:5px;
+	 }
+	
+	.full_site h2{font-size:1.6em;}
  
 
 }/*query end */

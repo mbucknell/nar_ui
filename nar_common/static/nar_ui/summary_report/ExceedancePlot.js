@@ -19,8 +19,6 @@ nar.fullReport = nar.fullReport || {};
      * @param {String} title - the title of the graph
      * returns {jquery.flot}
      */
-
-    
     
    var ExceedancePlot = function(plotEltId, seriesSpecifications, axisLabel){
        
@@ -28,6 +26,7 @@ nar.fullReport = nar.fullReport || {};
        $.jqplot.config.enablePlugins = true;
        var data = seriesSpecifications.map(function(seriesSpec){return [seriesSpec.data, seriesSpec.constituent.name];});
        var seriesOptions = seriesSpecifications.map(function(seriesSpec){return seriesSpec.constituent.color;});
+       var labels = seriesSpecifications.map(function(seriesSpec) { return seriesSpec.label; });
        var plot = $.jqplot(plotEltId, 
        [
         data
@@ -38,21 +37,22 @@ nar.fullReport = nar.fullReport || {};
                rendererOptions: {
                    barDirection: 'horizontal',
                    varyBarColor: true,
-                   barWidth: 40
+                   barWidth: 40,
+                   shadowDepth : 0
                },
                pointLabels: {
                    show: true,
                    location: 'e',
-                   edgeTolerance: -30
+                   edgeTolerance: -30,
+                   labels : labels
                }
            },
            seriesColors: seriesOptions,
            axes:{
                yaxis: {
                    renderer: $.jqplot.CategoryAxisRenderer,
-                   tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+                   tickRenderer: $.jqplot.AxisTickRenderer,
                    tickOptions:{
-                       angle: -90,
                        labelPosition: 'middle',
                        showGridline: false
                    }
@@ -67,6 +67,12 @@ nar.fullReport = nar.fullReport || {};
            },
            grid: {
     		   drawGridLine: false
+    	   },
+    	   highlighter: {
+    		   show : true,
+    		   tooltipLocation : 'n',
+    		   tooltipOffset : 15,
+    		   formatString : 'EPA MCL = 10 mg/L as N. See Technical Information for details.'
     	   }
        
        });
@@ -74,17 +80,7 @@ nar.fullReport = nar.fullReport || {};
        $(window).resize(function() {
            plot.replot();
        });
-       //make a download button
-       var plotSelector = '#'+plotEltId; 
        
-       var plotExportButtonContainer = $(plotSelector).after('<div></div>').next();
-       
-       plotExportButtonContainer.addClass('plotExportButtonContainer')
-           .append('<button>Download Plot</button>', {
-                   'class': 'plotExportButton'
-           }).click(function(){
-               $(plotSelector).jqplotSaveImage();
-           });
        return plot;
    };
     nar.fullReport.ExceedancePlot = ExceedancePlot;

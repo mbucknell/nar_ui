@@ -1,5 +1,6 @@
 describe('nar.fullReport.TimeSeriesCollection', function(){
 	//avoid typing namespace
+
 	var fullReport = nar.fullReport;
 	var TimeRange = fullReport.TimeRange;
 	var TimeSeries = fullReport.TimeSeries;
@@ -24,6 +25,7 @@ describe('nar.fullReport.TimeSeriesCollection', function(){
 		tsCollection.add(timeSeriesA);
 		tsCollection.add(timeSeriesB);
 		it('correctly calculates the aggregate time series range', function(){
+			CONFIG.msFor1993 = new Date(1993,0,1).getTime();
 			var calculatedTimeRange = tsCollection.getTimeRange();
 			var alternateWayToCalculateRange = fullReport.TimeRange.ofAll([timeRangeA, timeRangeB]);
 			expect(calculatedTimeRange.equals(alternateWayToCalculateRange)).toBe(true);

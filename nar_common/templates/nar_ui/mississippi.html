@@ -15,7 +15,7 @@
 		
 		<h6>The width of each river shows its relative contribution to nutrient loading 
 		
-		<a href="#">( Show percentage contributions 
+		<a href="#" id="link-chart-contribution">( Show percentage contributions 
 		
 		<i class="icon-large">
 		
@@ -27,7 +27,7 @@
 		
 		</h6>
 
-		<button id="help">Help?</button>
+		<a href="{% url 'help' %}"><button id="help">Help?</button></a>
 		
 		<button id="toggle">Toggle Sites <i class="glyphicon glyphicon-play"></i></button>
 
@@ -110,7 +110,11 @@
 	
 		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="left-map"></div>
 		
+		
 		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="right-map"></div>
+		
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="left-pie-chart-container"></div>
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="right-pie-chart-container"></div>
 		
 		<div id="download_holder">
 		
@@ -122,6 +126,12 @@
 	
 </div><!--mississippi_holder-->
 {% compress js %}
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.resize.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.categories.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.pie.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/flot_plugins/jquery.flot.axislabels.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/flot_plugins/jquery.flot.tooltip.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/js_lib/jquery-ui/jquery-ui.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/js_lib/OpenLayers/OpenLayers.debug.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/commons/sitePopup.js' %}"></script>
@@ -136,6 +146,8 @@
 
 
 <script type="text/javascript" src="{% static 'nar_ui/mississippi/FiltersSubject.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'nar_ui/mississippi/ContributionDisplay.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/mississippi/GraphPopup.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/mississippi/map.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/mississippi/main.js' %}"></script>

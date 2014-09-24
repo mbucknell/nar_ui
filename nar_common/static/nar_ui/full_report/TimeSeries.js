@@ -102,29 +102,39 @@ nar.fullReport.TimeSeries = function(config){
  * @param {Date|String|Number} startTime - A valid Date Object, an ISO-8601 date string, or a Number timestamp
  * @param {Date|String|Number} endTime -  A valid Date Object, an ISO-8601 date string, or a Number timestamp
  */
-nar.fullReport.TimeRange = function(startTime, endTime){
-  var self = this;
-  self.startTime = nar.util.getTimeStamp(startTime);
-  self.endTime = nar.util.getTimeStamp(endTime);
-  self.clone = function(){
-      return nar.fullReport.TimeRange.clone(self);
-  };
-  self.equals = function(otherTimeRange){
-      return nar.fullReport.TimeRange.equals(self, otherTimeRange);
-  };
-  self.contains = function(date) {
-      var timestamp = nar.util.getTimeStamp(date);
-      return (timestamp >= self.startTime && timestamp <= self.endTime);
-  };
+nar.fullReport.TimeRange = function(startTime, endTime) {
+	var self = this;
+	self.START_TIME_CUTOFF = new Date(1993, 0, 1).getTime();
+	self.startTime = nar.util.getTimeStamp(startTime);
+	self.endTime = nar.util.getTimeStamp(endTime);
+	self.clone = function() {
+		return nar.fullReport.TimeRange.clone(self);
+	};
+	self.equals = function(otherTimeRange) {
+		return nar.fullReport.TimeRange.equals(self, otherTimeRange);
+	};
+	self.contains = function(date) {
+		var timestamp = nar.util.getTimeStamp(date);
+		return (timestamp >= self.startTime && timestamp <= self.endTime);
+	};
+	self.trimStartTime = function(startDate) {
+		this.startTime = Math.max(this.START_TIME_CUTOFF, this.startTime);
+	};
 };
 
-nar.fullReport.DataAvailabilityTimeRange = function(dataAvailability) {
+nar.fullReport.DataAvailabilityTimeRange = function(dataAvailability, useOriginalStartTime) {
     var startTimeIndex = 0;
     var endTimeIndex = 1;
     var timeRange = new nar.fullReport.TimeRange(
         dataAvailability.phenomenonTime[startTimeIndex],
         dataAvailability.phenomenonTime[endTimeIndex]
     );
+    
+    // Unless otherwise specified, cut off the start date to the
+    if (!useOriginalStartTime) {
+    	timeRange.trimStartTime();
+    }
+    
     return timeRange;
 };
 
@@ -155,9 +165,9 @@ nar.fullReport.MostRecentWaterYearTimeRange = function(dataAvailability) {
  * @param {nar.fullReport.TimeRange} current the current element of iteration
  */
 var timeExtentExtremityFinder = function(init, current){
-    init.startTime = Math.min(init.startTime, current.startTime);
-    init.endTime = Math.max(init.endTime, current.endTime);
-    return init;
+	init.startTime = Math.min(init.startTime, current.startTime);
+	init.endTime = Math.max(init.endTime, current.endTime);
+	return init;
 };
 
 //public static methods

@@ -69,6 +69,7 @@ class PreviousNetworkInformationView(FeedContextMixin, TemplateView):
         {'context_name' : 'nasqan_1974_1995_feed', 'title' : 'NASQAN+1974-1995', 'label' : 'nasqan_1974_1995'},
         {'context_name' : 'nasqan_1996_2000_feed', 'title' : 'NASQAN+1996-2000', 'label' : 'nasqan_1996_2000'},
         {'context_name' : 'nasqan_2001_2007_feed', 'title' : 'NASQAN+2001-2007', 'label' : 'nasqan_2001_2007'},
+        {'context_name' : 'nasqan_2008_2012_feed', 'title' : 'NASQAN+2008-2012', 'label' : 'nasqan_2008_2012'},
         {'context_name' : 'nawqa_1991_2001_feed', 'title' : 'NAWQA+1991-2001', 'label' : 'nawqa_1991_2001'},
         {'context_name' : 'nawqa_2002_2012_feed', 'title' : 'NAWQA+2002-2012', 'label' : 'nawqa_2002_2012'}
     ]
@@ -100,6 +101,12 @@ class ConstituentView(FeedContextMixin, TemplateView):
 class ContactsAndCitationsView(FeedContextMixin, TemplateView):
     template_name = 'contacts_and_citations.html'
     feed_titles = [{'context_name' : 'contacts_feed', 'title' : 'Contacts+and+Citations', 'label' : 'contacts_and_citations'}]  
+    
+    
+class MrbReportHelpInfoView(FeedContextMixin, TemplateView):
+    template_name = 'help.html'
+    feed_titles = [{'context_name' : 'mrb_help_feed', 'title' : 'MRB+Report+Help+Info', 'label' : 'mrb_report_help'}]  
+    
     
     
 class DefinitionsJsonView(View):
