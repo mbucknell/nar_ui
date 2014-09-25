@@ -32,28 +32,26 @@ nar.GraphPopup = (function() {
 			type = args.type,
 			width = args.width || null,
 			maxHeight = args.maxHeight || null,
-			filtersSubject = args.filtersSubject,
-			content = args.content || null,
-			title = args.title || type + " load for " + filtersSubject.mostRecentNotification.chemical;,
+			constituent = args.constituent,
+			content,
+			title,
 			$container = $('<div />').attr('id', 'miss-' + type + '-container').addClass('hidden'),
 			$dialog = $('<div />').attr('id', 'miss-' + type + '-content'),
 			$closeButtonContent = $('<span />').addClass('glyphicon glyphicon-remove nar-popup-dialog-close-icon'),
 			dialog;
 		me.destroyAllPopups();
-		var filtersChangeHandler = function(){
-			var argsClone = Object.clone(args);
-			delete argsClone.content;
-			me.create(args);
-			
-		};
-		filtersSubject.observe(filtersChangeHandler);
-		if(!content){
+		
+		if(constituent){
 			if (type === 'annual') {
 				content = me.createAnnualLoadGraphDisplay(args);
 				
 			} else {
 				content = me.createAnnualLoadGraphDisplay(args);
 			}
+		}
+		else{
+			title = 'Error';
+			content = 'Error - Select a nutrient type from the dropdown above the opposite map';
 		}
 		$dialog.append(content);
 		$container.append($dialog);

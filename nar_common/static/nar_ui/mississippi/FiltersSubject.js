@@ -6,12 +6,16 @@ nar.mississippi = nar.mississippi || {};
 (function(){
 	/**
 	 * @class nar.mississippi.FiltersState
-	 * @property changed - a map of field name to field value for all changed field
-	 * @property same - a map of field name to field value for all fields that have not changes
+	 * @property load
+	 * @property chemical
+	 * @property year
+	 * 
 	 */
-	nar.mississippi.FiltersState = function(changed, same){
-		self.changed = changed;
-		self.same = same;
+	nar.mississippi.FiltersState = function(load, chemical, year){
+		var self = this;
+		self.load = load;
+		self.chemical = chemical;
+		self.year = year;
 	};
 	
 	/**
@@ -24,6 +28,7 @@ nar.mississippi = nar.mississippi || {};
 	 */
 	nar.mississippi.FiltersSubject = function(filters){
 		var subject = new nar.commons.Subject();
+		subject.mostRecentNotification = new nar.mississippi.FiltersState(null, null, null);
 		var filterInputs = filters.find(':input');
 		
 		var getNameValuePairFromFormElement = function(element){
@@ -38,17 +43,13 @@ nar.mississippi = nar.mississippi || {};
 		};
 		
 		filterInputs.change(function(event){
-			
-			var changedNameValuePair = getNameValuePairFromFormElement(event.target);
-			var changedFiltersStateEntry = {};
-			changedFiltersStateEntry[changedNameValuePair.name] = changedNameValuePair.value;
-			var sameFiltersStateEntry = {};
-			sameInputs = filterInputs.not(event.target);
-			sameInputs.map(function(index, input){
+			var tempFiltersState = {};
+			filterInputs.map(function(index, input){
 				nameValuePair = getNameValuePairFromFormElement(input);
-				sameFiltersStateEntry[nameValuePair.name] = nameValuePair.value;
+				tempFiltersState[nameValuePair.name] = nameValuePair.value;
 			});
-			var filtersState = new nar.mississippi.FiltersState(changedFiltersStateEntry, sameFiltersStateEntry);
+			
+			var filtersState = new nar.mississippi.FiltersState(tempFiltersState.load, tempFiltersState.chemical, tempFiltersState.year);
 			subject.mostRecentNotification=filtersState;
 			subject.notify(filtersState);
 		});

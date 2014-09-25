@@ -192,25 +192,21 @@ $(document).ready(function() {
 						$annualLoadGraphsLink.
 							attr('href', '#').
 							click('click', function () {
-								var type = 'annual',
-									title, content;
-								
-								if(filtersSubject.mostRecentNotification && filtersSubject.mostRecentNotification.chemical){
-									title = type + " load for " + filtersSubject.mostRecentNotification.chemical;
-								}
-								else{
-									title = "Error";
-									content = "<p>Please select a nutrient type from the dropdown on the opposite map.</p>";
-								}
-									
-								nar.GraphPopup.create({
-									feature : feature,
-									popupAnchor : graphContainer,
-									type : 'annual',
-									title: title,
-									content: content,
-									filtersSubject: filtersSubject
-								});
+								var filtersChangeHandler = function(filtersState){
+									makePopup(filtersState.chemical);
+								};
+								filtersSubject.observe(filtersChangeHandler);
+								var makePopup = function(constituent){
+									nar.GraphPopup.create({
+										feature : feature,
+										popupAnchor : graphContainer,
+										type : 'annual',
+										constituent: constituent
+									}).on('dialogclose', function(){
+										filtersSubject.unobserve(filtersChangeHandler);
+									});
+								};
+								makePopup(filtersSubject.mostRecentNotification.chemical);
 							});
 						$mayLoadGraphsLink.
 							attr('href', '#').
@@ -253,9 +249,6 @@ $(document).ready(function() {
 				});
 			
 			return control;
-		},
-		createGraphPopup = function(){
-			
 		},
 		leftMarbLayer = createMarblayer(),
 		leftFakeLayer = createFakeLayer(),
