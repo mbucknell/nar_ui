@@ -27,6 +27,7 @@ nar.mississippi = nar.mississippi || {};
 		var filterInputs = filters.find(':input');
 		
 		var getNameValuePairFromFormElement = function(element){
+			element = $(element);
 			var nameValuePair = {};
 			nameValuePair.name = element.attr('name');
 			if(!nameValuePair.name){
@@ -40,15 +41,16 @@ nar.mississippi = nar.mississippi || {};
 			
 			var changedNameValuePair = getNameValuePairFromFormElement(event.target);
 			var changedFiltersStateEntry = {};
-			changedFilterStateEntry[changedNameValuePair.name] = changedNameValuePair.value;
+			changedFiltersStateEntry[changedNameValuePair.name] = changedNameValuePair.value;
 			var sameFiltersStateEntry = {};
 			sameInputs = filterInputs.not(event.target);
-			_.map(sameInputs, function(input){
+			sameInputs.map(function(index, input){
 				nameValuePair = getNameValuePairFromFormElement(input);
 				sameFiltersStateEntry[nameValuePair.name] = nameValuePair.value;
 			});
 			var filtersState = new nar.mississippi.FiltersState(changedFiltersStateEntry, sameFiltersStateEntry);
-			subject.notify(filterState);
+			subject.mostRecentNotification=filtersState;
+			subject.notify(filtersState);
 		});
 		return subject;
 	};

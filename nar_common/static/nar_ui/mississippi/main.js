@@ -89,7 +89,7 @@ $(document).ready(function() {
 				popupAnchor = args.popupAnchor,
 				width = args.width,
 				graphContainer = args.graphContainer,
-				filterSubject = args.filterSubject,
+				filtersSubject = args.filtersSubject,
 				control = new nar.SiteIdentificationControl({
 					layers : [ layer ],
 					popupAnchor : popupAnchor,
@@ -125,7 +125,7 @@ $(document).ready(function() {
 									feature : feature,
 									popupAnchor : graphContainer,
 									type : 'annual',
-									title : 'Annual Nitrate Load'
+									filtersSubject: filtersSubject
 								});
 							});
 						$mayLoadGraphsLink.
@@ -135,7 +135,7 @@ $(document).ready(function() {
 									feature : feature,
 									popupAnchor : graphContainer,
 									type : 'may',
-									title : 'May Nitrate Load'
+									filtersSubject: filtersSubject
 								});
 							});
 						$summaryGraphsLink.attr('href', CONFIG.baseUrl + 'site/' + id + '/summary-report');
@@ -163,7 +163,7 @@ $(document).ready(function() {
 				popupAnchor = args.popupAnchor,
 				width = args.width,
 				graphContainer = args.graphContainer,
-				filterSubject = args.filterSubject,
+				filtersSubject = args.filtersSubject,
 				control = new nar.SiteIdentificationControl({
 					layers : [ layer ],
 					popupAnchor : popupAnchor,
@@ -192,21 +192,47 @@ $(document).ready(function() {
 						$annualLoadGraphsLink.
 							attr('href', '#').
 							click('click', function () {
+								var type = 'annual',
+									title, content;
+								
+								if(filtersSubject.mostRecentNotification && filtersSubject.mostRecentNotification.chemical){
+									title = type + " load for " + filtersSubject.mostRecentNotification.chemical;
+								}
+								else{
+									title = "Error";
+									content = "<p>Please select a nutrient type from the dropdown on the opposite map.</p>";
+								}
+									
 								nar.GraphPopup.create({
 									feature : feature,
 									popupAnchor : graphContainer,
 									type : 'annual',
-									title : 'Annual Nitrate Load'
+									title: title,
+									content: content,
+									filtersSubject: filtersSubject
 								});
 							});
 						$mayLoadGraphsLink.
 							attr('href', '#').
 							on('click', function () {
+								var type = 'annual',
+								title, content;
+							
+								if(filtersSubject.mostRecentNotification && filtersSubject.mostRecentNotification.chemical){
+									title = type + " load for " + filtersSubject.mostRecentNotification.chemical;
+								}
+								else{
+									title = "Error";
+									content = "<p>Please select a nutrient type from the dropdown on the opposite map.</p>";
+								}
+								
 								nar.GraphPopup.create({
 									feature : feature,
 									popupAnchor : graphContainer,
 									type : 'may',
-									title : 'May Nitrate Load'
+									title: title,
+									content: content,
+									filtersSubject: filtersSubject
 								});
 							});
 						$summaryGraphsLink.attr('href', CONFIG.baseUrl + 'site/' + id + '/summary-report');
@@ -228,6 +254,9 @@ $(document).ready(function() {
 			
 			return control;
 		},
+		createGraphPopup = function(){
+			
+		},
 		leftMarbLayer = createMarblayer(),
 		leftFakeLayer = createFakeLayer(),
 		rightMarbLayer = createMarblayer(),
@@ -242,9 +271,9 @@ $(document).ready(function() {
 	rightMap.addLayers([rightMarbLayer,rightFakeLayer]);
 	
 	var leftFiltersName = '.left_filter';
-	var leftFilters = $(leftFilterName);
+	var leftFilters = $(leftFiltersName);
 	var rightFiltersName = '.right_filter';
-	var rightFilters= $(rightFilterName);
+	var rightFilters= $(rightFiltersName);
 	
 	nar.mississippi.createLoadSelect(leftMap, leftFilters);
 	nar.mississippi.createLoadSelect(rightMap, rightFilters);
@@ -259,7 +288,7 @@ $(document).ready(function() {
 		popupAnchor : '#' + rightMapName,
 		width : rightMap.size.w,
 		graphContainer : '#' + leftMapName,
-		filterSubject: leftFiltersSubject
+		filtersSubject: leftFiltersSubject
 	});
 	
 	leftSiteIdentificationControl = createSiteIdentificationControl({
@@ -267,7 +296,7 @@ $(document).ready(function() {
 		popupAnchor : '#' + leftMapName,
 		width : leftMap.size.w,
 		graphContainer : '#' + rightMapName,
-		filterSubject: rightFiltersSubject
+		filtersSubject: rightFiltersSubject
 	});
 	
 	rightFakeSiteIdentificationControl = createFakeSiteIdentificationControl({
@@ -275,7 +304,7 @@ $(document).ready(function() {
 		layer : rightFakeLayer,
 		width : rightMap.size.w,
 		graphContainer : '#' + leftMapName,
-		filterSubject: leftFiltersSubject
+		filtersSubject: leftFiltersSubject
 	});
 	
 	leftFakeSiteIdentificationControl = createFakeSiteIdentificationControl({
@@ -283,7 +312,7 @@ $(document).ready(function() {
 		layer : leftFakeLayer,
 		width : leftMap.size.w,
 		graphContainer : '#' + rightMapName,
-		filterSubject: rightFiltersSubject
+		filtersSubject: rightFiltersSubject
 	});
 	
 	rightMap.addControls([rightSiteIdentificationControl, rightFakeSiteIdentificationControl]);

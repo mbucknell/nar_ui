@@ -26,28 +26,35 @@ nar.GraphPopup = (function() {
 		// TODO - Split out functionality once we have a task to create two different graphs
 		return me.createAnnualLoadGraphDisplay(args);
 	};
-
 	me.create = function(args) {
 		var appendToSelector = args.appendToSelector || 'body',
 			popupAnchor = args.popupAnchor,
 			type = args.type,
-			title = args.title || '',
 			width = args.width || null,
 			maxHeight = args.maxHeight || null,
-			content,
+			filtersSubject = args.filtersSubject,
+			content = args.content || null,
+			title = args.title || type + " load for " + filtersSubject.mostRecentNotification.chemical;,
 			$container = $('<div />').attr('id', 'miss-' + type + '-container').addClass('hidden'),
 			$dialog = $('<div />').attr('id', 'miss-' + type + '-content'),
 			$closeButtonContent = $('<span />').addClass('glyphicon glyphicon-remove nar-popup-dialog-close-icon'),
 			dialog;
-		
 		me.destroyAllPopups();
-		
-		if (type === 'annual') {
-			content = me.createAnnualLoadGraphDisplay(args);
-		} else {
-			content = me.createAnnualLoadGraphDisplay(args);
+		var filtersChangeHandler = function(){
+			var argsClone = Object.clone(args);
+			delete argsClone.content;
+			me.create(args);
+			
+		};
+		filtersSubject.observe(filtersChangeHandler);
+		if(!content){
+			if (type === 'annual') {
+				content = me.createAnnualLoadGraphDisplay(args);
+				
+			} else {
+				content = me.createAnnualLoadGraphDisplay(args);
+			}
 		}
-		
 		$dialog.append(content);
 		$container.append($dialog);
 		$('body').append($container);
@@ -59,6 +66,9 @@ nar.GraphPopup = (function() {
 			width: width || 'auto',
 			maxHeight : maxHeight || false,
 			dialogClass : args.dialogClass || 'miss-popup-dialog',
+			beforeClose: function(event, ui){
+				filtersSubject.unobserve(filtersChangeHandler);
+			},
 			$closeButtonContent : $('<span />').addClass('glyphicon glyphicon-remove nar-popup-dialog-close-icon'),
 			position : {
 				my: 'left top',
