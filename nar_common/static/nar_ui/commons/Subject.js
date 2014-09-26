@@ -29,9 +29,8 @@ nar.commons.Subject = function(){
 		if(-1 !== handlerIndex){
 			handlers.removeAt(handlerIndex);
 			handlerWasFound = true;
+			console.log('removed observer');
 		}
-		
-		console.log('removed observer');
 		return handlerWasFound;
 	};
 	/**
@@ -43,6 +42,7 @@ nar.commons.Subject = function(){
 		handlers.map(function(handler){
 			handler.apply(null, args);
 		});
+		console.log('notified ' + handlers.length + ' observers');
 	};
 };
 

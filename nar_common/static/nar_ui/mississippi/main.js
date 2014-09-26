@@ -120,12 +120,22 @@ $(document).ready(function() {
 						$annualLoadGraphsLink.
 							attr('href', '#').
 							click('click', function () {
-								nar.GraphPopup.create({
-									feature : feature,
-									popupAnchor : graphContainer,
-									type : 'annual',
-									filtersSubject: filtersSubject
-								});
+								var filtersChangeHandler = function(filtersState){
+									makePopup(filtersState.chemical);
+								};
+								filtersSubject.observe(filtersChangeHandler);
+								var onClose = function(){
+									filtersSubject.unobserve(filtersChangeHandler);
+								};
+								var makePopup = function(constituent){
+									nar.GraphPopup.create({
+										feature : feature,
+										popupAnchor : graphContainer,
+										type : 'annual',
+										constituent: constituent
+									}).on('dialogclose', onClose);
+								};
+								makePopup(filtersSubject.mostRecentNotification.chemical);
 							});
 						$mayLoadGraphsLink.
 							attr('href', '#').
@@ -164,100 +174,6 @@ $(document).ready(function() {
 			}
 			return control;
 		},
-//		createFakeSiteIdentificationControl = function (args) {
-//			var layer = args.layer,
-//				popupAnchor = args.popupAnchor,
-//				width = args.width,
-//				graphContainer = args.graphContainer,
-//				filtersSubject = args.filtersSubject,
-//				clicker = function(feature){
-//					return function () {
-//						var filtersChangeHandler = function(filtersState){
-//							makePopup(filtersState.chemical);
-//						};
-//						filtersSubject.observe(filtersChangeHandler);
-//						var makePopup = function(constituent){
-//							nar.GraphPopup.create({
-//								feature : feature,
-//								popupAnchor : graphContainer,
-//								type : 'annual',
-//								constituent: constituent
-//							}).on('dialogclose', function(){
-//								filtersSubject.unobserve(filtersChangeHandler);
-//							});
-//						};
-//						makePopup(filtersSubject.mostRecentNotification.chemical);
-//					};
-//				},
-//				control = new nar.SiteIdentificationControl({
-//					layers : [ layer ],
-//					popupAnchor : popupAnchor,
-//					popupWidth : width,
-//					createSiteDisplayWell : function(feature) {
-//						var $container = $('<div />').addClass('well well-sm text-center'),
-//							$titleRow = $('<div />').addClass('row site-identification-popup-content-title'),
-//							$reportsAndGraphsRow = $('<div />').addClass('row site-identification-popup-content-links-and-graphs'),
-//							$summaryGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-summary-graph-link'),
-//							$annualLoadGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-annual-load-link'),
-//							$mayLoadGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-may-load-link'),
-//							$detailedGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4-offset-2 site-identification-popup-content-detailed-graph-link'),
-//							$downloadLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-download-link'),
-//							$annualLoadGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'),' Annual Load'),
-//							$mayLoadGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'),' May Load'),
-//							$summaryGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-th-list'),' Summary Graphs'),
-//							$detailedGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'), ' Detailed Graphs'),
-//							$downloadLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-save'),' Download Data'),
-//							$hiddenAutoFocus = $('<span />').addClass('hidden').attr('autofocus', ''),
-//							data = feature.data,
-//							title = data.staname,
-//							id = data.staid;
-//					
-//						$titleRow.html('Mississippi River at Gulf');
-//						$annualLoadGraphsLink.
-//							attr('href', '#').
-//							click('click', clicker(feature));
-//						$mayLoadGraphsLink.
-//							attr('href', '#').
-//							on('click', function () {
-////								var type = 'annual',
-////								title, content;
-////							
-////								if(filtersSubject.mostRecentNotification && filtersSubject.mostRecentNotification.chemical){
-////									title = type + " load for " + filtersSubject.mostRecentNotification.chemical;
-////								}
-////								else{
-////									title = "Error";
-////									content = "<p>Please select a nutrient type from the dropdown on the opposite map.</p>";
-////								}
-////								
-////								nar.GraphPopup.create({
-////									feature : feature,
-////									popupAnchor : graphContainer,
-////									type : 'may',
-////									title: title,
-////									content: content,
-////									filtersSubject: filtersSubject
-////								});
-//							});
-//						$summaryGraphsLink.attr('href', CONFIG.baseUrl + 'site/' + id + '/summary-report');
-//						$detailedGraphsLink.attr('href',CONFIG.baseUrl + 'site/' + id + '/full-report');
-//						$downloadLink.attr('href', '#');
-//						
-//						$annualLoadGraphsLinkContainer.append($annualLoadGraphsLink);
-//						$mayLoadGraphsLinkContainer.append($mayLoadGraphsLink);
-//						$summaryGraphsLinkContainer.append($summaryGraphsLink);
-//						$detailedGraphsLinkContainer.append($detailedGraphsLink);
-//						$downloadLinkContainer.append($downloadLink);
-//						
-//						$reportsAndGraphsRow.append($annualLoadGraphsLinkContainer, $mayLoadGraphsLinkContainer, $downloadLinkContainer, $hiddenAutoFocus);
-//						
-//						$container.append($titleRow, $reportsAndGraphsRow);
-//						return $container;
-//					}
-//				});
-//			
-//			return control;
-//		},
 		leftMarbLayer = createMarblayer(),
 		leftFakeLayer = createFakeLayer(),
 		rightMarbLayer = createMarblayer(),

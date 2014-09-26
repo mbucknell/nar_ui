@@ -64,9 +64,6 @@ nar.GraphPopup = (function() {
 			width: width || 'auto',
 			maxHeight : maxHeight || false,
 			dialogClass : args.dialogClass || 'miss-popup-dialog',
-			beforeClose: function(event, ui){
-				filtersSubject.unobserve(filtersChangeHandler);
-			},
 			$closeButtonContent : $('<span />').addClass('glyphicon glyphicon-remove nar-popup-dialog-close-icon'),
 			position : {
 				my: 'left top',
