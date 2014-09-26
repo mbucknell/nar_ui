@@ -90,6 +90,7 @@ $(document).ready(function() {
 				width = args.width,
 				graphContainer = args.graphContainer,
 				filtersSubject = args.filtersSubject,
+				virtualSite = args.virtualSite,//is it a virtual site or a physical site
 				control = new nar.SiteIdentificationControl({
 					layers : [ layer ],
 					popupAnchor : popupAnchor,
@@ -97,7 +98,6 @@ $(document).ready(function() {
 					createSiteDisplayWell : function(feature) {
 						var $container = $('<div />').addClass('well well-sm text-center'),
 							$titleRow = $('<div />').addClass('row site-identification-popup-content-title'),
-							$stationIdRow = $('<div />').addClass('row site-identification-popup-content-station-id'),
 							$reportsAndGraphsRow = $('<div />').addClass('row site-identification-popup-content-links-and-graphs'),
 							$relevantLinksRow = $('<div />').addClass('row site-identification-popup-content-relevant-links'),
 							$summaryGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-summary-graph-link'),
@@ -116,7 +116,6 @@ $(document).ready(function() {
 							id = data.siteid;
 					
 						$titleRow.html(title);
-						$stationIdRow.html('Station ID: ' + id);
 						
 						$annualLoadGraphsLink.
 							attr('href', '#').
@@ -150,106 +149,115 @@ $(document).ready(function() {
 						
 						$reportsAndGraphsRow.append($summaryGraphsLinkContainer, $detailedGraphsLinkContainer, $downloadLinkContainer, $annualLoadGraphsLinkContainer, $mayLoadGraphsLinkContainer, $hiddenAutoFocus);
 						
-						$container.append($titleRow, $stationIdRow, $reportsAndGraphsRow);
+						$container.append($titleRow);
+						if(!virtualSite){
+							var $stationIdRow = $('<div />').addClass('row site-identification-popup-content-station-id');
+							$stationIdRow.html('Station ID: ' + id);
+							$container.append($stationIdRow);
+						}
+						$container.append($reportsAndGraphsRow);
 						return $container;
 					}
 				});
-			
-			control.vendorParams = cqlFilter;
+			if(!virtualSite){
+				control.vendorParams = cqlFilter;
+			}
 			return control;
 		},
-		createFakeSiteIdentificationControl = function (args) {
-			var layer = args.layer,
-				popupAnchor = args.popupAnchor,
-				width = args.width,
-				graphContainer = args.graphContainer,
-				filtersSubject = args.filtersSubject,
-				control = new nar.SiteIdentificationControl({
-					layers : [ layer ],
-					popupAnchor : popupAnchor,
-					popupWidth : width,
-					createSiteDisplayWell : function(feature) {
-						var $container = $('<div />').addClass('well well-sm text-center'),
-							$titleRow = $('<div />').addClass('row site-identification-popup-content-title'),
-							$reportsAndGraphsRow = $('<div />').addClass('row site-identification-popup-content-links-and-graphs'),
-							$summaryGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-summary-graph-link'),
-							$annualLoadGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-annual-load-link'),
-							$mayLoadGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-may-load-link'),
-							$detailedGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4-offset-2 site-identification-popup-content-detailed-graph-link'),
-							$downloadLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-download-link'),
-							$annualLoadGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'),' Annual Load'),
-							$mayLoadGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'),' May Load'),
-							$summaryGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-th-list'),' Summary Graphs'),
-							$detailedGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'), ' Detailed Graphs'),
-							$downloadLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-save'),' Download Data'),
-							$hiddenAutoFocus = $('<span />').addClass('hidden').attr('autofocus', ''),
-							data = feature.data,
-							title = data.staname,
-							id = data.staid;
-					
-						$titleRow.html('Mississippi River at Gulf');
-						
-						$annualLoadGraphsLink.
-							attr('href', '#').
-							click('click', function () {
-								var filtersChangeHandler = function(filtersState){
-									makePopup(filtersState.chemical);
-								};
-								filtersSubject.observe(filtersChangeHandler);
-								var makePopup = function(constituent){
-									nar.GraphPopup.create({
-										feature : feature,
-										popupAnchor : graphContainer,
-										type : 'annual',
-										constituent: constituent
-									}).on('dialogclose', function(){
-										filtersSubject.unobserve(filtersChangeHandler);
-									});
-								};
-								makePopup(filtersSubject.mostRecentNotification.chemical);
-							});
-						$mayLoadGraphsLink.
-							attr('href', '#').
-							on('click', function () {
-								var type = 'annual',
-								title, content;
-							
-								if(filtersSubject.mostRecentNotification && filtersSubject.mostRecentNotification.chemical){
-									title = type + " load for " + filtersSubject.mostRecentNotification.chemical;
-								}
-								else{
-									title = "Error";
-									content = "<p>Please select a nutrient type from the dropdown on the opposite map.</p>";
-								}
-								
-								nar.GraphPopup.create({
-									feature : feature,
-									popupAnchor : graphContainer,
-									type : 'may',
-									title: title,
-									content: content,
-									filtersSubject: filtersSubject
-								});
-							});
-						$summaryGraphsLink.attr('href', CONFIG.baseUrl + 'site/' + id + '/summary-report');
-						$detailedGraphsLink.attr('href',CONFIG.baseUrl + 'site/' + id + '/full-report');
-						$downloadLink.attr('href', '#');
-						
-						$annualLoadGraphsLinkContainer.append($annualLoadGraphsLink);
-						$mayLoadGraphsLinkContainer.append($mayLoadGraphsLink);
-						$summaryGraphsLinkContainer.append($summaryGraphsLink);
-						$detailedGraphsLinkContainer.append($detailedGraphsLink);
-						$downloadLinkContainer.append($downloadLink);
-						
-						$reportsAndGraphsRow.append($annualLoadGraphsLinkContainer, $mayLoadGraphsLinkContainer, $downloadLinkContainer, $hiddenAutoFocus);
-						
-						$container.append($titleRow, $reportsAndGraphsRow);
-						return $container;
-					}
-				});
-			
-			return control;
-		},
+//		createFakeSiteIdentificationControl = function (args) {
+//			var layer = args.layer,
+//				popupAnchor = args.popupAnchor,
+//				width = args.width,
+//				graphContainer = args.graphContainer,
+//				filtersSubject = args.filtersSubject,
+//				clicker = function(feature){
+//					return function () {
+//						var filtersChangeHandler = function(filtersState){
+//							makePopup(filtersState.chemical);
+//						};
+//						filtersSubject.observe(filtersChangeHandler);
+//						var makePopup = function(constituent){
+//							nar.GraphPopup.create({
+//								feature : feature,
+//								popupAnchor : graphContainer,
+//								type : 'annual',
+//								constituent: constituent
+//							}).on('dialogclose', function(){
+//								filtersSubject.unobserve(filtersChangeHandler);
+//							});
+//						};
+//						makePopup(filtersSubject.mostRecentNotification.chemical);
+//					};
+//				},
+//				control = new nar.SiteIdentificationControl({
+//					layers : [ layer ],
+//					popupAnchor : popupAnchor,
+//					popupWidth : width,
+//					createSiteDisplayWell : function(feature) {
+//						var $container = $('<div />').addClass('well well-sm text-center'),
+//							$titleRow = $('<div />').addClass('row site-identification-popup-content-title'),
+//							$reportsAndGraphsRow = $('<div />').addClass('row site-identification-popup-content-links-and-graphs'),
+//							$summaryGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-summary-graph-link'),
+//							$annualLoadGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-annual-load-link'),
+//							$mayLoadGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-may-load-link'),
+//							$detailedGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4-offset-2 site-identification-popup-content-detailed-graph-link'),
+//							$downloadLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-download-link'),
+//							$annualLoadGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'),' Annual Load'),
+//							$mayLoadGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'),' May Load'),
+//							$summaryGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-th-list'),' Summary Graphs'),
+//							$detailedGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'), ' Detailed Graphs'),
+//							$downloadLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-save'),' Download Data'),
+//							$hiddenAutoFocus = $('<span />').addClass('hidden').attr('autofocus', ''),
+//							data = feature.data,
+//							title = data.staname,
+//							id = data.staid;
+//					
+//						$titleRow.html('Mississippi River at Gulf');
+//						$annualLoadGraphsLink.
+//							attr('href', '#').
+//							click('click', clicker(feature));
+//						$mayLoadGraphsLink.
+//							attr('href', '#').
+//							on('click', function () {
+////								var type = 'annual',
+////								title, content;
+////							
+////								if(filtersSubject.mostRecentNotification && filtersSubject.mostRecentNotification.chemical){
+////									title = type + " load for " + filtersSubject.mostRecentNotification.chemical;
+////								}
+////								else{
+////									title = "Error";
+////									content = "<p>Please select a nutrient type from the dropdown on the opposite map.</p>";
+////								}
+////								
+////								nar.GraphPopup.create({
+////									feature : feature,
+////									popupAnchor : graphContainer,
+////									type : 'may',
+////									title: title,
+////									content: content,
+////									filtersSubject: filtersSubject
+////								});
+//							});
+//						$summaryGraphsLink.attr('href', CONFIG.baseUrl + 'site/' + id + '/summary-report');
+//						$detailedGraphsLink.attr('href',CONFIG.baseUrl + 'site/' + id + '/full-report');
+//						$downloadLink.attr('href', '#');
+//						
+//						$annualLoadGraphsLinkContainer.append($annualLoadGraphsLink);
+//						$mayLoadGraphsLinkContainer.append($mayLoadGraphsLink);
+//						$summaryGraphsLinkContainer.append($summaryGraphsLink);
+//						$detailedGraphsLinkContainer.append($detailedGraphsLink);
+//						$downloadLinkContainer.append($downloadLink);
+//						
+//						$reportsAndGraphsRow.append($annualLoadGraphsLinkContainer, $mayLoadGraphsLinkContainer, $downloadLinkContainer, $hiddenAutoFocus);
+//						
+//						$container.append($titleRow, $reportsAndGraphsRow);
+//						return $container;
+//					}
+//				});
+//			
+//			return control;
+//		},
 		leftMarbLayer = createMarblayer(),
 		leftFakeLayer = createFakeLayer(),
 		rightMarbLayer = createMarblayer(),
@@ -289,23 +297,25 @@ $(document).ready(function() {
 		popupAnchor : '#' + leftMapName,
 		width : leftMap.size.w,
 		graphContainer : '#' + rightMapName,
-		filtersSubject: rightFiltersSubject
+		filtersSubject: rightFiltersSubject,
 	});
 	
-	rightFakeSiteIdentificationControl = createFakeSiteIdentificationControl({
+	rightFakeSiteIdentificationControl = createSiteIdentificationControl({
 		popupAnchor : '#' + rightMapName,
 		layer : rightFakeLayer,
 		width : rightMap.size.w,
 		graphContainer : '#' + leftMapName,
-		filtersSubject: leftFiltersSubject
+		filtersSubject: leftFiltersSubject,
+		virtualSite: true
 	});
 	
-	leftFakeSiteIdentificationControl = createFakeSiteIdentificationControl({
+	leftFakeSiteIdentificationControl = createSiteIdentificationControl({
 		popupAnchor :  '#' + leftMapName,
 		layer : leftFakeLayer,
 		width : leftMap.size.w,
 		graphContainer : '#' + rightMapName,
-		filtersSubject: rightFiltersSubject
+		filtersSubject: rightFiltersSubject,
+		virtualSite: true
 	});
 	
 	rightMap.addControls([rightSiteIdentificationControl, rightFakeSiteIdentificationControl]);
