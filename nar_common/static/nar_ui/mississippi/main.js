@@ -109,7 +109,7 @@ $(document).ready(function() {
 							}).on('dialogclose', onClose);
 						};
 						makePopup(filtersSubject.mostRecentNotification.chemical);
-					}
+					};
 				},
 				control = new nar.SiteIdentificationControl({
 					layers : [ layer ],

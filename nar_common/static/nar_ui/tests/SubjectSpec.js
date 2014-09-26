@@ -11,7 +11,8 @@ describe('nar.commons.Subject', function() {
 		});
 	});
 	it('should notify no observers if unobserved', function(){
-		expect(subject.notify()).toBe(0);
+		var numCalled = subject.notify();
+		expect(numCalled).toBe(0);
 	});
 	it('should notify all observers if observed', function(){
 		observers.each(function(observer){
@@ -19,7 +20,8 @@ describe('nar.commons.Subject', function() {
 			subject.observe(observer);
 			expect(observer).not.toHaveBeenCalled();
 		});
-		subject.notify();
+		var numCalled = subject.notify();
+		expect(numCalled).toBe(numObservers);
 		observers.each(function(observer){
 			expect(observer).toHaveBeenCalled();
 		});
@@ -50,13 +52,29 @@ describe('nar.commons.Subject', function() {
 		});
 		//remove one
 		var removeMe = observers.first();
-		subject.unobserve(removeMe);
+		var wasObserving = subject.unobserve(removeMe);
+		expect(wasObserving).toBe(true);
 		//notify
-		subject.notify();
+		var numberCalled = subject.notify();
+		expect(numberCalled).toBe(numObservers - 1);
 		//verify
 		expect(removeMe).not.toHaveBeenCalled();
 		observers.exclude(removeMe).each(function(observer){
 			expect(observer).toHaveBeenCalled();
 		});
+	});
+	it('should return true if asked to unobserve an observer that is observing', function(){
+		var removeMe = function(){};
+		subject.observe(removeMe);
+		var wasObserving = subject.unobserve(removeMe);
+		expect(wasObserving).toBe(true);
+	});
+	it('should not error, and should return false if asked to unobserve an observer that is not observing', function(){
+		var wasObserving;
+		var test = function(){
+			wasObserving = subject.unobserve(function(){});
+		};
+		expect(test).not.toThrow();
+		expect(wasObserving).toBe(false);
 	});
 });
