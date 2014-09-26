@@ -36,6 +36,7 @@ nar.commons.Subject = function(){
 	/**
 	 * @param * - any arguments you specify will be 
 	 * passed to observing handlers
+	 * @return {Integer} the number of handlers called
 	 */
 	self.notify = function notifyObservers() {
 		var args = Array.create(arguments);
@@ -43,6 +44,7 @@ nar.commons.Subject = function(){
 			handler.apply(null, args);
 		});
 		console.log('notified ' + handlers.length + ' observers');
+		return handlers.length;
 	};
 };
 
