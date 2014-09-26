@@ -91,6 +91,26 @@ $(document).ready(function() {
 				graphContainer = args.graphContainer,
 				filtersSubject = args.filtersSubject,
 				virtualSite = args.virtualSite,//is it a virtual site or a physical site
+				makeGraphClickHandler = function(type, feature){
+					return function () {
+						var filtersChangeHandler = function(filtersState){
+							makePopup(filtersState.chemical);
+						};
+						filtersSubject.observe(filtersChangeHandler);
+						var onClose = function(){
+							filtersSubject.unobserve(filtersChangeHandler);
+						};
+						var makePopup = function(constituent){
+							nar.GraphPopup.create({
+								feature : feature,
+								popupAnchor : graphContainer,
+								type : type,
+								constituent: constituent
+							}).on('dialogclose', onClose);
+						};
+						makePopup(filtersSubject.mostRecentNotification.chemical);
+					}
+				},
 				control = new nar.SiteIdentificationControl({
 					layers : [ layer ],
 					popupAnchor : popupAnchor,
@@ -119,34 +139,10 @@ $(document).ready(function() {
 						
 						$annualLoadGraphsLink.
 							attr('href', '#').
-							click('click', function () {
-								var filtersChangeHandler = function(filtersState){
-									makePopup(filtersState.chemical);
-								};
-								filtersSubject.observe(filtersChangeHandler);
-								var onClose = function(){
-									filtersSubject.unobserve(filtersChangeHandler);
-								};
-								var makePopup = function(constituent){
-									nar.GraphPopup.create({
-										feature : feature,
-										popupAnchor : graphContainer,
-										type : 'annual',
-										constituent: constituent
-									}).on('dialogclose', onClose);
-								};
-								makePopup(filtersSubject.mostRecentNotification.chemical);
-							});
+							click('click', makeGraphClickHandler('annual', feature));
 						$mayLoadGraphsLink.
 							attr('href', '#').
-							on('click', function () {
-								nar.GraphPopup.create({
-									feature : feature,
-									popupAnchor : graphContainer,
-									type : 'may',
-									filtersSubject: filtersSubject
-								});
-							});
+							on('click', makeGraphClickHandler('may', feature));
 						$summaryGraphsLink.attr('href', CONFIG.baseUrl + 'site/' + id + '/summary-report');
 						$detailedGraphsLink.attr('href',CONFIG.baseUrl + 'site/' + id + '/full-report');
 						$downloadLink.attr('href', '#');
@@ -205,7 +201,7 @@ $(document).ready(function() {
 		popupAnchor : '#' + rightMapName,
 		width : rightMap.size.w,
 		graphContainer : '#' + leftMapName,
-		filtersSubject: leftFiltersSubject
+		filtersSubject: rightFiltersSubject
 	});
 	
 	leftSiteIdentificationControl = createSiteIdentificationControl({
@@ -213,7 +209,7 @@ $(document).ready(function() {
 		popupAnchor : '#' + leftMapName,
 		width : leftMap.size.w,
 		graphContainer : '#' + rightMapName,
-		filtersSubject: rightFiltersSubject,
+		filtersSubject: leftFiltersSubject,
 	});
 	
 	rightFakeSiteIdentificationControl = createSiteIdentificationControl({
@@ -221,7 +217,7 @@ $(document).ready(function() {
 		layer : rightFakeLayer,
 		width : rightMap.size.w,
 		graphContainer : '#' + leftMapName,
-		filtersSubject: leftFiltersSubject,
+		filtersSubject: rightFiltersSubject,
 		virtualSite: true
 	});
 	
@@ -230,7 +226,7 @@ $(document).ready(function() {
 		layer : leftFakeLayer,
 		width : leftMap.size.w,
 		graphContainer : '#' + rightMapName,
-		filtersSubject: rightFiltersSubject,
+		filtersSubject: leftFiltersSubject,
 		virtualSite: true
 	});
 	

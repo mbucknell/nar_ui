@@ -33,6 +33,7 @@ nar.GraphPopup = (function() {
 			width = args.width || null,
 			maxHeight = args.maxHeight || null,
 			constituent = args.constituent,
+			contentDiv = $('<div />').addClass('miss-content-div'),
 			content,
 			title,
 			$container = $('<div />').attr('id', 'miss-' + type + '-container').addClass('hidden'),
@@ -48,12 +49,14 @@ nar.GraphPopup = (function() {
 			} else {
 				content = me.createAnnualLoadGraphDisplay(args);
 			}
+			title = type + ' load for ' + constituent;
 		}
 		else{
 			title = 'Error';
 			content = 'Error - Select a nutrient type from the dropdown above the opposite map';
 		}
-		$dialog.append(content);
+		contentDiv.html(content);
+		$dialog.append(contentDiv);
 		$container.append($dialog);
 		$('body').append($container);
 		
@@ -86,7 +89,7 @@ nar.GraphPopup = (function() {
 	me.destroyAllPopups = function () {
 		while (me.popups.length > 0) {
 			var popup = me.popups.pop();
-			popup.dialog('destroy');
+			popup.dialog('close');
 		}
 	};
 	
