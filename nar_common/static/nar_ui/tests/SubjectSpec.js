@@ -33,7 +33,7 @@ describe('nar.commons.Subject', function() {
 		
 		//we will call notify with each of these
 		var variousArguments = [
-			[1, 2, 3],
+			[1, 2, 3, []],
 			[1, 'a', false, {}],
 			[new Date(), null, undefined, function(){}]
 		];
