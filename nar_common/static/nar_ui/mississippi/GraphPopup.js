@@ -40,6 +40,7 @@ nar.GraphPopup = (function() {
 			$dialog = $('<div />').attr('id', 'miss-' + type + '-content'),
 			$closeButtonContent = $('<span />').addClass('glyphicon glyphicon-remove nar-popup-dialog-close-icon'),
 			dialog;
+		me.destroyAllPopups();
 		
 		if(constituent){
 			if (type === 'annual') {
