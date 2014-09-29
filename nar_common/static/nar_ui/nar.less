@@ -461,17 +461,34 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
  								
  .mississippi_title a:hover{text-decoration:underline;
  							color:#428bca;}
+ 							
+ #download{
+ 	background:@boxColor;
+ 	width:110px;
+	font-size:1em;
+	padding:0 0 0 0;
+	margin:7px 0 0 0;
+	height:25px;
+	border-radius:5px;
+  	border:@borderDark;
+  	position:absolute;
+  	right:15px;
+  	top:10px;}
+  						
+#download:hover{
+	background:@primaryColor;
+ 	color:#fff;}
  								
  #toggle{position:absolute;
  		right:5px;
- 		top:48px;
+ 		bottom:10px;
  		width:110px;}
  		
  #toggle i{font-size:.9em;}
  		
 #help{position:absolute;
-	right:5px;
-	top:10px;
+	left:10px;
+	bottom:10px;
 	color:#000;
 	}
 	
@@ -553,28 +570,6 @@ select.last{margin-right:0;}
 
 #left-map{border-right:@borderDark;}
 
-#download_holder{background:@boxColor;
-				width:170px;
-				height:40px;
-				position:absolute;
-				bottom:0;
-				left:43%;
-				border-left:@borderDark;
-				border-right:@borderDark;
-				border-top:@borderDark;
-				text-align:center;}
-				
-#download_holder button{width:150px;
-						font-size:1em;
-						padding:0 0 0 0;
-						margin:7px 0 0 0;
-						height:25px;
-						border-radius:5px;
-  						border:@borderDark;
-  						background:#eee;}
-  						
-#download_holder button:hover{background:@primaryColor;
- 								color:#fff;}
  								
 /* Site popup styling */
 .miss-popup-dialog .ui-dialog-titlebar {
@@ -1035,7 +1030,7 @@ select.last{margin-right:0;}
 				
 #downloadTop{background:@siteBackground;
 			width:650px;
-			height:90px;
+			height:55px;
 			padding:0 15px;
 			border-radius:10px 10px 0 0;
 			border-bottom:@borderDark;
@@ -1208,8 +1203,6 @@ select.last{margin-right:0;}
 						}
 						
 	select.last{margin-right:0;}
-	
-	#download_holder{left:41.5%}
 						
 	/*###########################mississippi_end####################### */
 	
@@ -1331,28 +1324,30 @@ select.last{margin-right:0;}
 	 					
 	 .mississippi_title h6{font-size:.8em;}
 	 
-	 #mississippi_info{
-	 					padding:2px 0 2px 5px;
-	 }
+	 #mississippi_info{padding:2px 0 2px 5px;}
 	 
-	 #toggle{width:70px;
+	 #toggle,
+	 #download{width:70px;
 	 		height:38px;
 	 		text-align:center;
 	 		font-size:.9em;
-	 		top:40px;
+	 }
+	 
+	 #download{right:10px;
+	 			top:-3px;
 	 }
 	 		
-	  #toggle,
-	  #help{right:0;}
+	   #toggle{top:43px;
+	   	right:0;
+	   }
 	  
-	   #help{top:4px;}
 	 
-	.mississippi_title button{
-	 							background:@boxColor;}
+	.mississippi_title button{background:@boxColor;}
 	
 	.left_filter select,
-	.right_filter select{width:100px;
-						margin-right:18px;
+	.right_filter select{
+		width:100px;
+		margin-right:18px;
 						}
 						
 	select.last{margin-right:0;}
@@ -1505,15 +1500,20 @@ select.last{margin-right:0;}
 	 					padding:2px 0 2px 5px;
 	 }
 	 
-	 #toggle{width:60px;
+	 #toggle,
+	 #download{width:70px;
 	 		height:38px;
 	 		text-align:center;
 	 		font-size:.9em;
-	 		top:40px;
+	 }
+	 
+	 #download{right:10px;
+	 			top:-3px;
 	 }
 	 		
-	  #toggle,
-	  #help{right:0;}
+	   #toggle{top:43px;
+	   	right:0;
+	   }
 	
 	.left_filter select,
 	.right_filter select{width:100px;
