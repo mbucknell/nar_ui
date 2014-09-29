@@ -90,6 +90,7 @@ nar.GraphPopup = (function() {
 		while (me.popups.length > 0) {
 			var popup = me.popups.pop();
 			popup.dialog('close');
+			popup.dialog('destroy');
 		}
 	};
 	
