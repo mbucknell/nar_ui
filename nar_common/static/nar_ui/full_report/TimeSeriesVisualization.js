@@ -68,7 +68,6 @@ nar.fullReport.TimeSeriesVisualization = function(config){
                         });
                         plotContainer.append(plotContent); 
                     }
-                    numberOfPlots++;
                     vizDeferred.resolve(self);
                 },
                 function(){
@@ -89,19 +88,10 @@ nar.fullReport.TimeSeriesVisualization = function(config){
         if(plot){
             plot.shutdown();
         }
-
-        //update counter
-        numberOfPlots--;
-        
-        var noPlotsRemain = 0 === numberOfPlots; 
-        if(noPlotsRemain){
-            
-        }
     };
 };
 
 // private static properties:
-var numberOfPlots = 0;
 var plotContainerClass = 'full_report_plot'; 
 var plotIdSuffix = '_' + plotContainerClass;
 
