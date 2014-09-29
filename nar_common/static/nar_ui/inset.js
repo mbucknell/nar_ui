@@ -6,8 +6,8 @@ var nar = nar || {};
     var alaskaCenter = alaskaExtent.getCenterLonLat();
     var maxZoomLevel = 3;
     // These need to match @insetWidth and @insetHeight in nar.less
-    var insetWidth = 250;
-    var insetHeight = 250;
+    var insetWidth = 230;
+    var insetHeight = 230;
 	
 	nar.inset = OpenLayers.Class(OpenLayers.Control, {
 		type : OpenLayers.Control.TYPE_TOOL,
