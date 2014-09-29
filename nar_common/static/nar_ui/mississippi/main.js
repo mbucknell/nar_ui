@@ -92,22 +92,20 @@ $(document).ready(function() {
 				filtersSubject = args.filtersSubject,
 				virtualSite = args.virtualSite,//is it a virtual site or a physical site
 				makeGraphClickHandler = function(type, feature){
+					var filtersChangeHandler = function(filtersState){
+						makePopup(filtersState.chemical);
+					};
+					var makePopup = function(constituent){
+						nar.GraphPopup.destroyAllPopups();
+						nar.GraphPopup.create({
+							feature : feature,
+							popupAnchor : graphContainer,
+							type : type,
+							constituent: constituent
+						});
+					};
+					filtersSubject.observe(filtersChangeHandler);
 					return function () {
-						var filtersChangeHandler = function(filtersState){
-							makePopup(filtersState.chemical);
-						};
-						filtersSubject.observe(filtersChangeHandler);
-						var onClose = function(){
-							filtersSubject.unobserve(filtersChangeHandler);
-						};
-						var makePopup = function(constituent){
-							nar.GraphPopup.create({
-								feature : feature,
-								popupAnchor : graphContainer,
-								type : type,
-								constituent: constituent
-							}).on('dialogclose', onClose);
-						};
 						makePopup(filtersSubject.mostRecentNotification.chemical);
 					};
 				},
