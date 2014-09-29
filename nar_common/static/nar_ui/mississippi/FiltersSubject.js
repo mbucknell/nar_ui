@@ -28,7 +28,7 @@ nar.mississippi = nar.mississippi || {};
 	 */
 	nar.mississippi.FiltersSubject = function(filters){
 		var subject = new nar.commons.Subject();
-		subject.mostRecentNotification = new nar.mississippi.FiltersState(null, null, null);
+		subject.mostRecentNotification = new nar.mississippi.FiltersState();
 		var filterInputs = filters.find(':input');
 		
 		var getNameValuePairFromFormElement = function(element){
