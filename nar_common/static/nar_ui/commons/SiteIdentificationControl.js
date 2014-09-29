@@ -51,7 +51,6 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 					$titleRow = $('<div />').addClass('row site-identification-popup-content-title'),
 					$stationIdRow = $('<div />').addClass('row site-identification-popup-content-station-id'),
 					$reportsAndGraphsRow = $('<div />').addClass('row site-identification-popup-content-links-and-graphs'),
-//					$relevantLinksRow = $('<div />').addClass('row site-identification-popup-content-relevant-links'),
 					$summaryGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-summary-graph-link'),
 					$detailedGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-detailed-graph-link'),
 					$downloadLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-download-link'),
