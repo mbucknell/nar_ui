@@ -89,6 +89,28 @@ $(document).ready(function() {
 				popupAnchor = args.popupAnchor,
 				width = args.width,
 				graphContainer = args.graphContainer,
+				filtersSubject = args.filtersSubject,
+				virtualSite = args.virtualSite,//is it a virtual site or a physical site
+				makeGraphClickHandler = function(type, feature){
+					return function () {
+						var filtersChangeHandler = function(filtersState){
+							makePopup(filtersState.chemical);
+						};
+						filtersSubject.observe(filtersChangeHandler);
+						var onClose = function(){
+							filtersSubject.unobserve(filtersChangeHandler);
+						};
+						var makePopup = function(constituent){
+							nar.GraphPopup.create({
+								feature : feature,
+								popupAnchor : graphContainer,
+								type : type,
+								constituent: constituent
+							}).on('dialogclose', onClose);
+						};
+						makePopup(filtersSubject.mostRecentNotification.chemical);
+					};
+				},
 				control = new nar.SiteIdentificationControl({
 					layers : [ layer ],
 					popupAnchor : popupAnchor,
@@ -96,7 +118,6 @@ $(document).ready(function() {
 					createSiteDisplayWell : function(feature) {
 						var $container = $('<div />').addClass('well well-sm text-center'),
 							$titleRow = $('<div />').addClass('row site-identification-popup-content-title'),
-							$stationIdRow = $('<div />').addClass('row site-identification-popup-content-station-id'),
 							$reportsAndGraphsRow = $('<div />').addClass('row site-identification-popup-content-links-and-graphs'),
 							$relevantLinksRow = $('<div />').addClass('row site-identification-popup-content-relevant-links'),
 							$summaryGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-summary-graph-link'),
@@ -115,28 +136,13 @@ $(document).ready(function() {
 							id = data.siteid;
 					
 						$titleRow.html(title);
-						$stationIdRow.html('Station ID: ' + id);
 						
 						$annualLoadGraphsLink.
 							attr('href', '#').
-							click('click', function () {
-								nar.GraphPopup.create({
-									feature : feature,
-									popupAnchor : graphContainer,
-									type : 'annual',
-									title : 'Annual Nitrate Load'
-								});
-							});
+							click('click', makeGraphClickHandler('annual', feature));
 						$mayLoadGraphsLink.
 							attr('href', '#').
-							on('click', function () {
-								nar.GraphPopup.create({
-									feature : feature,
-									popupAnchor : graphContainer,
-									type : 'may',
-									title : 'May Nitrate Load'
-								});
-							});
+							on('click', makeGraphClickHandler('may', feature));
 						$summaryGraphsLink.attr('href', CONFIG.baseUrl + 'site/' + id + '/summary-report');
 						$detailedGraphsLink.attr('href',CONFIG.baseUrl + 'site/' + id + '/full-report');
 						$downloadLink.attr('href', '#');
@@ -149,81 +155,19 @@ $(document).ready(function() {
 						
 						$reportsAndGraphsRow.append($summaryGraphsLinkContainer, $detailedGraphsLinkContainer, $downloadLinkContainer, $annualLoadGraphsLinkContainer, $mayLoadGraphsLinkContainer, $hiddenAutoFocus);
 						
-						$container.append($titleRow, $stationIdRow, $reportsAndGraphsRow);
+						$container.append($titleRow);
+						if(!virtualSite){
+							var $stationIdRow = $('<div />').addClass('row site-identification-popup-content-station-id');
+							$stationIdRow.html('Station ID: ' + id);
+							$container.append($stationIdRow);
+						}
+						$container.append($reportsAndGraphsRow);
 						return $container;
 					}
 				});
-			
-			control.vendorParams = cqlFilter;
-			return control;
-		},
-		createFakeSiteIdentificationControl = function (args) {
-			var layer = args.layer,
-				popupAnchor = args.popupAnchor,
-				width = args.width,
-				graphContainer = args.graphContainer,
-				control = new nar.SiteIdentificationControl({
-					layers : [ layer ],
-					popupAnchor : popupAnchor,
-					popupWidth : width,
-					createSiteDisplayWell : function(feature) {
-						var $container = $('<div />').addClass('well well-sm text-center'),
-							$titleRow = $('<div />').addClass('row site-identification-popup-content-title'),
-							$reportsAndGraphsRow = $('<div />').addClass('row site-identification-popup-content-links-and-graphs'),
-							$summaryGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-summary-graph-link'),
-							$annualLoadGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-annual-load-link'),
-							$mayLoadGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-may-load-link'),
-							$detailedGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4-offset-2 site-identification-popup-content-detailed-graph-link'),
-							$downloadLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-download-link'),
-							$annualLoadGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'),' Annual Load'),
-							$mayLoadGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'),' May Load'),
-							$summaryGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-th-list'),' Summary Graphs'),
-							$detailedGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'), ' Detailed Graphs'),
-							$downloadLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-save'),' Download Data'),
-							$hiddenAutoFocus = $('<span />').addClass('hidden').attr('autofocus', ''),
-							data = feature.data,
-							title = data.staname,
-							id = data.staid;
-					
-						$titleRow.html('Mississippi River at Gulf');
-						
-						$annualLoadGraphsLink.
-							attr('href', '#').
-							click('click', function () {
-								nar.GraphPopup.create({
-									feature : feature,
-									popupAnchor : graphContainer,
-									type : 'annual',
-									title : 'Annual Nitrate Load'
-								});
-							});
-						$mayLoadGraphsLink.
-							attr('href', '#').
-							on('click', function () {
-								nar.GraphPopup.create({
-									feature : feature,
-									popupAnchor : graphContainer,
-									type : 'may',
-									title : 'May Nitrate Load'
-								});
-							});
-						$summaryGraphsLink.attr('href', CONFIG.baseUrl + 'site/' + id + '/summary-report');
-						$detailedGraphsLink.attr('href',CONFIG.baseUrl + 'site/' + id + '/full-report');
-						$downloadLink.attr('href', '#');
-						
-						$annualLoadGraphsLinkContainer.append($annualLoadGraphsLink);
-						$mayLoadGraphsLinkContainer.append($mayLoadGraphsLink);
-						$summaryGraphsLinkContainer.append($summaryGraphsLink);
-						$detailedGraphsLinkContainer.append($detailedGraphsLink);
-						$downloadLinkContainer.append($downloadLink);
-						
-						$reportsAndGraphsRow.append($annualLoadGraphsLinkContainer, $mayLoadGraphsLinkContainer, $downloadLinkContainer, $hiddenAutoFocus);
-						
-						$container.append($titleRow, $reportsAndGraphsRow);
-						return $container;
-					}
-				});
-			
+			if(!virtualSite){
+				control.vendorParams = cqlFilter;
+			}
 			return control;
 		},
 		leftMarbLayer = createMarblayer(),
@@ -239,9 +183,16 @@ $(document).ready(function() {
 	leftMap.addLayers([leftMarbLayer,leftFakeLayer]);
 	rightMap.addLayers([rightMarbLayer,rightFakeLayer]);
 	
+	var leftFiltersName = '.left_filter';
+	var leftFilters = $(leftFiltersName);
+	var rightFiltersName = '.right_filter';
+	var rightFilters= $(rightFiltersName);
 	
-	nar.mississippi.createLoadSelect(leftMap, $('.left_filter'));
-	nar.mississippi.createLoadSelect(rightMap, $('.right_filter'));
+	nar.mississippi.createLoadSelect(leftMap, leftFilters);
+	nar.mississippi.createLoadSelect(rightMap, rightFilters);
+	
+	var leftFiltersSubject = new nar.mississippi.FiltersSubject(leftFilters);
+	var rightFiltersSubject = new nar.mississippi.FiltersSubject(rightFilters);
 	
 	// Now that the layers are in the map, I want to add the identification
 	// control for them
@@ -249,28 +200,34 @@ $(document).ready(function() {
 		layer : rightMarbLayer,
 		popupAnchor : '#' + rightMapName,
 		width : rightMap.size.w,
-		graphContainer : '#' + leftMapName
+		graphContainer : '#' + leftMapName,
+		filtersSubject: rightFiltersSubject
 	});
 	
 	leftSiteIdentificationControl = createSiteIdentificationControl({
 		layer : leftMarbLayer,
 		popupAnchor : '#' + leftMapName,
 		width : leftMap.size.w,
-		graphContainer : '#' + rightMapName
+		graphContainer : '#' + rightMapName,
+		filtersSubject: leftFiltersSubject,
 	});
 	
-	rightFakeSiteIdentificationControl = createFakeSiteIdentificationControl({
+	rightFakeSiteIdentificationControl = createSiteIdentificationControl({
 		popupAnchor : '#' + rightMapName,
 		layer : rightFakeLayer,
 		width : rightMap.size.w,
-		graphContainer : '#' + leftMapName
+		graphContainer : '#' + leftMapName,
+		filtersSubject: rightFiltersSubject,
+		virtualSite: true
 	});
 	
-	leftFakeSiteIdentificationControl = createFakeSiteIdentificationControl({
+	leftFakeSiteIdentificationControl = createSiteIdentificationControl({
 		popupAnchor :  '#' + leftMapName,
 		layer : leftFakeLayer,
 		width : leftMap.size.w,
-		graphContainer : '#' + rightMapName
+		graphContainer : '#' + rightMapName,
+		filtersSubject: leftFiltersSubject,
+		virtualSite: true
 	});
 	
 	rightMap.addControls([rightSiteIdentificationControl, rightFakeSiteIdentificationControl]);

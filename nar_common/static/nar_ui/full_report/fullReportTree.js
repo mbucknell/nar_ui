@@ -84,7 +84,7 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
         treeNodeIds[id] = true;
 
         //create jstree node config
-        mostRecentlyCreatedTreeNode = self.createLeafNodeFromId(id);
+        mostRecentlyCreatedTreeNode = self.createLeafNodeFromId(id);
         //add to collection of node configs that jstree will instantiate
         treeNodes.push(mostRecentlyCreatedTreeNode);
         parentIds = self.getParentIds(id);
