@@ -137,7 +137,8 @@ describe('nar.fullReport.TimeSeries', function(){
 describe('nar.fullReport.DataAvailabilityTimeRange', function() {
 	var cutoffStartTime = nar.fullReport.TimeRange.START_TIME_CUTOFF;
 	var startTime = new Date(1990, 0, 1).getTime();
-	var endTime = new Date(2014, 0, 1).getTime();
+	var currentWaterYear = nar.WaterYearUtils.convertDateToWaterYear(Date.create());
+	var endTime = new Date(currentWaterYear, 0, 1).getTime();
 	var cutoffEndTime = nar.fullReport.TimeRange.END_TIME_CUTOFF;
 	
 	it('should give me start and end dates by trimming', function() {
