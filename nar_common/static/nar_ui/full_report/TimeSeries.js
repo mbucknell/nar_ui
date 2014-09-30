@@ -104,8 +104,8 @@ nar.fullReport.TimeSeries = function(config){
  */
 nar.fullReport.TimeRange = function(startTime, endTime) {
 	var self = this;
-	self.START_TIME_CUTOFF = Date.UTC(1993, 0, 1);
-    self.END_TIME_CUTOFF = Date.UTC(2013, 8, 30, 23, 59, 59);
+	self.START_TIME_CUTOFF = new Date(1992, 9, 1).getTime();
+    self.END_TIME_CUTOFF = new Date(2013, 8, 30, 23, 59, 59).getTime();
 	self.startTime = nar.util.getTimeStamp(startTime);
 	self.endTime = nar.util.getTimeStamp(endTime);
 	self.clone = function() {
