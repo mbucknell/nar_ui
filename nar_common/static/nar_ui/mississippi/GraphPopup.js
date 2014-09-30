@@ -6,7 +6,7 @@ nar.GraphPopup = (function() {
 	me.popups = [];
 	
 	me.createAnnualLoadGraphDisplay = function(args) {
-		var feature = args.feature,
+		var siteId = args.siteId,
 			$container = $('<div />').addClass('well well-sm text-center'),
 			$graphRow = $('<div />').addClass('row mississippi-grap-pup-content-graph'),
 			// query-ui has a hierarchy of things it tries to auto-focus on. This hack has it auto-focus on a hidden span.
@@ -36,13 +36,13 @@ nar.GraphPopup = (function() {
 			contentDiv = $('<div />').addClass('miss-content-div'),
 			content,
 			title,
+			feature = args.feature,
 			$container = $('<div />').attr('id', 'miss-' + type + '-container').addClass('hidden'),
 			$dialog = $('<div />').attr('id', 'miss-' + type + '-content'),
 			$closeButtonContent = $('<span />').addClass('glyphicon glyphicon-remove nar-popup-dialog-close-icon'),
 			dialog;
 		me.destroyAllPopups();
 		
-		contentDiv.html(content);
 		$dialog.append(contentDiv);
 		$container.append($dialog);
 		$('body').append($container);
@@ -64,13 +64,14 @@ nar.GraphPopup = (function() {
 		dialog.updateConstituent = function(constituent){
 			var content, title;
 			if(constituent){
+				var options = {siteId: feature.data.siteid, constituent: constituent};
 				if (type === 'annual') {
-					content = me.createAnnualLoadGraphDisplay(args);
+					content = me.createAnnualLoadGraphDisplay(options);
 					
 				} else {
-					content = me.createAnnualLoadGraphDisplay(args);
+					content = me.createMayLoadGraphDisplay(options);
 				}
-				title = type + ' load for ' + constituent;
+				title = type + ' load for ' + constituent + ' at ' + feature.data.staname;
 			}
 			else{
 				title = 'Error';
