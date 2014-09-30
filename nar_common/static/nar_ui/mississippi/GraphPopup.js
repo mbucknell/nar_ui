@@ -2,7 +2,7 @@ var nar = nar || {};
 nar.GraphPopup = (function() {
 	"use strict";
 	var me = {};
-	
+	var tsvRegistry = new nar.fullReport.TimeSeriesVisualizationRegistry();
 	me.popups = [];
 	var mrbToSos = {
 			constituentToConstituentId : {
@@ -23,25 +23,39 @@ nar.GraphPopup = (function() {
 		target = args.target,
 		sosDefinitionBaseUrl = 'http://cida.usgs.gov/def/NAR/',
 		observedPropertyUrlTemplate = sosDefinitionBaseUrl + 'property/{constituentId}/{dataType}',
-		offerringUrlTemplate = sosDefinitionBaseUrl + 'procedure/{constituendId}';
+		procedureUrlTemplate = sosDefinitionBaseUrl + 'procedure/{constituentId}';
 		
 		var sosUrlParams = {
 				constituentId : mrbToSos.constituentToConstituentId[mrbConstituent],
-				dataType : mrbToSos.constituentToConstituentId[loadType]
+				dataType : mrbToSos.loadTypeToDataType[loadType]
 		};
-		var observedPropertyUrl = observedPropertyUrlTemplate.assign(sosUrlParams);
-		var offerringUrl = offerringUrlTemplate.assign(sosUrlParams);
+		var observedProperty= observedPropertyUrlTemplate.assign(sosUrlParams);
+		var procedure = procedureUrlTemplate.assign(sosUrlParams);
+		var timeRange = new nar.fullReport.TimeRange(nar.fullReport.TimeRange.START_TIME_CUTOFF, nar.fullReport.TimeRange.END_TIME_CUTOFF);
 		
-		var sosGetResultsParams = {
-			featureOfInterest : siteId,
-			observedProperty : observedPropertyUrl,
-			offering : offerringUrl,
-			request: 'GetResult',
-			service : "SOS",
-			version : "2.0.0"
-		};
+		var basicTimeSeries = new nar.fullReport.TimeSeries({
+			observedProperty: observedProperty,
+			procedure: procedure,
+			featureOfInterest: siteId,
+			timeRange: timeRange
+		});
+
+		//@todo: add more time series for  moving average,
+		//@todo: baseline average,reduction target are not time series, so need to figure out another way to draw those
+		//values on the plot
 		
+		var timeSeriesCollection = new nar.fullReport.TimeSeriesCollection();
+		timeSeriesCollection.add(basicTimeSeries);
 		
+		var timeSeriesVizId = tsvRegistry.getIdForObservedProperty(observedProperty);
+		var timeSeriesViz = new nar.fullReport.TimeSeriesVisualization({
+			id: timeSeriesVizId,
+			allPlotsWrapperElt:target,
+			timeSeriesCollection: timeSeriesCollection
+		});
+		var promise = timeSeriesViz.visualize();
+		
+		return promise;
 	};
 
 	me.create = function(args) {
