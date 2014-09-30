@@ -1,4 +1,4 @@
-//@requires nar.fullReport.Plot, nar.util
+//@requires nar.fullReport.Plot, nar.util, nar.WaterYearUtils
 var nar = nar || {};
 (function(){
 nar.fullReport = nar.fullReport || {};
@@ -125,8 +125,10 @@ nar.fullReport.TimeRange = function(startTime, endTime) {
         self.endTime = Math.min(chosenCutoffDate, self.endTime);
     };
 };
+
+var lastWaterYear = nar.WaterYearUtils.convertDateToWaterYear(Date.now())-1;
 nar.fullReport.TimeRange.START_TIME_CUTOFF = new Date(1992, 9, 1).getTime();
-nar.fullReport.TimeRange.END_TIME_CUTOFF = new Date(2013, 8, 30, 23, 59, 59).getTime();
+nar.fullReport.TimeRange.END_TIME_CUTOFF = new Date(lastWaterYear, 8, 30, 23, 59, 59).getTime();
 
 nar.fullReport.DataAvailabilityTimeRange = function(dataAvailability, useOriginalTimes) {
     var startTimeIndex = 0;
