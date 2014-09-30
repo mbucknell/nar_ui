@@ -95,14 +95,18 @@ describe('nar.fullReport.TimeRange', function(){
 			expect(result).not.toBe(null);
 			expect(result.startTime).toBe(customCutoffStartTime);
 			expect(result.endTime).toBe(customCutoffEndTime);
+			expect(result.startTime).toBeGreaterThan(cutoffStartTime);
+			expect(result.endTime).toBeLessThan(cutoffEndTime);
 
 			result.trimStartTime();
 			result.trimEndTime();
 
-			expect(result.startTime).not.toBe(cutoffStartTime);
 			expect(result.startTime).toBe(customCutoffStartTime);
-			expect(result.endTime).not.toBe(cutoffEndTime);
+			expect(result.startTime).not.toBe(cutoffStartTime);
+			expect(result.startTime).toBeGreaterThan(cutoffStartTime);
 			expect(result.endTime).toBe(customCutoffEndTime);
+			expect(result.endTime).not.toBe(cutoffEndTime);
+			expect(result.endTime).toBeLessThan(cutoffEndTime);
 		});
 	});
 });
