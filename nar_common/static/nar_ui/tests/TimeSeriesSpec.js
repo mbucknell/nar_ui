@@ -63,9 +63,10 @@ describe('nar.fullReport.TimeSeries', function(){
 });
 
 describe('nar.fullReport.DataAvailabilityTimeRange', function() {
-	var cutoffTime = new Date(1993, 0, 1).getTime();
+	var cutoffStartTime = Date.UTC(1993, 0, 1);
 	var startTime = new Date(1990, 0, 1).getTime();
 	var endTime = new Date(2014, 0, 1).getTime();
+	var cutoffEndTime = Date.UTC(2013, 8, 30, 23, 59, 59);
 	
 	it('should give me start and end dates by trimming', function() {
 		var result = nar.fullReport.DataAvailabilityTimeRange({
@@ -73,9 +74,10 @@ describe('nar.fullReport.DataAvailabilityTimeRange', function() {
 		})
 		
 		expect(result).not.toBe(null);
-		expect(result.startTime == cutoffTime).toBeTruthy();
+		expect(result.startTime == cutoffStartTime).toBeTruthy();
 		expect(result.startTime == startTime).toBeFalsy();
-		expect(result.endTime == endTime).toBeTruthy();
+		expect(result.endTime == cutoffEndTime).toBeTruthy();
+		expect(result.endTime == endTime).toBeFalsy();
 	});
 	
 	it('should give me start and end dates by not trimming', function() {
@@ -86,8 +88,9 @@ describe('nar.fullReport.DataAvailabilityTimeRange', function() {
 		}, useOriginalStartTime)
 		
 		expect(result).not.toBe(null);
-		expect(result.startTime == cutoffTime).toBeFalsy();
+		expect(result.startTime == cutoffStartTime).toBeFalsy();
 		expect(result.startTime == startTime).toBeTruthy();
+		expect(result.endTime == cutoffEndTime).toBeFalsy();
 		expect(result.endTime == endTime).toBeTruthy();
 	});
 });
