@@ -26,29 +26,37 @@ nar.GraphPopup = (function() {
 		// TODO - Split out functionality once we have a task to create two different graphs
 		return me.createAnnualLoadGraphDisplay(args);
 	};
-
 	me.create = function(args) {
 		var appendToSelector = args.appendToSelector || 'body',
 			popupAnchor = args.popupAnchor,
 			type = args.type,
-			title = args.title || '',
 			width = args.width || null,
 			maxHeight = args.maxHeight || null,
+			constituent = args.constituent,
+			contentDiv = $('<div />').addClass('miss-content-div'),
 			content,
+			title,
 			$container = $('<div />').attr('id', 'miss-' + type + '-container').addClass('hidden'),
 			$dialog = $('<div />').attr('id', 'miss-' + type + '-content'),
 			$closeButtonContent = $('<span />').addClass('glyphicon glyphicon-remove nar-popup-dialog-close-icon'),
 			dialog;
-		
 		me.destroyAllPopups();
 		
-		if (type === 'annual') {
-			content = me.createAnnualLoadGraphDisplay(args);
-		} else {
-			content = me.createAnnualLoadGraphDisplay(args);
+		if(constituent){
+			if (type === 'annual') {
+				content = me.createAnnualLoadGraphDisplay(args);
+				
+			} else {
+				content = me.createAnnualLoadGraphDisplay(args);
+			}
+			title = type + ' load for ' + constituent;
 		}
-		
-		$dialog.append(content);
+		else{
+			title = 'Error';
+			content = 'Error - Select a nutrient type from the dropdown above the opposite map';
+		}
+		contentDiv.html(content);
+		$dialog.append(contentDiv);
 		$container.append($dialog);
 		$('body').append($container);
 		
@@ -81,6 +89,7 @@ nar.GraphPopup = (function() {
 	me.destroyAllPopups = function () {
 		while (me.popups.length > 0) {
 			var popup = me.popups.pop();
+			popup.dialog('close');
 			popup.dialog('destroy');
 		}
 	};

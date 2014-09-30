@@ -29,6 +29,8 @@
 
 		<a href="{% url 'help' %}"><button id="help">Help?</button></a>
 		
+		<a href="{% url 'download' %}"><button id="download">Download Data</button></a>
+		
 		<button id="toggle">Toggle Sites <i class="glyphicon glyphicon-play"></i></button>
 
 	</div><!--mississippi_title-->
@@ -116,11 +118,6 @@
 		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="left-pie-chart-container"></div>
 		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="right-pie-chart-container"></div>
 		
-		<div id="download_holder">
-		
-			<button id="download">Download Data</button>
-		
-		</div>
 	
 	</div><!--mississippi_maps-->
 	
@@ -136,7 +133,17 @@
 <script type="text/javascript" src="{% static 'nar_ui/js_lib/OpenLayers/OpenLayers.debug.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/commons/sitePopup.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/commons/SiteIdentificationControl.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/commons/Subject.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/mapCommons.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/Constituents.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/full_report/PlotUtils.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/full_report/TimeSeries.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/full_report/TimeSeriesCollection.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/full_report/TimeSeriesVisualization.js' %}"></script>
+
+
+<script type="text/javascript" src="{% static 'nar_ui/mississippi/FiltersSubject.js' %}"></script>
+
 <script type="text/javascript" src="{% static 'nar_ui/mississippi/ContributionDisplay.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/mississippi/GraphPopup.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/mississippi/map.js' %}"></script>

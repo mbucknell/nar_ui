@@ -161,6 +161,7 @@
 		         </preloadSources>
 		         <sourceIncludes> <!-- Varies for each project -->
 		         		<include>mapCommons.js</include>
+		         		<include>commons/Subject.js</include>
 						<include>*.js</include>
 		               <include>summary_report/*.js</include>
 		               <include>full_report/*.js</include>
