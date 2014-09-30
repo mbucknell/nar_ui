@@ -22,6 +22,7 @@ nar.sitePopup = (function() {
 				appendToSelector = args.appendTo || 'body',
 				width = args.width || null,
 				maxHeight = args.maxHeight || null,
+				minHeight = args.minHeight || null,
 				dialogClass = args.dialogClass || 'nar-popup-dialog',
 				popupAnchor = args.popupAnchor || 'body',
 				$dialog,
@@ -54,6 +55,7 @@ nar.sitePopup = (function() {
 					resizable : false,
 					width: width || 'auto',
 					maxHeight : maxHeight || false,
+					minHeight : minHeight || false,
 					open : open,
 					dialogClass : dialogClass,
 					position : {

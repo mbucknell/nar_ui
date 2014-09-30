@@ -4,10 +4,12 @@ var nar = nar || {};
 
 	var alaskaExtent = new OpenLayers.Bounds(-175.0, 55.0, -135.0, 71.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection);
     var alaskaCenter = alaskaExtent.getCenterLonLat();
+    var id = 'siteMap';
+    var puWidth = 500;
     var maxZoomLevel = 3;
     // These need to match @insetWidth and @insetHeight in nar.less
-    var insetWidth = 250;
-    var insetHeight = 250;
+    var insetWidth = 230;
+    var insetHeight = 230;
 	
 	nar.inset = OpenLayers.Class(OpenLayers.Control, {
 		type : OpenLayers.Control.TYPE_TOOL,
@@ -68,7 +70,9 @@ var nar = nar || {};
                         	zoomWheelEnabled : true
                         }),
                         new nar.SiteIdentificationControl({
-            		    	layers : mapLayers
+            		    	layers : mapLayers,
+            		    	popupWidth : puWidth,
+            		    	popupAnchor : '#' + id
             		    })
                     ]
 			};

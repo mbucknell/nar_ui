@@ -81,12 +81,14 @@ var map;
 
     map = new OpenLayers.Map(div, options);
     map.setCenter(continentalCenter, 4);
+    //adjust map to fit site info popup at top
+    map.pan(20,-20);
     sitesLayer.events.register("loadend", {}, function() {
     	map.updateSize();
     });
     
     var insetControl = new nar.inset({});
-    map.addControl(insetControl, new OpenLayers.Pixel(0, map.getSize().h - 260));
+    map.addControl(insetControl, new OpenLayers.Pixel(0, map.getSize().h - 240));
     insetControl.activate();
     
     nar.siteFilter.addChangeHandler(function setupFiltering() {
