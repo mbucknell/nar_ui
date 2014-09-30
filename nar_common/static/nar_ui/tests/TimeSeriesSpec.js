@@ -63,10 +63,10 @@ describe('nar.fullReport.TimeSeries', function(){
 });
 
 describe('nar.fullReport.DataAvailabilityTimeRange', function() {
-	var cutoffStartTime = new Date(1993, 0, 1).getTime();
+	var cutoffStartTime = nar.fullReport.TimeRange.START_TIME_CUTOFF;
 	var startTime = new Date(1990, 0, 1).getTime();
 	var endTime = new Date(2014, 0, 1).getTime();
-	var cutoffEndTime = new Date(2013, 8, 30, 23, 59, 59).getTime();
+	var cutoffEndTime = nar.fullReport.TimeRange.END_TIME_CUTOFF;
 	
 	it('should give me start and end dates by trimming', function() {
 		var result = nar.fullReport.DataAvailabilityTimeRange({

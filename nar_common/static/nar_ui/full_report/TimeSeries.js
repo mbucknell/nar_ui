@@ -104,8 +104,6 @@ nar.fullReport.TimeSeries = function(config){
  */
 nar.fullReport.TimeRange = function(startTime, endTime) {
 	var self = this;
-	self.START_TIME_CUTOFF = new Date(1992, 9, 1).getTime();
-    self.END_TIME_CUTOFF = new Date(2013, 8, 30, 23, 59, 59).getTime();
 	self.startTime = nar.util.getTimeStamp(startTime);
 	self.endTime = nar.util.getTimeStamp(endTime);
 	self.clone = function() {
@@ -119,14 +117,16 @@ nar.fullReport.TimeRange = function(startTime, endTime) {
 		return (timestamp >= self.startTime && timestamp <= self.endTime);
 	};
 	self.trimStartTime = function(cutoffDate) {
-        var chosenCutoffDate = cutoffDate || self.START_TIME_CUTOFF;
+        var chosenCutoffDate = cutoffDate || nar.fullReport.TimeRange.START_TIME_CUTOFF;
 		self.startTime = Math.max(chosenCutoffDate, self.startTime);
 	};
     self.trimEndTime = function(cutoffDate) {
-        var chosenCutoffDate = cutoffDate || self.END_TIME_CUTOFF;
+        var chosenCutoffDate = cutoffDate || nar.fullReport.TimeRange.END_TIME_CUTOFF;
         self.endTime = Math.min(chosenCutoffDate, self.endTime);
     };
 };
+nar.fullReport.TimeRange.START_TIME_CUTOFF = new Date(1992, 9, 1).getTime();
+nar.fullReport.TimeRange.END_TIME_CUTOFF = new Date(2013, 8, 30, 23, 59, 59).getTime();
 
 nar.fullReport.DataAvailabilityTimeRange = function(dataAvailability, useOriginalTimes) {
     var startTimeIndex = 0;
