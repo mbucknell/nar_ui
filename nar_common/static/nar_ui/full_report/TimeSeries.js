@@ -104,7 +104,7 @@ nar.fullReport.TimeSeries = function(config){
  */
 nar.fullReport.TimeRange = function(startTime, endTime) {
 	var self = this;
-	self.START_TIME_CUTOFF = Date.UTC(1992, 10, 1);
+	self.START_TIME_CUTOFF = Date.UTC(1993, 1, 1);
     self.END_TIME_CUTOFF = Date.UTC(2013, 9, 30, 23, 59, 59);
 	self.startTime = nar.util.getTimeStamp(startTime);
 	self.endTime = nar.util.getTimeStamp(endTime);
