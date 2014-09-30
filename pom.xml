@@ -164,7 +164,8 @@
 		         		<include>commons/Subject.js</include>
 						<include>*.js</include>
 		               <include>summary_report/*.js</include>
-		               <include>full_report/*.js</include>
+                   <include>full_report/WaterYearUtils.js</include>
+                   <include>full_report/*.js</include>
 		               <include>mississippi/*.js</include>
 		         </sourceIncludes>
 		         <sourceExcludes>

@@ -130,7 +130,7 @@
 			<i>Summary of Water-Quality Conditions for 2014</i>
 		</h4>
 		
-		<button id="summaryDownload">Download Data</button>
+		<a href="{% url 'download' %}"><button id="summaryDownload">Download Data</button></a>
 
 		<div class="col-lg-1 full_report col-md-1 col-sm-1 col-xs-1">
 
@@ -141,7 +141,7 @@
 
 		</div>
 		
-		<a href="{{ settings.BASE_URL }}sites"><div class="col-lg-1 back_to_site">Back to Map</div></a>
+		<a href="{% url 'site' %}"><div class="col-lg-1 back_to_site">Back to Map</div></a>
 
 
 

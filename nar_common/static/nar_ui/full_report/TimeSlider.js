@@ -16,7 +16,7 @@ nar.fullReport.TimeSlider = function(timeSliderElt){
     });
     slider = slider.slider('float', {
         formatLabel: function(timeStamp){
-            return Date.create(timeStamp).format('{yyyy}');
+            return nar.WaterYearUtils.convertDateToWaterYear(timeStamp);
         }
     });
     
@@ -59,7 +59,7 @@ nar.fullReport.TimeSlider.getYearTicks = function(possibleMin, possibleMax){
     var offset = possibleMin;
     var percentRange = Number.range(0, 100);
     percentRange.every(10, function(percent){
-        var year = Date.create(((percent / 100)*possibleDifference) + possibleMin).format('{yyyy}');
+        var year = nar.WaterYearUtils.convertDateToWaterYear(((percent / 100)*possibleDifference) + possibleMin);
         years.push(year);
     });
     return years;

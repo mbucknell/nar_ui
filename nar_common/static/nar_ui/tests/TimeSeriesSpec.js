@@ -33,6 +33,82 @@ describe('nar.fullReport.TimeRange', function(){
 			expect(timeRangeA.equals(copyOfTimeRangeA)).toBe(true);
 		});
 	});
+
+	describe('cutoff', function() {
+		var cutoffStartTime = nar.fullReport.TimeRange.START_TIME_CUTOFF;
+		var customCutoffStartTime = new Date(1995, 0, 1).getTime();
+		var startTime = new Date(1990, 0, 1).getTime();
+		var currentWaterYear = nar.WaterYearUtils.convertDateToWaterYear(Date.create());
+		var endTime = new Date(currentWaterYear, 0, 1).getTime();
+		var cutoffEndTime = nar.fullReport.TimeRange.END_TIME_CUTOFF;
+		var customCutoffEndTime = new Date(2011, 0, 1).getTime();
+
+		it('can cutoff at default times', function() {
+			var result = new nar.fullReport.TimeRange(startTime, endTime);
+
+			expect(result).not.toBe(null);
+			expect(result.startTime).toBe(startTime);
+			expect(result.endTime).toBe(endTime);
+
+			result.trimStartTime();
+			expect(result.startTime).not.toBe(startTime);
+			expect(result.endTime).toBe(endTime);
+			expect(result.startTime).toBe(cutoffStartTime);
+
+			result.trimEndTime();
+			expect(result.endTime).not.toBe(endTime);
+			expect(result.endTime).toBe(cutoffEndTime);
+			expect(result.startTime).toBe(cutoffStartTime);
+		});
+
+		it('can specify custom cutoff dates', function(){
+			var result = new nar.fullReport.TimeRange(startTime, endTime);
+
+			expect(result).not.toBe(null);
+			expect(result.startTime).toBe(startTime);
+			expect(result.endTime).toBe(endTime);
+
+			result.trimStartTime();
+			expect(result.startTime).not.toBe(startTime);
+			expect(result.endTime).toBe(endTime);
+			expect(result.startTime).toBe(cutoffStartTime);
+
+			result.trimEndTime();
+			expect(result.endTime).not.toBe(endTime);
+			expect(result.endTime).toBe(cutoffEndTime);
+			expect(result.startTime).toBe(cutoffStartTime);
+
+			result.trimStartTime(customCutoffStartTime);
+			expect(result.startTime).not.toBe(startTime);
+			expect(result.startTime).not.toBe(cutoffStartTime);
+			expect(result.startTime).toBe(customCutoffStartTime);
+
+			result.trimEndTime(customCutoffEndTime);
+			expect(result.endTime).not.toBe(endTime);
+			expect(result.endTime).not.toBe(cutoffEndTime);
+			expect(result.endTime).toBe(customCutoffEndTime);
+		});
+
+		it("doesn't cutoff if real data is within the time", function() {
+			var result = new nar.fullReport.TimeRange(customCutoffStartTime, customCutoffEndTime);
+
+			expect(result).not.toBe(null);
+			expect(result.startTime).toBe(customCutoffStartTime);
+			expect(result.endTime).toBe(customCutoffEndTime);
+			expect(result.startTime).toBeGreaterThan(cutoffStartTime);
+			expect(result.endTime).toBeLessThan(cutoffEndTime);
+
+			result.trimStartTime();
+			result.trimEndTime();
+
+			expect(result.startTime).toBe(customCutoffStartTime);
+			expect(result.startTime).not.toBe(cutoffStartTime);
+			expect(result.startTime).toBeGreaterThan(cutoffStartTime);
+			expect(result.endTime).toBe(customCutoffEndTime);
+			expect(result.endTime).not.toBe(cutoffEndTime);
+			expect(result.endTime).toBeLessThan(cutoffEndTime);
+		});
+	});
 });
 describe('nar.fullReport.TimeSeries', function(){
 	var TimeSeries = nar.fullReport.TimeSeries;
@@ -63,31 +139,35 @@ describe('nar.fullReport.TimeSeries', function(){
 });
 
 describe('nar.fullReport.DataAvailabilityTimeRange', function() {
-	var cutoffTime = new Date(1993, 0, 1).getTime();
+	var cutoffStartTime = nar.fullReport.TimeRange.START_TIME_CUTOFF;
 	var startTime = new Date(1990, 0, 1).getTime();
-	var endTime = new Date(2014, 0, 1).getTime();
+	var currentWaterYear = nar.WaterYearUtils.convertDateToWaterYear(Date.create());
+	var endTime = new Date(currentWaterYear, 0, 1).getTime();
+	var cutoffEndTime = nar.fullReport.TimeRange.END_TIME_CUTOFF;
 	
 	it('should give me start and end dates by trimming', function() {
-		var result = nar.fullReport.DataAvailabilityTimeRange({
+		var result = new nar.fullReport.DataAvailabilityTimeRange({
 			phenomenonTime : [startTime, endTime]
 		})
 		
 		expect(result).not.toBe(null);
-		expect(result.startTime == cutoffTime).toBeTruthy();
-		expect(result.startTime == startTime).toBeFalsy();
-		expect(result.endTime == endTime).toBeTruthy();
+		expect(result.startTime).toBe(cutoffStartTime);
+		expect(result.startTime).not.toBe(startTime);
+		expect(result.endTime).toBe(cutoffEndTime);
+		expect(result.endTime).not.toBe(endTime);
 	});
 	
 	it('should give me start and end dates by not trimming', function() {
 		var useOriginalStartTime = true;
 		
-		var result = nar.fullReport.DataAvailabilityTimeRange({
+		var result = new nar.fullReport.DataAvailabilityTimeRange({
 			phenomenonTime : [startTime, endTime]
 		}, useOriginalStartTime)
 		
 		expect(result).not.toBe(null);
-		expect(result.startTime == cutoffTime).toBeFalsy();
-		expect(result.startTime == startTime).toBeTruthy();
-		expect(result.endTime == endTime).toBeTruthy();
+		expect(result.startTime).not.toBe(cutoffStartTime);
+		expect(result.startTime).toBe(startTime);
+		expect(result.endTime).not.toBe(cutoffEndTime);
+		expect(result.endTime).toBe(endTime);
 	});
 });

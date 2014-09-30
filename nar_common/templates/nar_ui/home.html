@@ -13,13 +13,13 @@
 		<p>The USGS National Water-Quality Assessment (NAWQA) Program is characterizing the status and 
 		trends of the Nation’s surface-water quality through a National Fixed Site Network. This website 
 		provides data on national ambient water-quality conditions. The data are reported systematically 
-		and updated annually.  <a href="{{ settings.BASE_URL }}about">Learn more...</a></p>
+		and updated annually.  <a href="{% url 'about' %}">Learn more...</a></p>
 	
 	</div>
 	
 	<div class="center">
 	
-	<a href="{{ settings.BASE_URL }}sites">
+	<a href="{% url 'site' %}">
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 home_icon_holder">
 
 			<h4>Streams and Rivers Across the U.S. </h4>
@@ -34,7 +34,7 @@
 		</div><!--streams-->
 	</a>
 	
-	<a href="{{ settings.BASE_URL }}coastal">
+	<a href="{% url 'coastal' %}">
 	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 home_icon_holder">
 	
 		<h4>Nitrate in Coastal Rivers</h4>
@@ -48,7 +48,7 @@
 	</div><!--coastal-->
 	</a>
 	
-	<a href="{{ settings.BASE_URL }}mississippi">
+	<a href="{% url 'mississippi' %}">
 	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 home_icon_holder last">
 	
 		<h4>Mississippi River Basin</h4>

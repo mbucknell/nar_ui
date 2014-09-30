@@ -9,7 +9,7 @@ from helpcontent.views import DefinitionsView, AboutView, NationalFixedSiteNetwo
 
 urlpatterns = patterns('',
     url(r'^home$', HomePageView.as_view(), name='home'),
-    url(r'^sites$', SiteView.as_view()),
+    url(r'^sites$', SiteView.as_view(), name="site"),
     
     url(r'^about$', 
         AboutView.as_view(),
@@ -48,9 +48,9 @@ urlpatterns = patterns('',
         MrbReportHelpInfoView.as_view(),
         name='help'),
                        
-    url(r'^mississippi$', MississippiView.as_view()),
-    url(r'^coastal$', CoastalView.as_view()),
-    url(r'^download$', DownloadView.as_view()),
+    url(r'^mississippi$', MississippiView.as_view(), name="mississippi"),
+    url(r'^coastal$', CoastalView.as_view(), name="coastal"),
+    url(r'^download$', DownloadView.as_view(), name="download"),
     url(r'^site/(?P<site_id>\d*)/summary-report$', SiteSummaryReportView.as_view()),
     url(r'^site/(?P<site_id>\d*)/full-report$', SiteFullReportView.as_view()),
     

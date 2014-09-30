@@ -1,4 +1,4 @@
-//@requires nar.fullReport.Plot, nar.util
+//@requires nar.fullReport.Plot, nar.util, nar.WaterYearUtils
 var nar = nar || {};
 (function(){
 nar.fullReport = nar.fullReport || {};
@@ -105,7 +105,6 @@ nar.fullReport.TimeSeries = function(config){
  */
 nar.fullReport.TimeRange = function(startTime, endTime) {
 	var self = this;
-	self.START_TIME_CUTOFF = new Date(1993, 0, 1).getTime();
 	self.startTime = nar.util.getTimeStamp(startTime);
 	self.endTime = nar.util.getTimeStamp(endTime);
 	self.clone = function() {
@@ -118,12 +117,21 @@ nar.fullReport.TimeRange = function(startTime, endTime) {
 		var timestamp = nar.util.getTimeStamp(date);
 		return (timestamp >= self.startTime && timestamp <= self.endTime);
 	};
-	self.trimStartTime = function(startDate) {
-		this.startTime = Math.max(this.START_TIME_CUTOFF, this.startTime);
+	self.trimStartTime = function(cutoffDate) {
+        var chosenCutoffDate = cutoffDate || nar.fullReport.TimeRange.START_TIME_CUTOFF;
+		self.startTime = Math.max(chosenCutoffDate, self.startTime);
 	};
+    self.trimEndTime = function(cutoffDate) {
+        var chosenCutoffDate = cutoffDate || nar.fullReport.TimeRange.END_TIME_CUTOFF;
+        self.endTime = Math.min(chosenCutoffDate, self.endTime);
+    };
 };
 
-nar.fullReport.DataAvailabilityTimeRange = function(dataAvailability, useOriginalStartTime) {
+var lastWaterYear = nar.WaterYearUtils.convertDateToWaterYear(Date.now())-1;
+nar.fullReport.TimeRange.START_TIME_CUTOFF = new Date(1992, 9, 1).getTime();
+nar.fullReport.TimeRange.END_TIME_CUTOFF = new Date(lastWaterYear, 8, 30, 23, 59, 59).getTime();
+
+nar.fullReport.DataAvailabilityTimeRange = function(dataAvailability, useOriginalTimes) {
     var startTimeIndex = 0;
     var endTimeIndex = 1;
     var timeRange = new nar.fullReport.TimeRange(
@@ -132,8 +140,9 @@ nar.fullReport.DataAvailabilityTimeRange = function(dataAvailability, useOrigina
     );
     
     // Unless otherwise specified, cut off the start date to the
-    if (!useOriginalStartTime) {
+    if (!useOriginalTimes) {
     	timeRange.trimStartTime();
+        timeRange.trimEndTime();
     }
     
     return timeRange;

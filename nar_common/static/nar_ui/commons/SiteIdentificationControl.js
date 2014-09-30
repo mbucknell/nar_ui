@@ -52,7 +52,6 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 					$titleRow = $('<div />').addClass('row site-identification-popup-content-title'),
 					$stationIdRow = $('<div />').addClass('row site-identification-popup-content-station-id'),
 					$reportsAndGraphsRow = $('<div />').addClass('row site-identification-popup-content-links-and-graphs'),
-					$relevantLinksRow = $('<div />').addClass('row site-identification-popup-content-relevant-links'),
 					$summaryGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-summary-graph-link'),
 					$detailedGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-detailed-graph-link'),
 					$downloadLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-download-link'),
@@ -80,8 +79,7 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 				
 				$reportsAndGraphsRow.append($summaryGraphsLinkContainer, $detailedGraphsLinkContainer, $downloadLinkContainer, $hiddenAutoFocus);
 				
-				$relevantLinksRow.html('Relevant Links: Some Link, Some Other Link');
-				$container.append($titleRow, $stationIdRow, $reportsAndGraphsRow, $relevantLinksRow);
+				$container.append($titleRow, $stationIdRow, $reportsAndGraphsRow);
 				return $container;
 			};
 
@@ -105,7 +103,7 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 	    			var $container = $(this),
 	    				wellPaddingHeight = 5;
 	    			
-    				$container.dialog().height($container.find('.well').first().outerHeight() + wellPaddingHeight);
+    				$container.dialog().height($container.find('.well').first().outerHeight(true) + wellPaddingHeight);
     				
     				// Reattach a handler to the checbox filter list to remove the dialog 
     				$('form').children('input').off('change', nar.sitePopup.destroyDialog);
