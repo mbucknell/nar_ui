@@ -4,28 +4,46 @@ nar.GraphPopup = (function() {
 	var me = {};
 	
 	me.popups = [];
+	var mrbToSos = {
+			constituentToConstituentId : {
+				'tn' : 'NH3',
+				'no23': 'NO23',
+				'tp' : 'TP',
+			},
+			loadTypeToDataType : {
+				'annual' : 'annual_load',
+				'may' : 'may_load'
+			}
+	};
 	
-	me.createAnnualLoadGraphDisplay = function(args) {
+	me.createLoadGraphDisplay = function(args){
 		var siteId = args.siteId,
-			$container = $('<div />').addClass('well well-sm text-center'),
-			$graphRow = $('<div />').addClass('row mississippi-grap-pup-content-graph'),
-			// query-ui has a hierarchy of things it tries to auto-focus on. This hack has it auto-focus on a hidden span.
-			// Otherwise it trues to focus on the first link, which in some browsers will draw an outline around it. (ugly)
-			// http://api.jqueryui.com/dialog/
-			$hiddenAutoFocus = $('<span />').addClass('hidden').attr('autofocus', '');
-	
+		mrbConstituent = args.constituent,
+		loadType = args.loadType,
+		target = args.target,
+		sosDefinitionBaseUrl = 'http://cida.usgs.gov/def/NAR/',
+		observedPropertyUrlTemplate = sosDefinitionBaseUrl + 'property/{constituentId}/{dataType}',
+		offerringUrlTemplate = sosDefinitionBaseUrl + 'procedure/{constituendId}';
 		
-		// TODO - Put graph content into the graph row
-		$graphRow.append($('<img />').attr('src', CONFIG.staticUrl + 'nar_ui/images/miss-stock-graph.png'));
+		var sosUrlParams = {
+				constituentId : mrbToSos.constituentToConstituentId[mrbConstituent],
+				dataType : mrbToSos.constituentToConstituentId[loadType]
+		};
+		var observedPropertyUrl = observedPropertyUrlTemplate.assign(sosUrlParams);
+		var offerringUrl = offerringUrlTemplate.assign(sosUrlParams);
 		
-		$container.append($graphRow, $hiddenAutoFocus);
-		return $container;
+		var sosGetResultsParams = {
+			featureOfInterest : siteId,
+			observedProperty : observedPropertyUrl,
+			offering : offerringUrl,
+			request: 'GetResult',
+			service : "SOS",
+			version : "2.0.0"
+		};
+		
+		
 	};
-	
-	me.createMayLoadGraphDisplay = function(args) {
-		// TODO - Split out functionality once we have a task to create two different graphs
-		return me.createAnnualLoadGraphDisplay(args);
-	};
+
 	me.create = function(args) {
 		var appendToSelector = args.appendToSelector || 'body',
 			popupAnchor = args.popupAnchor,
@@ -62,22 +80,28 @@ nar.GraphPopup = (function() {
 			}
 		});
 		dialog.updateConstituent = function(constituent){
-			var content, title;
+			var innerContent, title;
+			innerContent = $('<div />').addClass('well well-sm text-center').append($('<div />').addClass('row mississippi-grap-pup-content-graph'));
 			if(constituent){
-				var options = {siteId: feature.data.siteid, constituent: constituent};
-				if (type === 'annual') {
-					content = me.createAnnualLoadGraphDisplay(options);
-					
-				} else {
-					content = me.createMayLoadGraphDisplay(options);
-				}
+				innerContent.html('Loading...');
+				me.createLoadGraphDisplay({
+					siteId: feature.data.siteid,
+					constituent: constituent,
+					target: innerContent,
+					loadType: type
+				});
+
 				title = type + ' load for ' + constituent + ' at ' + feature.data.staname;
 			}
 			else{
 				title = 'Error';
-				content = 'Error - Select a nutrient type from the dropdown above the opposite map';
+				innerContent.html('Error - Select a nutrient type from the dropdown above the opposite map');
 			}
-			contentDiv.html(content);
+			// query-ui has a hierarchy of things it tries to auto-focus on. This hack has it auto-focus on a hidden span.
+			// Otherwise it trues to focus on the first link, which in some browsers will draw an outline around it. (ugly)
+			// http://api.jqueryui.com/dialog/
+			var $hiddenAutoFocus = $('<span />').addClass('hidden').attr('autofocus', '');
+			contentDiv.append($hiddenAutoFocus, innerContent);
 			dialog.dialog('option', 'title', title);
 			return dialog;
 		};
