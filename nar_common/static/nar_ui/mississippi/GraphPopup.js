@@ -42,19 +42,6 @@ nar.GraphPopup = (function() {
 			dialog;
 		me.destroyAllPopups();
 		
-		if(constituent){
-			if (type === 'annual') {
-				content = me.createAnnualLoadGraphDisplay(args);
-				
-			} else {
-				content = me.createAnnualLoadGraphDisplay(args);
-			}
-			title = type + ' load for ' + constituent;
-		}
-		else{
-			title = 'Error';
-			content = 'Error - Select a nutrient type from the dropdown above the opposite map';
-		}
 		contentDiv.html(content);
 		$dialog.append(contentDiv);
 		$container.append($dialog);
@@ -74,7 +61,26 @@ nar.GraphPopup = (function() {
 				of: popupAnchor
 			}
 		});
-		
+		dialog.updateConstituent = function(constituent){
+			var content, title;
+			if(constituent){
+				if (type === 'annual') {
+					content = me.createAnnualLoadGraphDisplay(args);
+					
+				} else {
+					content = me.createAnnualLoadGraphDisplay(args);
+				}
+				title = type + ' load for ' + constituent;
+			}
+			else{
+				title = 'Error';
+				content = 'Error - Select a nutrient type from the dropdown above the opposite map';
+			}
+			contentDiv.html(content);
+			dialog.dialog('option', 'title', title);
+			return dialog;
+		};
+		dialog.updateConstituent(constituent);
 		// Replace the orange button icon with a bootstrap glyphicon
 		dialog.parent().find('button').empty().append($closeButtonContent);
 		

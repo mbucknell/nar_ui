@@ -93,22 +93,21 @@ $(document).ready(function() {
 				virtualSite = args.virtualSite,//is it a virtual site or a physical site
 				makeGraphClickHandler = function(type, feature, chemical){
 					return function () {
+						
 						var filtersChangeHandler = function(filtersState){
-							makePopup(filtersState.chemical);
+							dialog.updateConstituent(filtersState.chemical);
 						};
 						filtersSubject.observe(filtersChangeHandler);
 						var onClose = function(){
 							filtersSubject.unobserve(filtersChangeHandler);
 						};
-						var makePopup = function(constituent){
-							nar.GraphPopup.create({
-								feature : feature,
-								popupAnchor : graphContainer,
-								type : type,
-								constituent: constituent
-							}).on('dialogclose', onClose);
-						};
-						makePopup(chemical);
+						var dialog = nar.GraphPopup.create({
+							feature : feature,
+							popupAnchor : graphContainer,
+							type : type,
+							constituent: chemical
+						}).on('dialogclose', onClose);
+
 					};
 				},
 				loadGraphLinkClass = 'load-graph-link',
@@ -198,9 +197,9 @@ $(document).ready(function() {
 					}
 				});
 			
-			//we don't store a reference to this observer because we don't need it to unobserve the filters subject later;
+			//We don't store a reference to this observer because we don't need it to unobserve the filters subject later;
 			//the controls are created once on page load and are not destroyed except when leaving the page.
-			//observers will not persist between page loads
+			//Observers will not persist between page loads, so no cleanup needed!
 			filtersSubject.observe(function(filtersState){
 				var linkParent = $('#' + control.siteIdentificationPopupContainerId);
 				control.updateConstituent(filtersState.chemical, linkParent);
