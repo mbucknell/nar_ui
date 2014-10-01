@@ -63,7 +63,8 @@ $(document).ready(function() {
 					{
 						observedProperty : observedProperty,
 						timeRange : timeRange,
-						procedure : procedure
+						procedure : procedure,
+						featureOfInterest: PARAMS.siteId
 					});
 			timeSeriesViz.timeSeriesCollection
 					.add(timeSeries);

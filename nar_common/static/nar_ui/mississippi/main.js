@@ -91,30 +91,56 @@ $(document).ready(function() {
 				graphContainer = args.graphContainer,
 				filtersSubject = args.filtersSubject,
 				virtualSite = args.virtualSite,//is it a virtual site or a physical site
-				makeGraphClickHandler = function(type, feature){
+				makeGraphClickHandler = function(type, feature, chemical){
 					return function () {
+						
 						var filtersChangeHandler = function(filtersState){
-							makePopup(filtersState.chemical);
+							dialog.updateConstituent(filtersState.chemical);
 						};
 						filtersSubject.observe(filtersChangeHandler);
 						var onClose = function(){
 							filtersSubject.unobserve(filtersChangeHandler);
 						};
-						var makePopup = function(constituent){
-							nar.GraphPopup.create({
-								feature : feature,
-								popupAnchor : graphContainer,
-								type : type,
-								constituent: constituent
-							}).on('dialogclose', onClose);
-						};
-						makePopup(filtersSubject.mostRecentNotification.chemical);
+						var dialog = nar.GraphPopup.create({
+							feature : feature,
+							popupAnchor : graphContainer,
+							type : type,
+							constituent: chemical
+						}).on('dialogclose', onClose);
+
 					};
 				},
+				loadGraphLinkClass = 'load-graph-link',
+				mayLoadGraphLinkClass = 'may-load-link',
+				annualLoadGraphLinkClass = 'annual-load-link',
 				control = new nar.SiteIdentificationControl({
+					vendorParams : virtualSite ? undefined : cqlFilter,
 					layers : [ layer ],
 					popupAnchor : popupAnchor,
 					popupWidth : width,
+					updateConstituent: function(constituent, linkParent){
+						var loadGraphLinks = linkParent.find('.' + loadGraphLinkClass);
+						if(loadGraphLinks.length){
+							
+							loadGraphLinks.off('click');
+							var mayGraphLinks = linkParent.find('.' + mayLoadGraphLinkClass);
+							mayGraphLinks.each(function(index, link){
+								link = $(link);
+								var feature = link.data('feature');
+								link.click(
+									makeGraphClickHandler('may', feature, filtersSubject.mostRecentNotification.chemical)
+								);
+							});
+							var annualGraphLinks = linkParent.find('.' + annualLoadGraphLinkClass);
+							annualGraphLinks.each(function(index, link){
+								link = $(link);
+								var feature = link.data('feature');
+								link.click(
+									makeGraphClickHandler('annual', feature, filtersSubject.mostRecentNotification.chemical)
+								);
+							});
+						}
+					},
 					createSiteDisplayWell : function(feature) {
 						var $container = $('<div />').addClass('well well-sm text-center'),
 							$titleRow = $('<div />').addClass('row site-identification-popup-content-title'),
@@ -125,8 +151,8 @@ $(document).ready(function() {
 							$mayLoadGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-may-load-link'),
 							$detailedGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-detailed-graph-link'),
 							$downloadLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-download-link'),
-							$annualLoadGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'),' Annual Load'),
-							$mayLoadGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'),' May Load'),
+							$annualLoadGraphsLink = $('<a />').addClass(loadGraphLinkClass).addClass(annualLoadGraphLinkClass),
+							$mayLoadGraphsLink = $('<a />').addClass(loadGraphLinkClass).addClass(mayLoadGraphLinkClass),
 							$summaryGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-th-list'),' Summary Graphs'),
 							$detailedGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'), ' Detailed Graphs'),
 							$downloadLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-save'),' Download Data'),
@@ -134,15 +160,19 @@ $(document).ready(function() {
 							data = feature.data,
 							title = data.staname,
 							id = data.siteid;
-					
+						$mayLoadGraphsLink.data('feature', feature);
+						$mayLoadGraphsLink.append($('<span />').addClass('glyphicon glyphicon-stats'),' May Load');
+						$annualLoadGraphsLink.data('feature', feature);
+						$annualLoadGraphsLink.append($('<span />').addClass('glyphicon glyphicon-stats'),' Annual Load');
+						
 						$titleRow.html(title);
 						
 						$annualLoadGraphsLink.
 							attr('href', '#').
-							click('click', makeGraphClickHandler('annual', feature));
+							click('click', makeGraphClickHandler('annual', feature, filtersSubject.mostRecentNotification.chemical));
 						$mayLoadGraphsLink.
 							attr('href', '#').
-							on('click', makeGraphClickHandler('may', feature));
+							on('click', makeGraphClickHandler('may', feature, filtersSubject.mostRecentNotification.chemical));
 						$summaryGraphsLink.attr('href', CONFIG.baseUrl + 'site/' + id + '/summary-report');
 						$detailedGraphsLink.attr('href',CONFIG.baseUrl + 'site/' + id + '/full-report');
 						$downloadLink.attr('href', '#');
@@ -162,12 +192,19 @@ $(document).ready(function() {
 							$container.append($stationIdRow);
 						}
 						$container.append($reportsAndGraphsRow);
+						this.$container = $container;
 						return $container;
 					}
 				});
-			if(!virtualSite){
-				control.vendorParams = cqlFilter;
-			}
+			
+			//We don't store a reference to this observer because we don't need it to unobserve the filters subject later;
+			//the controls are created once on page load and are not destroyed except when leaving the page.
+			//Observers will not persist between page loads, so no cleanup needed!
+			filtersSubject.observe(function(filtersState){
+				var linkParent = $('#' + control.siteIdentificationPopupContainerId);
+				control.updateConstituent(filtersState.chemical, linkParent);
+			});
+			
 			return control;
 		},
 		leftMarbLayer = createMarblayer(),

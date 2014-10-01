@@ -7,6 +7,7 @@ nar.fullReport = nar.fullReport || {};
  * @typedef nar.fullReport.TimeSeriesConfig
  * @property {String} observedProperty - a full url identifier for an SOS observedProperty
  * @property {String} procedure - a full url identifier for an SOS procedure
+ * @property {String} featureOfInterest - the sos feature of interest
  * @property {nar.fullReport.TimeRange} timeRange
  */
 
@@ -19,7 +20,7 @@ nar.fullReport.TimeSeries = function(config){
     self.procedure= config.procedure;
     self.observedProperty = config.observedProperty;
     self.timeRange = config.timeRange;
-    
+    self.featureOfInterest = config.featureOfInterest;
     self.data = undefined;
     self.parseSosGetResultResponse = function(response){
         var errorMessage ='error retrieving data';
@@ -61,7 +62,7 @@ nar.fullReport.TimeSeries = function(config){
             "version": "2.0.0",
             "offering" : self.procedure,
             "observedProperty" : self.observedProperty,
-            "featureOfInterest" : PARAMS.siteId,
+            "featureOfInterest" : self.featureOfInterest,
             "temporalFilter": [
                 {
                     "during": {

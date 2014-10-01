@@ -24,14 +24,15 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 		options.handlerOptions = options.handlerOptions || {};
 
 		OpenLayers.Control.WMSGetFeatureInfo.prototype.initialize.apply(this, [options]);
-
+		this.siteIdentificationPopupContainerId = 'site-identification-popup-content-container';
 		this.events.register("getfeatureinfo", this, this.onHoverIdentificationHandler);
 	},
-
+	
 	onHoverIdentificationHandler: function (response) {
 		"use strict";
+		
 		var features = response.features,
-	    	$featureDescriptionHTML = $('<div />').addClass('container-fluid').attr('id', 'site-identification-popup-content-container'),
+	    	$featureDescriptionHTML = $('<div />').addClass('container-fluid').attr('id', this.siteIdentificationPopupContainerId),
 	    	feature,
 	    	popup,
 	    	popupPixel,
@@ -87,7 +88,8 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
     		// If more than one feature, create a list. Otherwise, just create a single div
 	    	for (var fInd = 0;fInd < features.length;fInd++) {
 	    		feature = features[fInd];
-	    		$featureDescriptionHTML.append(createSiteDisplayWell(feature));
+	    		var displayWell = createSiteDisplayWell.call(this, feature);
+	    		$featureDescriptionHTML.append(displayWell);
 	    	}
 	    
 	    	return nar.sitePopup.createPopup({
