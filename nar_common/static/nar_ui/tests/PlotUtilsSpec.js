@@ -62,7 +62,7 @@ describe('nar.fullReport.PlotUtils', function() {
 	
 	describe('getDataSplitIntoCurrentAndPreviousYears using dates including current date', function () {
 		var yearAndRndRandomNumber = [];
-		for (var year = 1980;year < new Date().getFullYear();year++) {
+		for (var year = 1980;year < nar.WaterYearUtils.convertDateToWaterYear(new Date());year++) {
 			yearAndRndRandomNumber.push([new Date(year,'0','1','0','0','0').getTime(), Math.floor(Math.random() * 10) + 1]);
 		}
 		
