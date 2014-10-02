@@ -71,6 +71,7 @@ nar.fullReport.TimeSeriesVisualization = function(config){
                     vizDeferred.resolve(self);
                 },
                 function(){
+                	plotContainer.remove();
                     vizDeferred.reject(self);
                     throw Error('data retrieval failed');
                 }
