@@ -157,7 +157,7 @@ nar.fullReport = nar.fullReport || {};
                     var hoverText = formatter(x, y);
                     
                     $(toolTipElt).html(hoverText)
-                        .css({top: item.pageY+5, left: item.pageX+5})
+                        .css({top: item.pageY+5, left: item.pageX+5, 'z-index' : 760})
                         .fadeIn(200);
                 } else {
                     $(toolTipElt).hide();
@@ -172,7 +172,7 @@ nar.fullReport = nar.fullReport || {};
                 if (!item) {
                     if (Math.abs(log10(pos.y) - log10(yvalue)) < hoverThreshold) {
                         $(toolTipElt).html(text)
-                            .css({top: pos.pageY+5, left: pos.pageX+5})
+                            .css({top: pos.pageY+5, left: pos.pageX+5, 'z-index' : 760})
                             .fadeIn(200);
                     }
                 }

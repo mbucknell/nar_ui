@@ -103,6 +103,7 @@ $(document).ready(function() {
 						};
 						var dialog = nar.GraphPopup.create({
 							feature : feature,
+							width : width,
 							popupAnchor : graphContainer,
 							type : type,
 							constituent: chemical
