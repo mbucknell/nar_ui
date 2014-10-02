@@ -2,8 +2,13 @@ var nar = nar || {};
 nar.GraphPopup = (function() {
 	"use strict";
 	var me = {};
+	
+	var DIALOG_ID = 'miss-graph-dialog-container';
+	var POPUP_ID = 'miss-graph-dialog-content';
+	
 	var tsvRegistry = new nar.fullReport.TimeSeriesVisualizationRegistry();
-	me.popups = [];
+	me.popup;
+	me.timeSeriesViz;
 	var mrbToSos = {
 			constituentToConstituentId : {
 				'tn' : 'NH3',
@@ -48,12 +53,12 @@ nar.GraphPopup = (function() {
 		timeSeriesCollection.add(basicTimeSeries);
 		
 		var timeSeriesVizId = tsvRegistry.getIdForObservedProperty(observedProperty);
-		var timeSeriesViz = new nar.fullReport.TimeSeriesVisualization({
+		me.timeSeriesViz = new nar.fullReport.TimeSeriesVisualization({
 			id: timeSeriesVizId,
 			allPlotsWrapperElt:target,
 			timeSeriesCollection: timeSeriesCollection
 		});
-		var promise = timeSeriesViz.visualize();
+		var promise = me.timeSeriesViz.visualize();
 		
 		return promise;
 	};
@@ -66,21 +71,23 @@ nar.GraphPopup = (function() {
 			maxHeight = args.maxHeight || null,
 			constituent = args.constituent,
 			contentDiv = $('<div />').addClass('miss-content-div'),
-			content,
-			title,
+			title = args.title || '',
 			feature = args.feature,
-			$container = $('<div />').attr('id', 'miss-' + type + '-container').addClass('hidden'),
-			$dialog = $('<div />').attr('id', 'miss-' + type + '-content'),
+			$container = $('<div />').attr('id', DIALOG_ID).addClass('hidden'),
+			$dialog = $('<div />').attr('id', POPUP_ID),
 			$closeButtonContent = $('<span />').addClass('glyphicon glyphicon-remove nar-popup-dialog-close-icon'),
 			dialog;
-		me.destroyAllPopups();
+		if (me.popup) {
+			me.popup.dialog('close');
+		}
 		
 		$dialog.append(contentDiv);
 		$container.append($dialog);
 		$('body').append($container);
 		
 		dialog = $container.children().first().dialog({
-			appendTo : 'body',
+			close : me.destroyPopup,
+			appendTo : appendToSelector,
 			title : title,
 			resizable : false,
 			width: width || 'auto',
@@ -95,17 +102,24 @@ nar.GraphPopup = (function() {
 		});
 		dialog.updateConstituent = function(constituent){
 			var innerContent, title;
-			innerContent = $('<div />').addClass('well well-sm text-center').append($('<div />').addClass('row mississippi-grap-pup-content-graph'));
+			innerContent = $('<div />').addClass('graph-info well well-sm text-center').append($('<div />').addClass('row mississippi-grap-pup-content-graph'));
 			if(constituent){
 				innerContent.html('Loading...');
+				contentDiv.html('');
 				me.createLoadGraphDisplay({
 					siteId: feature.data.siteid,
 					constituent: constituent,
-					target: innerContent,
+					target: contentDiv,
 					loadType: type
-				});
+				}).then(
+				function() {
+					$('.graph-info').remove();
+				},
+				function(reason) {
+					innerContent.html('Error retrieving the data');
+				}) ;
 
-				title = type + ' load for ' + constituent + ' at ' + feature.data.staname;
+				title = type.capitalize() + ' Load for ' + constituent + ' at ' + feature.data.staname;
 			}
 			else{
 				title = 'Error';
@@ -123,26 +137,28 @@ nar.GraphPopup = (function() {
 		// Replace the orange button icon with a bootstrap glyphicon
 		dialog.parent().find('button').empty().append($closeButtonContent);
 		
-		me.popups.push(dialog);
+		me.popup = dialog;
 		
 		return dialog;
 	};
 
 	/**
-	 * Remove all current popups
+	 * Remove the current popup
 	 */
-	me.destroyAllPopups = function () {
-		while (me.popups.length > 0) {
-			var popup = me.popups.pop();
-			popup.dialog('close');
-			popup.dialog('destroy');
+	me.destroyPopup = function () {
+		if (me.timeSeriesViz) {
+			me.timeSeriesViz.remove();
+			me.timeSeriesViz = null;
+		}
+		if (me.popup) {
+			me.popup.dialog('destroy');
+			$('#' + DIALOG_ID).remove();
+			me.popup = null;			
 		}
 	};
 	
 	return {
 		create : me.create,
-		createMayLoadGraph : me.createMayLoadGraph,
-		createAnnualLoadGraph : me.createAnnualLoadGraph,
-		destroyAllPopups : me.destroyAllPopups
+		destroyPopup : me.destroyPopup
 	};
 })();
