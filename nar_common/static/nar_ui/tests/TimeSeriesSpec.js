@@ -1,4 +1,5 @@
 describe('nar.fullReport.TimeRange', function(){
+	
 	var TimeRange = nar.fullReport.TimeRange;
 	var globalLowestTime = 0;
 	var globalLargestTime = 10000;
@@ -111,6 +112,7 @@ describe('nar.fullReport.TimeRange', function(){
 	});
 });
 describe('nar.fullReport.TimeSeries', function(){
+	
 	var TimeSeries = nar.fullReport.TimeSeries;
 	var timeSeries = new TimeSeries({
 		observedProperty: 'mockPropertyUrl',
@@ -135,6 +137,43 @@ describe('nar.fullReport.TimeSeries', function(){
 		
 		expect(resultData[2][0]).toBe(172800000);
 		expect(resultData[2][1]).toBe('3');
+	});
+	
+	describe('retrieveData', function() {
+		var server, successSpy, errorSpy;
+		
+		beforeEach(function() {
+			timeSeries.parseSosGetResultResponse = jasmine.createSpy('parseSosGetResultRepsonse');
+			server = sinon.fakeServer.create();
+			successSpy = jasmine.createSpy('successSpy');
+			errorSpy = jasmine.createSpy('errorSpy');
+		});
+		afterEach(function() {
+			server.restore();
+		});
+	
+		it('should return a resolved promise when successfully retrieving data', function() {
+			CONFIG = {
+					endpoint : {
+						sos : 'http://fakesosendpoint'
+					}
+			};
+			var promise = timeSeries.retrieveData().then(successSpy, errorSpy);
+			server.requests[0].respond(200, {'Content-type' : 'application/json'}, '{"resultValues": {"prop1" : "Prop1"}}');
+			
+			expect(successSpy).toHaveBeenCalled();
+		});
+		it('should return a resolved promise when successfully retrieving data', function() {
+			CONFIG = {
+					endpoint : {
+						sos : 'http://fakesosendpoint'
+					}
+			};
+			var promise = timeSeries.retrieveData().then(successSpy, errorSpy);
+			server.requests[0].respond(500, {'Content-type' : 'application/json'}, '{"resultValues": {"prop1" : "Prop1"}}');
+			
+			expect(errorSpy).toHaveBeenCalled();
+		});
 	});
 });
 

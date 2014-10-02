@@ -88,8 +88,8 @@ nar.fullReport.TimeSeries = function(config){
                 //pass this entire object to the callback 
                 deferred.resolve(self);
             },
-            fail: function(data, textStatus, jqXHR){
-                deferred.reject(parameters);
+            error: function(data, textStatus, jqXHR){
+                deferred.reject(data);
             }
         });
         var promise = deferred.promise();
