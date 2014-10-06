@@ -167,7 +167,7 @@ nar.fullReport.MostRecentWaterYearTimeRange = function(dataAvailability) {
         endTime
     );
     return yearRange;
-}
+};
 
 //private 
 /**

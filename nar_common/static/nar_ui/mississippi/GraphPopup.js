@@ -119,7 +119,9 @@ nar.GraphPopup = (function() {
 					innerContent.html('Error retrieving the data');
 				}) ;
 
-				title = type.capitalize() + ' Load for ' + constituent + ' at ' + feature.data.staname;
+				title = type.capitalize() + ' Load for ' + 
+					nar.Constituents[me.timeSeriesViz.getComponentsOfId().constituent].name + 
+					' at ' + feature.data.staname;
 			}
 			else{
 				title = 'Error';
