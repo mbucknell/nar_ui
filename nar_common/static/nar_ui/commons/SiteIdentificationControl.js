@@ -71,7 +71,7 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 				
 				$summaryGraphsLink.attr('href', CONFIG.baseUrl + 'site/' + id + '/summary-report');
 				$detailedGraphsLink.attr('href',CONFIG.baseUrl + 'site/' + id + '/full-report');
-				$downloadLink.attr('href', 'download');
+				$downloadLink.attr('href', CONFIG.baseURL + 'download');
 				
 				$summaryGraphsLinkContainer.append($summaryGraphsLink);
 				$detailedGraphsLinkContainer.append($detailedGraphsLink);
