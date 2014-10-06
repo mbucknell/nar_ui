@@ -71,6 +71,7 @@ nar.fullReport.TimeSeriesVisualization = function(config){
                     vizDeferred.resolve(self);
                 },
                 function(){
+                	plotContainer.remove();
                     vizDeferred.reject(self);
                     throw Error('data retrieval failed');
                 }
@@ -207,7 +208,7 @@ nar.fullReport.TimeSeriesVisualization.types = {
 			ancillary : [{
 				// @todo We will want to store these somewhere so this can just be nar .discrete.nitrogen
 				procedure : "http://cida.usgs.gov/def/NAR/procedure/TKN",
-				observedProperty : "http://cida.usgs.gov/def/NAR/property/TKN/discrete",
+				observedProperty : "http://cida.usgs.gov/def/NAR/property/TKN/discrete"
 			}],
 			allowTimeSlider : false
 		}

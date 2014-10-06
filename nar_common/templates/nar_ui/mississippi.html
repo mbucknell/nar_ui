@@ -144,6 +144,7 @@
 <script type="text/javascript" src="{% static 'nar_ui/commons/Subject.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/mapCommons.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/Constituents.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/Definitions.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/full_report/PlotUtils.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/full_report/WaterYearUtils.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/full_report/LoadPlot.js' %}"></script>
@@ -160,6 +161,12 @@
 <script type="text/javascript" src="{% static 'nar_ui/mississippi/map.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/mississippi/main.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/mississippi/loadSelect.js' %}"></script>
+<script type="text/javascript">
+	nar.loadDefinitions(CONFIG.definitionsUrl);
+</script>
+	
 {% endcompress %}
+
+
 
 {% endblock %}
