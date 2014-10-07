@@ -114,6 +114,18 @@ nar.GraphPopup = (function() {
 				}).then(
 				function() {
 					$('.graph-info').remove();
+
+					// Adjust axis to match time range
+					var options;
+					if (me.timeSeriesViz.plot) {
+						options = me.timeSeriesViz.plot.getOptions();
+						options.xaxes.each(function(axis) {
+							axis.min = nar.fullReport.TimeRange.START_TIME_CUTOFF;
+							axis.max = nar.fullReport.TimeRange.END_TIME_CUTOFF;
+						});
+						me.timeSeriesViz.plot.setupGrid();
+						me.timeSeriesViz.plot.draw();
+					}
 				},
 				function(reason) {
 					innerContent.html('Error retrieving the data');
