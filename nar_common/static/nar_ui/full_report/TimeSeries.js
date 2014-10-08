@@ -19,7 +19,7 @@ nar.fullReport.TimeSeries = function(config){
     var self = this;
     self.procedure= config.procedure;
     self.observedProperty = config.observedProperty;
-    self.timeRange = config.timeRange;
+    self.timeRange = config.timeRange || null;
     self.featureOfInterest = config.featureOfInterest;
     self.data = undefined;
     self.parseSosGetResultResponse = function(response){
@@ -63,18 +63,18 @@ nar.fullReport.TimeSeries = function(config){
             "offering" : self.procedure,
             "observedProperty" : self.observedProperty,
             "featureOfInterest" : self.featureOfInterest,
-            "temporalFilter": [
-                {
-                    "during": {
-                        "ref": "om:phenomenonTime",
-                        "value": [
-                            nar.util.toISOString(self.timeRange.startTime),
-                            nar.util.toISOString(self.timeRange.endTime)
-                        ]
-                    }
-                }
-            ]
         };
+        if (self.timeRange) {
+			getResultParams.temporalFilter = [ {
+				"during" : {
+					"ref" : "om:phenomenonTime",
+					"value" : [
+						nar.util.toISOString(self.timeRange.startTime),
+						nar.util.toISOString(self.timeRange.endTime) 
+					]
+				}
+			} ];
+		}
         
         var deferred = $.Deferred();
 
@@ -85,7 +85,10 @@ nar.fullReport.TimeSeries = function(config){
             contentType:'application/json',
             success: function(response, textStatus, jqXHR){
                 self.data = self.parseSosGetResultResponse(response);
-                //pass this entire object to the callback 
+                if (!self.timeRange) {
+                    self.timeRange = new nar.fullReport.TimeRange(self.data[0] [0], self.data[self.data.length - 1] [0]);
+                }
+                // pass this entire object to the callback
                 deferred.resolve(self);
             },
             error: function(data, textStatus, jqXHR){

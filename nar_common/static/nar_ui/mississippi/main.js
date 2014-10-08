@@ -104,6 +104,7 @@ $(document).ready(function() {
 						var dialog = nar.GraphPopup.create({
 							feature : feature,
 							width : width,
+							//height : 350,
 							popupAnchor : graphContainer,
 							type : type,
 							constituent: chemical
