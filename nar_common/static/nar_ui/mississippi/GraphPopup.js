@@ -36,13 +36,11 @@ nar.GraphPopup = (function() {
 		};
 		var observedProperty= observedPropertyUrlTemplate.assign(sosUrlParams);
 		var procedure = procedureUrlTemplate.assign(sosUrlParams);
-		var timeRange = new nar.fullReport.TimeRange(nar.fullReport.TimeRange.START_TIME_CUTOFF, nar.fullReport.TimeRange.END_TIME_CUTOFF);
 		
 		var basicTimeSeries = new nar.fullReport.TimeSeries({
 			observedProperty: observedProperty,
 			procedure: procedure,
 			featureOfInterest: siteId,
-			timeRange: timeRange
 		});
 
 		//@todo: add more time series for  moving average,
@@ -68,6 +66,8 @@ nar.GraphPopup = (function() {
 			popupAnchor = args.popupAnchor,
 			type = args.type,
 			width = args.width || null,
+			height = args.height || null,
+			minHeight = args.minHeight || null,
 			maxHeight = args.maxHeight || null,
 			constituent = args.constituent,
 			contentDiv = $('<div />').addClass('miss-content-div'),
@@ -91,6 +91,8 @@ nar.GraphPopup = (function() {
 			title : title,
 			resizable : false,
 			width: width || 'auto',
+			height : height || 'auto',
+			minHeight : minHeight || false,
 			maxHeight : maxHeight || false,
 			dialogClass : args.dialogClass || 'miss-popup-dialog',
 			$closeButtonContent : $('<span />').addClass('glyphicon glyphicon-remove nar-popup-dialog-close-icon'),
@@ -116,12 +118,13 @@ nar.GraphPopup = (function() {
 					$('.graph-info').remove();
 
 					// Adjust axis to match time range
-					var options;
+					var options, timeRange;
 					if (me.timeSeriesViz.plot) {
 						options = me.timeSeriesViz.plot.getOptions();
+						timeRange = me.timeSeriesViz.timeSeriesCollection.getTimeRange();
 						options.xaxes.each(function(axis) {
-							axis.min = nar.fullReport.TimeRange.START_TIME_CUTOFF;
-							axis.max = nar.fullReport.TimeRange.END_TIME_CUTOFF;
+							axis.min = timeRange.startTime;
+							axis.max = timeRange.endTime;
 						});
 						me.timeSeriesViz.plot.setupGrid();
 						me.timeSeriesViz.plot.draw();
