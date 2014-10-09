@@ -672,10 +672,12 @@ select.last{margin-right:0;}
  				height:487px;
  				border-right:@borderDark;}
  				
-  .coastal_filter{background:@siteBackground;
-  					height:487px;
-  					padding:10px;
-  					text-align:center;}
+  .coastal_filter{
+  	background:@siteBackground;
+  	height:487px;
+  	padding:10px;
+  	text-align:center;
+  	position:relative;}
   					
  #coastal_info{background:@boxColor;
  				border:@borderDark;
@@ -703,13 +705,73 @@ select.last{margin-right:0;}
  						font-family:@baseFontFamily;
  						outline:none;}
  						
- .coastal_filter button:nth-child(2){margin:70px 0 0 0;}
+ .coastal_filter button:nth-child(2){margin:50px 0 0 0;}
 
  						
  .coastal_filter button:hover,
  .coastal_title button.additional:hover{background:@primaryColor;
  								color:@boxColor;}
  								
+ .coastal_filter ul{
+ 	width:100%;
+ 	list-style-type:none;
+ 	text-align:center;
+ 	margin:50px 0 0 0;
+ 	padding:0;
+ }
+ 
+ ul li#relative{
+ 	background:@boxColor;
+ 	height:30px;
+ 	border:@borderDark;
+ 	border-radius:5px;
+ 	padding-top:2px;
+ 	cursor:pointer;
+ 	font-family:@baseFontFamily;
+ 	font-size:1.2em;}
+ 
+  ul li#relative:hover{
+  	background:rgb(0,51,102);
+  	color:#fff;
+  }
+  
+ul#relativeLinks{
+  	background:@siteBackground;
+  	height:155px;
+  	opacity:0;
+  	border-top:@borderDark;
+  	border-left:@borderDark;
+  	position:absolute;
+  	bottom:0;
+  	z-index:10001;
+  	right:196px;
+  	-webkit-transition:1s ease;
+    -moz-transition: 1s ease;
+    -o-transition: 1s ease;
+    -ms-transition: 1s ease;
+    transition: 1s ease;
+  }
+  
+ ul li#relative ul#relativeLinks li{
+  	 	padding:0 10px;
+  	 	width:110%;
+  	 	text-align:left;}
+  	 	
+ ul li#relative ul#relativeLinks li h3{
+ 	text-align:center;
+  	color:#000;
+  	margin-top:10px;
+ }
+  
+ ul li#relative:hover ul#relativeLinks{
+  	width:450px;
+  	opacity:1;
+  }
+  
+  ul li#relative:hover ul#relativeLinks li{
+  	display:block;}
+  
+  							
  /*###########################coastal_end####################### */
   
   /*###########################summary_start####################### */
@@ -1227,6 +1289,14 @@ select.last{margin-right:0;}
 						
 	/*###########################mississippi_end####################### */
 	
+	/*###########################coastal_start####################### */
+	
+	ul#relativeLinks{
+		right:163px;
+	}
+	
+	/*###########################coastal_endt####################### */
+	
 	/*###########################summary_start####################### */
 	
 	.graphContainer,
@@ -1374,6 +1444,14 @@ select.last{margin-right:0;}
 	select.last{margin-right:0;}
 						
 	/*###########################mississippi_end####################### */
+	
+	/*###########################coastal_start####################### */
+	
+	ul#relativeLinks{
+		right:189px;
+	}
+	
+	/*###########################coastal_endt####################### */
 	
 	/*###########################summary_start####################### */
 				
@@ -1546,6 +1624,14 @@ select.last{margin-right:0;}
 	#download_holder{left:39%}
 						
 	/*###########################mississippi_end####################### */
+	
+	/*###########################coastal_start####################### */
+	
+	ul#relativeLinks{
+		right:183px;
+	}
+	
+	/*###########################coastal_endt####################### */
 	
 	/*###########################summary_start####################### */
 			
