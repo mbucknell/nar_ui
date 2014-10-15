@@ -113,7 +113,7 @@ nar.fullReport = nar.fullReport || {};
           currentYearSeries,
           longTermMeanSeries
         ];
-        if (Object.has(tsViz,'averagesAndTargets') && tsViz.averagesAndTargets !== {}) {
+        if (Object.has(tsViz,'averagesAndTargets') && (Object.keys(tsViz.averagesAndTargets) !== 0)) {
             if (tsViz.averagesAndTargets.mean) {
                 series = series.concat(makeBaselineConfig(previousYearsSeries.data.first()[0], tsViz.averagesAndTargets.mean));
             }

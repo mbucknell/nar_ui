@@ -159,7 +159,7 @@ nar.GraphPopup = (function() {
 		
 		dialog.updateConstituent = function(constituent){
 			var innerContent, title;
-            var YEAR_MS = 365 *24 * 60 * 60 * 1000;
+            var YEAR_MS = nar.util.MILLISECONDS_IN_YEAR;
 
 			innerContent = $('<div />').addClass('graph-info well well-sm text-center').append($('<div />').addClass('row mississippi-grap-pup-content-graph'));
 			if(constituent){

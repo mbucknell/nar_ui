@@ -36,6 +36,8 @@ nar.util = {};
     nar.util.Unimplemented = function() {
         throw Error('This functionality is not yet implemented');
     };
+    
+    nar.util.MILLISECONDS_IN_YEAR = 365 *24 * 60 * 60 * 1000;
 
     window.onerror = function(errorMsg, url, lineNumber) {
         var msg = errorMsg.replace(/Uncaught .*Error: /, '');
