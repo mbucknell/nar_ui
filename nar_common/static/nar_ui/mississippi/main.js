@@ -176,7 +176,7 @@ $(document).ready(function() {
 							on('click', makeGraphClickHandler('may', feature, filtersSubject.mostRecentNotification.chemical));
 						$summaryGraphsLink.attr('href', CONFIG.baseUrl + 'site/' + id + '/summary-report');
 						$detailedGraphsLink.attr('href',CONFIG.baseUrl + 'site/' + id + '/full-report');
-						$downloadLink.attr('href', CONFIG.baseURL + 'download');
+						$downloadLink.attr('href', CONFIG.baseUrl + 'download');
 						
 						$annualLoadGraphsLinkContainer.append($annualLoadGraphsLink);
 						$mayLoadGraphsLinkContainer.append($mayLoadGraphsLink);
