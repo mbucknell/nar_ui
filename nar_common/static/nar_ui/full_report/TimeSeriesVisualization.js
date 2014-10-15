@@ -21,6 +21,7 @@ nar.fullReport.TimeSeriesVisualization = function(config){
     self.plotter = config.plotter;
     self.ranger = nar.fullReport.TimeSeriesVisualization.getCustomizationById(self.id, 'range', nar.util.Unimplemented);
     self.ancillaryData = nar.fullReport.TimeSeriesVisualization.getCustomizationById(self.id, 'ancillary', []);
+    self.averagesAndTargets = config.averagesAndTargets || {};
     self.allowTimeSlider = nar.fullReport.TimeSeriesVisualization.getCustomizationById(self.id, 'allowTimeSlider', true);
 
     self.getComponentsOfId = function(){
