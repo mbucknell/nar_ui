@@ -7,8 +7,8 @@ nar.GraphPopup = (function() {
 	var POPUP_ID = 'miss-graph-dialog-content';
 	
 	var tsvRegistry = new nar.fullReport.TimeSeriesVisualizationRegistry();
-	me.popup;
-	me.timeSeriesViz;
+	me.popup = undefined;
+	me.timeSeriesViz = undefined;
 	var mrbToSos = {
 			constituentToConstituentId : {
 				'tn' : 'NH3',
@@ -21,6 +21,15 @@ nar.GraphPopup = (function() {
 			}
 	};
 	
+	/**
+	 * Creates the load graph  
+	 * @param {Object} args - with properties
+	 *     siteId : String - the id of the site represented on the graph
+	 *     constituent : String - the constituent to graph
+	 *     loadType : String - the load type (annual or may)
+	 *     target : The div element where the graph will be created.
+	 * @ return a promise. The promise is resolved when the visualization has been created.
+	 */
 	me.createLoadGraphDisplay = function(args){
 		var siteId = args.siteId,
 		mrbConstituent = args.constituent,
@@ -43,22 +52,67 @@ nar.GraphPopup = (function() {
 			featureOfInterest: siteId,
 		});
 
-		//@todo: add more time series for  moving average,
-		//@todo: baseline average,reduction target are not time series, so need to figure out another way to draw those
-		//values on the plot
+		// Generate additional time series for baseline average, 45% reduction targets, and baseline-average
+	    var siteDataDeferred = $.Deferred();
+		$.ajax({
+		    url: CONFIG.siteAveTargetUrl,
+		    data : {
+		        site_id : args.siteId,
+		        constituent : mrbToSos.constituentToConstituentId[mrbConstituent]
+		    },
+		    contentType : 'application/json',
+		    success : function(response) {
+		        var data = {
+		                mean : response[loadType + '_mean'],
+		                target : response[loadType + '_target'],
+		                movingAverage : []
+		        };
+		        var i;
+		        for (i = 0; i < response.moving_average.length; i++) {
+		            var movAve = response.moving_average[i];
+		            if (movAve[loadType + '_moving_average']) {
+		                data.movingAverage.push({
+		                    waterYear : movAve.water_year,
+		                    ave : movAve[loadType + '_moving_average']
+		                });
+		            }
+		        }
+		       
+		        siteDataDeferred.resolve(data);
+		    },
+		    error : function(data) {
+		        siteDataDeferred.resolve({});
+		        throw Error('Unable to retrieve average and targets');
+		    }
+		});
 		
 		var timeSeriesCollection = new nar.fullReport.TimeSeriesCollection();
 		timeSeriesCollection.add(basicTimeSeries);
 		
 		var timeSeriesVizId = tsvRegistry.getIdForObservedProperty(observedProperty);
-		me.timeSeriesViz = new nar.fullReport.TimeSeriesVisualization({
-			id: timeSeriesVizId,
-			allPlotsWrapperElt:target,
-			timeSeriesCollection: timeSeriesCollection
-		});
-		var promise = me.timeSeriesViz.visualize();
 		
-		return promise;
+		var vizDeferred = $.Deferred();
+		var promise = vizDeferred.promise();
+		
+		// Wait until the siteData has been retrieved before creating the visualization
+	    $.when(siteDataDeferred).then(function(response) {
+    		me.timeSeriesViz = new nar.fullReport.TimeSeriesVisualization({
+    			id: timeSeriesVizId,
+    			allPlotsWrapperElt : target,
+    			timeSeriesCollection: timeSeriesCollection,
+    			averagesAndTargets : response
+    		});
+    		$.when(me.timeSeriesViz.visualize()).then(
+    		        function(data) {
+    		            vizDeferred.resolve(data);
+    		        },
+    		        function(data) {
+    		            vizDeferred.reject(data);
+    		        }
+    		);
+	    });
+
+        return promise;
 	};
 
 	me.create = function(args) {
@@ -102,8 +156,11 @@ nar.GraphPopup = (function() {
 				of: popupAnchor
 			}
 		});
+		
 		dialog.updateConstituent = function(constituent){
 			var innerContent, title;
+            var YEAR_MS = nar.util.MILLISECONDS_IN_YEAR;
+
 			innerContent = $('<div />').addClass('graph-info well well-sm text-center').append($('<div />').addClass('row mississippi-grap-pup-content-graph'));
 			if(constituent){
 				innerContent.html('Loading...');
@@ -122,21 +179,23 @@ nar.GraphPopup = (function() {
 					if (me.timeSeriesViz.plot) {
 						options = me.timeSeriesViz.plot.getOptions();
 						timeRange = me.timeSeriesViz.timeSeriesCollection.getTimeRange();
+						// Adjust the axis so the bars are inside the plot
 						options.xaxes.each(function(axis) {
-							axis.min = timeRange.startTime;
-							axis.max = timeRange.endTime;
+							axis.min = timeRange.startTime - YEAR_MS;
+							axis.max = timeRange.endTime + YEAR_MS;
 						});
 						me.timeSeriesViz.plot.setupGrid();
 						me.timeSeriesViz.plot.draw();
 					}
+					
+					title = type.capitalize() + ' Load for ' + 
+                    nar.Constituents[me.timeSeriesViz.getComponentsOfId().constituent].name + 
+                    ' at ' + feature.data.staname;
+					dialog.dialog('option', 'title', title);
 				},
 				function(reason) {
 					innerContent.html('Error retrieving the data');
 				}) ;
-
-				title = type.capitalize() + ' Load for ' + 
-					nar.Constituents[me.timeSeriesViz.getComponentsOfId().constituent].name + 
-					' at ' + feature.data.staname;
 			}
 			else{
 				title = 'Error';
