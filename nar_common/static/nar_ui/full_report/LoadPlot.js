@@ -25,7 +25,7 @@ nar.fullReport = nar.fullReport || {};
         
         var makeSeriesConfig = function(dataSet, color){
             return {
-//                label: constituentName,
+                label: constituentName,
                 data: dataSet,
                 bars: {
                     barWidth: 1e10,
@@ -39,7 +39,7 @@ nar.fullReport = nar.fullReport || {};
         
         var makeLongTermMeanConfig = function(dataSet, color) {
             return {
- //               label: constituentName,
+                label: constituentName,
                 data: [[nar.fullReport.PlotUtils.YEAR_NINETEEN_HUNDRED,longTermMean],
                        [nar.fullReport.PlotUtils.ONE_YEAR_IN_THE_FUTURE,longTermMean]],
                 lines: {
@@ -111,7 +111,7 @@ nar.fullReport = nar.fullReport || {};
         var series = [
           previousYearsSeries,
           currentYearSeries,
-          longTermMeanSeries,
+          longTermMeanSeries
         ];
         if (Object.has(tsViz,'averagesAndTargets') && tsViz.averagesAndTargets !== {}) {
             if (tsViz.averagesAndTargets.mean) {

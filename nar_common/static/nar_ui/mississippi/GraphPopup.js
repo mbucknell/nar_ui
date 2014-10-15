@@ -21,22 +21,6 @@ nar.GraphPopup = (function() {
 			}
 	};
 	
-	var getBaselineAverageSeries = function(loadType, responseData) {
-	    var mean = undefined;
-	    var result = {
-	        color : 'black',
-	        label : 'Baseline Average 1980-96',
-	    }
-	    if (loadType === 'annual') {
-	        mean = responseData.annual_mean;
-	    }
-	    else {
-	        mean = responseData.may_mean;
-	    }
-	    result.data = [[new Date]]
-	    
-	};
-	
 	/**
 	 * Creates the load graph  
 	 * @param {Object} args - with properties
@@ -175,7 +159,7 @@ nar.GraphPopup = (function() {
 		
 		dialog.updateConstituent = function(constituent){
 			var innerContent, title;
-            var YEAR_MS = 365 *24 * 60 * 60 * 1000
+            var YEAR_MS = 365 *24 * 60 * 60 * 1000;
 
 			innerContent = $('<div />').addClass('graph-info well well-sm text-center').append($('<div />').addClass('row mississippi-grap-pup-content-graph'));
 			if(constituent){
