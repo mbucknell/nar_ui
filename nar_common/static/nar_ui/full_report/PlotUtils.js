@@ -100,8 +100,9 @@ nar.fullReport = nar.fullReport || {};
         },
         /**
          * @param {nar.fullReport.TimeSeriesVisualization}
-         * @returns {Object} - a map of the constituent the time series graphs, and two colors:
-         * one for the current year's data, and the other for the previous years' data 
+         * @returns {Object} - a map of the constituent the time series graphs, and colors
+         * for the current year's data, the previous years' data, and colors for other data that
+         * may be shown on the time series graphs
          */
         getConstituentNameAndColors: function(timeSeriesVisualization){
             var idComponents = timeSeriesVisualization.getComponentsOfId();
@@ -112,13 +113,21 @@ nar.fullReport = nar.fullReport || {};
             var previousYearsColor = tinycolor.lighten(tinycolor(currentYearColor), 30).toRgbString();
             var longTermMeanColor = tinycolor.lighten(tinycolor.gray, 75).toRgbString();
             var criteriaLineColor = tinycolor.lighten(tinycolor.gray, 75).toRgbString();
+            
+            var BASELINE_COLOR = 'black';
+            var TARGET_LINE_COLOR = 'black';
+            var MOVING_AVE_COLOR = 'red';
+            
             return {
                 name : constituentName,
                 colors:{
                     currentYear: currentYearColor,
                     previousYears: previousYearsColor,
                     longTermMean: longTermMeanColor,
-                    criteriaLine: criteriaLineColor
+                    criteriaLine: criteriaLineColor,
+                    baselineColor : BASELINE_COLOR,
+                    targetColor : TARGET_LINE_COLOR,
+                    movingAveColor : MOVING_AVE_COLOR
                 }
             };
         },
