@@ -4,8 +4,8 @@ $(document).ready(
 		$.when(nar.siteHelpInfoPromise).done(function() {
 			var isSiteForDummyNullData = PARAMS.siteId === '05451210'; //South Fork Iowa River near New Providence, IA
 
-            var ConstituentCurrentYearComparisonPlot = nar.fullReport.ConstituentCurrentYearComparisonPlot;
-            var ExceedancePlot = nar.fullReport.ExceedancePlot;            
+            var ConstituentCurrentYearComparisonPlot = nar.plots.ConstituentCurrentYearComparisonPlot;
+            var ExceedancePlot = nar.plots.ExceedancePlot;            
 
 			var exceedancePlotLabel = function(data) {
 				/*

@@ -1,32 +1,32 @@
-//@requires nar.fullReport.TimeSeriesCollection
+//@requires nar.timeSeries.TimeSeriesCollection
 var nar = nar || {};
-nar.fullReport = nar.fullReport || {};
+nar.timeSeries  = nar.timeSeries || {};
 (function(){
 /**
- * @typedef nar.fullReport.TimeSeriesVisualizationConfig
+ * @typedef nar.timeSeries .TimeSeriesVisualizationConfig
  * @property {string} id
  * @property {Function} plotter
- * @property {nar.fullReport.TimeSeriesCollection} timeSeriesCollection
+ * @property {nar.timeSeries .TimeSeriesCollection} timeSeriesCollection
  * @property {jQuery} allPlotsWrapperElt
  */
 
 /**
  * @class
- * @param {nar.fullReport.TimeSeriesVisualizationConfig} config
+ * @param {nar.timeSeries .TimeSeriesVisualizationConfig} config
  */
-nar.fullReport.TimeSeriesVisualization = function(config){
+nar.timeSeries.Visualization = function(config){
     var self = this;
     self.id = config.id;
     self.allPlotsWrapperElt = config.allPlotsWrapperElt;
     self.plotter = config.plotter;
-    self.ranger = nar.fullReport.TimeSeriesVisualization.getCustomizationById(self.id, 'range', nar.util.Unimplemented);
-    self.ancillaryData = nar.fullReport.TimeSeriesVisualization.getCustomizationById(self.id, 'ancillary', []);
+    self.ranger = nar.timeSeries.Visualization.getCustomizationById(self.id, 'range', nar.util.Unimplemented);
+    self.ancillaryData = nar.timeSeries.Visualization.getCustomizationById(self.id, 'ancillary', []);
     self.averagesAndTargets = config.averagesAndTargets || {};
-    self.allowTimeSlider = nar.fullReport.TimeSeriesVisualization.getCustomizationById(self.id, 'allowTimeSlider', true);
+    self.allowTimeSlider = nar.timeSeries.Visualization.getCustomizationById(self.id, 'allowTimeSlider', true);
 
     self.getComponentsOfId = function(){
         //delegate to static method
-        return nar.fullReport.TimeSeriesVisualization.getComponentsOfId(self.id);
+        return nar.timeSeries.Visualization.getComponentsOfId(self.id);
     };
     self.timeSeriesCollection = config.timeSeriesCollection;
     
@@ -56,7 +56,7 @@ nar.fullReport.TimeSeriesVisualization = function(config){
             //after all retrieval promises have been resolved
             $.when.apply(null, retrievalPromises).then(
                 function(){
-                    var plotter = nar.fullReport.TimeSeriesVisualization.getPlotterById(self.id);
+                    var plotter = nar.timeSeries.Visualization.getPlotterById(self.id);
                     var plotContent;
                     if(plotter){
                         self.plot = plotter(self);
@@ -101,7 +101,7 @@ var plotIdSuffix = '_' + plotContainerClass;
 
 /**
  * Given a viz id, make a selector for a plot container
- * @param {string} TimeSeriesVisualization.id
+ * @param {string} Visualization.id
  * @returns {string} id for a plot
  */
 var makePlotContainerId = function(vizId){
@@ -122,7 +122,7 @@ var getPlotContainer = function(plotContainerId){
 
 // public static properties:
 
-nar.fullReport.TimeSeriesVisualization.serverToClientConstituentIdMap = {
+nar.timeSeries.Visualization.serverToClientConstituentIdMap = {
     'nh3': 'nitrogen',
     'no23': 'nitrate',
     'op':'phosphorus',
@@ -137,38 +137,38 @@ nar.fullReport.TimeSeriesVisualization.serverToClientConstituentIdMap = {
  * @param {string} id
  * @returns {Object} a simple map of component name to value 
  */
-nar.fullReport.TimeSeriesVisualization.getComponentsOfId = function(id){
+nar.timeSeries.Visualization.getComponentsOfId = function(id) {
     var splitId = id.split('/');
-    
+
     var components = {};
-    
+
     var serverConstituentId = splitId[0];
-    var clientConstituentId = nar.fullReport.TimeSeriesVisualization.serverToClientConstituentIdMap[serverConstituentId.toLowerCase()];
+    var clientConstituentId = nar.timeSeries.Visualization.serverToClientConstituentIdMap[serverConstituentId
+            .toLowerCase()];
     components.constituent = clientConstituentId;
     var potential_category = splitId[1];
     if (potential_category) {
-	    var split_potential_category = potential_category.split('_');
-	    if(2 === split_potential_category.length){
-	        components.category = split_potential_category[1];
-	        components.subcategory = potential_category;
-	    }
-	    else{
-	        components.category = potential_category;
-	    }
+        var split_potential_category = potential_category.split('_');
+        if (2 === split_potential_category.length) {
+            components.category = split_potential_category[1];
+            components.subcategory = potential_category;
+        } else {
+            components.category = potential_category;
+        }
     }
     return components;
 };
 
 /**
- * @param {string} id - a TimeSeriesVisualization id
+ * @param {string} id - a Visualization id
  * @param {string} field - customization field
  * @param {Function|Array} defaultValue - default return if id doesn't have customization
  * @returns {Function|Array} Custom configuration for plot
  */
-nar.fullReport.TimeSeriesVisualization.getCustomizationById = function(id, field, defaultValue) {
+nar.timeSeries.Visualization.getCustomizationById = function(id, field, defaultValue) {
     var result;
-    var components = nar.fullReport.TimeSeriesVisualization.getComponentsOfId(id);
-    var vizType = nar.fullReport.TimeSeriesVisualization.types[components.category];
+    var components = nar.timeSeries.Visualization.getComponentsOfId(id);
+    var vizType = nar.timeSeries.Visualization.types[components.category];
     if (vizType) {
         result = vizType[field];
     } else {
@@ -178,34 +178,34 @@ nar.fullReport.TimeSeriesVisualization.getCustomizationById = function(id, field
 };
 
 /**
- * @param {string} id - a TimeSeriesVisualization id
+ * @param {string} id - a Visualization id
  * @returns {function} a plot constructor accepting two arguments: 
  *  the element to insert the plot into,
  *  the data to plot
  */
-nar.fullReport.TimeSeriesVisualization.getPlotterById = function(id){
-    return nar.fullReport.TimeSeriesVisualization.getCustomizationById(id, 'plotter', nar.util.Unimplemented);
+nar.timeSeries.Visualization.getPlotterById = function(id){
+    return nar.timeSeries.Visualization.getCustomizationById(id, 'plotter', nar.util.Unimplemented);
 };
 
 /**
  * Some configuration for which category of data gets which graph
  */
-nar.fullReport.TimeSeriesVisualization.types = {
+nar.timeSeries.Visualization.types = {
 		discrete : {
-			plotter : nar.fullReport.SampleConcentrationPlot,
-			range : nar.fullReport.DataAvailabilityTimeRange,
+			plotter : nar.plots.SampleConcentrationPlot,
+			range : nar.timeSeries.DataAvailabilityTimeRange,
 			ancillary : [],
 			allowTimeSlider : true
 		},
 		load : {
-			plotter : nar.fullReport.LoadPlot,
-			range : nar.fullReport.DataAvailabilityTimeRange,
+			plotter : nar.plots.LoadPlot,
+			range : nar.timeSeries.DataAvailabilityTimeRange,
 			ancillary : [],
 			allowTimeSlider : true
 		},
 		flow : {
-			plotter : nar.fullReport.FlowWrapper,
-			range : nar.fullReport.MostRecentWaterYearTimeRange,
+			plotter : nar.plots.FlowWrapper,
+			range : nar.timeSeries.MostRecentWaterYearTimeRange,
 			ancillary : [{
 				// @todo We will want to store these somewhere so this can just be nar .discrete.nitrogen
 				procedure : "http://cida.usgs.gov/def/NAR/procedure/TKN",

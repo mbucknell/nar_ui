@@ -1,11 +1,11 @@
-//@requires nar.util, nar.fullReport.TimeSeriesRegistry
+//@requires nar.WaterYearUtils
 var nar = nar || {};
 (function(){
-nar.fullReport = nar.fullReport || {};
+nar.timeSeries = nar.timeSeries || {};
 /**
  * @param {jquery Element}
  */
-nar.fullReport.TimeSlider = function(timeSliderElt){
+nar.timeSeries.TimeSlider = function(timeSliderElt){
     //Do not initialize any event handlers here;
     //event handling is added when you
     //pass a TimeSlider instance to the
@@ -34,7 +34,7 @@ nar.fullReport.TimeSlider = function(timeSliderElt){
         labels.each(function(label){label.remove();});
         var possibleMin = slider.slider('option', 'min');
         var possibleMax = slider.slider('option', 'max');
-        var years = nar.fullReport.TimeSlider.getYearTicks(possibleMin, possibleMax);
+        var years = nar.timeSeries.TimeSlider.getYearTicks(possibleMin, possibleMax);
         
         labels = years.map(function(year, index){
             var percent = index * 10;
@@ -50,7 +50,7 @@ nar.fullReport.TimeSlider = function(timeSliderElt){
     return slider;
 };
 
-nar.fullReport.TimeSlider.getYearTicks = function(possibleMin, possibleMax){
+nar.timeSeries.TimeSlider.getYearTicks = function(possibleMin, possibleMax){
     var years = [];
     var possibleRange = Number.range(possibleMin, possibleMax);
     var possibleDifference = possibleMax - possibleMin;

@@ -1,8 +1,8 @@
 var nar = nar || {};
 nar.fullReport = nar.fullReport || {};
 /**
- * @param {array<nar.fullReport.TimeSeriesVisualization>} timeSeriesVisualizations - an array of all possible tsv's
- * @param {nar.fullReport.TimeSeriesVisualizationController} tsvController - all currently visualized tsv's
+ * @param {array<nar.TimeSeries.Visualization>} timeSeriesVisualizations - an array of all possible tsv's
+ * @param {nar.timeSeries.VisualizationController} tsvController - all currently visualized tsv's
  */
 nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphToggleElt){
     var self = this;
@@ -143,7 +143,7 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
     
     var getTimeSeriesVisualizationsForNode = function(leafNode){
         var tsvId = leafNode.original.type;
-        timeSeriesVisualization = nar.fullReport.TimeSeriesVisualizationRegistryInstance.get(tsvId);
+        var timeSeriesVisualization = nar.timeSeries.VisualizationRegistryInstance.get(tsvId);
         return timeSeriesVisualization;
     };
     

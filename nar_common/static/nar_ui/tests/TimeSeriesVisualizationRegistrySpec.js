@@ -1,11 +1,11 @@
 $(document).ready(function(){
-	describe('nar.fullReport.TimeSeriesVisualizationRegistry', function(){
+	describe('nar.timeSeries.VisualizationRegistry', function(){
 		var tsvRegistry,
 		tsv,
 		tsvId,
 		elements;
 		beforeEach(function(){
-			tsvRegistry = new nar.fullReport.TimeSeriesVisualizationRegistry();
+			tsvRegistry = new nar.timeSeries.VisualizationRegistry();
 		});
 		
 		var instructionsElement = $('<div class="instructions"></div>');
@@ -13,12 +13,12 @@ $(document).ready(function(){
 		elements = [instructionsElement, allPlotsWrapperElement];
 		$('body').append(elements);
 		tsvId = 'purple';
-		tsv = new nar.fullReport.TimeSeriesVisualization({
+		tsv = new nar.timeSeries.Visualization({
 			id: tsvId,
 			plotter: function(){
 				throw Exception('not yet implemented');
 			},
-			timeSeriesCollection: new nar.fullReport.TimeSeriesCollection(),
+			timeSeriesCollection: new nar.timeSeries.Collection(),
 			instructionsElt: instructionsElement,
 			allPlotsWrapperElement: allPlotsWrapperElement
 		});

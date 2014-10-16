@@ -1,6 +1,6 @@
-describe('nar.fullReport.TimeRange', function(){
+describe('nar.timeSeries.TimeRange', function(){
 	
-	var TimeRange = nar.fullReport.TimeRange;
+	var TimeRange = nar.timeSeries.TimeRange;
 	var globalLowestTime = 0;
 	var globalLargestTime = 10000;
 	var timeRangeA = new TimeRange(globalLowestTime, globalLargestTime - 1);
@@ -24,7 +24,7 @@ describe('nar.fullReport.TimeRange', function(){
 			expect(timeRangeA.clone().equals(timeRangeA)).toBe(true);
 		});
 	});
-	describe('nar.fullReport.TimeRange.ofAll', function(){
+	describe('nar.timeSeries.TimeRange.ofAll', function(){
 		it('should include the lowest of lows and highest of highs among multiple time ranges,', function(){
 			var copyOfTimeRangeA = timeRangeA.clone();
 			aggregateTimeRange = TimeRange.ofAll([timeRangeA, timeRangeB]);
@@ -36,16 +36,16 @@ describe('nar.fullReport.TimeRange', function(){
 	});
 
 	describe('cutoff', function() {
-		var cutoffStartTime = nar.fullReport.TimeRange.START_TIME_CUTOFF;
+		var cutoffStartTime = nar.timeSeries.TimeRange.START_TIME_CUTOFF;
 		var customCutoffStartTime = new Date(1995, 0, 1).getTime();
 		var startTime = new Date(1990, 0, 1).getTime();
 		var currentWaterYear = nar.WaterYearUtils.convertDateToWaterYear(Date.create());
 		var endTime = new Date(currentWaterYear, 0, 1).getTime();
-		var cutoffEndTime = nar.fullReport.TimeRange.END_TIME_CUTOFF;
+		var cutoffEndTime = nar.timeSeries.TimeRange.END_TIME_CUTOFF;
 		var customCutoffEndTime = new Date(2011, 0, 1).getTime();
 
 		it('can cutoff at default times', function() {
-			var result = new nar.fullReport.TimeRange(startTime, endTime);
+			var result = new nar.timeSeries.TimeRange(startTime, endTime);
 
 			expect(result).not.toBe(null);
 			expect(result.startTime).toBe(startTime);
@@ -63,7 +63,7 @@ describe('nar.fullReport.TimeRange', function(){
 		});
 
 		it('can specify custom cutoff dates', function(){
-			var result = new nar.fullReport.TimeRange(startTime, endTime);
+			var result = new nar.timeSeries.TimeRange(startTime, endTime);
 
 			expect(result).not.toBe(null);
 			expect(result.startTime).toBe(startTime);
@@ -91,7 +91,7 @@ describe('nar.fullReport.TimeRange', function(){
 		});
 
 		it("doesn't cutoff if real data is within the time", function() {
-			var result = new nar.fullReport.TimeRange(customCutoffStartTime, customCutoffEndTime);
+			var result = new nar.timeSeries.TimeRange(customCutoffStartTime, customCutoffEndTime);
 
 			expect(result).not.toBe(null);
 			expect(result.startTime).toBe(customCutoffStartTime);
@@ -111,13 +111,13 @@ describe('nar.fullReport.TimeRange', function(){
 		});
 	});
 });
-describe('nar.fullReport.TimeSeries', function(){
+describe('nar.timeSeries.TimeSeries', function(){
 	
-	var TimeSeries = nar.fullReport.TimeSeries;
+	var TimeSeries = nar.timeSeries.TimeSeries;
 	var timeSeries = new TimeSeries({
 		observedProperty: 'mockPropertyUrl',
 		procedure: 'mockProcedureUrl',
-		timeRange : new nar.fullReport.TimeRange(0, 10000)
+		timeRange : new nar.timeSeries.TimeRange(0, 10000)
 	});
 	
 	it('should correctly parse SOS GetResult Responses', function(){
@@ -177,15 +177,15 @@ describe('nar.fullReport.TimeSeries', function(){
 	});
 });
 
-describe('nar.fullReport.DataAvailabilityTimeRange', function() {
-	var cutoffStartTime = nar.fullReport.TimeRange.START_TIME_CUTOFF;
+describe('nar.timeSeries.DataAvailabilityTimeRange', function() {
+	var cutoffStartTime = nar.timeSeries.TimeRange.START_TIME_CUTOFF;
 	var startTime = new Date(1990, 0, 1).getTime();
 	var currentWaterYear = nar.WaterYearUtils.convertDateToWaterYear(Date.create());
 	var endTime = new Date(currentWaterYear, 0, 1).getTime();
-	var cutoffEndTime = nar.fullReport.TimeRange.END_TIME_CUTOFF;
+	var cutoffEndTime = nar.timeSeries.TimeRange.END_TIME_CUTOFF;
 	
 	it('should give me start and end dates by trimming', function() {
-		var result = new nar.fullReport.DataAvailabilityTimeRange({
+		var result = new nar.timeSeries.DataAvailabilityTimeRange({
 			phenomenonTime : [startTime, endTime]
 		})
 		
@@ -199,7 +199,7 @@ describe('nar.fullReport.DataAvailabilityTimeRange', function() {
 	it('should give me start and end dates by not trimming', function() {
 		var useOriginalStartTime = true;
 		
-		var result = new nar.fullReport.DataAvailabilityTimeRange({
+		var result = new nar.timeSeries.DataAvailabilityTimeRange({
 			phenomenonTime : [startTime, endTime]
 		}, useOriginalStartTime)
 		

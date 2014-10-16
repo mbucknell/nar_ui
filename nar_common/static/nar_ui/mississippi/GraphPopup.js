@@ -6,7 +6,7 @@ nar.GraphPopup = (function() {
 	var DIALOG_ID = 'miss-graph-dialog-container';
 	var POPUP_ID = 'miss-graph-dialog-content';
 	
-	var tsvRegistry = new nar.fullReport.TimeSeriesVisualizationRegistry();
+	var tsvRegistry = new nar.timeSeries.VisualizationRegistry();
 	me.popup = undefined;
 	me.timeSeriesViz = undefined;
 	var mrbToSos = {
@@ -46,7 +46,7 @@ nar.GraphPopup = (function() {
 		var observedProperty= observedPropertyUrlTemplate.assign(sosUrlParams);
 		var procedure = procedureUrlTemplate.assign(sosUrlParams);
 		
-		var basicTimeSeries = new nar.fullReport.TimeSeries({
+		var basicTimeSeries = new nar.timeSeries.TimeSeries({
 			observedProperty: observedProperty,
 			procedure: procedure,
 			featureOfInterest: siteId,
@@ -86,7 +86,7 @@ nar.GraphPopup = (function() {
 		    }
 		});
 		
-		var timeSeriesCollection = new nar.fullReport.TimeSeriesCollection();
+		var timeSeriesCollection = new nar.timeSeries.Collection();
 		timeSeriesCollection.add(basicTimeSeries);
 		
 		var timeSeriesVizId = tsvRegistry.getIdForObservedProperty(observedProperty);
@@ -96,7 +96,7 @@ nar.GraphPopup = (function() {
 		
 		// Wait until the siteData has been retrieved before creating the visualization
 	    $.when(siteDataDeferred).then(function(response) {
-    		me.timeSeriesViz = new nar.fullReport.TimeSeriesVisualization({
+    		me.timeSeriesViz = new nar.timeSeries.Visualization({
     			id: timeSeriesVizId,
     			allPlotsWrapperElt : target,
     			timeSeriesCollection: timeSeriesCollection,

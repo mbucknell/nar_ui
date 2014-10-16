@@ -1,17 +1,17 @@
 var nar = nar || {};
-nar.fullReport = nar.fullReport || {};
+nar.plots = nar.plots || {};
 (function(){
     /**
      * @param {TimeSeriesVisualization} tsViz
      * returns {jquery.flot}
      */
     
-    nar.fullReport.SampleConcentrationPlot = function(tsViz){
+    nar.plots.SampleConcentrationPlot = function(tsViz){
         var plotContainer = tsViz.plotContainer;
-        var splitData = nar.fullReport.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(tsViz);
+        var splitData = nar.plots.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(tsViz);
         var previousYearsData = splitData.previousYearsData;
         var currentYearData = splitData.currentYearData;  
-        var miscConstituentInfo = nar.fullReport.PlotUtils.getConstituentNameAndColors(tsViz);
+        var miscConstituentInfo = nar.fullplotsReport.PlotUtils.getConstituentNameAndColors(tsViz);
         var constituentName =miscConstituentInfo.name; 
         var previousYearsColor = miscConstituentInfo.colors.previousYears;
         var currentYearColor= miscConstituentInfo.colors.currentYear;
@@ -51,8 +51,8 @@ nar.fullReport = nar.fullReport || {};
         	var criteriaLineValue = constituentToCriteria[constituentId] || null;
         	var criteriaLineSeries = {
                     label: constituentName,
-                    data: [[nar.fullReport.PlotUtils.YEAR_NINETEEN_HUNDRED,criteriaLineValue],
-                           [nar.fullReport.PlotUtils.ONE_YEAR_IN_THE_FUTURE,criteriaLineValue]],
+                    data: [[nar.plots.PlotUtils.YEAR_NINETEEN_HUNDRED,criteriaLineValue],
+                           [nar.plots.PlotUtils.ONE_YEAR_IN_THE_FUTURE,criteriaLineValue]],
                     lines: {
                         show: true,
                         fillColor: criteriaLineColor,
@@ -79,7 +79,7 @@ nar.fullReport = nar.fullReport || {};
                 axisLabelFontFamily: "Verdana, Arial, Helvetica, Tahoma, sans-serif",
                 axisLabelPadding: 5,
                 ticks: [0.001,0.01,0.1,1,10,100, 1000],
-                tickFormatter: nar.fullReport.PlotUtils.logTickFormatter,
+                tickFormatter: nar.plots.PlotUtils.logTickFormatter,
                 tickLength: 10,
                 min: 0.001,
                 transform: function(value){
@@ -109,8 +109,8 @@ nar.fullReport = nar.fullReport || {};
 					constituentToCriteria[constituentId] +
 					' mg/L as N. See technical information for details.';
 
-			nar.fullReport.PlotUtils.setPlotHoverFormatter(plotContainer, nar.fullReport.PlotUtils.utcDatePlotHoverFormatter);
-			nar.fullReport.PlotUtils.setLineHoverFormatter(plotContainer, criteriaLineValue, criteriaLineDescription);
+			nar.plots.PlotUtils.setPlotHoverFormatter(plotContainer, nar.plots.PlotUtils.utcDatePlotHoverFormatter);
+			nar.plots.PlotUtils.setLineHoverFormatter(plotContainer, criteriaLineValue, criteriaLineDescription);
 		}
         
         return plot;

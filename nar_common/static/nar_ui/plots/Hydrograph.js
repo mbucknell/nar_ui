@@ -1,5 +1,5 @@
 var nar = nar || {};
-nar.fullReport = nar.fullReport || {};
+nar.plots = nar.plots || {};
 (function() {
 
 	var FLOW_DATA_CLASS = 'flow_data_inner_plot';
@@ -8,12 +8,12 @@ nar.fullReport = nar.fullReport || {};
 	
 	var sharedFlowData;
 	
-	nar.fullReport.FlowWrapper = function(tsViz) {
+	nar.plots.FlowWrapper = function(tsViz) {
 		var plotContainer = tsViz.plotContainer;
 		var displayedPlots = 
 			[
-				nar.fullReport.Hydrograph(tsViz),
-				nar.fullReport.FlowDuration(tsViz)
+				nar.plots.Hydrograph(tsViz),
+				nar.plots.FlowDuration(tsViz)
 			];
 		var remove = function() {
 			displayedPlots.each(function(plot) {
@@ -52,7 +52,7 @@ nar.fullReport = nar.fullReport || {};
 	 * @param {TimeSeriesVisualization}
 	 *   tsViz returns {jqPlot}
 	 */
-	nar.fullReport.Hydrograph = function(tsViz) {
+	nar.plots.Hydrograph = function(tsViz) {
 		
 		var plot;
 		var plotContainer = tsViz.plotContainer;
@@ -61,7 +61,7 @@ nar.fullReport = nar.fullReport || {};
 			hydrographDiv = $('<div>').attr('id', HYDROGRAPH_ID).addClass(FLOW_DATA_CLASS);
 			plotContainer.append(hydrographDiv);
 		}
-		sharedFlowData = sharedFlowData || nar.fullReport.PlotUtils.getData(tsViz);
+		sharedFlowData = sharedFlowData || nar.plots.PlotUtils.getData(tsViz);
 		// get the last x value from hydrograph data as year
 		var waterYear = Date.create(sharedFlowData[0].last()[0]).getFullYear();
 		
@@ -76,7 +76,7 @@ nar.fullReport = nar.fullReport || {};
 			}
 		};
 		
-		var sampleDates = nar.fullReport.PlotUtils.createPinnedPointData(sharedFlowData[1], sharedFlowData[0]);
+		var sampleDates = nar.plots.PlotUtils.createPinnedPointData(sharedFlowData[1], sharedFlowData[0]);
 		
 		var tnSeries = {
 			label: 'Water-quality sample',
@@ -121,13 +121,13 @@ nar.fullReport = nar.fullReport || {};
 				canvas : true
 			}
 		});
-		var hoverFormatter = nar.fullReport.PlotUtils.utcDatePlotHoverFormatter;
-		nar.fullReport.PlotUtils.setPlotHoverFormatter(hydrographDiv, hoverFormatter);
+		var hoverFormatter = nar.plots.PlotUtils.utcDatePlotHoverFormatter;
+		nar.plots.PlotUtils.setPlotHoverFormatter(hydrographDiv, hoverFormatter);
 		
 		return plot;
 	};
 	
-	nar.fullReport.FlowDuration = function(tsViz) {
+	nar.plots.FlowDuration = function(tsViz) {
 		var plot;
 		var plotContainer = tsViz.plotContainer;
 		var flowDurationDiv = $('#' + FLOW_DURATION_ID);
@@ -136,7 +136,7 @@ nar.fullReport = nar.fullReport || {};
 			plotContainer.append(flowDurationDiv);
 		}
 		
-		sharedFlowData = sharedFlowData || nar.fullReport.PlotUtils.getData(tsViz);
+		sharedFlowData = sharedFlowData || nar.plots.PlotUtils.getData(tsViz);
 		
 		var sortedFlowData = sharedFlowData[0].sortBy(function(point) {
 			return point[1];
@@ -151,14 +151,14 @@ nar.fullReport = nar.fullReport || {};
 		});
 		
 		var swappedSampleDates = sharedFlowData[1].map(function(point) {
-			return [nar.fullReport.PlotUtils.findNearestYValueAtX(exceedanceWithDates, point[0], 2, 0), point[1]];
+			return [nar.plots.PlotUtils.findNearestYValueAtX(exceedanceWithDates, point[0], 2, 0), point[1]];
 		});
 		
 		var exceedanceDatesRemoved = exceedanceWithDates.map(function(point) {
 			return [point[0], point[1]];
 		});
 		
-		var sampleDates = nar.fullReport.PlotUtils.createPinnedPointData(swappedSampleDates, exceedanceDatesRemoved);
+		var sampleDates = nar.plots.PlotUtils.createPinnedPointData(swappedSampleDates, exceedanceDatesRemoved);
 		
 		var flowSeries = {
 			data: exceedanceDatesRemoved,
@@ -235,8 +235,8 @@ nar.fullReport = nar.fullReport || {};
 					}
 					return result;
 				},
-				min: nar.fullReport.PlotUtils.getLogAxisForValue(minFlow, Math.floor),
-				max: nar.fullReport.PlotUtils.getLogAxisForValue(maxFlow, Math.ceil)
+				min: nar.plots.PlotUtils.getLogAxisForValue(minFlow, Math.floor),
+				max: nar.plots.PlotUtils.getLogAxisForValue(maxFlow, Math.ceil)
 			},
 			grid : {
 				hoverable : true,
@@ -250,7 +250,7 @@ nar.fullReport = nar.fullReport || {};
 		var hoverFormatter = function(x, y) {
 			return x.toFixed(2) + '% - ' + y 
 		};
-		nar.fullReport.PlotUtils.setPlotHoverFormatter(flowDurationDiv, hoverFormatter);
+		nar.plots.PlotUtils.setPlotHoverFormatter(flowDurationDiv, hoverFormatter);
 		return plot;
 	};
 })();
