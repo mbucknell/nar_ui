@@ -117,7 +117,7 @@ nar.plots = nar.plots || {};
             
             var BASELINE_COLOR = 'black';
             var TARGET_LINE_COLOR = 'black';
-            var MOVING_AVE_COLOR = 'red';
+            var MOVING_AVE_COLOR = 'black';
             
             return {
                 name : constituentName,
