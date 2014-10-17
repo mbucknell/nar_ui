@@ -1,10 +1,10 @@
-//@requires nar.fullReport.TimeSeries
+//@requires nar.timeSeries.TimeSeries
 var nar = nar || {};
-nar.fullReport = nar.fullReport || {};
+nar.timeSeries = nar.timeSeries || {};
 /**
  * @class
  */
-nar.fullReport.TimeSeriesCollection = function(){
+nar.timeSeries.Collection = function(){
     var self = this;
     var timeSeries = [];
     
@@ -43,7 +43,7 @@ nar.fullReport.TimeSeriesCollection = function(){
     };
     /**
      * 
-     * @param {nar.fullReport.TimeSeries} aTimeSeries
+     * @param {nar.timeSeries.TimeSeries} aTimeSeries
      */
     self.add = function(aTimeSeries){
         timeSeries.push(aTimeSeries);
@@ -59,12 +59,12 @@ nar.fullReport.TimeSeriesCollection = function(){
      * calculation, it calculates the new time range and caches the
      * result.
      * 
-     * @returns {nar.fullReport.DateRange}
+     * @returns {nar.timeSeries.TimeRange}
      */
     self.getTimeRange = function(){
         if(dirty && 0 !== timeSeries.length){
             var timeRanges = timeSeries.map(function(aTimeSeries){return aTimeSeries.timeRange;});
-            cachedTimeRange = nar.fullReport.TimeRange.ofAll(timeRanges); 
+            cachedTimeRange = nar.timeSeries.TimeRange.ofAll(timeRanges); 
             dirty=false;
         }
         return cachedTimeRange.clone();
@@ -72,7 +72,7 @@ nar.fullReport.TimeSeriesCollection = function(){
     
     /**
      * @param {string} observedProperty
-     * @returns {nar.fullReport.TimeSeries}
+     * @returns {nar.timeSeries.TimeSeries}
      */
     self.getTimeSeriesByObservedProperty = function(observedProperty){
         var targetTimeSeries = timeSeries.find(function(potentialTimeSeries){

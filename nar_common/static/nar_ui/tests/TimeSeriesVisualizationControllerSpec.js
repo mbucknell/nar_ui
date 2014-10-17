@@ -1,10 +1,10 @@
 $(document).ready(function(){
-	describe('nar.fullReport.TimeSeriesVisualizationController', function(){
+	describe('nar.timeSeries.VisualizationController', function(){
 		//avoid typing namespaces
-		var fullReport = nar.fullReport;
-		var TimeSlider = fullReport.TimeSlider;
-		var TimeRange = fullReport.TimeRange;
-		var TimeSeriesVisualizationController = fullReport.TimeSeriesVisualizationController;
+		var timeSeries = nar.timeSeries;
+		var TimeSlider = timeSeries.TimeSlider;
+		var TimeRange = timeSeries.TimeRange;
+		var TimeSeriesVisualizationController = timeSeries.VisualizationController;
 		//DOM fixtures
 		var fixtureContainer = $('<div></div>', {
 			css:{

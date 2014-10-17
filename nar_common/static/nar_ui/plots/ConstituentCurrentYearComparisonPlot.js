@@ -27,7 +27,7 @@
    @param {String} legendSelector a jquery selector for the legend element
  */
 var nar = nar || {};
-nar.fullReport = nar.fullReport || {};
+nar.plots = nar.plots || {};
 (function(){
     
 var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, series, legendSelector){
@@ -145,6 +145,6 @@ ConstituentCurrentYearComparisonPlot.averageLegendClass = 'currentYearComparison
 ConstituentCurrentYearComparisonPlot.legendClass = 'comparisonLegend';
 ConstituentCurrentYearComparisonPlot.plotClass = 'currentYearComparisonPlot';
 
-nar.fullReport.ConstituentCurrentYearComparisonPlot = ConstituentCurrentYearComparisonPlot;
+nar.plots.ConstituentCurrentYearComparisonPlot = ConstituentCurrentYearComparisonPlot;
 
 }());

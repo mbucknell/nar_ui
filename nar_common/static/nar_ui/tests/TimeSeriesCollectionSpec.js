@@ -1,10 +1,10 @@
-describe('nar.fullReport.TimeSeriesCollection', function(){
+describe('nar.timeSeries.TimeSeriesCollection', function(){
 	//avoid typing namespace
 
-	var fullReport = nar.fullReport;
-	var TimeRange = fullReport.TimeRange;
-	var TimeSeries = fullReport.TimeSeries;
-	var TimeSeriesCollection = fullReport.TimeSeriesCollection;
+	var timeSeries = nar.timeSeries;
+	var TimeRange = timeSeries.TimeRange;
+	var TimeSeries = timeSeries.TimeSeries;
+	var TimeSeriesCollection = timeSeries.Collection;
 	//initialize dependent objects
 	var timeRangeA = new TimeRange(0, 10000);
 	var timeRangeB = new TimeRange(10, 100000);
@@ -27,13 +27,13 @@ describe('nar.fullReport.TimeSeriesCollection', function(){
 		it('correctly calculates the aggregate time series range', function(){
 			CONFIG.msFor1993 = new Date(1993,0,1).getTime();
 			var calculatedTimeRange = tsCollection.getTimeRange();
-			var alternateWayToCalculateRange = fullReport.TimeRange.ofAll([timeRangeA, timeRangeB]);
+			var alternateWayToCalculateRange = timeSeries.TimeRange.ofAll([timeRangeA, timeRangeB]);
 			expect(calculatedTimeRange.equals(alternateWayToCalculateRange)).toBe(true);
 		});
 		it('re-calculates a new time range if a new time series has been added', function(){
 			tsCollection.add(timeSeriesC);
 			var calculatedTimeRange = tsCollection.getTimeRange();
-			var alternateWayToCalculateRange = fullReport.TimeRange.ofAll([timeRangeA, timeRangeB, timeRangeC]);
+			var alternateWayToCalculateRange = timeSeries.TimeRange.ofAll([timeRangeA, timeRangeB, timeRangeC]);
 			expect(calculatedTimeRange.equals(alternateWayToCalculateRange)).toBe(true);
 		});
 		it('returns a clone of the aggregate time range, so that the calling code cannot unintentionally modify internal logic', function(){

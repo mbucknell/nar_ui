@@ -1,6 +1,6 @@
-describe('nar.fullReport.PlotUtils', function() {
+describe('nar.plots.PlotUtils', function() {
 	describe('logTickFormatter', function() {
-		var testFunc = nar.fullReport.PlotUtils.logTickFormatter;
+		var testFunc = nar.plots.PlotUtils.logTickFormatter;
 		it('numbers greater than 0 should have no decimals', function() {
 			expect(testFunc(1000)).toBe('1000');
 			expect(testFunc(100)).toBe('100');
@@ -18,7 +18,7 @@ describe('nar.fullReport.PlotUtils', function() {
 		});
 	});
 	describe('utcDatePlotHoverFormatter', function() {
-		var testFunc = nar.fullReport.PlotUtils.utcDatePlotHoverFormatter;
+		var testFunc = nar.plots.PlotUtils.utcDatePlotHoverFormatter;
 		it('should be ISO date with correct value', function() {
 			expect(testFunc('01/01/2010', 17)).toBe('2010-01-01 : 17');
 			expect(testFunc('12/11/1929', 0.13)).toBe('1929-12-11 : 0.13');
@@ -44,7 +44,7 @@ describe('nar.fullReport.PlotUtils', function() {
 				}
 		};
 		
-		var result = nar.fullReport.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(inputObjectWithoutRecentYears);
+		var result = nar.plots.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(inputObjectWithoutRecentYears);
 		
 		it('should return the expected result object with two properties', function () {
 			expect(result).not.toBe(null);
@@ -77,7 +77,7 @@ describe('nar.fullReport.PlotUtils', function() {
 				}
 		};
 		
-		var result = nar.fullReport.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(inputObjectWithRecentYears);
+		var result = nar.plots.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(inputObjectWithRecentYears);
 		it('should have a currentYearDataElement array of length 1', function () {
 			expect(result.currentYearData.length).not.toBe(0);
 			expect(result.currentYearData.length).toBe(1);
@@ -89,8 +89,8 @@ describe('nar.fullReport.PlotUtils', function() {
 	});
 	
 	describe('longTermMean', function() {
-		var start = nar.fullReport.PlotUtils.YEAR_NINETEEN_HUNDRED;
-		var end = nar.fullReport.PlotUtils.ONE_YEAR_IN_THE_FUTURE;
+		var start = nar.plots.PlotUtils.YEAR_NINETEEN_HUNDRED;
+		var end = nar.plots.PlotUtils.ONE_YEAR_IN_THE_FUTURE;
 		it('start should be before end', function() {
 			expect(start).toBeLessThan(end);
 		});
@@ -125,7 +125,7 @@ describe('nar.fullReport.PlotUtils', function() {
 				max : (new Date(2008, 0, 1)).getTime(),
 				tickGenerator : tickGenerator
 			};
-			expect(nar.fullReport.PlotUtils.getTicksByYear(axis)).toEqual(results);
+			expect(nar.plots.PlotUtils.getTicksByYear(axis)).toEqual(results);
 		});
 		
 		it('Should generate ticks on the year if the range of years is less than the number of results', function() {
@@ -138,7 +138,7 @@ describe('nar.fullReport.PlotUtils', function() {
 				max : (new Date(2010, 0, 1)).getTime(),
 				tickGenerator : tickGenerator
 			};
-			expect(nar.fullReport.PlotUtils.getTicksByYear(axis)).toEqual([getUtcTime(2008, 0, 1), getUtcTime(2009, 0, 1)]);
+			expect(nar.plots.PlotUtils.getTicksByYear(axis)).toEqual([getUtcTime(2008, 0, 1), getUtcTime(2009, 0, 1)]);
 		});
 	});
 	
@@ -146,19 +146,19 @@ describe('nar.fullReport.PlotUtils', function() {
 		it('Should be point with adjusted Y value', function() {
 			var point = [[2,2]];
 			var line = [[0,10], [3,20], [7,30]];
-			expect(nar.fullReport.PlotUtils.createPinnedPointData(point, line)).toEqual([[2,20]]);
+			expect(nar.plots.PlotUtils.createPinnedPointData(point, line)).toEqual([[2,20]]);
 		});
 	});
 	
 	describe('findNearestYValueAtX', function() {
 		it('Should return y on line of nearest x', function() {
 			var line = [[0,10], [3,20], [7,30]];
-			expect(nar.fullReport.PlotUtils.findNearestYValueAtX(line, 0)).toBe(10);
-			expect(nar.fullReport.PlotUtils.findNearestYValueAtX(line, 1)).toBe(10);
-			expect(nar.fullReport.PlotUtils.findNearestYValueAtX(line, 2)).toBe(20);
+			expect(nar.plots.PlotUtils.findNearestYValueAtX(line, 0)).toBe(10);
+			expect(nar.plots.PlotUtils.findNearestYValueAtX(line, 1)).toBe(10);
+			expect(nar.plots.PlotUtils.findNearestYValueAtX(line, 2)).toBe(20);
 			// this one is indeterminate
-			expect(nar.fullReport.PlotUtils.findNearestYValueAtX(line, 5)).toBe(20);
-			expect(nar.fullReport.PlotUtils.findNearestYValueAtX(line, 7)).toBe(30);
+			expect(nar.plots.PlotUtils.findNearestYValueAtX(line, 5)).toBe(20);
+			expect(nar.plots.PlotUtils.findNearestYValueAtX(line, 7)).toBe(30);
 		});
 	});
 });

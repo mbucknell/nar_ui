@@ -1,4 +1,4 @@
-//@requires nar.fullReport.Tree, nar.fullReport.TimeSeriesVisualizationRegistry, nar.fullReport.TimeSeriesVisualization
+//@requires nar.fullReport.Tree, nar.timeSeries.VisualizationRegistry, nar.timeSeries.Visualization
 $(document).ready(function() {
 
 	var selectorElementPair = function(selector) {
@@ -17,7 +17,7 @@ $(document).ready(function() {
 		timeSlider : selectorElementPair('#timeSlider'),
 		graphToggle : selectorElementPair('#plotToggleTree')
 	};
-	nar.fullReport.TimeSeriesVisualizationRegistryInstance = new nar.fullReport.TimeSeriesVisualizationRegistry();
+	nar.timeSeries.VisualizationRegistryInstance = new nar.timeSeries.VisualizationRegistry();
 
 	var getDataAvailabilityUri = CONFIG.endpoint.sos + '/json';
 	var getDataAvailabilityParams = {
@@ -35,7 +35,7 @@ $(document).ready(function() {
 
 	});
 
-	var tsvRegistry = nar.fullReport.TimeSeriesVisualizationRegistryInstance;
+	var tsvRegistry = nar.timeSeries.VisualizationRegistryInstance;
 	var successfulGetDataAvailability = function(data,
 			textStatus, jqXHR) {
 		data.dataAvailability.each(function(dataAvailability) {
@@ -46,11 +46,11 @@ $(document).ready(function() {
 			var timeSeriesViz = tsvRegistry
 					.get(timeSeriesVizId);
 			if (!timeSeriesViz) {
-				timeSeriesViz = new nar.fullReport.TimeSeriesVisualization(
+				timeSeriesViz = new nar.timeSeries.Visualization(
 						{
 							id : timeSeriesVizId,
 							allPlotsWrapperElt : selectorElementPairs.allPlotsWrapper.element,
-							timeSeriesCollection : new nar.fullReport.TimeSeriesCollection(),
+							timeSeriesCollection : new nar.timeSeries.Collection(),
 							plotter : nar.util.Unimplemented
 						});
 				tsvRegistry.register(timeSeriesViz);
@@ -59,7 +59,7 @@ $(document).ready(function() {
 			var timeRange = timeSeriesViz
 					.ranger(dataAvailability);
 
-			var timeSeries = new nar.fullReport.TimeSeries(
+			var timeSeries = new nar.timeSeries.TimeSeries(
 					{
 						observedProperty : observedProperty,
 						timeRange : timeRange,
@@ -71,7 +71,7 @@ $(document).ready(function() {
 
 			timeSeriesViz.ancillaryData
 					.each(function(props) {
-						var ancilSeries = new nar.fullReport.TimeSeries(
+						var ancilSeries = new nar.timeSeries.TimeSeries(
 								{
 									observedProperty : props.observedProperty,
 									timeRange : timeRange,
@@ -82,9 +82,8 @@ $(document).ready(function() {
 					});
 		});
 		var allTimeSeriesVizualizations = tsvRegistry.getAll();
-		var timeSlider = nar.fullReport
-				.TimeSlider(selectorElementPairs.timeSlider.element);
-		var tsvController = new nar.fullReport.TimeSeriesVisualizationController(
+		var timeSlider = nar.timeSeries.TimeSlider(selectorElementPairs.timeSlider.element);
+		var tsvController = new nar.timeSeries.VisualizationController(
 				timeSlider, selectorElementPairs.instructions.element);
 
 		var tree = new nar.fullReport.Tree(

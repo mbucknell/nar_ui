@@ -1,7 +1,7 @@
-describe('nar.fullReport.TimeSeriesVisualization', function(){
+describe('nar.timeSeries.Visualization', function(){
 	
 	describe('getComponentsOfId', function(){
-		var getComponentsOfId = nar.fullReport.TimeSeriesVisualization.getComponentsOfId;
+		var getComponentsOfId = nar.timeSeries.Visualization.getComponentsOfId;
 		var serverSideConstituentId = 'nh3';
 		var category = 'airplanes';
 		

@@ -1,9 +1,9 @@
-//@requires nar.fullReport.TimeSeriesVisualization
+//@requires nar.timeSeries.TimeSeriesVisualization
 var nar = nar || {};
 
 (function(){
 
-nar.fullReport = nar.fullReport || {};
+nar.timeSeries = nar.timeSeries || {};
 
 /**
  * @class
@@ -19,12 +19,12 @@ nar.fullReport = nar.fullReport || {};
 //private class variable
 var alreadyBeenInstantiated = false;
 
-nar.fullReport.TimeSeriesVisualizationRegistry = function(){
+nar.timeSeries.VisualizationRegistry = function(){
     if(alreadyBeenInstantiated){
     	console.warn(
 			'This object should be treated as a singleton unless testing.' + 
 			'You are instatiating an object that is meant to be used as a singleton, and it has already been instantiated.'+
-    		'Did you mean "nar.fullReport.TimeSeriesVisualizationRegistryInstance" ?.'
+    		'Did you mean "nar.timeSeries.VisualizationRegistryInstance" ?.'
 		);
     }
     else{
@@ -36,16 +36,16 @@ nar.fullReport.TimeSeriesVisualizationRegistry = function(){
     var entries = {};
     
     /**
-     * Get the TimeSeriesVisualization for a given id if it has already been registered. Return undefined if no such id is registered.
-     * @param {string} id - the TimeSeriesVisualization id
-     * @returns {nar.fullReport.TimeSeriesVisualization|undefined} - undefined if not present 
+     * Get the Visualization for a given id if it has already been registered. Return undefined if no such id is registered.
+     * @param {string} id - the Visualization id
+     * @returns {nar.timeSeries.Visualization|undefined} - undefined if not present 
      */
     self.get = function(id){
         var existingTimeSeriesViz = entries[id]; 
         return existingTimeSeriesViz;
     };
     /**
-     * @param {nar.fullReport.TimeSeriesVisualization} timeSeriesVisualization
+     * @param {nar.timeSeries.Visualization} timeSeriesVisualization
      * @throws Error if already registered 
      */
     self.register = function(timeSeriesVisualization){
@@ -60,7 +60,7 @@ nar.fullReport.TimeSeriesVisualizationRegistry = function(){
     };
     /**
      * Return all registered time series visualizations
-     * @returns {Array<nar.fullReport.TimeSeriesVisualization>}
+     * @returns {Array<nar.timeSeries.Visualization>}
      */
     self.getAll = function(){
       return Object.values(entries);
@@ -68,7 +68,7 @@ nar.fullReport.TimeSeriesVisualizationRegistry = function(){
     /**
      * Convenience method
      * @param {String} observedProperty
-     * @returns {nar.fullReport.TimeSeriesVisualization
+     * @returns {nar.timeSeries.Visualization
      */
     self.getByObservedProperty = function(observedProperty){
         var vizId = self.getIdForObservedProperty(observedProperty);
@@ -86,9 +86,9 @@ nar.fullReport.TimeSeriesVisualizationRegistry = function(){
         return url.replace(urlPrefix, '');
     };
     /**
-     * Some TimeSeriesVisualizations have just one TimeSeries. In this case, the TimeSeriesVisualization id is the observedProperty of the TimeSeries 
+     * Some Visualizations have just one TimeSeries. In this case, the Visualization id is the observedProperty of the TimeSeries 
      * minus self.urlPrefix.
-     * Other TimeSeriesVisualizations have multiple TimeSeries. In that case, the TimeSeriesVisualization id is be a string representative of 
+     * Other TVisualizations have multiple TimeSeries. In that case, the Visualization id is be a string representative of 
      * the visualized time series. 
      * @param {string} observedProperty - the full uri for the observedProperty
      * @returns {string} visualization id

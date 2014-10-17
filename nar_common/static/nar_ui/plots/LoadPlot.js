@@ -1,5 +1,5 @@
 var nar = nar || {};
-nar.fullReport = nar.fullReport || {};
+nar.plots = nar.plots || {};
 (function(){
 
     /**
@@ -7,13 +7,13 @@ nar.fullReport = nar.fullReport || {};
      * returns {jquery.flot}
      */
 
-    nar.fullReport.LoadPlot = function(tsViz){
+    nar.plots.LoadPlot = function(tsViz){
         var plotContainer = tsViz.plotContainer;
-        var splitData = nar.fullReport.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(tsViz);
+        var splitData = nar.plots.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(tsViz);
         var previousYearsData = splitData.previousYearsData;
         var currentYearData = splitData.currentYearData;
-        var longTermMean = nar.fullReport.PlotUtils.calculateLongTermAverage(tsViz);
-        var miscConstituentInfo = nar.fullReport.PlotUtils.getConstituentNameAndColors(tsViz);
+        var longTermMean = nar.plots.PlotUtils.calculateLongTermAverage(tsViz);
+        var miscConstituentInfo = nar.plots.PlotUtils.getConstituentNameAndColors(tsViz);
         var constituentName = miscConstituentInfo.name; 
         var previousYearsColor = miscConstituentInfo.colors.previousYears;
         var currentYearColor= miscConstituentInfo.colors.currentYear;
@@ -40,8 +40,8 @@ nar.fullReport = nar.fullReport || {};
         var makeLongTermMeanConfig = function(dataSet, color) {
             return {
                 label: constituentName,
-                data: [[nar.fullReport.PlotUtils.YEAR_NINETEEN_HUNDRED,longTermMean],
-                       [nar.fullReport.PlotUtils.ONE_YEAR_IN_THE_FUTURE,longTermMean]],
+                data: [[nar.plots.PlotUtils.YEAR_NINETEEN_HUNDRED,longTermMean],
+                       [nar.plots.PlotUtils.ONE_YEAR_IN_THE_FUTURE,longTermMean]],
                 lines: {
                     show: true,
                     fillColor: color,
@@ -130,7 +130,7 @@ nar.fullReport = nar.fullReport || {};
                 mode: 'time',
                 timeformat: "%Y",
                 tickLength: 10,
-                ticks : nar.fullReport.PlotUtils.getTicksByYear
+                ticks : nar.plots.PlotUtils.getTicksByYear
             },
             yaxis: {
                 axisLabel: constituentName + " load,<br />in thousands of tons",
@@ -152,9 +152,9 @@ nar.fullReport = nar.fullReport || {};
             },
             colors:[previousYearsColor, currentYearColor, longTermMeanColor, baselineColor, targetColor, movingAveColor] 
         });
-        var hoverFormatter = nar.fullReport.PlotUtils.utcDatePlotHoverFormatter;
-        nar.fullReport.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
-        nar.fullReport.PlotUtils.setLineHoverFormatter(plotContainer, longTermMean, nar.definitions.longTermMean.short_definition)
+        var hoverFormatter = nar.plots.PlotUtils.utcDatePlotHoverFormatter;
+        nar.plots.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
+        nar.plots.PlotUtils.setLineHoverFormatter(plotContainer, longTermMean, nar.definitions.longTermMean.short_definition)
         return plot;
     };    
 }());

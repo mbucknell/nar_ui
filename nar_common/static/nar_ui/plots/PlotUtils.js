@@ -1,6 +1,6 @@
 //@requires nar.Constituents
 var nar = nar || {};
-nar.fullReport = nar.fullReport || {};
+nar.plots = nar.plots || {};
 (function(){
 /**
  * functionality shared between different full report plots 
@@ -18,39 +18,40 @@ nar.fullReport = nar.fullReport || {};
      * For symmetry, get the Y coord
      */
     var getYcoord = function(point) {
-    	return point[1];
+        return point[1];
     };
     var log10 = function(val) {
         return Math.log(val) / Math.LN10;
     };
     
     var getPlotTooltipDiv = function() {
-    	//create or obtain a div just for chart tooltips
+        // create or obtain a div just for chart tooltips
         var toolTipId = 'flot-tooltip';
         var toolTipSelector = '#' + toolTipId;
         var toolTipSelection = $(toolTipSelector);
         var toolTipElt;
         if (0 === toolTipSelection.length) {
-            toolTipElt = $('<div></div>', {'id':toolTipId});
+            toolTipElt = $('<div></div>', {
+                'id' : toolTipId
+            });
             toolTipElt.appendTo('body');
-        }
-        else {
+        } else {
             toolTipElt = toolTipSelection[0];
         }
         return toolTipElt;
     };
     
-    nar.fullReport.PlotUtils = {
+    nar.plots.PlotUtils = {
         YEAR_NINETEEN_HUNDRED: Date.create('1900').getTime(),
         ONE_YEAR_IN_THE_FUTURE: Date.create().addYears(1).getTime(),
         /**
-         * @param {nar.fullReport.TimeSeriesVisualization}
+         * @param {nar.timeSeries.Visualization}
          * @returns {Object} - a map of the data set split into the current year's data, and the 
          * previous years' data. Previous years' data will be an empty array if last years' data does not 
          * fall on the last water year. 
          */
         getDataSplitIntoCurrentAndPreviousYears: function(timeSeriesVisualization) {
-            var allData = nar.fullReport.PlotUtils.getData(timeSeriesVisualization);
+            var allData = nar.plots.PlotUtils.getData(timeSeriesVisualization);
             
             // this can only split a single series, so assume allData has it in index 0
             var data = allData[0]; 
@@ -80,16 +81,16 @@ nar.fullReport = nar.fullReport || {};
             // previousYearsData array. Otherwise, include just the last item in the array
             // into currentYearData
             if (lastDateWaterYear !== lastCurrentDateWaterYear) {
-        		result.previousYearsData = data;
-			} else {
-				result.previousYearsData = data.to(indexOfFirstDataPointInLastYear);
-				result.currentYearData = data.from(indexOfFirstDataPointInLastYear);
-			}
+                result.previousYearsData = data;
+            } else {
+                result.previousYearsData = data.to(indexOfFirstDataPointInLastYear);
+                result.currentYearData = data.from(indexOfFirstDataPointInLastYear);
+            }
             
             return result;
         },
         /**
-         * @param {nar.fullReport.TimeSeriesVisualization}
+         * @param {nar.timeSeries.Visualization}
          * @returns {Array} - data within the timeSeriesCollection
          */
         getData: function(timeSeriesVisualization) {
@@ -99,7 +100,7 @@ nar.fullReport = nar.fullReport || {};
             return data;
         },
         /**
-         * @param {nar.fullReport.TimeSeriesVisualization}
+         * @param {nar.timeSeries.Visualization}
          * @returns {Object} - a map of the constituent the time series graphs, and colors
          * for the current year's data, the previous years' data, and colors for other data that
          * may be shown on the time series graphs
@@ -116,7 +117,7 @@ nar.fullReport = nar.fullReport || {};
             
             var BASELINE_COLOR = 'black';
             var TARGET_LINE_COLOR = 'black';
-            var MOVING_AVE_COLOR = 'red';
+            var MOVING_AVE_COLOR = 'black';
             
             return {
                 name : constituentName,
@@ -218,28 +219,28 @@ nar.fullReport = nar.fullReport || {};
          * @ return Array of utc time.
          */
         getTicksByYear : function(axis) {
-        	var tFirstYear, tLastYear;
-        	var thisDate, maxDate;
-        	
-        	var result  = axis.tickGenerator(axis);
-        	if (result.length > 1) {
-        		// If the number of ticks is greater than the range of years
-        		// need to generate the ticks for just years.
-        		tFirstYear = (new Date(result[0])).getFullYear();
-        		tLastYear = (new Date(result[result.length - 1])).getFullYear();
-        		
-        		if (tLastYear - tFirstYear < result.length) {
-        			thisDate = new Date(tFirstYear, 0, 1);
-        			maxDate = new Date(axis.max);
-        			
-        			result = [];
-        			while(thisDate < maxDate) {
-        				result.push(thisDate.getTime());
-        				thisDate.setFullYear(thisDate.getFullYear() + 1);
-        			}
-        		}
-        	}
-        	return result;
+            var tFirstYear, tLastYear;
+            var thisDate, maxDate;
+
+            var result = axis.tickGenerator(axis);
+            if (result.length > 1) {
+                // If the number of ticks is greater than the range of years
+                // need to generate the ticks for just years.
+                tFirstYear = (new Date(result[0])).getFullYear();
+                tLastYear = (new Date(result[result.length - 1])).getFullYear();
+
+                if (tLastYear - tFirstYear < result.length) {
+                    thisDate = new Date(tFirstYear, 0, 1);
+                    maxDate = new Date(axis.max);
+
+                    result = [];
+                    while (thisDate < maxDate) {
+                        result.push(thisDate.getTime());
+                        thisDate.setFullYear(thisDate.getFullYear() + 1);
+                    }
+                }
+            }
+            return result;
         },
         /**
          * We have point data that we only care about the x is, so pin the y to line
@@ -251,7 +252,7 @@ nar.fullReport = nar.fullReport || {};
          */
         createPinnedPointData : function(pointData, lineData) {
             var pinnedPoints = pointData.map(function(point) {
-                point[1] = nar.fullReport.PlotUtils.findNearestYValueAtX(lineData, point[0]);
+                point[1] = nar.plots.PlotUtils.findNearestYValueAtX(lineData, point[0]);
                 return point;
             });
             return pinnedPoints;

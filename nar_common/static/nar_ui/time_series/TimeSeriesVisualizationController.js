@@ -1,9 +1,9 @@
-//@requires nar.fullReport.TimeSeriesVisualization, nar.fullReport.TimeSlider
+//@requires nar.timeSeries.Visualization, nar.timeSeries.TimeSlider
 var nar = nar || {};
 
 (function(){
 
-nar.fullReport = nar.fullReport || {};
+nar.timeSeries = nar.timeSeries || {};
 
 //private static properties:
 var hiddenClass = 'hide';
@@ -14,13 +14,13 @@ var hiddenClass = 'hide';
  * time series are added or removed from view. 
  * 
  * @class
- * @param {nar.fullReport.TimeSlider}
+ * @param {nar.timeSeries.TimeSlider}
  */
-nar.fullReport.TimeSeriesVisualizationController = function(timeSlider, instructionsElt){
+nar.timeSeries.VisualizationController = function(timeSlider, instructionsElt){
     var self = this;
     self.instructionsElt = instructionsElt;
     timeSlider.on('slidechange', function(event, ui){
-        var timeRange = new nar.fullReport.TimeRange(
+        var timeRange = new nar.timeSeries.TimeRange(
                 ui.values[0],
                 ui.values[1]
         );
@@ -37,7 +37,7 @@ nar.fullReport.TimeSeriesVisualizationController = function(timeSlider, instruct
         var currentlyVisibleTimeRange;
         
         /**
-         * @returns {nar.fullReport.TimeRange|undefined} a copy of the currently visible time range,
+         * @returns {nar.timeSeries.TimeRange|undefined} a copy of the currently visible time range,
          * or undefined if no range is currently visible
          */
         self.getCurrentlyVisibleTimeRange = function(){
@@ -49,7 +49,7 @@ nar.fullReport.TimeSeriesVisualizationController = function(timeSlider, instruct
         };
         /**
          * Sets the currently visible time range to a copy of the time range passed in
-         * @param {nar.fullReport.TimeRange} timeRange
+         * @param {nar.timeSeries.TimeRange} timeRange
          * 
          */
         self.setCurrentlyVisibleTimeRange = function(timeRange){
@@ -88,7 +88,7 @@ nar.fullReport.TimeSeriesVisualizationController = function(timeSlider, instruct
     (function(){
        var possibleTimeRange;
        /**
-        * @returns {nar.fullReport.TimeRange|undefined} a copy of the possible time range,
+        * @returns {nar.timeSeries.TimeRange|undefined} a copy of the possible time range,
         * or undefined
         */
        self.getPossibleTimeRange = function(){
@@ -100,7 +100,7 @@ nar.fullReport.TimeSeriesVisualizationController = function(timeSlider, instruct
        };
        /**
         * Sets the possible time range to a copy of the time range passed in
-        * @param {nar.fullReport.TimeRange} timeRange
+        * @param {nar.timeSeries.TimeRange} timeRange
         * 
         */
        self.setPossibleTimeRange = function(timeRange){
@@ -122,7 +122,7 @@ nar.fullReport.TimeSeriesVisualizationController = function(timeSlider, instruct
                    //the possible time range could have shrunk so that it is smaller
                    //than the visible time range. In this case, restrict the visible 
                    //time range to bounds the new possible time range
-                   var clampedTimeRange = new nar.fullReport.TimeRange(
+                   var clampedTimeRange = new nar.timeSeries.TimeRange(
                        Math.max(possibleTimeRange.startTime, visibleTimeRange.startTime),
                        Math.min(possibleTimeRange.endTime, visibleTimeRange.endTime)
                    );
@@ -150,7 +150,7 @@ nar.fullReport.TimeSeriesVisualizationController = function(timeSlider, instruct
         else{
             timeRangesToSearch = incomingTimeRanges;
         }
-        var aggregateTimeRange = nar.fullReport.TimeRange.ofAll(timeRangesToSearch);
+        var aggregateTimeRange = nar.timeSeries.TimeRange.ofAll(timeRangesToSearch);
         var vizPromises = tsvsToVisualize.map(function(tsv){
             self.currentlyVisibleTimeSeriesVisualizations[tsv.id] = tsv;
             var promise = tsv.visualize();
@@ -197,7 +197,7 @@ nar.fullReport.TimeSeriesVisualizationController = function(timeSlider, instruct
             self.setCurrentlyVisibleTimeRange(undefined);
         }
         
-        var aggregateTimeRange = nar.fullReport.TimeRange.ofAll(remainingTimeRanges);
+        var aggregateTimeRange = nar.timeSeries.TimeRange.ofAll(remainingTimeRanges);
         self.setPossibleTimeRange(aggregateTimeRange);
 
     };   

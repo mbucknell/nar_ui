@@ -1,5 +1,5 @@
 var nar = nar || {};
-nar.fullReport = nar.fullReport || {};
+nar.plots = nar.plots || {};
 (function(){
 
     /**
@@ -83,5 +83,5 @@ nar.fullReport = nar.fullReport || {};
        
        return plot;
    };
-    nar.fullReport.ExceedancePlot = ExceedancePlot;
+    nar.plots.ExceedancePlot = ExceedancePlot;
 }());
