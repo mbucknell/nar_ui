@@ -47,3 +47,16 @@ class SiteMovingAverage(models.Model):
         managed = False
         db_table = 'site_moving_averages'
         unique_together = ('water_year', 'site_id', 'constituent')
+        
+        
+class GulfHypoxicExtent(models.Model):
+    water_year = models.IntegerField(unique=True)
+    area_sqkm = models.IntegerField()
+    
+    def __unicode__(self):
+        return u'water_year: %s, area: %s sqkm' % (self.water_year, self.area_sqkm)
+    
+    class Meta:
+        managed = False
+        db_table = 'gulf_hypoxic_extent'
+        

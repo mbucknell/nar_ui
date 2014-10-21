@@ -6,7 +6,7 @@ from django.forms import model_to_dict
 from django.http import HttpResponse, Http404, HttpResponseBadRequest
 from django.views.generic import View
 
-from .models import MrbSubBasinContributions, SiteMeanAndTarget, SiteMovingAverage
+from .models import MrbSubBasinContributions, SiteMeanAndTarget, SiteMovingAverage, GulfHypoxicExtent
 
 
 class MrbSubBasinContributionsJsonView(View):
@@ -63,7 +63,14 @@ class SiteAveragesAndTargetsJsonView(View):
         result['moving_average'] = moving_averages
         
         return HttpResponse(simplejson.dumps(result), content_type='application/json')
+
+
+class GulfHypoxicExtentJsonView(View):
+    def get(self, request, *args, **kwargs):
+        extents = [model_to_dict(e) for e in GulfHypoxicExtent.objects.order_by('water_year')]
         
+        return HttpResponse(simplejson.dumps(extents), content_type='application/json')
+                    
             
         
             
