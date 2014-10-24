@@ -32,6 +32,7 @@ nar.GraphPopup = (function() {
 	 */
 	me.createLoadGraphDisplay = function(args){
 		var siteId = args.siteId,
+		isVirtual = args.isVirtual,
 		mrbConstituent = args.constituent,
 		loadType = args.loadType,
 		target = args.target,
@@ -55,11 +56,11 @@ nar.GraphPopup = (function() {
 
 		// Generate additional time series for baseline average, 45% reduction targets, and baseline-average
 		var siteDataDeferred = $.Deferred();
-		if (args.siteId) {
+		if (!isVirtual) {
 			$.ajax({
 				url : CONFIG.siteAveTargetUrl,
 				data : {
-					site_id : args.siteId,
+					site_id : siteId,
 					constituent : mrbToSos.constituentToConstituentId[mrbConstituent]
 				},
 				contentType : 'application/json',
@@ -188,7 +189,8 @@ nar.GraphPopup = (function() {
 				innerContent.html('Loading...');
 				contentDiv.html('');
 				me.createLoadGraphDisplay({
-					siteId: feature.siteid,
+					siteId: feature.siteId,
+					isVirtual : feature.isVirtual,
 					constituent: constituent,
 					target: contentDiv,
 					loadType: type

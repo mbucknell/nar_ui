@@ -90,7 +90,7 @@ $(document).ready(function() {
 				width = args.width,
 				graphContainer = args.graphContainer,
 				filtersSubject = args.filtersSubject,
-				virtualSite = args.virtualSite,//is it a virtual site or a physical site
+				virtualSite = args.virtualSite || false,//is it a virtual site or a physical site
 				makeGraphClickHandler = function(type, feature, chemical){
 					return function () {
 						
@@ -161,7 +161,7 @@ $(document).ready(function() {
 							data = feature.data,
 							title = data.staname,
 							id = virtualSite ? 'GULF': data.siteid,
-							loadGraphData = {staname : title, siteid : id};
+							loadGraphData = {staname : title, siteId : id, isVirtual : virtualSite};
 						$mayLoadGraphsLink.data('feature', feature);
 						$mayLoadGraphsLink.append($('<span />').addClass('glyphicon glyphicon-stats'),' May Load');
 						$annualLoadGraphsLink.data('feature', feature);
