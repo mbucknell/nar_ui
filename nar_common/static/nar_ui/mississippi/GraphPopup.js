@@ -43,6 +43,7 @@ nar.GraphPopup = (function() {
 				constituentId : mrbToSos.constituentToConstituentId[mrbConstituent],
 				dataType : mrbToSos.loadTypeToDataType[loadType]
 		};
+		
 		var observedProperty= observedPropertyUrlTemplate.assign(sosUrlParams);
 		var procedure = procedureUrlTemplate.assign(sosUrlParams);
 		
@@ -53,38 +54,62 @@ nar.GraphPopup = (function() {
 		});
 
 		// Generate additional time series for baseline average, 45% reduction targets, and baseline-average
-	    var siteDataDeferred = $.Deferred();
-		$.ajax({
-		    url: CONFIG.siteAveTargetUrl,
-		    data : {
-		        site_id : args.siteId,
-		        constituent : mrbToSos.constituentToConstituentId[mrbConstituent]
-		    },
-		    contentType : 'application/json',
-		    success : function(response) {
-		        var data = {
-		                mean : response[loadType + '_mean'],
-		                target : response[loadType + '_target'],
-		                movingAverage : []
-		        };
-		        var i;
-		        for (i = 0; i < response.moving_average.length; i++) {
-		            var movAve = response.moving_average[i];
-		            if (movAve[loadType + '_moving_average']) {
-		                data.movingAverage.push({
-		                    waterYear : movAve.water_year,
-		                    ave : movAve[loadType + '_moving_average']
-		                });
-		            }
-		        }
-		       
-		        siteDataDeferred.resolve(data);
-		    },
-		    error : function(data) {
-		        siteDataDeferred.resolve({});
-		        throw Error('Unable to retrieve average and targets');
-		    }
-		});
+		var siteDataDeferred = $.Deferred();
+		if (args.siteId) {
+			$.ajax({
+				url : CONFIG.siteAveTargetUrl,
+				data : {
+					site_id : args.siteId,
+					constituent : mrbToSos.constituentToConstituentId[mrbConstituent]
+				},
+				contentType : 'application/json',
+				success : function(response) {
+					var data = {
+						mean : response[loadType + '_mean'],
+						target : response[loadType + '_target'],
+						movingAverage : []
+					};
+					var i;
+					for (i = 0; i < response.moving_average.length; i++) {
+						var movAve = response.moving_average[i];
+						if (movAve[loadType + '_moving_average']) {
+							data.movingAverage.push({
+								waterYear : movAve.water_year,
+								ave : movAve[loadType + '_moving_average']
+							});
+						}
+					}
+
+					siteDataDeferred.resolve(data);
+				},
+				error : function(data) {
+					siteDataDeferred.resolve({});
+					throw Error('Unable to retrieve average and targets');
+				}
+			});
+		} 
+		else if (loadType === 'may') {
+			// In this case we will be graphing the observed hypoxic area on the
+			// graph so need to retrieve it.
+			$.ajax({
+				url : CONFIG.gulfHypoxicExtentUrl,
+				contentType : 'application/json',
+				success : function(response) {
+					var i;
+					var data = {
+						gulfHypoxicExtent : response
+					};
+					siteDataDeferred.resolve(data);
+				},
+				error : function(data) {
+					siteDataDeferred.resolve({});
+					throw Error('Unable to retrieve Gulf hypoxic extent data');
+				}
+			});
+		}
+		else {
+			siteDataDeferred.resolve({});
+		}
 		
 		var timeSeriesCollection = new nar.timeSeries.Collection();
 		timeSeriesCollection.add(basicTimeSeries);
@@ -95,22 +120,19 @@ nar.GraphPopup = (function() {
 		var promise = vizDeferred.promise();
 		
 		// Wait until the siteData has been retrieved before creating the visualization
-	    $.when(siteDataDeferred).then(function(response) {
-    		me.timeSeriesViz = new nar.timeSeries.Visualization({
-    			id: timeSeriesVizId,
-    			allPlotsWrapperElt : target,
-    			timeSeriesCollection: timeSeriesCollection,
-    			averagesAndTargets : response
-    		});
-    		$.when(me.timeSeriesViz.visualize()).then(
-    		        function(data) {
-    		            vizDeferred.resolve(data);
-    		        },
-    		        function(data) {
-    		            vizDeferred.reject(data);
-    		        }
-    		);
-	    });
+		$.when(siteDataDeferred).then(function(response) {
+			me.timeSeriesViz = new nar.timeSeries.Visualization({
+				id : timeSeriesVizId,
+				allPlotsWrapperElt : target,
+				timeSeriesCollection : timeSeriesCollection,
+				auxData : response
+			});
+			$.when(me.timeSeriesViz.visualize()).then(function(data) {
+				vizDeferred.resolve(data);
+			}, function(data) {
+				vizDeferred.reject(data);
+			});
+		});
 
         return promise;
 	};
@@ -166,7 +188,7 @@ nar.GraphPopup = (function() {
 				innerContent.html('Loading...');
 				contentDiv.html('');
 				me.createLoadGraphDisplay({
-					siteId: feature.data.siteid,
+					siteId: feature.siteid,
 					constituent: constituent,
 					target: contentDiv,
 					loadType: type
@@ -190,7 +212,7 @@ nar.GraphPopup = (function() {
 					
 					title = type.capitalize() + ' Load for ' + 
                     nar.Constituents[me.timeSeriesViz.getComponentsOfId().constituent].name + 
-                    ' at ' + feature.data.staname;
+                    ' at ' + feature.staname;
 					dialog.dialog('option', 'title', title);
 				},
 				function(reason) {

@@ -148,7 +148,7 @@ $(document).ready(function() {
 							$reportsAndGraphsRow = $('<div />').addClass('row site-identification-popup-content-links-and-graphs'),
 							$relevantLinksRow = $('<div />').addClass('row site-identification-popup-content-relevant-links'),
 							$summaryGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-summary-graph-link'),
-							$annualLoadGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4-offset-2 site-identification-popup-content-annual-load-link'),
+							$annualLoadGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 col-md-offset-2 site-identification-popup-content-annual-load-link'),
 							$mayLoadGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-may-load-link'),
 							$detailedGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-detailed-graph-link'),
 							$downloadLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-download-link'),
@@ -160,7 +160,8 @@ $(document).ready(function() {
 							$hiddenAutoFocus = $('<span />').addClass('hidden').attr('autofocus', ''),
 							data = feature.data,
 							title = data.staname,
-							id = data.siteid;
+							id = virtualSite ? 'GULF': data.siteid,
+							loadGraphData = {staname : title, siteid : id};
 						$mayLoadGraphsLink.data('feature', feature);
 						$mayLoadGraphsLink.append($('<span />').addClass('glyphicon glyphicon-stats'),' May Load');
 						$annualLoadGraphsLink.data('feature', feature);
@@ -170,21 +171,27 @@ $(document).ready(function() {
 						
 						$annualLoadGraphsLink.
 							attr('href', '#').
-							click('click', makeGraphClickHandler('annual', feature, filtersSubject.mostRecentNotification.chemical));
+							click('click', makeGraphClickHandler('annual', loadGraphData, filtersSubject.mostRecentNotification.chemical));
 						$mayLoadGraphsLink.
 							attr('href', '#').
-							on('click', makeGraphClickHandler('may', feature, filtersSubject.mostRecentNotification.chemical));
+							on('click', makeGraphClickHandler('may', loadGraphData, filtersSubject.mostRecentNotification.chemical));
 						$summaryGraphsLink.attr('href', CONFIG.baseUrl + 'site/' + id + '/summary-report');
 						$detailedGraphsLink.attr('href',CONFIG.baseUrl + 'site/' + id + '/full-report');
 						$downloadLink.attr('href', CONFIG.baseUrl + 'download');
 						
 						$annualLoadGraphsLinkContainer.append($annualLoadGraphsLink);
 						$mayLoadGraphsLinkContainer.append($mayLoadGraphsLink);
-						$summaryGraphsLinkContainer.append($summaryGraphsLink);
-						$detailedGraphsLinkContainer.append($detailedGraphsLink);
 						$downloadLinkContainer.append($downloadLink);
-						
-						$reportsAndGraphsRow.append($summaryGraphsLinkContainer, $detailedGraphsLinkContainer, $downloadLinkContainer, $annualLoadGraphsLinkContainer, $mayLoadGraphsLinkContainer, $hiddenAutoFocus);
+
+						if (virtualSite) {
+							$annualLoadGraphsLinkContainer.removeClass('col-md-offset-2');
+							$reportsAndGraphsRow.append($annualLoadGraphsLinkContainer, $mayLoadGraphsLinkContainer, $downloadLinkContainer, $hiddenAutoFocus);
+						}
+						else {
+							$summaryGraphsLinkContainer.append($summaryGraphsLink);
+							$detailedGraphsLinkContainer.append($detailedGraphsLink);
+							$reportsAndGraphsRow.append($summaryGraphsLinkContainer, $detailedGraphsLinkContainer, $downloadLinkContainer, $annualLoadGraphsLinkContainer, $mayLoadGraphsLinkContainer, $hiddenAutoFocus);
+						}
 						
 						$container.append($titleRow);
 						if(!virtualSite){
