@@ -125,13 +125,13 @@ var getPlotContainer = function(plotContainerId){
 // public static properties:
 
 nar.timeSeries.Visualization.serverToClientConstituentIdMap = {
-    'nh3': 'nitrogen',
+    'nh3': 'ammonia',
     'no23': 'nitrate',
     'op':'phosphorus',
     'si':'sediment',
     'ssc':'sediment',
     'tkn': 'nitrogen',
-    'tn' : 'totalNitrogen',
+    'tn' : 'nitrogen',
     'tp':'phosphorus',
     'q':'streamflow'
 };
@@ -216,8 +216,8 @@ nar.timeSeries.Visualization.types = {
 			range : nar.timeSeries.MostRecentWaterYearTimeRange,
 			ancillary : [{
 				// @todo We will want to store these somewhere so this can just be nar .discrete.nitrogen
-				procedure : "http://cida.usgs.gov/def/NAR/procedure/TKN",
-				observedProperty : "http://cida.usgs.gov/def/NAR/property/TKN/discrete"
+				procedure : "http://cida.usgs.gov/def/NAR/procedure/discrete_concentration",
+				observedProperty : "http://cida.usgs.gov/def/NAR/property/TKN"
 			}],
 			allowTimeSlider : false
 		}

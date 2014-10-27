@@ -81,10 +81,10 @@ $(document).ready(function() {
 		var dataAvailability = data.dataAvailability;
 				
 		dataAvailability.each(function(dataAvailability) {
-			var observedProperty = dataAvailability.observedProperty.toLowerCase();
-			var procedure = dataAvailability.procedure.toLowerCase();
+			var observedProperty = dataAvailability.observedProperty;
+			var procedure = dataAvailability.procedure;
 			var timeSeriesVizId = tsvRegistry
-					.getTimeSeriesVisualizationId(observedProperty, procedure);
+					.getTimeSeriesVisualizationId(observedProperty.toLowerCase(), procedure.toLowerCase());
 			var timeSeriesIdComponents = nar.timeSeries.Visualization.getComponentsOfId(timeSeriesVizId);
 			if(timeSeriesIdComponents.modtype === modtypeToIgnore || componentsAreIgnorable(timeSeriesIdComponents, acceptableComponentsGroup)){
 				return;
