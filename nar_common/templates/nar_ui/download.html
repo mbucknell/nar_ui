@@ -17,7 +17,7 @@
 </div>
 <!--downloadTop-->
 
-<div id="downloadForm">
+<form id="downloadForm" action="http://{{ settings.DATA_DOWNLOAD_SERVICE|escapejs }}{{ settings.DATA_DOWNLOAD_PATH|escapejs}}" method="get" >
 	
 	<input id="startDateTime" class="" tabindex="-1" name="startDateTime" placeholder="Start Date (optional)"/>
 	<input id="endDateTime" class="" tabindex="-1" name="endDateTime" placeholder="End Date (optional)"/>
@@ -38,8 +38,8 @@
 		<p class="format">* Choose a data type(s):</p>
 
 		<input id="first" type="checkbox" name="dataType" value="siteInformation"/>Site Information 
-		<input type="checkbox" name="dataType" value="waterQuality"/>Water Quality 
-		<input type="checkbox" name="dataType" value="streamFlow"/>Stream Flow
+		<input id="waterQuality" type="checkbox" name="dataType" value="waterQuality"/>Water Quality 
+		<input id="streamFlow" type="checkbox" name="dataType" value="streamFlow"/>Stream Flow
 
 	</div>
 	
@@ -57,6 +57,11 @@
 		<option value="monthlyLoad">Monthly load</option>
 		<option value="discreteQw">Discrete QW</option>
 	</select>
+	<select multiple="multiple" id="streamFlowType" class="populate select2-offscreen" tabindex="-1" name="streamFlowType">
+	   <option value="annualFlow">Annual flow</option>
+	   <option value="monthylFlow">Monthly flow</option>
+	   <option value="dailyFlow">Daily flow</otpion>
+	</select>
 
 	<div id="box">
 
@@ -71,15 +76,15 @@
 	
 	<div id="downloadButtons">
 
-		<button id="clear-filters-button">Clear Filters</button>
+		<button id="clear-filters-button" type="button">Clear Filters</button>
 
-		<button id="download-button">Download</button>
+		<button id="download-button" type="button">Download</button>
 
 	</div>
 
 
 
-</div>
+</form>
 <!--downloadForm-->
 
 {% endblock %}

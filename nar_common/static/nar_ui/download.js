@@ -68,20 +68,26 @@ $(document).ready(function() {
 			"WY": "Wyoming"
 		};
 	
-	$("#startDateTime").datepicker({
-		minDate: "-" + NUMBER_OF_YEARS_BACK + "Y",
+	var defaultDateLimits = {
+		minDate : "-" + NUMBER_OF_YEARS_BACK + "Y",
 		maxDate: "+0D",
+	};
+	
+	var datepickerOptions = defaultDateLimits;
+	$.extend(datepickerOptions, {
 		yearRange: "-" + NUMBER_OF_YEARS_BACK + "Y:+0D",
 		changeMonth: true,
 		changeYear: true
-	}); 
-
-	$("#endDateTime").datepicker({
-		minDate: "-" + NUMBER_OF_YEARS_BACK + "Y",
-		maxDate: "+0D",
-		yearRange: "-" + NUMBER_OF_YEARS_BACK + "Y:+0D",
-		changeMonth: true,
-		changeYear: true
+	});
+	
+	$("#startDateTime").datepicker(datepickerOptions);
+	$("#endDateTime").datepicker(datepickerOptions);
+	
+	$("#startDateTime").change(function() {
+		$('#endDateTime').datepicker('option', 'minDate', $(this).datepicker('getDate'));
+	});
+	$('#endDateTime').change(function() {
+		$('#startDateTime').datepicker('option', 'maxDate', $(this).datepicker('getDate'));
 	});
 	
 	//populate html, then init select 2
@@ -119,8 +125,9 @@ $(document).ready(function() {
 
 			
 			var stationId = $("#stationId");
+			var opt;
 			for(var station in stations) {
-				var opt = $('<option>');
+				opt = $('<option>');
 				opt.attr('value', station);
 				opt.html(station + " - " + stations[station]);
 				stationId.append(opt);
@@ -132,7 +139,7 @@ $(document).ready(function() {
 
 			var siteTypeEl = $("#siteType");
 			for(var siteType in siteTypes) {
-				var opt = $('<option>');
+				opt = $('<option>');
 				opt.attr('value', siteType);
 				opt.html(siteTypes[siteType]);
 				siteTypeEl.append(opt);
@@ -155,81 +162,66 @@ $(document).ready(function() {
 		allowClear: true
 	});
 
-
-	$('#clear-filters-button').on('click', function () {
-		$('.select2-container').select2('val','');
-		$('input[type="checkbox"]').prop('checked', false);
+	$('#streamFlowType').select2({
+		placeholder : 'Select a Stream Flow Time Series',
+		allowClear : true
 	});
 
-	var getSelectedDataTypes = function() {
-		var selectedTypes = $('#downloadForm').find('input[name="dataType"]:checked');
-		var selectedTypesVals = [];
-		for(var i = 0; i < selectedTypes.length; i++) {
-			selectedTypesVals.push(selectedTypes[i].value);
-		}
-		return ""+selectedTypesVals;
-	};
-	
-	var toggleDownloadButton = function(){
-		var selectedDataTypes = getSelectedDataTypes();
-		if(selectedDataTypes) {
-			$('#download-button').removeAttr('disabled');
+	// Utility function to enable/disable elements
+	var toggleElement = function($el, enable) {
+		if (enable) {
+			$el.removeAttr('disabled');
 		} else {
-			$('#download-button').attr('disabled', 'disabled');
+			$el.attr('disabled', 'disabled');
 		}
+	};
+
+	var toggleDownloadButton = function(){
+		toggleElement($('download-button'), $('input[name="dataType"]').is(':checked'));
 	};
 	$('input[name="dataType"]').on('click', toggleDownloadButton);
 	toggleDownloadButton();
 	
-	$('#download-button').on('click', function () {
-		//collect params
-		var params = {};
-		var format = $('#downloadForm').find('input[name="format"]:checked').val();
-		if(format) {
-			params['format'] = format;
-		}
+	var toggleWaterQuality = function() {
+		var on = $('#waterQuality').is(':checked');
+		var $constituent = $('#constituent');
+		var $qwDataType = $('#qwDataType');
 		
-		var selectedDataTypes = getSelectedDataTypes();
-		if(selectedDataTypes) {
-			params['dataType'] = selectedDataTypes;
+		toggleElement($constituent, on);
+		toggleElement($qwDataType, on);
+		if (!on) {
+			$constituent.select2('val', []);
+			$qwDataType.select2('val', []);
 		}
+	};
+	$('#waterQuality').on('click', toggleWaterQuality);
+	toggleWaterQuality();
+	
+	var toggleStreamFlow = function() {
+		var on = $('#streamFlow').is(':checked');
+		var $streamFlow = $('#streamFlowType');
 		
-		var qwDataType = $('#downloadForm').find('select[name="qwDataType"]').val();
-		if(qwDataType) {
-			params['qwDataType'] = qwDataType;
+		toggleElement($streamFlow, on);
+		if (!on) {
+			$streamFlow.select2('val', []);
 		}
+	};
+	$('#streamFlow').on('click', toggleStreamFlow);	
+	toggleStreamFlow();
+	
+	$('#clear-filters-button').on('click', function () {
+		$('.select2-container').select2('val','');
+		$('input[type="checkbox"]').prop('checked', false);
+		$('.hasDatepicker').val('');
+		$('.hasDatepicker').datepicker('option', defaultDateLimits);
+		toggleDownloadButton();
+		toggleWaterQuality();
+		toggleStreamFlow();
+	});
 		
-		var constituent = $('#downloadForm').find('select[name="constituent"]').val();
-		if(constituent) {
-			params['constituent'] = constituent;
-		}
-			
-		var siteType = $('#downloadForm').find('select[name="siteType"]').val();
-		if(siteType) {
-			params['siteType'] = siteType;
-		}
-			
-		var stationId = $('#downloadForm').find('select[name="stationId"]').val();
-		if(stationId) {
-			params['stationId'] = stationId;
-		}
-			
-		var state = $('#downloadForm').find('select[name="state"]').val();
-		if(state) {
-			params['state'] = state;
-		}
-		
-		var startDateTime = $('#downloadForm').find('input[name="startDateTime"]').val();
-		if(startDateTime) {
-			params['startDateTime'] = startDateTime;
-		}
-		
-		var endDateTime = $('#downloadForm').find('input[name="endDateTime"]').val();
-		if(endDateTime) {
-			params['endDateTime'] = endDateTime;
-		}
-		
-		var url = CONFIG.endpoint.download + "bundle/zip?" + jQuery.param(params, true);
+	$('#download-button').on('click', function (event) {
+		event.preventDefault();
+		var url = CONFIG.endpoint.download + "bundle/zip?" + $('#downloadForm').serialize();
 		window.open(url, 'Download');
 	});
 
