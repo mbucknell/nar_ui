@@ -7,7 +7,7 @@ nar.plots = nar.plots || {};
      * returns {jquery.flot}
      */
 
-    nar.plots.LoadPlot = function(tsViz){
+	nar.plots.LoadPlot = function(tsViz){
         var plotContainer = tsViz.plotContainer;
         var splitData = nar.plots.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(tsViz);
         var previousYearsData = splitData.previousYearsData;
@@ -22,6 +22,7 @@ nar.plots = nar.plots || {};
         var baselineColor = miscConstituentInfo.colors.baselineColor;
         var targetColor = miscConstituentInfo.colors.targetColor;
         var movingAveColor = miscConstituentInfo.colors.movingAveColor;
+        var hypoxicExtentColor = miscConstituentInfo.colors.hypoxicExtentColor;
         
         var makeSeriesConfig = function(dataSet, color){
             return {
@@ -34,6 +35,7 @@ nar.plots = nar.plots || {};
                     fill: true,
                     fillColor: color
                 },
+                yaxis : 1
               };
         };
         
@@ -47,7 +49,8 @@ nar.plots = nar.plots || {};
                     fillColor: color,
                     lineWidth: 1
                 },
-                shadowSize: 0
+                shadowSize: 0,
+                yaxis : 1
             };
         };
         
@@ -60,7 +63,8 @@ nar.plots = nar.plots || {};
                     lineWidth: 1
                 },
                 shadowSize : 0,
-                data : [[startDate, mean], [Date.create('1996').getTime(), mean]]
+                data : [[startDate, mean], [Date.create('1996').getTime(), mean]],
+                yaxis : 1
             };
         };
         
@@ -77,7 +81,8 @@ nar.plots = nar.plots || {};
                     lineWidth: 0
                 },
                 shadowSize : 0,
-                data : [[Date.create('1997').getTime(), target], [endDate, target]]
+                data : [[Date.create('1997').getTime(), target], [endDate, target]],
+                yaxis : 1
             };
         };
         
@@ -100,9 +105,33 @@ nar.plots = nar.plots || {};
                     lineWidth: 0
                 },
                 shadowSize: 0,
-                data : data
+                data : data,
+                yaxis : 1
             };
-        }
+        };
+        
+        var makeHypoxicExtentConfig = function(extent) {
+			var data = [];
+			var i;
+			for (i = 0; i < extent.length; i++) {
+				data.push([Date.create(extent[i].water_year, 0, 1).getTime(), extent[i].area_sqkm]);
+			}
+			return {
+				label : 'Gulf Hypoxic Extent',
+				dashes : {
+					show : true,
+					dashLength : [5, 5]
+				},
+				line : {
+					show : true,
+					fillColor : hypoxicExtentColor,
+					lineWidth : 0
+				},
+				shadowSize : 0,
+				data : data,
+				yaxis : 2
+			};
+		};
         
         var previousYearsSeries = makeSeriesConfig(previousYearsData, previousYearsColor);
         var currentYearSeries = makeSeriesConfig(currentYearData, currentYearColor);
@@ -113,16 +142,43 @@ nar.plots = nar.plots || {};
           currentYearSeries,
           longTermMeanSeries
         ];
-        if (Object.has(tsViz,'averagesAndTargets') && (Object.keys(tsViz.averagesAndTargets) !== 0)) {
-            if (tsViz.averagesAndTargets.mean) {
-                series = series.concat(makeBaselineConfig(previousYearsSeries.data.first()[0], tsViz.averagesAndTargets.mean));
-            }
-            if (tsViz.averagesAndTargets.target) {
-                series = series.concat(makeTargetConfig(previousYearsSeries.data.last()[0], tsViz.averagesAndTargets.target));
-            }
-            if (tsViz.averagesAndTargets.movingAverage && tsViz.averagesAndTargets.movingAverage.length > 0) {
-                series = series.concat(makeMovingAveConfig(tsViz.averagesAndTargets.movingAverage));
-            }
+		var yaxes = [{
+			axisLabel: constituentName + " load,<br />in thousands of tons",
+			axisLabelFontSizePixels: 10,
+			axisLabelFontFamily: "Verdana, Arial, Helvetica, Tahoma, sans-serif",
+			axisLabelPadding: 10,
+			tickLength: 10,
+			tickFormatter : function(val) {
+				// Use Sugar to properly format numbers with commas
+				// http://sugarjs.com/api/Number/format
+				return (val).format();
+			}
+		}];
+
+        if (Object.has(tsViz, 'auxData')) {
+			if (Object.has(tsViz.auxData, 'mean')) {
+				series = series.concat(makeBaselineConfig(previousYearsSeries.data.first()[0], tsViz.auxData.mean));
+			}
+			if (Object.has(tsViz.auxData, 'target')) {
+				series = series.concat(makeTargetConfig(previousYearsSeries.data.last()[0], tsViz.auxData.target));
+			}
+			if (Object.has(tsViz.auxData, 'movingAverage') && tsViz.auxData.movingAverage.length > 0) {
+				series = series.concat(makeMovingAveConfig(tsViz.auxData.movingAverage));
+			}
+			if (Object.has(tsViz.auxData, 'gulfHypoxicExtent')) {
+				series = series.concat(makeHypoxicExtentConfig(tsViz.auxData.gulfHypoxicExtent)); 
+				yaxes.push({
+					position : 'right',
+					axisLabel: 'Observed total hypoxic area, <br/> in thousands of square <br/>kilometers',
+					axisLabelFontSizePixels: 10,
+					axisLabelFontFamily: "Verdana, Arial, Helvetica, Tahoma, sans-serif",
+					axisLabelPadding: 10,
+					tickLength: 10,
+					tickFormatter : function(val) {
+						return val / 1000;
+					}
+				});
+			}
         }
         
         var plot = $.plot(plotContainer, series, {
@@ -132,18 +188,7 @@ nar.plots = nar.plots || {};
                 tickLength: 10,
                 ticks : nar.plots.PlotUtils.getTicksByYear
             },
-            yaxis: {
-                axisLabel: constituentName + " load,<br />in thousands of tons",
-                axisLabelFontSizePixels: 10,
-                axisLabelFontFamily: "Verdana, Arial, Helvetica, Tahoma, sans-serif",
-                axisLabelPadding: 10,
-                tickLength: 10,
-                tickFormatter : function(val) {
-                	// Use Sugar to properly format numbers with commas
-                	// http://sugarjs.com/api/Number/format
-                	return (val).format();
-                }
-            },
+            yaxes : yaxes,
             legend: {
                 show: false
             },
@@ -154,7 +199,7 @@ nar.plots = nar.plots || {};
         });
         var hoverFormatter = nar.plots.PlotUtils.utcDatePlotHoverFormatter;
         nar.plots.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
-        nar.plots.PlotUtils.setLineHoverFormatter(plotContainer, longTermMean, nar.definitions.longTermMean.short_definition)
+        nar.plots.PlotUtils.setLineHoverFormatter(plotContainer, longTermMean, nar.definitions.longTermMean.short_definition);
         return plot;
     };    
 }());
