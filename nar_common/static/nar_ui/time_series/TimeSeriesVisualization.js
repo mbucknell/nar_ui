@@ -125,12 +125,8 @@ var getPlotContainer = function(plotContainerId){
 // public static properties:
 
 nar.timeSeries.Visualization.serverToClientConstituentIdMap = {
-    'nh3': 'ammonia',
     'no23': 'nitrate',
-    'op':'phosphorus',
-    'si':'sediment',
     'ssc':'sediment',
-    'tkn': 'nitrogen',
     'tn' : 'nitrogen',
     'tp':'phosphorus',
     'q':'streamflow'

@@ -58,6 +58,7 @@ $(document).ready(function() {
         	  subcategory: undefined
           }
     ];
+	var constituentsToKeep = ['nitrogen', 'nitrate', 'streamflow', 'phosphorus', 'sediment'];
 	/**
 	 * Determines if 'components' should be displayed on the client or not
 	 * @param {nar.timeSeries.Visualization.IdComponents} components, as returned by nar.TimeSeries.Visualization.getComponentsOfId 
@@ -86,8 +87,11 @@ $(document).ready(function() {
 			var timeSeriesVizId = tsvRegistry
 					.getTimeSeriesVisualizationId(observedProperty.toLowerCase(), procedure.toLowerCase());
 			var timeSeriesIdComponents = nar.timeSeries.Visualization.getComponentsOfId(timeSeriesVizId);
-			if(timeSeriesIdComponents.modtype === modtypeToIgnore || componentsAreIgnorable(timeSeriesIdComponents, acceptableComponentsGroup)){
-				return;
+			
+			if(		timeSeriesIdComponents.modtype === modtypeToIgnore 
+					|| !constituentsToKeep.some(timeSeriesIdComponents.constituent) 
+					|| componentsAreIgnorable(timeSeriesIdComponents, acceptableComponentsGroup)){
+				return;//continue
 			}
 			else{
 				var timeSeriesViz = tsvRegistry
