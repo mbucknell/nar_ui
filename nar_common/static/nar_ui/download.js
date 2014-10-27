@@ -93,7 +93,7 @@ $(document).ready(function() {
 		stateEl.append(opt);
 	}
 	stateEl.select2({
-		placeholder: "Select a State"
+		placeholder: "Select a State (optional)"
 	}); 
 	
 	$.ajax({
@@ -126,7 +126,7 @@ $(document).ready(function() {
 				stationId.append(opt);
 			}
 			stationId.select2({
-				placeholder: "Select a Station",
+				placeholder: "Select a Station (optional)",
 				allowClear: true
 			});
 
@@ -138,7 +138,7 @@ $(document).ready(function() {
 				siteTypeEl.append(opt);
 			}
 			siteTypeEl.select2({
-				placeholder: "Select a Site Type",
+				placeholder: "Select a Site Type (optional)",
 				allowClear: true
 			});
 		},
@@ -146,12 +146,12 @@ $(document).ready(function() {
 	});
 
 	$("#constituent").select2({
-		placeholder: "Select a Constituent",
+		placeholder: "Select a Constituent (optional)",
 		allowClear: true
 	});
 
 	$("#qwDataType").select2({
-		placeholder: "Select a Water Quality Data Type",
+		placeholder: "Select a Water Quality Data Type (optional)",
 		allowClear: true
 	});
 

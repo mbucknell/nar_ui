@@ -18,9 +18,10 @@
 <!--downloadTop-->
 
 <div id="downloadForm">
-
-	<input id="startDateTime" class="" tabindex="-1" name="startDateTime" placeholder="Start Date"/>
-	<input id="endDateTime" class="" tabindex="-1" name="endDateTime" placeholder="End Date"/>
+	
+	<input id="startDateTime" class="" tabindex="-1" name="startDateTime" placeholder="Start Date (optional)"/>
+	<input id="endDateTime" class="" tabindex="-1" name="endDateTime" placeholder="End Date (optional)"/>
+	
 	<select multiple="multiple" id="state" class="populate select2-offscreen"
 		tabindex="-1"  name="state">
 	</select> 
@@ -30,6 +31,18 @@
 	<select multiple="multiple" id="siteType" class="populate select2-offscreen"
 		tabindex="-1"  name="siteType">
 	</select> 
+	
+	
+	<div id="checkbox_holder">
+
+		<p class="format">* Choose a data type(s):</p>
+
+		<input id="first" type="checkbox" name="dataType" value="siteInformation"/>Site Information 
+		<input type="checkbox" name="dataType" value="waterQuality"/>Water Quality 
+		<input type="checkbox" name="dataType" value="streamFlow"/>Stream Flow
+
+	</div>
+	
 	<select multiple="multiple" id="constituent" class="populate select2-offscreen"
 		tabindex="-1"  name="constituent">
 		<option value="nitrate">Nitrate</option>
@@ -45,17 +58,6 @@
 		<option value="discreteQw">Discrete QW</option>
 	</select>
 
-	<div id="checkbox_holder">
-
-		<p class="format">Choose a data type(s):</p>
-
-		<input id="first" type="checkbox" name="dataType" value="siteAttributes"/>Site Information 
-		<input type="checkbox" name="dataType" value="waterQuality"/>Water Quality 
-		<input type="checkbox" name="dataType" value="streamFlow"/>Stream Flow
-
-	</div>
-	<!--checkbox_holder-->
-
 	<div id="box">
 
 		<p class="format">Choose a File Format:</p>
@@ -64,11 +66,9 @@
 			<input type="radio" name="format" value="csv" checked="true"/>.csv
 			<input type="radio" name="format" value="tsv" />.tsv 
 		</div>
-		<!--format_holder-->
 
 	</div>
-	<!--box-->
-
+	
 	<div id="downloadButtons">
 
 		<button id="clear-filters-button">Clear Filters</button>
