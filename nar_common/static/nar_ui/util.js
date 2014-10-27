@@ -39,6 +39,28 @@ nar.util = {};
     
     nar.util.MILLISECONDS_IN_YEAR = 365 *24 * 60 * 60 * 1000;
 
+	/**
+	 * Determines if 'obj' has all the keys and values in keysAndValues.
+	 * @param {Object} obj
+	 * @param {Object} keysAndValues
+	 * returns {Boolean} true if all the keys in 'keysAndValues' are in 'obj' and 
+	 * all of the values in the matching keys are strictly equal. false otherwise   
+	 * 
+	 */
+	nar.util.objectHasKeysAndValues = function(obj, keysAndValues){
+		var containsKeysAndValues = true;
+		for(key in keysAndValues){
+			//prototype filtering
+			if(Object.has(keysAndValues, key)){
+				if(!(Object.has(obj, key) && obj[key] === keysAndValues[key])){
+					containsKeysAndValues = false;
+					break;
+				}
+			}
+		}
+		return containsKeysAndValues;
+	};
+    
     window.onerror = function(errorMsg, url, lineNumber) {
         var msg = errorMsg.replace(/Uncaught .*Error: /, '');
         $('#alert').html(msg).show().alert();

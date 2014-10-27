@@ -135,8 +135,17 @@ nar.timeSeries.Visualization.serverToClientConstituentIdMap = {
 };
 
 /**
+ * @typedef nar.timeSeries.Visualization.IdComponents
+ * @property {string} constituent
+ * @property {string} timestepDensity
+ * @property {string} category
+ * @property {string} subcategory 
+ * @property {string} modtype
+ */
+
+/**
  * @param {string} id
- * @returns {Object} a simple map of component name to value 
+ * @returns {nar.timeSeries.Visualization.IdComponents} a simple map of component name to value 
  */
 nar.timeSeries.Visualization.getComponentsOfId = function(id) {
     var splitId = id.split('/');
@@ -146,19 +155,13 @@ nar.timeSeries.Visualization.getComponentsOfId = function(id) {
     var serverConstituentId = splitId[0];
     var clientConstituentId = nar.timeSeries.Visualization.serverToClientConstituentIdMap[serverConstituentId
             .toLowerCase()];
-    components.constituent = clientConstituentId;
-    var timestepDensity = splitId[1];
-    components.timestepDensity = timestepDensity;
-    var category = splitId[2];
-    components.category = category;
-    var potential_subcategory = splitId[3] || false;
-    if (potential_subcategory) {
-            components.subcategory = potential_subcategory;
-    }
-    var potential_modtype = splitId[4] || false;
-    if(potential_modtype){
-    	components.modtype = potential_modtype;
-    }
+    var components = {
+	    constituent : clientConstituentId,
+	    timestepDensity : splitId[1],
+	    category : splitId[2],
+	    subcategory : splitId[3],
+	    modtype : splitId[4]
+	};
     return components;
 };
 

@@ -3,6 +3,7 @@ describe('Tests for nar.util', function() {
 	it('Expects utility functions to be defined', function() {
 		expect(nar.util.assert_selector_present).toBeDefined();
 		expect(nar.util.getTimeStamp).toBeDefined();
+		expect(nar.util.objectHasKeysAndValues).toBeDefined();
 	});
 	describe('getTimeStamp', function(){
 		var getTimeStamp = nar.util.getTimeStamp;
@@ -34,6 +35,39 @@ describe('Tests for nar.util', function() {
 				function(){assert_selector_present(selector);}
 			).not.toThrow();
 		});
+	});
+	describe('nar.util.objectHasKeysAndValues', function(){
+		var objectHasKeysAndValues = nar.util.objectHasKeysAndValues; 
+		var base = {a: 1, b:undefined, c:null, d:'blah'};
+
+		//identical case
+		expect(objectHasKeysAndValues(base, base)).toBe(true);
+		//clone case
+		var baseClone = {a: 1, b:undefined, c:null, d:'blah'};
+		expect(objectHasKeysAndValues(base, baseClone)).toBe(true);
+		//subset cases
+		var baseSubset1 = {a: 1, b:undefined, c:null};
+		var baseSubset2 = {b:undefined, c:null, d: 'blah'};
+		expect(objectHasKeysAndValues(base, baseSubset1)).toBe(true);
+		expect(objectHasKeysAndValues(base, baseSubset2)).toBe(true);
+		//superset cases
+		var baseSuperset1 ={a: 1, b:undefined, c:null, d:'blah', e: '34'};
+		var baseSuperset2 ={a: 1, b:undefined, c:null, d:'blah', e: '34', f: 42};
+		expect(objectHasKeysAndValues(base, baseSuperset1)).toBe(false);
+		expect(objectHasKeysAndValues(base, baseSuperset2)).toBe(false);
+		//case where objects have same keys, but fail strict-equality value comparison
+		var a = {d:[]};
+		var b = {d:[]};
+		var e = {g:{}};
+		var f = {g:{}};
+		expect(objectHasKeysAndValues(a, b)).toBe(false);
+		expect(objectHasKeysAndValues(e, f)).toBe(false);
+		//case where objects have no shared keys
+		var noSharedBase = {w:'', x:'', y:'', z:''}
+		expect(objectHasKeysAndValues(base, noSharedBase)).toBe(false);
+		//case where objects have matching keys but no matching values
+		var sharedKeysButDifferentValues = {a: 42, b:235, c:3456, d:302498}
+		expect(objectHasKeysAndValues(base, noSharedBase)).toBe(false);
 	});
 	
 });
