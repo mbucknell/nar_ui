@@ -35,7 +35,7 @@ $(document).ready(function() {
 
 	});
 	var modtypeToIgnore = 'comp';
-	var dataTypesToInclude = [
+	var acceptableComponentsGroup = [
           {
     	  	  timestepDensity: 'discrete',
         	  category: 'concentration'
@@ -86,7 +86,7 @@ $(document).ready(function() {
 			var timeSeriesVizId = tsvRegistry
 					.getTimeSeriesVisualizationId(observedProperty, procedure);
 			var timeSeriesIdComponents = nar.timeSeries.Visualization.getComponentsOfId(timeSeriesVizId);
-			if(timeSeriesIdComponents.modtype === modtypeToIgnore || componentsAreIgnoreable(timeSeriesIdComponents)){
+			if(timeSeriesIdComponents.modtype === modtypeToIgnore || componentsAreIgnorable(timeSeriesIdComponents, acceptableComponentsGroup)){
 				return;
 			}
 			else{
