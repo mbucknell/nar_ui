@@ -115,11 +115,6 @@ nar.plots = nar.plots || {};
             var longTermMeanColor = tinycolor.lighten(tinycolor.gray, 75).toRgbString();
             var criteriaLineColor = tinycolor.lighten(tinycolor.gray, 75).toRgbString();
             
-            var BASELINE_COLOR = 'black';
-            var TARGET_LINE_COLOR = 'black';
-            var MOVING_AVE_COLOR = 'black';
-            var HYPOXIC_EXTENT_COLOR = 'black';
-            
             return {
                 name : constituentName,
                 colors:{
@@ -127,10 +122,6 @@ nar.plots = nar.plots || {};
                     previousYears: previousYearsColor,
                     longTermMean: longTermMeanColor,
                     criteriaLine: criteriaLineColor,
-                    baselineColor : BASELINE_COLOR,
-                    targetColor : TARGET_LINE_COLOR,
-                    movingAveColor : MOVING_AVE_COLOR,
-                    hypoxicExtentColor : HYPOXIC_EXTENT_COLOR
                 }
             };
         },

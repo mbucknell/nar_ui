@@ -8,63 +8,31 @@ nar.plots = nar.plots || {};
      */
 
 	nar.plots.LoadPlot = function(tsViz){
-        var plotContainer = tsViz.plotContainer;
-        var splitData = nar.plots.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(tsViz);
-        var previousYearsData = splitData.previousYearsData;
-        var currentYearData = splitData.currentYearData;
-        var longTermMean = nar.plots.PlotUtils.calculateLongTermAverage(tsViz);
-        var miscConstituentInfo = nar.plots.PlotUtils.getConstituentNameAndColors(tsViz);
-        var constituentName = miscConstituentInfo.name; 
-        var previousYearsColor = miscConstituentInfo.colors.previousYears;
-        var currentYearColor= miscConstituentInfo.colors.currentYear;
-        var longTermMeanColor = miscConstituentInfo.colors.longTermMean;
+		var constituentName = nar.plots.PlotUtils.getConstituentNameAndColors(tsViz);
+		var plotConfig = {
+				yaxisLabel : constituentName + " load,<br />in thousands of tons",
+				showLongTermMean : true
+		};
+		var BASELINE_COLOR = 'black';
+        var TARGET_LINE_COLOR = 'black';
+        var MOVING_AVE_COLOR = 'black';
+        var HYPOXIC_EXTENT_COLOR = 'black';
         
-        var baselineColor = miscConstituentInfo.colors.baselineColor;
-        var targetColor = miscConstituentInfo.colors.targetColor;
-        var movingAveColor = miscConstituentInfo.colors.movingAveColor;
-        var hypoxicExtentColor = miscConstituentInfo.colors.hypoxicExtentColor;
-        
-        var makeSeriesConfig = function(dataSet, color){
-            return {
-                label: constituentName,
-                data: dataSet,
-                bars: {
-                    barWidth: 1e10,
-                    align: 'center',
-                    show: true,
-                    fill: true,
-                    fillColor: color
-                },
-                yaxis : 1
-              };
-        };
-        
-        var makeLongTermMeanConfig = function(dataSet, color) {
-            return {
-                label: constituentName,
-                data: [[nar.plots.PlotUtils.YEAR_NINETEEN_HUNDRED,longTermMean],
-                       [nar.plots.PlotUtils.ONE_YEAR_IN_THE_FUTURE,longTermMean]],
-                lines: {
-                    show: true,
-                    fillColor: color,
-                    lineWidth: 1
-                },
-                shadowSize: 0,
-                yaxis : 1
-            };
-        };
+        var BASELINE_END_DATE = Date.create('1996').getTime();
+        var TARGET_START_DATE = Date.create('1997').getTime();
         
         var makeBaselineConfig = function(startDate, mean) {
             return {
                 label : 'Baseline Average ',
                 lines: {
                     show: true,
-                    fillColor: baselineColor,
+                    fillColor: BASELINE_COLOR,
                     lineWidth: 1
                 },
                 shadowSize : 0,
-                data : [[startDate, mean], [Date.create('1996').getTime(), mean]],
-                yaxis : 1
+                data : [[startDate, mean], [BASELINE_END_DATE, mean]],
+                yaxis : 1,
+                color : BASELINE_COLOR
             };
         };
         
@@ -77,12 +45,13 @@ nar.plots = nar.plots || {};
                 },
                 lines : {
                     show: true,
-                    fillColor: targetColor,
+                    fillColor: TARGET_LINE_COLOR,
                     lineWidth: 0
                 },
                 shadowSize : 0,
-                data : [[Date.create('1997').getTime(), target], [endDate, target]],
-                yaxis : 1
+                data : [[TARGET_START_DATE, target], [endDate, target]],
+                yaxis : 1,
+                color : TARGET_LINE_COLOR
             };
         };
         
@@ -101,12 +70,13 @@ nar.plots = nar.plots || {};
                 },
                 lines : {
                     show: true,
-                    fillColor: movingAveColor,
+                    fillColor: MOVING_AVE_COLOR,
                     lineWidth: 0
                 },
                 shadowSize: 0,
                 data : data,
-                yaxis : 1
+                yaxis : 1,
+                color : MOVING_AVE_COLOR
             };
         };
         
@@ -124,50 +94,35 @@ nar.plots = nar.plots || {};
 				},
 				line : {
 					show : true,
-					fillColor : hypoxicExtentColor,
+					fillColor : HYPOXIC_EXTENT_COLOR,
 					lineWidth : 0
 				},
 				shadowSize : 0,
 				data : data,
-				yaxis : 2
+				yaxis : 2,
+				color : HYPOXIC_EXTENT_COLOR
 			};
 		};
         
-        var previousYearsSeries = makeSeriesConfig(previousYearsData, previousYearsColor);
-        var currentYearSeries = makeSeriesConfig(currentYearData, currentYearColor);
-        var longTermMeanSeries = makeLongTermMeanConfig(tsViz, longTermMeanColor);
-        
-        var series = [
-          previousYearsSeries,
-          currentYearSeries,
-          longTermMeanSeries
-        ];
-		var yaxes = [{
-			axisLabel: constituentName + " load,<br />in thousands of tons",
-			axisLabelFontSizePixels: 10,
-			axisLabelFontFamily: "Verdana, Arial, Helvetica, Tahoma, sans-serif",
-			axisLabelPadding: 10,
-			tickLength: 10,
-			tickFormatter : function(val) {
-				// Use Sugar to properly format numbers with commas
-				// http://sugarjs.com/api/Number/format
-				return (val).format();
-			}
-		}];
-
+        // Create auxillary data series if in tsViz
         if (Object.has(tsViz, 'auxData')) {
+			plotConfig.auxData = [];
+			
 			if (Object.has(tsViz.auxData, 'mean')) {
-				series = series.concat(makeBaselineConfig(previousYearsSeries.data.first()[0], tsViz.auxData.mean));
+				plotConfig.auxData.push(makeBaselineConfig(nar.plots.PlotUtils.getData(tsViz).first().first()[0], tsViz.auxData.mean));
 			}
+			
 			if (Object.has(tsViz.auxData, 'target')) {
-				series = series.concat(makeTargetConfig(previousYearsSeries.data.last()[0], tsViz.auxData.target));
+				plotConfig.auxData.push(makeTargetConfig(nar.plots.PlotUtils.getData(tsViz).first().last()[0], tsViz.auxData.target));
 			}
+			
 			if (Object.has(tsViz.auxData, 'movingAverage') && tsViz.auxData.movingAverage.length > 0) {
-				series = series.concat(makeMovingAveConfig(tsViz.auxData.movingAverage));
+				plotConfig.auxData.push(makeMovingAveConfig(tsViz.auxData.movingAverage));
 			}
+			
 			if (Object.has(tsViz.auxData, 'gulfHypoxicExtent')) {
 				series = series.concat(makeHypoxicExtentConfig(tsViz.auxData.gulfHypoxicExtent)); 
-				yaxes.push({
+				plotConfig.secondaryYaxis.push({
 					position : 'right',
 					axisLabel: 'Observed total hypoxic area, <br/> in thousands of square <br/>kilometers',
 					axisLabelFontSizePixels: 10,
@@ -181,25 +136,8 @@ nar.plots = nar.plots || {};
 			}
         }
         
-        var plot = $.plot(plotContainer, series, {
-            xaxis: {
-                mode: 'time',
-                timeformat: "%Y",
-                tickLength: 10,
-                ticks : nar.plots.PlotUtils.getTicksByYear
-            },
-            yaxes : yaxes,
-            legend: {
-                show: false
-            },
-            grid:{
-                hoverable: true
-            },
-            colors:[previousYearsColor, currentYearColor, longTermMeanColor, baselineColor, targetColor, movingAveColor] 
-        });
-        var hoverFormatter = nar.plots.PlotUtils.utcDatePlotHoverFormatter;
-        nar.plots.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
-        nar.plots.PlotUtils.setLineHoverFormatter(plotContainer, longTermMean, nar.definitions.longTermMean.short_definition);
+        var plot = nar.plots.createConstituentBarChart(tsViz, plotConfig);
+        
         return plot;
     };    
 }());
