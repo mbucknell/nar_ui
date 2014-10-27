@@ -59,34 +59,21 @@ $(document).ready(function() {
           }
     ];
 	/**
-	 * Determines if 'obj' has all the keys and values in keysAndValues.
-	 * @param {Object} obj
-	 * @param {Object} keysAndValues
-	 * returns {Boolean} true if all the keys in 'keysAndValues' are in 'obj' and 
-	 * all of the values in the matching keys are identical. false otherwise   
-	 * 
-	 */
-	var objectHasKeysAndValues = function(obj, keysAndValues){
-		var containsKeysAndValues = true;
-		for(key in keysAndValues){
-			//prototype filtering
-			if(Object.has(keysAndValues, key)){
-				if(!(Object.has(obj, key) && obj[key] === keysAndValues[key])){
-					containsKeysAndValues = false;
-					break;
-				}
-			}
-		}
-		return containsKeysAndValues;
-	};
-	/**
 	 * Determines if 'components' should be displayed on the client or not
-	 * @param {Object} components, as returned by nar.TimeSeries.Visualization.getComponentsOfId 
+	 * @param {nar.timeSeries.Visualization.IdComponents} components, as returned by nar.TimeSeries.Visualization.getComponentsOfId 
+	 * @param {array<nar.timeSeries.Visualization.IdComponents>} acceptableComponentsGroup
 	 * @returns Boolean - True if ignorable, false otherwise
 	 */
-	var componentsAreIgnorable = function(components){
-		
-	}
+	var componentsAreIgnorable = function(components, acceptableComponentsGroup){
+		var ignore = true;
+		acceptableComponentsGroup.each(function(acceptableComponents){
+			if(nar.util.objectHasAllKeysAndValues(components, acceptableComponents)){
+				ignore = false;
+				return false; //break
+			};
+		});
+		return ignore;
+	};
 	
 	var tsvRegistry = nar.timeSeries.VisualizationRegistryInstance;
 	var successfulGetDataAvailability = function(data,

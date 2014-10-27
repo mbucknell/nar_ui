@@ -23,7 +23,9 @@ nar.timeSeries.Visualization = function(config){
     self.ancillaryData = nar.timeSeries.Visualization.getCustomizationById(self.id, 'ancillary', []);
     self.averagesAndTargets = config.averagesAndTargets || {};
     self.allowTimeSlider = nar.timeSeries.Visualization.getCustomizationById(self.id, 'allowTimeSlider', true);
-
+    /*
+     * @returns {nar.timeSeries.Visualization.IdComponents}
+     */
     self.getComponentsOfId = function(){
         //delegate to static method
         return nar.timeSeries.Visualization.getComponentsOfId(self.id);

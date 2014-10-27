@@ -47,7 +47,7 @@ nar.util = {};
 	 * all of the values in the matching keys are strictly equal. false otherwise   
 	 * 
 	 */
-	nar.util.objectHasKeysAndValues = function(obj, keysAndValues){
+	nar.util.objectHasAllKeysAndValues = function(obj, keysAndValues){
 		var containsKeysAndValues = true;
 		for(key in keysAndValues){
 			//prototype filtering

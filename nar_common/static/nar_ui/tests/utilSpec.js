@@ -3,7 +3,7 @@ describe('Tests for nar.util', function() {
 	it('Expects utility functions to be defined', function() {
 		expect(nar.util.assert_selector_present).toBeDefined();
 		expect(nar.util.getTimeStamp).toBeDefined();
-		expect(nar.util.objectHasKeysAndValues).toBeDefined();
+		expect(nar.util.objectHasAllKeysAndValues).toBeDefined();
 	});
 	describe('getTimeStamp', function(){
 		var getTimeStamp = nar.util.getTimeStamp;
@@ -36,8 +36,8 @@ describe('Tests for nar.util', function() {
 			).not.toThrow();
 		});
 	});
-	describe('nar.util.objectHasKeysAndValues', function(){
-		var objectHasKeysAndValues = nar.util.objectHasKeysAndValues; 
+	describe('nar.util.objectHasAllKeysAndValues', function(){
+		var objectHasKeysAndValues = nar.util.objectHasAllKeysAndValues; 
 		var base = {a: 1, b:undefined, c:null, d:'blah'};
 
 		//identical case
