@@ -1,183 +1,85 @@
-{% extends "base.html" %}
-{% load static from staticfiles %}
-{% load compress %}
-
-{% block content %}
-
-<script>//select2 script
-	
-        $(document).ready(function() { 
-        
-        $("#e1").select2(); 
-		
-		$("#e2").select2();
-		
-		$("#e3").select2({
-    placeholder: "Select a State"
-}); 
-		$("#e4").select2({
-    placeholder: "Select a Station Name",
-    allowClear: true
-});
-
-		$("#e5").select2({
-    placeholder: "Select a Station ID",
-    allowClear: true
-});
-
-		$("#e6").select2({
-    placeholder: "Select a Site Type",
-    allowClear: true
-});
-
-		$("#e7").select2({
-    placeholder: "Select a Constituent",
-    allowClear: true
-});
-
-		$("#e8").select2({
-    placeholder: "Select a Water Quality Data Type",
-    allowClear: true
-});
+{% extends "base.html" %} 
+{% load static from staticfiles %} 
+{% load compress %} 
+{% block content %} 
+{% compress js %}
+<script type="text/javascript" src="{% static 'nar_ui/download.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/jquery-ui/jquery-ui.min.js' %}"></script>
+{% endcompress %}
 
 
-$('#clear-filters-button').on('click', function () {
-$('.select2-container').select2('val','');
-$('input[type="checkbox"]').prop('checked', false);
-});
 
 
-		
-});//doc ready
+<div id="downloadTop">
 
-    </script>
-    
-    <div id="downloadTop">
-	
-		<h2>Download Data</h2>
-		
-	</div><!--downloadTop-->
+	<h2>Download Data</h2>
+
+</div>
+<!--downloadTop-->
 
 <div id="downloadForm">
+	
+	<input id="startDateTime" class="" tabindex="-1" name="startDateTime" placeholder="Start Date (optional)"/>
+	<input id="endDateTime" class="" tabindex="-1" name="endDateTime" placeholder="End Date (optional)"/>
+	
+	<select multiple="multiple" id="state" class="populate select2-offscreen"
+		tabindex="-1"  name="state">
+	</select> 
+	<select multiple="multiple" id="stationId" class="populate select2-offscreen"
+		tabindex="-1"  name="stationId">
+	</select> 
+	<select multiple="multiple" id="siteType" class="populate select2-offscreen"
+		tabindex="-1"  name="siteType">
+	</select> 
+	
+	
+	<div id="checkbox_holder">
 
-    <select id="e1" class="populate select2-offscreen" tabindex="-1" title="and turns it into:">
-          
-            <option value="1">Start Date Example 1</option>
-            
-            <option value="2">Start Date Example 2</option>
-            
-             <option value="3">Start Date Example 3</option>
-        
-    </select>
-    
-    <select id="e2" class="populate select2-offscreen" tabindex="-1" title="and turns it into:">
-          
-            <option value="1">End Date Example 1</option>
-            
-            <option value="2">End Date Example 2</option>
-            
-             <option value="3">End Date Example 3</option>
-        
-    </select>
-    
-     <select multiple="multiple" id="e3" class="populate select2-offscreen" tabindex="-1" title="and turns it into:">
-          
-            <option value="1">Example 1</option>
-            
-            <option value="2">Example 2</option>
-            
-             <option value="3">Example 3</option>
-        
-    </select>
-    
-     <select multiple="multiple" id="e4" class="populate select2-offscreen" tabindex="-1" title="and turns it into:">
-          
-            <option value="1">Example 1</option>
-            
-            <option value="2">Example 2</option>
-            
-             <option value="3">Example 3</option>
-        
-    </select>
-    
-    <select multiple="multiple" id="e5" class="populate select2-offscreen" tabindex="-1" title="and turns it into:">
-          
-            <option value="1">Example 1</option>
-            
-            <option value="2">Example 2</option>
-            
-             <option value="3">Example 3</option>
-        
-    </select>
-    
-    <select multiple="multiple" id="e6" class="populate select2-offscreen" tabindex="-1" title="and turns it into:">
-          
-            <option value="1">Example 1</option>
-            
-            <option value="2">Example 2</option>
-            
-             <option value="3">Example 3</option>
-        
-    </select>
-    
-    <select multiple="multiple" id="e7" class="populate select2-offscreen" tabindex="-1" title="and turns it into:">
-          
-            <option value="1">Example 1</option>
-            
-            <option value="2">Example 2</option>
-            
-             <option value="3">Example 3</option>
-        
-    </select>
-    
-    <select multiple="multiple" id="e8" class="populate select2-offscreen" tabindex="-1" title="and turns it into:">
-          
-            <option value="1">Example 1</option>
-            
-            <option value="2">Example 2</option>
-            
-             <option value="3">Example 3</option>
-        
-    </select>
-    
-    <div id="checkbox_holder">
-    
-    	<p class="format">Choose a data type(s):</p>
-    
-	    <input id="first" type="checkbox"/>Site Information
-	    
-	     <input type="checkbox"/>Water Quality
-	     
-	     <input type="checkbox"/>Stream Flow
-      
-    	</div><!--checkbox_holder-->
-    	
-    	<div id="box">
-    	
-	    	<p class="format">Choose a File Format:</p>
-	    	
-	    	<div id="format_holder">
-	    	
-	    		<input type="checkbox"/>.csv
-		    
-		     	<input type="checkbox"/>.tsv
-		     
-		    	 <input type="checkbox"/>excel
-	    		
-	    	</div><!--format_holder-->
-	    	
-		</div><!--box-->
-		
-		<div id="downloadButtons">
-		
-			<button id="clear-filters-button">Clear Filters</button>
-			
-			<button>Download</button>
-		
+		<p class="format">* Choose a data type(s):</p>
+
+		<input id="first" type="checkbox" name="dataType" value="siteInformation"/>Site Information 
+		<input type="checkbox" name="dataType" value="waterQuality"/>Water Quality 
+		<input type="checkbox" name="dataType" value="streamFlow"/>Stream Flow
+
+	</div>
+	
+	<select multiple="multiple" id="constituent" class="populate select2-offscreen"
+		tabindex="-1"  name="constituent">
+		<option value="nitrate">Nitrate</option>
+		<option value="totalNitrogen">Total Nitrogen</option>
+		<option value="totalPhosphorus">Total Phosphorus</option>
+		<option value="suspendedSediment">Suspended Sediment</option>
+
+	</select> 
+	<select multiple="multiple" id="qwDataType" class="populate select2-offscreen"
+		tabindex="-1"  name="qwDataType">
+		<option value="annualLoad">Annual load</option>
+		<option value="monthlyLoad">Monthly load</option>
+		<option value="discreteQw">Discrete QW</option>
+	</select>
+
+	<div id="box">
+
+		<p class="format">Choose a File Format:</p>
+
+		<div id="format_holder">
+			<input type="radio" name="format" value="csv" checked="true"/>.csv
+			<input type="radio" name="format" value="tsv" />.tsv 
 		</div>
-	
-	
 
-</div><!--downloadForm-->
+	</div>
+	
+	<div id="downloadButtons">
+
+		<button id="clear-filters-button">Clear Filters</button>
+
+		<button id="download-button">Download</button>
+
+	</div>
+
+
+
+</div>
+<!--downloadForm-->
 
 {% endblock %}
