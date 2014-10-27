@@ -129,6 +129,7 @@ nar.timeSeries.Visualization.serverToClientConstituentIdMap = {
     'si':'sediment',
     'ssc':'sediment',
     'tkn': 'nitrogen',
+    'tn' : 'totalNitrogen',
     'tp':'phosphorus',
     'q':'streamflow'
 };
@@ -146,15 +147,17 @@ nar.timeSeries.Visualization.getComponentsOfId = function(id) {
     var clientConstituentId = nar.timeSeries.Visualization.serverToClientConstituentIdMap[serverConstituentId
             .toLowerCase()];
     components.constituent = clientConstituentId;
-    var potential_category = splitId[1];
-    if (potential_category) {
-        var split_potential_category = potential_category.split('_');
-        if (2 === split_potential_category.length) {
-            components.category = split_potential_category[1];
-            components.subcategory = potential_category;
-        } else {
-            components.category = potential_category;
-        }
+    var timestepDensity = splitId[1];
+    components.timestepDensity = timestepDensity;
+    var category = splitId[2];
+    components.category = category;
+    var potential_subcategory = splitId[3] || false;
+    if (potential_subcategory) {
+            components.subcategory = potential_subcategory;
+    }
+    var potential_modtype = splitId[4] || false;
+    if(potential_modtype){
+    	components.modtype = potential_modtype;
     }
     return components;
 };
@@ -191,13 +194,13 @@ nar.timeSeries.Visualization.getPlotterById = function(id){
  * Some configuration for which category of data gets which graph
  */
 nar.timeSeries.Visualization.types = {
-		discrete : {
+		concentration : {
 			plotter : nar.plots.SampleConcentrationPlot,
 			range : nar.timeSeries.DataAvailabilityTimeRange,
 			ancillary : [],
 			allowTimeSlider : true
 		},
-		load : {
+		mass : {
 			plotter : nar.plots.LoadPlot,
 			range : nar.timeSeries.DataAvailabilityTimeRange,
 			ancillary : [],

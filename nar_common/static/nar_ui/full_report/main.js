@@ -34,15 +34,22 @@ $(document).ready(function() {
 		contentType : 'application/json'
 
 	});
-
+	var procedureSuffixToIgnore = ['comp'];
 	var tsvRegistry = nar.timeSeries.VisualizationRegistryInstance;
 	var successfulGetDataAvailability = function(data,
 			textStatus, jqXHR) {
-		data.dataAvailability.each(function(dataAvailability) {
-			var observedProperty = dataAvailability.observedProperty;
-			var procedure = dataAvailability.procedure;
+		var dataAvailability = data.dataAvailability;
+		
+		dataAvailability = dataAvailability.filter(function(datumAvailability){
+			var ignore = datumAvailability.procedure.toLowerCase().endsWith(procedureSuffixToIgnore);
+			return !ignore;
+		});
+		
+		dataAvailability.each(function(dataAvailability) {
+			var observedProperty = dataAvailability.observedProperty.toLowerCase();
+			var procedure = dataAvailability.procedure.toLowerCase();
 			var timeSeriesVizId = tsvRegistry
-					.getIdForObservedProperty(observedProperty);
+					.getTimeSeriesVisualizationId(observedProperty, procedure);
 			var timeSeriesViz = tsvRegistry
 					.get(timeSeriesVizId);
 			if (!timeSeriesViz) {
@@ -81,6 +88,7 @@ $(document).ready(function() {
 								.add(ancilSeries);
 					});
 		});
+		
 		var allTimeSeriesVizualizations = tsvRegistry.getAll();
 		var timeSlider = nar.timeSeries.TimeSlider(selectorElementPairs.timeSlider.element);
 		var tsvController = new nar.timeSeries.VisualizationController(
