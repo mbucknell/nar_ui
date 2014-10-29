@@ -11,7 +11,7 @@ nar.GraphPopup = (function() {
 	me.timeSeriesViz = undefined;
 	var mrbToSos = {
 			constituentToConstituentId : {
-				'tn' : 'NH3',
+				'tn' : 'TN',
 				'no23': 'NO23',
 				'tp' : 'TP',
 			},
@@ -38,101 +38,119 @@ nar.GraphPopup = (function() {
 		target = args.target,
 		sosDefinitionBaseUrl = 'http://cida.usgs.gov/def/NAR/',
 		observedPropertyBaseUrl = sosDefinitionBaseUrl + 'property/';
-		
-		var sosUrlParams = {
-				constituentId : mrbToSos.constituentToConstituentId[mrbConstituent],
-				dataType : mrbToSos.loadTypeToDataType[loadType]
-		};
-		
-		var observedProperty= observedPropertyUrlTemplate.assign(sosUrlParams);
-		var procedure = procedureUrlTemplate.assign(sosUrlParams);
-		
-		var basicTimeSeries = new nar.timeSeries.TimeSeries({
-			observedProperty: observedProperty,
-			procedure: procedure,
-			featureOfInterest: siteId,
-		});
-
-		// Generate additional time series for baseline average, 45% reduction targets, and baseline-average
-		var siteDataDeferred = $.Deferred();
-		if (!isVirtual) {
-			$.ajax({
-				url : CONFIG.siteAveTargetUrl,
-				data : {
-					site_id : siteId,
-					constituent : mrbToSos.constituentToConstituentId[mrbConstituent]
-				},
-				contentType : 'application/json',
-				success : function(response) {
-					var data = {
-						mean : response[loadType + '_mean'],
-						target : response[loadType + '_target'],
-						movingAverage : []
-					};
-					var i;
-					for (i = 0; i < response.moving_average.length; i++) {
-						var movAve = response.moving_average[i];
-						if (movAve[loadType + '_moving_average']) {
-							data.movingAverage.push({
-								waterYear : movAve.water_year,
-								ave : movAve[loadType + '_moving_average']
-							});
-						}
-					}
-
-					siteDataDeferred.resolve(data);
-				},
-				error : function(data) {
-					siteDataDeferred.resolve({});
-					throw Error('Unable to retrieve average and targets');
-				}
-			});
-		} 
-		else if (loadType === 'may') {
-			// In this case we will be graphing the observed hypoxic area on the
-			// graph so need to retrieve it.
-			$.ajax({
-				url : CONFIG.gulfHypoxicExtentUrl,
-				contentType : 'application/json',
-				success : function(response) {
-					var i;
-					var data = {
-						gulfHypoxicExtent : response
-					};
-					siteDataDeferred.resolve(data);
-				},
-				error : function(data) {
-					siteDataDeferred.resolve({});
-					throw Error('Unable to retrieve Gulf hypoxic extent data');
-				}
-			});
-		}
-		else {
-			siteDataDeferred.resolve({});
-		}
-		
-		var timeSeriesCollection = new nar.timeSeries.Collection();
-		timeSeriesCollection.add(basicTimeSeries);
-		
-		var timeSeriesVizId = tsvRegistry.getIdForObservedProperty(observedProperty);
-		
 		var vizDeferred = $.Deferred();
 		var promise = vizDeferred.promise();
 		
-		// Wait until the siteData has been retrieved before creating the visualization
-		$.when(siteDataDeferred).then(function(response) {
-			me.timeSeriesViz = new nar.timeSeries.Visualization({
-				id : timeSeriesVizId,
-				allPlotsWrapperElt : target,
-				timeSeriesCollection : timeSeriesCollection,
-				auxData : response
-			});
-			$.when(me.timeSeriesViz.visualize()).then(function(data) {
-				vizDeferred.resolve(data);
-			}, function(data) {
-				vizDeferred.reject(data);
-			});
+		var constituentId = mrbToSos.constituentToConstituentId[mrbConstituent];
+		var observedProperty = observedPropertyBaseUrl + constituentId;
+		var getDataAvailability = $.ajax({
+			url: CONFIG.endpoint.sos,
+			contentType : 'application/json',
+			type: 'POST',
+			dataType: 'json',
+			data: JSON.stringify({
+				  "request": "GetDataAvailability",
+				  "service": "SOS",
+				  "version": "2.0.0",
+				  "observedProperty": observedProperty,
+				  "featureOfInterest": siteId
+			})
 		});
+		
+		$.when(getDataAvailability).then(function(dataAvailability){
+			
+			var relevantDataAvailability = dataAvailability.dataAvailability.filter(function(datumAvailability){
+				return datumAvailability.procedure.has('annual_mass/') && !datumAvailability.procedure.has('COMP') 
+			});
+			if(0 === relevantDataAvailability.length){
+				throw Error('No data available for this constituent at this site');
+			}
+			var relevantProcedure = relevantDataAvailability[0].procedure;
+			
+			var basicTimeSeries = new nar.timeSeries.TimeSeries({
+				observedProperty: observedProperty,
+				procedure: relevantProcedure,
+				featureOfInterest: siteId,
+			});
+	
+			// Generate additional time series for baseline average, 45% reduction targets, and baseline-average
+			var siteDataDeferred = $.Deferred();
+			if (!isVirtual) {
+				$.ajax({
+					url : CONFIG.siteAveTargetUrl,
+					data : {
+						site_id : siteId,
+						constituent : mrbToSos.constituentToConstituentId[mrbConstituent]
+					},
+					contentType : 'application/json',
+					success : function(response) {
+						var data = {
+							mean : response[loadType + '_mean'],
+							target : response[loadType + '_target'],
+							movingAverage : []
+						};
+						var i;
+						for (i = 0; i < response.moving_average.length; i++) {
+							var movAve = response.moving_average[i];
+							if (movAve[loadType + '_moving_average']) {
+								data.movingAverage.push({
+									waterYear : movAve.water_year,
+									ave : movAve[loadType + '_moving_average']
+								});
+							}
+						}
+	
+						siteDataDeferred.resolve(data);
+					},
+					error : function(data) {
+						siteDataDeferred.resolve({});
+						throw Error('Unable to retrieve average and targets');
+					}
+				});
+			} 
+			else if (loadType === 'may') {
+				// In this case we will be graphing the observed hypoxic area on the
+				// graph so need to retrieve it.
+				$.ajax({
+					url : CONFIG.gulfHypoxicExtentUrl,
+					contentType : 'application/json',
+					success : function(response) {
+						var i;
+						var data = {
+							gulfHypoxicExtent : response
+						};
+						siteDataDeferred.resolve(data);
+					},
+					error : function(data) {
+						siteDataDeferred.resolve({});
+						throw Error('Unable to retrieve Gulf hypoxic extent data');
+					}
+				});
+			}
+			else {
+				siteDataDeferred.resolve({});
+			}
+			
+			var timeSeriesCollection = new nar.timeSeries.Collection();
+			timeSeriesCollection.add(basicTimeSeries);
+			
+			var timeSeriesVizId = tsvRegistry.getTimeSeriesVisualizationId(observedProperty, relevantProcedure);
+			
+			// Wait until the siteData has been retrieved before creating the visualization
+			$.when(siteDataDeferred).then(function(response) {
+				me.timeSeriesViz = new nar.timeSeries.Visualization({
+					id : timeSeriesVizId,
+					allPlotsWrapperElt : target,
+					timeSeriesCollection : timeSeriesCollection,
+					auxData : response
+				});
+				$.when(me.timeSeriesViz.visualize()).then(function(data) {
+					vizDeferred.resolve(data);
+				}, function(data) {
+					vizDeferred.reject(data);
+				});
+			});
+	});
         return promise;
 		
 	};

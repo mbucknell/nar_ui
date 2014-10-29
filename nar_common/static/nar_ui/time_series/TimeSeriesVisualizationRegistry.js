@@ -70,8 +70,8 @@ nar.timeSeries.VisualizationRegistry = function(){
      * @param {String} observedProperty
      * @returns {nar.timeSeries.Visualization
      */
-    self.getByObservedProperty = function(observedProperty){
-        var vizId = self.getIdForObservedProperty(observedProperty);
+    self.getByObservedPropertyAndProcedure = function(observedProperty, procedure){
+        var vizId = self.getTimeSeriesVisualizationId(observedProperty, procedure);
         var viz = self.get(vizId);
         return viz;
     };
@@ -81,7 +81,7 @@ nar.timeSeries.VisualizationRegistry = function(){
     var strippedObservedPropertyToVizIdMap = {
             //empty for now
     };
-    self.urlPrefix = 'http://cida.usgs.gov/def/nar/';
+    self.urlPrefix = 'http://cida.usgs.gov/def/NAR/';
     self.stripUrlPrefix = function(url, urlPrefix){
         return url.replace(urlPrefix, '');
     };
