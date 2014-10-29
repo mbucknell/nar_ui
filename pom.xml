@@ -175,6 +175,7 @@
 		         	<include>summary_report/main.js</include>
 		         	<include>full_report/main.js</include>
 		         	<include>mississippi/main.js</include>
+		         	<include>download.js</include>
 		         </sourceExcludes>
 		     </configuration>
 		</plugin>
