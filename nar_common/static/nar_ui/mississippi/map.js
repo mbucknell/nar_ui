@@ -33,6 +33,7 @@ nar.mississippi.map = (function() {
 			projection : nar.commons.map.projection,
 			restrictedExtent : me.mississippiExtent,
 			maxExtent : me.mississippiExtent,
+			maxResolution : 8044.572575737846,
 			theme : CONFIG.staticUrl + 'nar_ui/js_lib/OpenLayers/theme/default/style.css',
 			controls : [
 				new OpenLayers.Control.Navigation(),
