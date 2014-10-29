@@ -36,83 +36,90 @@ nar.GraphPopup = (function() {
 		loadType = args.loadType,
 		target = args.target,
 		sosDefinitionBaseUrl = 'http://cida.usgs.gov/def/NAR/',
-		observedPropertyUrlTemplate = sosDefinitionBaseUrl + 'property/{constituentId}/{dataType}',
-		procedureUrlTemplate = sosDefinitionBaseUrl + 'procedure/{constituentId}';
+		observedPropertyBaseUrl = sosDefinitionBaseUrl + 'property/';
 		
-		var sosUrlParams = {
-				constituentId : mrbToSos.constituentToConstituentId[mrbConstituent],
-				dataType : mrbToSos.loadTypeToDataType[loadType]
-		};
-		var observedProperty= observedPropertyUrlTemplate.assign(sosUrlParams);
-		var procedure = procedureUrlTemplate.assign(sosUrlParams);
-		
-		var basicTimeSeries = new nar.timeSeries.TimeSeries({
-			observedProperty: observedProperty,
-			procedure: procedure,
-			featureOfInterest: siteId,
+		var constituentId = mrbToSos.constituentToConstituentId[mrbConstituent];
+		var observedProperty = observedPropertyBaseUrl + constituentId;
+		var getDataAvailability = $.ajax({
+			url: CONFIG.endpoint.sos,
+			data: {
+				  "request": "GetDataAvailability",
+				  "service": "SOS",
+				  "version": "2.0.0",
+				  "observedProperty": observedProperty,
+				  "featureOfInterest": siteId
+			}
 		});
-
-		// Generate additional time series for baseline average, 45% reduction targets, and baseline-average
-	    var siteDataDeferred = $.Deferred();
-		$.ajax({
-		    url: CONFIG.siteAveTargetUrl,
-		    data : {
-		        site_id : args.siteId,
-		        constituent : mrbToSos.constituentToConstituentId[mrbConstituent]
-		    },
-		    contentType : 'application/json',
-		    success : function(response) {
-		        var data = {
-		                mean : response[loadType + '_mean'],
-		                target : response[loadType + '_target'],
-		                movingAverage : []
-		        };
-		        var i;
-		        for (i = 0; i < response.moving_average.length; i++) {
-		            var movAve = response.moving_average[i];
-		            if (movAve[loadType + '_moving_average']) {
-		                data.movingAverage.push({
-		                    waterYear : movAve.water_year,
-		                    ave : movAve[loadType + '_moving_average']
-		                });
-		            }
-		        }
-		       
-		        siteDataDeferred.resolve(data);
-		    },
-		    error : function(data) {
-		        siteDataDeferred.resolve({});
-		        throw Error('Unable to retrieve average and targets');
-		    }
+		$.when(getDataAvailability).then(function(getDataAvailabilityResponse){
+			
+			var basicTimeSeries = new nar.timeSeries.TimeSeries({
+				observedProperty: observedProperty,
+				procedure: procedure,
+				featureOfInterest: siteId,
+			});
+	
+			// Generate additional time series for baseline average, 45% reduction targets, and baseline-average
+		    var siteDataDeferred = $.Deferred();
+			$.ajax({
+			    url: CONFIG.siteAveTargetUrl,
+			    data : {
+			        site_id : args.siteId,
+			        constituent : mrbToSos.constituentToConstituentId[mrbConstituent]
+			    },
+			    contentType : 'application/json',
+			    success : function(response) {
+			        var data = {
+			                mean : response[loadType + '_mean'],
+			                target : response[loadType + '_target'],
+			                movingAverage : []
+			        };
+			        var i;
+			        for (i = 0; i < response.moving_average.length; i++) {
+			            var movAve = response.moving_average[i];
+			            if (movAve[loadType + '_moving_average']) {
+			                data.movingAverage.push({
+			                    waterYear : movAve.water_year,
+			                    ave : movAve[loadType + '_moving_average']
+			                });
+			            }
+			        }
+			       
+			        siteDataDeferred.resolve(data);
+			    },
+			    error : function(data) {
+			        siteDataDeferred.resolve({});
+			        throw Error('Unable to retrieve average and targets');
+			    }
+			});
+			
+			var timeSeriesCollection = new nar.timeSeries.Collection();
+			timeSeriesCollection.add(basicTimeSeries);
+			
+			var timeSeriesVizId = tsvRegistry.getIdForObservedProperty(observedProperty);
+			
+			var vizDeferred = $.Deferred();
+			var promise = vizDeferred.promise();
+			
+			// Wait until the siteData has been retrieved before creating the visualization
+		    $.when(siteDataDeferred).then(function(response) {
+	    		me.timeSeriesViz = new nar.timeSeries.Visualization({
+	    			id: timeSeriesVizId,
+	    			allPlotsWrapperElt : target,
+	    			timeSeriesCollection: timeSeriesCollection,
+	    			averagesAndTargets : response
+	    		});
+	    		$.when(me.timeSeriesViz.visualize()).then(
+	    		        function(data) {
+	    		            vizDeferred.resolve(data);
+	    		        },
+	    		        function(data) {
+	    		            vizDeferred.reject(data);
+	    		        }
+	    		);
+		    });
 		});
-		
-		var timeSeriesCollection = new nar.timeSeries.Collection();
-		timeSeriesCollection.add(basicTimeSeries);
-		
-		var timeSeriesVizId = tsvRegistry.getIdForObservedProperty(observedProperty);
-		
-		var vizDeferred = $.Deferred();
-		var promise = vizDeferred.promise();
-		
-		// Wait until the siteData has been retrieved before creating the visualization
-	    $.when(siteDataDeferred).then(function(response) {
-    		me.timeSeriesViz = new nar.timeSeries.Visualization({
-    			id: timeSeriesVizId,
-    			allPlotsWrapperElt : target,
-    			timeSeriesCollection: timeSeriesCollection,
-    			averagesAndTargets : response
-    		});
-    		$.when(me.timeSeriesViz.visualize()).then(
-    		        function(data) {
-    		            vizDeferred.resolve(data);
-    		        },
-    		        function(data) {
-    		            vizDeferred.reject(data);
-    		        }
-    		);
-	    });
-
         return promise;
+		
 	};
 
 	me.create = function(args) {
