@@ -16,13 +16,13 @@ $(document).ready(function() {
 			nutrientTypeSelectCtrls = $('select[name="chemical"]'),
 			yearRangeSelectCtrls = $('select[name="year"]'),
 			leftSelections = {
-				parameter_type : loadTypeSelectCtrls[0].value.toUpperCase(),
-				constituent : nutrientTypeSelectCtrls[0].value.toUpperCase(),
+				parameter_type : loadTypeSelectCtrls[0].value.split('_').last(),
+				constituent : nutrientTypeSelectCtrls[0].value,
 				water_year : yearRangeSelectCtrls[0].value
 			},
 			rightSelections = {
-				parameter_type : loadTypeSelectCtrls[1].value.toUpperCase(),
-				constituent : nutrientTypeSelectCtrls[1].value.toUpperCase(),
+				parameter_type : loadTypeSelectCtrls[1].value.split('_').last(),
+				constituent : nutrientTypeSelectCtrls[1].value,
 				water_year : yearRangeSelectCtrls[1].value
 			};
 		

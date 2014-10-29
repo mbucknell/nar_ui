@@ -166,8 +166,7 @@
 						<include>plots/*.js</include>
 						<include>time_series/*.js</include>
                         <include>summary_report/*.js</include>
-		                                        <include>full_report/*.js</include>
-		                
+		                <include>full_report/*.js</include>		                
 		                <include>mississippi/*.js</include>
 		         </sourceIncludes>
 		         <sourceExcludes>
