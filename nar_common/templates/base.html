@@ -22,6 +22,7 @@
 	<link rel="stylesheet" href="{% static 'nar_ui/js_lib/bootstrap/css/bootstrap.icon-large.min.css' %}"/>
 	<link rel="stylesheet" href="{% static 'nar_ui/select2.css' %}"/>
 	<link rel="stylesheet" href="{% static 'nar_ui/select2-bootstrap.css' %}"/>
+<link rel="stylesheet" href="{% static 'nar_ui/js_lib/jquery-ui/css/ui-lightness/jquery-ui.min.css' %}"/>
 	{% compress css %}
 		<link rel="stylesheet" type="text/less" media="all" href="{% static 'nar_ui/common.less' %}"/>
 		<link rel="stylesheet" type="text/less" media="all" href="{% static 'nar_ui/nar.less' %}"/>
@@ -54,12 +55,14 @@
 			staticUrl : '{{ STATIC_URL|escapejs }}',
 			endpoint : {
 				geoserver: 'http://' + '{{ settings.GEOSERVER_HOST_NAME|escapejs }}' + '{{ settings.GEOSERVER_PATH|escapejs}}',
-				sos: 'http://' + '{{ settings.SOS_HOST_NAME|escapejs }}' + '{{ settings.SOS_PATH|escapejs}}'
+				sos: 'http://' + '{{ settings.SOS_HOST_NAME|escapejs }}' + '{{ settings.SOS_PATH|escapejs}}',
+				download: 'http://' + '{{ settings.DATA_DOWNLOAD_SERVICE|escapejs }}' + '{{ settings.DATA_DOWNLOAD_PATH|escapejs}}',
 			},
 			definitionsUrl : "{% url 'helpcontent-definitions' %}",
 			siteInfoUrl : "{% url 'helpcontent-site_info' %}",
 			techInfoUrl : "{% url 'technical_information' %}#TechnicalInformationandGlossary-MethodsUsedtoProduceGraphics",
-            siteAveTargetUrl : "{% url 'nar_values-site_averages_and_targets' %}"
+            siteAveTargetUrl : "{% url 'nar_values-site_averages_and_targets' %}",
+            gulfHypoxicExtentUrl : "{% url 'nar_values-gulf_hypoxic_extent' %}"
 		};
 		
 	</script>

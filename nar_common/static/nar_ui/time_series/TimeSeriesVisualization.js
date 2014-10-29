@@ -21,7 +21,7 @@ nar.timeSeries.Visualization = function(config){
     self.plotter = config.plotter;
     self.ranger = nar.timeSeries.Visualization.getCustomizationById(self.id, 'range', nar.util.Unimplemented);
     self.ancillaryData = nar.timeSeries.Visualization.getCustomizationById(self.id, 'ancillary', []);
-    self.averagesAndTargets = config.averagesAndTargets || {};
+    self.auxData = config.auxData || {};
     self.allowTimeSlider = nar.timeSeries.Visualization.getCustomizationById(self.id, 'allowTimeSlider', true);
     /*
      * @returns {nar.timeSeries.Visualization.IdComponents}

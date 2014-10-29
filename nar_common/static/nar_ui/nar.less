@@ -1145,26 +1145,22 @@ ul#relativeLinks{
 				
 #downloadTop p{font-size:.9em;}
 
-#s2id_e1,
-#s2id_e2{font-family:@baseFontFamily;
+#startDateTime,
+#endDateTime{font-family:@baseFontFamily;
 		font-size:1.2em;
 		width:49% !important;
 		padding-top:0;}
 		
-#s2id_e1{float:left;}
-#s2id_e2{float:right;
-}
-		
-#s2id_e3,
-#s2id_e4,
-#s2id_e5,
-#s2id_e6,
-#s2id_e7,
-#s2id_e8{width:100%;
-		margin-top:15px;
+#startDateTime{float:left;}
+#endDateTime{float:right;
 }
 
-#s2id_e8{margin-bottom:20px;}
+#downloadForm .select2-container {		
+    width:100%;
+	margin-top:15px;
+}
+
+#s2id_streamFlowType{margin-bottom:20px;}
 		
 		
 #select2-drop{font-family:@baseFontFamily;}
@@ -1183,7 +1179,7 @@ ul#relativeLinks{
 	margin:0 0 0 0;
 	border-radius:5px;
 	text-align:left;
-	
+	margin-top:15px;
 }				
 				
 #checkbox_holder input{margin:8px 5px 0 10px;
@@ -1233,6 +1229,15 @@ ul#relativeLinks{
 								border:@borderDark;
 }
 
+#downloadButtons button:disabled,
+#downloadButtons button:hover:disabled{background:@siteBackground;
+								color: @endColor;
+								border:@borderLight;
+}
+
+.ui-widget-header {background:@primaryColor;
+					border-color:@primaryColor;
+}
 /*###########################download_end####################### */
 
 

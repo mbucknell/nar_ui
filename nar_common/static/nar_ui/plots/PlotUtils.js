@@ -118,6 +118,7 @@ nar.plots = nar.plots || {};
             var BASELINE_COLOR = 'black';
             var TARGET_LINE_COLOR = 'black';
             var MOVING_AVE_COLOR = 'black';
+            var HYPOXIC_EXTENT_COLOR = 'black';
             
             return {
                 name : constituentName,
@@ -128,7 +129,8 @@ nar.plots = nar.plots || {};
                     criteriaLine: criteriaLineColor,
                     baselineColor : BASELINE_COLOR,
                     targetColor : TARGET_LINE_COLOR,
-                    movingAveColor : MOVING_AVE_COLOR
+                    movingAveColor : MOVING_AVE_COLOR,
+                    hypoxicExtentColor : HYPOXIC_EXTENT_COLOR
                 }
             };
         },
