@@ -102,6 +102,14 @@ nar.ContributionDisplay = (function() {
 		return sortedData;
 	};
 	
+	me.removePieChart = function(containerSelector) {
+		if (me.plots[containerSelector]) {
+			me.plots[containerSelector].shutdown();
+			delete me.plots[containerSelector];
+		}
+		$(containerSelector).find('[class^=chart-miss]').remove();
+	};
+	
 	me.createPie = function (args) {
 		var data = args.data,
 			containerSelector = args.containerSelector,
@@ -131,16 +139,9 @@ nar.ContributionDisplay = (function() {
 					width : width,
 					height : height,
 					'z-index' : zIndex
-				}),
-			removePieChart = function() {
-				if (me.plots[containerSelector]) {
-					me.plots[containerSelector].shutdown();
-					delete me.plots[containerSelector];
-				}
-				$container.find('[class^=chart-miss]').remove();
-			};
+				});
 		
-		removePieChart();
+		me.removePieChart(containerSelector);
 			
 		if (placement === 'bl') {
 			$chartDiv.css({
@@ -202,7 +203,7 @@ nar.ContributionDisplay = (function() {
 		});
 		
 		$closeLinkRow.append($closeLinkCell.append($closeLink));
-		$legendContainer.find('tbody').prepend($closeLinkRow)
+		$legendContainer.find('tbody').prepend($closeLinkRow);
 		
 		$chartDiv.on('plothover', function(event, pos, obj) {
 			var $legend,
@@ -222,7 +223,9 @@ nar.ContributionDisplay = (function() {
 			}
 		});
 		
-		$closeLink.on('click', removePieChart);
+		$closeLink.on('click', function() {
+			me.remove(containerSelector);
+		});
 		
 		$( document ).tooltip();
 	};
@@ -257,9 +260,15 @@ nar.ContributionDisplay = (function() {
 		});
 	};
 	
+	me.isVisible  = function(containerSelector) {
+		return $(containerSelector).find('[class^=chart-miss]').length !== 0;
+	};
+	
 	return {
 		create : me.create,
-		createLegendData : me.createLegendData
+		createLegendData : me.createLegendData,
+		remove : me.removePieChart,
+		isVisible : me.isVisible
 	};
 	
 })();

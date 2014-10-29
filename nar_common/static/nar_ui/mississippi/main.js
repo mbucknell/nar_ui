@@ -10,6 +10,28 @@ $(document).ready(function() {
 			}
 		});
 	});
+	var updateContributionDisplay = function(containerSelector, placement, selections) {
+		if (selections.parameter_type && selections.constituent && selections.water_year) {
+			nar.ContributionDisplay.create({
+				containerSelector : containerSelector,
+				placement : placement,
+				parameters : selections,
+				width : 200,
+				height : 200
+			});
+		}
+		else {
+			nar.ContributionDisplay.remove(containerSelector);
+		}
+	};
+	
+	var updateLeftContributionDisplay = function(selections) {
+		updateContributionDisplay ('#left-pie-chart-container', 'bl', selections);
+	};
+	
+	var updateRightContributionDisplay = function(selections) {
+		updateContributionDisplay('#right-pie-chart-container', 'br', selections);
+	};
 	
 	$('#link-chart-contribution').on('click', function () {
 		var loadTypeSelectCtrls = $('select[name="load"]'),
@@ -25,27 +47,8 @@ $(document).ready(function() {
 				constituent : nutrientTypeSelectCtrls[1].value,
 				water_year : yearRangeSelectCtrls[1].value
 			};
-		
-		if (leftSelections.parameter_type && leftSelections.constituent && leftSelections.water_year) {
-			
-			nar.ContributionDisplay.create({
-				containerSelector : '#left-pie-chart-container',
-				placement : 'bl',
-				parameters : leftSelections,
-				width: 200,
-				height : 200
-			});
-		}
-		
-		if (rightSelections.parameter_type && rightSelections.constituent && rightSelections.water_year) {
-			nar.ContributionDisplay.create({
-				containerSelector : '#right-pie-chart-container',
-				placement : 'br',
-				parameters : rightSelections,
-				width: 200,
-				height : 200
-			});
-		}
+		updateLeftContributionDisplay (leftSelections);
+		updateRightContributionDisplay(rightSelections);
 	});
 	
 	var leftMapName = 'left-map',
@@ -233,8 +236,16 @@ $(document).ready(function() {
 	var rightFiltersName = '.right_filter';
 	var rightFilters= $(rightFiltersName);
 	
-	nar.mississippi.createLoadSelect(leftMap, leftFilters);
-	nar.mississippi.createLoadSelect(rightMap, rightFilters);
+	nar.mississippi.createLoadSelect(leftMap, leftFilters, function(selections) {
+		if (nar.ContributionDisplay.isVisible('#left-pie-chart-container')) {
+			updateLeftContributionDisplay(selections);
+		}
+	});
+	nar.mississippi.createLoadSelect(rightMap, rightFilters, function(selections) {
+		if (nar.ContributionDisplay.isVisible('#right-pie-chart-container')) {
+			updateRightContributionDisplay(selections);
+		}
+	});
 	
 	var leftFiltersSubject = new nar.mississippi.FiltersSubject(leftFilters);
 	var rightFiltersSubject = new nar.mississippi.FiltersSubject(rightFilters);

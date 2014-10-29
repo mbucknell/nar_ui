@@ -1,6 +1,12 @@
 var nar = nar || {};
 nar.mississippi = nar.mississippi || {};
-nar.mississippi.createLoadSelect = function(map, filterDiv) {
+
+/*
+ * @param map {OpenLayers.map}
+ * @param filterDiv {jquery element containing the load filters }
+ * @param changeHandler {function with selections object which is called whenever one of the filters changes}
+ */
+nar.mississippi.createLoadSelect = function(map, filterDiv, changeHandler) {
 	var loadLayer = new OpenLayers.Layer.WMS(
 		'Nutrient Load',
 		CONFIG.endpoint.geoserver + 'NAR/wms',
@@ -14,7 +20,7 @@ nar.mississippi.createLoadSelect = function(map, filterDiv) {
 	
 	var mapHasLayer = function() {
 		return (map.getLayersByName('Nutrient Load').length > 0);
-	}
+	};
 	
 	var loadSelect = filterDiv.find('select[name="load"]');
 	var chemicalSelect = filterDiv.find('select[name="chemical"]');
@@ -59,6 +65,11 @@ nar.mississippi.createLoadSelect = function(map, filterDiv) {
 		else if (mapHasLayer()) {
 			map.removeLayer(loadLayer);
 		}
+		changeHandler({
+			parameter_type : load.last(), 
+			constituent : chemical,
+			water_year : year
+		});
 	});
 		
 };
