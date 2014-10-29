@@ -5,7 +5,7 @@ nar.mississippi.map = (function() {
 	
 	var me = {};
 	
-	me.mississippiExtent = new OpenLayers.Bounds(-120.5, 22.5, -69.5, 54.5).transform(nar.commons.map.geographicProjection, nar.commons.map.projection);
+	me.mississippiExtent = new OpenLayers.Bounds(-115.5, 28.0, -78.5, 50.5).transform(nar.commons.map.geographicProjection, nar.commons.map.projection);
 	me.mississippiCenter = me.mississippiExtent.getCenterLonLat();
 	me.maps = {};
 	me.topics = {};
@@ -31,7 +31,6 @@ nar.mississippi.map = (function() {
 	me.createDefaultOptions = function() {
 		return {
 			projection : nar.commons.map.projection,
-			maxZoomLevel : 4,
 			restrictedExtent : me.mississippiExtent,
 			maxExtent : me.mississippiExtent,
 			theme : CONFIG.staticUrl + 'nar_ui/js_lib/OpenLayers/theme/default/style.css',
@@ -43,9 +42,6 @@ nar.mississippi.map = (function() {
 				}), 
 				new OpenLayers.Control.ScaleLine({
 					geodesic : true
-				}), 
-				new OpenLayers.Control.LayerSwitcher({
-					roundedCorner : true
 				}), 
 				new OpenLayers.Control.Zoom()
 				],
