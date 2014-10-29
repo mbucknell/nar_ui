@@ -26,10 +26,10 @@ describe('nar.ContributionDisplay', function() {
 			expect(result.length).toBe(7);
 			
 			var item = result.find(function(o){
-				return o.label == 'Arkansas River';
+				return o.label.has('Arkansas River');
 				});
 			expect(item).not.toBe(null);
-			expect(item.data).toBe('3.41');
+			expect(item.data).toBe('3.4');
 		});
 		
 		var missingUpperMissRiverValue = Object.clone(validJSON);
