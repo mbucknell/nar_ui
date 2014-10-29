@@ -65,8 +65,8 @@ nar.ContributionDisplay = (function() {
 		var sortedData = [];
 		for (var k in data) {
 			if (data.hasOwnProperty(k) && data[k] && me.attributeColorMap[k]) {
-				var percentage = (data[k] * 100).toFixed(2),
-					label = me.attributeColorMap[k].title,
+				var percentage = (data[k] * 100).toFixed(1),
+					label = me.attributeColorMap[k].title + ' (' + percentage + ')',
 					color = me.attributeColorMap[k].color,
 					year = parameters.water_year,
 					ttipSpan = ' <span class="combined-tooltip" title="Portions of the Mississippi River basin were combined because of missing load data">*</span>';
@@ -181,7 +181,7 @@ nar.ContributionDisplay = (function() {
 					show : true,
 					radius: 1,
 					label : {
-						show: true,
+						show: false,
 						radius: 4/5,
 						formatter : function (label, series) {
 							return "<div style='font-size:8pt; text-align:center; padding:2px; color:black; opacity:0.2'>" + series.percent.toFixed(2) + "%</div>";
