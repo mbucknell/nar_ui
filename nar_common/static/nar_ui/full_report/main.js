@@ -85,7 +85,7 @@ $(document).ready(function() {
 			var observedProperty = dataAvailability.observedProperty;
 			var procedure = dataAvailability.procedure;
 			var timeSeriesVizId = tsvRegistry
-					.getTimeSeriesVisualizationId(observedProperty.toLowerCase(), procedure.toLowerCase());
+					.getTimeSeriesVisualizationId(observedProperty, procedure);
 			var timeSeriesIdComponents = nar.timeSeries.Visualization.getComponentsOfId(timeSeriesVizId);
 			
 			if(		timeSeriesIdComponents.modtype === modtypeToIgnore 
