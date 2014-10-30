@@ -7,6 +7,7 @@ nar.timeSeries  = nar.timeSeries || {};
  * @property {string} id
  * @property {Function} plotter
  * @property {nar.timeSeries .TimeSeriesCollection} timeSeriesCollection
+ * @property {String} treeDisplayHierarchy optional param describing location of time series in a tree
  * @property {jQuery} allPlotsWrapperElt
  */
 
@@ -18,6 +19,7 @@ nar.timeSeries.Visualization = function(config){
     var self = this;
     self.id = config.id;
     self.allPlotsWrapperElt = config.allPlotsWrapperElt;
+    self.treeDisplayHierarchy = config.treeDisplayHierarchy || '';
     self.plotter = config.plotter;
     self.ranger = nar.timeSeries.Visualization.getCustomizationById(self.id, 'range', nar.util.Unimplemented);
     self.ancillaryData = nar.timeSeries.Visualization.getCustomizationById(self.id, 'ancillary', []);

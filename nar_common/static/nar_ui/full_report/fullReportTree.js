@@ -17,27 +17,27 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
 	}];
     var mostRecentlyCreatedTimeSeriesVizId;
     
-    self.createLeafNodeFromId = function(id){
-        var leafNode = self.createTreeNodeFromId(id);
+    self.createLeafNode = function(id, displayHierarchy){
+        var leafNode = self.createTreeNode(id, displayHierarchy);
         leafNode.icon = 'glyphicon glyphicon-asterisk';
         return leafNode;
     };
     
-    self.createBranchNodeFromId = function(id){
-        var leafNode = self.createTreeNodeFromId(id);
+    self.createBranchNode = function(id, displayHierarchy){
+        var leafNode = self.createTreeNode(id, displayHierarchy);
         leafNode.icon = 'glyphicon glyphicon-folder-open';
         return leafNode;
     };
     
-    self.createTreeNodeFromId = function(id){
-        //@todo, adjust node based on id 
+    self.createTreeNode = function(id, displayHierarchy){
+    	var text = displayHierarchy.split(self.displayHierarchyDelim).last();
         return {
           type: id,
           id: id,
-          text: id
+          text: text
         };
     };
-    
+    self.displayHierarchyDelim = '/';
     self.idDelim = '/';
     /**
      * Given a hierarchical id, return the ids of all parents
@@ -79,12 +79,12 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
     //construction
     timeSeriesVisualizations.each(function(timeSeriesVisualization){
         var id = timeSeriesVisualization.id;
-        
+        var displayHierarchy = timeSeriesVisualization.treeDisplayHierarchy;
         //add id to set of already created tree node ids
         treeNodeIds[id] = true;
 
         //create jstree node config
-        mostRecentlyCreatedTreeNode = self.createLeafNodeFromId(id);
+        mostRecentlyCreatedTreeNode = self.createLeafNode(id, displayHierarchy);
         //add to collection of node configs that jstree will instantiate
         treeNodes.push(mostRecentlyCreatedTreeNode);
         parentIds = self.getParentIds(id);
@@ -100,7 +100,7 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
            }
            else{
                treeNodeIds[parentId] = true;
-               mostRecentlyCreatedTreeNode = self.createBranchNodeFromId(parentId);
+               mostRecentlyCreatedTreeNode = self.createBranchNode(parentId, displayHierarchy);
                treeNodes.push(mostRecentlyCreatedTreeNode);
            }
         });
