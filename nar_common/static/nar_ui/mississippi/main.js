@@ -1,41 +1,45 @@
 $(document).ready(function() {
 	"use strict";
 	
+	var updateContributionDisplay = function(containerSelector, placement, selections) {
+		if (selections.parameter_type && selections.constituent && selections.water_year) {
+			nar.ContributionDisplay.create({
+				containerSelector : containerSelector,
+				placement : placement,
+				parameters : selections,
+				width : 200,
+				height : 200
+			});
+		}
+		else {
+			nar.ContributionDisplay.remove(containerSelector);
+		}
+	};
+	
+	var updateLeftContributionDisplay = function(selections) {
+		updateContributionDisplay ('#left-pie-chart-container', 'bl', selections);
+	};
+	
+	var updateRightContributionDisplay = function(selections) {
+		updateContributionDisplay('#right-pie-chart-container', 'br', selections);
+	};
+	
 	$('#link-chart-contribution').on('click', function () {
 		var loadTypeSelectCtrls = $('select[name="load"]'),
 			nutrientTypeSelectCtrls = $('select[name="chemical"]'),
 			yearRangeSelectCtrls = $('select[name="year"]'),
 			leftSelections = {
-				parameter_type : loadTypeSelectCtrls[0].value.toUpperCase(),
-				constituent : nutrientTypeSelectCtrls[0].value.toUpperCase(),
+				parameter_type : loadTypeSelectCtrls[0].value.split('_').last(),
+				constituent : nutrientTypeSelectCtrls[0].value,
 				water_year : yearRangeSelectCtrls[0].value
 			},
 			rightSelections = {
-				parameter_type : loadTypeSelectCtrls[1].value.toUpperCase(),
-				constituent : nutrientTypeSelectCtrls[1].value.toUpperCase(),
+				parameter_type : loadTypeSelectCtrls[1].value.split('_').last(),
+				constituent : nutrientTypeSelectCtrls[1].value,
 				water_year : yearRangeSelectCtrls[1].value
 			};
-		
-		if (leftSelections.parameter_type && leftSelections.constituent && leftSelections.water_year) {
-			
-			nar.ContributionDisplay.create({
-				containerSelector : '#left-pie-chart-container',
-				placement : 'bl',
-				parameters : leftSelections,
-				width: 200,
-				height : 200
-			});
-		}
-		
-		if (rightSelections.parameter_type && rightSelections.constituent && rightSelections.water_year) {
-			nar.ContributionDisplay.create({
-				containerSelector : '#right-pie-chart-container',
-				placement : 'br',
-				parameters : rightSelections,
-				width: 200,
-				height : 200
-			});
-		}
+		updateLeftContributionDisplay (leftSelections);
+		updateRightContributionDisplay(rightSelections);
 	});
 	
 	var leftMapName = 'left-map',
@@ -212,15 +216,23 @@ $(document).ready(function() {
 		rightMarbLayer = createMarblayer(),
 		rightFakeLayer = createFakeLayer(),
 		rightSiteIdentificationControl,rightFakeSiteIdentificationControl,
-		leftSiteIdentificationControl, leftFakeSiteIdentificationControl;
+		leftSiteIdentificationControl, leftFakeSiteIdentificationControl;	
 		
 	var leftFiltersName = '.left_filter';
 	var leftFilters = $(leftFiltersName);
 	var rightFiltersName = '.right_filter';
 	var rightFilters= $(rightFiltersName);
 	
-	nar.mississippi.createLoadSelect(leftMap, leftFilters);
-	nar.mississippi.createLoadSelect(rightMap, rightFilters);
+	nar.mississippi.createLoadSelect(leftMap, leftFilters, function(selections) {
+		if (nar.ContributionDisplay.isVisible('#left-pie-chart-container')) {
+			updateLeftContributionDisplay(selections);
+		}
+	});
+	nar.mississippi.createLoadSelect(rightMap, rightFilters, function(selections) {
+		if (nar.ContributionDisplay.isVisible('#right-pie-chart-container')) {
+			updateRightContributionDisplay(selections);
+		}
+	});
 	
 	var leftFiltersSubject = new nar.mississippi.FiltersSubject(leftFilters);
 	var rightFiltersSubject = new nar.mississippi.FiltersSubject(rightFilters);
@@ -299,6 +311,5 @@ $(document).ready(function() {
 			}
 		});
 	});
-	
 	
 });

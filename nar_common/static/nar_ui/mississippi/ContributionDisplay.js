@@ -65,8 +65,8 @@ nar.ContributionDisplay = (function() {
 		var sortedData = [];
 		for (var k in data) {
 			if (data.hasOwnProperty(k) && data[k] && me.attributeColorMap[k]) {
-				var percentage = (data[k] * 100).toFixed(2),
-					label = me.attributeColorMap[k].title,
+				var percentage = (data[k] * 100).toFixed(1),
+					label = me.attributeColorMap[k].title + ' (' + percentage + ')',
 					color = me.attributeColorMap[k].color,
 					year = parameters.water_year,
 					ttipSpan = ' <span class="combined-tooltip" title="Portions of the Mississippi River basin were combined because of missing load data">*</span>';
@@ -102,6 +102,14 @@ nar.ContributionDisplay = (function() {
 		return sortedData;
 	};
 	
+	me.removePieChart = function(containerSelector) {
+		if (me.plots[containerSelector]) {
+			me.plots[containerSelector].shutdown();
+			delete me.plots[containerSelector];
+		}
+		$(containerSelector).find('[class^=chart-miss]').remove();
+	};
+	
 	me.createPie = function (args) {
 		var data = args.data,
 			containerSelector = args.containerSelector,
@@ -131,16 +139,9 @@ nar.ContributionDisplay = (function() {
 					width : width,
 					height : height,
 					'z-index' : zIndex
-				}),
-			removePieChart = function() {
-				if (me.plots[containerSelector]) {
-					me.plots[containerSelector].shutdown();
-					delete me.plots[containerSelector];
-				}
-				$container.find('[class^=chart-miss]').remove();
-			};
+				});
 		
-		removePieChart();
+		me.removePieChart(containerSelector);
 			
 		if (placement === 'bl') {
 			$chartDiv.css({
@@ -164,7 +165,7 @@ nar.ContributionDisplay = (function() {
 				'z-index' : zIndex
 			});
 			$legendContainer.css({
-				'left' : $container.width() - (width * 2) + paddingRight, // Container - pie chart width - legend width
+				'left' : $container.width() - (width * 2) + paddingRight - 15, // Container - pie chart width - legend width
 				'bottom' : 0,
 				'z-index' : zIndex,
 				'position' : 'inherit'
@@ -181,7 +182,7 @@ nar.ContributionDisplay = (function() {
 					show : true,
 					radius: 1,
 					label : {
-						show: true,
+						show: false,
 						radius: 4/5,
 						formatter : function (label, series) {
 							return "<div style='font-size:8pt; text-align:center; padding:2px; color:black; opacity:0.2'>" + series.percent.toFixed(2) + "%</div>";
@@ -202,7 +203,7 @@ nar.ContributionDisplay = (function() {
 		});
 		
 		$closeLinkRow.append($closeLinkCell.append($closeLink));
-		$legendContainer.find('tbody').prepend($closeLinkRow)
+		$legendContainer.find('tbody').prepend($closeLinkRow);
 		
 		$chartDiv.on('plothover', function(event, pos, obj) {
 			var $legend,
@@ -222,7 +223,9 @@ nar.ContributionDisplay = (function() {
 			}
 		});
 		
-		$closeLink.on('click', removePieChart);
+		$closeLink.on('click', function() {
+			me.remove(containerSelector);
+		});
 		
 		$( document ).tooltip();
 	};
@@ -257,9 +260,15 @@ nar.ContributionDisplay = (function() {
 		});
 	};
 	
+	me.isVisible  = function(containerSelector) {
+		return $(containerSelector).find('[class^=chart-miss]').length !== 0;
+	};
+	
 	return {
 		create : me.create,
-		createLegendData : me.createLegendData
+		createLegendData : me.createLegendData,
+		remove : me.removePieChart,
+		isVisible : me.isVisible
 	};
 	
 })();
