@@ -72,6 +72,7 @@ $(document).ready(function() {
 						styles: 'triangles'
 					}, {
 						isBaseLayer : false,
+						visibility : false,
 						singleTile : true
 					});
 			layer.mergeNewParams(cqlFilter);
@@ -84,7 +85,8 @@ $(document).ready(function() {
 						transparent : true,
 						styles : 'triangles'
 					}, {
-						isBaseLayer : false
+						isBaseLayer : false,
+						visibility : false
 					});
 		},
 		createSiteIdentificationControl = function (args) {

@@ -21,6 +21,7 @@ nar.mississippi.createLoadSelect = function(map, filterDiv, changeHandler) {
 	var mapHasLayer = function() {
 		return (map.getLayersByName('Nutrient Load').length > 0);
 	};
+	map.addLayer(loadLayer);
 	
 	var loadSelect = filterDiv.find('select[name="load"]');
 	var chemicalSelect = filterDiv.find('select[name="chemical"]');
@@ -58,12 +59,10 @@ nar.mississippi.createLoadSelect = function(map, filterDiv, changeHandler) {
 				layers : 'NAR:missrivout_' + year,
 				styles : chemical + '_' + load[load.length - 1]
 			});
-			if (!mapHasLayer()) {
-				map.addLayer(loadLayer);
-			}
+			loadLayer.setVisibility(true);
 		}
-		else if (mapHasLayer()) {
-			map.removeLayer(loadLayer);
+		else {
+			loadLayer.setVisibility(false);
 		}
 		changeHandler({
 			parameter_type : load.last(), 
