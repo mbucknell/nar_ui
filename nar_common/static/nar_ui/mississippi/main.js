@@ -7,7 +7,7 @@ $(document).ready(function() {
 				containerSelector : containerSelector,
 				placement : placement,
 				parameters : selections,
-				width : 240,
+				width : 250,
 				height : 200
 			});
 		}
