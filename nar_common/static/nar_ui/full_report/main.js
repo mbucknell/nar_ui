@@ -76,58 +76,6 @@ $(document).ready(function() {
 		return ignore;
 	};
 	
-	/**
-	 * Given time series visualization components, return a hierarchical id that will produce a tree like the one in the mockups
-	 *  @param {nar.timeSeries.Visualization.IdComponents} timeSeriesIdComponents
-	 *  @returns {String}, a '/'-delimited string denoting tree display hierarchy
-	 */
-	var getTreeDisplayHierarchy = function(timeSeriesIdComponents){
-		var constituentId = timeSeriesIdComponents.constituent;
-		var constituent = nar.Constituents[constituentId];
-		var constituentName = constituent.name;
-		var topLevel, bottomLevel;
-		if('streamflow' === constituentId){
-			if(timeSeriesIdComponents.timestepDensity === 'annual'){
-				topLevel = 'Annual';
-			}
-			else if (timeSeriesIdComponents.timestepDensity === 'daily'){
-				topLevel = 'Hydrograph and Flow Duration';
-			}
-		}
-		else{
-			//non-flow constituents
-			if(timeSeriesIdComponents.category === 'concentration'){
-				topLevel = 'Concentrations';
-				if(timeSeriesIdComponents.timestepDensity === 'discrete'){
-					bottomLevel = 'Sample';
-				}
-				else{
-					bottomLevel = timeSeriesIdComponents.subcategory.split('_').map(String.capitalize).join(' ');
-				}
-			}
-			else if (timeSeriesIdComponents.category === 'mass'){
-				topLevel = 'Loads';
-				if(timeSeriesIdComponents.timestepDensity === 'annual'){
-					bottomLevel = 'Annual';
-				}
-				else{
-					console.dir(timeSeriesIdComponents);
-					throw Error("Can't place time series visualization in tree hierarchy");
-				}
-			}
-			else{
-				console.dir(timeSeriesIdComponents);
-				throw Error("Can't place time series visualization in tree hierarchy");
-			}
-		}
-		var newIdElements =[constituentName, topLevel];
-		if(bottomLevel){
-			newIdElements.push(bottomLevel);
-		}
-		var newId = newIdElements.join('/');
-		return newId;
-	};
-	
 	var tsvRegistry = nar.timeSeries.VisualizationRegistryInstance;
 	var successfulGetDataAvailability = function(data,
 			textStatus, jqXHR) {
@@ -146,14 +94,12 @@ $(document).ready(function() {
 				return;//continue
 			}
 			else{
-				var treeDisplayHierarchy = getTreeDisplayHierarchy(timeSeriesIdComponents);
 				var timeSeriesViz = tsvRegistry
-						.get(newTsvId);
+						.get(timeSeriesVizId);
 				if (!timeSeriesViz) {
 					timeSeriesViz = new nar.timeSeries.Visualization(
 							{
-								id : newTsvId,
-								treeDisplayHierarchy: treeDisplayHierarchy,
+								id : timeSeriesVizId,
 								allPlotsWrapperElt : selectorElementPairs.allPlotsWrapper.element,
 								timeSeriesCollection : new nar.timeSeries.Collection(),
 								plotter : nar.util.Unimplemented

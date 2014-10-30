@@ -17,14 +17,66 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
 	}];
     var mostRecentlyCreatedTimeSeriesVizId;
     
+    /**
+	 * Given time series visualization components, return a hierarchical id that will produce a tree like the one in the mockups
+	 *  @param {nar.timeSeries.Visualization.IdComponents} timeSeriesIdComponents
+	 *  @returns {String}, a '/'-delimited string denoting tree display hierarchy
+	 */
+	var getTreeDisplayHierarchy = function(timeSeriesIdComponents){
+		var constituentId = timeSeriesIdComponents.constituent;
+		var constituent = nar.Constituents[constituentId];
+		var constituentName = constituent.name;
+		var topLevel, bottomLevel;
+		if('streamflow' === constituentId){
+			if(timeSeriesIdComponents.timestepDensity === 'annual'){
+				topLevel = 'Annual';
+			}
+			else if (timeSeriesIdComponents.timestepDensity === 'daily'){
+				topLevel = 'Hydrograph and Flow Duration';
+			}
+		}
+		else{
+			//non-flow constituents
+			if(timeSeriesIdComponents.category === 'concentration'){
+				topLevel = 'Concentrations';
+				if(timeSeriesIdComponents.timestepDensity === 'discrete'){
+					bottomLevel = 'Sample';
+				}
+				else{
+					bottomLevel = timeSeriesIdComponents.subcategory.split('_').map(String.capitalize).join(' ');
+				}
+			}
+			else if (timeSeriesIdComponents.category === 'mass'){
+				topLevel = 'Loads';
+				if(timeSeriesIdComponents.timestepDensity === 'annual'){
+					bottomLevel = 'Annual';
+				}
+				else{
+					console.dir(timeSeriesIdComponents);
+					throw Error("Can't place time series visualization in tree hierarchy");
+				}
+			}
+			else{
+				console.dir(timeSeriesIdComponents);
+				throw Error("Can't place time series visualization in tree hierarchy");
+			}
+		}
+		var newIdElements =[constituentName, topLevel];
+		if(bottomLevel){
+			newIdElements.push(bottomLevel);
+		}
+		var newId = newIdElements.join('/');
+		return newId;
+	};
+    
     self.createLeafNode = function(id, displayHierarchy){
         var leafNode = self.createTreeNode(id, displayHierarchy);
         leafNode.icon = 'glyphicon glyphicon-asterisk';
         return leafNode;
     };
     
-    self.createBranchNode = function(id, displayHierarchy){
-        var leafNode = self.createTreeNode(id, displayHierarchy);
+    self.createBranchNode = function(id){
+        var leafNode = self.createTreeNode(id, id);
         leafNode.icon = 'glyphicon glyphicon-folder-open';
         return leafNode;
     };
@@ -79,15 +131,15 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
     //construction
     timeSeriesVisualizations.each(function(timeSeriesVisualization){
         var id = timeSeriesVisualization.id;
-        var displayHierarchy = timeSeriesVisualization.treeDisplayHierarchy;
+        var displayHierarchy = getTreeDisplayHierarchy(timeSeriesVisualization.getComponentsOfId());
         //add id to set of already created tree node ids
-        treeNodeIds[id] = true;
+        treeNodeIds[displayHierarchy] = true;
 
         //create jstree node config
         mostRecentlyCreatedTreeNode = self.createLeafNode(id, displayHierarchy);
         //add to collection of node configs that jstree will instantiate
         treeNodes.push(mostRecentlyCreatedTreeNode);
-        parentIds = self.getParentIds(id);
+        parentIds = self.getParentIds(displayHierarchy);
         parentIds.each(function(parentId){
            //set parent pointer
            mostRecentlyCreatedTreeNode.parent = parentId;
