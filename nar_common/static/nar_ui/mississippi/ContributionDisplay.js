@@ -165,7 +165,7 @@ nar.ContributionDisplay = (function() {
 				'z-index' : zIndex
 			});
 			$legendContainer.css({
-				'left' : $container.width() - (width * 2) + paddingRight, // Container - pie chart width - legend width
+				'left' : $container.width() - (width * 2) + paddingRight - 15, // Container - pie chart width - legend width
 				'bottom' : 0,
 				'z-index' : zIndex,
 				'position' : 'inherit'
