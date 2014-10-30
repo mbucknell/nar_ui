@@ -83,11 +83,11 @@ nar.ContributionDisplay = (function() {
 					
 					if (!data.UPPERMISS && data.LOWERMIDDLEMISS && data.LOWERMISS && data.UPPERMIDDLEMISS) {
 						if ((year === '1993' || year === '1994') && k === 'UPPERMIDDLEMISS') {
-							label = 'Upper/Upper Middle Mississippi' + ttipSpan;
+							label = 'Upper/Upper Middle Mississippi (' + percentage + ')' + ttipSpan;
 						} else if (year === '1995' && k === 'LOWERMISS') {
-							label = 'Upper/Upper Middle/Lower Middle Mississippi' + ttipSpan;
+							label = 'Upper/Upper Middle/Lower Middle Mississippi (' + percentage + ')' + ttipSpan;
 						} else if (year === '1996' && k === 'LOWERMIDDLEMISS') {
-							label = 'Upper Middle/Lower Middle Mississippi' + ttipSpan;
+							label = 'Upper Middle/Lower Middle Mississippi)' + percentage + ')' + ttipSpan;
 						}
 					}
 					
