@@ -43,7 +43,10 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
 					bottomLevel = 'Sample';
 				}
 				else{
-					bottomLevel = timeSeriesIdComponents.subcategory.split('_').map(String.capitalize).join(' ');
+					bottomLevel = timeSeriesIdComponents.subcategory.split('_').map(function(str){return str.capitalize();}).join(' ');
+					if(timeSeriesIdComponents.timestepDensity === 'annual'){
+						bottomLevel += " Annual";
+					}
 				}
 			}
 			else if (timeSeriesIdComponents.category === 'mass'){
