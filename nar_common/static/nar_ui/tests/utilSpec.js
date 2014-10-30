@@ -39,35 +39,43 @@ describe('Tests for nar.util', function() {
 	describe('nar.util.objectHasAllKeysAndValues', function(){
 		var objectHasKeysAndValues = nar.util.objectHasAllKeysAndValues; 
 		var base = {a: 1, b:undefined, c:null, d:'blah'};
-
-		//identical case
-		expect(objectHasKeysAndValues(base, base)).toBe(true);
-		//clone case
-		var baseClone = {a: 1, b:undefined, c:null, d:'blah'};
-		expect(objectHasKeysAndValues(base, baseClone)).toBe(true);
-		//subset cases
-		var baseSubset1 = {a: 1, b:undefined, c:null};
-		var baseSubset2 = {b:undefined, c:null, d: 'blah'};
-		expect(objectHasKeysAndValues(base, baseSubset1)).toBe(true);
-		expect(objectHasKeysAndValues(base, baseSubset2)).toBe(true);
-		//superset cases
-		var baseSuperset1 ={a: 1, b:undefined, c:null, d:'blah', e: '34'};
-		var baseSuperset2 ={a: 1, b:undefined, c:null, d:'blah', e: '34', f: 42};
-		expect(objectHasKeysAndValues(base, baseSuperset1)).toBe(false);
-		expect(objectHasKeysAndValues(base, baseSuperset2)).toBe(false);
-		//case where objects have same keys, but fail strict-equality value comparison
-		var a = {d:[]};
-		var b = {d:[]};
-		var e = {g:{}};
-		var f = {g:{}};
-		expect(objectHasKeysAndValues(a, b)).toBe(false);
-		expect(objectHasKeysAndValues(e, f)).toBe(false);
-		//case where objects have no shared keys
-		var noSharedBase = {w:'', x:'', y:'', z:''}
-		expect(objectHasKeysAndValues(base, noSharedBase)).toBe(false);
-		//case where objects have matching keys but no matching values
-		var sharedKeysButDifferentValues = {a: 42, b:235, c:3456, d:302498}
-		expect(objectHasKeysAndValues(base, noSharedBase)).toBe(false);
+		var noSharedBase = {w:'', x:'', y:'', z:''};
+		
+		it('should return true when both objects are identical', function(){
+			expect(objectHasKeysAndValues(base, base)).toBe(true);
+		});
+		it('should return true when one object is a clone of the other', function(){
+			var baseClone = {a: 1, b:undefined, c:null, d:'blah'};
+			expect(objectHasKeysAndValues(base, baseClone)).toBe(true);
+		});
+		it('should return true when keysAndValues is a subset of obj', function(){
+			var baseSubset1 = {a: 1, b:undefined, c:null};
+			var baseSubset2 = {b:undefined, c:null, d: 'blah'};
+			expect(objectHasKeysAndValues(base, baseSubset1)).toBe(true);
+			expect(objectHasKeysAndValues(base, baseSubset2)).toBe(true);
+		});
+		it('should return false when keysAndValues is a superset of obj', function(){
+			//superset cases
+			var baseSuperset1 ={a: 1, b:undefined, c:null, d:'blah', e: '34'};
+			var baseSuperset2 ={a: 1, b:undefined, c:null, d:'blah', e: '34', f: 42};
+			expect(objectHasKeysAndValues(base, baseSuperset1)).toBe(false);
+			expect(objectHasKeysAndValues(base, baseSuperset2)).toBe(false);
+		});
+		it('should return false when the objects have matching keys but have different primitive values', function(){
+			//case where objects have matching keys but no matching values
+			var sharedKeysButDifferentValues = {a: 42, b:235, c:3456, d:302498}
+			expect(objectHasKeysAndValues(base, noSharedBase)).toBe(false);
+		});
+		it('should return false when the objects have matching keys, but non-primitive values fail to be strictly equal', function(){
+			var a = {d:[]};
+			var b = {d:[]};
+			var e = {g:{}};
+			var f = {g:{}};
+			expect(objectHasKeysAndValues(a, b)).toBe(false);
+			expect(objectHasKeysAndValues(e, f)).toBe(false);
+		});
+		it('should return false when obj and keysAndValues share no keys', function(){
+			expect(objectHasKeysAndValues(base, noSharedBase)).toBe(false);
+		});
 	});
-	
 });
