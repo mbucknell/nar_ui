@@ -24,7 +24,7 @@ nar.plots = nar.plots || {};
         var constituentInfo = nar.plots.PlotUtils.getConstituentNameAndColors(tsViz);
         
         var yaxes = [{
-			axisLabel: constituentInfo.name + " load,<br />in thousands of tons",
+			axisLabel: config.yaxisLabel,
 			axisLabelFontSizePixels: 10,
 			axisLabelFontFamily: "Verdana, Arial, Helvetica, Tahoma, sans-serif",
 			axisLabelPadding: 10,

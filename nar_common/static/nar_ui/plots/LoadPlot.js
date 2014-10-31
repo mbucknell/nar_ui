@@ -8,7 +8,7 @@ nar.plots = nar.plots || {};
      */
 
 	nar.plots.LoadPlot = function(tsViz){
-		var constituentName = nar.plots.PlotUtils.getConstituentNameAndColors(tsViz);
+		var constituentName = nar.plots.PlotUtils.getConstituentNameAndColors(tsViz).name;
 		var plotConfig = {
 				yaxisLabel : constituentName + " load,<br />in thousands of tons",
 				showLongTermMean : true
