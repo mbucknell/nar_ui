@@ -155,12 +155,21 @@ nar.timeSeries.Visualization.getComponentsOfId = function(id) {
     var serverConstituentId = splitId[0];
     var clientConstituentId = nar.timeSeries.Visualization.serverToClientConstituentIdMap[serverConstituentId
             .toLowerCase()];
+    var subcategory, modtype;
+    if(splitId.length === 4){
+    	subcategory = undefined;
+    	modtype = splitId[3];
+    }
+    if(splitId.length === 5){
+    	subcategory = splitId[3];
+    	modtype = splitId[4];
+    }
     var components = {
 	    constituent : clientConstituentId,
 	    timestepDensity : splitId[1],
 	    category : splitId[2],
-	    subcategory : splitId[3],
-	    modtype : splitId[4]
+	    subcategory : subcategory,
+	    modtype : modtype
 	};
     return components;
 };
