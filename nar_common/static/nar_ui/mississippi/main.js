@@ -158,9 +158,9 @@ $(document).ready(function() {
 							title = data.staname,
 							id = virtualSite ? 'GULF': data.siteid,
 							loadGraphData = {staname : title, siteId : id, isVirtual : virtualSite};
-						$mayLoadGraphsLink.data('feature', feature);
+						$mayLoadGraphsLink.data('feature', loadGraphData);
 						$mayLoadGraphsLink.append($('<span />').addClass('glyphicon glyphicon-stats'),' May Load');
-						$annualLoadGraphsLink.data('feature', feature);
+						$annualLoadGraphsLink.data('feature', loadGraphData);
 						$annualLoadGraphsLink.append($('<span />').addClass('glyphicon glyphicon-stats'),' Annual Load');
 						
 						$titleRow.html(title);

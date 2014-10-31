@@ -183,7 +183,7 @@ nar.timeSeries.Visualization.getComponentsOfId = function(id) {
 nar.timeSeries.Visualization.getCustomizationById = function(id, field, defaultValue) {
     var result;
     var components = nar.timeSeries.Visualization.getComponentsOfId(id);
-    var vizType = nar.timeSeries.Visualization.types[components.category];
+    var vizType = nar.timeSeries.Visualization.types(components);
     if (vizType) {
         result = vizType[field];
     } else {
@@ -205,28 +205,42 @@ nar.timeSeries.Visualization.getPlotterById = function(id){
 /**
  * Some configuration for which category of data gets which graph
  */
-nar.timeSeries.Visualization.types = {
-		concentration : {
-			plotter : nar.plots.SampleConcentrationPlot,
-			range : nar.timeSeries.DataAvailabilityTimeRange,
-			ancillary : [],
-			allowTimeSlider : true
-		},
-		mass : {
-			plotter : nar.plots.LoadPlot,
-			range : nar.timeSeries.DataAvailabilityTimeRange,
-			ancillary : [],
-			allowTimeSlider : true
-		},
-		flow : {
-			plotter : nar.plots.FlowWrapper,
-			range : nar.timeSeries.MostRecentWaterYearTimeRange,
-			ancillary : [{
-				// @todo We will want to store these somewhere so this can just be nar .discrete.nitrogen
-				procedure : "http://cida.usgs.gov/def/NAR/procedure/discrete_concentration",
-				observedProperty : "http://cida.usgs.gov/def/NAR/property/TKN"
-			}],
-			allowTimeSlider : false
+nar.timeSeries.Visualization.types = function(components) {
+		if (components.category === 'concentration') {
+			if (components.subcategory === 'mean' || components.subcategory === 'flow_weighted') {
+				return {
+					plotter : nar.plots.createConcentrationPlot,
+					range : nar.timeSeries.DataAvailabilityTimeRange,
+					ancillary : [],
+					allowTimeSlider : true
+				};
+			}
+			else return {
+				plotter : nar.plots.SampleConcentrationPlot,
+				range : nar.timeSeries.DataAvailabilityTimeRange,
+				ancillary : [],
+				allowTimeSlider : true
+			};
+		}
+		else if (components.category === 'mass') {
+			return {
+				plotter : nar.plots.LoadPlot,
+				range : nar.timeSeries.DataAvailabilityTimeRange,
+				ancillary : [],
+				allowTimeSlider : true
+			};
+		}
+		else { // Must be flow
+			return {
+				plotter : nar.plots.FlowWrapper,
+				range : nar.timeSeries.MostRecentWaterYearTimeRange,
+				ancillary : [{
+					// @todo We will want to store these somewhere so this can just be nar .discrete.nitrogen
+					procedure : "http://cida.usgs.gov/def/NAR/procedure/discrete_concentration",
+					observedProperty : "http://cida.usgs.gov/def/NAR/property/TKN"
+				}],
+				allowTimeSlider : false
+			};
 		}
 };
 }());
