@@ -34,53 +34,106 @@ $(document).ready(function() {
 		contentType : 'application/json'
 
 	});
-
+	var modtypeToIgnore = 'comp';
+	var acceptableComponentsGroup = [
+          {
+    	  	  timestepDensity: 'discrete',
+        	  category: 'concentration'
+          },
+          {
+        	  timestepDensity: 'annual',
+        	  category: 'flow',
+          },
+          {
+        	  timestepDensity: 'daily',
+        	  category: 'flow',
+          },
+          {
+        	  timestepDensity: 'annual',
+        	  category: 'concentration',
+          },
+          {
+        	  timestepDensity: 'annual',
+        	  category: 'mass',
+        	  subcategory: undefined
+          }
+    ];
+	var constituentsToKeep = ['nitrogen', 'nitrate', 'streamflow', 'phosphorus', 'sediment'];
+	/**
+	 * Determines if 'components' should be displayed on the client or not
+	 * @param {nar.timeSeries.Visualization.IdComponents} components, as returned by nar.TimeSeries.Visualization.getComponentsOfId 
+	 * @param {array<nar.timeSeries.Visualization.IdComponents>} acceptableComponentsGroup
+	 * @returns Boolean - True if ignorable, false otherwise
+	 */
+	var componentsAreIgnorable = function(components, acceptableComponentsGroup){
+		var ignore = true;
+		acceptableComponentsGroup.each(function(acceptableComponents){
+			if(nar.util.objectHasAllKeysAndValues(components, acceptableComponents)){
+				ignore = false;
+				return false; //break
+			};
+		});
+		return ignore;
+	};
+	
 	var tsvRegistry = nar.timeSeries.VisualizationRegistryInstance;
 	var successfulGetDataAvailability = function(data,
 			textStatus, jqXHR) {
-		data.dataAvailability.each(function(dataAvailability) {
+		var dataAvailability = data.dataAvailability;
+				
+		dataAvailability.each(function(dataAvailability) {
 			var observedProperty = dataAvailability.observedProperty;
 			var procedure = dataAvailability.procedure;
 			var timeSeriesVizId = tsvRegistry
-					.getIdForObservedProperty(observedProperty);
-			var timeSeriesViz = tsvRegistry
-					.get(timeSeriesVizId);
-			if (!timeSeriesViz) {
-				timeSeriesViz = new nar.timeSeries.Visualization(
-						{
-							id : timeSeriesVizId,
-							allPlotsWrapperElt : selectorElementPairs.allPlotsWrapper.element,
-							timeSeriesCollection : new nar.timeSeries.Collection(),
-							plotter : nar.util.Unimplemented
-						});
-				tsvRegistry.register(timeSeriesViz);
+					.getTimeSeriesVisualizationId(observedProperty, procedure);
+			var timeSeriesIdComponents = nar.timeSeries.Visualization.getComponentsOfId(timeSeriesVizId);
+			
+			if(		timeSeriesIdComponents.modtype === modtypeToIgnore 
+					|| !constituentsToKeep.some(timeSeriesIdComponents.constituent) 
+					|| componentsAreIgnorable(timeSeriesIdComponents, acceptableComponentsGroup)){
+				return;//continue
 			}
-
-			var timeRange = timeSeriesViz
-					.ranger(dataAvailability);
-
-			var timeSeries = new nar.timeSeries.TimeSeries(
-					{
-						observedProperty : observedProperty,
-						timeRange : timeRange,
-						procedure : procedure,
-						featureOfInterest: PARAMS.siteId
-					});
-			timeSeriesViz.timeSeriesCollection
-					.add(timeSeries);
-
-			timeSeriesViz.ancillaryData
-					.each(function(props) {
-						var ancilSeries = new nar.timeSeries.TimeSeries(
-								{
-									observedProperty : props.observedProperty,
-									timeRange : timeRange,
-									procedure : props.procedure
-								});
-						timeSeriesViz.timeSeriesCollection
-								.add(ancilSeries);
-					});
+			else{
+				var timeSeriesViz = tsvRegistry
+						.get(timeSeriesVizId);
+				if (!timeSeriesViz) {
+					timeSeriesViz = new nar.timeSeries.Visualization(
+							{
+								id : timeSeriesVizId,
+								allPlotsWrapperElt : selectorElementPairs.allPlotsWrapper.element,
+								timeSeriesCollection : new nar.timeSeries.Collection(),
+								plotter : nar.util.Unimplemented
+							});
+					tsvRegistry.register(timeSeriesViz);
+				}
+	
+				var timeRange = timeSeriesViz
+						.ranger(dataAvailability);
+	
+				var timeSeries = new nar.timeSeries.TimeSeries(
+						{
+							observedProperty : observedProperty,
+							timeRange : timeRange,
+							procedure : procedure,
+							featureOfInterest: PARAMS.siteId
+						});
+				timeSeriesViz.timeSeriesCollection
+						.add(timeSeries);
+	
+				timeSeriesViz.ancillaryData
+						.each(function(props) {
+							var ancilSeries = new nar.timeSeries.TimeSeries(
+									{
+										observedProperty : props.observedProperty,
+										timeRange : timeRange,
+										procedure : props.procedure
+									});
+							timeSeriesViz.timeSeriesCollection
+									.add(ancilSeries);
+						});
+			}
 		});
+		
 		var allTimeSeriesVizualizations = tsvRegistry.getAll();
 		var timeSlider = nar.timeSeries.TimeSlider(selectorElementPairs.timeSlider.element);
 		var tsvController = new nar.timeSeries.VisualizationController(

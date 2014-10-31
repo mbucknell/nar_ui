@@ -616,7 +616,14 @@ select.last{margin-right:0;}
  		
 .chart-miss-legend > table {
 	background-color: #FFFFFF;
-} 
+}
+.chart-miss-legend .legendColorBox {
+    padding-left : 4px;
+}
+.chart-miss-legend .legendLabel {
+    padding-right: 4px;
+    padding-left: 4px;
+}
 
 .chart-miss-legend-link-close {
 	color:#0000FF;
@@ -1154,17 +1161,13 @@ ul#relativeLinks{
 #startDateTime{float:left;}
 #endDateTime{float:right;
 }
-		
-#s2id_state,
-#s2id_stationId,
-#s2id_siteType,
-#s2id_constituent,
-#s2id_qwDataType,
-#s2id_dataType{width:100%;
-		margin-top:15px;
+
+#downloadForm .select2-container {		
+    width:100%;
+	margin-top:15px;
 }
 
-#s2id_qwDataType{margin-bottom:20px;}
+#s2id_streamFlowType{margin-bottom:20px;}
 		
 		
 #select2-drop{font-family:@baseFontFamily;}

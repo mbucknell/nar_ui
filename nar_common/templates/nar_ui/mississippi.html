@@ -31,7 +31,7 @@
 		
 		<a href="{% url 'download' %}"><button id="download">Download Data</button></a>
 		
-		<button id="toggle">Toggle Sites <i class="glyphicon glyphicon-play"></i></button>
+		<button id="toggle" >Toggle Sites <i class="glyphicon glyphicon-play"></i></button>
 
 	</div><!--mississippi_title-->
 	
@@ -55,11 +55,12 @@
 				<option value="tp">Total Phosphorus</option>
 				<option value="no23">Nitrate</option>
 			
+			
 			</select>
 			
 			<select  class="last" name="year">
 			
-				<option value="">--Select Year Range--</option>
+				<option value="">--Select Year or Range--</option>
 				{% for year in year_pick_list %}
 					<option value="{{ year.value }}" data-is-range="{{ year.is_range }}">{{ year.text }}</option>
 				{% endfor %}
@@ -91,7 +92,7 @@
 			
 			<select  class="last" name="year">
 			
-				<option value="">--Select Year Range--</option>
+				<option value="">--Select Year or Range--</option>
 				{% for year in year_pick_list %}
 					<option value="{{ year.value }}" data-is-range="{{ year.is_range }}">{{ year.text }}</option>
 				{% endfor %}

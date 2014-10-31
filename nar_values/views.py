@@ -19,7 +19,7 @@ class MrbSubBasinContributionsJsonView(View):
 
         for query_param in self.query_params:
             if query_param in request.GET:
-                safe_query_values[query_param] = request.GET[query_param]
+                safe_query_values[query_param + '__iexact'] = request.GET[query_param]
             else:
                 #require all query parameters
                 return HttpResponseBadRequest('Missing Parameter - "{}"'.format(query_param))

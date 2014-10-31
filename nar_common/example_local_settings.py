@@ -46,3 +46,7 @@ SOS_PATH = ':8080/nawqareports/service/sos/sos'
 GEOSERVER_HOST_NAME = 'cida-eros-nardev.er.usgs.gov'
 
 GEOSERVER_PATH = ':8080/nawqareports/service/geoserver/'
+
+DATA_DOWNLOAD_SERVICE = ''
+
+DATA_DOWNLOAD_PATH = ''

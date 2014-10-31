@@ -1,51 +1,45 @@
 $(document).ready(function() {
 	"use strict";
-	// Hide/Show the "Hover-on-click" tag
-	$('#toggle').click(function() {
-		$('#mississippi_info').toggle('5000', function() {
-			if ($('#mississippi_info').is(':visible')) {
-				$('#toggle').val('Hide');
-			} else {
-				$('#toggle').val('Show');
-			}
-		});
-	});
+	
+	var updateContributionDisplay = function(containerSelector, placement, selections) {
+		if (selections.parameter_type && selections.constituent && selections.water_year) {
+			nar.ContributionDisplay.create({
+				containerSelector : containerSelector,
+				placement : placement,
+				parameters : selections,
+				width : 250,
+				height : 200
+			});
+		}
+		else {
+			nar.ContributionDisplay.remove(containerSelector);
+		}
+	};
+	
+	var updateLeftContributionDisplay = function(selections) {
+		updateContributionDisplay ('#left-pie-chart-container', 'bl', selections);
+	};
+	
+	var updateRightContributionDisplay = function(selections) {
+		updateContributionDisplay('#right-pie-chart-container', 'br', selections);
+	};
 	
 	$('#link-chart-contribution').on('click', function () {
 		var loadTypeSelectCtrls = $('select[name="load"]'),
 			nutrientTypeSelectCtrls = $('select[name="chemical"]'),
 			yearRangeSelectCtrls = $('select[name="year"]'),
 			leftSelections = {
-				parameter_type : loadTypeSelectCtrls[0].value.toUpperCase(),
-				constituent : nutrientTypeSelectCtrls[0].value.toUpperCase(),
+				parameter_type : loadTypeSelectCtrls[0].value.split('_').last(),
+				constituent : nutrientTypeSelectCtrls[0].value,
 				water_year : yearRangeSelectCtrls[0].value
 			},
 			rightSelections = {
-				parameter_type : loadTypeSelectCtrls[1].value.toUpperCase(),
-				constituent : nutrientTypeSelectCtrls[1].value.toUpperCase(),
+				parameter_type : loadTypeSelectCtrls[1].value.split('_').last(),
+				constituent : nutrientTypeSelectCtrls[1].value,
 				water_year : yearRangeSelectCtrls[1].value
 			};
-		
-		if (leftSelections.parameter_type && leftSelections.constituent && leftSelections.water_year) {
-			
-			nar.ContributionDisplay.create({
-				containerSelector : '#left-pie-chart-container',
-				placement : 'bl',
-				parameters : leftSelections,
-				width: 200,
-				height : 200
-			});
-		}
-		
-		if (rightSelections.parameter_type && rightSelections.constituent && rightSelections.water_year) {
-			nar.ContributionDisplay.create({
-				containerSelector : '#right-pie-chart-container',
-				placement : 'br',
-				parameters : rightSelections,
-				width: 200,
-				height : 200
-			});
-		}
+		updateLeftContributionDisplay (leftSelections);
+		updateRightContributionDisplay(rightSelections);
 	});
 	
 	var leftMapName = 'left-map',
@@ -69,6 +63,7 @@ $(document).ready(function() {
 						styles: 'triangles'
 					}, {
 						isBaseLayer : false,
+						visibility : false,
 						singleTile : true
 					});
 			layer.mergeNewParams(cqlFilter);
@@ -81,7 +76,8 @@ $(document).ready(function() {
 						transparent : true,
 						styles : 'triangles'
 					}, {
-						isBaseLayer : false
+						isBaseLayer : false,
+						visibility : false
 					});
 		},
 		createSiteIdentificationControl = function (args) {
@@ -220,24 +216,37 @@ $(document).ready(function() {
 		rightMarbLayer = createMarblayer(),
 		rightFakeLayer = createFakeLayer(),
 		rightSiteIdentificationControl,rightFakeSiteIdentificationControl,
-		leftSiteIdentificationControl, leftFakeSiteIdentificationControl;
-
-	
+		leftSiteIdentificationControl, leftFakeSiteIdentificationControl;	
 		
-	// Add the layers to the map
-	leftMap.addLayers([leftMarbLayer,leftFakeLayer]);
-	rightMap.addLayers([rightMarbLayer,rightFakeLayer]);
-	
 	var leftFiltersName = '.left_filter';
 	var leftFilters = $(leftFiltersName);
 	var rightFiltersName = '.right_filter';
 	var rightFilters= $(rightFiltersName);
 	
-	nar.mississippi.createLoadSelect(leftMap, leftFilters);
-	nar.mississippi.createLoadSelect(rightMap, rightFilters);
+	nar.mississippi.createLoadSelect(leftMap, leftFilters, function(selections) {
+		if (nar.ContributionDisplay.isVisible('#left-pie-chart-container')) {
+			updateLeftContributionDisplay(selections);
+		}
+	});
+	nar.mississippi.createLoadSelect(rightMap, rightFilters, function(selections) {
+		if (nar.ContributionDisplay.isVisible('#right-pie-chart-container')) {
+			updateRightContributionDisplay(selections);
+		}
+	});
 	
 	var leftFiltersSubject = new nar.mississippi.FiltersSubject(leftFilters);
 	var rightFiltersSubject = new nar.mississippi.FiltersSubject(rightFilters);
+	
+	// Default the selection menu
+	leftFilters.find('option[value="long_term_wy"]').attr('selected', 'selected');
+	leftFilters.find('option[value="no23"]').attr('selected', 'selected');
+	leftFilters.find('option[value="1993_2012"]').attr('selected', 'selected');
+	leftFilters.find(':input').change();
+	
+	rightFilters.find('option[value="wy"]').attr('selected', 'selected');
+	rightFilters.find('option[value="no23"]').attr('selected', 'selected');
+	rightFilters.find('option[value="2013"]').attr('selected', 'selected');
+	rightFilters.find(':input').change();
 	
 	// Now that the layers are in the map, I want to add the identification
 	// control for them
@@ -277,4 +286,30 @@ $(document).ready(function() {
 	
 	rightMap.addControls([rightSiteIdentificationControl, rightFakeSiteIdentificationControl]);
 	leftMap.addControls([leftSiteIdentificationControl, leftFakeSiteIdentificationControl]);
+	
+	// Add the site layers to the map
+	leftMap.addLayers([leftMarbLayer,leftFakeLayer]);
+	rightMap.addLayers([rightMarbLayer,rightFakeLayer]);
+	
+	// Init sites layer toggle to off.
+	var $msInfo = $('#mississippi_info');
+	var $toggle = $('#toggle');
+	$msInfo.hide();
+	$toggle.attr('title', 'Show');
+	
+	$toggle.click(function() {
+		$msInfo.toggle('5000', function() {
+			var on = $(this).is(':visible');
+			leftMarbLayer.setVisibility(on);
+			leftFakeLayer.setVisibility(on);
+			rightMarbLayer.setVisibility(on);
+			rightFakeLayer.setVisibility(on);
+			if (on) {
+				$toggle.attr('title', 'Hide');
+			} else {
+				$toggle.attr('title', 'Show');
+			}
+		});
+	});
+	
 });

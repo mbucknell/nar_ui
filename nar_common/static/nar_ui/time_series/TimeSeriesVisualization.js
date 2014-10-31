@@ -7,6 +7,7 @@ nar.timeSeries  = nar.timeSeries || {};
  * @property {string} id
  * @property {Function} plotter
  * @property {nar.timeSeries .TimeSeriesCollection} timeSeriesCollection
+ * @property {String} treeDisplayHierarchy optional param describing location of time series in a tree
  * @property {jQuery} allPlotsWrapperElt
  */
 
@@ -18,12 +19,15 @@ nar.timeSeries.Visualization = function(config){
     var self = this;
     self.id = config.id;
     self.allPlotsWrapperElt = config.allPlotsWrapperElt;
+    self.treeDisplayHierarchy = config.treeDisplayHierarchy || '';
     self.plotter = config.plotter;
     self.ranger = nar.timeSeries.Visualization.getCustomizationById(self.id, 'range', nar.util.Unimplemented);
     self.ancillaryData = nar.timeSeries.Visualization.getCustomizationById(self.id, 'ancillary', []);
     self.auxData = config.auxData || {};
     self.allowTimeSlider = nar.timeSeries.Visualization.getCustomizationById(self.id, 'allowTimeSlider', true);
-
+    /*
+     * @returns {nar.timeSeries.Visualization.IdComponents}
+     */
     self.getComponentsOfId = function(){
         //delegate to static method
         return nar.timeSeries.Visualization.getComponentsOfId(self.id);
@@ -123,19 +127,25 @@ var getPlotContainer = function(plotContainerId){
 // public static properties:
 
 nar.timeSeries.Visualization.serverToClientConstituentIdMap = {
-    'nh3': 'nitrogen',
     'no23': 'nitrate',
-    'op':'phosphorus',
-    'si':'sediment',
     'ssc':'sediment',
-    'tkn': 'nitrogen',
+    'tn' : 'nitrogen',
     'tp':'phosphorus',
     'q':'streamflow'
 };
 
 /**
+ * @typedef nar.timeSeries.Visualization.IdComponents
+ * @property {string} constituent
+ * @property {string} timestepDensity
+ * @property {string} category
+ * @property {string} subcategory 
+ * @property {string} modtype
+ */
+
+/**
  * @param {string} id
- * @returns {Object} a simple map of component name to value 
+ * @returns {nar.timeSeries.Visualization.IdComponents} a simple map of component name to value 
  */
 nar.timeSeries.Visualization.getComponentsOfId = function(id) {
     var splitId = id.split('/');
@@ -145,17 +155,13 @@ nar.timeSeries.Visualization.getComponentsOfId = function(id) {
     var serverConstituentId = splitId[0];
     var clientConstituentId = nar.timeSeries.Visualization.serverToClientConstituentIdMap[serverConstituentId
             .toLowerCase()];
-    components.constituent = clientConstituentId;
-    var potential_category = splitId[1];
-    if (potential_category) {
-        var split_potential_category = potential_category.split('_');
-        if (2 === split_potential_category.length) {
-            components.category = split_potential_category[1];
-            components.subcategory = potential_category;
-        } else {
-            components.category = potential_category;
-        }
-    }
+    var components = {
+	    constituent : clientConstituentId,
+	    timestepDensity : splitId[1],
+	    category : splitId[2],
+	    subcategory : splitId[3],
+	    modtype : splitId[4]
+	};
     return components;
 };
 
@@ -191,13 +197,13 @@ nar.timeSeries.Visualization.getPlotterById = function(id){
  * Some configuration for which category of data gets which graph
  */
 nar.timeSeries.Visualization.types = {
-		discrete : {
+		concentration : {
 			plotter : nar.plots.SampleConcentrationPlot,
 			range : nar.timeSeries.DataAvailabilityTimeRange,
 			ancillary : [],
 			allowTimeSlider : true
 		},
-		load : {
+		mass : {
 			plotter : nar.plots.LoadPlot,
 			range : nar.timeSeries.DataAvailabilityTimeRange,
 			ancillary : [],
@@ -208,8 +214,8 @@ nar.timeSeries.Visualization.types = {
 			range : nar.timeSeries.MostRecentWaterYearTimeRange,
 			ancillary : [{
 				// @todo We will want to store these somewhere so this can just be nar .discrete.nitrogen
-				procedure : "http://cida.usgs.gov/def/NAR/procedure/TKN",
-				observedProperty : "http://cida.usgs.gov/def/NAR/property/TKN/discrete"
+				procedure : "http://cida.usgs.gov/def/NAR/procedure/discrete_concentration",
+				observedProperty : "http://cida.usgs.gov/def/NAR/property/TKN"
 			}],
 			allowTimeSlider : false
 		}
