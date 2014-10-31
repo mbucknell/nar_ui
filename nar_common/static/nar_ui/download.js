@@ -136,7 +136,9 @@ $(document).ready(function() {
 				placeholder: "Select a Station (optional)",
 				allowClear: true
 			});
-
+			
+			//Add in MRB
+			siteTypes["MRB"] = "MRB";
 			var siteTypeEl = $("#siteType");
 			for(var siteType in siteTypes) {
 				opt = $('<option>');
