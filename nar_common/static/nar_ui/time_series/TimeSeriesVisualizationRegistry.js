@@ -70,8 +70,8 @@ nar.timeSeries.VisualizationRegistry = function(){
      * @param {String} observedProperty
      * @returns {nar.timeSeries.Visualization
      */
-    self.getByObservedProperty = function(observedProperty){
-        var vizId = self.getIdForObservedProperty(observedProperty);
+    self.getByObservedPropertyAndProcedure = function(observedProperty, procedure){
+        var vizId = self.getTimeSeriesVisualizationId(observedProperty, procedure);
         var viz = self.get(vizId);
         return viz;
     };
@@ -90,20 +90,30 @@ nar.timeSeries.VisualizationRegistry = function(){
      * minus self.urlPrefix.
      * Other TVisualizations have multiple TimeSeries. In that case, the Visualization id is be a string representative of 
      * the visualized time series. 
-     * @param {string} observedProperty - the full uri for the observedProperty
+     * @param {string} observedProperty - the full uri for the SOS observedProperty
+     * @param {string} procedure - the full uri for the SOS procedure
      * @returns {string} visualization id
      *  
      */
-    self.getIdForObservedProperty = function(observedProperty){
+    self.getTimeSeriesVisualizationId= function(observedProperty, procedure){
         var strippedObservedProperty = self.stripUrlPrefix(observedProperty, self.urlPrefix + 'property/');
         //@todo check striped property id to see if it corresponds to a category
         //where multiple time series correspond to a single visualization
-        
+               
         //@todo failing id lookup by category, also check strippedObservedPropertyToVizIdMap to see if  
         //it maps to an id
         
-        //just return itself for now
-        return strippedObservedProperty;
+        var strippedProcedure = self.stripUrlPrefix(procedure, self.urlPrefix + 'procedure/');
+        
+        //The sos procedure names are set up to contain underscore-delimeted tokens. The first token is timestep density,
+        //one of (discrete, annual, monthly, daily). The second token is category, one of (flow, concentration).
+        //The third token, if present, is a subcategory, one of (mass_L95/*, mass_U95/*, flow_weighted/*, mean/*)
+        //where '*' denotes any modtype.
+        
+        var properlyDelimetedProcedure = strippedProcedure.replace('_', '/').replace('_', '/');
+        
+        //just return this for now
+        return strippedObservedProperty + '/' + properlyDelimetedProcedure;
     };
 };
 
