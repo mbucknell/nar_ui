@@ -121,8 +121,8 @@ nar.plots = nar.plots || {};
 			}
 			
 			if (Object.has(tsViz.auxData, 'gulfHypoxicExtent')) {
-				series = series.concat(makeHypoxicExtentConfig(tsViz.auxData.gulfHypoxicExtent)); 
-				plotConfig.secondaryYaxis.push({
+				plotConfig.auxData.push(makeHypoxicExtentConfig(tsViz.auxData.gulfHypoxicExtent)); 
+				plotConfig.secondaryYaxis = {
 					position : 'right',
 					axisLabel: 'Observed total hypoxic area, <br/> in thousands of square <br/>kilometers',
 					axisLabelFontSizePixels: 10,
@@ -132,7 +132,7 @@ nar.plots = nar.plots || {};
 					tickFormatter : function(val) {
 						return val / 1000;
 					}
-				});
+				};
 			}
         }
         
