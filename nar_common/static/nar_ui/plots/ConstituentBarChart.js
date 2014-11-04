@@ -83,7 +83,7 @@ nar.plots = nar.plots || {};
 		}
 		
 		if (config.secondaryYaxis) {
-			yaxes.push(config.secondardYaxis);
+			yaxes.push(config.secondaryYaxis);
 		}
 		
 		var plot = $.plot(plotContainer, series, {
