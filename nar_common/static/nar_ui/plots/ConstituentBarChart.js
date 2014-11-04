@@ -30,9 +30,16 @@ nar.plots = nar.plots || {};
 			axisLabelPadding: 10,
 			tickLength: 10,
 			tickFormatter : function(val) {
+				// The automatic tick formatter was producing val with very large precisions when val was less than one. 
+				// This will limit it.
+				if (val < 1) {
+					return (val).floor(3).format();
+				}
 				// Use Sugar to properly format numbers with commas
 				// http://sugarjs.com/api/Number/format
-				return (val).format();
+				else {
+					return (val).format();
+				}
 			}
 		}];
         
