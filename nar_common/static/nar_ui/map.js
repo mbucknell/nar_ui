@@ -7,11 +7,9 @@ var map;
     var continentalCenter = continentalExtent.getCenterLonLat();
     var id = 'siteMap';
     
-    var themeFileUrl = CONFIG.staticUrl + 'nar_ui/js_lib/OpenLayers/theme/default/style.css';
-   
     options.maxZoomLevel = 4;
     options.maxExtent = continentalExtent;
-    options.theme = themeFileUrl;
+    options.theme = nar.commons.map.theme;
     options.controls = [
         new OpenLayers.Control.Navigation(),
         new OpenLayers.Control.MousePosition({
