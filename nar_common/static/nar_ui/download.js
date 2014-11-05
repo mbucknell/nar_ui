@@ -6,6 +6,7 @@ $(document).ready(function() {
 	var STATION_ID_PROPERTY = "siteid";
 	var STATION_NAME_PROPERTY = "staname";
 	var SITE_TYPE_PROPERTY = "sitetype";
+	var STATE_PROPERTY = "state";
 	var STATE_LIST = {
 			"AL": "Alabama",
 			"AK": "Alaska",
@@ -102,6 +103,73 @@ $(document).ready(function() {
 		placeholder: "Select a State (optional)"
 	}); 
 	
+	//will hold a one time fetch of all station data
+	var STATION_DATA;
+	var filterSiteTypes = function(){
+		//loop through features collecting  site types
+		var siteTypes = {};
+		
+		var selectedStates = $("#state").val();
+		for(var i = 0; i < STATION_DATA.features.length; i++) {
+			var props = STATION_DATA.features[i].properties;
+			if(!siteTypes[props[SITE_TYPE_PROPERTY]] 
+				&& (!selectedStates || selectedStates.some(props[STATE_PROPERTY]))
+				) {
+				siteTypes[props[SITE_TYPE_PROPERTY]] = props[SITE_TYPE_PROPERTY];
+			}
+		}
+		
+		//Add in MRB
+		siteTypes["MRB"] = "MRB";
+		var siteTypeEl = $("#siteType");
+		siteTypeEl.val('');
+		siteTypeEl.find('option') .remove();
+		for(var siteType in siteTypes) {
+			opt = $('<option>');
+			opt.attr('value', siteType);
+			opt.html(siteTypes[siteType]);
+			siteTypeEl.append(opt);
+		}
+		siteTypeEl.select2('destroy');
+		siteTypeEl.select2({
+			placeholder: "Select a Site Type (optional)",
+			allowClear: true
+		});
+	};
+	var filerStationIds = function() {
+		//loop through features collecting stations
+		var stations = {};
+		
+		var selectedStates = $("#state").val();
+		var selectedSiteTypes = $("#siteType").val();
+		if(selectedSiteTypes) selectedSiteTypes.remove('MRB');
+		for(var i = 0; i < STATION_DATA.features.length; i++) {
+			var props = STATION_DATA.features[i].properties;
+			if(!stations[props[STATION_ID_PROPERTY]]
+				&& (!selectedStates || selectedStates.some(props[STATE_PROPERTY]))
+				&& (!selectedSiteTypes || selectedSiteTypes.some(props[SITE_TYPE_PROPERTY]))
+				) {
+				stations[props[STATION_ID_PROPERTY]] = props[STATION_NAME_PROPERTY];
+			}
+		}
+		
+		var stationId = $("#stationId");
+		stationId.val('');
+		stationId.find('option') .remove();
+		var opt;
+		for(var station in stations) {
+			opt = $('<option>');
+			opt.attr('value', station);
+			opt.html(station + " - " + stations[station]);
+			stationId.append(opt);
+		}
+		stationId.select2("destroy");
+		stationId.select2({
+			placeholder: "Select a Station (optional)",
+			allowClear: true
+		});
+	};
+	
 	$.ajax({
 		url: CONFIG.endpoint.geoserver +
 		"ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" + SITE_LAYER_NAME + 
@@ -109,47 +177,14 @@ $(document).ready(function() {
 		async: false,
 		dataType: "json",
 		success: function(data) {
-			//loop through features collecting stations and site types
-			var stations = {};
-			var siteTypes = {};
+			STATION_DATA = data;
+			filterSiteTypes();
+			filerStationIds();
 			
-			for(var i = 0; i < data.features.length; i++) {
-				var props = data.features[i].properties;
-				if(!siteTypes[props[SITE_TYPE_PROPERTY]]) {
-					siteTypes[props[SITE_TYPE_PROPERTY]] = props[SITE_TYPE_PROPERTY];
-				}
-				if(!stations[props[STATION_ID_PROPERTY]]) {
-					stations[props[STATION_ID_PROPERTY]] = props[STATION_NAME_PROPERTY];
-				}
-			}
-
-			
-			var stationId = $("#stationId");
-			var opt;
-			for(var station in stations) {
-				opt = $('<option>');
-				opt.attr('value', station);
-				opt.html(station + " - " + stations[station]);
-				stationId.append(opt);
-			}
-			stationId.select2({
-				placeholder: "Select a Station (optional)",
-				allowClear: true
-			});
-			
-			//Add in MRB
-			siteTypes["MRB"] = "MRB";
-			var siteTypeEl = $("#siteType");
-			for(var siteType in siteTypes) {
-				opt = $('<option>');
-				opt.attr('value', siteType);
-				opt.html(siteTypes[siteType]);
-				siteTypeEl.append(opt);
-			}
-			siteTypeEl.select2({
-				placeholder: "Select a Site Type (optional)",
-				allowClear: true
-			});
+			//wire filters
+			$("#state").on('change', filterSiteTypes);
+			$("#state").on('change', filerStationIds);
+			$("#siteType").on('change', filerStationIds);
 		},
 		context: this
 	});
