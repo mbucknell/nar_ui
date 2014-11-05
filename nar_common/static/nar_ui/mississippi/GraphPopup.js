@@ -75,7 +75,7 @@ nar.GraphPopup = (function() {
 	
 			// Generate additional time series for baseline average, 45% reduction targets, and baseline-average
 			var siteDataDeferred = $.Deferred();
-			if (!isVirtual) {
+			if (isVirtual && (loadType === "annual")) {
 				$.ajax({
 					url : CONFIG.siteAveTargetUrl,
 					data : {
@@ -108,7 +108,7 @@ nar.GraphPopup = (function() {
 					}
 				});
 			} 
-			else if (loadType === 'may') {
+			else if (isVirtual && (loadType === 'may')) {
 				// In this case we will be graphing the observed hypoxic area on the
 				// graph so need to retrieve it.
 				$.ajax({
