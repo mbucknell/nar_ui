@@ -122,7 +122,7 @@ $(document).ready(function() {
 		//Add in MRB
 		siteTypes["MRB"] = "MRB";
 		var siteTypeEl = $("#siteType");
-		siteTypeEl.val('');
+		var setValues = siteTypeEl.val();
 		siteTypeEl.find('option') .remove();
 		for(var siteType in siteTypes) {
 			opt = $('<option>');
@@ -135,6 +135,7 @@ $(document).ready(function() {
 			placeholder: "Select a Site Type (optional)",
 			allowClear: true
 		});
+		siteTypeEl.val(setValues).trigger("change");
 	};
 	var filerStationIds = function() {
 		//loop through features collecting stations
@@ -154,7 +155,7 @@ $(document).ready(function() {
 		}
 		
 		var stationId = $("#stationId");
-		stationId.val('');
+		var setValues = stationId.val();
 		stationId.find('option') .remove();
 		var opt;
 		for(var station in stations) {
@@ -168,6 +169,7 @@ $(document).ready(function() {
 			placeholder: "Select a Station (optional)",
 			allowClear: true
 		});
+		stationId.val(setValues).trigger("change");
 	};
 	
 	$.ajax({
