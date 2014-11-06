@@ -1,7 +1,7 @@
 var nar = nar || {};
 nar.downloads = (function() {
 	"use strict";
-	var me = {};
+	var pubMembers = {};
 	
 	var NUMBER_OF_YEARS_BACK = 100;
 	var SITE_LAYER_NAME = "NAR:JD_NFSN_sites0914";
@@ -9,6 +9,9 @@ nar.downloads = (function() {
 	var STATION_NAME_PROPERTY = "staname";
 	var SITE_TYPE_PROPERTY = "sitetype";
 	var STATE_PROPERTY = "state";
+	var MRB_VALUE = 'MRB';
+	var MS_SITE_ATTR_NAME = 'MSSite';
+	var MS_SITE_VALUE = 'MS';
 	var STATE_LIST = {
 		"AL": "Alabama",
 		"AK": "Alaska",
@@ -71,13 +74,17 @@ nar.downloads = (function() {
 		"WY": "Wyoming"
 	};
 	
-	me.updateSelect2Options = function(select2El, values, placeHolderText) {
+	pubMembers.updateSelect2Options = function(select2El, values, placeHolderText, displayKey) {
 		var previousValues = select2El.val();
 		select2El.find('option') .remove();
 		for(var val in values) {
 			var opt = $('<option>');
 			opt.attr('value', val);
-			opt.html(values[val]);
+			if(displayKey) {
+				opt.html(val + " - " + values[val]);
+			} else {
+				opt.html(values[val]);
+			}
 			select2El.append(opt);
 		}
 		select2El.select2('destroy');
@@ -88,47 +95,56 @@ nar.downloads = (function() {
 		select2El.val(previousValues).trigger("change");
 	};
 	
-	me.getFilteredSiteTypeOptions = function(stationData, selectedStates){
+	pubMembers.getFilteredSiteTypeOptions = function(stationData, selectedStates){
 		//loop through features collecting  site types
 		var siteTypes = {};
 		
 		for(var i = 0; i < stationData.features.length; i++) {
 			var props = stationData.features[i].properties;
-			if(!siteTypes[props[SITE_TYPE_PROPERTY]] 
-				&& (!selectedStates || selectedStates.some(props[STATE_PROPERTY]))
+			if(!siteTypes[props[SITE_TYPE_PROPERTY]] //only add to values object if property hasn't already been added
+				&& (!selectedStates || selectedStates.length <= 0 || selectedStates.some(props[STATE_PROPERTY]))//only add if has state prop in state list (if state list exists)
 				) {
 				siteTypes[props[SITE_TYPE_PROPERTY]] = props[SITE_TYPE_PROPERTY];
 			}
 		}
 		
-		//Add in MRB
+		//Add in MRB, a special case not part of the database
 		siteTypes["MRB"] = "MRB";
 		
-		//rerender
-		me.updateSelect2Options($("#siteType"), siteTypes, "Select a Site Type (optional)");
+		return siteTypes;
 	};
 	
-	me.getFilteredStationIds = function(stationData, selectedStates, selectedSiteTypes) {
+	pubMembers.getFilteredStationIdsOptions = function(stationData, selectedStates, selectedSiteTypes) {
 		//loop through features collecting stations
 		var stations = {};
 		
-		if(selectedSiteTypes) selectedSiteTypes.remove('MRB');
+		var mrbSelected = false; //used to detect if we have to filter down to Mississipi sites
+		if(selectedSiteTypes && selectedSiteTypes.some(MRB_VALUE)) {
+			mrbSelected = true;
+			selectedSiteTypes.remove(MRB_VALUE); //remove so stations are not expected to have type MRB, which doesn't exist as a real site type
+		}
 		for(var i = 0; i < stationData.features.length; i++) {
 			var props = stationData.features[i].properties;
-			if(!stations[props[STATION_ID_PROPERTY]]
-				&& (!selectedStates || selectedStates.some(props[STATE_PROPERTY]))
-				&& (!selectedSiteTypes || selectedSiteTypes.some(props[SITE_TYPE_PROPERTY]))
+			if(!stations[props[STATION_ID_PROPERTY]] //only add to values object if property hasn't already been added
+				&& (!selectedStates || selectedStates.length <= 0 || selectedStates.some(props[STATE_PROPERTY])) //only add if has state prop in state list (if state list exists)
+				&& (!selectedSiteTypes || selectedSiteTypes.length <= 0 || selectedSiteTypes.some(props[SITE_TYPE_PROPERTY]))//only add if site type prop in site type list (if site type list exists)
 				) {
-				stations[props[STATION_ID_PROPERTY]] = props[STATION_NAME_PROPERTY];
+				if(mrbSelected) {
+					//only add station if it is flagged as MS
+					if(props[MS_SITE_ATTR_NAME] === MS_SITE_VALUE) {
+						stations[props[STATION_ID_PROPERTY]] = props[STATION_NAME_PROPERTY];
+					}
+				} else {
+					stations[props[STATION_ID_PROPERTY]] = props[STATION_NAME_PROPERTY];
+				}
 			}
 		}
 		
-		//rerender
-		me.updateSelect2Options($("#stationId"), stations, "Select a Station (optional)");
+		return stations;
 	};
 	
 	// Utility function to enable/disable elements
-	me.toggleElement = function($el, enable) {
+	pubMembers.toggleElement = function($el, enable) {
 		if (enable) {
 			$el.removeAttr('disabled');
 		} else {
@@ -136,34 +152,52 @@ nar.downloads = (function() {
 		}
 	};
 	
-	me.toggleDownloadButton = function(){
-		me.toggleElement($('download-button'), $('input[name="dataType"]').is(':checked'));
+	pubMembers.toggleDownloadButton = function(){
+		pubMembers.toggleElement($('download-button'), $('input[name="dataType"]').is(':checked'));
 	};
 	
-	me.toggleWaterQuality = function() {
+	pubMembers.toggleWaterQuality = function() {
 		var on = $('#waterQuality').is(':checked');
 		var $constituent = $('#constituent');
 		var $qwDataType = $('#qwDataType');
 		
-		me.toggleElement($constituent, on);
-		me.toggleElement($qwDataType, on);
+		pubMembers.toggleElement($constituent, on);
+		pubMembers.toggleElement($qwDataType, on);
 		if (!on) {
 			$constituent.select2('val', []);
 			$qwDataType.select2('val', []);
 		}
 	};
 	
-	me.toggleStreamFlow = function() {
+	pubMembers.toggleStreamFlow = function() {
 		var on = $('#streamFlow').is(':checked');
 		var $streamFlow = $('#streamFlowType');
 		
-		me.toggleElement($streamFlow, on);
+		pubMembers.toggleElement($streamFlow, on);
 		if (!on) {
 			$streamFlow.select2('val', []);
 		}
 	};
 	
-	me.loadAndRenderSiteFilters = function() {
+	pubMembers.filterSiteTypesByState = function(stationData, selectedStates) {
+		pubMembers.updateSelect2Options(
+				$("#siteType"), 
+				pubMembers.getFilteredSiteTypeOptions(stationData, selectedStates), 
+				"Select a Site Type (optional)",
+				false
+				);
+	};
+	
+	pubMembers.filterStationsByStateAndType = function(stationData, selectedStates, selectedSiteTypes) {
+		pubMembers.updateSelect2Options(
+				$("#stationId"), 
+				pubMembers.getFilteredStationIdsOptions(stationData, selectedStates, selectedSiteTypes), 
+				"Select a Station (optional)",
+				true
+				);
+	};
+	
+	pubMembers.loadAndRenderSiteFilters = function() {
 		var STATION_DATA;
 		$.ajax({
 			url: CONFIG.endpoint.geoserver +
@@ -172,30 +206,29 @@ nar.downloads = (function() {
 			async: false,
 			dataType: "json",
 			success: function(data) {
-				STATION_DATA = data;
+				STATION_DATA = data; //save to singleton
+				
+				//get initial drop down states to render
 				var selectedStates = $("#state").val();
 				var selectedSiteTypes = $("#siteType").val();
-				me.getFilteredSiteTypeOptions(STATION_DATA, selectedStates);
-				me.getFilteredStationIds(STATION_DATA, selectedStates, selectedSiteTypes);
+				pubMembers.filterSiteTypesByState(STATION_DATA, selectedStates);
+				pubMembers.filterStationsByStateAndType(STATION_DATA, selectedStates, $("#siteType").val());
 				
 				//wire filters
 				$("#state").on('change', function() {
 					var selectedStates = $("#state").val();
-					var selectedSiteTypes = $("#siteType").val();
-					me.getFilteredSiteTypeOptions(STATION_DATA, selectedStates);
-					me.getFilteredStationIds(STATION_DATA, selectedStates, selectedSiteTypes);
+					pubMembers.filterSiteTypesByState(STATION_DATA, selectedStates);
+					pubMembers.filterStationsByStateAndType(STATION_DATA, selectedStates, $("#siteType").val());
 				});
 				$("#siteType").on('change', function() {
-					var selectedStates = $("#state").val();
-					var selectedSiteTypes = $("#siteType").val();
-					me.getFilteredStationIds(STATION_DATA, selectedStates, selectedSiteTypes);
+					pubMembers.filterStationsByStateAndType(STATION_DATA, $("#state").val(), $("#siteType").val());
 				});
 			},
 			context: this
 		});
 	};
 	
-	me.initDownloadPage = function() {
+	pubMembers.initDownloadPage = function() {
 		var defaultDateLimits = {
 			minDate : "-" + NUMBER_OF_YEARS_BACK + "Y",
 			maxDate: "+0D",
@@ -219,10 +252,10 @@ nar.downloads = (function() {
 		});
 		
 		//populate html, then init select 2
-		me.updateSelect2Options($("#state"), STATE_LIST, "Select a State (optional)");
+		pubMembers.updateSelect2Options($("#state"), STATE_LIST, "Select a State (optional)", true);
 		
 		//will hold a one time fetch of all station data
-		me.loadAndRenderSiteFilters();
+		pubMembers.loadAndRenderSiteFilters();
 	
 		$("#constituent").select2({
 			placeholder: "Select a Constituent (optional)",
@@ -239,23 +272,23 @@ nar.downloads = (function() {
 			allowClear : true
 		});
 	
-		$('input[name="dataType"]').on('click', me.toggleDownloadButton);
-		me.toggleDownloadButton();
+		$('input[name="dataType"]').on('click', pubMembers.toggleDownloadButton);
+		pubMembers.toggleDownloadButton();
 		
-		$('#waterQuality').on('click', me.toggleWaterQuality);
-		me.toggleWaterQuality();
+		$('#waterQuality').on('click', pubMembers.toggleWaterQuality);
+		pubMembers.toggleWaterQuality();
 		
-		$('#streamFlow').on('click', me.toggleStreamFlow);	
-		me.toggleStreamFlow();
+		$('#streamFlow').on('click', pubMembers.toggleStreamFlow);	
+		pubMembers.toggleStreamFlow();
 		
 		$('#clear-filters-button').on('click', function () {
 			$('.select2-container').select2('val','');
 			$('input[type="checkbox"]').prop('checked', false);
 			$('.hasDatepicker').val('');
 			$('.hasDatepicker').datepicker('option', defaultDateLimits);
-			me.toggleDownloadButton();
-			me.toggleWaterQuality();
-			me.toggleStreamFlow();
+			pubMembers.toggleDownloadButton();
+			pubMembers.toggleWaterQuality();
+			pubMembers.toggleStreamFlow();
 		});
 			
 		$('#download-button').on('click', function (event) {
@@ -265,5 +298,5 @@ nar.downloads = (function() {
 		});
 	};
 	
-	return me;
+	return pubMembers;
 }());
