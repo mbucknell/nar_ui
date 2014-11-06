@@ -212,6 +212,9 @@ describe("nar.downloads.updateSelect2Options", function(){
 		expect($('#testSelect').find('option').get(0).text).toBe('opt1 display value');
 		expect($('#testSelect').find('option').get(1).text).toBe('opt2 display value');
 		
+		//select a value to show it is maintained on update
+		$('#testSelect').val('opt2').trigger('change');
+		
 		nar.downloads.updateSelect2Options(testSelect, test_data, "Placeholder", true); 
 		expect($('#testSelect').length).toBe(1); 
 		expect($('#testSelect').find('option').length).toBe(2);
@@ -219,6 +222,7 @@ describe("nar.downloads.updateSelect2Options", function(){
 		expect($('#testSelect').find('option').get(1).value).toBe('opt2');
 		expect($('#testSelect').find('option').get(0).text).toBe('opt1 - opt1 display value');
 		expect($('#testSelect').find('option').get(1).text).toBe('opt2 - opt2 display value');
+		expect($('#testSelect').val()).toBe('opt2'); //value 2 is maintained
 		
 		testSelect.remove();
 		expect($('#testSelect').length).toBe(0); 
