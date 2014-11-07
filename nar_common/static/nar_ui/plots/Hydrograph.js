@@ -61,7 +61,7 @@ nar.plots = nar.plots || {};
 			hydrographDiv = $('<div>').attr('id', HYDROGRAPH_ID).addClass(FLOW_DATA_CLASS);
 			plotContainer.append(hydrographDiv);
 		}
-		sharedFlowData = sharedFlowData || nar.plots.PlotUtils.getData(tsViz);
+		sharedFlowData = sharedFlowData || tsViz.timeSeriesCollection.getData();
 		// get the last x value from hydrograph data as year
 		var waterYear = Date.create(sharedFlowData[0].last()[0]).getFullYear();
 		
@@ -136,7 +136,7 @@ nar.plots = nar.plots || {};
 			plotContainer.append(flowDurationDiv);
 		}
 		
-		sharedFlowData = sharedFlowData || nar.plots.PlotUtils.getData(tsViz);
+		sharedFlowData = sharedFlowData || tsViz.timeSeriesCollection.getData();
 		
 		var sortedFlowData = sharedFlowData[0].sortBy(function(point) {
 			return point[1];

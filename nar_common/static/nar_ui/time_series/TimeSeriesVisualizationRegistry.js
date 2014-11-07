@@ -109,9 +109,13 @@ nar.timeSeries.VisualizationRegistry = function(){
         //one of (discrete, annual, monthly, daily). The second token is category, one of (flow, concentration).
         //The third token, if present, is a subcategory, one of (mass_L95/*, mass_U95/*, flow_weighted/*, mean/*)
         //where '*' denotes any modtype.
-        
-        var properlyDelimetedProcedure = strippedProcedure.replace('_', '/').replace('_', '/');
-        
+        var targetDelim = '/';
+        var properlyDelimetedProcedure = strippedProcedure.replace('_', targetDelim).replace('_', targetDelim);
+        var splitProcedure = properlyDelimetedProcedure.split(targetDelim);
+        //if procedure has a modtype, remove it -- there is no modtype awareness in TsvIds
+        if(splitProcedure.length === 4){
+        	properlyDelimetedProcedure = splitProcedure.to(splitProcedure.length -1).join(targetDelim);
+        }
         //just return this for now
         return strippedObservedProperty + '/' + properlyDelimetedProcedure;
     };
