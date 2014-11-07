@@ -224,7 +224,99 @@ describe("nar.downloads.updateSelect2Options", function(){
 		expect($('#testSelect').find('option').get(1).text).toBe('opt2 - opt2 display value');
 		expect($('#testSelect').val()).toBe('opt2'); //value 2 is maintained
 		
+
+		$('#testSelect').val('').trigger('change');
+		testSelect.select2('destroy');
 		testSelect.remove();
 		expect($('#testSelect').length).toBe(0); 
+	});
+});
+
+describe("nar.downloads.initDownloadPage", function(){
+	var server, formEl;
+	var addElement = function(el, tag, id, name, opts) {
+		var newEl = $('<' + tag + '>')
+		newEl.attr('id', id);
+		newEl.attr('name', name || id);
+		if(opts) {
+			for(var k in opts) {
+				if(opts.hasOwnProperty(k)) {
+					newEl.attr(k, opts[k]);
+				}
+			}
+		}
+		el.append(newEl);
+	};
+	var click = function (el){
+	    var ev = document.createEvent("MouseEvent");
+	    ev.initMouseEvent(
+	        "click",
+	        true /* bubble */, true /* cancelable */,
+	        window, null,
+	        0, 0, 0, 0, /* coordinates */
+	        false, false, false, false, /* modifier keys */
+	        0 /*left*/, null
+	    );
+	    el.get(0).dispatchEvent(ev);
+	};
+	
+	beforeEach(function() {
+		server = sinon.fakeServer.create();//created needed dom
+		server.respondWith([
+		    				200,
+		    				{"Content-Type": "application/json"},
+		    				JSON.stringify(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS)
+		    			]);
+		
+		
+		formEl = $('<form>');
+		formEl.attr('id', 'downloadForm');
+		$('body').append(formEl);
+		addElement(formEl, "input", "startDateTime");
+		addElement(formEl, "input", "endDateTime");
+		addElement(formEl, "select", "state");
+		addElement(formEl, "select", "siteType");
+		addElement(formEl, "select", "stationId");
+		addElement(formEl, "input", "siteInformation", "dataType", { value: "siteInformation", type: "checkbox"});
+		addElement(formEl, "input", "waterQuality", "dataType", { value: "waterQuality", type: "checkbox"});
+		addElement(formEl, "input", "streamFlow", "dataType", { value: "streamFlow", type: "checkbox"});
+		addElement(formEl, "select", "constituent");
+		addElement(formEl, "select", "qwDataType");
+		addElement(formEl, "select", "streamFlowType");
+		addElement(formEl, "input", "r1", "mimeType", { value: "text/csv", type: "radio"});
+		addElement(formEl, "input", "r2", "mimeType", { value: "text/tab-separated-values", type: "radio"});
+		addElement(formEl, "input", "r3", "mimeType", { value: "application/vnd.ms-excel", type: "radio"});
+		
+		nar.downloads.initDownloadPage();
+		server.respond();
+	});
+	
+	afterEach(function() {
+		server.restore();
+		formEl.remove();
+	});
+	
+	it("loaded state, site type, and station drop downs with correct filtering behavior between the fields", function(){
+		expect($("#state").find('option').length).toBe(59); //TODO expect the state list to change
+		expect($("#siteType").find('option').length).toBe(3); 
+		expect($("#stationId").find('option').length).toBe(2); 
+		
+		//TODO make sure all filters/select2s get updated with correct filtered options
+	});
+	
+	it("constituent, water quality, and stream flow drop downs disabled until respective checkboxes checked", function(){
+		expect($("#constituent").attr("disabled")).toBe("disabled");
+		expect($("#qwDataType").attr("disabled")).toBe("disabled");
+		expect($("#streamFlowType").attr("disabled")).toBe("disabled");
+		
+		//click all checkboxes
+		click($('#siteInformation'));
+		click($('#waterQuality'));
+		click($('#streamFlow'));
+
+		//no longer disabled
+		expect($("#constituent").attr("disabled")).toBeUndefined();
+		expect($("#qwDataType").attr("disabled")).toBeUndefined();
+		expect($("#streamFlowType").attr("disabled")).toBeUndefined();
 	});
 });

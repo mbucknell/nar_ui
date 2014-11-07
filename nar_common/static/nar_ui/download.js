@@ -75,7 +75,7 @@ nar.downloads = (function() {
 	};
 	
 	pubMembers.updateSelect2Options = function(select2El, values, placeHolderText, displayKey) {
-		var previousValues = select2El.val();
+		var previousValues = select2El.select2('val');
 		select2El.find('option') .remove();
 		for(var val in values) {
 			var opt = $('<option>');
@@ -92,7 +92,7 @@ nar.downloads = (function() {
 			placeholder: placeHolderText,
 			allowClear: true
 		});
-		select2El.val(previousValues).trigger("change");
+		select2El.select2('val', previousValues).trigger("change");
 	};
 	
 	pubMembers.getFilteredSiteTypeOptions = function(stationData, selectedStates){
@@ -209,19 +209,19 @@ nar.downloads = (function() {
 				STATION_DATA = data; //save to singleton
 				
 				//get initial drop down states to render
-				var selectedStates = $("#state").val();
-				var selectedSiteTypes = $("#siteType").val();
+				var selectedStates = $("#state").select2('val');
+				var selectedSiteTypes = $("#siteType").select2('val');
 				pubMembers.filterSiteTypesByState(STATION_DATA, selectedStates);
-				pubMembers.filterStationsByStateAndType(STATION_DATA, selectedStates, $("#siteType").val());
+				pubMembers.filterStationsByStateAndType(STATION_DATA, selectedStates, $("#siteType").select2('val'));
 				
 				//wire filters
 				$("#state").on('change', function() {
-					var selectedStates = $("#state").val();
+					var selectedStates = $("#state").select2('val');
 					pubMembers.filterSiteTypesByState(STATION_DATA, selectedStates);
-					pubMembers.filterStationsByStateAndType(STATION_DATA, selectedStates, $("#siteType").val());
+					pubMembers.filterStationsByStateAndType(STATION_DATA, selectedStates, $("#siteType").select2('val'));
 				});
 				$("#siteType").on('change', function() {
-					pubMembers.filterStationsByStateAndType(STATION_DATA, $("#state").val(), $("#siteType").val());
+					pubMembers.filterStationsByStateAndType(STATION_DATA, $("#state").select2('val'), $("#siteType").select2('val'));
 				});
 			},
 			context: this
@@ -293,7 +293,7 @@ nar.downloads = (function() {
 			
 		$('#download-button').on('click', function (event) {
 			event.preventDefault();
-			var url = CONFIG.endpoint.download + "bundle/zip?" + $('#downloadForm').serialize();
+			var url = CONFIG.endpoint.nar_webservice + "download/bundle/zip?" + $('#downloadForm').serialize();
 			window.open(url, 'Download');
 		});
 	};
