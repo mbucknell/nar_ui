@@ -80,7 +80,7 @@ nar.timeSeries.TimeSeries = function(config){
 						"ref" : "om:phenomenonTime",
 						"value" : [
 							nar.util.toISOString(self.timeRange.startTime),
-							nar.util.toISOString(self.timeRange.endTime) 
+							nar.util.toISOString(self.timeRange.endTime + 1000) // adding one second to get times at exactly the endTime
 						]
 					}
         		}];
