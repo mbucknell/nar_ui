@@ -65,13 +65,21 @@ nar.GraphPopup = (function() {
 			if(0 === relevantDataAvailability.length){
 				throw Error('No data available for this constituent at this site');
 			}
-			var relevantProcedure = relevantDataAvailability[0].procedure;
 			
-			var basicTimeSeries = new nar.timeSeries.TimeSeries({
-				observedProperty: observedProperty,
-				procedure: relevantProcedure,
-				featureOfInterest: siteId,
-			});
+			var timeSeriesVizId = tsvRegistry.getTimeSeriesVisualizationId(relevantDataAvailability[0].observedProperty, relevantDataAvailability[0].procedure);
+			var timeSeriesCollection = new nar.timeSeries.Collection();
+			relevantDataAvailability.each(function(dataAvailability) {
+				var observedProperty = dataAvailability.observedProperty;
+				var procedure = dataAvailability.procedure;
+				
+			
+				var basicTimeSeries = new nar.timeSeries.TimeSeries({
+					observedProperty: observedProperty,
+					procedure: procedure,
+					featureOfInterest: siteId,
+				});
+				timeSeriesCollection.add(basicTimeSeries);					
+			});				
 	
 			// Generate additional time series for baseline average, 45% reduction targets, and baseline-average
 			var siteDataDeferred = $.Deferred();
@@ -130,11 +138,6 @@ nar.GraphPopup = (function() {
 			else {
 				siteDataDeferred.resolve({});
 			}
-			
-			var timeSeriesCollection = new nar.timeSeries.Collection();
-			timeSeriesCollection.add(basicTimeSeries);
-			
-			var timeSeriesVizId = tsvRegistry.getTimeSeriesVisualizationId(observedProperty, relevantProcedure);
 			
 			// Wait until the siteData has been retrieved before creating the visualization
 			$.when(siteDataDeferred).then(function(response) {
