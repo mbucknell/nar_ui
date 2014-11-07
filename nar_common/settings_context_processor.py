@@ -11,8 +11,8 @@ def default(request):
                            'GEOSERVER_PATH', 
                            'SOS_HOST_NAME', 
                            'SOS_PATH', 
-                           'DATA_DOWNLOAD_SERVICE', 
-                           'DATA_DOWNLOAD_PATH',
+                           'NAR_WEBSERVICE', 
+                           'NAR_WEBSERVICE_PATH',
                            'NAR_CURRENT_WATER_YEAR']
     exposedSettings = {}
     for exposedSettingName in exposedSettingNames:

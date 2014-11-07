@@ -47,6 +47,6 @@ GEOSERVER_HOST_NAME = 'cida-eros-nardev.er.usgs.gov'
 
 GEOSERVER_PATH = ':8080/nawqareports/service/geoserver/'
 
-DATA_DOWNLOAD_SERVICE = ''
+NAR_WEBSERVICE = 'cida-eros-nardev.er.usgs.gov'
 
-DATA_DOWNLOAD_PATH = ''
+NAR_WEBSERVICE_PATH = ':8080/nar-webservices/service/'

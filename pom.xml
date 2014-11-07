@@ -145,7 +145,6 @@
 		            <!-- This will be different for each project -->
 		              <source>js_lib/jquery.js</source>
 		              <source>js_lib/bootstrap/js/bootstrap.js</source>
-		              <source>js_lib/sugar.js</source>
 		              <source>js_lib/OpenLayers/OpenLayers.js</source>
 		              <source>js_lib/jquery-ui/jquery-ui.min.js</source>
 		              <source>js_lib/jquery-ui-slider-pips/jquery-ui-slider-pips.min.js</source>
@@ -158,6 +157,7 @@
 					  <source>js_lib/jstree/jstree.js</source>
 					  <source>js_lib/TinyColor/tinycolor.js</source>
 		              <source>js_lib/select2.js</source>
+		              <source>js_lib/sugar.js</source>
 		         </preloadSources>
 		         <sourceIncludes> <!-- Varies for each project -->
 		         		<include>mapCommons.js</include>
