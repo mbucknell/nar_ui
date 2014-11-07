@@ -58,6 +58,7 @@
 				sos: 'http://' + '{{ settings.SOS_HOST_NAME|escapejs }}' + '{{ settings.SOS_PATH|escapejs}}',
 				nar_webservice: 'http://' + '{{ settings.NAR_WEBSERVICE|escapejs }}' + '{{ settings.NAR_WEBSERVICE_PATH|escapejs}}',
 			},
+			currentWaterYear : {{ settings.NAR_CURRENT_WATER_YEAR }},
 			definitionsUrl : "{% url 'helpcontent-definitions' %}",
 			siteInfoUrl : "{% url 'helpcontent-site_info' %}",
 			techInfoUrl : "{% url 'technical_information' %}#TechnicalInformationandGlossary-MethodsUsedtoProduceGraphics",
