@@ -31,20 +31,10 @@ describe('nar.plots.PlotUtils', function() {
 			yearAndRndRandomNumber.push([new Date(year,'0','1','0','0','0').getTime(), Math.floor(Math.random() * 10) + 1]);
 		}
 		
-		var allYearsExceptFewMostCurrent = { 
-				data : [yearAndRndRandomNumber.slice(0, yearAndRndRandomNumber.length - 2)]
-		};
+		var allYearsExceptFewMostCurrent = [yearAndRndRandomNumber.slice(0, yearAndRndRandomNumber.length - 2)];
 		
-		var inputObjectWithoutRecentYears = {
-				timeSeriesCollection : {
-					timeSeries : allYearsExceptFewMostCurrent,
-					map : function(c) {
-						return this.timeSeries.data;
-					}
-				}
-		};
 		
-		var result = nar.plots.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(inputObjectWithoutRecentYears);
+		var result = nar.plots.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(allYearsExceptFewMostCurrent);
 		
 		it('should return the expected result object with two properties', function () {
 			expect(result).not.toBe(null);
@@ -65,19 +55,8 @@ describe('nar.plots.PlotUtils', function() {
 		for (var year = 1980;year < nar.WaterYearUtils.convertDateToWaterYear(new Date());year++) {
 			yearAndRndRandomNumber.push([new Date(year,'0','1','0','0','0').getTime(), Math.floor(Math.random() * 10) + 1]);
 		}
-		
-		var inputObjectWithRecentYears = {
-				timeSeriesCollection : {
-					timeSeries : {
-						data : [yearAndRndRandomNumber]
-					},
-					map : function(c) {
-						return this.timeSeries.data;
-					}
-				}
-		};
-		
-		var result = nar.plots.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(inputObjectWithRecentYears);
+
+		var result = nar.plots.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(yearAndRndRandomNumber);
 		it('should have a currentYearDataElement array of length 1', function () {
 			expect(result.currentYearData.length).not.toBe(0);
 			expect(result.currentYearData.length).toBe(1);

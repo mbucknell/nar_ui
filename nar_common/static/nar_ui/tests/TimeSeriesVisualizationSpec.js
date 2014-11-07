@@ -8,9 +8,8 @@ describe('nar.timeSeries.Visualization, nar.timeSeries.VisualizationRegistry', f
 		var timestepDensity = 'annual'
 		var procedureCategory = 'concentration';
 		var procedureSubcategory = 'flow_weighted';
-		var modtype = 'REG';
 		var simpleProcedureId = [timestepDensity, procedureCategory].join('_');
-		var complicatedProcedureId = [timestepDensity, procedureCategory, procedureSubcategory].join('_') + '/' + modtype;
+		var complicatedProcedureId = [timestepDensity, procedureCategory, procedureSubcategory].join('_');
 		var simpleTsvId = createId(observablePropertyId, simpleProcedureId);
 		var complicatedTsvId = createId(observablePropertyId, complicatedProcedureId);
 		
@@ -19,16 +18,14 @@ describe('nar.timeSeries.Visualization, nar.timeSeries.VisualizationRegistry', f
 			expect(components.constituent).toBe('phosphorus');
 			expect(components.category).toBe(procedureCategory);
 			expect(components.subcategory).toBeUndefined();
-			expect(components.modtype).toBeUndefined();
 			expect(components.timestepDensity).toBe(timestepDensity);
 		});
 		
-		it('parses correct components from hierarchical ids with a procedure category, a procedure subcategory, and a modtype', function(){
+		it('parses correct components from hierarchical ids with a procedure category, a procedure subcategory', function(){
 			var components = getComponentsOfId(complicatedTsvId);
 			expect(components.constituent).toBe('phosphorus');
 			expect(components.category).toBe(procedureCategory);
 			expect(components.subcategory).toBe(procedureSubcategory);
-			expect(components.modtype).toBe(modtype);
 			expect(components.timestepDensity).toBe(timestepDensity);
 		});
 	});
