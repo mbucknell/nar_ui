@@ -109,11 +109,11 @@ nar.plots = nar.plots || {};
 			plotConfig.auxData = [];
 			
 			if (Object.has(tsViz.auxData, 'mean')) {
-				plotConfig.auxData.push(makeBaselineConfig(nar.plots.PlotUtils.getData(tsViz).first().first()[0], tsViz.auxData.mean));
+				plotConfig.auxData.push(makeBaselineConfig(tsViz.timeSeriesCollection.getData().first().first()[0], tsViz.auxData.mean));
 			}
 			
 			if (Object.has(tsViz.auxData, 'target')) {
-				plotConfig.auxData.push(makeTargetConfig(nar.plots.PlotUtils.getData(tsViz).first().last()[0], tsViz.auxData.target));
+				plotConfig.auxData.push(makeTargetConfig(tsViz.timeSeriesCollection.getData().first().last()[0], tsViz.auxData.target));
 			}
 			
 			if (Object.has(tsViz.auxData, 'movingAverage') && tsViz.auxData.movingAverage.length > 0) {

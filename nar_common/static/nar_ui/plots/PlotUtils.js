@@ -45,16 +45,12 @@ nar.plots = nar.plots || {};
         YEAR_NINETEEN_HUNDRED: Date.create('1900').getTime(),
         ONE_YEAR_IN_THE_FUTURE: Date.create().addYears(1).getTime(),
         /**
-         * @param {nar.timeSeries.Visualization}
+         * @param {Array} data
          * @returns {Object} - a map of the data set split into the current year's data, and the 
          * previous years' data. Previous years' data will be an empty array if last years' data does not 
          * fall on the last water year. 
          */
-        getDataSplitIntoCurrentAndPreviousYears: function(timeSeriesVisualization) {
-            var allData = nar.plots.PlotUtils.getData(timeSeriesVisualization);
-            
-            // this can only split a single series, so assume allData has it in index 0
-            var data = allData[0]; 
+        getDataSplitIntoCurrentAndPreviousYears: function(data) {
             //assume sorted data set
             var latestPoint = data.last();
             var lastDate = new Date(getXcoord(latestPoint));
@@ -88,16 +84,6 @@ nar.plots = nar.plots || {};
             }
             
             return result;
-        },
-        /**
-         * @param {nar.timeSeries.Visualization}
-         * @returns {Array} - data within the timeSeriesCollection
-         */
-        getData: function(timeSeriesVisualization) {
-            var data = timeSeriesVisualization.timeSeriesCollection.map(function(timeSeries){
-                return timeSeries.data;
-            });
-            return data;
         },
         /**
          * @param {nar.timeSeries.Visualization}
