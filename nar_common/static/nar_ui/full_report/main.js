@@ -87,9 +87,6 @@ $(document).ready(function() {
 				return;//continue
 			}
 			else{
-				//we need to be able to uniquely identify time series visualizations
-				//we need to enable multiple (observed property-procedure) pairs to map to a single time series visualization
-				//we need to enable one (observed property-procedure) pair to map to multiple time series visualizations
 				
 				var timeSeriesVizId = tsvRegistry
 						.getTimeSeriesVisualizationId(observedProperty, procedure);
