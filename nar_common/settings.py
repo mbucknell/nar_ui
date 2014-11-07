@@ -119,6 +119,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.messages.context_processors.messages",
     "nar_common.settings_context_processor.default"                       
 )
+# Set to the most current water year in the loaded data
+NAR_CURRENT_WATER_YEAR = 2013
 
 TEST_RUNNER = 'nar_common.test_runner.ManagedModelTestRunner' 
 

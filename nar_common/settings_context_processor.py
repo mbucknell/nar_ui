@@ -4,7 +4,16 @@ def default(request):
 
     # you can declare any variable that you would like and pass 
     # them as a dictionary to be added to each template's context like so:
-    exposedSettingNames = ['STATIC_URL', 'BASE_URL', 'DEBUG', 'GEOSERVER_HOST_NAME', 'GEOSERVER_PATH', 'SOS_HOST_NAME', 'SOS_PATH', 'DATA_DOWNLOAD_SERVICE', 'DATA_DOWNLOAD_PATH']
+    exposedSettingNames = ['STATIC_URL', 
+                           'BASE_URL', 
+                           'DEBUG', 
+                           'GEOSERVER_HOST_NAME', 
+                           'GEOSERVER_PATH', 
+                           'SOS_HOST_NAME', 
+                           'SOS_PATH', 
+                           'DATA_DOWNLOAD_SERVICE', 
+                           'DATA_DOWNLOAD_PATH',
+                           'NAR_CURRENT_WATER_YEAR']
     exposedSettings = {}
     for exposedSettingName in exposedSettingNames:
         if hasattr(settings, exposedSettingName):
