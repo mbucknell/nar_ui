@@ -61,7 +61,7 @@ nar.timeSeries.Collection = function(){
      */
     self.getDataMerged = function(){
     	var merged = self.reduce(function(state, current){
-    		return state.concat(current);
+    		return state.concat(current.data);
     	}, []);
     	var sorted = merged.sortBy(function(point){
     		return point[0];
