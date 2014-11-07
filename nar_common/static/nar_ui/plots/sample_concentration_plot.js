@@ -8,7 +8,7 @@ nar.plots = nar.plots || {};
     
     nar.plots.SampleConcentrationPlot = function(tsViz){
         var plotContainer = tsViz.plotContainer;
-        var splitData = nar.plots.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(tsViz);
+        var splitData = nar.plots.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(tsViz.timeSeriesCollection.getDataMerged());
         var previousYearsData = splitData.previousYearsData;
         var currentYearData = splitData.currentYearData;  
         var miscConstituentInfo = nar.plots.PlotUtils.getConstituentNameAndColors(tsViz);

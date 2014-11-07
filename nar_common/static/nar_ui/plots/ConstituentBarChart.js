@@ -17,7 +17,7 @@ nar.plots = nar.plots || {};
 	nar.plots.createConstituentBarChart = function(tsViz, config) {
 		var plotContainer = tsViz.plotContainer;
 		
-        var splitData = nar.plots.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(tsViz);
+        var splitData = nar.plots.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(tsViz.timeSeriesCollection.getDataMerged());
         var previousYearsData = splitData.previousYearsData;
         var currentYearData = splitData.currentYearData;
         
