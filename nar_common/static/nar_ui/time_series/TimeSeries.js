@@ -66,15 +66,25 @@ nar.timeSeries.TimeSeries = function(config){
             "featureOfInterest" : self.featureOfInterest,
         };
         if (self.timeRange) {
-			getResultParams.temporalFilter = [ {
-				"during" : {
-					"ref" : "om:phenomenonTime",
-					"value" : [
-						nar.util.toISOString(self.timeRange.startTime),
-						nar.util.toISOString(self.timeRange.endTime) 
-					]
-				}
-			} ];
+        	if(self.timeRange.startTime === self.timeRange.endTime){
+        		getResultParams.temporalFilter = [{
+        	      "equals" : {
+        	          "ref": "om:phenomenonTime",
+        	          "value": nar.util.toISOString(self.timeRange.endTime)
+        	        }
+        		}];
+        	}
+        	else{
+        		getResultParams.temporalFilter = [{
+					"during" : {
+						"ref" : "om:phenomenonTime",
+						"value" : [
+							nar.util.toISOString(self.timeRange.startTime),
+							nar.util.toISOString(self.timeRange.endTime + 1000) // adding one second to get times at exactly the endTime
+						]
+					}
+        		}];
+        	}
 		}
         
         var deferred = $.Deferred();

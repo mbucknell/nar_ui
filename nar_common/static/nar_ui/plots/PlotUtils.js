@@ -45,59 +45,33 @@ nar.plots = nar.plots || {};
         YEAR_NINETEEN_HUNDRED: Date.create('1900').getTime(),
         ONE_YEAR_IN_THE_FUTURE: Date.create().addYears(1).getTime(),
         /**
-         * @param {nar.timeSeries.Visualization}
+         * @param {Array} data - sorted by time
          * @returns {Object} - a map of the data set split into the current year's data, and the 
          * previous years' data. Previous years' data will be an empty array if last years' data does not 
          * fall on the last water year. 
          */
-        getDataSplitIntoCurrentAndPreviousYears: function(timeSeriesVisualization) {
-            var allData = nar.plots.PlotUtils.getData(timeSeriesVisualization);
-            
-            // this can only split a single series, so assume allData has it in index 0
-            var data = allData[0]; 
-            //assume sorted data set
-            var latestPoint = data.last();
-            var lastDate = new Date(getXcoord(latestPoint));
-            var lastYear = lastDate.getFullYear();
-            var lastCurrentDateWaterYear = nar.WaterYearUtils.convertDateToWaterYear() - 1;
-            var lastDateWaterYear = nar.WaterYearUtils.convertDateToWaterYear(lastDate.format('{yyyy}/{MM}/{dd}'));
-            
+        getDataSplitIntoCurrentAndPreviousYears: function(data) {          
             //must use string for year
-            var startOfLastYear = Date.create(''+lastYear);
-            var startOfLastYearTimestamp = startOfLastYear.getTime();
+            var startOfCurrentYearTimestamp = Date.UTC(CONFIG.currentWaterYear, 0, 1);
 
-            var indexOfFirstDataPointInLastYear = data.findIndex(function(dataPoint){
+            var indexOfFirstDataPointInCurrentYear = data.findIndex(function(dataPoint){
                var timestamp = getXcoord(dataPoint);
-               return timestamp >= startOfLastYearTimestamp;
+               return timestamp >= startOfCurrentYearTimestamp;
             });
             
-            var result = {
-				previousYearsData : [],
-				currentYearData : []
+			var result = {
+					previousYearsData : [],
+					currentYearData : []
 			};
-            
-            // If the last water year in not the data set is the actual last water year,
-            // don't put anything into the currentYearData array and put everything into
-            // previousYearsData array. Otherwise, include just the last item in the array
-            // into currentYearData
-            if (lastDateWaterYear !== lastCurrentDateWaterYear) {
-                result.previousYearsData = data;
-            } else {
-                result.previousYearsData = data.to(indexOfFirstDataPointInLastYear);
-                result.currentYearData = data.from(indexOfFirstDataPointInLastYear);
-            }
+			if (indexOfFirstDataPointInCurrentYear === -1) {
+				result.previousYearsData = data;
+			}
+			else {
+				result.previousYearsData = data.to(indexOfFirstDataPointInCurrentYear);
+				result.currentYearData = data.from(indexOfFirstDataPointInCurrentYear);
+			}
             
             return result;
-        },
-        /**
-         * @param {nar.timeSeries.Visualization}
-         * @returns {Array} - data within the timeSeriesCollection
-         */
-        getData: function(timeSeriesVisualization) {
-            var data = timeSeriesVisualization.timeSeriesCollection.map(function(timeSeries){
-                return timeSeries.data;
-            });
-            return data;
         },
         /**
          * @param {nar.timeSeries.Visualization}

@@ -145,19 +145,19 @@
 		            <!-- This will be different for each project -->
 		              <source>js_lib/jquery.js</source>
 		              <source>js_lib/bootstrap/js/bootstrap.js</source>
-		              <source>js_lib/sugar.js</source>
 		              <source>js_lib/OpenLayers/OpenLayers.js</source>
 		              <source>js_lib/jquery-ui/jquery-ui.min.js</source>
 		              <source>js_lib/jquery-ui-slider-pips/jquery-ui-slider-pips.min.js</source>
 					  <source>js_lib/flot/jquery.flot.js</source>
 					  <source>js_lib/flot/jquery.flot.resize.js</source>
-					  <source>js_lib/flot/jquery.flot.categories.js</source>
 					  <source>js_lib/flot/jquery.flot.time.js</source>
 					  <source>js_lib/flot/jquery.flot.selection.js</source>
 					  <source>js_lib/flot_plugins/jquery.flot.axislabels.js</source>
 					  <source>js_lib/flot_plugins/jquery.flot.tooltip.js</source>
 					  <source>js_lib/jstree/jstree.js</source>
 					  <source>js_lib/TinyColor/tinycolor.js</source>
+		              <source>js_lib/select2.js</source>
+		              <source>js_lib/sugar.js</source>
 		         </preloadSources>
 		         <sourceIncludes> <!-- Varies for each project -->
 		         		<include>mapCommons.js</include>
@@ -174,7 +174,6 @@
 		         	<include>summary_report/main.js</include>
 		         	<include>full_report/main.js</include>
 		         	<include>mississippi/main.js</include>
-		         	<include>download.js</include>
 		         </sourceExcludes>
 		     </configuration>
 		</plugin>

@@ -19,6 +19,12 @@ nar.timeSeries.Collection = function(){
         return timeSeries.map(customFunction);
     };
     /**
+     * A wrapper around sugarjs' reduce function
+     */
+    self.reduce = function(customFunction, init){
+    	return timeSeries.reduce(customFunction, init);
+    };
+    /**
      * Asynchronously retrieves the data for all time series
      * and passes all time series objects to the success callback.
      * 
@@ -40,6 +46,27 @@ nar.timeSeries.Collection = function(){
      */
     self.getAll = function(){
         return timeSeries;
+    };
+    /**
+     * @returns {Array<Array>} - Array for data for each TimeSeries within the TimeSeriesCollection
+     */
+    self.getData = function() {
+        var data = self.map(function(timeSeries){
+            return timeSeries.data;
+        });
+        return data;
+    };
+    /**
+     * @returns {Array} - Merges all values from all TimeSeries in the TimeSeriesCollection into one array and returns them sorted on date
+     */
+    self.getDataMerged = function(){
+    	var merged = self.reduce(function(state, current){
+    		return state.concat(current.data);
+    	}, []);
+    	var sorted = merged.sortBy(function(point){
+    		return point[0];
+    	});
+    	return sorted;
     };
     /**
      * 

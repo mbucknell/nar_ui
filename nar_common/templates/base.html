@@ -56,8 +56,9 @@
 			endpoint : {
 				geoserver: 'http://' + '{{ settings.GEOSERVER_HOST_NAME|escapejs }}' + '{{ settings.GEOSERVER_PATH|escapejs}}',
 				sos: 'http://' + '{{ settings.SOS_HOST_NAME|escapejs }}' + '{{ settings.SOS_PATH|escapejs}}',
-				download: 'http://' + '{{ settings.DATA_DOWNLOAD_SERVICE|escapejs }}' + '{{ settings.DATA_DOWNLOAD_PATH|escapejs}}',
+				nar_webservice: 'http://' + '{{ settings.NAR_WEBSERVICE|escapejs }}' + '{{ settings.NAR_WEBSERVICE_PATH|escapejs}}',
 			},
+			currentWaterYear : {{ settings.NAR_CURRENT_WATER_YEAR }},
 			definitionsUrl : "{% url 'helpcontent-definitions' %}",
 			siteInfoUrl : "{% url 'helpcontent-site_info' %}",
 			techInfoUrl : "{% url 'technical_information' %}#TechnicalInformationandGlossary-MethodsUsedtoProduceGraphics",
