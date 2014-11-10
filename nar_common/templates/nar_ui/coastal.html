@@ -19,7 +19,7 @@
 	
 	<div class="row coastal_content">
 	
-		<div class="col-lg-10 col-md-10 col-sm-9 col-xs-9 coastal_map"></div>
+		<div class="col-lg-10 col-md-10 col-sm-9 col-xs-9" id="coastal_map"></div>
 		
 		<div class="col-lg-2 col-md-2 col-sm-3 col-xs-3 coastal_filter">
 		
@@ -65,11 +65,16 @@
 	
 	</div><!--coastal_content-->
 	
-		
-	
-
-
-
 </div><!--coastal_holder-->
+
+{% compress js %}
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/OpenLayers/OpenLayers.debug.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'nar_ui/mapCommons.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'nar_ui/coastal/map.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/coastal/main.js' %}"></script>
+
+{% endcompress %}
 
 {% endblock %}
