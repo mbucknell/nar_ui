@@ -12,18 +12,24 @@
 	// draws the legend on the canvas, using the HTML added by flot as a guide
 	function drawLegend(plot, plotCtx) {
 		var options = plot.getOptions();
-		if(!options.legend.show) return;
+		if(!(options.legend.show && options.legend.canvas)) return;
 
 		var placeholder = plot.getPlaceholder();
+		var legendCtx, isExternalLegend;
 		var container = options.legend.container;
 		if(container){
+			isExternalLegend = true;
 			if(!container.is('canvas')){
 				container = $('<canvas/>').insertAfter(container);
 			}
+			legendCtx = $(container)[0].getContext('2d');
+			
 		}else{
-			container = $('<canvas/>').insertAfter(placeholder);
+			isExternalLegend = false;
+			container = placeholder.find('.legend');;
+			legendCtx = plotCtx;
 		}
-		var legendCtx = container[0].getContext('2d');
+		
 		var f = {
 			style: placeholder.css("font-style"),
 			size: Math.round(0.8 * (+placeholder.css("font-size").replace("px", "") || 13)),
@@ -41,9 +47,9 @@
 		}
 
 		var series = plot.getData();
-		var plotOffset = plot.getPlotOffset();
-		var plotHeight = plot.height();
-		var plotWidth = plot.width();
+		var plotOffset = isExternalLegend ? 0 : plot.getPlotOffset();
+		var plotHeight = isExternalLegend ? 0 : plot.height();
+		var plotWidth = isExternalLegend ? 0 : plot.width();
 		var lf = options.legend.labelFormatter;
 		var legendWidth = 0, legendHeight = 0;
 		var num_labels = 0;
@@ -73,7 +79,7 @@
                 }
 		
 		var x, y;
-		if(options.legend.container != null) {
+		if(isExternalLegend) {
 			x = $(options.legend.container).offset().left;
 			y = $(options.legend.container).offset().top;
 		} else {
@@ -81,14 +87,18 @@
 			var p = options.legend.position;
 			var m = options.legend.margin;
 			if(m[0] == null) m = [m, m];
-			if(p.charAt(0) == "n")
+			if(p.charAt(0) == "n"){
 				y = Math.round(plotOffset.top + options.grid.borderWidth + m[1]);
-			else if(p.charAt(0) == "s")
+			}
+			else if(p.charAt(0) == "s"){
 				y = Math.round(plotOffset.top + options.grid.borderWidth + plotHeight - m[0] - legendHeight);
-			if(p.charAt(1) == "e")
+			}
+			if(p.charAt(1) == "e"){
 				x = Math.round(plotOffset.left + options.grid.borderWidth + plotWidth - m[0] - legendWidth);
-			else if(p.charAt(1) == "w")
+			}
+			else if(p.charAt(1) == "w"){
 				x = Math.round(plotOffset.left + options.grid.borderWidth + m[0]);
+			}
 			if(options.legend.backgroundOpacity != 0.0) {
 				var c = options.legend.backgroundColor;
 				if(c == null) c = options.grid.backgroundColor;
