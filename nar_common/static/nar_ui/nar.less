@@ -155,7 +155,17 @@ ul.toc-indentation li ul li{font-size:.85em;}
         min-height:100%;
         position:relative;}
         
-
+.site_title{
+	background:@siteBackground;
+	height:70px;
+	border-bottom:@borderDark;
+	border-radius:10px 10px 0 0;
+	text-align:center;}
+	
+.site_title h3{
+	padding-top:25px;
+ 	margin:0 0 2px 0;
+ 	font-size:1.6em;}
      
 .site_map{background:@boxColor;
             height:@homePageContentHeight;
@@ -216,15 +226,14 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
             
 .filter{background:@siteBackground;
         height:@homePageContentHeight;
-        border-left:1px solid rgb(220,220,220);
-        border-radius:0 10px 10px 0;
+        border-left:@borderDark;
+        border-radius:0 0 10px 0;
         text-align:center;}
         
 .statement{background:@boxColor;
             min-height:30px;
             margin-bottom:10px;
             margin-top:15px;
-            border-radius:0 10px 0 0;
             border:@borderDark;
             overflow:hidden;
             text-align:center;}
@@ -291,6 +300,10 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 		position:relative;
 		text-align:center;
 		margin:20px 0 0 0;}
+		
+.check_filter:hover{
+	background:@primaryColor;
+	color:#fff;}
 		
 		
 .check_filter p{font-size:1.2em;
