@@ -32,7 +32,7 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
 				topLevel = 'Annual';
 			}
 			else if (timeSeriesIdComponents.timestepDensity === 'daily'){
-				topLevel = 'Hydrograph and Flow Duration';
+				topLevel = 'Hydrograph\\Flow Duration';
 			}
 		}
 		else{
