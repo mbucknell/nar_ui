@@ -167,12 +167,27 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
         }
     });
     
+    $.jstree.defaults.sort = function(nodeAid, nodeBid){
+    	var nodeA = this.get_node(nodeAid);
+    	var nodeB = this.get_node(nodeBid);
+    	//sort hydrograph (daily flow) before others 
+    	if('Q/daily/flow' === nodeA.id){
+    		return 1;
+    	}
+    	else if('Q/daily/flow' === nodeB.id){
+    		return -1;
+    	}
+    	return 0;
+    };
+    
     graphToggleElt.jstree({
-        'plugins': ['checkbox', 'types', 'state'],
+        'plugins': ['checkbox', 'types', 'state', 'sort'],
         'core' : {
             'data' : treeNodes
         }
     });      
+    
+
     
     var plotTree = $(graphToggleElt).jstree();
     var getNode = function(selectedItem){
