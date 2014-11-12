@@ -66,7 +66,7 @@ nar.plots = nar.plots || {};
                 label : '5-year moving average',
                 dashes: {
                     show : true,
-                    dashLength: [5, 5]
+                    dashLength: [2, 2]
                 },
                 lines : {
                     show: true,
