@@ -8,6 +8,8 @@ nar.commons.map = nar.commons.map || {};
 	nar.commons.map.narNamespace = 'http://cida.usgs.gov/NAR';
 	nar.commons.map.sitesName = 'NAWQA100_cy3fsmn';
 	
+	nar.commons.map.theme = CONFIG.staticUrl + 'nar_ui/js_lib/OpenLayers/theme/default/style.css';
+	
 	var DEFAULT_LAYER_OPTIONS = {
         sphericalMercator : true,
         layers : "0",
