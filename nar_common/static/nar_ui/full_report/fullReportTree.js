@@ -74,13 +74,13 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
     
     self.createLeafNode = function(id, displayHierarchy){
         var leafNode = self.createTreeNode(id, displayHierarchy);
-        leafNode.icon = 'glyphicon glyphicon-asterisk';
+        leafNode.icon = false;
         return leafNode;
     };
     
     self.createBranchNode = function(id){
         var leafNode = self.createTreeNode(id, id);
-        leafNode.icon = 'glyphicon glyphicon-folder-open';
+        leafNode.icon = false;
         return leafNode;
     };
     
