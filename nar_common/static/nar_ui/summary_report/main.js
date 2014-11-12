@@ -46,9 +46,8 @@ $(document).ready(
 			};
             
             // Retrieve discrete concentration data and determine the percentage of samples exceeding benchmark            
-            var SOS_DEFS_BASE_URL = 'http://cida.usgs.gov/def/NAR/';
-            var observedProperty = SOS_DEFS_BASE_URL + 'property/NO23';
-            var procedure = SOS_DEFS_BASE_URL + 'procedure/discrete_concentration';
+            var observedProperty = CONFIG.sosDefsBaseUrl + 'property/NO23';
+            var procedure = CONFIG.sosDefsBaseUrl + 'procedure/discrete_concentration';
             
             var getDataAvailability = $.ajax({
 				url : CONFIG.endpoint.sos,
