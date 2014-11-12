@@ -90,6 +90,8 @@ nar.plots = nar.plots || {};
 				symbol: 'triangle'
 			}
 		};
+		var legendContainer = $('<div></div>').addClass('hydrograph-legend');
+		hydrographDiv.after(legendContainer);
 		
 		plot = $.plot(hydrographDiv, [ flowSeries, tnSeries ], {
 			canvas : true,
@@ -118,6 +120,7 @@ nar.plots = nar.plots || {};
 			},
 			legend : {
 				show : true,
+				container: legendContainer,
 				canvas : true
 			}
 		});
