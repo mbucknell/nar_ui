@@ -13,7 +13,8 @@ def default(request):
                            'SOS_PATH', 
                            'NAR_WEBSERVICE', 
                            'NAR_WEBSERVICE_PATH',
-                           'NAR_CURRENT_WATER_YEAR']
+                           'NAR_CURRENT_WATER_YEAR',
+                           'NAR_SOS_DEFS_BASE_URL']
     exposedSettings = {}
     for exposedSettingName in exposedSettingNames:
         if hasattr(settings, exposedSettingName):

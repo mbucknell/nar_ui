@@ -225,8 +225,8 @@ nar.timeSeries.Visualization.types = function(components) {
 				range : nar.timeSeries.MostRecentWaterYearTimeRange,
 				ancillary : [{
 					// @todo We will want to store these somewhere so this can just be nar .discrete.nitrogen
-					procedure : "http://cida.usgs.gov/def/NAR/procedure/discrete_concentration",
-					observedProperty : "http://cida.usgs.gov/def/NAR/property/TKN"
+					procedure : CONFIG.sosDefsBaseUrl + "procedure/discrete_concentration",
+					observedProperty : CONFIG.sosDefsBaseUrl + "property/TKN"
 				}],
 				allowTimeSlider : false
 			};
