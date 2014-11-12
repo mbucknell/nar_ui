@@ -7,6 +7,7 @@ nar.plots = nar.plots || {};
 	 * @typedef nar.plot.ConstituentBarChartConfig
 	 * @property {String} yaxisLabel - 
 	 * @property {Boolean} showLongTermMean
+	 * @property {Function} plotHoverFormatter - function takes an x,y and returns String to be used for the plot hover. 
 	 * @property {Array of data series Object} auxData - for each series, should set yaxis to 1 if plotted on the same access as the
 	 * 		timeSeries data or 2 if plotted on a separate axis
 	 * @property {jqueryFlot axis } secondaryYaxis - Only used if auxData is defined
@@ -110,7 +111,7 @@ nar.plots = nar.plots || {};
 //            colors:[previousYearsColor, currentYearColor, longTermMeanColor, baselineColor, targetColor, movingAveColor] 
         });
 		
-		var hoverFormatter = nar.plots.PlotUtils.utcDatePlotHoverFormatter;
+		var hoverFormatter = (config.plotHoverFormatter) ? config.plotHoverFormatter : nar.plots.PlotUtils.utcDatePlotHoverFormatter;
         nar.plots.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
         if (config.showLongTermMean) {
 			nar.plots.PlotUtils.setLineHoverFormatter(plotContainer, longTermMean, nar.definitions.longTermMean.short_definition);

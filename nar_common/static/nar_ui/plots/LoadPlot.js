@@ -11,7 +11,10 @@ nar.plots = nar.plots || {};
 		var constituentName = nar.plots.PlotUtils.getConstituentNameAndColors(tsViz).name;
 		var plotConfig = {
 				yaxisLabel : constituentName + " load,<br />in thousands of tons",
-				showLongTermMean : true
+				showLongTermMean : true,
+				plotHoverFormatter : function(x, y) {
+					return nar.plots.PlotUtils.waterYearPlotHoverFormatter(x, y, 0)
+				}
 		};
 		var BASELINE_COLOR = 'black';
         var TARGET_LINE_COLOR = 'black';

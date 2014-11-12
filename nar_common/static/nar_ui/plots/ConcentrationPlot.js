@@ -24,6 +24,10 @@ nar.plots = nar.plots || {};
 			};
 		}
 		
+		plotConfig.plotHoverFormatter = function(x, y) {
+			return nar.plots.PlotUtils.waterYearPlotHoverFormatter(x, y, 2);
+		}
+		
 		if (plotConfig) {
 			return nar.plots.createConstituentBarChart(tsViz, plotConfig);
 		}
