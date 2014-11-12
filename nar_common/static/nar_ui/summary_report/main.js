@@ -1,31 +1,105 @@
 $(document).ready(
 	function() {
+		var ConstituentCurrentYearComparisonPlot = nar.plots.ConstituentCurrentYearComparisonPlot;
+        var ExceedancePlot = nar.plots.ExceedancePlot;            
+
+		nar.informativePopup({
+			$anchor : $('#link-hover-benchmark-human'),
+			content : '<div class="popover-benchmark-content">\
+				Measured concentrations in water samples from <br/>\
+				streams and rivers are compared to one of three <br/>\
+				types of <a href="' + CONFIG.techInfoUrl + '">human-health benchmarks</a> to place the data <br/>\
+				in a human-health context. Generally, concentrations <br/>\
+				above a benchmark may indicate a potential human-health<br/>\
+				concern if the water were to be consumed without <br/>\
+				treatment for many years. None of the samples were <br/>\
+				collected from drinking-water intakes. Click on each <br/> \
+				bar in the graph to obtain specific benchmark <br /> \
+				information for each constituent.</div>'
+		});
+		
 		// Wait for site info to load
 		$.when(nar.siteHelpInfoPromise).done(function() {
 			var isSiteForDummyNullData = PARAMS.siteId === '05451210'; //South Fork Iowa River near New Providence, IA
 
-            var ConstituentCurrentYearComparisonPlot = nar.plots.ConstituentCurrentYearComparisonPlot;
-            var ExceedancePlot = nar.plots.ExceedancePlot;            
-
-			var exceedancePlotLabel = function(data) {
-				/*
-				 * NOTE: Product Owner has requested the number of samples to be in the string
-				 * if no exceedances. This function can be updated with that information if available.
-				 * At this time we are still using mock data and we aren't sure if this information will
-				 * be available
-				 */
-				var result = [];
-				data.forEach(function(value) {
-					if (value === 0) {
-						result.push('No detections above benchmarks');
-					} 
-					else {
-						result.push(value);
-					}
-				});
-				return result;
+            var exceedancesTitle = 'Percent of samples with concentrations greater than benchmarks';
+            
+            var calculateExceedance = function(tsData) {
+				var BENCHMARK_THRESHOLD = 10; // mg/L
+				var resultCount = tsData.length;
+				var exceedCount = tsData.exclude(function(value) {
+					return value[1] <= BENCHMARK_THRESHOLD;
+				}).length;
+				if (exceedCount === 0) {
+					return {
+						value : 0,
+						label : 'No detections above benchmark (' + resultCount + ' samples)'
+					};
+				}
+				else {
+					var ans = (exceedCount / resultCount) * 100;
+					return {
+						value : ans,
+						label : ans.format(2)
+					};
+				}
 			};
             
+            // Retrieve discrete concentration data and determine the percentage of samples exceeding benchmark            
+            var SOS_DEFS_BASE_URL = 'http://cida.usgs.gov/def/NAR/';
+            var observedProperty = SOS_DEFS_BASE_URL + 'property/NO23';
+            var procedure = SOS_DEFS_BASE_URL + 'procedure/discrete_concentration';
+            
+            var getDataAvailability = $.ajax({
+				url : CONFIG.endpoint.sos,
+				contentType : 'application/json',
+				type: 'POST',
+				dataType : 'json',
+				data : JSON.stringify({
+					'request' : 'GetDataAvailability',
+					'service' : 'SOS',
+					'version' : '2.0.0',
+					'observedProperty' : observedProperty,
+					'procedure' : procedure,
+					'featureOfInterest' : PARAMS.siteId
+				})
+            });
+            
+			$.when(getDataAvailability).then(function(response){
+				var ts;
+				if (response.dataAvailability.length === 0) {
+					throw Error ('No discrete concentration data available');
+				}
+				else {
+					ts = new nar.timeSeries.TimeSeries({
+						procedure : procedure,
+						observedProperty : observedProperty,
+						featureOfInterest : PARAMS.siteId,
+						timeRange : new nar.timeSeries.TimeRange(
+								nar.WaterYearUtils.getWaterYearStart(CONFIG.currentWaterYear, true),
+								nar.WaterYearUtils.getWaterYearEnd(CONFIG.currentWaterYear, true)
+						)
+					});
+					
+					ts.retrieveData().then(
+						function(response) {
+							var result = calculateExceedance(response.data);
+							var humanHealthExceedancePlot = ExceedancePlot(
+									'humanHealthExceedances', 
+									[
+										{constituent: nar.Constituents.nitrate, data: result.value, label: result.label},
+										{constituent: {color: '', name: ' '}, data: ' ', label: ['']}
+									],
+									exceedancesTitle
+							);
+						},
+						function(reject) {
+							throw Error ('Count not retrieve discrete data');
+						}
+					);
+				}
+			});
+				//
             var nitrateSeries = {
                     constituentName : nar.Constituents.nitrate.name,
                     constituentUnit : 'Million Tons',
@@ -73,31 +147,5 @@ $(document).ready(
 
             var sedimentGraph = ConstituentCurrentYearComparisonPlot(
                     '#barChart4', sedimentSeries);
-            var exceedancesTitle = 'Percent of samples with concentrations greater than benchmarks'; 
-            
-            var nitrateData = isSiteForDummyNullData ? [0]: [73];
-            var humanHealthExceedancePlot = ExceedancePlot(
-                'humanHealthExceedances', 
-                [
-                 {constituent: nar.Constituents.nitrate, data: nitrateData, label: exceedancePlotLabel(nitrateData)},
-                 {constituent: {color: '', name: ' '}, data: [' '], label: ['']}
-                ],
-                exceedancesTitle
-            );
-            
-            nar.informativePopup({
-            	$anchor : $('#link-hover-benchmark-human'),
-            	content : '<div class="popover-benchmark-content">\
-            		Measured concentrations in water samples from <br/>\
-            		streams and rivers are compared to one of three <br/>\
-            		types of <a href="' + CONFIG.techInfoUrl + '">human-health benchmarks</a> to place the data <br/>\
-            		in a human-health context. Generally, concentrations <br/>\
-            		above a benchmark may indicate a potential human-health<br/>\
-            		concern if the water were to be consumed without <br/>\
-            		treatment for many years. None of the samples were <br/>\
-            		collected from drinking-water intakes. Click on each <br/> \
-            		bar in the graph to obtain specific benchmark <br /> \
-            		information for each constituent.</div>'
-			});
+		});
 	});
-});
