@@ -160,7 +160,6 @@
 		              <source>js_lib/sugar.js</source>
 		         </preloadSources>
 		         <sourceIncludes> <!-- Varies for each project -->
-		         		<include>mapCommons.js</include>
 		         		<include>commons/*.js</include>
 						<include>*.js</include>
 						<include>plots/*.js</include>
@@ -171,9 +170,14 @@
 		         </sourceIncludes>
 		         <sourceExcludes>
 		         	<include>map.js</include>
+		         	<include>inset.js</include>
+		            <include>mapCommons.js</include>
 		         	<include>summary_report/main.js</include>
 		         	<include>full_report/main.js</include>
 		         	<include>mississippi/main.js</include>
+		         	<include>mississippi/map.js</include>
+		         	<include>coastal/main.js</include>
+                    <include>coastal/map.js</include>
 		         </sourceExcludes>
 		     </configuration>
 		</plugin>
