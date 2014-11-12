@@ -1,4 +1,7 @@
 describe('nar.commons.Subject', function() {
+	CONFIG = {
+			sosDefsBaseUrl : 'http:/test/nar/'
+	};
 	var subject, 
 		observers,
 		numObservers = 3;

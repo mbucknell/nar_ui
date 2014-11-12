@@ -122,6 +122,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 # Set to the most current water year in the loaded data
 NAR_CURRENT_WATER_YEAR = 2013
 
+NAR_SOS_DEFS_BASE_URL = 'http://cida.usgs.gov/def/NAR/'
+
 TEST_RUNNER = 'nar_common.test_runner.ManagedModelTestRunner' 
 
 try:

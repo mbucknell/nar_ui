@@ -36,8 +36,7 @@ nar.GraphPopup = (function() {
 		mrbConstituent = args.constituent,
 		loadType = args.loadType,
 		target = args.target,
-		sosDefinitionBaseUrl = 'http://cida.usgs.gov/def/NAR/',
-		observedPropertyBaseUrl = sosDefinitionBaseUrl + 'property/';
+		observedPropertyBaseUrl = CONFIG.sosDefsBaseUrl+ 'property/';
 		var vizDeferred = $.Deferred();
 		var promise = vizDeferred.promise();
 		
