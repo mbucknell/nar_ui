@@ -1,5 +1,8 @@
 $(document).ready(function(){
 	describe('nar.timeSeries.VisualizationRegistry', function(){
+		CONFIG = {
+				sosDefsBaseUrl : 'http:/test/nar/'
+		};
 		var tsvRegistry,
 		tsv,
 		tsvId,

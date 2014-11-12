@@ -176,6 +176,7 @@
 		         	<include>full_report/main.js</include>
 		         	<include>mississippi/main.js</include>
 		         	<include>mississippi/map.js</include>
+		         	<include>mississippi/GraphPopup.js</include>
 		         	<include>coastal/main.js</include>
                     <include>coastal/map.js</include>
 		         </sourceExcludes>
