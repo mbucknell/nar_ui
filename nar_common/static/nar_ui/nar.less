@@ -647,13 +647,13 @@ select.last{margin-right:0;}
  .coastal_holder{min-height:400px;}
  
  .coastal_title{background:@siteBackground;
- 					height:77px;
+ 					height:65px;
  					border-radius:10px 10px 0 0;
  					border-bottom:@borderDark;
  					text-align:center;
  					position:relative;}
  					
-  .coastal_title h3{margin:26px 0 0 0;
+  .coastal_title h3{margin:16px 0 0 0;
   					font-size:1.6em;
   }
   
@@ -676,20 +676,36 @@ select.last{margin-right:0;}
 #coastalDownload{
 	position:absolute;
 	right:10px;
-	top:42px;
+	top:16px;
 }
   
   .coastal_content{margin:0;
-  				min-height:487px;
+  				min-height:587px;
+  				position: relative;
   				clear:both;}
   				
  #coastal_map{background:#fff;
- 				height:487px;
+ 				height:587px;
  				border-right:@borderDark;}
+#coastal_map .olControlScaleLine {
+    left : @insetWidth + 20;
+}
  				
+#coastal_ak_map {
+    position: absolute;
+    bottom: 0px;
+    width: 230px;
+    height: 230px;
+    padding: 5px;
+    -moz-border-radius: 0px 6px 0px 0px;
+    -webkit-border-radius: 0px 6px 0px 0px;
+    border-radius: 0px 6px 0px 0px;
+    -khtml-border-radius: 0px 6px 0px 0px;
+    background: rgba(0,51,102,0.7) !important;
+}				
   .coastal_filter{
   	background:@siteBackground;
-  	height:487px;
+  	height:587px;
   	padding:10px;
   	text-align:center;
   	position:relative;}
