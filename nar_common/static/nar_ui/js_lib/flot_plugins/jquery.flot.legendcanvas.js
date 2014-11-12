@@ -15,8 +15,10 @@
 		if(!(options.legend.show && options.legend.canvas)) return;
 
 		var placeholder = plot.getPlaceholder();
+		//the legendCtx will either be plotCtx or the context from an external canvas,
+		//depending on what is contained in legendCtx
 		var legendCtx, isExternalLegend;
-		var container = options.legend.container;
+		var container = options.legend.canvasContainer;
 		if(container){
 			isExternalLegend = true;
 			if(!container.is('canvas')){
@@ -32,7 +34,7 @@
 		
 		var f = {
 			style: placeholder.css("font-style"),
-			size: Math.round(0.8 * (+placeholder.css("font-size").replace("px", "") || 13)),
+			size: Math.round(+placeholder.css("font-size").replace("px", "") || 13),
 			variant: placeholder.css("font-variant"),
 			weight: placeholder.css("font-weight"),
 			family: placeholder.css("font-family")
@@ -47,9 +49,9 @@
 		}
 
 		var series = plot.getData();
-		var plotOffset = isExternalLegend ? 0 : plot.getPlotOffset();
-		var plotHeight = isExternalLegend ? 0 : plot.height();
-		var plotWidth = isExternalLegend ? 0 : plot.width();
+		var plotOffset = plot.getPlotOffset();
+		var plotHeight = plot.height();
+		var plotWidth = plot.width();
 		var lf = options.legend.labelFormatter;
 		var legendWidth = 0, legendHeight = 0;
 		var num_labels = 0;
@@ -80,8 +82,8 @@
 		
 		var x, y;
 		if(isExternalLegend) {
-			x = $(options.legend.container).offset().left;
-			y = $(options.legend.container).offset().top;
+			x = 0
+			y = 0;
 		} else {
 			var pos = "";
 			var p = options.legend.position;
@@ -138,8 +140,9 @@
                             posx = posx +  legendCtx.measureText(label).width+PADDING_RIGHT;
                         }
 		}
-
-		container.hide(); // hide the HTML version
+		if(!isExternalLegend){
+			container.hide(); // hide the HTML version
+		}
 	}
 
 	$.plot.plugins.push({
