@@ -630,7 +630,15 @@ select.last{margin-right:0;}
 #miss-popup-dialog {
 	color : #888888;
 	padding: 0em;
-} 								
+} 	
+
+.miss-content-div>.full_report_plot {
+    min-height: 425px;
+}
+.miss-content-div.partial_height>.full_report_plot {
+    min-height: 345px;
+}
+							
  		
 .chart-miss-legend > table {
 	background-color: #FFFFFF;
@@ -655,8 +663,24 @@ select.last{margin-right:0;}
 	color: #0000FF;
 	font-size: 1.2em;
 	font-weight: bold;
-}
+}					
 							
+.load-plot-label-line {
+	border: none;
+	border-bottom: 2px;
+	width: 50%;
+}
+.graph-info {
+    margin-bottom: 0px;
+}
+.graph-info .legendLabel {
+	width: 33%;
+	padding-left: 20px;
+}
+
+.graph-info .legendColorBox {
+	display: none;
+}
 			
  /*###########################mississippi_end####################### */
  
@@ -1046,10 +1070,6 @@ ul#relativeLinks{
 		overflow:auto;
 		margin-top:10px;
 		padding-top:0;
-}
-
-.miss-content-div>.full_report_plot {
-	min-height: 425px;
 }
 
 .full_report_plot{background:none;
