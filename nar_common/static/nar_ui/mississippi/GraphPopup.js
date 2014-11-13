@@ -39,7 +39,13 @@ nar.GraphPopup = (function() {
 		observedPropertyBaseUrl = CONFIG.sosDefsBaseUrl+ 'property/';
 		var vizDeferred = $.Deferred();
 		var promise = vizDeferred.promise();
-		
+		var partialHeightClass = 'partial_height';
+		if(isVirtual){
+			target.addClass(partialHeightClass);
+		}
+		else{
+			target.removeClass(partialHeightClass);
+		}
 		var constituentId = mrbToSos.constituentToConstituentId[mrbConstituent];
 		var observedProperty = observedPropertyBaseUrl + constituentId;
 		var getDataAvailability = $.ajax({
@@ -215,10 +221,12 @@ nar.GraphPopup = (function() {
 					loadType: type
 				}).then(
 				function() {
-					$('.graph-info').remove();
-
 					// Adjust axis to match time range
 					var options, timeRange;
+					var graphInfoElt = $('.graph-info');
+					if(!feature.isVirtual){
+						graphInfoElt.remove();
+					}
 					if (me.timeSeriesViz.plot) {
 						options = me.timeSeriesViz.plot.getOptions();
 						timeRange = me.timeSeriesViz.timeSeriesCollection.getTimeRange();
@@ -227,6 +235,22 @@ nar.GraphPopup = (function() {
 							axis.min = timeRange.startTime - YEAR_MS;
 							axis.max = timeRange.endTime + YEAR_MS;
 						});
+						options.legend.show = true;
+						options.legend.noColumns = 3,
+						options.legend.labelBoxBorderColor = null;
+						options.legend.labelFormatter = function(label, series){
+							var lineStyle = 'solid';
+							var dashLengths = series.dashes.dashLength;
+							if(dashLengths.length){
+								lineStyle = dashLengths.first() === 2 ? 'dotted' : 'dashed';
+							}
+							
+							var line = '<hr class="load-plot-label-line" style="border-bottom-style:'+ lineStyle + ';"/>';
+							
+							var labelElt ='<span class="load-plot-label">' + label.trim() + '</span>' 
+							return line + labelElt;
+						};
+						options.legend.container = graphInfoElt;
 						me.timeSeriesViz.plot.setupGrid();
 						me.timeSeriesViz.plot.draw();
 					}

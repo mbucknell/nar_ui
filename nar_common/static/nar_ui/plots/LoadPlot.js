@@ -10,8 +10,11 @@ nar.plots = nar.plots || {};
 	nar.plots.LoadPlot = function(tsViz){
 		var constituentName = nar.plots.PlotUtils.getConstituentNameAndColors(tsViz).name;
 		var plotConfig = {
-				yaxisLabel : constituentName + " load,<br />in thousands of tons",
-				showLongTermMean : true
+				yaxisLabel : constituentName + " load, in  tons",
+				showLongTermMean : true,
+				plotHoverFormatter : function(x, y) {
+					return nar.plots.PlotUtils.waterYearPlotHoverFormatter(x, y, 0)
+				}
 		};
 		var BASELINE_COLOR = 'black';
         var TARGET_LINE_COLOR = 'black';
@@ -66,7 +69,7 @@ nar.plots = nar.plots || {};
                 label : '5-year moving average',
                 dashes: {
                     show : true,
-                    dashLength: [5, 5]
+                    dashLength: [2, 2]
                 },
                 lines : {
                     show: true,
@@ -124,7 +127,7 @@ nar.plots = nar.plots || {};
 				plotConfig.auxData.push(makeHypoxicExtentConfig(tsViz.auxData.gulfHypoxicExtent)); 
 				plotConfig.secondaryYaxis = {
 					position : 'right',
-					axisLabel: 'Observed total hypoxic area, <br/> in thousands of square <br/>kilometers',
+					axisLabel: 'Observed total hypoxic area,<br/>in thousands of square kilometers',
 					axisLabelFontSizePixels: 10,
 					axisLabelFontFamily: "Verdana, Arial, Helvetica, Tahoma, sans-serif",
 					axisLabelPadding: 10,
