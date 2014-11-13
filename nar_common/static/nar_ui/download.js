@@ -102,10 +102,12 @@ nar.downloads = (function() {
 		var mrbIncluded = false;
 		for(var i = 0; i < stationData.features.length; i++) {
 			var props = stationData.features[i].properties;
-			if(!siteTypes[props[SITE_TYPE_PROPERTY]] //only add to values object if property hasn't already been added
-				&& (!selectedStates || selectedStates.length <= 0 || selectedStates.some(props[STATE_PROPERTY]))) { 
-				siteTypes[props[SITE_TYPE_PROPERTY]] = props[SITE_TYPE_PROPERTY];
-				//only add station if it is flagged as MS
+			//only add to values object if property hasn't already been added
+			if(!selectedStates || selectedStates.length <= 0 || selectedStates.some(props[STATE_PROPERTY])) { 
+				if(!siteTypes[props[SITE_TYPE_PROPERTY]]){ //only add station if it is flagged as MS
+					siteTypes[props[SITE_TYPE_PROPERTY]] = props[SITE_TYPE_PROPERTY];
+				}
+				
 				if(props[MS_SITE_ATTR_NAME] === MS_SITE_VALUE) {
 					mrbIncluded = true
 				}
