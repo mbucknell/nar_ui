@@ -4,13 +4,13 @@ nar.downloads = (function() {
 	var pubMembers = {};
 	
 	var NUMBER_OF_YEARS_BACK = 100;
-	var SITE_LAYER_NAME = "NAR:JD_NFSN_sites0914";
-	var STATION_ID_PROPERTY = "siteid";
-	var STATION_NAME_PROPERTY = "staname";
-	var SITE_TYPE_PROPERTY = "sitetype";
+	var SITE_LAYER_NAME = "NAR:JD_NFSN_sites";
+	var STATION_ID_PROPERTY = "qw_id";
+	var STATION_NAME_PROPERTY = "qw_name";
+	var SITE_TYPE_PROPERTY = "site_type";
 	var STATE_PROPERTY = "state";
 	var MRB_VALUE = 'MRB';
-	var MS_SITE_ATTR_NAME = 'MSSite';
+	var MS_SITE_ATTR_NAME = 'mssite';
 	var MS_SITE_VALUE = 'MS';
 	var STATE_LIST = {
 		"AL": "Alabama",

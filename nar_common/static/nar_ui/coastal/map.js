@@ -73,6 +73,7 @@ nar.coastal.map = (function() {
 						},{
 							isBaseLayer: true
 						}),
+<<<<<<< HEAD
 						new OpenLayers.Layer.WMS(
 								'Major Streams',
 								GEOSERVER_URL,
@@ -128,6 +129,32 @@ nar.coastal.map = (function() {
 			          ),
 			          me.createBasinLayer(),
 			          me.createSitesLayer()
+=======
+				new OpenLayers.Layer.WMS(
+						'Coastal Basins',
+						GEOSERVER_URL,
+						{
+							layers: 'NAR:all_coast_bas',
+							transparent : true,
+							styles: 'coastal_basins'
+						},
+						{
+							isBaseLayer : false,
+							singleTile : true
+						}),
+				new OpenLayers.Layer.WMS(
+						"Sites",
+						GEOSERVER_URL,
+						{
+							layers : 'NAR:JD_NFSN_sites',
+							transparent : true,
+							styles: 'triangles',
+							'CQL_FILTER' : "site_type = 'Coastal Rivers'"
+						}, {
+							isBaseLayer : false,
+							singleTile : true
+						})
+>>>>>>> ec03f61a38ba852c3e1044a0ec42593683faf186
 			]
 		});
 	};
