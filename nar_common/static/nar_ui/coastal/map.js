@@ -50,10 +50,10 @@ nar.coastal.map = (function() {
 						"Sites",
 						GEOSERVER_URL,
 						{
-							layers : 'NAR:JD_NFSN_sites0914',
+							layers : 'NAR:JD_NFSN_sites',
 							transparent : true,
 							styles: 'triangles',
-							'CQL_FILTER' : "sitetype = 'Coastal Rivers'"
+							'CQL_FILTER' : "site_type = 'Coastal Rivers'"
 						}, {
 							isBaseLayer : false,
 							singleTile : true
