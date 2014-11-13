@@ -51,14 +51,14 @@ $(document).ready(function() {
 			div : document.getElementById(rightMapName)
 		}),
 		cqlFilter = {
-				'CQL_FILTER' : "MSLoadSite = 'MSL'"
+				'CQL_FILTER' : "msloads = 'MSL'"
 		},
 		createMarblayer = function() {
 			var layer = new OpenLayers.Layer.WMS(
 					"MARB",
 					CONFIG.endpoint.geoserver + 'NAR/wms',
 					{
-						layers : 'NAR:JD_NFSN_sites0914',
+						layers : 'NAR:JD_NFSN_sites',
 						transparent : true,
 						styles: 'triangles'
 					}, {
@@ -155,8 +155,8 @@ $(document).ready(function() {
 							$downloadLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-save'),' Download Data'),
 							$hiddenAutoFocus = $('<span />').addClass('hidden').attr('autofocus', ''),
 							data = feature.data,
-							title = data.staname,
-							id = virtualSite ? 'GULF': data.siteid,
+							title = data.qw_name,
+							id = virtualSite ? 'GULF': data.qw_id,
 							loadGraphData = {staname : title, siteId : id, isVirtual : virtualSite};
 						$mayLoadGraphsLink.data('feature', loadGraphData);
 						$mayLoadGraphsLink.append($('<span />').addClass('glyphicon glyphicon-stats'),' May Load');

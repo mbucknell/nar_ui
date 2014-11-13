@@ -63,7 +63,7 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 					// http://api.jqueryui.com/dialog/
 					$hiddenAutoFocus = $('<span />').addClass('hidden').attr('autofocus', ''),
 					data = feature.data,
-					title = data.staname,
+					title = data.qw_name,
 					id = data.staid;
 				
 				$titleRow.html(title);
