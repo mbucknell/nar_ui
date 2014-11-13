@@ -72,7 +72,8 @@ button{color:#000;
 		outline:none;
 }
 
-
+.confluenceTh p{
+	width:240px;}
 
 ul.toc-indentation li ul li{font-size:.85em;}
 
@@ -103,35 +104,39 @@ ul.toc-indentation li ul li{font-size:.85em;}
  			font-size:1.1em;}
  
 .center{margin:0 auto;
-		width:1015px;
+		width:1155px;
 		min-height:100px;
-		background:none;
+		margin:0 10px 0 18px;
+		padding:0;
 }
  
- .home_icon_holder{background:rgb(241,241,241);
- 					width:325px;
- 					height:330px;
+.home_icon_holder{background:rgb(241,241,241);
+ 					width:370px;
+ 					height:370px;
  					margin-top:55px;
  					border-radius:10px;
  					text-align:center;
  					color:@primaryColor;
  					border:1px solid rgb(174,174,174);
- 					float:left;
- 					margin-right:20px;}
+ 					margin-right:10px;}
  					
  .home_icon_holder h4{padding-top:5px;
- 					font-size:1.2em;}
+ 					font-size:1.1em;}
  
  .last{margin-right:0;}
  
  .inside{background:#fff;
- 		width:290px;
- 		height:258px;
+ 		width:340px;
+ 		height:300px;
  		border-radius:10px;
  		margin-top:20px;
  		border:1px solid rgb(174,174,174);
  		overflow:hidden;
  }
+ 
+ .inside img{
+	 height:100%;
+	 width:100%;}
  
  .highlight{background:none;
  			height:120px;
@@ -151,7 +156,17 @@ ul.toc-indentation li ul li{font-size:.85em;}
         min-height:100%;
         position:relative;}
         
-
+.site_title{
+	background:@siteBackground;
+	height:70px;
+	border-bottom:@borderDark;
+	border-radius:10px 10px 0 0;
+	text-align:center;}
+	
+.site_title h3{
+	padding-top:25px;
+ 	margin:0 0 2px 0;
+ 	font-size:1.6em;}
      
 .site_map{background:@boxColor;
             height:@homePageContentHeight;
@@ -212,15 +227,15 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
             
 .filter{background:@siteBackground;
         height:@homePageContentHeight;
-        border-left:1px solid rgb(220,220,220);
-        border-radius:0 10px 10px 0;
-        text-align:center;}
+        border-left:@borderDark;
+        border-radius:0 0 10px 0;
+        text-align:center;
+		padding:10px;}
         
 .statement{background:@boxColor;
             min-height:30px;
             margin-bottom:10px;
             margin-top:15px;
-            border-radius:0 10px 0 0;
             border:@borderDark;
             overflow:hidden;
             text-align:center;}
@@ -267,15 +282,14 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 			margin-top:30px;
 			font-family:@baseFontFamily;
 			font-size:1.1em;
+			border:@borderDark;
+			padding:10px;
+			border-radius:10px;
 			}
 			
-.filter form h4{text-align:left;
+.filter form h4{text-align:center;
 				font-style:normal;
-				font-weight:normal;
-				background:@boxColor;
-				border:@borderDark;
-				border-radius:5px;
-				padding:5px;}
+				font-weight:normal;}
 				
 .filter form p{cursor:pointer;}
 			
@@ -287,6 +301,10 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
 		position:relative;
 		text-align:center;
 		margin:20px 0 0 0;}
+		
+.check_filter:hover{
+	background:@primaryColor;
+	color:#fff;}
 		
 		
 .check_filter p{font-size:1.2em;
@@ -306,7 +324,7 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
  						width:70%;
  						height:30px;
  						border-radius:5px;
- 						margin-top:60px;
+ 						margin-top:40px;
  						font-size:1.2em;
  						padding:0;
  						font-family:@baseFontFamily;
@@ -1255,7 +1273,7 @@ ul#relativeLinks{
 						color:#fff;
 						font-weight:700;
 						border:none;
-						width:200px;
+						width:250px;
 						height:40px;
 						border-radius:5px;
 						margin:5px 10px 0 0;
@@ -1287,13 +1305,14 @@ ul#relativeLinks{
 	 
 	 .holder{height:620px;}
 	 
-	.center{width:935px;}
+	.center{width:935px;
+			margin:0 0 0 18px;}
 	 
 	 .home_icon_holder{	width:305px;
 	 					height:310px;
 	 					margin-right:10px;}
 	 					
-	 .home_icon_holder h4{font-size:1.1em;}
+	 .home_icon_holder h4{font-size:.9em;}
 	 
 	 .inside{width:270px;
 	 		height:238px;}
