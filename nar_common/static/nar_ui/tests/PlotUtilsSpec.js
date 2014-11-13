@@ -24,6 +24,14 @@ describe('nar.plots.PlotUtils', function() {
 			expect(testFunc('12/11/1929', 0.13)).toBe('1929-12-11 : 0.13');
 		});
 	});
+	
+	describe('waterYearLoadPlotHoverFormatter', function() {
+		var testFunc = nar.plots.PlotUtils.waterYearPlotHoverFormatter;
+		it('Expects the water year followed by the data formatted using commas and rounded', function() {
+			expect(testFunc('09/30/2010', 1567.23, 2)).toBe('2010 : 1,567.23');
+			expect(testFunc('10/01/2010', 989.54, 0)).toBe('2011 : 990');
+		});
+	});
 
 	describe('getDataSplitIntoCurrentAndPreviousYears using dates not up to current date', function () {
 		CONFIG = {
