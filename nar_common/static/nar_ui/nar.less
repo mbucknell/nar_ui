@@ -715,17 +715,21 @@ select.last{margin-right:0;}
     left : @insetWidth + 20;
 }
  				
-#coastal_ak_map {
+#coastal_ak_map_div {
     position: absolute;
     bottom: 0px;
-    width: 230px;
-    height: 230px;
+    
     padding: 5px;
     -moz-border-radius: 0px 6px 0px 0px;
     -webkit-border-radius: 0px 6px 0px 0px;
     border-radius: 0px 6px 0px 0px;
     -khtml-border-radius: 0px 6px 0px 0px;
     background: rgba(0,51,102,0.7) !important;
+}
+#coastal_ak_map {
+    width: @insetWidth;
+    height: @insetHeight;
+    background : @siteBackground;
 }				
   .coastal_filter{
   	background:@siteBackground;
