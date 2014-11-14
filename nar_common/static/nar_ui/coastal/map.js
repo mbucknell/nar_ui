@@ -96,32 +96,35 @@ nar.coastal.map = (function() {
 			extent : me.alaskaExtent,
 			restrictedExtent : me.alaskaExtent,
 			maxExtent : me.alaskaExtent,
+			maxResolution : 10000.0,
 			projection : nar.commons.map.projection,
 			controls : [
 			            new OpenLayers.Control.ScaleLine({
 			            	geodesic : true
 			            }),
-			            new OpenLayers.Control.MousePosition({
-			                numDigits: 2,
-			                displayProjection: nar.commons.map.geographicProjection
-			            }),
-			            new OpenLayers.Control.Navigation(),
-						new OpenLayers.Control.Zoom()
+//			            new OpenLayers.Control.MousePosition({
+//			                numDigits: 2,
+//			                displayProjection: nar.commons.map.geographicProjection
+//			            }),
+//			            new OpenLayers.Control.Navigation(),
+//						new OpenLayers.Control.Zoom()
 			            ],
 			layers : [
-//new OpenLayers.Layer.XYZ(
-//		"Streets",
-//		"http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/${z}/${y}/${x}",
-//		{
-//			sphericalMercator : true,
-//			layers: "0",
-//			isBaseLayer : true,
-//			projection : nar.commons.map.projection,
-//			units : "m",
-//			buffer : 3, 
-//			wrapDateLine : false
-//		}
-//),
+			          // TODO: Get a new AK_AKalb shapefile that can be used as a base layer. Then we can take out the street map.
+			          new OpenLayers.Layer.XYZ(
+			        		  "Streets",
+			        		  "http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/${z}/${y}/${x}",
+			        		  {
+			        			  sphericalMercator : true,
+			        			  layers: "0",
+			        			  isBaseLayer : true,
+			        			  projection : nar.commons.map.projection,
+			        			  units : "m",
+			        			  buffer : 3, 
+			        			  wrapDateLine : false
+			        		  }
+			          ),
+
 		          new OpenLayers.Layer.WMS(
 		        		  "Alaska",
 			        		  GEOSERVER_URL,
@@ -129,10 +132,11 @@ nar.coastal.map = (function() {
 			        			  layers : 'NAR:AK_AKalb',
 			        			  transparent : true,
 			        			  styles: 'ms_grey_outline',
-			        			  units : 'm'
 			        		  }, {
-			        			  isBaseLayer : true,
-			        			  transparent : true
+			        			  isBaseLayer : false,
+			        			  transparent : false,
+			        		      projection : nar.commons.map.projection,
+			        			  units : 'm'
 		        		  }
 			          ),
 			          new OpenLayers.Layer.WMS(
@@ -161,8 +165,10 @@ nar.coastal.map = (function() {
 	
 	me.createAlaskaMap = function(mapDiv) {
 		var map = new OpenLayers.Map(mapDiv, me.createDefaultAlaskaMapOptions());
-		//map.setCenter(alaskaCenter, 3, true, true);
-		map.zoomToExtent(me.alaskaExtent, false);
+		//map.setCenter(me.alaskaCenter, 3, true, true);
+		//var level = map.getZoomForExtent(me.alaskaExtent)
+		//map.zoomTo(map.getZoomForExtent(me.alaskaExtent))
+		map.zoomToExtent(me.alaskaExtent, true);
 	};
 	
 	return {
