@@ -120,8 +120,10 @@ nar.plots = nar.plots || {};
 			},
 			legend : {
 				show : true,
-				canvasContainer: legendContainer,
-				canvas : true
+				canvas : {
+					container:legendContainer
+					
+				}
 			}
 		});
 		var hoverFormatter = nar.plots.PlotUtils.utcDatePlotHoverFormatter;
