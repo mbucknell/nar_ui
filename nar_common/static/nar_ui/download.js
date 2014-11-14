@@ -9,7 +9,7 @@ nar.downloads = (function() {
 	var STATION_NAME_PROPERTY = "qw_name";
 	var SITE_TYPE_PROPERTY = "site_type";
 	var STATE_PROPERTY = "state";
-	var MRB_VALUE = 'MRB';
+	var MRB_VALUE = "Mississippi River Basin";
 	var MS_SITE_ATTR_NAME = 'mssite';
 	var MS_SITE_VALUE = 'MS';
 	var STATE_LIST = {
@@ -99,17 +99,25 @@ nar.downloads = (function() {
 		//loop through features collecting  site types
 		var siteTypes = {};
 		
+		var mrbIncluded = false;
 		for(var i = 0; i < stationData.features.length; i++) {
 			var props = stationData.features[i].properties;
-			if(!siteTypes[props[SITE_TYPE_PROPERTY]] //only add to values object if property hasn't already been added
-				&& (!selectedStates || selectedStates.length <= 0 || selectedStates.some(props[STATE_PROPERTY]))//only add if has state prop in state list (if state list exists)
-				) {
-				siteTypes[props[SITE_TYPE_PROPERTY]] = props[SITE_TYPE_PROPERTY];
+			//only add to values object if property hasn't already been added
+			if(!selectedStates || selectedStates.length <= 0 || selectedStates.some(props[STATE_PROPERTY])) { 
+				if(!siteTypes[props[SITE_TYPE_PROPERTY]]){ //only add station if it is flagged as MS
+					siteTypes[props[SITE_TYPE_PROPERTY]] = props[SITE_TYPE_PROPERTY];
+				}
+				
+				if(props[MS_SITE_ATTR_NAME] === MS_SITE_VALUE) {
+					mrbIncluded = true
+				}
 			}
 		}
 		
 		//Add in MRB, a special case not part of the database
-		siteTypes["MRB"] = "MRB";
+		if(!selectedStates || selectedStates.length <= 0 || mrbIncluded) {
+			siteTypes[MRB_VALUE] = MRB_VALUE;
+		}
 		
 		return siteTypes;
 	};

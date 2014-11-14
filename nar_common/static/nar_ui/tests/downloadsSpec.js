@@ -10,7 +10,7 @@ DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS = {
 		            	"properties":{
 		            		"qw_id":"0101010101",
 		            		"qw_name":"Test Station",
-		            		"state":"WI",
+		            		"state":"AK",
 		            		"latitude":42.703417,
 		            		"longitude":-72.670647,
 		            		"site_type":"Reference",
@@ -25,7 +25,7 @@ DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS = {
 		            	"properties":{
 		            		"qw_id":"0101010101",
 		            		"qw_name":"Duplicate of Station 1",
-		            		"state":"WI",
+		            		"state":"AK",
 		            		"latitude":42.703417,
 		            		"longitude":-72.670647,
 		            		"site_type":"Reference",
@@ -38,9 +38,24 @@ DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS = {
             			"geometry":{"type":"Point","coordinates":[-8082392.483298749,5159080.08084164]},
             			"geometry_name":"the_geom",
             			"properties":{
+            				"qw_id":"010102020",
+            				"qw_name":"Test Alabama Station",
+		            		"state":"AL",
+            				"latitude":41.987319,
+            				"longitude":-72.605367,
+            				"site_type":"Coastal Rivers", //first coastal rivers occurance
+            				"msloads":"",
+            				"mssite":"", //NOT mrb
+            				"bbox":[-8082392.483298749,5159080.08084164,-8082392.483298749,5159080.08084164]}},
+		            {
+            			"type":"Feature",
+            			"id":"0914.4",
+            			"geometry":{"type":"Point","coordinates":[-8082392.483298749,5159080.08084164]},
+            			"geometry_name":"the_geom",
+            			"properties":{
             				"qw_id":"020202020",
             				"qw_name":"Test Missippi Station",
-		            		"state":"CA",
+		            		"state":"MS",
             				"latitude":41.987319,
             				"longitude":-72.605367,
             				"site_type":"Coastal Rivers",
@@ -73,7 +88,7 @@ describe('nar.downloads.getFilteredSiteTypeOptions', function() {
 		expect(countKeys(siteTypes)).toBe(3);
 		expect(siteTypes['Coastal Rivers']).toBe('Coastal Rivers');
 		expect(siteTypes['Reference']).toBe('Reference');
-		expect(siteTypes['MRB']).toBe('MRB');
+		expect(siteTypes['Mississippi River Basin']).toBe('Mississippi River Basin');
 	});
 	
 	it("returns all unique site types, plus MRB, in correct format, when empty state filter provided", function(){
@@ -81,31 +96,47 @@ describe('nar.downloads.getFilteredSiteTypeOptions', function() {
 		expect(countKeys(siteTypes)).toBe(3);
 		expect(siteTypes['Coastal Rivers']).toBe('Coastal Rivers');
 		expect(siteTypes['Reference']).toBe('Reference');
-		expect(siteTypes['MRB']).toBe('MRB');
+		expect(siteTypes['Mississippi River Basin']).toBe('Mississippi River Basin');
 	});
 	
-	it("returns all unique site types, plus MRB, in correct format, for WI/CA filter", function(){
-		var siteTypes = nar.downloads.getFilteredSiteTypeOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, ['WI', 'CA']);
+	it("returns all unique site types, plus MRB, in correct format, for AK/MS filter", function(){
+		var siteTypes = nar.downloads.getFilteredSiteTypeOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, ['AK', 'MS']);
 		expect(countKeys(siteTypes)).toBe(3);
 		expect(siteTypes['Coastal Rivers']).toBe('Coastal Rivers');
 		expect(siteTypes['Reference']).toBe('Reference');
-		expect(siteTypes['MRB']).toBe('MRB');
+		expect(siteTypes['Mississippi River Basin']).toBe('Mississippi River Basin');
 	});
 	
-	it("returns correct unique site types, plus MRB, in correct format, for WI only filter", function(){
-		var siteTypes = nar.downloads.getFilteredSiteTypeOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, ['WI']);
-		expect(countKeys(siteTypes)).toBe(2);
+	it("returns correct unique site types (no MRB), in correct format, for AK only filter", function(){
+		var siteTypes = nar.downloads.getFilteredSiteTypeOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, ['AK']);
+		expect(countKeys(siteTypes)).toBe(1);
 		expect(siteTypes['Coastal Rivers']).toBeUndefined();
+		expect(siteTypes['Mississippi River Basin']).toBeUndefined();
 		expect(siteTypes['Reference']).toBe('Reference');
-		expect(siteTypes['MRB']).toBe('MRB');
 	});
 	
 	it("returns correct site types, plus MRB, in correct format, when state filter provided", function(){
-		var siteTypes = nar.downloads.getFilteredSiteTypeOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, ['CA']);
+		var siteTypes = nar.downloads.getFilteredSiteTypeOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, ['MS']);
 		expect(countKeys(siteTypes)).toBe(2);
 		expect(siteTypes['Coastal Rivers']).toBe('Coastal Rivers');
 		expect(siteTypes['Reference']).toBeUndefined();
-		expect(siteTypes['MRB']).toBe('MRB');
+		expect(siteTypes['Mississippi River Basin']).toBe('Mississippi River Basin');
+	});
+
+	it("returns correct site types, plus MRB, in correct format, when two states have the same type but only one is in MRB", function(){
+		var siteTypes = nar.downloads.getFilteredSiteTypeOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, ['AL', 'MS']);
+		expect(countKeys(siteTypes)).toBe(2);
+		expect(siteTypes['Coastal Rivers']).toBe('Coastal Rivers');
+		expect(siteTypes['Reference']).toBeUndefined();
+		expect(siteTypes['Mississippi River Basin']).toBe('Mississippi River Basin');
+	});
+
+	it("returns correct site types, plus MRB, in correct format, when two states have the same type but only one is in MRB", function(){
+		var siteTypes = nar.downloads.getFilteredSiteTypeOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, ['MS', 'AL']);
+		expect(countKeys(siteTypes)).toBe(2);
+		expect(siteTypes['Coastal Rivers']).toBe('Coastal Rivers');
+		expect(siteTypes['Reference']).toBeUndefined();
+		expect(siteTypes['Mississippi River Basin']).toBe('Mississippi River Basin');
 	});
 });
 
@@ -120,73 +151,77 @@ describe('nar.downloads.getFilteredStationIdsOptions', function() {
 		return num;
 	};
 	it("returns all unique stations in correct format, when null state/sitetype filters provided", function(){
-		var siteTypes = nar.downloads.getFilteredStationIdsOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, null, null);
-		expect(countKeys(siteTypes)).toBe(2);
-		expect(siteTypes['0101010101']).toBe('Test Station'); //note: this is first occurance of the station ID
-		expect(siteTypes['020202020']).toBe('Test Missippi Station');
+		var sites = nar.downloads.getFilteredStationIdsOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, null, null);
+		expect(countKeys(sites)).toBe(3);
+		expect(sites['0101010101']).toBe('Test Station'); //note: this is first occurance of the station ID
+		expect(sites['020202020']).toBe('Test Missippi Station');
+		expect(sites['010102020']).toBe('Test Alabama Station');
 	});
 	
 	it("returns all unique stations in correct format, when empty state/sitetype filter provided", function(){
-		var siteTypes = nar.downloads.getFilteredStationIdsOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, [], []);
-		expect(countKeys(siteTypes)).toBe(2);
-		expect(siteTypes['0101010101']).toBe('Test Station'); //note: this is first occurance of the station ID
-		expect(siteTypes['020202020']).toBe('Test Missippi Station');
+		var sites = nar.downloads.getFilteredStationIdsOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, [], []);
+		expect(countKeys(sites)).toBe(3);
+		expect(sites['0101010101']).toBe('Test Station'); //note: this is first occurance of the station ID
+		expect(sites['020202020']).toBe('Test Missippi Station');
+		expect(sites['010102020']).toBe('Test Alabama Station');
 	});
 	
-	it("returns all unique stations in correct format, for WI/CA filter", function(){
-		var siteTypes = nar.downloads.getFilteredStationIdsOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, ['WI', 'CA'], []);
-		expect(countKeys(siteTypes)).toBe(2);
-		expect(siteTypes['0101010101']).toBe('Test Station'); //note: this is first occurance of the station ID
-		expect(siteTypes['020202020']).toBe('Test Missippi Station');
+	it("returns all unique stations in correct format, for AK/MS filter", function(){
+		var sites = nar.downloads.getFilteredStationIdsOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, ['AK', 'MS'], []);
+		expect(countKeys(sites)).toBe(2);
+		expect(sites['0101010101']).toBe('Test Station'); //note: this is first occurance of the station ID
+		expect(sites['020202020']).toBe('Test Missippi Station');
 	});
 	
-	it("returns correct station in correct format, for WI only filter", function(){
-		var siteTypes = nar.downloads.getFilteredStationIdsOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, ['WI'], []);
-		expect(countKeys(siteTypes)).toBe(1);
-		expect(siteTypes['0101010101']).toBe('Test Station'); //note: this is first occurance of the station ID
-		expect(siteTypes['020202020']).toBeUndefined();
+	it("returns correct station in correct format, for AK only filter", function(){
+		var sites = nar.downloads.getFilteredStationIdsOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, ['AK'], []);
+		expect(countKeys(sites)).toBe(1);
+		expect(sites['0101010101']).toBe('Test Station'); //note: this is first occurance of the station ID
+		expect(sites['020202020']).toBeUndefined();
 	});
 	
-	it("returns correct station in correct format, for CA only filter", function(){
-		var siteTypes = nar.downloads.getFilteredStationIdsOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, ['CA'], []);
-		expect(countKeys(siteTypes)).toBe(1);
-		expect(siteTypes['0101010101']).toBeUndefined(); //note: this is first occurance of the station ID
-		expect(siteTypes['020202020']).toBe('Test Missippi Station');
+	it("returns correct station in correct format, for MS only filter", function(){
+		var sites = nar.downloads.getFilteredStationIdsOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, ['MS'], []);
+		expect(countKeys(sites)).toBe(1);
+		expect(sites['0101010101']).toBeUndefined(); //note: this is first occurance of the station ID
+		expect(sites['020202020']).toBe('Test Missippi Station');
 	});
 	
 	it("returns all unique stations in correct format, for Reference/Coastal Rivers filter", function(){
-		var siteTypes = nar.downloads.getFilteredStationIdsOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, [], ['Reference', 'Coastal Rivers']);
-		expect(countKeys(siteTypes)).toBe(2);
-		expect(siteTypes['0101010101']).toBe('Test Station'); //note: this is first occurance of the station ID
-		expect(siteTypes['020202020']).toBe('Test Missippi Station');
+		var sites = nar.downloads.getFilteredStationIdsOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, [], ['Reference', 'Coastal Rivers']);
+		expect(countKeys(sites)).toBe(3);
+		expect(sites['0101010101']).toBe('Test Station'); //note: this is first occurance of the station ID
+		expect(sites['020202020']).toBe('Test Missippi Station');
+		expect(sites['010102020']).toBe('Test Alabama Station');
 	});
 	
 	it("returns correct station in correct format, for Reference only filter", function(){
-		var siteTypes = nar.downloads.getFilteredStationIdsOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, [], ['Reference']);
-		expect(countKeys(siteTypes)).toBe(1);
-		expect(siteTypes['0101010101']).toBe('Test Station'); //note: this is first occurance of the station ID
-		expect(siteTypes['020202020']).toBeUndefined();
+		var sites = nar.downloads.getFilteredStationIdsOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, [], ['Reference']);
+		expect(countKeys(sites)).toBe(1);
+		expect(sites['0101010101']).toBe('Test Station'); //note: this is first occurance of the station ID
+		expect(sites['020202020']).toBeUndefined();
 	});
 	
 	it("returns correct station in correct format, for Coastal Rivers only filter", function(){
-		var siteTypes = nar.downloads.getFilteredStationIdsOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, [], ['Coastal Rivers']);
-		expect(countKeys(siteTypes)).toBe(1);
-		expect(siteTypes['0101010101']).toBeUndefined(); //note: this is first occurance of the station ID
-		expect(siteTypes['020202020']).toBe('Test Missippi Station');
+		var sites = nar.downloads.getFilteredStationIdsOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, [], ['Coastal Rivers']);
+		expect(countKeys(sites)).toBe(2);
+		expect(sites['0101010101']).toBeUndefined(); //note: this is first occurance of the station ID
+		expect(sites['020202020']).toBe('Test Missippi Station');
+		expect(sites['010102020']).toBe('Test Alabama Station');
 	});
 	
 	it("returns no stations (all filtered out), for Reference/MRB only filter", function(){
-		var siteTypes = nar.downloads.getFilteredStationIdsOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, [], ['Reference', 'MRB']);
-		expect(countKeys(siteTypes)).toBe(0);
-		expect(siteTypes['0101010101']).toBeUndefined(); //note: this is first occurance of the station ID
-		expect(siteTypes['020202020']).toBeUndefined();
+		var sites = nar.downloads.getFilteredStationIdsOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, [], ['Reference', 'Mississippi River Basin']);
+		expect(countKeys(sites)).toBe(0);
+		expect(sites['0101010101']).toBeUndefined(); //note: this is first occurance of the station ID
+		expect(sites['020202020']).toBeUndefined();
 	});
 
 	it("returns correct station in correct format, for MRB only filter", function(){
-		var siteTypes = nar.downloads.getFilteredStationIdsOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, [], ['MRB']);
-		expect(countKeys(siteTypes)).toBe(1);
-		expect(siteTypes['0101010101']).toBeUndefined(); //note: this is first occurance of the station ID
-		expect(siteTypes['020202020']).toBe('Test Missippi Station');
+		var sites = nar.downloads.getFilteredStationIdsOptions(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS, [], ['Mississippi River Basin']);
+		expect(countKeys(sites)).toBe(1);
+		expect(sites['0101010101']).toBeUndefined(); //note: this is first occurance of the station ID
+		expect(sites['020202020']).toBe('Test Missippi Station');
 	});
 });
 
@@ -299,7 +334,7 @@ describe("nar.downloads.initDownloadPage", function(){
 	it("loaded state, site type, and station drop downs with correct filtering behavior between the fields", function(){
 		expect($("#state").find('option').length).toBe(59); //TODO expect the state list to change
 		expect($("#siteType").find('option').length).toBe(3); 
-		expect($("#stationId").find('option').length).toBe(2); 
+		expect($("#stationId").find('option').length).toBe(3); 
 		
 		//TODO make sure all filters/select2s get updated with correct filtered options
 	});
