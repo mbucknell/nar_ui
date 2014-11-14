@@ -3,26 +3,65 @@ nar.coastal = nar.coastal || {};
 
 nar.coastal.map = (function() {
 	"use strict";
+	
 	var GEOSERVER_URL = CONFIG.endpoint.geoserver + 'NAR/wms';
 	var me = {};
-	me.extent = new OpenLayers.Bounds(-127.5, 22.0, -63.0, 55.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection);
-	me.center = me.extent.getCenterLonLat();
 	
-	me.createDefaultOptions = function() {
-		return {
+	me.mapUS48Extent = new OpenLayers.Bounds(-136.5, 20.7, -66.4, 53.2).transform(nar.commons.map.geographicProjection, nar.commons.map.projection);
+	me.mapUS48Center = me.mapUS48Extent.getCenterLonLat();
+	
+	me.alaskaExtent = new OpenLayers.Bounds(-175.0, 55.0, -135.0, 71.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection);
+	me.alaskaCenter = me.alaskaExtent.getCenterLonLat();
+	
+	me.createBasinLayer = function() {
+		return new OpenLayers.Layer.WMS(
+			'Coastal Basins',
+			GEOSERVER_URL,
+			{
+				layers: 'NAR:all_coast_bas',
+				transparent : true,
+				styles: 'coastal_basins'
+			},
+			{
+				isBaseLayer : false,
+				singleTile : true
+			}
+		);
+	};
+	
+	me.createSitesLayer = function() {
+		return new OpenLayers.Layer.WMS(
+			"Sites",
+			GEOSERVER_URL,
+			{
+				layers : 'NAR:JD_NFSN_sites',
+				transparent : true,
+				styles: 'triangles',
+				'CQL_FILTER' : "site_type = 'Coastal Rivers'"
+			}, {
+				isBaseLayer : false,
+				singleTile : true
+			}
+		);
+	};
+	
+	me.defaultMapOptions = {
 			projection : nar.commons.map.projection,
-			restrictedExtent : me.extent,
-			maxExtent : me.extent,
-			maxResolution: 9041.067668,
-			theme : nar.commons.map.them,
+			theme : nar.commons.map.theme,
+	};
+	
+	me.createDefaultUSMapOptions = function() {
+		return Object.merge(me.defaultMapOptions, {
+			restrictedExtent : me.mapUS48Extent,
+			maxExtent : me.mapUS48Extent,
+			maxResolution: 8041.067668,
 			controls : [
-				new OpenLayers.Control.ScaleLine({
-					geodesic: true
-				}),
-				new OpenLayers.Control.Navigation(),
-				new OpenLayers.Control.MousePosition({displayProjection: nar.commons.map.geographicProjection}),
-				new OpenLayers.Control.Zoom()
-			],
+						new OpenLayers.Control.ScaleLine({
+							geodesic: true
+						}),
+						new OpenLayers.Control.Navigation(),
+						new OpenLayers.Control.Zoom()
+					],
 			layers : [
 				new OpenLayers.Layer.WMS(
 						"Lower 48",
@@ -34,47 +73,111 @@ nar.coastal.map = (function() {
 						},{
 							isBaseLayer: true
 						}),
-				new OpenLayers.Layer.WMS(
-						'Coastal Basins',
-						GEOSERVER_URL,
-						{
-							layers: 'NAR:all_coast_bas',
-							transparent : true,
-							styles: 'coastal_basins'
-						},
-						{
-							isBaseLayer : false,
-							singleTile : true
-						}),
-				new OpenLayers.Layer.WMS(
-						"Sites",
-						GEOSERVER_URL,
-						{
-							layers : 'NAR:JD_NFSN_sites',
-							transparent : true,
-							styles: 'triangles',
-							'CQL_FILTER' : "site_type = 'Coastal Rivers'"
-						}, {
-							isBaseLayer : false,
-							singleTile : true
-						})
-			]
-		};
-						
+						new OpenLayers.Layer.WMS(
+								'Major Streams',
+								GEOSERVER_URL,
+								{
+									layers: 'NAR:USA48_major_alb',
+									transparent: true,
+									styles : 'streams'
+								},
+								{
+									isBaseLayer : false
+								}
+						),
+						me.createBasinLayer(),
+						me.createSitesLayer()
+					]
+		});
 	};
 	
-	me.createMap = function(mapDiv) {
-		var map = new OpenLayers.Map(mapDiv, me.createDefaultOptions());
-		map.zoomToExtent(me.extent, false);
+	me.createDefaultAlaskaMapOptions = function() {
+		return Object.merge(me.defaultMapOptions, {
+			extent : me.alaskaExtent,
+			restrictedExtent : me.alaskaExtent,
+			maxExtent : me.alaskaExtent,
+			maxResolution : 10000.0,
+			projection : nar.commons.map.projection,
+			controls : [
+			            new OpenLayers.Control.ScaleLine({
+			            	geodesic : true
+			            }),
+//			            new OpenLayers.Control.MousePosition({
+//			                numDigits: 2,
+//			                displayProjection: nar.commons.map.geographicProjection
+//			            }),
+//			            new OpenLayers.Control.Navigation(),
+//						new OpenLayers.Control.Zoom()
+			            ],
+			layers : [
+			          // TODO: Get a new AK_AKalb shapefile that can be used as a base layer. Then we can take out the street map.
+			          new OpenLayers.Layer.XYZ(
+			        		  "Streets",
+			        		  "http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/${z}/${y}/${x}",
+			        		  {
+			        			  sphericalMercator : true,
+			        			  layers: "0",
+			        			  isBaseLayer : true,
+			        			  projection : nar.commons.map.projection,
+			        			  units : "m",
+			        			  buffer : 3, 
+			        			  wrapDateLine : false
+			        		  }
+			          ),
+
+		          new OpenLayers.Layer.WMS(
+		        		  "Alaska",
+			        		  GEOSERVER_URL,
+			        		  {
+			        			  layers : 'NAR:AK_AKalb',
+			        			  transparent : true,
+			        			  styles: 'ms_grey_outline',
+			        		  }, {
+			        			  isBaseLayer : false,
+			        			  transparent : false,
+			        		      projection : nar.commons.map.projection,
+			        			  units : 'm'
+		        		  }
+			          ),
+			          new OpenLayers.Layer.WMS(
+			        		  "Alaska Major Streams",
+			        		  GEOSERVER_URL,
+			        		  {
+			        			  layers: 'NAR:AK_major_AKalb',
+			        			  transparent : true,
+			        			  styles : 'streams'
+			        		  },
+			        		  {
+			        			  isBaseLayer : false,
+			        		  }
+			          ),
+			          me.createBasinLayer(),
+			          me.createSitesLayer(),
+			]
+		});
+	};
+	
+	me.createUS48Map = function(mapDiv) {
+		var map = new OpenLayers.Map(mapDiv, me.createDefaultUSMapOptions());
+		map.zoomToExtent(me.mapUS48Extent, false);
 		return map;
 	};
 	
-	return {
-		createMap : function(mapDiv) {
-			return me.createMap.call(me, mapDiv);
-		}
+	me.createAlaskaMap = function(mapDiv) {
+		var map = new OpenLayers.Map(mapDiv, me.createDefaultAlaskaMapOptions());
+		//map.setCenter(me.alaskaCenter, 3, true, true);
+		//var level = map.getZoomForExtent(me.alaskaExtent)
+		//map.zoomTo(map.getZoomForExtent(me.alaskaExtent))
+		map.zoomToExtent(me.alaskaExtent, true);
 	};
 	
-	
+	return {
+		createUS48Map : function(mapDiv) {
+			return me.createUS48Map.call(me, mapDiv);
+		},
+		createAlaskaMap : function(mapDiv) {
+			return me.createAlaskaMap.call(me, mapDiv);
+		}
+	};
 	
 }());
