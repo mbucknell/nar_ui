@@ -73,7 +73,6 @@ nar.coastal.map = (function() {
 						},{
 							isBaseLayer: true
 						}),
-<<<<<<< HEAD
 						new OpenLayers.Layer.WMS(
 								'Major Streams',
 								GEOSERVER_URL,
@@ -94,26 +93,47 @@ nar.coastal.map = (function() {
 	
 	me.createDefaultAlaskaMapOptions = function() {
 		return Object.merge(me.defaultMapOptions, {
+			extent : me.alaskaExtent,
 			restrictedExtent : me.alaskaExtent,
-//			maxExtent : me.alaskaExtent,
+			maxExtent : me.alaskaExtent,
+			projection : nar.commons.map.projection,
 			controls : [
 			            new OpenLayers.Control.ScaleLine({
 			            	geodesic : true
+			            }),
+			            new OpenLayers.Control.MousePosition({
+			                numDigits: 2,
+			                displayProjection: nar.commons.map.geographicProjection
 			            }),
 			            new OpenLayers.Control.Navigation(),
 						new OpenLayers.Control.Zoom()
 			            ],
 			layers : [
-			          new OpenLayers.Layer.WMS(
-			        		  "Alaska",
+//new OpenLayers.Layer.XYZ(
+//		"Streets",
+//		"http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/${z}/${y}/${x}",
+//		{
+//			sphericalMercator : true,
+//			layers: "0",
+//			isBaseLayer : true,
+//			projection : nar.commons.map.projection,
+//			units : "m",
+//			buffer : 3, 
+//			wrapDateLine : false
+//		}
+//),
+		          new OpenLayers.Layer.WMS(
+		        		  "Alaska",
 			        		  GEOSERVER_URL,
 			        		  {
 			        			  layers : 'NAR:AK_AKalb',
 			        			  transparent : true,
 			        			  styles: 'ms_grey_outline',
+			        			  units : 'm'
 			        		  }, {
 			        			  isBaseLayer : true,
-			        		  }
+			        			  transparent : true
+		        		  }
 			          ),
 			          new OpenLayers.Layer.WMS(
 			        		  "Alaska Major Streams",
@@ -124,37 +144,11 @@ nar.coastal.map = (function() {
 			        			  styles : 'streams'
 			        		  },
 			        		  {
-			        			  isBaseLayer : false
+			        			  isBaseLayer : false,
 			        		  }
 			          ),
 			          me.createBasinLayer(),
-			          me.createSitesLayer()
-=======
-				new OpenLayers.Layer.WMS(
-						'Coastal Basins',
-						GEOSERVER_URL,
-						{
-							layers: 'NAR:all_coast_bas',
-							transparent : true,
-							styles: 'coastal_basins'
-						},
-						{
-							isBaseLayer : false,
-							singleTile : true
-						}),
-				new OpenLayers.Layer.WMS(
-						"Sites",
-						GEOSERVER_URL,
-						{
-							layers : 'NAR:JD_NFSN_sites',
-							transparent : true,
-							styles: 'triangles',
-							'CQL_FILTER' : "site_type = 'Coastal Rivers'"
-						}, {
-							isBaseLayer : false,
-							singleTile : true
-						})
->>>>>>> ec03f61a38ba852c3e1044a0ec42593683faf186
+			          me.createSitesLayer(),
 			]
 		});
 	};
@@ -167,6 +161,7 @@ nar.coastal.map = (function() {
 	
 	me.createAlaskaMap = function(mapDiv) {
 		var map = new OpenLayers.Map(mapDiv, me.createDefaultAlaskaMapOptions());
+		//map.setCenter(alaskaCenter, 3, true, true);
 		map.zoomToExtent(me.alaskaExtent, false);
 	};
 	
