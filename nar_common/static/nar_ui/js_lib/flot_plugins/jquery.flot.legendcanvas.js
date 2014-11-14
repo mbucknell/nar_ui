@@ -16,7 +16,10 @@
  * 					If null, legend will be drawn on the plot's canvas. Else, legend will be drawn in the specified canvas and the "margin" and "position" options will be ignored.
  * 			sorted: optional null, false, true, "ascending", "descending", "reverse", or (function(seriesA, seriesB)->Number), defaulting to null.
  * 					If null or false, series are displayed in whatever order flot provides. If a function, the function is used to sort the order 
- * 					in which the series' legend entries are passed to the "render" function based on whether the function returns a positive or negative number.  
+ * 					in which the series' legend entries are passed to the "render" function based on whether the function returns a positive or negative number.
+ * 
+ *   				Legend entries appear in the same order as their series by default. If "sorted" is "reverse" then they appear in the opposite order from their series. To sort them alphabetically, you can specify true, "ascending" or "descending", where true and "ascending" are equivalent.
+ *   
  * 			entryLayout: optional (function(seriesIndex, previousEntryOriginX, previousEntryOriginY, previousEntryWidth, previousEntryHeight)->{nextEntryOriginX: Number, nextEntryOriginY: Number}) or null, defaulting to null.
  * 					If null, a vertical layout will be used. If a function, the resulting object's properties will be passed as entryOriginX and entryOriginY to the "render" function.
  * 			background: optional String color or (function(legendCtx, legendOriginX, legendOriginY, legendWidth, legendHeight)), defaulting to white.
@@ -48,6 +51,9 @@
 		var PADDING_RIGHT = 5;
 		var LEGEND_BOX_LINE_HEIGHT = 18;
 	}
+	function ascendingAlphabeticalSort(seriesA, seriesB){
+		return seriesA.text > seriesB;
+	} 
 	// draws the legend on the canvas, using the HTML added by flot as a guide
 	function drawLegend(plot, plotCtx) {
 		var options = plot.getOptions();
@@ -84,7 +90,15 @@
 		var plotHeight = plot.height();
 		var plotWidth = plot.width();
 		
-		
+		var sortedSeries;
+		var sortedOption = options.legend.canvas.sorted; 
+		if(sortedOption){
+			if(true === sortedOption){
+				
+			}
+		}else{
+			sortedSeries = series;
+		}
 //		   sortedSeries = series.sortBy(sorted);
 //		 	 calculateLegendSize
 //		  		if size is function
