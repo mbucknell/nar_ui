@@ -9,23 +9,22 @@
  * 		canvas: {
  * 			show: optional boolean, defaulting to true
  * 			position: "ne" or "nw" or "se" or "sw". Ignored if "container" option is specified.
- * 			height: Number, defaulting to null. Ignored if "container" option is specified.
- * 			width: Number, defaulting to null. Ignored if "container" option is specified.
- * 			margin: number of pixels or [x margin, y margin]. Ignored if "container" option is specified.
+ * 			size: {height: Number, width: Number} or (function(legendCtx, series, options, entryOriginX, entryOriginY, fontOptions)->{entryWidth:Number, entryHeight:Number}).
+ * 					If a function, the function is called on each entry. The plugin uses this information to calculate the width of the overall legend.
+ * 			margin: optional number of pixels or [x margin, y margin]. Ignored if "container" option is specified.
  * 			container: optional jQuery object wrapping a canvas element, or an actual canvas element, or null, defaulting to null.
  * 					If null, legend will be drawn on the plot's canvas. Else, legend will be drawn in the specified canvas and the "margin" and "position" options will be ignored.
  * 			sorted: optional null, false, true, "ascending", "descending", "reverse", or (function(seriesA, seriesB)->Number), defaulting to null.
  * 					If null or false, series are displayed in whatever order flot provides. If a function, the function is used to sort the order 
  * 					in which the series' legend entries are passed to the "render" function based on whether the function returns a positive or negative number.  
- * 			layout: optional (function(seriesIndex, previousEntryOriginX, previousEntryOriginY, previousEntryHeight, previousEntryWidth)->{nextEntryOriginX: Number, nextEntryOriginY: Number}) or null, defaulting to null.
+ * 			entryLayout: optional (function(seriesIndex, previousEntryOriginX, previousEntryOriginY, previousEntryWidth, previousEntryHeight)->{nextEntryOriginX: Number, nextEntryOriginY: Number}) or null, defaulting to null.
  * 					If null, a vertical layout will be used. If a function, the resulting object's properties will be passed as entryOriginX and entryOriginY to the "render" function.
- * 					Ignored if "position" option is specified.
- * 			renderEntry: optional (function(legendCtx, series, options, entryOriginX, entryOriginY, fontOptions)->{entryWidth: Number, entryHeight: Number}), or null, defaulting to null.
- * 					If null, a box matching the color of the series is drawn to the left of the series text.
+ * 			background: optional String color or (function(legendCtx, legendOriginX, legendOriginY, legendWidth, legendHeight)), defaulting to white.
+ * 			entryRender: optional (function(legendCtx, series, options, entryOriginX, entryOriginY, fontOptions)->{entryWidth: Number, entryHeight: Number}), or null, defaulting to null.
+ * 					If null, a box matching the color of the series is drawn to the left of the series text in 13 pt font.
  * 			
  * 		}
  * }
- * 
  */
 
 (function($) {
@@ -45,7 +44,9 @@
         
 	}
 	function defaultLayout(seriesIndex, previousEntryOriginX, previousEntryOriginY, previousEntryHeight, previousEntryWidth){
-		
+		var LEGEND_BOX_WIDTH = 22; // color box
+		var PADDING_RIGHT = 5;
+		var LEGEND_BOX_LINE_HEIGHT = 18;
 	}
 	// draws the legend on the canvas, using the HTML added by flot as a guide
 	function drawLegend(plot, plotCtx) {
@@ -77,16 +78,59 @@
 			container = placeholder.find('.legend');;
 			legendCtx = plotCtx;
 		}
-                
-
-		function fontAscent() {
-			return 12;
-		}
 
 		var series = plot.getData();
 		var plotOffset = plot.getPlotOffset();
 		var plotHeight = plot.height();
 		var plotWidth = plot.width();
+		
+		
+//		   sortedSeries = series.sortBy(sorted);
+//		 	 calculateLegendSize
+//		  		if size is function
+//		  			xExtremity = 0
+//		  			yExtremity = 0
+//		  			previousEntryOriginX = 0
+//		  			previousEntryOriginY = 0
+//		  			previousEntryWidth = 0			
+//		  			previousEntryHeight = 0
+//		  			
+//		  			for each series in sortedSeries
+//		  				{nextEntryOriginX: Number, nextEntryOriginY: Number} = entryLayout(seriesIndex, previousEntryOriginX, previousEntryOriginY, previousEntryWidth, previousEntryHeight)
+//		  				{entryWidth:Number, entryHeight:Number} = size(legendCtx, series, options, nextEntryOriginX, nextEntryOriginY, fontOptions)
+//		  				potentialXExtremity = nextEntryOriginX + entryWidth;
+//		  				potentialYExtremity = nextEntryOriginY + entryHeight;
+//		  				xExtremity = potentialXExtremity > xExtremity ? potentialXExtremity : xExtremity;
+//		   			yExtremity = potentialYExtremity > yExtremity ? potentialYExtremity : yExtremity;
+//		   			previousEntryOriginX = nextEntryOriginX
+//		   			previousEntryOriginY = nextEntryOriginY
+//		   			previousEntryWidth = entryWidth
+//		   			previousEntryHeight = entryHeight
+//		   
+//		  		else if size is a pair of numbers, use them
+//		  		else throw error
+//		  
+//		  	if options.legend.canvas.position
+//		  	 	legendOriginX, legendOriginY = calculateLegendPosition(options.legend.canvas.position, options.legend.canvas.margin, options.grid.borderWidth, legendWidth, legendHeight)
+//		   else
+//		    	legendOriginX, legendOriginY = (0,0) 
+//		  	
+//		  	background(legendCtx, legendOriginX, legendOriginY, legendWidth, legendHeight)
+//		  	previousEntryOriginX = 0
+//		  	previousEntryOriginY = 0
+//		  	previousEntryWidth = 0			
+//		  	previousEntryHeight = 0
+//		  	for each series in sortedSeries
+//		  		{nextEntryOriginX: Number, nextEntryOriginY: Number} = entryLayout(seriesIndex, previousEntryOriginX, previousEntryOriginY, previousEntryWidth, previousEntryHeight)
+//		  		{entryWidth:Number, entryHeight:Number} = entryRender(legendCtx, series, options, nextEntryOriginX, nextEntryOriginY, fontOptions)
+//		  		previousEntryOriginX = nextEntryOriginX
+//		   	previousEntryOriginY = nextEntryOriginY
+//		  		previousEntryWidth = entryWidth
+//		   	previousEntryHeight = entryHeight
+//		   
+		 
+
+		
 		var legendWidth = 0, legendHeight = 0;
 		var num_labels = 0;
 		var s, label;
@@ -102,9 +146,7 @@
                         }else {
                             if(labelWidth > legendWidth) legendWidth = labelWidth}
 		}
-		var LEGEND_BOX_WIDTH = 22; // color box
-		var PADDING_RIGHT = 5;
-		var LEGEND_BOX_LINE_HEIGHT = 18;
+
                 if (options.legend.horizontal){
                     legendWidth = legendWidth + num_labels*(LEGEND_BOX_WIDTH + PADDING_RIGHT);
                     legendHeight = LEGEND_BOX_LINE_HEIGHT;
