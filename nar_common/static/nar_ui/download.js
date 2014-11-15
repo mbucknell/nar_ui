@@ -161,7 +161,7 @@ nar.downloads = (function() {
 	};
 	
 	pubMembers.toggleDownloadButton = function(){
-		pubMembers.toggleElement($('download-button'), $('input[name="dataType"]').is(':checked'));
+		pubMembers.toggleElement($('#download-button'), $('input[name="dataType"]').is(':checked'));
 	};
 	
 	pubMembers.toggleWaterQuality = function() {
