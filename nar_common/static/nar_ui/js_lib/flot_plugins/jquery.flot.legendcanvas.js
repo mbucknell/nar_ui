@@ -9,7 +9,7 @@
  * 		canvas: {
  * 			show: optional boolean, defaulting to true
  * 			position: "ne" or "nw" or "se" or "sw". Ignored if "container" option is specified.
- * 			size: {height: Number, width: Number} or (function(legendCtx, series, options, entryOriginX, entryOriginY, fontOptions)->{entryWidth:Number, entryHeight:Number}).
+ * 			entrySize: {entryHeight: Number, entryWidth: Number} or (function(legendCtx, series, options, entryOriginX, entryOriginY, fontOptions)->{entryWidth:Number, entryHeight:Number}).
  * 					If a function, the function is called on each entry. The plugin uses this information to calculate the width of the overall legend.
  * 			margin: optional number of pixels or [x margin, y margin]. Ignored if "container" option is specified.
  * 			container: optional jQuery object wrapping a canvas element, or an actual canvas element, or null, defaulting to null.
@@ -23,11 +23,52 @@
  * 			entryLayout: optional (function(seriesIndex, previousEntryOriginX, previousEntryOriginY, previousEntryWidth, previousEntryHeight)->{nextEntryOriginX: Number, nextEntryOriginY: Number}) or null, defaulting to null.
  * 					If null, a vertical layout will be used. If a function, the resulting object's properties will be passed as entryOriginX and entryOriginY to the "render" function.
  * 			background: optional String color or (function(legendCtx, legendOriginX, legendOriginY, legendWidth, legendHeight)), defaulting to white.
- * 			entryRender: optional (function(legendCtx, series, options, entryOriginX, entryOriginY, fontOptions)->{entryWidth: Number, entryHeight: Number}), or null, defaulting to null.
+ * 			entryRender: optional (function(legendCtx, series, options, entryOriginX, entryOriginY, fontOptions)->undefined), or null, defaulting to null.
  * 					If null, a box matching the color of the series is drawn to the left of the series text in 13 pt font.
  * 			
  * 		}
  * }
+ * 
+ * example:
+ * legend:{
+ * 		canvas: {
+ * 			show: true,
+ * 			entrySize: function(legendCtx, series, options, entryOriginX, entryOriginY, fontOptions){
+ * 					//assume constant symbol width and height
+ * 					var symbolWidth = 40;
+ * 					var symbolHeight = 15;
+ * 
+ * 					var textWidth = legendCtx.measureText(label).width;
+ * 					var entryWidth = symbolWidth + textWidth;
+ * 					var entryHeight = Math.max(symbolHeight, textWidth);
+ * 
+ * 					
+ * 					return {entryWidth:entryWidth, entryHeight:entryHeight};
+ * 				  },
+ * 			container: $('#myCanvas'),
+ * 			sorted: function(seriesA, seriesB){.
+ * 				if(seriesA.text > seriesB.text){
+ * 					return 1;
+ * 				}
+ * 				else{
+ *					return -1; 
+ * 				}
+ * 			}		  
+ * 			entryLayout: function(seriesIndex, previousEntryOriginX, previousEntryOriginY, previousEntryWidth, previousEntryHeight){
+ *				 //simple vertical layout
+ *				var nextEntryOriginY = previousEntryOriginY + previousEntryHeight; 
+ * 				return {nextEntryOriginX: previousEntryOriginX, nextEntryOriginY: Number};
+ * 			}
+ * 			entryRender: function(legendCtx, series, options, entryOriginX, entryOriginY, fontOptions){
+ *				legendCtx.fillStyle = series.someProperty.indicating.theSeries.color;
+ *				var symbolHeight = 15;
+ *				var symbolWidth = 40; 
+ *				legendCtx.fillRect(entryOriginX, entryOriginY, symbolWidth, symbolHeight);
+ *				legendCtx.legendCtx.fillText(series.text, entryOriginX + symbolWidth, entryOriginY + symbolHeight);
+ * 			}
+ * 		}
+ * }
+ * 
  */
 
 (function($) {
@@ -136,14 +177,13 @@
 //		  	previousEntryHeight = 0
 //		  	for each series in sortedSeries
 //		  		{nextEntryOriginX: Number, nextEntryOriginY: Number} = entryLayout(seriesIndex, previousEntryOriginX, previousEntryOriginY, previousEntryWidth, previousEntryHeight)
-//		  		{entryWidth:Number, entryHeight:Number} = entryRender(legendCtx, series, options, nextEntryOriginX, nextEntryOriginY, fontOptions)
+//		  		entryRender(legendCtx, series, options, nextEntryOriginX, nextEntryOriginY, fontOptions)
+//				{entryWidth:Number, entryHeight:Number} = size(legendCtx, series, options, nextEntryOriginX, nextEntryOriginY, fontOptions)
 //		  		previousEntryOriginX = nextEntryOriginX
-//		   	previousEntryOriginY = nextEntryOriginY
+//		   		previousEntryOriginY = nextEntryOriginY
 //		  		previousEntryWidth = entryWidth
-//		   	previousEntryHeight = entryHeight
+//		   		previousEntryHeight = entryHeight
 //		   
-		 
-
 		
 		var legendWidth = 0, legendHeight = 0;
 		var num_labels = 0;
