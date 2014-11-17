@@ -220,7 +220,7 @@ nar.ContributionDisplay = (function() {
 		});
 		
 		$closeLink.on('click', function() {
-			me.remove(containerSelector);
+			me.removePieChart(containerSelector);
 		});
 		
 		$( document ).tooltip();
