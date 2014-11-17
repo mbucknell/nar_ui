@@ -93,7 +93,7 @@
 		var LEGEND_BOX_LINE_HEIGHT = 18;
 	}
 	function ascendingAlphabeticalSort(seriesA, seriesB){
-		return seriesA.text > seriesB;
+		return seriesA.text > seriesB.text;
 	} 
 	// draws the legend on the canvas, using the HTML added by flot as a guide
 	function drawLegend(plot, plotCtx) {
@@ -134,37 +134,71 @@
 		var sortedSeries;
 		var sortedOption = options.legend.canvas.sorted; 
 		if(sortedOption){
-			if(true === sortedOption){
-				
+			if(true === sortedOption || 'ascending' === sortedOption){
+				sortedSeries = series.sort(ascendingAlphabeticalSort);
+			}
+			else if ('descending' === sortedOption){
+				sortedSeries = series.sort(ascendingAlphabeticalSort).reverse();
+			}
+			else if('reverse' === sortedOption){
+				sortedSeries = series.reverse();
+			}
+			else if ('function' === typeof sortedOption){
+				sortedSeries = series.sort(sortedOption);
+			}
+			else{
+				throw Error('Unrecognized value for "sorted" option');
 			}
 		}else{
 			sortedSeries = series;
 		}
-//		   sortedSeries = series.sortBy(sorted);
 //		 	 calculateLegendSize
-//		  		if size is function
-//		  			xExtremity = 0
-//		  			yExtremity = 0
-//		  			previousEntryOriginX = 0
-//		  			previousEntryOriginY = 0
-//		  			previousEntryWidth = 0			
-//		  			previousEntryHeight = 0
-//		  			
-//		  			for each series in sortedSeries
-//		  				{nextEntryOriginX: Number, nextEntryOriginY: Number} = entryLayout(seriesIndex, previousEntryOriginX, previousEntryOriginY, previousEntryWidth, previousEntryHeight)
-//		  				{entryWidth:Number, entryHeight:Number} = size(legendCtx, series, options, nextEntryOriginX, nextEntryOriginY, fontOptions)
-//		  				potentialXExtremity = nextEntryOriginX + entryWidth;
-//		  				potentialYExtremity = nextEntryOriginY + entryHeight;
-//		  				xExtremity = potentialXExtremity > xExtremity ? potentialXExtremity : xExtremity;
-//		   			yExtremity = potentialYExtremity > yExtremity ? potentialYExtremity : yExtremity;
-//		   			previousEntryOriginX = nextEntryOriginX
-//		   			previousEntryOriginY = nextEntryOriginY
-//		   			previousEntryWidth = entryWidth
-//		   			previousEntryHeight = entryHeight
-//		   
-//		  		else if size is a pair of numbers, use them
-//		  		else throw error
-//		  
+  		var entrySize = options.legend.canvas.entrySize;
+  		var seriesIndex,
+  			xExtremity = 0,
+			yExtremity = 0,
+			previousEntryOriginX = 0,
+  			previousEntryOriginY = 0,
+  			previousEntryWidth = 0,		
+  			previousEntryHeight = 0;
+  		
+		if ('function' === typeof entrySize){
+
+  			for(eriesIndex = 0; seriesIndex < sortedSeries.length; seriesIndex++){
+				var nextEntryOrigin = entryLayout(seriesIndex, previousEntryOriginX, previousEntryOriginY, previousEntryWidth, previousEntryHeight)
+				var nextEntryOriginX = nextEntryOrigin.nextEntryOriginX;
+				var nextEntryOriginY = nextEntryOrigin.nextEntryOriginY;
+				var thisEntrySize = entrySize(legendCtx, series, options, nextEntryOriginX, nextEntryOriginY, fontOptions);
+				var entryWidth = thisEntrySize.entryWidth;
+				var entryHeight = thisEntrySize.entryHeight;
+				potentialXExtremity = nextEntryOriginX + entryWidth;
+				potentialYExtremity = nextEntryOriginY + entryHeight;
+				xExtremity = potentialXExtremity > xExtremity ? potentialXExtremity : xExtremity;
+	   			yExtremity = potentialYExtremity > yExtremity ? potentialYExtremity : yExtremity;
+	   			previousEntryOriginX = nextEntryOriginX
+	   			previousEntryOriginY = nextEntryOriginY
+	   			previousEntryWidth = entryWidth
+	   			previousEntryHeight = entryHeight
+  			}
+		}
+		else if('number' === typeof entrySize.entryHeight && 'number' === typeof entrySize.entryWidth){
+  			for(seriesIndex = 0; seriesIndex < sortedSeries.length; seriesIndex++){
+				var nextEntryOrigin = entryLayout(seriesIndex, previousEntryOriginX, previousEntryOriginY, entrySize.entryWidth, entrySize.entryHeight)
+				var nextEntryOriginX = nextEntryOrigin.nextEntryOriginX;
+				var nextEntryOriginY = nextEntryOrigin.nextEntryOriginY;
+				potentialXExtremity = nextEntryOriginX + entrySize.entryWidth;
+				potentialYExtremity = nextEntryOriginY + entrySize.entryHeight;
+				xExtremity = potentialXExtremity > xExtremity ? potentialXExtremity : xExtremity;
+	   			yExtremity = potentialYExtremity > yExtremity ? potentialYExtremity : yExtremity;
+	   			previousEntryOriginX = nextEntryOriginX
+	   			previousEntryOriginY = nextEntryOriginY
+	   			previousEntryWidth = entryWidth
+	   			previousEntryHeight = entryHeight
+  			}
+		}
+		else{
+			throw Error('Unrecognized value for "entrySize" option');
+		}
 //		  	if options.legend.canvas.position
 //		  	 	legendOriginX, legendOriginY = calculateLegendPosition(options.legend.canvas.position, options.legend.canvas.margin, options.grid.borderWidth, legendWidth, legendHeight)
 //		   else
