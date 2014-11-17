@@ -26,8 +26,6 @@ nar.plots = nar.plots || {};
         
         var yaxes = [{
 			axisLabel: config.yaxisLabel,
-			axisLabelFontSizePixels: 10,
-			axisLabelFontFamily: "Verdana, Arial, Helvetica, Tahoma, sans-serif",
 			axisLabelPadding: 10,
 			tickLength: 10,
 			tickFormatter : function(val) {

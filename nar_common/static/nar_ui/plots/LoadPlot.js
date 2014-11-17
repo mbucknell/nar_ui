@@ -127,9 +127,7 @@ nar.plots = nar.plots || {};
 				plotConfig.auxData.push(makeHypoxicExtentConfig(tsViz.auxData.gulfHypoxicExtent)); 
 				plotConfig.secondaryYaxis = {
 					position : 'right',
-					axisLabel: 'Observed total hypoxic area,<br/>in thousands of square kilometers',
-					axisLabelFontSizePixels: 10,
-					axisLabelFontFamily: "Verdana, Arial, Helvetica, Tahoma, sans-serif",
+					axisLabel: 'Observed total hypoxic area, in thousands of square km',
 					axisLabelPadding: 10,
 					tickLength: 10,
 					tickFormatter : function(val) {
