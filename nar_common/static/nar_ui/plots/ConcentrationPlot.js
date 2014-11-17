@@ -12,7 +12,8 @@ nar.plots = nar.plots || {};
 			
 			plotConfig = {
 					yaxisLabel : 'Mean annual ' + constituentName + '<br/>concentration,<br/>in milligrams per liter',
-					showLongTermMean : true
+					showLongTermMean : true,
+					showLongTermMeanHover : true
 			};
 		}
 		else if (subcategory === 'flow_weighted') {
@@ -20,13 +21,14 @@ nar.plots = nar.plots || {};
 			
 			plotConfig = {
 					yaxisLabel : 'Annual flow-weighted<br/> ' + constituentName + ' concentration,<br/>in milligrams per liter',
-					showLongTermMean : true
+					showLongTermMean : true,
+					showLongTermMeanHover : true
 			};
 		}
 		
 		plotConfig.plotHoverFormatter = function(x, y) {
 			return nar.plots.PlotUtils.waterYearPlotHoverFormatter(x, y, 2);
-		}
+		};
 		
 		if (plotConfig) {
 			return nar.plots.createConstituentBarChart(tsViz, plotConfig);

@@ -12,6 +12,7 @@ nar.plots = nar.plots || {};
 		var plotConfig = {
 				yaxisLabel : constituentName + " load, in  tons",
 				showLongTermMean : true,
+				showLongTermMeanHover : true,
 				plotHoverFormatter : function(x, y) {
 					return nar.plots.PlotUtils.waterYearPlotHoverFormatter(x, y, 0)
 				}
@@ -35,7 +36,8 @@ nar.plots = nar.plots || {};
                 shadowSize : 0,
                 data : [[startDate, mean], [BASELINE_END_DATE, mean]],
                 yaxis : 1,
-                color : BASELINE_COLOR
+                color : BASELINE_COLOR,
+                hoverable : false
             };
         };
         
@@ -54,7 +56,8 @@ nar.plots = nar.plots || {};
                 shadowSize : 0,
                 data : [[TARGET_START_DATE, target], [endDate, target]],
                 yaxis : 1,
-                color : TARGET_LINE_COLOR
+                color : TARGET_LINE_COLOR,
+                hoverable : false
             };
         };
         
@@ -79,7 +82,8 @@ nar.plots = nar.plots || {};
                 shadowSize: 0,
                 data : data,
                 yaxis : 1,
-                color : MOVING_AVE_COLOR
+                color : MOVING_AVE_COLOR,
+                hoverable : false
             };
         };
         
@@ -103,7 +107,8 @@ nar.plots = nar.plots || {};
 				shadowSize : 0,
 				data : data,
 				yaxis : 2,
-				color : HYPOXIC_EXTENT_COLOR
+				color : HYPOXIC_EXTENT_COLOR,
+				hoverable : false
 			};
 		};
         
@@ -134,6 +139,9 @@ nar.plots = nar.plots || {};
 						return val / 1000;
 					}
 				};
+			}
+			if (plotConfig.auxData.length > 0) {
+	        	plotConfig.showLongTermMeanHover = false;
 			}
         }
         
