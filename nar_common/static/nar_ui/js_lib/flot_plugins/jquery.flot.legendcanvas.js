@@ -154,17 +154,17 @@
 		}
 //		 	 calculateLegendSize
   		var entrySize = options.legend.canvas.entrySize;
-  		var seriesIndex,
-  			xExtremity = 0,
-			yExtremity = 0,
-			previousEntryOriginX = 0,
+  		var seriesIndex;
+		var legendWidth = 0;
+		var legendHeight = 0;
+		var previousEntryOriginX = 0,
   			previousEntryOriginY = 0,
   			previousEntryWidth = 0,		
   			previousEntryHeight = 0;
   		
 		if ('function' === typeof entrySize){
 
-  			for(eriesIndex = 0; seriesIndex < sortedSeries.length; seriesIndex++){
+  			for(seriesIndex = 0; seriesIndex < sortedSeries.length; seriesIndex++){
 				var nextEntryOrigin = entryLayout(seriesIndex, previousEntryOriginX, previousEntryOriginY, previousEntryWidth, previousEntryHeight)
 				var nextEntryOriginX = nextEntryOrigin.nextEntryOriginX;
 				var nextEntryOriginY = nextEntryOrigin.nextEntryOriginY;
@@ -173,8 +173,8 @@
 				var entryHeight = thisEntrySize.entryHeight;
 				potentialXExtremity = nextEntryOriginX + entryWidth;
 				potentialYExtremity = nextEntryOriginY + entryHeight;
-				xExtremity = potentialXExtremity > xExtremity ? potentialXExtremity : xExtremity;
-	   			yExtremity = potentialYExtremity > yExtremity ? potentialYExtremity : yExtremity;
+				legendWidth = potentialXExtremity > legendWidth ? potentialXExtremity : legendWidth;
+				legendHeight = potentialYExtremity > legendHeight ? potentialYExtremity : legendHeight;
 	   			previousEntryOriginX = nextEntryOriginX
 	   			previousEntryOriginY = nextEntryOriginY
 	   			previousEntryWidth = entryWidth
@@ -188,8 +188,8 @@
 				var nextEntryOriginY = nextEntryOrigin.nextEntryOriginY;
 				potentialXExtremity = nextEntryOriginX + entrySize.entryWidth;
 				potentialYExtremity = nextEntryOriginY + entrySize.entryHeight;
-				xExtremity = potentialXExtremity > xExtremity ? potentialXExtremity : xExtremity;
-	   			yExtremity = potentialYExtremity > yExtremity ? potentialYExtremity : yExtremity;
+				legendWidth = potentialXExtremity > legendWidth ? potentialXExtremity : legendWidth;
+				legendHeight = potentialYExtremity > legendHeight ? potentialYExtremity : legendHeight;
 	   			previousEntryOriginX = nextEntryOriginX
 	   			previousEntryOriginY = nextEntryOriginY
 	   			previousEntryWidth = entryWidth
@@ -199,10 +199,16 @@
 		else{
 			throw Error('Unrecognized value for "entrySize" option');
 		}
-//		  	if options.legend.canvas.position
-//		  	 	legendOriginX, legendOriginY = calculateLegendPosition(options.legend.canvas.position, options.legend.canvas.margin, options.grid.borderWidth, legendWidth, legendHeight)
-//		   else
-//		    	legendOriginX, legendOriginY = (0,0) 
+		
+		var legendOriginX, legendOriginY;
+		
+	  	if(options.legend.canvas.position){
+		  	 	legendOriginX, legendOriginY = calculateLegendOrigin(options.legend.canvas.position, options.legend.canvas.margin, plotOffset, options.grid.borderWidth, legendWidth, legendHeight);
+	  	}
+		else{
+		    	legendOriginX = 0;
+		    	legendOriginY = 0; 
+		}
 //		  	
 //		  	background(legendCtx, legendOriginX, legendOriginY, legendWidth, legendHeight)
 //		  	previousEntryOriginX = 0
@@ -219,7 +225,7 @@
 //		   		previousEntryHeight = entryHeight
 //		   
 		
-		var legendWidth = 0, legendHeight = 0;
+
 		var num_labels = 0;
 		var s, label;
 		// get width of legend and number of valid legend entries
@@ -294,6 +300,12 @@
 		}
 	}
 	/**
+	 * @returns {}
+	 */
+	function calculateLegendOrigin(position, margin, plotOffset, borderWidth, legendWidth, legendHeight);{
+		
+	};
+	/**
 	 * @returns [Number, Number] - an array [the width of the drawn legend entry, and the height of the drawn legend entry]
 	 */
 	function boxLegend(legendCtx, series, options, posx, posy, labelFormatter, fontOptions){
@@ -307,7 +319,6 @@
 		legendCtx.fillStyle = "#FFF";
 		legendCtx.fillRect(posx + 1, posy + 1, 16, 12);
 		legendCtx.fillStyle = s.color;
-		legendCtx.fillRect(posx + 2, posy + 2, 14, 10);
 		posx = posx + 22;
 		posy = posy + f.size + 2;
 
