@@ -24,16 +24,21 @@
     </div><!--coastal_title-->
     
     <div id="region_coastal_content" class="row">
-        <div class="col-sm-6" id="region_coast_map_div">{{ request.GET.region }}</div>
+        <div class="col-sm-6" id="region_coast_map_div">
+            <div id="region_coast_map"></div>            
+        </div>
         <div class="col-sm-6" id="region_coast_graphs_div"></div>
     </div>
        
 </div><!--region_coastal_holder-->
 
-{% compress js %}
-<script type="text/javascript" src="{% static 'nar_ui/js_lib/OpenLayers/OpenLayers.debug.js' %}"></script>
 
-{% endcompress %}    
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/OpenLayers/OpenLayers.debug.js' %}"></script>
+{% compress js %}
+<script type="text/javascript" src="{% static 'nar_ui/mapCommons.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/coastal_region/main.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/coastal_region/map.js' %}"></script>
+{% endcompress %}
 {% endblock %}
         
     

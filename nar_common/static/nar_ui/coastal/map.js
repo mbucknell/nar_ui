@@ -165,6 +165,8 @@ nar.coastal.map = (function() {
 		//var level = map.getZoomForExtent(me.alaskaExtent)
 		//map.zoomTo(map.getZoomForExtent(me.alaskaExtent))
 		map.zoomToExtent(me.alaskaExtent, true);
+		
+		return map;
 	};
 	
 	return {
