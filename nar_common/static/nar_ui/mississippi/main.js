@@ -60,7 +60,7 @@ $(document).ready(function() {
 					{
 						layers : 'NAR:JD_NFSN_sites',
 						transparent : true,
-						styles: 'triangles'
+						styles: 'sites'
 					}, {
 						isBaseLayer : false,
 						visibility : false,
@@ -74,7 +74,7 @@ $(document).ready(function() {
 					CONFIG.endpoint.geoserver + 'NAR/wms', {
 						layers : 'NAR:MS_ATCH_delta',
 						transparent : true,
-						styles : 'triangles'
+						styles : 'sites'
 					}, {
 						isBaseLayer : false,
 						visibility : false
