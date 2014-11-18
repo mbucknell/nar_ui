@@ -45,11 +45,8 @@ class MississippiView(TemplateView):
 class CoastalView(TemplateView):
     template_name = 'nar_ui/coastal.html'
 
-class RegionalCoastalView(TemplateView):
-    template_name = 'nar_ui/temp_region_coastal.html'
-    
-class CoastalMoreView(TemplateView):
-    template_name = 'nar_ui/coastal-more.html'
+class CoastalRegionView(TemplateView):
+    template_name = 'nar_ui/region_coastal.html'
     
 class DownloadView(TemplateView):
     template_name = 'nar_ui/download.html'
