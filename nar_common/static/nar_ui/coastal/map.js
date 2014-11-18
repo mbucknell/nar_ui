@@ -13,6 +13,20 @@ nar.coastal.map = (function() {
 	me.alaskaExtent = new OpenLayers.Bounds(-175.0, 55.0, -135.0, 71.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection);
 	me.alaskaCenter = me.alaskaExtent.getCenterLonLat();
 	
+	me.createBaseLayer = function() {
+		return new OpenLayers.Layer.XYZ(
+				"World Topo Map",
+				"http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/${z}/${y}/${x}",
+				{
+					sphericalMercator : true,
+					layers: "0",
+					isBaseLayer : true,
+					units : "m",
+					buffer : 3,
+				}
+		);		
+	};
+	
 	me.createBasinLayer = function() {
 		return new OpenLayers.Layer.WMS(
 			'Coastal Basins',
@@ -36,7 +50,7 @@ nar.coastal.map = (function() {
 			{
 				layers : 'NAR:JD_NFSN_sites',
 				transparent : true,
-				styles: 'triangles',
+				styles: 'triangles13',
 				'CQL_FILTER' : "site_type = 'Coastal Rivers'"
 			}, {
 				isBaseLayer : false,
@@ -63,31 +77,34 @@ nar.coastal.map = (function() {
 						new OpenLayers.Control.Zoom()
 					],
 			layers : [
-				new OpenLayers.Layer.WMS(
-						"Lower 48",
-						GEOSERVER_URL,
-						{
-							layers:'NAR:statesl48_alb',
-							transparent: true,
-							styles : 'ms_grey_outline'
-						},{
-							isBaseLayer: true
-						}),
-						new OpenLayers.Layer.WMS(
-								'Major Streams',
-								GEOSERVER_URL,
-								{
-									layers: 'NAR:USA48_major_alb',
-									transparent: true,
-									styles : 'streams'
-								},
-								{
-									isBaseLayer : false
-								}
-						),
-						me.createBasinLayer(),
-						me.createSitesLayer()
-					]
+			          me.createBaseLayer(),
+			          new OpenLayers.Layer.WMS(
+			        		  "Lower 48",
+			        		  GEOSERVER_URL,
+			        		  {
+			        			  layers:'NAR:statesl48_alb',
+			        			  transparent: true,
+			        			  styles : 'ms_grey_outline'
+			        		  },{
+			        			  visibility : false,
+			        			  isBaseLayer: false
+			        		  }
+			          ),
+			          new OpenLayers.Layer.WMS(
+			        		  'Major Streams',
+			        		  GEOSERVER_URL,
+			        		  {
+			        			  layers: 'NAR:USA48_major_alb',
+			        			  transparent: true,
+			        			  styles : 'streams'
+			        		  },
+			        		  {
+			        			  isBaseLayer : false
+			        		  }
+			          ),
+			          me.createBasinLayer(),
+			          me.createSitesLayer()
+			         ]
 		});
 	};
 	
@@ -99,61 +116,40 @@ nar.coastal.map = (function() {
 			maxResolution : 10000.0,
 			projection : nar.commons.map.projection,
 			controls : [
-			            new OpenLayers.Control.ScaleLine({
-			            	geodesic : true
-			            }),
-//			            new OpenLayers.Control.MousePosition({
-//			                numDigits: 2,
-//			                displayProjection: nar.commons.map.geographicProjection
-//			            }),
-//			            new OpenLayers.Control.Navigation(),
-//						new OpenLayers.Control.Zoom()
-			            ],
+					new OpenLayers.Control.ScaleLine({
+						geodesic : true
+					}),
+			],
 			layers : [
-			          // TODO: Get a new AK_AKalb shapefile that can be used as a base layer. Then we can take out the street map.
-			          new OpenLayers.Layer.XYZ(
-			        		  "Streets",
-			        		  "http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/${z}/${y}/${x}",
-			        		  {
-			        			  sphericalMercator : true,
-			        			  layers: "0",
-			        			  isBaseLayer : true,
-			        			  projection : nar.commons.map.projection,
-			        			  units : "m",
-			        			  buffer : 3, 
-			        			  wrapDateLine : false
-			        		  }
-			          ),
-
+		          me.createBaseLayer(),
 		          new OpenLayers.Layer.WMS(
-		        		  "Alaska",
-			        		  GEOSERVER_URL,
-			        		  {
-			        			  layers : 'NAR:AK_AKalb',
-			        			  transparent : true,
-			        			  styles: 'ms_grey_outline',
-			        		  }, {
-			        			  isBaseLayer : false,
-			        			  transparent : false,
-			        		      projection : nar.commons.map.projection,
-			        			  units : 'm'
+	        		  "Alaska",
+		        		  GEOSERVER_URL,
+		        		  {
+		        			  layers : 'NAR:AK_AKalb',
+		        			  transparent : true,
+		        			  styles: 'ms_grey_outline',
+		        		  }, {
+		        			  visibility : false,
+		        			  isBaseLayer : false,
+		        			
+	        		  }
+		          ),
+		          new OpenLayers.Layer.WMS(
+		        		  "Alaska Major Streams",
+		        		  GEOSERVER_URL,
+		        		  {
+		        			  layers: 'NAR:AK_major_AKalb',
+		        			  transparent : true,
+		        			  styles : 'streams'
+		        		  },
+		        		  {
+		        			  isBaseLayer : false,
 		        		  }
-			          ),
-			          new OpenLayers.Layer.WMS(
-			        		  "Alaska Major Streams",
-			        		  GEOSERVER_URL,
-			        		  {
-			        			  layers: 'NAR:AK_major_AKalb',
-			        			  transparent : true,
-			        			  styles : 'streams'
-			        		  },
-			        		  {
-			        			  isBaseLayer : false,
-			        		  }
-			          ),
+		          ),
 			          me.createBasinLayer(),
 			          me.createSitesLayer(),
-			]
+		]
 		});
 	};
 	

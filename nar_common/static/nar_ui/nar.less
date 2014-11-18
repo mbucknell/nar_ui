@@ -61,6 +61,14 @@
 	background-color: #fee;
 	opacity: 0.80;
 }
+.flot-x-axis, .flot-y-axis {
+    font-family : Verdana, Arial, Helvetica, Tahoma, sans-serif;
+    font-size : 10px;
+}
+.axisLabels {
+    font-family : Verdana, Arial, Helvetica, Tahoma, sans-serif;
+    font-size : 11px;    
+}
 #alert {
 	display: none;
 	position: absolute;
@@ -736,7 +744,7 @@ select.last{margin-right:0;}
     left : @insetWidth + 20;
 }
  				
-#coastal_ak_map{
+#coastal_ak_map_div{
     position: absolute;
     bottom: 0px;
     
@@ -750,7 +758,6 @@ select.last{margin-right:0;}
 #coastal_ak_map {
     width: @insetWidth;
     height: @insetHeight;
-    background : @siteBackground;
 }				
   .coastal_filter{
   	background:@siteBackground;
