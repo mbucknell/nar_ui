@@ -48,5 +48,8 @@ class CoastalView(TemplateView):
 class RegionalCoastalView(TemplateView):
     template_name = 'nar_ui/temp_region_coastal.html'
     
+class CoastalMoreView(TemplateView):
+    template_name = 'nar_ui/coastal-more.html'
+    
 class DownloadView(TemplateView):
     template_name = 'nar_ui/download.html'
