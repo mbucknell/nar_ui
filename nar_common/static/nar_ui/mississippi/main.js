@@ -155,7 +155,7 @@ $(document).ready(function() {
 							$downloadLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-save'),' Download Data'),
 							$hiddenAutoFocus = $('<span />').addClass('hidden').attr('autofocus', ''),
 							data = feature.data,
-							title = data.qw_name,
+							title = virtualSite ? data.staname : data.qw_name,
 							id = virtualSite ? 'GULF': data.qw_id,
 							loadGraphData = {staname : title, siteId : id, isVirtual : virtualSite};
 						$mayLoadGraphsLink.data('feature', loadGraphData);
