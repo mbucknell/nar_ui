@@ -94,7 +94,7 @@ nar.commons.map = nar.commons.map || {};
 	            layers : nar.commons.map.sitesName,
 	            buffer: 8,
 	            transparent: true,
-	            styles: 'triangles'
+	            styles: 'sites'
 	        };
 	        
 	        var sitesLayer = new OpenLayers.Layer.WMS(

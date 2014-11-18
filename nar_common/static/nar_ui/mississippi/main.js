@@ -60,7 +60,7 @@ $(document).ready(function() {
 					{
 						layers : 'NAR:JD_NFSN_sites',
 						transparent : true,
-						styles: 'triangles'
+						styles: 'sites'
 					}, {
 						isBaseLayer : false,
 						visibility : false,
@@ -74,7 +74,7 @@ $(document).ready(function() {
 					CONFIG.endpoint.geoserver + 'NAR/wms', {
 						layers : 'NAR:MS_ATCH_delta',
 						transparent : true,
-						styles : 'triangles'
+						styles : 'sites'
 					}, {
 						isBaseLayer : false,
 						visibility : false
@@ -155,7 +155,7 @@ $(document).ready(function() {
 							$downloadLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-save'),' Download Data'),
 							$hiddenAutoFocus = $('<span />').addClass('hidden').attr('autofocus', ''),
 							data = feature.data,
-							title = data.qw_name,
+							title = virtualSite ? data.staname : data.qw_name,
 							id = virtualSite ? 'GULF': data.qw_id,
 							loadGraphData = {staname : title, siteId : id, isVirtual : virtualSite};
 						$mayLoadGraphsLink.data('feature', loadGraphData);
