@@ -6,7 +6,7 @@ from django.db import models
 class Definition(models.Model):
     
     term = models.CharField(unique=True, max_length=64)
-    short_definition = models.CharField(max_length=128)
+    short_definition = models.CharField(max_length=250)
     long_definition = models.CharField(max_length=1024)
     
     def __unicode__(self):
