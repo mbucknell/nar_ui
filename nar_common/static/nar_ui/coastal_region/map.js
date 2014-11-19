@@ -54,9 +54,24 @@ nar.coastalRegion.map = (function() {
 		);
 	};
 	
+	var createAlaskaOutlineLayer = function() {
+		return new OpenLayers.Layer.WMS(
+				"Alask",
+				GEOSERVER_URL,
+				{
+					layers : 'NAR:ak_alb',
+					transparent : true,
+					styles : 'ms_grey_outline'
+				},
+				{
+					isBaseLayer : true
+				}
+		);
+	}
+	
 	var createBasinLayer = function() {
 		return new OpenLayers.Layer.WMS(
-				CONFIG.region,
+				CONFIG.region + ' Basin',
 				GEOSERVER_URL,
 				{
 					layers: 'NAR:' + REGION_LAYER[CONFIG.region].inset,
@@ -69,7 +84,7 @@ nar.coastalRegion.map = (function() {
 	var createStreamsLayer = function() {
 		//TODO: Ignore Alaska for now
 		return new OpenLayers.Layer.WMS(
-				CONFIG.region,
+				CONFIG.region + ' Streams',
 				GEOSERVER_URL,
 				{
 					layers: 'NAR:' + REGION_LAYER[CONFIG.region].streams,
@@ -85,7 +100,7 @@ nar.coastalRegion.map = (function() {
 	
 	var createLabelsLayer = function() {
 		return new OpenLayers.Layer.WMS(
-				CONFIG.region,
+				CONFIG.region + 'Stream Names',
 				GEOSERVER_URL,
 				{
 					layers: 'NAR:' + REGION_LAYER[CONFIG.region].labels,
@@ -98,6 +113,13 @@ nar.coastalRegion.map = (function() {
 				}
 		);
 	};
+	
+	var createAlaskaLayers = function() {
+		return [
+		        new OpenLayers.Layer.WMS()
+		        ]
+	}
+	
 	
 	var createDefaultMapOptions = function() {
 		return {
