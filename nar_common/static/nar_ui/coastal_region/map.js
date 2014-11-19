@@ -12,31 +12,29 @@ nar.coastalRegion.map = (function() {
 			west : {inset : 'west_inset', streams : 'west_streams', labels : 'west_streamnames'},
 			alaska : {inset : 'westAKonly_inset', streams : 'westAKonly_streams', labels : 'westAKonly_streamnames'}
 	};
-	var NAR_NS = 'NAR:'
+	var NAR_NS = 'NAR:';
 	
 	var getFeatureBoundingBox = $.Deferred();
-	$.ajax({
+	
+	OpenLayers.Request.GET({
 		url: CONFIG.endpoint.geoserver + 'NAR/wfs',
-		data : {
+		params : {
 			service: 'wfs',
-			version: '2.0.0',
-			request: 'GetCapabilities',
+			version: '1.1.0',
+			request: 'GetCapabilities'	
 		},
-		dataType: 'xml',
-		type : 'GET',
-		success : function(data) {
-			var flist = $(data).find('FeatureType');
-			var lowerCorner, upperCorner;
-			flist.each(function() {
-				if ($(this).find('Name').text() === NAR_NS + REGION_LAYER[CONFIG.region].inset) {
-					lowerCorner = $(this).find('LowerCorner').text();
-					upperCorner = $(this).find('UpperCorner').text();
+		callback : function(request) {
+			var format = new OpenLayers.Format.WFSCapabilities.v1_1_0();
+			var response = format.read(request.responseXML);
+			response.featureTypeList.featureTypes.forEach(function(f) {
+				if (f.name === REGION_LAYER[CONFIG.region].inset) {
+					getFeatureBoundingBox.resolve(f.bounds);
 					return false;
 				}
 			});
-			getFeatureBoundingBox.resolve(OpenLayers.Bounds.fromString(lowerCorner.replace(' ', ',') + ',' + upperCorner.replace(' ', ',')));
+
 		},
-		error : function() {
+		failure : function() {
 			getFeatureBoundingBox.reject();
 		}
 	});
@@ -71,7 +69,7 @@ nar.coastalRegion.map = (function() {
 					isBaseLayer : false
 				}
 		);
-	}
+	};
 	
 	var createSitesLayer = function() {
 		return new OpenLayers.Layer.WMS(
@@ -195,12 +193,11 @@ nar.coastalRegion.map = (function() {
 			map.addLayer(createAlaskaOutlineLayer());
 			map.addLayers(createAlaskaBasinLayers());
 		}
+		map.zoomToExtent(mapUSExtent);
+
 		getFeatureBoundingBox.then(function(extent) {
 			map.zoomToExtent(extent.transform(nar.commons.map.geographicProjection, nar.commons.map.projection));
-		});
-
-		map.zoomToExtent(mapUSExtent);
-		
+		});		
 		return map;
 	};
 	
