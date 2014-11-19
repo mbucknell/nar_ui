@@ -50,7 +50,7 @@ urlpatterns = patterns('',
                        
     url(r'^mississippi$', MississippiView.as_view(), name="mississippi"),
     url(r'^coastal$', CoastalView.as_view(), name="coastal"),
-    url(r'^coastal-more$', CoastalMoreView.as_view(), name="coastal-more"),
+    url(r'^coastal_region$', CoastalRegionView.as_view(), name="coastal_region"),
     url(r'^download$', DownloadView.as_view(), name="download"),
     url(r'^site/(?P<site_id>\d*)/summary-report$', SiteSummaryReportView.as_view()),
     url(r'^site/(?P<site_id>\d*)/full-report$', SiteFullReportView.as_view()),
