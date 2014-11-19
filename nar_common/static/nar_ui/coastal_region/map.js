@@ -13,7 +13,8 @@ nar.coastalRegion.map = (function() {
 			alaska : {inset : 'westAKonly_inset', streams : 'westAKonly_streams', labels : 'westAKonly_streamnames'}
 	};
 	
-	var getBoundingBoxPromise = $.ajax({
+	var getFeatureBoundingBox = $.Deferred();
+	$.ajax({
 		url: CONFIG.endpoint.geoserver + 'NAR/wfs',
 		data : {
 			service: 'wfs',
@@ -32,7 +33,10 @@ nar.coastalRegion.map = (function() {
 					return false;
 				}
 			});
-			me.featureExtent = OpenLayers.Bounds.fromString(lowerCorner.replace(' ', ',') + ',' + upperCorner.replace(' ', ','));
+			getFeatureBoundingBox.resolve(OpenLayers.Bounds.fromString(lowerCorner.replace(' ', ',') + ',' + upperCorner.replace(' ', ',')));
+		},
+		error : function() {
+			getFeatureBoundingBox.reject();
 		}
 	});
 	
@@ -56,7 +60,7 @@ nar.coastalRegion.map = (function() {
 	
 	var createAlaskaOutlineLayer = function() {
 		return new OpenLayers.Layer.WMS(
-				"Alask",
+				"Alaska",
 				GEOSERVER_URL,
 				{
 					layers : 'NAR:ak_alb',
@@ -64,63 +68,116 @@ nar.coastalRegion.map = (function() {
 					styles : 'ms_grey_outline'
 				},
 				{
-					isBaseLayer : true
+					isBaseLayer : false
 				}
 		);
 	}
 	
-	var createBasinLayer = function() {
+	var createSitesLayer = function() {
 		return new OpenLayers.Layer.WMS(
-				CONFIG.region + ' Basin',
-				GEOSERVER_URL,
-				{
-					layers: 'NAR:' + REGION_LAYER[CONFIG.region].inset,
-					transparent: true,
-					styles : 'coastal_basins'
-				}
+			"Sites",
+			GEOSERVER_URL,
+			{
+				layers : 'NAR:JD_NFSN_sites',
+				transparent : true,
+				styles: 'sites13_with_names',
+				'CQL_FILTER' : "site_type = 'Coastal Rivers'"
+			}, {
+				isBaseLayer : false,
+				singleTile : true
+			}
 		);
 	};
 	
-	var createStreamsLayer = function() {
-		//TODO: Ignore Alaska for now
-		return new OpenLayers.Layer.WMS(
-				CONFIG.region + ' Streams',
-				GEOSERVER_URL,
-				{
-					layers: 'NAR:' + REGION_LAYER[CONFIG.region].streams,
-					transparent : true,
-					styles : 'streams'
-				},
-				{
-					isBaseLayer : false,
-					singleTile : true
-				}
-		);
-	};
-	
-	var createLabelsLayer = function() {
-		return new OpenLayers.Layer.WMS(
-				CONFIG.region + 'Stream Names',
-				GEOSERVER_URL,
-				{
-					layers: 'NAR:' + REGION_LAYER[CONFIG.region].labels,
-					transparent : true,
-					styles : 'stream_names'
-				},
-				{
-					isBaseLayer : false,
-					singleTile : true
-				}
-		);
-	};
-	
-	var createAlaskaLayers = function() {
+	var createBasinLayers = function() {
 		return [
-		        new OpenLayers.Layer.WMS()
-		        ]
-	}
+	        new OpenLayers.Layer.WMS(
+	        		CONFIG.region + ' Basin',
+					GEOSERVER_URL,
+					{
+						layers: 'NAR:' + REGION_LAYER[CONFIG.region].inset,
+						transparent: true,
+						styles : 'coastal_basins'
+					},
+					{
+						isBaseLayer : false,
+						singleTile : true
+					}
+	        ),
+	        new OpenLayers.Layer.WMS(
+					CONFIG.region + ' Streams',
+					GEOSERVER_URL,
+					{
+						layers: 'NAR:' + REGION_LAYER[CONFIG.region].streams,
+						transparent : true,
+						styles : 'streams'
+					},
+					{
+						isBaseLayer : false,
+						singleTile : true
+					}
+			),
+			new OpenLayers.Layer.WMS(
+					CONFIG.region + 'Stream Names',
+					GEOSERVER_URL,
+					{
+						layers: 'NAR:' + REGION_LAYER[CONFIG.region].labels,
+						transparent : true,
+						styles : 'stream_names'
+					},
+					{
+						isBaseLayer : false,
+						singleTile : true
+					}
+			)
+	        ];
+	};
 	
-	
+	var createAlaskaBasinLayers = function() {
+		return [
+		        new OpenLayers.Layer.WMS(
+		        		'Alaska Basin',
+						GEOSERVER_URL,
+						{
+							layers: 'NAR:' + REGION_LAYER.alaska.inset,
+							transparent: true,
+							styles : 'coastal_basins'
+						},
+						{
+							isBaseLayer : false,
+							singleTile : true
+						}
+		        		
+		        ),
+		        new OpenLayers.Layer.WMS(
+						'Alaska Streams',
+						GEOSERVER_URL,
+						{
+							layers: 'NAR:' + REGION_LAYER.alaska.streams,
+							transparent : true,
+							styles : 'streams'
+						},
+						{
+							isBaseLayer : false,
+							singleTile : true
+						}
+				),
+				new OpenLayers.Layer.WMS(
+						CONFIG.region + 'Stream Names',
+						GEOSERVER_URL,
+						{
+							layers: 'NAR:' + REGION_LAYER.alaska.labels,
+							transparent : true,
+							styles : 'stream_names'
+						},
+						{
+							isBaseLayer : false,
+							singleTile : true
+						}
+				)
+		        ];
+	};
+		
 	var createDefaultMapOptions = function() {
 		return {
 			projection : nar.commons.map.projection,
@@ -128,14 +185,18 @@ nar.coastalRegion.map = (function() {
 			restrictedExtent : mapUSExtent,
 			maxExtent : mapUSExtent,
 			controls : [new OpenLayers.Control.Navigation(), new OpenLayers.Control.Zoom()],
-			layers : [createBasinLayer(), createStatesBaseLayer(), createLabelsLayer(), createStreamsLayer()]
+			layers : [createStatesBaseLayer()].concat(createBasinLayers()).concat([createSitesLayer()])
 		};
 	};
 	
 	me.createRegionMap = function(mapDiv) {
 		var map = new OpenLayers.Map(mapDiv, createDefaultMapOptions());
-		getBoundingBoxPromise.then(function() {
-			map.zoomToExtent(me.featureExtent.transform(nar.commons.map.geographicProjection, nar.commons.map.projection));
+		if (CONFIG.region === 'west') {
+			map.addLayer(createAlaskaOutlineLayer());
+			map.addLayers(createAlaskaBasinLayers());
+		}
+		getFeatureBoundingBox.then(function(extent) {
+			map.zoomToExtent(extent.transform(nar.commons.map.geographicProjection, nar.commons.map.projection));
 		});
 
 		map.zoomToExtent(mapUSExtent);
