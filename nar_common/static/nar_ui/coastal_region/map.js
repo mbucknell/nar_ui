@@ -12,6 +12,7 @@ nar.coastalRegion.map = (function() {
 			west : {inset : 'west_inset', streams : 'west_streams', labels : 'west_streamnames'},
 			alaska : {inset : 'westAKonly_inset', streams : 'westAKonly_streams', labels : 'westAKonly_streamnames'}
 	};
+	var NAR_NS = 'NAR:'
 	
 	var getFeatureBoundingBox = $.Deferred();
 	$.ajax({
@@ -27,7 +28,7 @@ nar.coastalRegion.map = (function() {
 			var flist = $(data).find('FeatureType');
 			var lowerCorner, upperCorner;
 			flist.each(function() {
-				if ($(this).find('Name').text() === 'NAR:' + REGION_LAYER[CONFIG.region].inset) {
+				if ($(this).find('Name').text() === NAR_NS + REGION_LAYER[CONFIG.region].inset) {
 					lowerCorner = $(this).find('LowerCorner').text();
 					upperCorner = $(this).find('UpperCorner').text();
 					return false;
@@ -42,13 +43,12 @@ nar.coastalRegion.map = (function() {
 	
 	var mapUSExtent = new OpenLayers.Bounds(-175.0, 20.7, -66.4, 71.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection);
 
-	
 	var createStatesBaseLayer = function() {
 		return new OpenLayers.Layer.WMS(
 				"United States",
 				GEOSERVER_URL,
 				{
-					layers : 'NAR:statesl48_alb',
+					layers : NAR_NS + 'statesl48_alb',
 					transparent : true,
 					styles : 'ms_grey_outline'
 				},
@@ -63,7 +63,7 @@ nar.coastalRegion.map = (function() {
 				"Alaska",
 				GEOSERVER_URL,
 				{
-					layers : 'NAR:ak_alb',
+					layers : NAR_NS + 'ak_alb',
 					transparent : true,
 					styles : 'ms_grey_outline'
 				},
@@ -78,7 +78,7 @@ nar.coastalRegion.map = (function() {
 			"Sites",
 			GEOSERVER_URL,
 			{
-				layers : 'NAR:JD_NFSN_sites',
+				layers : NAR_NS + 'JD_NFSN_sites',
 				transparent : true,
 				styles: 'sites13_with_names',
 				'CQL_FILTER' : "site_type = 'Coastal Rivers'"
@@ -95,7 +95,7 @@ nar.coastalRegion.map = (function() {
 	        		CONFIG.region + ' Basin',
 					GEOSERVER_URL,
 					{
-						layers: 'NAR:' + REGION_LAYER[CONFIG.region].inset,
+						layers: NAR_NS + REGION_LAYER[CONFIG.region].inset,
 						transparent: true,
 						styles : 'coastal_basins'
 					},
@@ -108,7 +108,7 @@ nar.coastalRegion.map = (function() {
 					CONFIG.region + ' Streams',
 					GEOSERVER_URL,
 					{
-						layers: 'NAR:' + REGION_LAYER[CONFIG.region].streams,
+						layers: NAR_NS + REGION_LAYER[CONFIG.region].streams,
 						transparent : true,
 						styles : 'streams'
 					},
@@ -121,7 +121,7 @@ nar.coastalRegion.map = (function() {
 					CONFIG.region + 'Stream Names',
 					GEOSERVER_URL,
 					{
-						layers: 'NAR:' + REGION_LAYER[CONFIG.region].labels,
+						layers: NAR_NS + REGION_LAYER[CONFIG.region].labels,
 						transparent : true,
 						styles : 'stream_names'
 					},
@@ -139,7 +139,7 @@ nar.coastalRegion.map = (function() {
 		        		'Alaska Basin',
 						GEOSERVER_URL,
 						{
-							layers: 'NAR:' + REGION_LAYER.alaska.inset,
+							layers: NAR_NS + REGION_LAYER.alaska.inset,
 							transparent: true,
 							styles : 'coastal_basins'
 						},
@@ -153,7 +153,7 @@ nar.coastalRegion.map = (function() {
 						'Alaska Streams',
 						GEOSERVER_URL,
 						{
-							layers: 'NAR:' + REGION_LAYER.alaska.streams,
+							layers: NAR_NS + REGION_LAYER.alaska.streams,
 							transparent : true,
 							styles : 'streams'
 						},
@@ -166,7 +166,7 @@ nar.coastalRegion.map = (function() {
 						CONFIG.region + 'Stream Names',
 						GEOSERVER_URL,
 						{
-							layers: 'NAR:' + REGION_LAYER.alaska.labels,
+							layers: NAR_NS + REGION_LAYER.alaska.labels,
 							transparent : true,
 							styles : 'stream_names'
 						},
