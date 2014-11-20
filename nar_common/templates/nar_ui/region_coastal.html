@@ -27,7 +27,16 @@
         <div class="col-sm-6" id="region_coast_map_div">
             <div id="region_coast_map"></div>            
         </div>
-        <div class="col-sm-6" id="region_coast_graphs_div"></div>
+        <div class="col-sm-6" id="region_coast_graphs_div">
+            <div id="load_chart_div" class="row col-sm-12 region_graphs">
+                <h4>Load</h4>
+                <div id="load_flot_div" class="col-sm-12"></div>
+            </div>
+            <div id="yield_chart_div" class="row col-sm-12 region_graphs">
+                <h4>Yield</h4>
+                <div id="yield_flot_div" class="col-sm-12"></div>
+            </div>
+        </div>
     </div>
        
 </div><!--region_coastal_holder-->
@@ -36,8 +45,12 @@
 <script type="text/javascript" src="{% static 'nar_ui/js_lib/OpenLayers/OpenLayers.debug.js' %}"></script>
 {% compress js %}
 <script type="text/javascript" src="{% static 'nar_ui/mapCommons.js' %}"></script>
-<script type="text/javascript" src="{% static 'nar_ui/coastal_region/main.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/commons/WaterYearUtils.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/time_series/TimeRange.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/time_series/TimeSeries.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/time_series/TimeSeriesCollection.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/coastal_region/map.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/coastal_region/main.js' %}"></script>
 {% endcompress %}
 {% endblock %}
         
