@@ -66,14 +66,16 @@
 						var loadTSCollection = getTimeSeriesCollection(loadDataAvailability);
 						var yieldTSCollection = getTimeSeriesCollection(yieldDataAvailability);
 						
-						var loadDataPromise = loadTSCollection.retrieveData();
-						var yieldDataPromise = yieldTSCollection.retrieveData();
+						var loadDataPromises = loadTSCollection.retrieveData();
+						var yieldDataPromises = yieldTSCollection.retrieveData();
 						
-						$.when(loadDataPromise).then(function(response) {
+						$.when.apply(null, loadDataPromises).then(function() {
+							var tsData = loadTSCollection.getDataMerged();
 							console.log('Got Load Data');
 						});
 						
-						$.when(yieldDataPromise).then(function(response) {
+						$.when.apply(null, yieldDataPromises).then(function(response) {
+							var tsData = yieldTSCollection.getDataMerged();
 							console.log('Got Yield Data');
 						});
 					})
