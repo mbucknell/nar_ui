@@ -4,7 +4,6 @@ nar.coastalRegion = nar.coastalRegion || {};
 nar.coastalRegion.map = (function() {
 	var me = {};
 	var GEOSERVER_URL = CONFIG.endpoint.geoserver + 'NAR/wms';
-	
 	var REGION_LAYER = {
 			northeast : {inset : 'ne_inset', streams : 'ne_streams', labels : 'ne_streamnames'},
 			southeast : {inset : 'se_inset', streams : 'se_streams', labels : 'se_streamnames'},
@@ -12,7 +11,7 @@ nar.coastalRegion.map = (function() {
 			west : {inset : 'west_inset', streams : 'west_streams', labels : 'west_streamnames'},
 			alaska : {inset : 'westAKonly_inset', streams : 'westAKonly_streams', labels : 'westAKonly_streamnames'}
 	};
-	var NAR_NS = 'NAR:'
+	var NAR_NS = 'NAR:';
 	
 	var getFeatureBoundingBox = $.Deferred();
 	$.ajax({
@@ -71,7 +70,7 @@ nar.coastalRegion.map = (function() {
 					isBaseLayer : false
 				}
 		);
-	}
+	};
 	
 	var createSitesLayer = function() {
 		return new OpenLayers.Layer.WMS(

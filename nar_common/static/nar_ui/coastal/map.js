@@ -7,11 +7,59 @@ nar.coastal.map = (function() {
 	var GEOSERVER_URL = CONFIG.endpoint.geoserver + 'NAR/wms';
 	var me = {};
 	
+	// This is used to build the CONUS layers as well as identifying
+	// the layers to highlight. Mostly copied from coastal_region map.
+	me.REGION_LAYER = {
+			northeast : {inset : 'ne_inset'},
+			southeast : {inset : 'se_inset'},
+			gulf : {inset : 'gulf_inset'},
+			west : {inset : 'west_inset'}
+	};
+	me.NAR_NS = 'NAR:';
+	
+	// I memoize the maps created from the create* calls exposed by this object.
+	// At least the conus map is used to perform highlighting
+	me.us48Map = undefined;
+	me.alaskaMap = undefined;
+	
 	me.mapUS48Extent = new OpenLayers.Bounds(-136.5, 20.7, -66.4, 53.2).transform(nar.commons.map.geographicProjection, nar.commons.map.projection);
 	me.mapUS48Center = me.mapUS48Extent.getCenterLonLat();
 	
 	me.alaskaExtent = new OpenLayers.Bounds(-175.0, 55.0, -135.0, 71.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection);
 	me.alaskaCenter = me.alaskaExtent.getCenterLonLat();
+	
+	// Create a layer in a highlighted color and add it to the map, covering the basin
+	// it's supposed to be highlighting
+	me.addHighlightedBasin = function (insetName) {
+		if (insetName) {
+			var basinLayers = me.us48Map.getLayersByName(insetName),
+				highlightedBasinLayers = me.us48Map.getLayersByName(insetName + '_hl'),
+				highlightedLayer;
+			
+			// I only want to highlight if the basin layer I am trying to highlight:
+			// - exists
+			// - is not currently loading (I don't want to highlight blank space)
+			// - no highlighted layer already exists for this basin
+			if (basinLayers.length && !basinLayers[0].loading && !highlightedBasinLayers.length) {
+				highlightedLayer = basinLayers[0].clone();
+				highlightedLayer.name = insetName + '_hl';
+				highlightedLayer.mergeNewParams({
+					STYLES : 'coastal_basins_highlighted'
+				});
+				me.us48Map.addLayer(highlightedLayer);
+			}
+		}
+	};
+	
+	// I want to remove the highlighted basin layer from the map, if it exists
+	me.removeHighlightedBasin = function (insetName) {
+		if (insetName) {
+			var highlightedBasinLayers = me.us48Map.getLayersByName(insetName + '_hl');
+			if (highlightedBasinLayers.length) {
+				me.us48Map.removeLayer(highlightedBasinLayers[0]);
+			}
+		}
+	};
 	
 	me.createBaseLayer = function() {
 		return new OpenLayers.Layer.XYZ(
@@ -27,20 +75,46 @@ nar.coastal.map = (function() {
 		);		
 	};
 	
-	me.createBasinLayer = function() {
+	// Sets up all the conus basin layers
+	me.createBasinLayers = function() {
+		var layers = [];
+		Object.keys(me.REGION_LAYER, function (k,v) {
+			var inset = v.inset;
+			var layer =  new OpenLayers.Layer.WMS(
+	        		inset,
+					GEOSERVER_URL,
+					{
+						layers: inset,
+						transparent: true,
+						styles : 'coastal_basins'
+					},
+					{
+						isBaseLayer : false,
+						singleTile : true
+					}
+	        );
+			layers.push(layer);
+		});
+		
+		return layers;
+	};
+	
+	// Sets up the Alaska basin layer
+	me.createAlaskaBasinLayer = function () {
 		return new OpenLayers.Layer.WMS(
-			'Coastal Basins',
-			GEOSERVER_URL,
-			{
-				layers: 'NAR:all_coast_bas',
-				transparent : true,
-				styles: 'coastal_basins'
-			},
-			{
-				isBaseLayer : false,
-				singleTile : true
-			}
-		);
+        		'Alaska Basin',
+				GEOSERVER_URL,
+				{
+					layers: me.NAR_NS + 'westAKonly_inset',
+					transparent: true,
+					styles : 'coastal_basins'
+				},
+				{
+					isBaseLayer : false,
+					singleTile : true
+				}
+        		
+        );
 	};
 	
 	me.createSitesLayer = function() {
@@ -48,7 +122,7 @@ nar.coastal.map = (function() {
 			"Sites",
 			GEOSERVER_URL,
 			{
-				layers : 'NAR:JD_NFSN_sites',
+				layers : me.NAR_NS + 'JD_NFSN_sites',
 				transparent : true,
 				styles: 'sites13',
 				'CQL_FILTER' : "site_type = 'Coastal Rivers'"
@@ -57,6 +131,29 @@ nar.coastal.map = (function() {
 				singleTile : true
 			}
 		);
+	};
+	
+
+	me.createStreamsLayer = function() {
+		return new OpenLayers.Layer.WMS('Major Streams', GEOSERVER_URL, {
+			layers : me.NAR_NS + 'USA48_major_alb',
+			transparent : true,
+			styles : 'streams'
+		}, {
+			isBaseLayer : false
+		});
+	};
+	
+
+	me.createStatesLayer = function() {
+		return new OpenLayers.Layer.WMS("Lower 48", GEOSERVER_URL, {
+			layers : me.NAR_NS + 'statesl48_alb',
+			transparent : true,
+			styles : 'ms_grey_outline'
+		}, {
+			visibility : false,
+			isBaseLayer : false
+		});
 	};
 	
 	me.defaultMapOptions = {
@@ -78,36 +175,13 @@ nar.coastal.map = (function() {
 					],
 			layers : [
 			          me.createBaseLayer(),
-			          new OpenLayers.Layer.WMS(
-			        		  "Lower 48",
-			        		  GEOSERVER_URL,
-			        		  {
-			        			  layers:'NAR:statesl48_alb',
-			        			  transparent: true,
-			        			  styles : 'ms_grey_outline'
-			        		  },{
-			        			  visibility : false,
-			        			  isBaseLayer: false
-			        		  }
-			          ),
-			          new OpenLayers.Layer.WMS(
-			        		  'Major Streams',
-			        		  GEOSERVER_URL,
-			        		  {
-			        			  layers: 'NAR:USA48_major_alb',
-			        			  transparent: true,
-			        			  styles : 'streams'
-			        		  },
-			        		  {
-			        			  isBaseLayer : false
-			        		  }
-			          ),
-			          me.createBasinLayer(),
+			          me.createStatesLayer(),
+			          me.createStreamsLayer(),
 			          me.createSitesLayer()
-			         ]
+			         ].concat(me.createBasinLayers())
 		});
 	};
-	
+
 	me.createDefaultAlaskaMapOptions = function() {
 		return Object.merge(me.defaultMapOptions, {
 			extent : me.alaskaExtent,
@@ -126,7 +200,7 @@ nar.coastal.map = (function() {
 	        		  "Alaska",
 		        		  GEOSERVER_URL,
 		        		  {
-		        			  layers : 'NAR:AK_AKalb',
+		        			  layers : me.NAR_NS + 'AK_AKalb',
 		        			  transparent : true,
 		        			  styles: 'ms_grey_outline',
 		        		  }, {
@@ -139,7 +213,7 @@ nar.coastal.map = (function() {
 		        		  "Alaska Major Streams",
 		        		  GEOSERVER_URL,
 		        		  {
-		        			  layers: 'NAR:AK_major_AKalb',
+		        			  layers: me.NAR_NS + 'AK_major_AKalb',
 		        			  transparent : true,
 		        			  styles : 'streams'
 		        		  },
@@ -147,8 +221,8 @@ nar.coastal.map = (function() {
 		        			  isBaseLayer : false,
 		        		  }
 		          ),
-			          me.createBasinLayer(),
-			          me.createSitesLayer(),
+		          me.createAlaskaBasinLayer(),
+		          me.createSitesLayer()
 		]
 		});
 	};
@@ -161,9 +235,6 @@ nar.coastal.map = (function() {
 	
 	me.createAlaskaMap = function(mapDiv) {
 		var map = new OpenLayers.Map(mapDiv, me.createDefaultAlaskaMapOptions());
-		//map.setCenter(me.alaskaCenter, 3, true, true);
-		//var level = map.getZoomForExtent(me.alaskaExtent)
-		//map.zoomTo(map.getZoomForExtent(me.alaskaExtent))
 		map.zoomToExtent(me.alaskaExtent, true);
 		
 		return map;
@@ -171,11 +242,15 @@ nar.coastal.map = (function() {
 	
 	return {
 		createUS48Map : function(mapDiv) {
-			return me.createUS48Map.call(me, mapDiv);
+			me.us48Map = me.createUS48Map.call(me, mapDiv);
+			return me.us48Map;
 		},
 		createAlaskaMap : function(mapDiv) {
-			return me.createAlaskaMap.call(me, mapDiv);
-		}
+			me.alaskaMap = me.createAlaskaMap.call(me, mapDiv);
+			return me.alaskaMap;
+		},
+		addHighlightedBasin : me.addHighlightedBasin,
+		removeHighlightedBasin : me.removeHighlightedBasin
 	};
 	
 }());
