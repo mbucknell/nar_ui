@@ -40,7 +40,7 @@ nar.coastal.map = (function() {
 			// - exists
 			// - is not currently loading (I don't want to highlight blank space)
 			// - no highlighted layer already exists for this basin
-			if (basinLayers.length && !basinLayers[0].loading && !highlightedBasinLayers.length) {
+			if (basinLayers.length && !highlightedBasinLayers.length) {
 				highlightedLayer = basinLayers[0].clone();
 				highlightedLayer.name = insetName + '_hl';
 				highlightedLayer.mergeNewParams({
