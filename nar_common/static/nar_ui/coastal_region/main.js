@@ -87,11 +87,29 @@
 						
 						// Sort the data once received and plot.
 						$.when.apply(null, loadDataPromises).then(function() {
-							nar.plots.createCoastalBasinPlot('load_plot_div', loadTSCollections, basinFeatures, 'Tons', 'Load');
+							nar.plots.createCoastalBasinPlot({
+								plotDivId : 'load_plot_div', 
+								tsCollections : loadTSCollections, 
+								basinFeatures : basinFeatures, 
+								yaxisLabel : 'Tons', 
+								title : 'Load',
+								yaxisFormatter : function(format, value) {
+									return value.format(0);
+								}
+							});
 						});
 						
 						$.when.apply(null, yieldDataPromises).then(function() {
-							nar.plots.createCoastalBasinPlot('yield_plot_div', yieldTSCollections, basinFeatures, 'Tons per square mile', 'Yield');
+							nar.plots.createCoastalBasinPlot({
+									plotDivId : 'yield_plot_div', 
+									tsCollections : yieldTSCollections, 
+									basinFeatures : basinFeatures, 
+									yaxisLabel : 'Tons per square mile', 
+									title : 'Yield',
+									yaxisFormatter : function(format, value) {
+										return value.format(2);
+									}
+							});
 						});
 					})
 				.fail(

@@ -1,13 +1,16 @@
 var nar = nar || {};
 nar.plots = nar.plots || {};
 
-/*
- * @param {String} plotDivId - id of div to create plot
- * @param {Array of TimeSeries.Collection} tsCollections
- * @param {Array of WFS features} basinFeatures - Each element in basinFeatures is represented by matching element in tsCollections
+/* @typedef config
+ * @property {String} plotDivId - id of div to create plot
+ * @property {Array of TimeSeries.Collection} tsCollections
+ * @property {Array of WFS features} basinFeatures - Each element in basinFeatures is represented by matching element in tsCollections
+ * @property {String} yaxisLabel (optional)
+ * @property {String} title (optional)
+ * @property {Function} yaxisFormatter (optional) - function takes a floating point number and returns a string.
  * @return jqplot
  */
-nar.plots.createCoastalBasinPlot = function (plotDivId, tsCollections, basinFeatures, yaxisLabel, title){
+nar.plots.createCoastalBasinPlot = function (config){
 	var avgData = [];
 	var currentYearData = [];
 	
@@ -15,7 +18,18 @@ nar.plots.createCoastalBasinPlot = function (plotDivId, tsCollections, basinFeat
 		return parseFloat(dataPoint[1]);
 	};
 	
-	tsCollections.forEach(function(tsC) {
+	var ticks = config.basinFeatures.map(function(feature) {
+		return feature.attributes.STANAME.first(15); //TODO use new attribute from shapefile
+	});
+	
+	var yTickOptions = {};
+	
+	if (Object.has(config, 'yaxisFormatter')) {
+		yTickOptions.formatter = config.yaxisFormatter;
+	}
+	
+	// Create data series for each collection for the avg up to the current water year and the current year.
+	config.tsCollections.forEach(function(tsC) {
 		var sortedData = tsC.getDataMerged();
 		var splitData = nar.plots.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(sortedData);
 		
@@ -33,11 +47,8 @@ nar.plots.createCoastalBasinPlot = function (plotDivId, tsCollections, basinFeat
 		}
 	});
 	
-	var ticks = basinFeatures.map(function(feature) {
-		return feature.attributes.STANAME.first(15); //TODO use new attribute from shapefile
-	});
-	
-	var plot = $.jqplot(plotDivId, [avgData, currentYearData], {
+	// Create bar plot
+	$.jqplot(config.plotDivId, [avgData, currentYearData], {
 		seriesDefaults : {
 			renderer: $.jqplot.BarRenderer,
 			rendererOptions :  {
@@ -57,11 +68,12 @@ nar.plots.createCoastalBasinPlot = function (plotDivId, tsCollections, basinFeat
 			location : 'nw'
 		},
 		title: {
-			text: title,
-			show : true
+			text: config.title,
+			show : Object.has(config, 'title')
 		},
 		grid: {
-			drawGridlines : false
+			drawGridlines : false,
+			shadow : false
 		},
 		axes : {
 			xaxis: {
@@ -69,14 +81,10 @@ nar.plots.createCoastalBasinPlot = function (plotDivId, tsCollections, basinFeat
 				ticks: ticks,
 			},
 			yaxis: {
-				label : yaxisLabel,
-				showLabel : true,
+				label : config.yaxisLabel,
+				showLabel : Object.has(config, 'yaxisLabel'),
 				labelRenderer : $.jqplot.CanvasAxisLabelRenderer,
-				tickOptions : {
-					formatter : function(format, value) {
-						return value.format();
-					}
-				}
+				tickOptions : yTickOptions
 			}
 		},
 		highlighter : {
@@ -88,6 +96,4 @@ nar.plots.createCoastalBasinPlot = function (plotDivId, tsCollections, basinFeat
 		}
 		
 	});
-	
-	return plot;
 };
