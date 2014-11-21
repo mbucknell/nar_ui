@@ -4,7 +4,6 @@ nar.coastalRegion = nar.coastalRegion || {};
 nar.coastalRegion.map = (function() {
 	var me = {};
 	var GEOSERVER_URL = CONFIG.endpoint.geoserver + 'NAR/wms';
-	
 	var REGION_LAYER = {
 			northeast : {inset : 'ne_inset', streams : 'ne_streams', labels : 'ne_streamnames'},
 			southeast : {inset : 'se_inset', streams : 'se_streams', labels : 'se_streamnames'},
