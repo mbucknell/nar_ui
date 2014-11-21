@@ -1,35 +1,41 @@
 (function() {
 	var coastalRegionMap = nar.coastalRegion.map(CONFIG.endpoint.geoserver, CONFIG.region);
-	var getBasinFeatureInfoPromise = coastalRegionMap.getBasinFeatureInfoPromise(['STAID']);
+	var getBasinFeatureInfoPromise = coastalRegionMap.getBasinFeatureInfoPromise(['STAID', 'STANAME']);
 	
 	var dataTimeRange = new nar.timeSeries.TimeRange(new Date(1992, 10, 1).getTime(), new Date(CONFIG.currentWaterYear, 9, 30).getTime());
 	/*
 	 * @param Array of data availability objects from call to GetDataAvailability
 	 * @return TimeSeries.Collection containing a time series for each object in availability
 	 */
-	var getTimeSeriesCollection = function(availability) {
-		var result = new nar.timeSeries.Collection();
-		
-		availability.each(function(value) {
-			var ts = new nar.timeSeries.TimeSeries({
-				timeRange : dataTimeRange,
-				observedProperty : value.observedProperty,
-				procedure : value.procedure,
-				featureOfInterest : value.featureOfInterest
-			});
-			result.add(ts);
-		});
-		return result;
-	};
-
+	
 	$(document).ready(function() {
 		"use strict";
 		
-		var basinFeatures;
 		var map = coastalRegionMap.createRegionMap('region_coast_map');
 		
+		var getTimeSeriesCollection = function(forFeature, availability) {
+			var result = new nar.timeSeries.Collection();
+			
+			var thisFeatureAvailability = availability.filter(function (value) {
+				return value.featureOfInterest === forFeature;
+			});
+			
+			thisFeatureAvailability.each(function(value) {
+				var ts = new nar.timeSeries.TimeSeries({
+					timeRange : dataTimeRange,
+					observedProperty : value.observedProperty,
+					procedure : value.procedure,
+					featureOfInterest : value.featureOfInterest
+				});
+				result.add(ts);
+			});
+			return result;
+		};
+
+		
 		getBasinFeatureInfoPromise.then(function(response) {
-			var basinSiteIds = response.map(function(value) {
+			var basinFeatures = response;
+			var basinSiteIds = basinFeatures.map(function(value) {
 				return value.attributes.STAID;
 			});
 			
@@ -48,6 +54,7 @@
 				})
 			});
 			
+			// We need to do this by featureOfInterest
 			$.when(getDataAvailability)
 				.then(
 					function(availability) {
@@ -59,24 +66,32 @@
 							return (value.procedure.has('annual_yield/') && !value.procedure.has('COMP'));
 						});
 						
-						if ((loadDataAvailability.length === 0) && (yieldDataAvailability.length === 0)) {
-							throw Error('No load or yield data available for this basin');
-						}
-						
-						var loadTSCollection = getTimeSeriesCollection(loadDataAvailability);
-						var yieldTSCollection = getTimeSeriesCollection(yieldDataAvailability);
-						
-						var loadDataPromises = loadTSCollection.retrieveData();
-						var yieldDataPromises = yieldTSCollection.retrieveData();
-						
-						$.when.apply(null, loadDataPromises).then(function() {
-							var tsData = loadTSCollection.getDataMerged();
-							console.log('Got Load Data');
+						var loadTSCollections = [];
+						var yieldTSCollections = [];
+						basinSiteIds.forEach(function(id) {
+							loadTSCollections.push(getTimeSeriesCollection(id, loadDataAvailability));
+							yieldTSCollections.push(getTimeSeriesCollection(id, yieldDataAvailability));
 						});
 						
-						$.when.apply(null, yieldDataPromises).then(function(response) {
-							var tsData = yieldTSCollection.getDataMerged();
-							console.log('Got Yield Data');
+						// 
+						var loadDataPromises = [];
+						var yieldDataPromises = [];
+						
+						// Retrieve data for each time series collection
+						loadTSCollections.forEach(function(tsCollection) {
+							loadDataPromises = loadDataPromises.concat(tsCollection.retrieveData());
+						});
+						yieldTSCollections.forEach(function(tsCollection) {
+							yieldDataPromises = yieldDataPromises.concat(tsCollection.retrieveData());
+						});
+						
+						// Sort the data once received and plot.
+						$.when.apply(null, loadDataPromises).then(function() {
+							nar.plots.createCoastalBasinPlot('load_plot_div', loadTSCollections, basinFeatures, 'Tons', 'Load');
+						});
+						
+						$.when.apply(null, yieldDataPromises).then(function() {
+							nar.plots.createCoastalBasinPlot('yield_plot_div', yieldTSCollections, basinFeatures, 'Tons per square mile', 'Yield');
 						});
 					})
 				.fail(
