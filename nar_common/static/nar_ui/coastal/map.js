@@ -6,6 +6,8 @@ nar.coastal.map = (function() {
 	
 	var GEOSERVER_URL = CONFIG.endpoint.geoserver + 'NAR/wms';
 	var me = {};
+	var alaskaSitesLayer;
+	var coastalMapId = 'coastal_map';
 	
 	// This is used to build the CONUS layers as well as identifying
 	// the layers to highlight. Mostly copied from coastal_region map.
@@ -181,7 +183,11 @@ nar.coastal.map = (function() {
 							geodesic: true
 						}),
 						new OpenLayers.Control.Navigation(),
-						new OpenLayers.Control.Zoom()
+						new OpenLayers.Control.Zoom(),
+						new nar.SiteIdentificationControl({
+					    	layers : [alaskaSitesLayer],
+					    	popupAnchor : '#' + coastalMapId
+					    })
 					],
 			layers : [
 			          me.createBaseLayer(),
@@ -192,6 +198,7 @@ nar.coastal.map = (function() {
 		});
 	};
 
+	alaskaSitesLayer = me.createSitesLayer();
 	me.createDefaultAlaskaMapOptions = function() {
 		return Object.merge(me.defaultMapOptions, {
 			extent : me.alaskaExtent,
@@ -203,6 +210,11 @@ nar.coastal.map = (function() {
 					new OpenLayers.Control.ScaleLine({
 						geodesic : true
 					}),
+					new nar.SiteIdentificationControl({
+				    	layers : [alaskaSitesLayer],
+				    	popupAnchor : '#' + coastalMapId,
+				    	popupWidth : $('#' + coastalMapId).width() / 1.5
+				    })
 			],
 			layers : [
 		          me.createBaseLayer(),
@@ -232,7 +244,7 @@ nar.coastal.map = (function() {
 		        		  }
 		          ),
 		          me.createAlaskaBasinLayer(),
-		          me.createSitesLayer()
+		          alaskaSitesLayer
 		]
 		});
 	};

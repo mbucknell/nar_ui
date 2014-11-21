@@ -68,8 +68,11 @@
 </div><!--coastal_holder-->
 
 {% compress js %}
+<link rel="stylesheet" href="{% static 'nar_ui/js_lib/jquery-ui/css/ui-lightness/jquery-ui.min.css' %}"/>
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/jquery-ui/jquery-ui.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/js_lib/OpenLayers/OpenLayers.debug.js' %}"></script>
-
+<script type="text/javascript" src="{% static 'nar_ui/commons/SiteIdentificationControl.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/commons/sitePopup.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/mapCommons.js' %}"></script>
 
 <script type="text/javascript" src="{% static 'nar_ui/coastal/map.js' %}"></script>
