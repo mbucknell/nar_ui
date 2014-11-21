@@ -13,7 +13,8 @@ nar.coastal.map = (function() {
 			northeast : {inset : 'ne_inset'},
 			southeast : {inset : 'se_inset'},
 			gulf : {inset : 'gulf_inset'},
-			west : {inset : 'west_inset'}
+			west : {inset : 'west_inset'},
+			alaska : {inset : 'westAKonly_inset'}
 	};
 	me.NAR_NS = 'NAR:';
 	
@@ -30,34 +31,43 @@ nar.coastal.map = (function() {
 	
 	// Create a layer in a highlighted color and add it to the map, covering the basin
 	// it's supposed to be highlighting
-	me.addHighlightedBasin = function (insetName) {
-		if (insetName) {
-			var basinLayers = me.us48Map.getLayersByName(insetName),
-				highlightedBasinLayers = me.us48Map.getLayersByName(insetName + '_hl'),
-				highlightedLayer;
-			
-			// I only want to highlight if the basin layer I am trying to highlight:
-			// - exists
-			// - is not currently loading (I don't want to highlight blank space)
-			// - no highlighted layer already exists for this basin
-			if (basinLayers.length && !highlightedBasinLayers.length) {
-				highlightedLayer = basinLayers[0].clone();
-				highlightedLayer.name = insetName + '_hl';
-				highlightedLayer.mergeNewParams({
-					STYLES : 'coastal_basins_highlighted'
+	me.addHighlightedBasin = function (insetNames) {
+		if (insetNames && insetNames.length) {
+			insetNames.forEach(function (insetName) {
+				[me.us48Map, me.alaskaMap].forEach(function (map) {
+					var basinLayers = map.getLayersByName(insetName),
+						highlightedBasinLayers = map.getLayersByName(insetName + '_hl'),
+						highlightedLayer;
+				
+					// I only want to highlight if the basin layer I am trying to highlight:
+					// - exists
+					// - is not currently loading (I don't want to highlight blank space)
+					// - no highlighted layer already exists for this basin
+					if (basinLayers.length && !highlightedBasinLayers.length) {
+						highlightedLayer = basinLayers[0].clone();
+						highlightedLayer.name = insetName + '_hl';
+						highlightedLayer.mergeNewParams({
+							STYLES : 'coastal_basins_highlighted'
+						});
+						map.addLayer(highlightedLayer);
+					}
 				});
-				me.us48Map.addLayer(highlightedLayer);
-			}
+			});
+			
 		}
 	};
 	
 	// I want to remove the highlighted basin layer from the map, if it exists
-	me.removeHighlightedBasin = function (insetName) {
-		if (insetName) {
-			var highlightedBasinLayers = me.us48Map.getLayersByName(insetName + '_hl');
-			if (highlightedBasinLayers.length) {
-				me.us48Map.removeLayer(highlightedBasinLayers[0]);
-			}
+	me.removeHighlightedBasin = function (insetNames) {
+		if (insetNames && insetNames.length) {
+			insetNames.forEach(function(insetName) {
+				[me.us48Map, me.alaskaMap].forEach(function (map) { 
+					var highlightedBasinLayers = map.getLayersByName(insetName + '_hl');
+					if (highlightedBasinLayers.length) {
+						map.removeLayer(highlightedBasinLayers[0]);
+					}
+				});
+			});
 		}
 	};
 	
@@ -102,10 +112,10 @@ nar.coastal.map = (function() {
 	// Sets up the Alaska basin layer
 	me.createAlaskaBasinLayer = function () {
 		return new OpenLayers.Layer.WMS(
-        		'Alaska Basin',
+				me.REGION_LAYER.alaska.inset,
 				GEOSERVER_URL,
 				{
-					layers: me.NAR_NS + 'westAKonly_inset',
+					layers: me.NAR_NS + me.REGION_LAYER.alaska.inset,
 					transparent: true,
 					styles : 'coastal_basins'
 				},

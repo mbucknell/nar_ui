@@ -9,14 +9,14 @@ $(document).ready(function() {
 		hoverHandler = function (e) {
 			var $link = $(this), 
 				data = $link.data(),
-				region = data.region,
+				regions = data.region.split(','),
 				map = nar.coastal.map,
 				isHovering = e.type === 'mouseenter';
 			
 			if (isHovering) {
-				map.addHighlightedBasin(region);
+				map.addHighlightedBasin(regions);
 			} else {
-				map.removeHighlightedBasin(region);
+				map.removeHighlightedBasin(regions);
 			}
 		};
 	
