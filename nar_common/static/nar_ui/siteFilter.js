@@ -22,19 +22,19 @@ var nar = nar || {};
 		},
 		writeCQLFilter : function() {
 			var selectedTypes = getSelectedTypes();
-			var cqlFilter = "c3type IS NOT NULL";
+			var cqlFilter = "site_type IS NOT NULL";
 			if (selectedTypes && 0 < selectedTypes.length) {
-				cqlFilter = "c3type IN ('" + selectedTypes.join("','") + "')";
+				cqlFilter = "site_type IN ('" + selectedTypes.join("','") + "')";
 			}
 			return cqlFilter;
 		},
 		writeOGCFilter : function() {
 			var selectedTypes = getSelectedTypes();
-			var ogcFilter = nar.siteFilter.filterBuilder.notNull("c3type");
+			var ogcFilter = nar.siteFilter.filterBuilder.notNull("site_type");
 			if (selectedTypes && 0 < selectedTypes.length) {
 				var filters = [];
 				selectedTypes.each(function(type) {
-					var filter = nar.siteFilter.filterBuilder.equalTo("c3type", type);
+					var filter = nar.siteFilter.filterBuilder.equalTo("site_type", type);
 					filters.add(filter);
 				});
 				ogcFilter = nar.siteFilter.filterBuilder.or(filters);
@@ -60,10 +60,10 @@ var nar = nar || {};
 			nar.commons.mapUtils.getData(protocol, filter, function(response) {
 				if (response.success()) {
 					response.features.sortBy(function(feature){
-						return feature.data.c3type;
+						return feature.data.site_type;
 					}).each(function(feature) {
 						var site = new nar.siteFilter.Site(feature.data.staid,
-							feature.data.staname, feature.data.c3type);
+							feature.data.staname, feature.data.site_type);
 						doThis(site);
 					});
 				} else {

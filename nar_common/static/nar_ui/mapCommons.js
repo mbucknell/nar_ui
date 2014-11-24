@@ -6,7 +6,7 @@ nar.commons.map = nar.commons.map || {};
 	nar.commons.map.projection = new OpenLayers.Projection('EPSG:900913');
 	nar.commons.map.geographicProjection = new OpenLayers.Projection('EPSG:4326');
 	nar.commons.map.narNamespace = 'http://cida.usgs.gov/NAR';
-	nar.commons.map.sitesName = 'NAWQA100_cy3fsmn';
+	nar.commons.map.sitesName = 'JD_NFSN_sites';
 	
 	nar.commons.map.theme = CONFIG.staticUrl + 'nar_ui/js_lib/OpenLayers/theme/default/style.css';
 	
