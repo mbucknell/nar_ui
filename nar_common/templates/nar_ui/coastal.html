@@ -10,9 +10,7 @@
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 coastal_title">
 	
 		<h3>Nitrate Loads and Yields in Coastal Rivers</h3>
-		
-		<a href=""><button id="reset" class="additional">Back to Map</button></a>
-			
+					
 		<a href="{% url 'download' %}"><button id="coastalDownload" class="additional">Download Data</button></a>
 	
 	</div><!--coastal_title-->
@@ -20,6 +18,8 @@
 	<div class="row coastal_content">
 	
 		<div class="col-lg-10 col-md-10 col-sm-9 col-xs-9" id="coastal_map"></div>
+		
+		  <div id="coastal_ak_map_div"><div id="coastal_ak_map"></div></div>
 		
 		<div class="col-lg-2 col-md-2 col-sm-3 col-xs-3 coastal_filter">
 		
@@ -29,13 +29,13 @@
 			
 			</div>
 			
-			<button>Northeast</button>
+			<a class="link_coastal_region" data-region="ne_inset" href="{% url 'coastal_region' %}?region=northeast"><button>Northeast</button></a>
 			
-			<button>Southeast</button>
+			<a class="link_coastal_region" data-region="se_inset" href="{% url 'coastal_region' %}?region=southeast"><button>Southeast</button></a>
 			
-			<button>Gulf</button>
+			<a class="link_coastal_region" data-region="gulf_inset" href="{% url 'coastal_region' %}?region=gulf"><button>Gulf</button></a>
 			
-			<button>West</button>
+			<a class="link_coastal_region" data-region="west_inset,westAKonly_inset" href="{% url 'coastal_region' %}?region=west"><button>West</button></a>
 			
 			<ul>
 			
@@ -68,8 +68,11 @@
 </div><!--coastal_holder-->
 
 {% compress js %}
+<link rel="stylesheet" href="{% static 'nar_ui/js_lib/jquery-ui/css/ui-lightness/jquery-ui.min.css' %}"/>
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/jquery-ui/jquery-ui.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/js_lib/OpenLayers/OpenLayers.debug.js' %}"></script>
-
+<script type="text/javascript" src="{% static 'nar_ui/commons/SiteIdentificationControl.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/commons/sitePopup.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/mapCommons.js' %}"></script>
 
 <script type="text/javascript" src="{% static 'nar_ui/coastal/map.js' %}"></script>

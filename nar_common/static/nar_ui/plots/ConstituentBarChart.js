@@ -7,6 +7,8 @@ nar.plots = nar.plots || {};
 	 * @typedef nar.plot.ConstituentBarChartConfig
 	 * @property {String} yaxisLabel - 
 	 * @property {Boolean} showLongTermMean
+	 * @property {Boolean} showLongTermMeanHover
+	 * @property {Function} plotHoverFormatter - function takes an x,y and returns String to be used for the plot hover. 
 	 * @property {Array of data series Object} auxData - for each series, should set yaxis to 1 if plotted on the same access as the
 	 * 		timeSeries data or 2 if plotted on a separate axis
 	 * @property {jqueryFlot axis } secondaryYaxis - Only used if auxData is defined
@@ -25,8 +27,6 @@ nar.plots = nar.plots || {};
         
         var yaxes = [{
 			axisLabel: config.yaxisLabel,
-			axisLabelFontSizePixels: 10,
-			axisLabelFontFamily: "Verdana, Arial, Helvetica, Tahoma, sans-serif",
 			axisLabelPadding: 10,
 			tickLength: 10,
 			tickFormatter : function(val) {
@@ -80,6 +80,8 @@ nar.plots = nar.plots || {};
 		var longTermMean;
 		
 		var series = [previousYearsSeries, currentYearSeries];
+		
+		
 		if (config.showLongTermMean) {
 			longTermMean = nar.plots.PlotUtils.calculateLongTermAverage(tsViz);
 			series.push(makeLongTermMeanSeries(longTermMean, constituentInfo.colors.longTermMean));
@@ -107,12 +109,11 @@ nar.plots = nar.plots || {};
             grid:{
                 hoverable: true
             },
-//            colors:[previousYearsColor, currentYearColor, longTermMeanColor, baselineColor, targetColor, movingAveColor] 
         });
 		
-		var hoverFormatter = nar.plots.PlotUtils.utcDatePlotHoverFormatter;
+		var hoverFormatter = (config.plotHoverFormatter) ? config.plotHoverFormatter : nar.plots.PlotUtils.utcDatePlotHoverFormatter;
         nar.plots.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
-        if (config.showLongTermMean) {
+        if (config.showLongTermMean && config.showLongTermMeanHover) {
 			nar.plots.PlotUtils.setLineHoverFormatter(plotContainer, longTermMean, nar.definitions.longTermMean.short_definition);
         }
         

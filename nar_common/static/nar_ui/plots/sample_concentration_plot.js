@@ -101,8 +101,14 @@ nar.plots = nar.plots || {};
             legend: {
                    show: false
             },
-            colors:[previousYearsColor, currentYearColor, criteriaLineColor]
+            colors:[previousYearsColor, currentYearColor, criteriaLineColor],
+            grid:{
+                hoverable: true
+            }
         });
+        
+        var hoverFormatter = nar.plots.PlotUtils.utcDatePlotHoverFormatter;
+        nar.plots.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
         
         if (useCriteriaLine) {
 			var criteriaLineDescription = 'EPA MCL = ' +

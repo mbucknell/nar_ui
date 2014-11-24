@@ -171,7 +171,7 @@
 		         <sourceExcludes>
 		         	<include>map.js</include>
 		         	<include>inset.js</include>
-		            <include>mapCommons.js</include>
+		         	<include>mapCommons.js</include>
 		         	<include>summary_report/main.js</include>
 		         	<include>full_report/main.js</include>
 		         	<include>mississippi/main.js</include>

@@ -168,6 +168,9 @@ nar.plots = nar.plots || {};
             var formatted = dateStr + " : " + y;
             return formatted;
         },
+        waterYearPlotHoverFormatter : function(x, y, yPrecision) {
+        	return nar.WaterYearUtils.convertDateToWaterYear(x) + ' : ' + y.format(yPrecision);        	
+		},
         /**
          * Pulling out tick formatter for testing it
          * Note, only works for powers of 10
