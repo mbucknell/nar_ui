@@ -106,32 +106,7 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 						singleTile : true
 					}
 	        ),
-	        new OpenLayers.Layer.WMS(
-					region + ' Streams',
-					WMS_URL,
-					{
-						layers: NAR_NS + REGION_LAYER[region].streams,
-						transparent : true,
-						styles : 'streams'
-					},
-					{
-						isBaseLayer : false,
-						singleTile : true
-					}
-			),
-			new OpenLayers.Layer.WMS(
-					region + 'Stream Names',
-					WMS_URL,
-					{
-						layers: NAR_NS + REGION_LAYER[region].labels,
-						transparent : true,
-						styles : 'stream_names'
-					},
-					{
-						isBaseLayer : false,
-						singleTile : true
-					}
-			)
+	        //TODO add estuaries when available
 	        ];
 	};
 	
