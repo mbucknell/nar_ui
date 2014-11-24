@@ -167,6 +167,7 @@
                         <include>summary_report/*.js</include>
 		                <include>full_report/*.js</include>		                
 		                <include>mississippi/*.js</include>
+		                <include>coastal_region/*.js</include>
 		         </sourceIncludes>
 		         <sourceExcludes>
 		         	<include>map.js</include>
@@ -179,6 +180,7 @@
 		         	<include>mississippi/GraphPopup.js</include>
 		         	<include>coastal/main.js</include>
                     <include>coastal/map.js</include>
+                    <include>coastal_region/main.js</include>
 		         </sourceExcludes>
 		     </configuration>
 		</plugin>

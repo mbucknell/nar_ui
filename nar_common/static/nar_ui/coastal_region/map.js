@@ -18,16 +18,18 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 	
 	var getFeatureBoundingBox = $.Deferred();
 	
-	OpenLayers.Request.GET({
+	$.ajax({
 		url: WFS_URL,
-		params : {
+		method: 'GET',
+		dataType: 'text',
+		data : {
 			service: 'wfs',
 			version: '1.1.0',
 			request: 'GetCapabilities'	
 		},
-		callback : function(request) {
+		success : function(response) {
 			var format = new OpenLayers.Format.WFSCapabilities.v1_1_0();
-			var response = format.read(request.responseXML);
+			var response = format.read(response);
 			response.featureTypeList.featureTypes.forEach(function(f) {
 				if (f.name === REGION_LAYER[region].inset) {
 					getFeatureBoundingBox.resolve(f.bounds);
@@ -36,7 +38,7 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 			});
 
 		},
-		failure : function() {
+		error : function() {
 			getFeatureBoundingBox.reject();
 		}
 	});
@@ -205,32 +207,69 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 	
 	/*
 	 * @param {Array of String} properties - name of properties to retrieve. If not specified will retrieve all properties
-	 * @return promise which when successfully resolved returns the list of features.
+	 * @return promise which when successful resolved returns the list of features.
 	 */
 	me.getBasinFeatureInfoPromise = function(properties) {
+		var regionDeferred = $.Deferred();
+		var alaskaDeferred = $.Deferred();
+		
 		var deferred = $.Deferred();
 		
 		if (!properties) {
 			properties = [];
 		}
 		
-		OpenLayers.Request.GET({
+		$.ajax({
 			url: WFS_URL,
-			params : {
+			method: 'GET',
+			data : {
 				service: 'wfs',
 				version: '1.1.0',
+				dataType: 'text',
 				request: 'GetFeature',
 				typeNames : NAR_NS + REGION_LAYER[region].inset,
 				propertyName : properties.join(',')
 			},
-			callback : function(response) {
+			success : function(response) {
 				var gmlReader = new OpenLayers.Format.GML.v3();
-				deferred.resolve(gmlReader.read(response.responseXML));
+				regionDeferred.resolve(gmlReader.read(response));
 			},
 			error : function () {
-				deferred.reject();
+				regionDeferred.reject();
 			}
 		});
+		
+		if (region === 'west') {
+			alaskaDeferred = $.Deferred();
+			$.ajax({
+				url: WFS_URL,
+				method: 'GET',
+				data : {
+					service: 'wfs',
+					version: '1.1.0',
+					request: 'GetFeature',
+					typeNames : NAR_NS + REGION_LAYER.alaska.inset,
+					propertyName : properties.join(',')
+				},
+				success : function(response) {
+					var gmlReader = new OpenLayers.Format.GML.v3();
+					alaskaDeferred.resolve(gmlReader.read(response.responseXML));
+				},
+				error : function () {
+					alaskaDeferred.reject();
+				}
+			});
+		}
+		else {
+			alaskaDeferred.resolve([]);
+		}
+		
+		$.when(regionDeferred, alaskaDeferred).then(function(f1, f2) {
+			deferred.resolve(f1.concat(f2));
+		}).fail(function() {
+			deferred.reject();
+		});
+		
 		return deferred;
 	};
 	
