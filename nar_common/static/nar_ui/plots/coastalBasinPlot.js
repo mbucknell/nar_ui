@@ -8,6 +8,7 @@ nar.plots = nar.plots || {};
  * @property {String} yaxisLabel (optional)
  * @property {String} title (optional)
  * @property {Function} yaxisFormatter (optional) - function takes a floating point number and returns a string.
+ * 
  * @return jqplot
  */
 nar.plots.createCoastalBasinPlot = function (config){
@@ -19,7 +20,7 @@ nar.plots.createCoastalBasinPlot = function (config){
 	};
 	
 	var ticks = config.basinFeatures.map(function(feature) {
-		return feature.attributes.STANAME.first(15); //TODO use new attribute from shapefile
+		return feature.attributes.STANAME.first(15); //TODO use new attribute from shapefile when available
 	});
 	
 	var yTickOptions = {};
@@ -59,7 +60,7 @@ nar.plots.createCoastalBasinPlot = function (config){
 			shadow : false
 		},
 		series: [
-		         {label : 'Average', color : "#A0A0A0"},
+		         {label : 'Average: ' + CONFIG.startWaterYear + '-' + (CONFIG.currentWaterYear - 1), color : "#A0A0A0"},
 		         {label : CONFIG.currentWaterYear, color: nar.Constituents.nitrate.color}
 		],
 		legend: {
@@ -92,7 +93,7 @@ nar.plots.createCoastalBasinPlot = function (config){
 			showMarker: false,
 			showToolTip : true,
 			tooltipLocation : 'n',
-			tooltipAxes : 'y'
+			tooltipAxes : 'y',
 		}
 		
 	});

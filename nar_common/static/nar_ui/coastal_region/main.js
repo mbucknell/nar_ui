@@ -1,18 +1,23 @@
 (function() {
+	CONFIG.startWaterYear = 1993;
+	
 	var coastalRegionMap = nar.coastalRegion.map(CONFIG.endpoint.geoserver, CONFIG.region);
 	var getBasinFeatureInfoPromise = coastalRegionMap.getBasinFeatureInfoPromise(['STAID', 'STANAME']);
 	
-	var dataTimeRange = new nar.timeSeries.TimeRange(new Date(1992, 10, 1).getTime(), new Date(CONFIG.currentWaterYear, 9, 30).getTime());
-	/*
-	 * @param Array of data availability objects from call to GetDataAvailability
-	 * @return TimeSeries.Collection containing a time series for each object in availability
-	 */
-	
+	var dataTimeRange = new nar.timeSeries.TimeRange(
+			nar.WaterYearUtils.getWaterYearStart(CONFIG.startWaterYear, true),
+			nar.WaterYearUtils.getWaterYearEnd(CONFIG.currentWaterYear, true));
+
 	$(document).ready(function() {
 		"use strict";
 		
 		var map = coastalRegionMap.createRegionMap('region_coast_map');
 		
+		/*
+		 * @param {String} - feature for which data should be retrieved
+		 * @param {Array} availability of data availability objects to be used to retrieve data
+		 * @return TimeSeries.Collection containing a time series for each object in availability
+		 */
 		var getTimeSeriesCollection = function(forFeature, availability) {
 			var result = new nar.timeSeries.Collection();
 			
@@ -32,7 +37,8 @@
 			return result;
 		};
 
-		
+		// After basin info is retrieved, determine data availability, and then retrieve the
+		// desired data
 		getBasinFeatureInfoPromise.then(function(response) {
 			var basinFeatures = response;
 			var basinSiteIds = basinFeatures.map(function(value) {
@@ -54,7 +60,6 @@
 				})
 			});
 			
-			// We need to do this by featureOfInterest
 			$.when(getDataAvailability)
 				.then(
 					function(availability) {
@@ -68,6 +73,7 @@
 						
 						var loadTSCollections = [];
 						var yieldTSCollections = [];
+						// Create a time series collection for each basin
 						basinSiteIds.forEach(function(id) {
 							loadTSCollections.push(getTimeSeriesCollection(id, loadDataAvailability));
 							yieldTSCollections.push(getTimeSeriesCollection(id, yieldDataAvailability));
