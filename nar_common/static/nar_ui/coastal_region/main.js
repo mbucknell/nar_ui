@@ -11,7 +11,7 @@
 	$(document).ready(function() {
 		"use strict";
 		
-		var map = coastalRegionMap.createRegionMap('region_coast_map');
+		var map = coastalRegionMap.createRegionMap('region_coast_map', 'region_coast_ak_inset_map');
 		
 		/*
 		 * @param {String} - feature for which data should be retrieved

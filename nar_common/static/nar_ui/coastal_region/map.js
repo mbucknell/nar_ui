@@ -16,6 +16,8 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 	};
 	var NAR_NS = 'NAR:';
 	
+	var ALASKA_EXTENT = new OpenLayers.Bounds(-175.0, 55.0, -135.0, 71.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection);
+	
 	var getFeatureBoundingBox = $.Deferred();
 	
 	OpenLayers.Request.GET({
@@ -189,11 +191,27 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 		};
 	};
 	
-	me.createRegionMap = function(mapDiv) {
+	var createDefaultAlaskaMapOptions = function() {
+		return {
+			projection : nar.commons.map.projection,
+			theme : nar.commons.map.theme,
+			restrictedExtent : ALASKA_EXTENT,
+			maxExtent : ALASKA_EXTENT,
+			controls : [new OpenLayers.Control.Navigation(), new OpenLayers.Control.Zoom()],
+			layers : [createStatesBaseLayer()].concat([createAlaskaOutlineLayer()]).concat(createAlaskaBasinLayers()).concat([createSitesLayer()])
+		};
+	};
+	
+	me.createRegionMap = function(mapDiv, akInsetMapDiv) {
 		var map = new OpenLayers.Map(mapDiv, createDefaultMapOptions());
+		var akMap;
 		if (region === 'west') {
-			map.addLayer(createAlaskaOutlineLayer());
-			map.addLayers(createAlaskaBasinLayers());
+			$('#' + akInsetMapDiv).show();
+			akMap = new OpenLayers.Map(akInsetMapDiv, createDefaultAlaskaMapOptions());
+			akMap.zoomToExtent(ALASKA_EXTENT);
+		}
+		else { // Make sure inset map is not visible
+			$('#' + akInsetMapDiv).hide();
 		}
 		map.zoomToExtent(mapUSExtent);
 
