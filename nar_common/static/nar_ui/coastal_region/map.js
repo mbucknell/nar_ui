@@ -247,13 +247,14 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 				data : {
 					service: 'wfs',
 					version: '1.1.0',
+					dataType: 'text',
 					request: 'GetFeature',
 					typeNames : NAR_NS + REGION_LAYER.alaska.inset,
 					propertyName : properties.join(',')
 				},
 				success : function(response) {
 					var gmlReader = new OpenLayers.Format.GML.v3();
-					alaskaDeferred.resolve(gmlReader.read(response.responseXML));
+					alaskaDeferred.resolve(gmlReader.read(response));
 				},
 				error : function () {
 					alaskaDeferred.reject();
