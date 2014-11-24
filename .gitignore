@@ -41,6 +41,9 @@ env
 #configuration
 **/local_settings.py
 
+#ide
+.settings
+
 #root static folder -- others do not need cached objects placed here
 /static/*
 #target folder where maven artifacts are placed
