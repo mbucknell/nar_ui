@@ -1,8 +1,10 @@
 (function() {
 	CONFIG.startWaterYear = 1993;
+	CONFIG.siteIdAttribute = 'STAID',
+	CONFIG.riverNameAttribute = 'STANAME';//TODO soon to be 'River'
 	
 	var coastalRegionMap = nar.coastalRegion.map(CONFIG.endpoint.geoserver, CONFIG.region);
-	var getBasinFeatureInfoPromise = coastalRegionMap.getBasinFeatureInfoPromise(['STAID', 'STANAME']);
+	var getBasinFeatureInfoPromise = coastalRegionMap.getBasinFeatureInfoPromise([CONFIG.siteIdAttribute, CONFIG.riverNameAttribute]);
 	
 	var dataTimeRange = new nar.timeSeries.TimeRange(
 			nar.WaterYearUtils.getWaterYearStart(CONFIG.startWaterYear, true),
