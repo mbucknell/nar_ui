@@ -6,45 +6,50 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 	
 	var WMS_URL = geoserverEndpoint + 'NAR/wms';
 	var WFS_URL = geoserverEndpoint + 'NAR/wfs';
-	
-	var REGION_LAYER = {
-			northeast : {inset : 'ne_inset', streams : 'ne_streams', labels : 'ne_streamnames'},
-			southeast : {inset : 'se_inset', streams : 'se_streams', labels : 'se_streamnames'},
-			gulf : {inset : 'gulf_inset', streams : 'gulf_streams', labels : 'gulf_streamnames'},
-			west : {inset : 'west_inset', streams : 'west_streams', labels : 'west_streamnames'},
-			alaska : {inset : 'westAKonly_inset', streams : 'westAKonly_streams', labels : 'westAKonly_streamnames'}
+		
+	var REGION = {
+			northeast : {
+				inset : 'ne_inset', 
+				streams : 'ne_streams', 
+				labels : 'ne_streamnames',
+				extent : new OpenLayers.Bounds(-81.0, 37.5,  -70.5, 46.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
+				resolution : 2500
+			},
+			southeast : {
+				inset : 'se_inset', 
+				streams : 'se_streams', 
+				labels : 'se_streamnames',
+				extent : new OpenLayers.Bounds(-85.0, 31.0, -79.0, 35.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
+				resolution: 1250
+			},
+			gulf : {
+				inset : 'gulf_inset', 
+				streams : 'gulf_streams', 
+				labels : 'gulf_streamnames',
+				resolution: 8000,
+				extent : new OpenLayers.Bounds(-115.0, 24.5, -77.0, 50.5).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
+			},
+			west : {
+				inset : 'west_inset', 
+				streams : 'west_streams',
+				labels : 'west_streamnames',
+				extent : new OpenLayers.Bounds(-138.0, 26.0, -104.0, 53.5).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
+				resolution: 7100
+			},
+			alaska : {
+				inset : 'westAKonly_inset', 
+				streams : 'westAKonly_streams', 
+				labels : 'westAKonly_streamnames',
+				extent : new OpenLayers.Bounds(-175.0, 55.0, -135.0, 71.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
+				resolution: 8000
+			}
 	};
 	var NAR_NS = 'NAR:';
 	
+	var ALASKA_EXTENT = new OpenLayers.Bounds(-175.0, 55.0, -135.0, 71.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection);
+	
 	var getFeatureBoundingBox = $.Deferred();
 	
-	$.ajax({
-		url: WFS_URL,
-		method: 'GET',
-		dataType: 'text',
-		data : {
-			service: 'wfs',
-			version: '1.1.0',
-			request: 'GetCapabilities'	
-		},
-		success : function(response) {
-			var format = new OpenLayers.Format.WFSCapabilities.v1_1_0();
-			var response = format.read(response);
-			response.featureTypeList.featureTypes.forEach(function(f) {
-				if (f.name === REGION_LAYER[region].inset) {
-					getFeatureBoundingBox.resolve(f.bounds);
-					return false;
-				}
-			});
-
-		},
-		error : function() {
-			getFeatureBoundingBox.reject();
-		}
-	});
-	
-	var mapUSExtent = new OpenLayers.Bounds(-175.0, 20.7, -66.4, 71.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection);
-
 	var createStatesBaseLayer = function() {
 		return new OpenLayers.Layer.WMS(
 				"United States",
@@ -97,7 +102,7 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 	        		region + ' Basin',
 					WMS_URL,
 					{
-						layers: NAR_NS + REGION_LAYER[region].inset,
+						layers: NAR_NS + REGION[region].inset,
 						transparent: true,
 						styles : 'coastal_basins'
 					},
@@ -107,31 +112,20 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 					}
 	        ),
 	        new OpenLayers.Layer.WMS(
-					region + ' Streams',
+	        		region + ' Basin',
 					WMS_URL,
 					{
-						layers: NAR_NS + REGION_LAYER[region].streams,
-						transparent : true,
+						layers: NAR_NS + REGION[region].streams,
+						transparent: true,
 						styles : 'streams'
 					},
 					{
 						isBaseLayer : false,
 						singleTile : true
 					}
-			),
-			new OpenLayers.Layer.WMS(
-					region + 'Stream Names',
-					WMS_URL,
-					{
-						layers: NAR_NS + REGION_LAYER[region].labels,
-						transparent : true,
-						styles : 'stream_names'
-					},
-					{
-						isBaseLayer : false,
-						singleTile : true
-					}
-			)
+	        ),
+
+	        //TODO add estuaries when available
 	        ];
 	};
 	
@@ -141,7 +135,7 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 		        		'Alaska Basin',
 						WMS_URL,
 						{
-							layers: NAR_NS + REGION_LAYER.alaska.inset,
+							layers: NAR_NS + REGION.alaska.inset,
 							transparent: true,
 							styles : 'coastal_basins'
 						},
@@ -152,11 +146,11 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 		        		
 		        ),
 		        new OpenLayers.Layer.WMS(
-						'Alaska Streams',
+		        		region + ' Basin',
 						WMS_URL,
 						{
-							layers: NAR_NS + REGION_LAYER.alaska.streams,
-							transparent : true,
+							layers: NAR_NS + REGION.alaska.streams,
+							transparent: true,
 							styles : 'streams'
 						},
 						{
@@ -164,19 +158,7 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 							singleTile : true
 						}
 				),
-				new OpenLayers.Layer.WMS(
-						'Alaska Stream Names',
-						WMS_URL,
-						{
-							layers: NAR_NS + REGION_LAYER.alaska.labels,
-							transparent : true,
-							styles : 'stream_names'
-						},
-						{
-							isBaseLayer : false,
-							singleTile : true
-						}
-				)
+		        //TODO add estuaries when available
 		        ];
 	};
 		
@@ -184,24 +166,38 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 		return {
 			projection : nar.commons.map.projection,
 			theme : nar.commons.map.theme,
-			restrictedExtent : mapUSExtent,
-			maxExtent : mapUSExtent,
-			controls : [new OpenLayers.Control.Navigation(), new OpenLayers.Control.Zoom()],
+			restrictedExtent : REGION[region].extent,
+			maxExtent : REGION[region].extent,
+			maxResolution: REGION[region].resolution,
+			controls : [],
 			layers : [createStatesBaseLayer()].concat(createBasinLayers()).concat([createSitesLayer()])
 		};
 	};
 	
-	me.createRegionMap = function(mapDiv) {
+	var createDefaultAlaskaMapOptions = function() {
+		return {
+			projection : nar.commons.map.projection,
+			theme : nar.commons.map.theme,
+			restrictedExtent : REGION.alaska.extent,
+			maxExtent : REGION.alaska.extent,
+			controls : [],
+			layers : [createStatesBaseLayer()].concat([createAlaskaOutlineLayer()]).concat(createAlaskaBasinLayers()).concat([createSitesLayer()])
+		};
+	};
+	
+	me.createRegionMap = function(mapDiv, akInsetMapDiv) {
 		var map = new OpenLayers.Map(mapDiv, createDefaultMapOptions());
+		var akMap;
 		if (region === 'west') {
-			map.addLayer(createAlaskaOutlineLayer());
-			map.addLayers(createAlaskaBasinLayers());
+			$('#' + akInsetMapDiv).parent().show();
+			akMap = new OpenLayers.Map(akInsetMapDiv, createDefaultAlaskaMapOptions());
+			akMap.zoomToExtent(REGION.alaska.extent);
 		}
-		map.zoomToExtent(mapUSExtent);
-
-		getFeatureBoundingBox.then(function(extent) {
-			map.zoomToExtent(extent.transform(nar.commons.map.geographicProjection, nar.commons.map.projection));
-		});		
+		else { // Make sure inset map is not visible
+			$('#' + akInsetMapDiv).parent().hide();
+		}
+		map.zoomToExtent(REGION[region].extent);
+			
 		return map;
 	};
 	
@@ -227,7 +223,7 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 				version: '1.1.0',
 				dataType: 'text',
 				request: 'GetFeature',
-				typeNames : NAR_NS + REGION_LAYER[region].inset,
+				typeNames : NAR_NS + REGION[region].inset,
 				propertyName : properties.join(',')
 			},
 			success : function(response) {
@@ -249,7 +245,7 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 					version: '1.1.0',
 					dataType: 'text',
 					request: 'GetFeature',
-					typeNames : NAR_NS + REGION_LAYER.alaska.inset,
+					typeNames : NAR_NS + REGION.alaska.inset,
 					propertyName : properties.join(',')
 				},
 				success : function(response) {
