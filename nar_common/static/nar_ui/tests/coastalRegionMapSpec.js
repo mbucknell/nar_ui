@@ -47,7 +47,7 @@ describe('Tests for nar.coastalRegion.map', function() {
 			expect(successSpy).not.toHaveBeenCalled();
 			expect(errorSpy).not.toHaveBeenCalled();
 
-			server.requests[0].respond(200, {'Content-Type': 'text'}, '<wfs:FeatureCollection></wfs:FeatureCollection>');
+			server.requests[0].respond(200, '<wfs:FeatureCollection></wfs:FeatureCollection>');
 			expect(successSpy).toHaveBeenCalled();
 			expect(errorSpy).not.toHaveBeenCalled();
 		});
