@@ -12,7 +12,6 @@ nar.plots = nar.plots || {};
 	 * @property {Array of data series Object} auxData - for each series, should set yaxis to 1 if plotted on the same access as the
 	 * 		timeSeries data or 2 if plotted on a separate axis
 	 * @property {jqueryFlot axis } secondaryYaxis - Only used if auxData is defined
-	 * @property {Object} otherOptions - passed directly to $.plot
 	 * @param {TimeSeriesVisualization} tsViz
 	 * @param {nar.plotConstituentBarChartConfig} config
 	 */
@@ -95,7 +94,7 @@ nar.plots = nar.plots || {};
 			yaxes.push(config.secondaryYaxis);
 		}
 		
-		var plot = $.plot(plotContainer, series, $.extend({},{
+		var plot = $.plot(plotContainer, series, {
             xaxis: {
                 mode: 'time',
                 timeformat: "%Y",
@@ -109,7 +108,7 @@ nar.plots = nar.plots || {};
             grid:{
                 hoverable: true
             },
-        }, config.otherOptions));
+        });
 		
 		var hoverFormatter = (config.plotHoverFormatter) ? config.plotHoverFormatter : nar.plots.PlotUtils.utcDatePlotHoverFormatter;
         nar.plots.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
