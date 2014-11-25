@@ -64,7 +64,7 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 					$hiddenAutoFocus = $('<span />').addClass('hidden').attr('autofocus', ''),
 					data = feature.data,
 					title = data.qw_name,
-					id = data.staid;
+					id = data.staid || data.qw_id;
 				
 				$titleRow.html(title);
 				$stationIdRow.html('Station ID: ' + id);

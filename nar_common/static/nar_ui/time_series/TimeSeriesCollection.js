@@ -33,7 +33,7 @@ nar.timeSeries.Collection = function(){
      * @see https://api.jquery.com/jQuery.deferred/
      */
     self.retrieveData = function(){
-        retrievalPromises = self.map(function(timeSeries){
+        var retrievalPromises = self.map(function(timeSeries){
             return timeSeries.retrieveData();
         });
         return retrievalPromises;

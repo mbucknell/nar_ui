@@ -1,9 +1,11 @@
 var nar = nar || {};
 nar.coastalRegion = nar.coastalRegion || {};
 
-nar.coastalRegion.map = (function() {
+nar.coastalRegion.map = function(geoserverEndpoint, region) {
 	var me = {};
-	var GEOSERVER_URL = CONFIG.endpoint.geoserver + 'NAR/wms';
+	
+	var WMS_URL = geoserverEndpoint + 'NAR/wms';
+	var WFS_URL = geoserverEndpoint + 'NAR/wfs';
 	
 	var REGION_LAYER = {
 			northeast : {inset : 'ne_inset', streams : 'ne_streams', labels : 'ne_streamnames'},
@@ -12,29 +14,29 @@ nar.coastalRegion.map = (function() {
 			west : {inset : 'west_inset', streams : 'west_streams', labels : 'west_streamnames'},
 			alaska : {inset : 'westAKonly_inset', streams : 'westAKonly_streams', labels : 'westAKonly_streamnames'}
 	};
-	var NAR_NS = 'NAR:'
+	var NAR_NS = 'NAR:';
 	
 	var getFeatureBoundingBox = $.Deferred();
+	
 	$.ajax({
-		url: CONFIG.endpoint.geoserver + 'NAR/wfs',
+		url: WFS_URL,
+		method: 'GET',
+		dataType: 'text',
 		data : {
 			service: 'wfs',
-			version: '2.0.0',
-			request: 'GetCapabilities',
+			version: '1.1.0',
+			request: 'GetCapabilities'	
 		},
-		dataType: 'xml',
-		type : 'GET',
-		success : function(data) {
-			var flist = $(data).find('FeatureType');
-			var lowerCorner, upperCorner;
-			flist.each(function() {
-				if ($(this).find('Name').text() === NAR_NS + REGION_LAYER[CONFIG.region].inset) {
-					lowerCorner = $(this).find('LowerCorner').text();
-					upperCorner = $(this).find('UpperCorner').text();
+		success : function(response) {
+			var format = new OpenLayers.Format.WFSCapabilities.v1_1_0();
+			var response = format.read(response);
+			response.featureTypeList.featureTypes.forEach(function(f) {
+				if (f.name === REGION_LAYER[region].inset) {
+					getFeatureBoundingBox.resolve(f.bounds);
 					return false;
 				}
 			});
-			getFeatureBoundingBox.resolve(OpenLayers.Bounds.fromString(lowerCorner.replace(' ', ',') + ',' + upperCorner.replace(' ', ',')));
+
 		},
 		error : function() {
 			getFeatureBoundingBox.reject();
@@ -46,7 +48,7 @@ nar.coastalRegion.map = (function() {
 	var createStatesBaseLayer = function() {
 		return new OpenLayers.Layer.WMS(
 				"United States",
-				GEOSERVER_URL,
+				WMS_URL,
 				{
 					layers : NAR_NS + 'statesl48_alb',
 					transparent : true,
@@ -61,7 +63,7 @@ nar.coastalRegion.map = (function() {
 	var createAlaskaOutlineLayer = function() {
 		return new OpenLayers.Layer.WMS(
 				"Alaska",
-				GEOSERVER_URL,
+				WMS_URL,
 				{
 					layers : NAR_NS + 'ak_alb',
 					transparent : true,
@@ -71,12 +73,12 @@ nar.coastalRegion.map = (function() {
 					isBaseLayer : false
 				}
 		);
-	}
+	};
 	
 	var createSitesLayer = function() {
 		return new OpenLayers.Layer.WMS(
 			"Sites",
-			GEOSERVER_URL,
+			WMS_URL,
 			{
 				layers : NAR_NS + 'JD_NFSN_sites',
 				transparent : true,
@@ -92,10 +94,10 @@ nar.coastalRegion.map = (function() {
 	var createBasinLayers = function() {
 		return [
 	        new OpenLayers.Layer.WMS(
-	        		CONFIG.region + ' Basin',
-					GEOSERVER_URL,
+	        		region + ' Basin',
+					WMS_URL,
 					{
-						layers: NAR_NS + REGION_LAYER[CONFIG.region].inset,
+						layers: NAR_NS + REGION_LAYER[region].inset,
 						transparent: true,
 						styles : 'coastal_basins'
 					},
@@ -105,10 +107,10 @@ nar.coastalRegion.map = (function() {
 					}
 	        ),
 	        new OpenLayers.Layer.WMS(
-					CONFIG.region + ' Streams',
-					GEOSERVER_URL,
+					region + ' Streams',
+					WMS_URL,
 					{
-						layers: NAR_NS + REGION_LAYER[CONFIG.region].streams,
+						layers: NAR_NS + REGION_LAYER[region].streams,
 						transparent : true,
 						styles : 'streams'
 					},
@@ -118,10 +120,10 @@ nar.coastalRegion.map = (function() {
 					}
 			),
 			new OpenLayers.Layer.WMS(
-					CONFIG.region + 'Stream Names',
-					GEOSERVER_URL,
+					region + 'Stream Names',
+					WMS_URL,
 					{
-						layers: NAR_NS + REGION_LAYER[CONFIG.region].labels,
+						layers: NAR_NS + REGION_LAYER[region].labels,
 						transparent : true,
 						styles : 'stream_names'
 					},
@@ -137,7 +139,7 @@ nar.coastalRegion.map = (function() {
 		return [
 		        new OpenLayers.Layer.WMS(
 		        		'Alaska Basin',
-						GEOSERVER_URL,
+						WMS_URL,
 						{
 							layers: NAR_NS + REGION_LAYER.alaska.inset,
 							transparent: true,
@@ -151,7 +153,7 @@ nar.coastalRegion.map = (function() {
 		        ),
 		        new OpenLayers.Layer.WMS(
 						'Alaska Streams',
-						GEOSERVER_URL,
+						WMS_URL,
 						{
 							layers: NAR_NS + REGION_LAYER.alaska.streams,
 							transparent : true,
@@ -163,8 +165,8 @@ nar.coastalRegion.map = (function() {
 						}
 				),
 				new OpenLayers.Layer.WMS(
-						CONFIG.region + 'Stream Names',
-						GEOSERVER_URL,
+						'Alaska Stream Names',
+						WMS_URL,
 						{
 							layers: NAR_NS + REGION_LAYER.alaska.labels,
 							transparent : true,
@@ -191,23 +193,86 @@ nar.coastalRegion.map = (function() {
 	
 	me.createRegionMap = function(mapDiv) {
 		var map = new OpenLayers.Map(mapDiv, createDefaultMapOptions());
-		if (CONFIG.region === 'west') {
+		if (region === 'west') {
 			map.addLayer(createAlaskaOutlineLayer());
 			map.addLayers(createAlaskaBasinLayers());
 		}
+		map.zoomToExtent(mapUSExtent);
+
 		getFeatureBoundingBox.then(function(extent) {
 			map.zoomToExtent(extent.transform(nar.commons.map.geographicProjection, nar.commons.map.projection));
-		});
-
-		map.zoomToExtent(mapUSExtent);
-		
+		});		
 		return map;
 	};
 	
-	return {
-		createRegionMap : function(mapDiv) {
-			return me.createRegionMap.call(me, mapDiv);
+	/*
+	 * @param {Array of String} properties - name of properties to retrieve. If not specified will retrieve all properties
+	 * @return promise which when successful resolved returns the list of features.
+	 */
+	me.getBasinFeatureInfoPromise = function(properties) {
+		var regionDeferred = $.Deferred();
+		var alaskaDeferred = $.Deferred();
+		
+		var deferred = $.Deferred();
+		
+		if (!properties) {
+			properties = [];
 		}
+		
+		$.ajax({
+			url: WFS_URL,
+			method: 'GET',
+			data : {
+				service: 'wfs',
+				version: '1.1.0',
+				dataType: 'text',
+				request: 'GetFeature',
+				typeNames : NAR_NS + REGION_LAYER[region].inset,
+				propertyName : properties.join(',')
+			},
+			success : function(response) {
+				var gmlReader = new OpenLayers.Format.GML.v3();
+				regionDeferred.resolve(gmlReader.read(response));
+			},
+			error : function () {
+				regionDeferred.reject();
+			}
+		});
+		
+		if (region === 'west') {
+			alaskaDeferred = $.Deferred();
+			$.ajax({
+				url: WFS_URL,
+				method: 'GET',
+				data : {
+					service: 'wfs',
+					version: '1.1.0',
+					dataType: 'text',
+					request: 'GetFeature',
+					typeNames : NAR_NS + REGION_LAYER.alaska.inset,
+					propertyName : properties.join(',')
+				},
+				success : function(response) {
+					var gmlReader = new OpenLayers.Format.GML.v3();
+					alaskaDeferred.resolve(gmlReader.read(response));
+				},
+				error : function () {
+					alaskaDeferred.reject();
+				}
+			});
+		}
+		else {
+			alaskaDeferred.resolve([]);
+		}
+		
+		$.when(regionDeferred, alaskaDeferred).then(function(f1, f2) {
+			deferred.resolve(f1.concat(f2));
+		}).fail(function() {
+			deferred.reject();
+		});
+		
+		return deferred;
 	};
 	
-}());
+	return me;
+};

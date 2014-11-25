@@ -2,6 +2,12 @@
 {% load static from staticfiles %}
 {% load compress %}
 
+{% block style %}
+    {{ block.super }}
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'nar_ui/js_lib/jqplot/src/jquery.jqplot.css' %}" />
+{% endblock %}
+
 {% block scripts %}
 
     {{ block.super }}
@@ -27,7 +33,14 @@
         <div class="col-sm-6" id="region_coast_map_div">
             <div id="region_coast_map"></div>            
         </div>
-        <div class="col-sm-6" id="region_coast_graphs_div"></div>
+        <div class="col-sm-6" id="region_coast_graphs_div">
+            <div id="load_chart_div" class="row col-sm-12 region_graphs">
+                <div id="load_plot_div" class="col-sm-12"></div>
+            </div>
+            <div id="yield_chart_div" class="row col-sm-12 region_graphs">
+                <div id="yield_plot_div" class="col-sm-12"></div>
+            </div>
+        </div>
     </div>
        
 </div><!--region_coastal_holder-->
@@ -35,9 +48,23 @@
 
 <script type="text/javascript" src="{% static 'nar_ui/js_lib/OpenLayers/OpenLayers.debug.js' %}"></script>
 {% compress js %}
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/jquery.jqplot.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.barRenderer.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.categoryAxisRenderer.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/jqplot.axisLabelRenderer.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.canvasTextRenderer.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.canvasAxisLabelRenderer.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.highlighter.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/mapCommons.js' %}"></script>
-<script type="text/javascript" src="{% static 'nar_ui/coastal_region/main.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/commons/WaterYearUtils.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/time_series/TimeRange.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/time_series/TimeSeries.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/time_series/TimeSeriesCollection.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/plots/PlotUtils.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/Constituents.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/plots/coastalBasinPlot.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/coastal_region/map.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/coastal_region/main.js' %}"></script>
 {% endcompress %}
 {% endblock %}
         
