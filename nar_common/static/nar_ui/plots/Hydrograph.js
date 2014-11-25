@@ -68,10 +68,17 @@ nar.plots = nar.plots || {};
 		legendCtx.fillStyle = originalFillStyle;
 	};
 	var roughSymbolLegendSize = {height: 15, width: 125};
-	
+	var canvasLegendOptions = {
+		show : true,
+		entrySize : roughSymbolLegendSize,
+		entryRender : symbolEntryRenderer,
+		layout : $.plot.canvasLegend.layouts.horizontal,
+		backgroundOpacity : 0,
+		position : 'ne'
+	};
 	/**
 	 * @param {TimeSeriesVisualization}
-	 *   tsViz returns {jqPlot}
+	 *            tsViz returns {jqPlot}
 	 */
 	nar.plots.Hydrograph = function(tsViz) {
 		
@@ -140,14 +147,7 @@ nar.plots = nar.plots || {};
 			legend : {
 				show : false,
 			},
-			canvasLegend: {
-				show : true,
-				entrySize : roughSymbolLegendSize,
-				entryRender : symbolEntryRenderer,
-				layout: $.plot.canvasLegend.layouts.horizontal,
-				backgroundOpacity: 0,
-				position: 'ne'
-			}
+			canvasLegend: canvasLegendOptions
 		});
 		var hoverFormatter = nar.plots.PlotUtils.utcDatePlotHoverFormatter;
 		nar.plots.PlotUtils.setPlotHoverFormatter(hydrographDiv, hoverFormatter);
@@ -271,9 +271,9 @@ nar.plots = nar.plots || {};
 				autoHighlight : true
 			},
 			legend : {
-				show : true,
-				canvas : true
-			}
+				show : false
+			},
+			canvasLegend: canvasLegendOptions
 		});
 		var hoverFormatter = function(x, y) {
 			return x.toFixed(2) + '% - ' + y 

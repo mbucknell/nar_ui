@@ -230,8 +230,18 @@ nar.GraphPopup = (function() {
 					if (me.timeSeriesViz.plot) {
 						graphInfoElt.html('');
 						var canvas = $('<canvas/>');
-						var canvasWidth = 160;
-						canvas.attr({width: canvasWidth, height: 55});
+						var canvasWidth = 320;
+						var canvasHeight;
+						if('annual' === type){
+							canvasHeight = 40;
+						}
+						else if('may' === type){
+							canvasHeight = 20;
+						}
+						else{
+							throw Error('Unrecognized load graph type: ' + type);
+						}
+						canvas.attr({width: canvasWidth, height: canvasHeight});
 						canvas.css({
 							width: canvasWidth + 'px',
 							'margin-left':'auto',
@@ -299,16 +309,19 @@ nar.GraphPopup = (function() {
 					            
 					            //draw dashed line if available
 					            if(thisSeries.dashes){
-					            	legendCtx.lineWidth = thisSeries.dashes.lineWidth;
 					            	if(thisSeries.dashes.show && thisSeries.dashes.dashLength){
+					            		legendCtx.lineWidth = thisSeries.dashes.lineWidth;
 						            	var dashLength = thisSeries.dashes.dashLength;
 						            	if('undefined' === typeof dashLength[0]){//if not array
 						            		dashLength = [dashLength, dashLength];//make into array
 						            	}
 						            	legendCtx.setLineDash(dashLength);
 					            	}
+					            	else if (thisSeries.lines && thisSeries.lines.lineWidth){
+					            		legendCtx.lineWidth = thisSeries.lines.lineWidth;
+					            	}
 					            }
-				            	legendCtx.fillStyle = color;
+				            	legendCtx.strokeStyle = color;
 
 				            	legendCtx.beginPath();
 				            	var startX = entryOriginX + LEGEND_PADDING;
@@ -325,7 +338,7 @@ nar.GraphPopup = (function() {
 					            var textY = entryOriginY + LEGEND_PADDING  + labelHeight;
 					            legendCtx.fillText(label, textX, textY);
 					        },
-							layout: $.plot.canvasLegend.layouts.vertical,
+							layout: $.plot.canvasLegend.layouts.tableWithNColumns(2),
 							font:{
 								size: 10
 							}
