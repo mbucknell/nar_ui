@@ -65,7 +65,7 @@ nar.GraphPopup = (function() {
 		$.when(getDataAvailability).then(function(dataAvailability){
 			
 			var relevantDataAvailability = dataAvailability.dataAvailability.filter(function(datumAvailability){
-				return datumAvailability.procedure.has('annual_mass/') && !datumAvailability.procedure.has('COMP') 
+				return datumAvailability.procedure.has('annual_mass/') && !datumAvailability.procedure.has('COMP'); 
 			});
 			if(0 === relevantDataAvailability.length){
 				throw Error('No data available for this constituent at this site');
@@ -228,6 +228,10 @@ nar.GraphPopup = (function() {
 						graphInfoElt.remove();
 					}
 					if (me.timeSeriesViz.plot) {
+						graphInfoElt.html('');
+						var canvas = $('<canvas/>');
+						canvas.attr({width: 300, height: 55});
+						graphInfoElt.append(canvas);
 						options = me.timeSeriesViz.plot.getOptions();
 						timeRange = me.timeSeriesViz.timeSeriesCollection.getTimeRange();
 						// Adjust the axis so the bars are inside the plot
@@ -235,22 +239,92 @@ nar.GraphPopup = (function() {
 							axis.min = timeRange.startTime - YEAR_MS;
 							axis.max = timeRange.endTime + YEAR_MS;
 						});
-						options.legend.show = true;
-						options.legend.noColumns = 3,
-						options.legend.labelBoxBorderColor = null;
-						options.legend.labelFormatter = function(label, series){
-							var lineStyle = 'solid';
-							var dashLengths = series.dashes.dashLength;
-							if(dashLengths.length){
-								lineStyle = dashLengths.first() === 2 ? 'dotted' : 'dashed';
+						options.legend.show = false;
+
+						var LEGEND_PADDING = 5;
+						var LEGEND_SPACE_BETWEEN_LINE_AND_LABEL = 10;
+						var LEGEND_SPACE_FOR_LINE = 50;
+						options.canvasLegend= {
+							show: true,
+							container : canvas,
+							entrySize:
+								/**
+						         * 
+						         * @param {CanvasRenderingContext2D} legendCtx
+						         * @param {Object} oneSeries - a single flot series
+						         * @param {Object} options - the options passed to canvasLegend
+						         * @param {Object} fontOptions - options.font merged with the font options from the plot placeholder.
+						         */
+						      function (legendCtx, oneSeries, options, fontOptions) {
+								var label = oneSeries.label;
+								legendCtx.font = fontOptions.style + " " + fontOptions.variant + " " + fontOptions.weight + " " + fontOptions.size + "px '" + fontOptions.family + "'";
+					            legendCtx.textAlign = "left";
+					            legendCtx.textBaseline = "bottom";
+								var labelHeight = legendCtx.measureText('M').width;
+								var labelWidth = legendCtx.measureText(label).width;
+								return {
+									width: LEGEND_PADDING + LEGEND_SPACE_FOR_LINE + LEGEND_SPACE_BETWEEN_LINE_AND_LABEL + labelWidth + LEGEND_PADDING, 
+									height: LEGEND_PADDING + labelHeight + LEGEND_PADDING
+								};
+							},
+							entryRender: 
+							/**
+					         * 
+					         * @param {CanvasRenderingContext2D} legendCtx
+					         * @param {Object} thisSeries a flot series
+					         * @param {Object} options - the options in options.canvasLegend
+					         * @param {Number} entryOriginX
+					         * @param {Number} entryOriginY
+					         * @param {Object} fontOptions - options.font merged with the font options from the plot placeholder.
+					         * @param {Number} maxEntryWidth
+					         * @param {Number} maxEntryHeight
+					         * @returns {undefined}
+					         */
+					        function (legendCtx, thisSeries, options, entryOriginX, entryOriginY, fontOptions, maxEntryWidth, maxEntryHeight) {
+					            var color = thisSeries.color;
+					            var label = thisSeries.label;
+					            legendCtx.font = fontOptions.style + " " + fontOptions.variant + " " + fontOptions.weight + " " + fontOptions.size + "px '" + fontOptions.family + "'";
+					            legendCtx.textAlign = "left";
+					            legendCtx.textBaseline = "bottom";
+					            
+					            //calcluate label dims
+					            var labelHeight = legendCtx.measureText('M').width;
+					            
+					            //draw dashed line if available
+					            if(thisSeries.dashes){
+					            	legendCtx.lineWidth = thisSeries.dashes.lineWidth;
+					            	if(thisSeries.dashes.show && thisSeries.dashes.dashLength){
+						            	var dashLength = thisSeries.dashes.dashLength;
+						            	if('undefined' === typeof dashLength[0]){//if not array
+						            		dashLength = [dashLength, dashLength];//make into array
+						            	}
+						            	legendCtx.setLineDash(dashLength);
+					            	}
+					            }
+				            	legendCtx.fillStyle = color;
+
+				            	legendCtx.beginPath();
+				            	var startX = entryOriginX + LEGEND_PADDING;
+				            	var startAndEndY = entryOriginY + LEGEND_PADDING + 0.5 * labelHeight;
+				            	legendCtx.moveTo(startX, startAndEndY);
+				            	legendCtx.lineTo(startX + LEGEND_SPACE_FOR_LINE, startAndEndY);
+				            	legendCtx.stroke();
+				            	legendCtx.setLineDash([1,0]);
+					            //draw label
+					            legendCtx.fillStyle = "#000";
+					            var textX = entryOriginX + LEGEND_PADDING + LEGEND_SPACE_FOR_LINE + LEGEND_SPACE_BETWEEN_LINE_AND_LABEL;
+					            // for textY, we need an additional offset of labelHeight because text 
+					            // is drawn above and to the right of the coords passed to context.fillText
+					            var textY = entryOriginY + LEGEND_PADDING  + labelHeight;
+					            legendCtx.fillText(label, textX, textY);
+					        },
+							layout: $.plot.canvasLegend.layouts.vertical,
+							font:{
+								size: 10
 							}
-							
-							var line = '<hr class="load-plot-label-line" style="border-bottom-style:'+ lineStyle + ';"/>';
-							
-							var labelElt ='<span class="load-plot-label">' + label.trim() + '</span>' 
-							return line + labelElt;
 						};
-						options.legend.container = graphInfoElt;
+
+						
 						me.timeSeriesViz.plot.setupGrid();
 						me.timeSeriesViz.plot.draw();
 					}
