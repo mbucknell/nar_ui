@@ -48,6 +48,27 @@ nar.plots = nar.plots || {};
 		};
 	};
 
+	var LEGEND_PADDING = 5,
+	LEGEND_SPACE_BETWEEN_SYMBOL_AND_LABEL = 5,
+	LEGEND_SYMBOL_WIDTH = 5;
+	var symbolEntryRenderer = function(legendCtx, thisSeries, options, entryOriginX, entryOriginY, fontOptions, maxEntryWidth, maxEntryHeight){
+		var textHeight = legendCtx.measureText('M').width;
+		
+		var symbolX = entryOriginX + LEGEND_PADDING,
+			symbolY = entryOriginY + LEGEND_PADDING + 0.6*textHeight;//it must be offset by a little more than half of the text height to appear aligned
+		
+		var symbolRenderer = thisSeries.points.symbol;
+		var originalFillStyle = legendCtx.fillStyle;
+		legendCtx.fillStyle = thisSeries.color;
+		symbolRenderer(legendCtx, symbolX, symbolY, thisSeries.points.radius);
+		legendCtx.fill();
+		var textX = symbolX + LEGEND_SYMBOL_WIDTH + LEGEND_SPACE_BETWEEN_SYMBOL_AND_LABEL,
+			textY = entryOriginY + LEGEND_PADDING + textHeight; 
+		legendCtx.fillText(thisSeries.label, textX, textY);
+		legendCtx.fillStyle = originalFillStyle;
+	};
+	var roughSymbolLegendSize = {height: 15, width: 125};
+	
 	/**
 	 * @param {TimeSeriesVisualization}
 	 *   tsViz returns {jqPlot}
@@ -90,7 +111,7 @@ nar.plots = nar.plots || {};
 				symbol: 'triangle'
 			}
 		};
-		
+
 		plot = $.plot(hydrographDiv, [ flowSeries, tnSeries ], {
 			canvas : true,
 			xaxis : {
@@ -117,7 +138,15 @@ nar.plots = nar.plots || {};
 				autoHighlight : true
 			},
 			legend : {
-				show : true
+				show : false,
+			},
+			canvasLegend: {
+				show : true,
+				entrySize : roughSymbolLegendSize,
+				entryRender : symbolEntryRenderer,
+				layout: $.plot.canvasLegend.layouts.horizontal,
+				backgroundOpacity: 0,
+				position: 'ne'
 			}
 		});
 		var hoverFormatter = nar.plots.PlotUtils.utcDatePlotHoverFormatter;
