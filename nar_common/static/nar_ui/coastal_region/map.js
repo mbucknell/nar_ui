@@ -111,6 +111,20 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 						singleTile : true
 					}
 	        ),
+	        new OpenLayers.Layer.WMS(
+	        		region + ' Basin',
+					WMS_URL,
+					{
+						layers: NAR_NS + REGION[region].streams,
+						transparent: true,
+						styles : 'streams'
+					},
+					{
+						isBaseLayer : false,
+						singleTile : true
+					}
+	        ),
+
 	        //TODO add estuaries when available
 	        ];
 	};
@@ -131,6 +145,19 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 						}
 		        		
 		        ),
+		        new OpenLayers.Layer.WMS(
+		        		region + ' Basin',
+						WMS_URL,
+						{
+							layers: NAR_NS + REGION.alaska.streams,
+							transparent: true,
+							styles : 'streams'
+						},
+						{
+							isBaseLayer : false,
+							singleTile : true
+						}
+				),
 		        //TODO add estuaries when available
 		        ];
 	};
