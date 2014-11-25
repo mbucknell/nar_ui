@@ -90,8 +90,6 @@ nar.plots = nar.plots || {};
 				symbol: 'triangle'
 			}
 		};
-		var legendContainer = $('<canvas/>').css('width', '200px');
-		hydrographDiv.after(legendContainer);
 		
 		plot = $.plot(hydrographDiv, [ flowSeries, tnSeries ], {
 			canvas : true,
@@ -119,11 +117,7 @@ nar.plots = nar.plots || {};
 				autoHighlight : true
 			},
 			legend : {
-				show : true,
-				canvas : {
-					container:legendContainer
-					
-				}
+				show : true
 			}
 		});
 		var hoverFormatter = nar.plots.PlotUtils.utcDatePlotHoverFormatter;

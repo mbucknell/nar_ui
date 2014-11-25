@@ -114,7 +114,7 @@ nar.plots = nar.plots || {};
         
         // Create auxillary data series if in tsViz
         if (Object.has(tsViz, 'auxData')) {
-			plotConfig.auxData = [];			
+			plotConfig.auxData = [];
 			
 			if (Object.has(tsViz.auxData, 'mean')) {
 				plotConfig.auxData.push(makeBaselineConfig(tsViz.timeSeriesCollection.getData().first().first()[0], tsViz.auxData.mean));
