@@ -4,7 +4,7 @@ nar.plots = nar.plots || {};
 /* @typedef config
  * @property {String} plotDivId - id of div to create plot
  * @property {Array of TimeSeries.Collection} tsCollections
- * @property {Array of WFS features} basinFeatures - Each element in basinFeatures is represented by matching element in tsCollections
+ * @property {Array of tick labels} tickLabels - Each element in tickLabels is represented by matching element in tsCollections
  * @property {String} yaxisLabel (optional)
  * @property {String} title (optional)
  * @property {Function} yaxisFormatter (optional) - function takes a floating point number and returns a string.
@@ -18,10 +18,6 @@ nar.plots.createCoastalBasinPlot = function (config){
 	var dataValue = function(dataPoint) {
 		return parseFloat(dataPoint[1]);
 	};
-	
-	var ticks = config.basinFeatures.map(function(feature) {
-		return feature.attributes.STANAME.first(15); //TODO use new attribute from shapefile when available
-	});
 	
 	var yTickOptions = {};
 	
@@ -79,7 +75,7 @@ nar.plots.createCoastalBasinPlot = function (config){
 		axes : {
 			xaxis: {
 				renderer: $.jqplot.CategoryAxisRenderer,
-				ticks: ticks,
+				ticks: config.tickLabels,
 			},
 			yaxis: {
 				label : config.yaxisLabel,

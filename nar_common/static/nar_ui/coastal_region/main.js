@@ -1,7 +1,7 @@
 (function() {
 	CONFIG.startWaterYear = 1993;
 	CONFIG.siteIdAttribute = 'STAID',
-	CONFIG.riverNameAttribute = 'STANAME';//TODO soon to be 'River'
+	CONFIG.riverNameAttribute = 'River';
 	
 	var coastalRegionMap = nar.coastalRegion.map(CONFIG.endpoint.geoserver, CONFIG.region);
 	var getBasinFeatureInfoPromise = coastalRegionMap.getBasinFeatureInfoPromise([CONFIG.siteIdAttribute, CONFIG.riverNameAttribute]);
@@ -44,7 +44,10 @@
 		getBasinFeatureInfoPromise.then(function(response) {
 			var basinFeatures = response;
 			var basinSiteIds = basinFeatures.map(function(value) {
-				return value.attributes.STAID;
+				return value.attributes[CONFIG.siteIdAttribute];
+			});
+			var tickLabels = basinFeatures.map(function(value) {
+				return value.attributes[CONFIG.riverNameAttribute].replace('River', '\nRiver');
 			});
 			
 			// Make dataAvailability call for all sites for NO23
@@ -98,7 +101,7 @@
 							nar.plots.createCoastalBasinPlot({
 								plotDivId : 'load_plot_div', 
 								tsCollections : loadTSCollections, 
-								basinFeatures : basinFeatures, 
+								tickLabels : tickLabels, 
 								yaxisLabel : 'Tons', 
 								title : 'Load',
 								yaxisFormatter : function(format, value) {
@@ -111,7 +114,7 @@
 							nar.plots.createCoastalBasinPlot({
 									plotDivId : 'yield_plot_div', 
 									tsCollections : yieldTSCollections, 
-									basinFeatures : basinFeatures, 
+									tickLabels : tickLabels, 
 									yaxisLabel : 'Tons per square mile', 
 									title : 'Yield',
 									yaxisFormatter : function(format, value) {
