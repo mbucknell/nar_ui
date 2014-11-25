@@ -230,7 +230,7 @@ nar.GraphPopup = (function() {
 					if (me.timeSeriesViz.plot) {
 						graphInfoElt.html('');
 						var canvas = $('<canvas/>');
-						var canvasWidth = 175;
+						var canvasWidth = 160;
 						canvas.attr({width: canvasWidth, height: 55});
 						canvas.css({
 							width: canvasWidth + 'px',
