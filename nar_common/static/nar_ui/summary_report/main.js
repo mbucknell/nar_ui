@@ -1,7 +1,8 @@
+//@requires nar.timeSeries.VisualizationRegistry, nar.timeSeries.Visualization
 $(document).ready(
 	function() {
 		var ConstituentCurrentYearComparisonPlot = nar.plots.ConstituentCurrentYearComparisonPlot;
-        var ExceedancePlot = nar.plots.ExceedancePlot;            
+		var ExceedancePlot = nar.plots.ExceedancePlot;            
 
 		nar.informativePopup({
 			$anchor : $('#link-hover-benchmark-human'),
@@ -20,11 +21,11 @@ $(document).ready(
 		
 		// Wait for site info to load
 		$.when(nar.siteHelpInfoPromise).done(function() {
-			var isSiteForDummyNullData = PARAMS.siteId === '05451210'; //South Fork Iowa River near New Providence, IA
+//			var isSiteForDummyNullData = PARAMS.siteId === '05451210'; //South Fork Iowa River near New Providence, IA
 
-            var exceedancesTitle = 'Percent of samples with concentrations greater than benchmarks';
+			var exceedancesTitle = 'Percent of samples with concentrations greater than benchmarks';
             
-            var calculateExceedance = function(tsData) {
+			var calculateExceedance = function(tsData) {
 				var BENCHMARK_THRESHOLD = 10; // mg/L
 				var resultCount = tsData.length;
 				var exceedCount = tsData.exclude(function(value) {
@@ -44,13 +45,16 @@ $(document).ready(
 					};
 				}
 			};
-            
-            // Retrieve discrete concentration data and determine the percentage of samples exceeding benchmark            
-            var observedProperty = CONFIG.sosDefsBaseUrl + 'property/NO23';
-            var procedure = CONFIG.sosDefsBaseUrl + 'procedure/discrete_concentration';
-            
-            var getDataAvailability = $.ajax({
-				url : CONFIG.endpoint.sos,
+                       
+			//variables to hold water year values to plot 
+			var nitrateSeriesYearValue = 0;
+			var phosphorusSeriesYearValue = 0;
+			var streamflowSeriesYearValue = 0;
+			var sedimentSeriesYearValue = 0;
+
+			//find out what data is available for the site
+			var getDataAvailability = $.ajax({
+				url : CONFIG.endpoint.sos + '/json',
 				contentType : 'application/json',
 				type: 'POST',
 				dataType : 'json',
@@ -58,93 +62,145 @@ $(document).ready(
 					'request' : 'GetDataAvailability',
 					'service' : 'SOS',
 					'version' : '2.0.0',
-					'observedProperty' : observedProperty,
-					'procedure' : procedure,
 					'featureOfInterest' : PARAMS.siteId
 				})
-            });
-            
-			$.when(getDataAvailability).then(function(response){
-				var ts;
-				if (response.dataAvailability.length === 0) {
-					throw Error ('No discrete concentration data available');
-				}
-				else {
-					ts = new nar.timeSeries.TimeSeries({
-						procedure : procedure,
-						observedProperty : observedProperty,
-						featureOfInterest : PARAMS.siteId,
-						timeRange : new nar.timeSeries.TimeRange(
-								nar.WaterYearUtils.getWaterYearStart(CONFIG.currentWaterYear, true),
-								nar.WaterYearUtils.getWaterYearEnd(CONFIG.currentWaterYear, true)
-						)
-					});
-					
-					ts.retrieveData().then(
-						function(response) {
-							var result = calculateExceedance(response.data);
-							var humanHealthExceedancePlot = ExceedancePlot(
-									'humanHealthExceedances', 
-									[
-										{constituent: nar.Constituents.nitrate, data: result.value, label: result.label},
-										{constituent: {color: '', name: ' '}, data: ' ', label: ['']}
-									],
-									exceedancesTitle
-							);
-						},
-						function(reject) {
-							throw Error ('Count not retrieve discrete data');
-						}
-					);
-				}
 			});
-				//
-            var nitrateSeries = {
-                    constituentName : nar.Constituents.nitrate.name,
-                    constituentUnit : 'Million Tons',
-                    yearValue : isSiteForDummyNullData ? 0 : 12,
-                    yearColor : nar.Constituents.nitrate.color,
-                    averageName : 'Average 1991-2013',
-                    averageValue : 10
-            };
+        	
+			var successfulGetDataAvailability = function(data, textStatus, jqXHR) {
+				var dataAvailability = data.dataAvailability;
+        				
+				dataAvailability.each(function(dataAvailability) {
+					var observedProperty = dataAvailability.observedProperty;
+					var procedure = dataAvailability.procedure;
+					//ignore MODTYPE = 'COMP'
+					if(procedure.endsWith('COMP')){
+						return;//continue
+					}
+					else
+					{	
+						//not sure if these are the correct procedures and properties needed
+						if((procedure.endsWith('discrete_concentration') &&
+								observedProperty.endsWith('NO23') ||
+								observedProperty.endsWith('TP') ||
+								observedProperty.endsWith('SSC')) ||
+								procedure.endsWith('annual_flow') && 
+								observedProperty.endsWith('Q')	) {
+                    		
+							var timeSeries = new nar.timeSeries.TimeSeries(
+								{
+								observedProperty : observedProperty,
+								procedure : procedure,
+								featureOfInterest: PARAMS.siteId,
+								timeRange : new nar.timeSeries.TimeRange(
+										nar.WaterYearUtils.getWaterYearStart(CONFIG.currentWaterYear, true),
+										nar.WaterYearUtils.getWaterYearEnd(CONFIG.currentWaterYear, true))
+								});
+        					
+							timeSeries.retrieveData().then(
+								function(response) {
+									switch (procedure+observedProperty) {
+									
+									case CONFIG.sosDefsBaseUrl + 'procedure/discrete_concentration' + 
+										CONFIG.sosDefsBaseUrl + 'property/NO23':
 
-            var nitrateGraph = ConstituentCurrentYearComparisonPlot(
-                    '#barChart2', nitrateSeries);
+										//need to know how to handle remark data and also 
+										//how to calculate graph value
+										nitrateSeriesYearValue = response.data[0][1];	
+										var nitrateSeries = {
+											constituentName : nar.Constituents.nitrate.name,
+											constituentUnit : 'Million Tons',
+											yearValue : nitrateSeriesYearValue ? nitrateSeriesYearValue : 8,
+											yearColor : nar.Constituents.nitrate.color,
+											averageName : 'Average 1991-2013',
+											averageValue : 10
+										};
 
-            var phosphorusSeries = {
-                    constituentName : nar.Constituents.phosphorus.name,
-                    constituentUnit : 'Million Tons',
-                    yearValue : isSiteForDummyNullData ? 0 : 100,
-                    yearColor : nar.Constituents.phosphorus.color,
-                    averageName : 'Average 1985-2013',
-                    averageValue : 153
-            };
+										var nitrateGraph = ConstituentCurrentYearComparisonPlot(
+												'#barChart2', nitrateSeries);
+										
+										var result = calculateExceedance(response.data);
+										var humanHealthExceedancePlot = ExceedancePlot('humanHealthExceedances', 
+											[
+											 {constituent: nar.Constituents.nitrate, data: result.value, label: result.label},
+											 {constituent: {color: '', name: ' '}, data: ' ', label: ['']}
+											],
+											exceedancesTitle
+										);
+										break;
+										
+									case CONFIG.sosDefsBaseUrl + 'procedure/discrete_concentration' + 
+										CONFIG.sosDefsBaseUrl + 'property/TP':
 
-            var phosphorusGraph = ConstituentCurrentYearComparisonPlot(
-                    '#barChart3', phosphorusSeries);
+										//need to know how to calculate graph value
+										phosphorusSeriesYearValue = response.data[0][1];	
+										var phosphorusSeries = {
+											constituentName : nar.Constituents.phosphorus.name,
+											constituentUnit : 'Million Tons',
+											yearValue : phosphorusSeriesYearValue ? phosphorusSeriesYearValue : 8,
+											yearColor : nar.Constituents.phosphorus.color,
+											averageName : 'Average 1985-2013',
+											averageValue : 153
+										};
 
-            var streamflowSeries = {
-                    constituentName : nar.Constituents.streamflow.name,
-                    constituentUnit : 'Million acre-feet',
-                    yearValue : isSiteForDummyNullData ? 0: 1.7,
-                    yearColor : nar.Constituents.streamflow.color,
-                    averageName : 'Average 1999-2013',
-                    averageValue : 2.4
-            };
+										var phosphorusGraph = ConstituentCurrentYearComparisonPlot(
+												'#barChart3', phosphorusSeries);
+										break;
+										
+									case CONFIG.sosDefsBaseUrl + 'procedure/discrete_concentration' + 
+										CONFIG.sosDefsBaseUrl + 'property/SSC':
 
-            var streamflowGraph = ConstituentCurrentYearComparisonPlot(
-                    '#barChart1', streamflowSeries);
+										//need to know how to calculate graph value
+										sedimentSeriesYearValue = response.data[0][1];	
+										var sedimentSeries = {
+											constituentName : nar.Constituents.sediment.name,
+											constituentUnit : 'Million Tons',
+											yearValue : sedimentSeriesYearValue ? sedimentSeriesYearValue : 8,
+											yearColor : nar.Constituents.sediment.color,
+											averageName : 'Average 1990-2013',
+											averageValue : 100
+										};
 
-            var sedimentSeries = {
-                    constituentName : nar.Constituents.sediment.name,
-                    constituentUnit : 'Million Tons',
-                    yearValue : isSiteForDummyNullData ? 0: 300,
-                    yearColor : nar.Constituents.sediment.color,
-                    averageName : 'Average 1990-2013',
-                    averageValue : 100
-            };
+										var sedimentGraph = ConstituentCurrentYearComparisonPlot(
+												'#barChart4', sedimentSeries);
+										break;
+										
+									case CONFIG.sosDefsBaseUrl + 'procedure/annual_flow' + 
+										CONFIG.sosDefsBaseUrl + 'property/Q':
+										//find out how to get convert to million acre feet
+										streamflowSeriesYearValue = response.data[0][1]/10000;	
+										var streamflowSeries = {
+											constituentName : nar.Constituents.streamflow.name,
+											constituentUnit : 'Million acre-feet',
+											yearValue : streamflowSeriesYearValue ? streamflowSeriesYearValue : 8,
+											yearColor : nar.Constituents.streamflow.color,
+											averageName : 'Average 1999-2013',
+											averageValue : 2.4
+										};
 
-            var sedimentGraph = ConstituentCurrentYearComparisonPlot(
-                    '#barChart4', sedimentSeries);
+										var streamflowGraph = ConstituentCurrentYearComparisonPlot(
+												'#barChart1', streamflowSeries);
+										break;
+										
+									default:
+										break;
+        							}
+        						},
+        						function(reject) {
+        							throw Error ('Could not retrieve discrete data');
+        						}
+        					);
+                    	}
+                    }
+				});
+			};
+			var failedGetDataAvailability = function(data, textStatus,jqXHR) {
+			var msg = 'Could not determine data availability for this site';
+				// Errors are caught by window and alert is displayed
+				throw Error(msg);
+			};
+
+			$.when(getDataAvailability).then(
+				successfulGetDataAvailability,
+				failedGetDataAvailability);
 		});
 	});
