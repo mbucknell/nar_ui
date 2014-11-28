@@ -193,8 +193,7 @@ nar.coastal.map = (function() {
 			          me.createBaseLayer(),
 			          me.createStatesLayer(),
 			          me.createStreamsLayer(),
-			          me.createSitesLayer()
-			         ].concat(me.createBasinLayers())
+			         ].concat(me.createBasinLayers()).concat([me.createSitesLayer()])
 		});
 	};
 
