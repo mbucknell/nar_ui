@@ -14,7 +14,7 @@ nar.plots = nar.plots || {};
 				showLongTermMean : true,
 				showLongTermMeanHover : true,
 				plotHoverFormatter : function(x, y) {
-					return nar.plots.PlotUtils.waterYearPlotHoverFormatter(x, y, 0)
+					return nar.plots.PlotUtils.waterYearPlotHoverFormatter(x, y, 0);
 				}
 		};
 		var BASELINE_COLOR = 'black';

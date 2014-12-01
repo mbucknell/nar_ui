@@ -12,7 +12,6 @@ nar.plots = nar.plots || {};
 	 * @property {Array of data series Object} auxData - for each series, should set yaxis to 1 if plotted on the same access as the
 	 * 		timeSeries data or 2 if plotted on a separate axis
 	 * @property {jqueryFlot axis } secondaryYaxis - Only used if auxData is defined
-	 * 
 	 * @param {TimeSeriesVisualization} tsViz
 	 * @param {nar.plotConstituentBarChartConfig} config
 	 */
@@ -84,7 +83,7 @@ nar.plots = nar.plots || {};
 		
 		if (config.showLongTermMean) {
 			longTermMean = nar.plots.PlotUtils.calculateLongTermAverage(tsViz);
-			series.push(makeLongTermMeanSeries(longTermMean, constituentInfo.colors.longTermMean));
+			series.push(makeLongTermMeanSeries(longTermMean, constituentInfo.colors.longTermMean, 'Long-term mean'));
 		}
 		
 		if (config.auxData) {
