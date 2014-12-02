@@ -11,42 +11,45 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 			northeast : {
 				inset : 'ne_inset', 
 				streams : 'ne_streams', 
-				labels : 'ne_streamnames',
-				extent : new OpenLayers.Bounds(-81.0, 37.5,  -70.5, 46.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
-				resolution : 2500
+				estuaries : 'ne_estuarynames',
+				sites_sld : 'ne_sites',
+				extent : new OpenLayers.Bounds(-79.2, 37.2,  -70.5, 44.5).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
+				resolution : 2300
 			},
 			southeast : {
 				inset : 'se_inset', 
 				streams : 'se_streams', 
-				labels : 'se_streamnames',
-				extent : new OpenLayers.Bounds(-85.0, 31.0, -79.0, 35.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
-				resolution: 1250
+				estuaries : 'se_estuarynames',
+				sites_sld : 'se_sites',
+				extent : new OpenLayers.Bounds(-84.0, 32.0, -78.0, 36.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
+				resolution: 1600
 			},
 			gulf : {
 				inset : 'gulf_inset', 
 				streams : 'gulf_streams', 
-				labels : 'gulf_streamnames',
-				resolution: 8000,
-				extent : new OpenLayers.Bounds(-115.0, 24.5, -77.0, 50.5).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
+				estuaries : 'gulf_estuarynames',
+				sites_sld : 'gulf_sites',
+				resolution: 7100,
+				extent : new OpenLayers.Bounds(-114.0, 24.5, -78.0, 50.5).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
 			},
 			west : {
 				inset : 'west_inset', 
 				streams : 'west_streams',
-				labels : 'west_streamnames',
-				extent : new OpenLayers.Bounds(-138.0, 26.0, -104.0, 53.5).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
-				resolution: 7100
+				estuaries : 'west_estuarynames',
+				sites_sld : 'west_sites',
+				extent : new OpenLayers.Bounds(-136.0, 26.0, -104.0, 54.5).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
+				resolution: 6300
 			},
 			alaska : {
 				inset : 'westAKonly_inset', 
 				streams : 'westAKonly_streams', 
-				labels : 'westAKonly_streamnames',
-				extent : new OpenLayers.Bounds(-175.0, 55.0, -135.0, 71.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
-				resolution: 8000
+				estuaries : 'westAKonly_estuarynames',
+				sites_sld : 'alaska_sites',
+				extent : new OpenLayers.Bounds(-177.0, 54.0, -134.0, 71.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
+				resolution: 9000
 			}
 	};
 	var NAR_NS = 'NAR:';
-	
-	var ALASKA_EXTENT = new OpenLayers.Bounds(-175.0, 55.0, -135.0, 71.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection);
 	
 	var getFeatureBoundingBox = $.Deferred();
 	
@@ -80,14 +83,14 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 		);
 	};
 	
-	var createSitesLayer = function() {
+	var createSitesLayer = function(sld) {
 		return new OpenLayers.Layer.WMS(
 			"Sites",
 			WMS_URL,
 			{
 				layers : NAR_NS + 'JD_NFSN_sites',
 				transparent : true,
-				styles: 'sites13_with_names',
+				styles: sld || REGION[region].sites_sld,
 				'CQL_FILTER' : "site_type = 'Coastal Rivers'"
 			}, {
 				isBaseLayer : false,
@@ -112,7 +115,7 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 					}
 	        ),
 	        new OpenLayers.Layer.WMS(
-	        		region + ' Basin',
+	        		region + ' Streams',
 					WMS_URL,
 					{
 						layers: NAR_NS + REGION[region].streams,
@@ -124,8 +127,19 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 						singleTile : true
 					}
 	        ),
-
-	        //TODO add estuaries when available
+	        new OpenLayers.Layer.WMS(
+	        		region + ' Estuaries',
+	        		WMS_URL,
+	        		{
+	        			layers : NAR_NS + REGION[region].estuaries,
+	        			transparent : true,
+	        			styles: 'estuary_name'
+	        		},
+	        		{
+	        			isBaseLayer : false,
+	        			singleTile : true
+	        		}
+	        )
 	        ];
 	};
 	
@@ -158,7 +172,19 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 							singleTile : true
 						}
 				),
-		        //TODO add estuaries when available
+		        new OpenLayers.Layer.WMS(
+		        		region + ' Estuaries',
+		        		WMS_URL,
+		        		{
+		        			layers: NAR_NS + REGION.alaska.estuaries,
+		        			transparent : true,
+		        			styles : 'estuary_name'
+		        		},
+		        		{
+		        			isBaseLayer : false,
+		        			singleTile : true
+		        		}
+		        )
 		        ];
 	};
 		
@@ -181,7 +207,7 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 			restrictedExtent : REGION.alaska.extent,
 			maxExtent : REGION.alaska.extent,
 			controls : [],
-			layers : [createStatesBaseLayer()].concat([createAlaskaOutlineLayer()]).concat(createAlaskaBasinLayers()).concat([createSitesLayer()])
+			layers : [createStatesBaseLayer()].concat([createAlaskaOutlineLayer()]).concat(createAlaskaBasinLayers()).concat([createSitesLayer(REGION.alaska.sites_sld)])
 		};
 	};
 	
