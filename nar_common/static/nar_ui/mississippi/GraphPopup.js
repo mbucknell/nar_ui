@@ -230,7 +230,21 @@ nar.GraphPopup = (function() {
 					if (me.timeSeriesViz.plot) {
 						graphInfoElt.html('');
 						var canvas = $('<canvas/>');
-						var canvasWidth = 320;
+						var popupWidth = dialog.width();
+						var canvasWidth, fontSize;
+						if(popupWidth > 400){
+							canvasWidth = 360;
+							fontSize = 10;
+						}
+						else if (popupWidth < 340){
+							canvasWidth = 300;
+							fontSize = 8;
+						}
+						else{
+							canvasWidth = 250;
+							fontSize = 6;
+						}
+						
 						var canvasHeight;
 						if('annual' === type){
 							canvasHeight = 40;
@@ -264,6 +278,13 @@ nar.GraphPopup = (function() {
 						options.canvasLegend= {
 							show: true,
 							container : canvas,
+							font:{
+								style: '',
+					            size: fontSize,
+					            variant: '',
+					            weight: '',
+					            family: 'arial'
+							},
 							entrySize:
 								/**
 						         * 
@@ -338,10 +359,7 @@ nar.GraphPopup = (function() {
 					            var textY = entryOriginY + LEGEND_PADDING  + labelHeight;
 					            legendCtx.fillText(label, textX, textY);
 					        },
-							layout: $.plot.canvasLegend.layouts.tableWithNColumns(2),
-							font:{
-								size: 10
-							}
+							layout: $.plot.canvasLegend.layouts.tableWithNColumns(2)
 						};
 
 						
