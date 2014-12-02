@@ -1,5 +1,6 @@
 //inspiration: https://gist.github.com/getify/3022194
 (function() {
+	"use strict";
 	if (!CanvasRenderingContext2D.prototype.setLineDash) {
 		
 		CanvasRenderingContext2D.prototype.setLineDash = function(lineDash){
