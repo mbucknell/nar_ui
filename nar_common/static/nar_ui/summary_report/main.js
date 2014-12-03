@@ -29,8 +29,7 @@ $(document).ready(
 		
 		// Wait for site info to load
 		$.when(nar.siteHelpInfoPromise).done(function() {
-//			var isSiteForDummyNullData = PARAMS.siteId === '05451210'; //South Fork Iowa River near New Providence, IA
-
+			
 			var exceedancesTitle = 'Percent of samples with concentrations greater than benchmarks';
             
 			var calculateExceedance = function(tsData) {
@@ -61,14 +60,10 @@ $(document).ready(
 			 * @param {Array} availability of data availability objects to be used to retrieve data
 			 * @return TimeSeries.Collection containing a time series for each object in availability
 			 */
-			var getTimeSeriesCollection = function(forFeature, availability) {
+			var getTimeSeriesCollection = function(availability) {
 				var result = new nar.timeSeries.Collection();
 				
-				var thisFeatureAvailability = availability.filter(function (value) {
-					return value.featureOfInterest === forFeature;
-				});
-				
-				thisFeatureAvailability.each(function(value) {
+				availability.each(function(value) {
 					var ts = new nar.timeSeries.TimeSeries({
 						timeRange : averageDataTimeRange,
 						observedProperty : value.observedProperty,
@@ -111,6 +106,20 @@ $(document).ready(
 					average : avgData,
 					current : currentYearData
 				};
+			};
+			
+			var graphBar = function(values, name, unit, color, barChart) {						
+				var series = {
+					constituentName : name,
+					constituentUnit : unit,
+					yearValue : values.current[0],
+					yearColor : color,
+					averageName : 'Average 1993-' + (CONFIG.currentWaterYear - 1),
+					averageValue : values.average[0]
+				};
+
+				var graph = ConstituentCurrentYearComparisonPlot(
+						barChart, series);
 			};
 
 			//find out what data is available for the site
@@ -194,7 +203,7 @@ $(document).ready(
 				});
 		
 				var loadStreamflowTSCollections = [];
-				loadStreamflowTSCollections.push(getTimeSeriesCollection(id, streamflowDataAvailability));
+				loadStreamflowTSCollections.push(getTimeSeriesCollection(streamflowDataAvailability));
 				var loadStreamflowDataPromises = [];
 				
 				// Retrieve data for each time series collection
@@ -205,22 +214,16 @@ $(document).ready(
 				// Sort the data once received and plot.
 				$.when.apply(null, loadStreamflowDataPromises).then(function() {
 					var result = getPlotValues(loadStreamflowTSCollections);
-						
-					var streamflowSeries = {
-						constituentName : nar.Constituents.streamflow.name,
-						constituentUnit : 'Million acre-feet',
-						yearValue : result.current,
-						yearColor : nar.Constituents.streamflow.color,
-						averageName : 'Average 1993-' + (CONFIG.currentWaterYear - 1),
-						averageValue : result.average
-					};
-
-					var streamflowGraph = ConstituentCurrentYearComparisonPlot(
-							'#barChart1', streamflowSeries);										
+					
+					var graphStreamflowBar = graphBar(result, 
+												nar.Constituents.streamflow.name,
+												'Million Acre-Feet',
+												nar.Constituents.streamflow.color,
+												'#barChart1');					
 				});
 				
 				var loadNitrateTSCollections = [];
-				loadNitrateTSCollections.push(getTimeSeriesCollection(id, nitrateDataAvailability));
+				loadNitrateTSCollections.push(getTimeSeriesCollection(nitrateDataAvailability));
 				var loadNitrateDataPromises = [];
 				
 				// Retrieve data for each time series collection
@@ -231,22 +234,16 @@ $(document).ready(
 				// Sort the data once received and plot.
 				$.when.apply(null, loadNitrateDataPromises).then(function() {
 					var result = getPlotValues(loadNitrateTSCollections);
-						
-					var nitrateSeries = {
-						constituentName : nar.Constituents.nitrate.name,
-						constituentUnit : 'Million Tons',
-						yearValue : result.current[0],
-						yearColor : nar.Constituents.nitrate.color,
-						averageName : 'Average 1993-' + (CONFIG.currentWaterYear - 1),
-						averageValue : result.average[0]
-					};
-
-					var nitrateGraph = ConstituentCurrentYearComparisonPlot(
-							'#barChart2', nitrateSeries);
+					
+					var graphNitrateBar = graphBar(result, 
+												nar.Constituents.nitrate.name,
+												'Million Tons',
+												nar.Constituents.nitrate.color,
+												'#barChart2');						
 				});
 				
 				var loadPhosphorusTSCollections = [];
-				loadPhosphorusTSCollections.push(getTimeSeriesCollection(id, phosphorusDataAvailability));
+				loadPhosphorusTSCollections.push(getTimeSeriesCollection(phosphorusDataAvailability));
 				var loadPhosphorusDataPromises = [];
 				
 				// Retrieve data for each time series collection
@@ -258,21 +255,15 @@ $(document).ready(
 				$.when.apply(null, loadPhosphorusDataPromises).then(function() {
 					var result = getPlotValues(loadPhosphorusTSCollections);
 					
-					var phosphorusSeries = {
-						constituentName : nar.Constituents.phosphorus.name,
-						constituentUnit : 'Million Tons',
-						yearValue : result.current[0],
-						yearColor : nar.Constituents.phosphorus.color,
-						averageName : 'Average 1993-' + (CONFIG.currentWaterYear - 1),
-						averageValue : result.average[0]
-					};
-
-					var phosphorusGraph = ConstituentCurrentYearComparisonPlot(
-							'#barChart3', phosphorusSeries);
+					var graphPhosphorusBar = graphBar(result, 
+												nar.Constituents.phosphorus.name,
+												'Million Tons',
+												nar.Constituents.phosphorus.color,
+												'#barChart3');											
 				});
 				
 				var loadSedimentTSCollections = [];
-				loadSedimentTSCollections.push(getTimeSeriesCollection(id, sedimentDataAvailability));
+				loadSedimentTSCollections.push(getTimeSeriesCollection(sedimentDataAvailability));
 				var loadSedimentDataPromises = [];
 				
 				// Retrieve data for each time series collection
@@ -284,17 +275,11 @@ $(document).ready(
 				$.when.apply(null, loadSedimentDataPromises).then(function() {
 					var result = getPlotValues(loadSedimentTSCollections);
 					
-					var sedimentSeries = {
-						constituentName : nar.Constituents.sediment.name,
-						constituentUnit : 'Million Tons',
-						yearValue : result.current[0],
-						yearColor : nar.Constituents.sediment.color,
-						averageName : 'Average 1993-' + (CONFIG.currentWaterYear - 1),
-						averageValue : result.average[0]
-					};
-
-					var sedimentGraph = ConstituentCurrentYearComparisonPlot(
-							'#barChart4', sedimentSeries);			
+					var graphSedimentBar = graphBar(result, 
+												nar.Constituents.sediment.name,
+												'Million Tons',
+												nar.Constituents.sediment.color,
+												'#barChart4');											
 				});
 			};
 			var failedGetDataAvailability = function(data, textStatus,jqXHR) {
