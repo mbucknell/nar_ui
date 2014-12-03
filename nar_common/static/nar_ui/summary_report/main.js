@@ -216,10 +216,10 @@ $(document).ready(
 					var result = getPlotValues(loadStreamflowTSCollections);
 					
 					var graphStreamflowBar = graphBar(result, 
-												nar.Constituents.streamflow.name,
-												'Million Acre-Feet',
-												nar.Constituents.streamflow.color,
-												'#barChart1');					
+							nar.Constituents.streamflow.name,
+							'Million Acre-Feet',
+							nar.Constituents.streamflow.color,
+							'#barChart1');					
 				});
 				
 				var loadNitrateTSCollections = [];
@@ -236,10 +236,10 @@ $(document).ready(
 					var result = getPlotValues(loadNitrateTSCollections);
 					
 					var graphNitrateBar = graphBar(result, 
-												nar.Constituents.nitrate.name,
-												'Million Tons',
-												nar.Constituents.nitrate.color,
-												'#barChart2');						
+							nar.Constituents.nitrate.name,
+							'Million Tons',
+							nar.Constituents.nitrate.color,
+							'#barChart2');						
 				});
 				
 				var loadPhosphorusTSCollections = [];
@@ -256,10 +256,10 @@ $(document).ready(
 					var result = getPlotValues(loadPhosphorusTSCollections);
 					
 					var graphPhosphorusBar = graphBar(result, 
-												nar.Constituents.phosphorus.name,
-												'Million Tons',
-												nar.Constituents.phosphorus.color,
-												'#barChart3');											
+							nar.Constituents.phosphorus.name,
+							'Million Tons',
+							nar.Constituents.phosphorus.color,
+							'#barChart3');											
 				});
 				
 				var loadSedimentTSCollections = [];
@@ -276,10 +276,10 @@ $(document).ready(
 					var result = getPlotValues(loadSedimentTSCollections);
 					
 					var graphSedimentBar = graphBar(result, 
-												nar.Constituents.sediment.name,
-												'Million Tons',
-												nar.Constituents.sediment.color,
-												'#barChart4');											
+							nar.Constituents.sediment.name,
+							'Million Tons',
+							nar.Constituents.sediment.color,
+							'#barChart4');											
 				});
 			};
 			var failedGetDataAvailability = function(data, textStatus,jqXHR) {
