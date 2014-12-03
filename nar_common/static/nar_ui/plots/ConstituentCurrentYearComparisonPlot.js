@@ -50,7 +50,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
 	var legendElt = $('<div/>', {'class': ConstituentCurrentYearComparisonPlot.legendClass});
 	var yearLegendClass = ConstituentCurrentYearComparisonPlot.yearLegendClass;
     var yearLegendElt = $('<span/>', {'class': yearLegendClass });
-    yearLegendElt.html('2014');
+    yearLegendElt.html(CONFIG.currentWaterYear);
     var yearLegendEltSelector = plotContainerSelector + ' .' + yearLegendClass;
     
     var averageLegendClass = ConstituentCurrentYearComparisonPlot.averageLegendClass;
@@ -69,7 +69,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
 	var yearSeries = {
 
         data: [['', series.yearValue]],
-        label: '2014',
+        label: CONFIG.currentWaterYear,
         bars: {
                 show: true,
                 barWidth: 4,
