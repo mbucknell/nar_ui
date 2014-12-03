@@ -36,8 +36,10 @@ $(document).ready(
 			var calculateExceedance = function(tsData) {
 				var BENCHMARK_THRESHOLD = 10; // mg/L
 				var resultCount = tsData.length;
+				//Anything with a remark code (<) should be included in the total number
+				//of samples count but not in the values that exceed the benchmark.
 				var exceedCount = tsData.exclude(function(value) {
-					return value[1] <= BENCHMARK_THRESHOLD;
+					return value[1].remove('<') <= BENCHMARK_THRESHOLD || value[1].has('<');
 				}).length;
 				if (exceedCount === 0) {
 					return {
@@ -209,7 +211,7 @@ $(document).ready(
 						constituentUnit : 'Million acre-feet',
 						yearValue : result.current,
 						yearColor : nar.Constituents.streamflow.color,
-						averageName : 'Average 1999-2013',
+						averageName : 'Average 1993-' + (CONFIG.currentWaterYear - 1),
 						averageValue : result.average
 					};
 
@@ -233,10 +235,10 @@ $(document).ready(
 					var nitrateSeries = {
 						constituentName : nar.Constituents.nitrate.name,
 						constituentUnit : 'Million Tons',
-						yearValue : result.current,
+						yearValue : result.current[0],
 						yearColor : nar.Constituents.nitrate.color,
-						averageName : 'Average 1991-2013',
-						averageValue : result.average
+						averageName : 'Average 1993-' + (CONFIG.currentWaterYear - 1),
+						averageValue : result.average[0]
 					};
 
 					var nitrateGraph = ConstituentCurrentYearComparisonPlot(
@@ -259,10 +261,10 @@ $(document).ready(
 					var phosphorusSeries = {
 						constituentName : nar.Constituents.phosphorus.name,
 						constituentUnit : 'Million Tons',
-						yearValue : result.current,
+						yearValue : result.current[0],
 						yearColor : nar.Constituents.phosphorus.color,
-						averageName : 'Average 1985-2013',
-						averageValue : result.average
+						averageName : 'Average 1993-' + (CONFIG.currentWaterYear - 1),
+						averageValue : result.average[0]
 					};
 
 					var phosphorusGraph = ConstituentCurrentYearComparisonPlot(
@@ -285,10 +287,10 @@ $(document).ready(
 					var sedimentSeries = {
 						constituentName : nar.Constituents.sediment.name,
 						constituentUnit : 'Million Tons',
-						yearValue : result.current,
+						yearValue : result.current[0],
 						yearColor : nar.Constituents.sediment.color,
-						averageName : 'Average 1990-2013',
-						averageValue : result.average
+						averageName : 'Average 1993-' + (CONFIG.currentWaterYear - 1),
+						averageValue : result.average[0]
 					};
 
 					var sedimentGraph = ConstituentCurrentYearComparisonPlot(

@@ -132,7 +132,7 @@
 		<h2>{{ site_name }}</h2>
 		<h3>Station ID: {{ site_id }}</h3>
 		<h4>
-			<i>Summary of Water-Quality Conditions for 2014</i>
+			<i>Summary of Water-Quality Conditions for {{ settings.NAR_CURRENT_WATER_YEAR }}</i>
 		</h4>
 		
 		<a href="{% url 'download' %}"><button id="summaryDownload">Download Data</button></a>
