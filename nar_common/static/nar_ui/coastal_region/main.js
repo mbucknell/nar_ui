@@ -105,7 +105,12 @@
 								yaxisLabel : 'Tons', 
 								title : 'Load',
 								yaxisFormatter : function(format, value) {
-									return value.format(0);
+									if (Object.isNumber(value)) {
+										return value.format(0);
+									}
+									else {
+										return value;
+									}
 								}
 							});
 						});
@@ -118,7 +123,12 @@
 									yaxisLabel : 'Tons per square mile', 
 									title : 'Yield',
 									yaxisFormatter : function(format, value) {
-										return value.format(2);
+										if (Object.isNumber(value)) {
+											return value.format(2);
+										}
+										else {
+											return value;
+										}
 									}
 							});
 						});
