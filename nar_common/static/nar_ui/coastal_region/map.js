@@ -11,7 +11,6 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 			northeast : {
 				inset : 'ne_inset', 
 				streams : 'ne_streams', 
-				estuaries : 'ne_estuarynames',
 				sites_sld : 'ne_sites',
 				extent : new OpenLayers.Bounds(-79.2, 37.2,  -70.5, 44.5).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
 				resolution : 2300
@@ -19,7 +18,6 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 			southeast : {
 				inset : 'se_inset', 
 				streams : 'se_streams', 
-				estuaries : 'se_estuarynames',
 				sites_sld : 'se_sites',
 				extent : new OpenLayers.Bounds(-84.0, 32.0, -78.0, 36.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
 				resolution: 1600
@@ -27,15 +25,13 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 			gulf : {
 				inset : 'gulf_inset', 
 				streams : 'gulf_streams', 
-				estuaries : 'gulf_estuarynames',
 				sites_sld : 'gulf_sites',
-				resolution: 7100,
+				resolution: 7400,
 				extent : new OpenLayers.Bounds(-114.0, 24.5, -78.0, 50.5).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
 			},
 			west : {
 				inset : 'west_inset', 
 				streams : 'west_streams',
-				estuaries : 'west_estuarynames',
 				sites_sld : 'west_sites',
 				extent : new OpenLayers.Bounds(-136.0, 26.0, -104.0, 54.5).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
 				resolution: 6300
@@ -43,7 +39,6 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 			alaska : {
 				inset : 'westAKonly_inset', 
 				streams : 'westAKonly_streams', 
-				estuaries : 'westAKonly_estuarynames',
 				sites_sld : 'alaska_sites',
 				extent : new OpenLayers.Bounds(-177.0, 54.0, -134.0, 71.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
 				resolution: 9000
@@ -126,19 +121,6 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 						isBaseLayer : false,
 						singleTile : true
 					}
-	        ),
-	        new OpenLayers.Layer.WMS(
-	        		region + ' Estuaries',
-	        		WMS_URL,
-	        		{
-	        			layers : NAR_NS + REGION[region].estuaries,
-	        			transparent : true,
-	        			styles: 'estuary_name'
-	        		},
-	        		{
-	        			isBaseLayer : false,
-	        			singleTile : true
-	        		}
 	        )
 	        ];
 	};
@@ -171,20 +153,7 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 							isBaseLayer : false,
 							singleTile : true
 						}
-				),
-		        new OpenLayers.Layer.WMS(
-		        		region + ' Estuaries',
-		        		WMS_URL,
-		        		{
-		        			layers: NAR_NS + REGION.alaska.estuaries,
-		        			transparent : true,
-		        			styles : 'estuary_name'
-		        		},
-		        		{
-		        			isBaseLayer : false,
-		        			singleTile : true
-		        		}
-		        )
+				)
 		        ];
 	};
 		

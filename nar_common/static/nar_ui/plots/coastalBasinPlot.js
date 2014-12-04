@@ -20,6 +20,8 @@ nar.plots.createCoastalBasinPlot = function (config){
 	};
 	
 	var yTickOptions = {};
+	var avgLabels = [];
+	var curLabels = [];
 	
 	if (Object.has(config, 'yaxisFormatter')) {
 		yTickOptions.formatter = config.yaxisFormatter;
@@ -32,15 +34,19 @@ nar.plots.createCoastalBasinPlot = function (config){
 		
 		if (splitData.previousYearsData.length === 0) {
 			avgData.push(0);
+			avgLabels.push('NA');
 		}
 		else {
 			avgData.push(splitData.previousYearsData.average(dataValue));
+			avgLabels.push('');
 		}
 		if (splitData.currentYearData.length === 0) {
 			currentYearData.push(0);
+			curLabels.push('NA');
 		}
 		else {
 			currentYearData.push(dataValue(splitData.currentYearData.first()));
+			curLabels.push('');
 		}
 	});
 	
@@ -56,8 +62,24 @@ nar.plots.createCoastalBasinPlot = function (config){
 			shadow : false
 		},
 		series: [
-		         {label : 'Average: ' + CONFIG.startWaterYear + '-' + (CONFIG.currentWaterYear - 1), color : "#A0A0A0"},
-		         {label : CONFIG.currentWaterYear, color: nar.Constituents.nitrate.color}
+		         {
+		        	 label : 'Average: ' + CONFIG.startWaterYear + '-' + (CONFIG.currentWaterYear - 1), 
+		        	 color : "#A0A0A0",
+		        	 pointLabels : {
+		        		 show : true,
+		        		 labels : avgLabels,
+		        		 location : 'n'
+		        	 }
+		         },
+		         {
+		        	 label : CONFIG.currentWaterYear, 
+		        	 color: nar.Constituents.nitrate.color,
+		        	 pointLabels : {
+		        		 show : true,
+		        		 labels : curLabels,
+		        		 location : 'n'
+		        	 }
+		         }
 		],
 		legend: {
 			show: true,
