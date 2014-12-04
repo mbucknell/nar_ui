@@ -13,6 +13,21 @@
     {{ block.super }}
     <script type="text/javascript">
         CONFIG.region = "{{ request.GET.region }}".toLowerCase();
+        
+        var host_url;
+        {% if request.is_secure %}
+            host_url = "https://{{ request.get_host }}";
+        {% else %}
+            host_url = "http://{{ request.get_host }}";
+        {% endif %}
+        
+        CONFIG.site_slds = {
+            northeast : host_url + "{% url 'northeast_sites_sld' %}",
+            southeast : host_url + "{% url 'southeast_sites_sld' %}",
+            gulf : host_url + "{% url 'gulf_sites_sld' %}",
+            west : host_url + "{% url 'west_sites_sld' %}",
+            alaska : host_url + "{% url 'alaska_sites_sld' %}"
+        };
     </script>
 {% endblock %}
 

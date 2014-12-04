@@ -11,35 +11,35 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 			northeast : {
 				inset : 'ne_inset', 
 				streams : 'ne_streams', 
-				sites_sld : 'ne_sites',
+				sites_sld : CONFIG.site_slds.northeast,
 				extent : new OpenLayers.Bounds(-79.2, 37.2,  -70.5, 44.5).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
 				resolution : 2300
 			},
 			southeast : {
 				inset : 'se_inset', 
 				streams : 'se_streams', 
-				sites_sld : 'se_sites',
+				sites_sld : CONFIG.site_slds.southeast,
 				extent : new OpenLayers.Bounds(-84.0, 32.0, -78.0, 36.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
 				resolution: 1600
 			},
 			gulf : {
 				inset : 'gulf_inset', 
 				streams : 'gulf_streams', 
-				sites_sld : 'gulf_sites',
+				sites_sld : CONFIG.site_slds.gulf,
 				resolution: 7400,
 				extent : new OpenLayers.Bounds(-114.0, 24.5, -78.0, 50.5).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
 			},
 			west : {
 				inset : 'west_inset', 
 				streams : 'west_streams',
-				sites_sld : 'west_sites',
+				sites_sld : CONFIG.site_slds.west,
 				extent : new OpenLayers.Bounds(-136.0, 26.0, -104.0, 54.5).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
 				resolution: 6300
 			},
 			alaska : {
 				inset : 'westAKonly_inset', 
 				streams : 'westAKonly_streams', 
-				sites_sld : 'alaska_sites',
+				sites_sld : CONFIG.site_slds.alaska,
 				extent : new OpenLayers.Bounds(-177.0, 54.0, -134.0, 71.0).transform(nar.commons.map.geographicProjection, nar.commons.map.projection),
 				resolution: 9000
 			}
@@ -83,13 +83,19 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 			"Sites",
 			WMS_URL,
 			{
-				layers : NAR_NS + 'JD_NFSN_sites',
+				layers : [NAR_NS + 'JD_NFSN_sites'],
 				transparent : true,
-				styles: sld || REGION[region].sites_sld,
+				version: '1.1.1',
+				'SLD_BODY' : sld,
 				'CQL_FILTER' : "site_type = 'Coastal Rivers'"
 			}, {
 				isBaseLayer : false,
-				singleTile : true
+				singleTile : true,
+				tileOptions: {
+					// http://www.faqs.org/rfcs/rfc2616.html
+					// This will cause any request larger than this many characters to be a POST
+					maxGetUrlLength: 1024
+				}
 			}
 		);
 	};
@@ -165,7 +171,7 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 			maxExtent : REGION[region].extent,
 			maxResolution: REGION[region].resolution,
 			controls : [],
-			layers : [createStatesBaseLayer()].concat(createBasinLayers()).concat([createSitesLayer()])
+			layers : [createStatesBaseLayer()].concat(createBasinLayers())
 		};
 	};
 	
@@ -176,16 +182,33 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 			restrictedExtent : REGION.alaska.extent,
 			maxExtent : REGION.alaska.extent,
 			controls : [],
-			layers : [createStatesBaseLayer()].concat([createAlaskaOutlineLayer()]).concat(createAlaskaBasinLayers()).concat([createSitesLayer(REGION.alaska.sites_sld)])
+			layers : [createStatesBaseLayer()].concat([createAlaskaOutlineLayer()]).concat(createAlaskaBasinLayers())
 		};
 	};
 	
 	me.createRegionMap = function(mapDiv, akInsetMapDiv) {
-		var map = new OpenLayers.Map(mapDiv, createDefaultMapOptions());
+		// Retrieve sld
+		var map = new OpenLayers.Map(mapDiv, createDefaultMapOptions());;
+		$.ajax({
+			url : REGION[region].sites_sld,
+			type : 'GET',
+			dataType : 'text',
+			success : function(data) {
+				map.addLayer(createSitesLayer(data));
+			}
+		});
 		var akMap;
 		if (region === 'west') {
 			$('#' + akInsetMapDiv).parent().show();
 			akMap = new OpenLayers.Map(akInsetMapDiv, createDefaultAlaskaMapOptions());
+			$.ajax({
+				url : REGION.alaska.sites_sld,
+				type : 'GET',
+				dataType : 'text',
+				success : function(data) {
+					akMap.addLayer(createSitesLayer(data));
+				}
+			});
 			akMap.zoomToExtent(REGION.alaska.extent);
 		}
 		else { // Make sure inset map is not visible
