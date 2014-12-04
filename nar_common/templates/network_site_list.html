@@ -5,6 +5,8 @@
 {% block content_title %}Network Site List{% endblock %}
 
 {% block content_body %}
+	<div id="network_site_table">
 	{% pull_feed network_site_list_feed %}
+	</div>
 {% endblock %}
 
