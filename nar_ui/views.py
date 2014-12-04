@@ -50,3 +50,26 @@ class CoastalRegionView(TemplateView):
     
 class DownloadView(TemplateView):
     template_name = 'nar_ui/download.html'
+    
+    
+class AlaskaSldView(TemplateView):
+    content_type = "text/xml; charset=utf-8"
+    template_name = 'nar_ui/slds/alaska_sites.sld'
+    
+class GulfSldView(TemplateView):
+    content_type = "text/xml; charset=utf-8"
+    template_name = 'nar_ui/slds/gulf_sites.sld'
+    
+class NortheastSldView(TemplateView):
+    content_type = "text/xml; charset=utf-8"
+    template_name = 'nar_ui/slds/ne_sites.sld'
+    
+class SoutheastSldView(TemplateView):
+    content_type = "text/xml; charset=utf-8"
+    template_name = 'nar_ui/slds/se_sites.sld'
+    
+class WestSldView(TemplateView):
+    content_type = "text/xml; charset=utf-8"
+    template_name = 'nar_ui/slds/west_sites.sld'
+    
+    
