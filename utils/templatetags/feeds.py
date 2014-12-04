@@ -24,12 +24,10 @@ def pull_feed (feed_url):
         childrenDivs = feedDiv.findAll('div')
         childrenDivs[len(childrenDivs) - 1].extract()
 
-        # Translate any in page links to use relative URL
-        base = feed['entries'][0].summary_detail.base
-        links = feedDiv.select('a[href^="' + base + '"]')
+        # Any links which use anchors should have the leading part of the url (before #) removed.
+        links = feedDiv.select('a[href*="#"]')
         for link in links:
-            link['href'] = link['href'].replace(base, '')
-
+            link['href'] = link['href'][link['href'].find('#'):]
         post = unicode(soup)
 
     return {'post' : post}

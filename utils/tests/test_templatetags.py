@@ -32,7 +32,7 @@ class PullFeedTestCase(SimpleTestCase):
         entryMock = mock.Mock
         entryMock.summary = '<div><p>First Paragraph</p><div class="feed"><div>Content Div<a href="http://fakefeed.com/feed/#localref">Local Link</a></div><div>Edit Info Div</div></div></div>'
         entryMock.summary_detail = mock.Mock
-        entryMock.summary_detail.base = 'http://fakefeed.com/feed/'
+        entryMock.summary_detail.base = 'http://fakefeed.com/createfeed/'
         mock_feedparser.return_value = {'entries' : [entryMock, ]}
 
         result = pull_feed('http://fakefeed.com/feed/')
