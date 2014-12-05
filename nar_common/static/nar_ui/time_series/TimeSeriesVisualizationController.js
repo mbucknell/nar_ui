@@ -73,7 +73,7 @@ nar.timeSeries.VisualizationController = function(timeSlider, instructionsElt){
         //plot may not be defined yet. In that case, skip it --
         //zooming on that plot will be handled by a subsequent 
         //asynchronous call
-        if(plot){
+        if (plot){
             var options = plot.getOptions();
             if (allowTimeSlider) {
 	            options.xaxes.each(function(axis){

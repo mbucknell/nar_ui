@@ -220,16 +220,26 @@ nar.timeSeries.Visualization.types = function(components) {
 			};
 		}
 		else { // Must be flow
-			return {
-				plotter : nar.plots.FlowWrapper,
-				range : nar.timeSeries.MostRecentWaterYearTimeRange,
-				ancillary : [{
-					// @todo We will want to store these somewhere so this can just be nar .discrete.nitrogen
-					procedure : CONFIG.sosDefsBaseUrl + "procedure/discrete_concentration",
-					observedProperty : CONFIG.sosDefsBaseUrl + "property/TKN"
-				}],
-				allowTimeSlider : false
-			};
+			if (components.timestepDensity === 'annual') {
+				return {
+					plotter : nar.plots.createFlowPlot,
+					range : nar.timeSeries.DataAvailabilityTimeRange,
+					ancillary : [],
+					allowTimeSlider : true
+				};
+			}
+			else {
+				return {
+					plotter : nar.plots.FlowWrapper,
+					range : nar.timeSeries.MostRecentWaterYearTimeRange,
+					ancillary : [{
+						// @todo We will want to store these somewhere so this can just be nar .discrete.nitrogen
+						procedure : CONFIG.sosDefsBaseUrl + "procedure/discrete_concentration",
+						observedProperty : CONFIG.sosDefsBaseUrl + "property/TKN"
+					}],
+					allowTimeSlider : false
+				};
+			}
 		}
 };
 }());

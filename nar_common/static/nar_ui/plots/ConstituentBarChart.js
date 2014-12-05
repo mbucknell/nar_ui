@@ -12,6 +12,7 @@ nar.plots = nar.plots || {};
 	 * @property {Array of data series Object} auxData - for each series, should set yaxis to 1 if plotted on the same access as the
 	 * 		timeSeries data or 2 if plotted on a separate axis
 	 * @property {jqueryFlot axis } secondaryYaxis - Only used if auxData is defined
+	 * @property {Function} yaxisTickFormatter - function takes tick val and axis object, return String. (optional)
 	 * @param {TimeSeriesVisualization} tsViz
 	 * @param {nar.plotConstituentBarChartConfig} config
 	 */
@@ -24,11 +25,13 @@ nar.plots = nar.plots || {};
         
         var constituentInfo = nar.plots.PlotUtils.getConstituentNameAndColors(tsViz);
         
-        var yaxes = [{
-			axisLabel: config.yaxisLabel,
-			axisLabelPadding: 10,
-			tickLength: 10,
-			tickFormatter : function(val) {
+        var yaxisTickFormatter;
+        
+        if (config.yaxisTickFormatter) {
+        	yaxisTickFormatter = config.yaxisTickFormatter;
+        }
+        else {
+        	yaxisTickFormatter = function(val) {
 				// The automatic tick formatter was producing val with very large precisions when val was less than one. 
 				// This will limit it.
 				if (val < 1) {
@@ -39,7 +42,14 @@ nar.plots = nar.plots || {};
 				else {
 					return (val).format();
 				}
-			}
+        	}
+        }
+        
+        var yaxes = [{
+			axisLabel: config.yaxisLabel,
+			axisLabelPadding: 10,
+			tickLength: 10,
+			tickFormatter : yaxisTickFormatter
 		}];
         
         var makeBarChartSeries = function(dataSet, color, label) {
