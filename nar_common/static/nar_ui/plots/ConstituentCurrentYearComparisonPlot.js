@@ -68,7 +68,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
 	
 	var yearSeries = {
 
-        data: [['', series.yearValue]],
+        data: [['&nbsp;', series.yearValue]],
         label: CONFIG.currentWaterYear,
         bars: {
                 show: true,
@@ -79,7 +79,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
     };
 	
 	var averageSeries = {
-        data : [['', series.averageValue]],
+        data : [['&nbsp;', series.averageValue]],
 		label : series.averageName,
 		bars : {
 			show : true,
@@ -99,9 +99,10 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
         yaxis: {
             axisLabel: series.displayUnitOnYAxis ? series.constituentUnit : null,
             axisLabelUseCanvas: true,
-            axisLabelPadding: 3,
+            axisLabelPadding: 1,
             tickLength: 3,
-            tickColor: '#000000'
+            tickColor: '#000000',
+            labelWidth: 50
         },
 		grid : {
 			hoverable : true,

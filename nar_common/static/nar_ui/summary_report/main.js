@@ -103,8 +103,8 @@ $(document).ready(
 				});
 				
 				return {
-					average : avgData[0],
-					current : currentYearData[0]
+					average : avgData[0]/1000000,
+					current : currentYearData[0]/1000000
 				};
 			};
 			
@@ -214,14 +214,8 @@ $(document).ready(
 				// Sort the data once received and plot.
 				$.when.apply(null, loadStreamflowDataPromises).then(function() {
 					var result = getPlotValues(loadStreamflowTSCollections);
-
-					//convert from acre feet to million acre feet
-					var convertResult = {
-						average : result.average/1000000,
-						current : result.current/1000000
-					};
 					
-					var graphStreamflowBar = graphBar(convertResult, 
+					var graphStreamflowBar = graphBar(result, 
 							nar.Constituents.streamflow.name,
 							'Million Acre-Feet',
 							nar.Constituents.streamflow.color,
