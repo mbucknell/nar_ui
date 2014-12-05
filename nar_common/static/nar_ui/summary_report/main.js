@@ -103,8 +103,8 @@ $(document).ready(
 				});
 				
 				return {
-					average : avgData[0],
-					current : currentYearData[0]
+					average : avgData[0]/1000000,
+					current : currentYearData[0]/1000000
 				};
 			};
 			
@@ -221,7 +221,7 @@ $(document).ready(
 						current : result.current/1000000
 					};
 					
-					var graphStreamflowBar = graphBar(convertResult, 
+					var graphStreamflowBar = graphBar(result, 
 							nar.Constituents.streamflow.name,
 							'Million Acre-Feet',
 							nar.Constituents.streamflow.color,
