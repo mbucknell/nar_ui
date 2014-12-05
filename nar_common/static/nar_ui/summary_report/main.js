@@ -103,8 +103,8 @@ $(document).ready(
 				});
 				
 				return {
-					average : avgData,
-					current : currentYearData
+					average : avgData[0],
+					current : currentYearData[0]
 				};
 			};
 			
@@ -112,10 +112,10 @@ $(document).ready(
 				var series = {
 					constituentName : name,
 					constituentUnit : unit,
-					yearValue : values.current[0],
+					yearValue : values.current,
 					yearColor : color,
 					averageName : 'Average 1993-' + (CONFIG.currentWaterYear - 1),
-					averageValue : values.average[0]
+					averageValue : values.average
 				};
 
 				var graph = ConstituentCurrentYearComparisonPlot(
@@ -214,8 +214,14 @@ $(document).ready(
 				// Sort the data once received and plot.
 				$.when.apply(null, loadStreamflowDataPromises).then(function() {
 					var result = getPlotValues(loadStreamflowTSCollections);
+
+					//convert from acre feet to million acre feet
+					var convertResult = {
+						average : result.average/1000000,
+						current : result.current/1000000
+					};
 					
-					var graphStreamflowBar = graphBar(result, 
+					var graphStreamflowBar = graphBar(convertResult, 
 							nar.Constituents.streamflow.name,
 							'Million Acre-Feet',
 							nar.Constituents.streamflow.color,
