@@ -72,8 +72,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
         label: CONFIG.currentWaterYear,
         bars: {
                 show: true,
-				barWidth: 1e10,
-//                barWidth: 4,
+                barWidth: 4,
                 align: "left",
                 fillColor: series.yearColor
             }
@@ -84,8 +83,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
 		label : series.averageName,
 		bars : {
 			show : true,
-			barWidth: 1e10,
-//			barWidth : 4,
+			barWidth : 4,
 			align : "right",
 			fillColor: averageColor
 		}
@@ -101,7 +99,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
         yaxis: {
             axisLabel: series.displayUnitOnYAxis ? series.constituentUnit : null,
             axisLabelUseCanvas: true,
-            axisLabelPadding: 3,
+            axisLabelPadding: 1,
             tickLength: 3,
             tickColor: '#000000',
             labelWidth: 50
