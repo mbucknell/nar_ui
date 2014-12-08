@@ -129,16 +129,7 @@ nar.timeSeries.DataAvailabilityTimeRange = function(dataAvailability, useOrigina
     return timeRange;
 };
 
-nar.timeSeries.MostRecentWaterYearTimeRange = function(dataAvailability) {
-    var dataRange = nar.timeSeries.DataAvailabilityTimeRange(dataAvailability);
-    var wy = nar.WaterYearUtils.convertDateToWaterYear(Date.create());
-    while (!dataRange.contains(nar.WaterYearUtils.getWaterYearEnd(wy))) {
-        wy = wy - 1;
-        if (wy < 2000) {
-            throw Error("No data available for recent year's data");
-        }
-    }
-    
+nar.timeSeries.WaterYearTimeRange = function(wy) {
     // Back up and forward just a bit because during is not inclusive
     var startTime = nar.WaterYearUtils.getWaterYearStart(wy, true).rewind('1 minute');
     var endTime = nar.WaterYearUtils.getWaterYearEnd(wy, true).advance('1 minute');

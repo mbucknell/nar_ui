@@ -231,7 +231,9 @@ nar.timeSeries.Visualization.types = function(components) {
 			else {
 				return {
 					plotter : nar.plots.FlowWrapper,
-					range : nar.timeSeries.MostRecentWaterYearTimeRange,
+					range : function() {
+						return nar.timeSeries.WaterYearTimeRange(CONFIG.currentWaterYear);
+					},
 					ancillary : [{
 						// @todo We will want to store these somewhere so this can just be nar .discrete.nitrogen
 						procedure : CONFIG.sosDefsBaseUrl + "procedure/discrete_concentration",

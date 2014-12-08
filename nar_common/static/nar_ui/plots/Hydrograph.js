@@ -209,7 +209,44 @@ nar.plots = nar.plots || {};
 				symbol: 'triangle'
 			}
 		};
+				
+		var yaxis = {
+				axisLabel : 'Daily mean streamflow, in cubic feet per second',
+				axisLabelUseCanvas : true,
+				axisLabelFontSizePixels : 10,
+				axisLabelFontFamily : "Verdana, Arial, Helvetica, Tahoma, sans-serif",
+				axisLabelPadding : 5,
+				tickLength : 10,
+				min: nar.plots.PlotUtils.getLogAxisForValue(minFlow, Math.floor),
+				max: nar.plots.PlotUtils.getLogAxisForValue(maxFlow, Math.ceil)
+		};
 		
+		// Only use a log scale if the minimum flow is greater than zero.
+		if (minFlow > 0.0) {
+			yaxis.transform = function(y) {
+				return Math.log(y);
+			};
+			yaxis.inverseTransform = function(y) {
+				return Math.exp(y);
+			};
+			yaxis.ticks = function(axis) {
+				var result = [];
+				var tick;
+				if (axis.min === 0) {
+					result.add(0);
+					tick = 1;
+				}
+				else {
+					tick = axis.min;
+				}
+				while (tick <= axis.max) {
+					console.log('tick is ' + tick);
+					result.add(tick);
+					tick = tick * 10;
+				}
+				return result;
+			};
+		}
 		plot = $.plot(flowDurationDiv, [ flowSeries, sampleSeries ], {
 			canvas : true,
 			xaxis : {
@@ -239,33 +276,7 @@ nar.plots = nar.plots || {};
 				min: 0,
 				max: 100
 			},
-			yaxis : {
-				transform: function(y) {
-					return Math.log(y);
-				},
-				inverseTransform: function(y) {
-					return Math.exp(y);
-				},
-				axisLabel : 'Daily mean streamflow, in cubic feet per second',
-				axisLabelUseCanvas : true,
-				axisLabelFontSizePixels : 10,
-				axisLabelFontFamily : "Verdana, Arial, Helvetica, Tahoma, sans-serif",
-				axisLabelPadding : 5,
-				tickLength : 10,
-				ticks : function(axis) {
-					var result = [];
-					var tick = axis.min;
-					var i = 0;
-					while (tick <= axis.max) {
-						result.add(tick);
-						tick = tick * 10;
-						i++;
-					}
-					return result;
-				},
-				min: nar.plots.PlotUtils.getLogAxisForValue(minFlow, Math.floor),
-				max: nar.plots.PlotUtils.getLogAxisForValue(maxFlow, Math.ceil)
-			},
+			yaxis : yaxis,
 			grid : {
 				hoverable : true,
 				autoHighlight : true
