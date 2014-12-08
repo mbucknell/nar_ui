@@ -231,16 +231,9 @@ nar.plots = nar.plots || {};
 			};
 			yaxis.ticks = function(axis) {
 				var result = [];
-				var tick;
-				if (axis.min === 0) {
-					result.add(0);
-					tick = 1;
-				}
-				else {
-					tick = axis.min;
-				}
+				var tick = axis.min;
+				
 				while (tick <= axis.max) {
-					console.log('tick is ' + tick);
 					result.add(tick);
 					tick = tick * 10;
 				}
