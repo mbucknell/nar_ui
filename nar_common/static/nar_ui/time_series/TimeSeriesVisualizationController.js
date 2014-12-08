@@ -137,33 +137,45 @@ nar.timeSeries.VisualizationController = function(timeSlider, instructionsElt){
      * Map<String, TimeSeriesVisualizations>
      */
     self.currentlyVisibleTimeSeriesVisualizations = {};
+    self.currentlyVisibleTSVsForTimeSlider = {}; // Need to keep track of TSVs used to determine timeSlider range.
     /**
      * @param {array<TimeSeriesVisualization>} tsvsToVisualize 
      */
     self.visualizeAll = function(tsvsToVisualize){
-        var incomingTimeRanges = tsvsToVisualize.map(function(tsv){return tsv.timeSeriesCollection.getTimeRange();});
-        var timeRangesToSearch;
-        var possibleTimeRange = self.getPossibleTimeRange();
-        if(possibleTimeRange){
-            timeRangesToSearch = incomingTimeRanges.concat(possibleTimeRange);
-        }
-        else{
-            timeRangesToSearch = incomingTimeRanges;
-        }
-        var aggregateTimeRange = nar.timeSeries.TimeRange.ofAll(timeRangesToSearch);
+    	
+    	var tsvsForTimeSlider = tsvsToVisualize.filter(function(tsv) {
+    		return tsv.allowTimeSlider;
+    	});
+        var incomingTimeRanges = tsvsForTimeSlider.map(function(tsv){return tsv.timeSeriesCollection.getTimeRange();});
+
         var vizPromises = tsvsToVisualize.map(function(tsv){
             self.currentlyVisibleTimeSeriesVisualizations[tsv.id] = tsv;
+            if (tsv.allowTimeSlider) {
+            	self.currentlyVisibleTSVsForTimeSlider[tsv.id] = tsv;
+            }
             var promise = tsv.visualize();
             promise.done(function(){
             	self.instructionsElt.addClass(hiddenClass);
             });
             return promise;
         });
+        
         $.when.apply(null, vizPromises).done(function(){
+        	// This needs to be done after promises have resolved so that possibleTimeRange is the current one.
+            var timeRangesToSearch;
+            var possibleTimeRange = self.getPossibleTimeRange();
+            if(possibleTimeRange){
+                timeRangesToSearch = incomingTimeRanges.concat(possibleTimeRange);
+            }
+            else{
+                timeRangesToSearch = incomingTimeRanges;
+            }
+            var aggregateTimeRange = nar.timeSeries.TimeRange.ofAll(timeRangesToSearch);
+            
             self.setPossibleTimeRange(aggregateTimeRange);//might adjust currently visible range
             //now zoom recently added plots to the currently visible range
             var recentlyVisualizedTimeSeriesVisualizations = Array.create(arguments).filter(function(arg){
-                return arg !== undefined;
+                return ((arg !== undefined) && arg.allowTimeSlider);
             });
             var currentTimeRange = self.getCurrentlyVisibleTimeRange();
             recentlyVisualizedTimeSeriesVisualizations.each(function(tsv){
@@ -179,6 +191,7 @@ nar.timeSeries.VisualizationController = function(timeSlider, instructionsElt){
         tsvsToRemove.each(function(tsv){
             tsv.remove();
             delete self.currentlyVisibleTimeSeriesVisualizations[tsv.id];
+            delete self.currentlyVisibleTSVsForTimeSlider[tsv.id];
             if(Object.keys(self.currentlyVisibleTimeSeriesVisualizations).length == 0){
             	self.instructionsElt.removeClass(hiddenClass);
             }
@@ -186,7 +199,7 @@ nar.timeSeries.VisualizationController = function(timeSlider, instructionsElt){
         
         var remainingTimeRanges = [];
         Object.values(
-            self.currentlyVisibleTimeSeriesVisualizations, 
+            self.currentlyVisibleTSVsForTimeSlider, 
             function(tsv){
                 remainingTimeRanges.push(tsv.timeSeriesCollection.getTimeRange());
             }
