@@ -59,7 +59,7 @@ var map;
         if(realFeatures.length) {
             //just grab first feature for now
             var feature = realFeatures[0];
-            var featureId = feature.data.staid;
+            var featureId = feature.data.qw_id;
             var uriParam = encodeURI(featureId);
             var url = CONFIG.baseUrl + 'site/' + uriParam + '/summary-report';
             window.location.href = url;

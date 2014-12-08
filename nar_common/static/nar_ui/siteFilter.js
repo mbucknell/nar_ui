@@ -62,8 +62,8 @@ var nar = nar || {};
 					response.features.sortBy(function(feature){
 						return feature.data.site_type;
 					}).each(function(feature) {
-						var site = new nar.siteFilter.Site(feature.data.staid,
-							feature.data.staname, feature.data.site_type);
+						var site = new nar.siteFilter.Site(feature.data.qw_id,
+							feature.data.qw_name, feature.data.site_type);
 						doThis(site);
 					});
 				} else {
