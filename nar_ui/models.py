@@ -29,9 +29,9 @@ def get_site_name(site_id, url):
     filter = """
     <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
        <ogc:PropertyIsEqualTo>
-        <ogc:PropertyName>NAR:staid</ogc:PropertyName>
+        <ogc:PropertyName>NAR:qw_id</ogc:PropertyName>
         """
-    filter += '<ogc:Literal>' +site_id +'</ogc:Literal>' + """
+    filter += '<ogc:Literal>' + site_id +'</ogc:Literal>' + """
        </ogc:PropertyIsEqualTo>
     </ogc:Filter>
     """
@@ -42,7 +42,7 @@ def get_site_name(site_id, url):
               'service': 'WFS',
               'version': '2.0.0',
               'request': 'GetFeature',
-              'typeName': 'NAR:NAWQA100_cy3fsmn',
+              'typeName': 'NAR:JD_NFSN_sites',
               'filter': filter,
     }
     
@@ -50,7 +50,7 @@ def get_site_name(site_id, url):
     tree = etree.fromstring(my_request.content)
     numberMatchedAttributes = tree.findall("[@numberMatched='1']")
     if len(numberMatchedAttributes):
-        site_name = tree.findall('*//NAR:staname', namespaces=nar_namespaces)[0].text
+        site_name = tree.findall('*//NAR:qw_name', namespaces=nar_namespaces)[0].text
         return site_name
     else:
         raise SiteNotFoundException("Could not find site with id=" + site_id)
