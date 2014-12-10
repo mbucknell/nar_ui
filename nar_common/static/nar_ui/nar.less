@@ -79,31 +79,117 @@
 #barChart1{
 	position:relative;
 	z-index:10001;
-	margin-right:-15px;}
+	margin-right:-15px;
+	}
 
 #barChart2{
 	position:relative;
 	z-index:10000;
-	margin-right:-18px;}
+	margin-right:-18px;
+	}
 	
 #barChart3{
 	position:relative;
 	z-index:9999;
-	margin-right:-20px;}
+	margin-right:-20px;
+	}
 	
 .currentYearComparisonPlot{
-	margin-bottom:-20px;}
+	margin-bottom:-20px;
+	}
 	
 .currentYearComparisonAverageLegend{
 	margin-left:25px;
-	margin-right:8px;}
+	margin-right:8px;
+	}
 	
 .currentYearComparisonTitle{
 	margin-left:25px;
 }
 
-button{color:#000;
-		outline:none;
+.graphContainer {
+	padding:5px;
+	background:none;
+	height:100%;
+		}
+.currentYearComparisonPlot {
+	min-height: 400px;
+		}
+.currentYearComparisonLegend {
+	margin-left: 10%	
+		}
+		
+.currentYearComparisonLegend{
+	background:none;
+		}
+.currentYearComparisonLegend table td{
+	font-size:1em;
+		}										
+.currentYearComparisonTitle {
+	font-size:.9em;
+	margin-top: 10%;
+	height: 40px;
+	padding-left: 22%;
+	font-size:.75em;
+	font-weight: bold;
+	text-align:center;
+		}
+.unitLabel {
+	border-top: 2px dotted #d5d5d5;
+	text-align:center;
+	height: 60px;
+	font-size: 0.8em;
+		}
+.rightBorder {
+	border-right: 2px dotted #d5d5d5;
+		}
+.leftBorder {
+	border-left: 2px dotted #d5d5d5;
+		}
+.topBorder {
+	border-top: 2px dotted #d5d5d5;
+		}
+.comparisonLegend {
+	padding-left:22%;
+	width: 100%;
+	margin-top: -10px;
+		}
+.comparisonLegend span{
+	font-size:.9em;
+	width:20%;
+	display: inline-block;
+		}
+.currentYearComparisonYearLegend {
+	font-size:.7em;
+	text-align: right;	    
+	padding-right: 10%;		    
+		}
+.currentYearComparisonAverageLegend{
+	font-size:.7em;
+    text-align: right;
+    padding-right: 0%;
+		}
+.exceedancePlot{
+	min-height: 400px;		   
+	margin-right: 10%;
+	margin-left: 10%;
+	width: 80%;
+    text-align: left;
+		}
+.exceedancePlot .jqplot-yaxis-tick{
+	left: -10%;
+	font-weight: bold;
+		}
+.exceedancePlot .jqplot-xaxis-label {
+	text-align: center;
+		}
+.jqplot-title {
+	top: 100%;
+		}
+
+button{
+	color:#000;
+	outline:none;
 }
 
 #network_site_table .confluenceTh:nth-child(1) p{
@@ -1106,7 +1192,8 @@ ul#relativeLinks{
 
 .popover{
 	position:absolute;
-	z-index:20000;}
+	z-index:20000;
+	}
 
 .popover-benchmark-content {
 	text-align: center;
