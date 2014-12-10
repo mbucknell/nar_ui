@@ -76,8 +76,120 @@
 	top: 15px;
 }
 
-button{color:#000;
-		outline:none;
+#barChart1{
+	position:relative;
+	z-index:10001;
+	margin-right:-15px;
+	}
+
+#barChart2{
+	position:relative;
+	z-index:10000;
+	margin-right:-18px;
+	}
+	
+#barChart3{
+	position:relative;
+	z-index:9999;
+	margin-right:-20px;
+	}
+	
+.currentYearComparisonPlot{
+	margin-bottom:-20px;
+	}
+	
+.currentYearComparisonAverageLegend{
+	margin-left:25px;
+	margin-right:8px;
+	}
+	
+.currentYearComparisonTitle{
+	margin-left:25px;
+}
+
+.graphContainer {
+	padding:5px;
+	background:none;
+	height:100%;
+		}
+.currentYearComparisonPlot {
+	min-height: 400px;
+		}
+.currentYearComparisonLegend {
+	margin-left: 10%	
+		}
+		
+.currentYearComparisonLegend{
+	background:none;
+		}
+.currentYearComparisonLegend table td{
+	font-size:1em;
+		}										
+.currentYearComparisonTitle {
+	font-size:.9em;
+	margin-top: 10%;
+	height: 40px;
+	padding-left: 22%;
+	font-size:.75em;
+	font-weight: bold;
+	text-align:center;
+		}
+.unitLabel {
+	border-top: 2px dotted #d5d5d5;
+	text-align:center;
+	height: 60px;
+	font-size: 0.8em;
+		}
+.rightBorder {
+	border-right: 2px dotted #d5d5d5;
+		}
+.leftBorder {
+	border-left: 2px dotted #d5d5d5;
+		}
+.topBorder {
+	border-top: 2px dotted #d5d5d5;
+		}
+.comparisonLegend {
+	padding-left:22%;
+	width: 100%;
+	margin-top: -10px;
+		}
+.comparisonLegend span{
+	font-size:.9em;
+	width:20%;
+	display: inline-block;
+		}
+.currentYearComparisonYearLegend {
+	font-size:.7em;
+	text-align: right;	    
+	padding-right: 10%;		    
+		}
+.currentYearComparisonAverageLegend{
+	font-size:.7em;
+    text-align: right;
+    padding-right: 0%;
+		}
+.exceedancePlot{
+	min-height: 400px;		   
+	margin-right: 10%;
+	margin-left: 10%;
+	width: 80%;
+    text-align: left;
+		}
+.exceedancePlot .jqplot-yaxis-tick{
+	left: -10%;
+	font-weight: bold;
+		}
+.exceedancePlot .jqplot-xaxis-label {
+	text-align: center;
+		}
+.jqplot-title {
+	top: 100%;
+		}
+
+button{
+	color:#000;
+	outline:none;
 }
 
 #network_site_table .confluenceTh:nth-child(1) p{
@@ -1047,8 +1159,8 @@ ul#relativeLinks{
 
 .stream{background:none;
 		height:50%;
-		margin-left:120px;
-		margin-right:110px;
+		margin-left:85px;
+		margin-right:40px;
 		text-align:center;
 		padding-left:5px;}
 
@@ -1062,11 +1174,14 @@ ul#relativeLinks{
 		padding:0;
 		} 
 		
-.human{margin-left:15px;}
+.human{margin-left:5px;}
 
 .stream h3,
 .human h3{font-size:1.5em;
 			color:@primaryColor;}
+			
+.human_row h3{
+	margin-left:25px;}
 
 .stream h6,
 .human h6{padding-left:50px;}
@@ -1074,6 +1189,11 @@ ul#relativeLinks{
 .link-popover-anchor {
 	border-bottom: 1px dashed #003366;
 }
+
+.popover{
+	position:absolute;
+	z-index:20000;
+	}
 
 .popover-benchmark-content {
 	text-align: center;
@@ -1409,6 +1529,9 @@ ul#relativeLinks{
 
 @media (min-width:992px) and (max-width:1199px){
 	
+	.bar_row{
+		width:466px;}
+	
 	/*###########################home_start####################### */
 	 
 	 .holder{height:620px;}
@@ -1477,12 +1600,34 @@ ul#relativeLinks{
 	
 	/*###########################summary_start####################### */
 	
+	.jqplot-xaxis-label{
+		margin-top:20px;}
+	
 	.graphContainer,
-	.human{width:31.8%;}
+	{width:31.8%;}
 	
-	.human{margin-left:10px;}
+	.human{
+		width:372px;
+		margin-left:40px;}
 	
-	.stream{margin-left:145px;}
+	.human_row{
+		width:335px;
+		margin-left:35px;}
+		
+	.human_row h3{
+		margin-left:0;}
+	
+	.stream{
+		margin-left:50px;
+		margin-right:100px;
+	}
+	
+	.stream_row{
+		width:400px;}
+	
+	.stream_row h3{
+		margin-left:30px;
+		}
 	
 	.stream h3{font-size:1.4em;}
 	 				
@@ -1508,7 +1653,6 @@ ul#relativeLinks{
 	/*#########ipad_portrait######## */
 
 @media (min-width:768px) and (max-width:991px){
-	
 	
 	/*###########################home_start####################### */
 	 
@@ -1632,6 +1776,13 @@ ul#relativeLinks{
 	/*###########################coastal_endt####################### */
 	
 	/*###########################summary_start####################### */
+	
+	
+	.comparisonLegend span{
+			margin:0 5px  0 20px;
+			text-align:center;
+		    width:30%;
+		}
 				
 				
 	.summary_info{min-height:721px;}

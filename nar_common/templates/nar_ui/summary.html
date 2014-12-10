@@ -5,84 +5,6 @@
 {% block style %}
 	{{ block.super }}
 	
-	<style type="text/css">
-		.graphContainer {
-			padding:5px;
-			background:none;
-			height:100%;
-		}
-		.currentYearComparisonPlot {
-			min-height: 400px;
-		}
-		.currentYearComparisonLegend {
-			margin-left: 10%	
-		}
-		
-		.currentYearComparisonLegend{ 
-			background:none;
-		}
-		.currentYearComparisonLegend table td{
-			font-size:1em;
-		}										
-		.currentYearComparisonTitle {
-		  font-size:.9em;
-			margin-top: 10%;
-			height: 40px;
-			padding-left: 22%;
-			font-size:.9em;
-			font-weight: bold;
-			text-align:center;
-		}
-		.unitLabel {
-			border-top: 2px dotted #d5d5d5;
-			text-align:center;
-			height: 60px;
-			font-size: 0.8em;
-		}
-		.leftBorder {
-			border-left: 2px dotted #d5d5d5;
-		}
-		.topBorder {
-			border-top: 2px dotted #d5d5d5;
-		}
-		.comparisonLegend {
-	      padding-left:22%;
-	      width: 100%;
-	      margin-top: -10px;
-		}
-		.comparisonLegend span{
-//		  font-size:.9em;
-		    width:50%;
-		    display: inline-block;
-		}
-		.currentYearComparisonYearLegend {
-		  font-size:.7em;
-		    text-align: right;	    
-		    padding-right: 10%;		    
-		}
-		.currentYearComparisonAverageLegend{
-		  font-size:.7em;
-            text-align: right;
-            padding-right: 0%;
-		}
-		.exceedancePlot{
-		   min-height: 400px;
-		   margin-right: 10%;
-		   margin-left: 10%;
-		   width: 80%;
-           text-align: left;
-		}
-		.exceedancePlot .jqplot-yaxis-tick{
-		  left: -10%;
-		  font-weight: bold;
-		}
-		.exceedancePlot .jqplot-xaxis-label {
-		  text-align: center;
-		}
-		.jqplot-title {
-		  top: 100%;
-		}
-	</style>
 {% endblock %}
 
 {% block scripts %}
@@ -171,10 +93,10 @@
 			
 			<div class="row bar_row">
 				<div id="barChart1"
-					class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+					class="rightBorder comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
 
 				<div id="barChart2"
-					class="leftBorder comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+					class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
 
 				<div id="barChart3"
 					class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
