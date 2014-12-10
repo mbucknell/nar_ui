@@ -76,6 +76,32 @@
 	top: 15px;
 }
 
+#barChart1{
+	position:relative;
+	z-index:10001;
+	margin-right:-18px;}
+
+#barChart2{
+	position:relative;
+	z-index:10000;
+	margin-right:-18px;}
+	
+#barChart3{
+	position:relative;
+	z-index:9999;
+	margin-right:-20px;}
+	
+.currentYearComparisonPlot{
+	margin-bottom:-20px;}
+	
+.currentYearComparisonAverageLegend{
+	margin-left:25px;
+	margin-right:8px;}
+	
+.currentYearComparisonTitle{
+	margin-left:25px;
+}
+
 button{color:#000;
 		outline:none;
 }
@@ -1047,8 +1073,8 @@ ul#relativeLinks{
 
 .stream{background:none;
 		height:50%;
-		margin-left:120px;
-		margin-right:110px;
+		margin-left:85px;
+		margin-right:40px;
 		text-align:center;
 		padding-left:5px;}
 
@@ -1062,11 +1088,14 @@ ul#relativeLinks{
 		padding:0;
 		} 
 		
-.human{margin-left:15px;}
+.human{margin-left:5px;}
 
 .stream h3,
 .human h3{font-size:1.5em;
 			color:@primaryColor;}
+			
+.human_row h3{
+	margin-left:25px;}
 
 .stream h6,
 .human h6{padding-left:50px;}
@@ -1409,6 +1438,9 @@ ul#relativeLinks{
 
 @media (min-width:992px) and (max-width:1199px){
 	
+	.bar_row{
+		width:466px;}
+	
 	/*###########################home_start####################### */
 	 
 	 .holder{height:620px;}
@@ -1477,12 +1509,34 @@ ul#relativeLinks{
 	
 	/*###########################summary_start####################### */
 	
+	.jqplot-xaxis-label{
+		margin-top:20px;}
+	
 	.graphContainer,
-	.human{width:31.8%;}
+	{width:31.8%;}
 	
-	.human{margin-left:10px;}
+	.human{
+		width:372px;
+		margin-left:40px;}
 	
-	.stream{margin-left:145px;}
+	.human_row{
+		width:335px;
+		margin-left:35px;}
+		
+	.human_row h3{
+		margin-left:0;}
+	
+	.stream{
+		margin-left:50px;
+		margin-right:100px;
+	}
+	
+	.stream_row{
+		width:400px;}
+	
+	.stream_row h3{
+		margin-left:30px;
+		}
 	
 	.stream h3{font-size:1.4em;}
 	 				
@@ -1508,7 +1562,6 @@ ul#relativeLinks{
 	/*#########ipad_portrait######## */
 
 @media (min-width:768px) and (max-width:991px){
-	
 	
 	/*###########################home_start####################### */
 	 
@@ -1632,6 +1685,13 @@ ul#relativeLinks{
 	/*###########################coastal_endt####################### */
 	
 	/*###########################summary_start####################### */
+	
+	
+	.comparisonLegend span{
+			margin:0 5px  0 20px;
+			text-align:center;
+		    width:30%;
+		}
 				
 				
 	.summary_info{min-height:721px;}
