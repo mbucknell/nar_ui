@@ -265,11 +265,17 @@ nar.plots = nar.plots || {};
 					}
 					
 					while (tick <= axis.max) {
-						result.add(tick);
-						tick = tick * 10;
+						if (tick < 1) {
+							result.push([tick, tick.toString()]); // This assumes we don't have values less than 0.1
+						}
+						else {
+							result.push([tick, tick.format()]);
+						}
+						tick = tick * 10.0;
 					}
 					return result;
 				},
+				
 				min: nar.plots.PlotUtils.getLogAxisForValue(minFlow, Math.floor),
 				max: nar.plots.PlotUtils.getLogAxisForValue(maxFlow, Math.ceil),
 			},
