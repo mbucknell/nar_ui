@@ -104,7 +104,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
             tickColor: '#000000',
 			tickFormatter : function(val, axis) {
 				if (val < 1.0) {
-					return val.toString();
+					return val.format(5).replace(/\.?0+$/,"");
 				}
 				else {
 					return val.format();
