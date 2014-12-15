@@ -113,15 +113,14 @@ nar.timeSeries.VisualizationRegistry = function(){
         var properlyDelimetedProcedure = strippedProcedure.replace('_', targetDelim).replace('_', targetDelim);
         var splitProcedure = properlyDelimetedProcedure.split(targetDelim);
         //if procedure has a modtype, remove it -- there is no modtype awareness in TsvIds
-        if(splitProcedure.length === 4){
-        	//fix for using REG_* modtypes (a modtype that contains a '_' delimeter
-        	if(splitProcedure[2] === 'REG'){
-        		properlyDelimetedProcedure = splitProcedure.to(2).join(targetDelim);
-        	}
-        	else{
-        		properlyDelimetedProcedure = splitProcedure.to(splitProcedure.length -1).join(targetDelim);
-        	}
-        }
+    	
+        //fix for using REG_* modtypes (a modtype that contains a '_' delimeter
+    	if(splitProcedure[2] === 'REG'){
+    		properlyDelimetedProcedure = splitProcedure.to(2).join(targetDelim);
+    	}
+    	else if(splitProcedure.length === 4){
+    		properlyDelimetedProcedure = splitProcedure.to(splitProcedure.length -1).join(targetDelim);
+    	}
         //just return this for now
         return strippedObservedProperty + '/' + properlyDelimetedProcedure;
     };
