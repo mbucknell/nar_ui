@@ -194,9 +194,9 @@ nar.timeSeries.VisualizationController = function(timeSlider, instructionsElt){
 
 		var remainingTimeRanges = [];
 		Object.values(
-				self.currentlyVisibleTimeSeriesVisualization, 
+				self.currentlyVisibleTimeSeriesVisualizations, 
 				function(tsv){
-					if (tsv.allowedTimeSlider) {
+					if (tsv.allowTimeSlider) {
 						remainingTimeRanges.push(tsv.timeSeriesCollection.getTimeRange());
 					}
 				}
