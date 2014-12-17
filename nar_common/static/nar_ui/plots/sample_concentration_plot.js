@@ -43,25 +43,30 @@ nar.plots = nar.plots || {};
         ];
         
         if (useCriteriaLine) {
-        	constituentToCriteria = {
-    			nitrogen : nar.siteHelpInfo.tn_criteria,
-    			phosphorus : nar.siteHelpInfo.tp_criteria,
-    			nitrate : 10
-    		};
-        	var criteriaLineValue = constituentToCriteria[constituentId] || null;
-        	var criteriaLineSeries = {
-                    label: constituentName,
-                    data: [[nar.plots.PlotUtils.YEAR_NINETEEN_HUNDRED,criteriaLineValue],
-                           [nar.plots.PlotUtils.ONE_YEAR_IN_THE_FUTURE,criteriaLineValue]],
-                    lines: {
-                        show: true,
-                        fillColor: criteriaLineColor,
-                        lineWidth: 1
-                    },
-                    shadowSize: 0
-                };
-        	
-        	series.add(criteriaLineSeries);
+        	if(nar.siteHelpInfo && nar.siteHelpInfo.tn_criteria && nar.siteHelpInfo.tp_criteria){
+	        	constituentToCriteria = {
+	    			nitrogen : nar.siteHelpInfo.tn_criteria,
+	    			phosphorus : nar.siteHelpInfo.tp_criteria,
+	    			nitrate : 10
+	    		};
+	        	var criteriaLineValue = constituentToCriteria[constituentId] || null;
+	        	var criteriaLineSeries = {
+	                    label: constituentName,
+	                    data: [[nar.plots.PlotUtils.YEAR_NINETEEN_HUNDRED,criteriaLineValue],
+	                           [nar.plots.PlotUtils.ONE_YEAR_IN_THE_FUTURE,criteriaLineValue]],
+	                    lines: {
+	                        show: true,
+	                        fillColor: criteriaLineColor,
+	                        lineWidth: 1
+	                    },
+	                    shadowSize: 0
+	                };
+	        	
+	        	series.add(criteriaLineSeries);
+        	}
+        	else{
+        		nar.util.error('No nutrient criteria available for this site');
+        	}
         }
         
         var logBase = 10;
@@ -110,7 +115,7 @@ nar.plots = nar.plots || {};
         var hoverFormatter = nar.plots.PlotUtils.utcDatePlotHoverFormatter;
         nar.plots.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
         
-        if (useCriteriaLine) {
+        if (useCriteriaLine && criteriaLineValue) {
 			var criteriaLineDescription = 'EPA MCL = ' +
 					constituentToCriteria[constituentId] +
 					' mg/L as N. See technical information for details.';
