@@ -156,7 +156,7 @@ $(document).ready(function() {
 	};
 
 	// Wait for definitions and site_info to load.
-	$.when(nar.definitionsPromise, nar.siteHelpInfoPromise).done(function() {
+	$.when(nar.definitionsPromise, nar.siteHelpInfoPromise).always(function(){
 		// Create links
 		var addLink = function(el, link) {
 			if (link) {
@@ -170,7 +170,6 @@ $(document).ready(function() {
 		addLink($('#realtime_link'), nar.siteHelpInfo.realtime_streamflow_link);
 		addLink($('#nwisweb_link'), nar.siteHelpInfo.nwisweb_link);
 		addLink($('#daily_flows_link'), nar.siteHelpInfo.flow_compared_to_historic_link);
-
 		$.when(getDataAvailabilityRequest).then(
 			successfulGetDataAvailability,
 			failedGetDataAvailability);

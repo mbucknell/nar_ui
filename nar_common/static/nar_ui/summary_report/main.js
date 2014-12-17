@@ -26,9 +26,6 @@ $(document).ready(
 				bar in the graph to obtain specific benchmark <br /> \
 				information for each constituent.</div>'
 		});
-		
-		// Wait for site info to load
-		$.when(nar.siteHelpInfoPromise).done(function() {
 			
 			var exceedancesTitle = 'Percent of samples with concentrations greater than benchmarks';
             
@@ -291,5 +288,4 @@ $(document).ready(
 			$.when(getDataAvailability).then(
 				successfulGetDataAvailability,
 				failedGetDataAvailability);	
-		});
 	});

@@ -60,10 +60,12 @@ nar.util = {};
 		}
 		return containsKeysAndValues;
 	};
-    
+    nar.util.error = function(message){
+    	  $('#alert').html(message).show().alert();
+          $('#alert').delay(5000).fadeOut();
+    };
     window.onerror = function(errorMsg, url, lineNumber) {
         var msg = errorMsg.replace(/Uncaught .*Error: /, '');
-        $('#alert').html(msg).show().alert();
-        $('#alert').delay(5000).fadeOut();
+        nar.util.error(msg);
     };
 }());
