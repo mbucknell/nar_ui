@@ -13,7 +13,7 @@ nar.loadSiteHelpInfo = function(url) {
 			nar.siteHelpInfo = data;
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
-			throw Error('Unable to contact the site info URL service: ' & textStatus);
+			throw Error('Unable to contact the site info service: ' + textStatus);
 		}
 	});
 	
