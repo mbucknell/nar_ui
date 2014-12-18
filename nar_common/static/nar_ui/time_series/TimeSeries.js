@@ -79,8 +79,10 @@ nar.timeSeries.TimeSeries = function(config){
 					"during" : {
 						"ref" : "om:phenomenonTime",
 						"value" : [
-							nar.util.toISOString(self.timeRange.startTime),
-							nar.util.toISOString(self.timeRange.endTime + 1000) // adding one second to get times at exactly the endTime
+					         //the time filters exclude the range extremes, but getDataAvailability range is inclusive, so pad the start
+					         //and end times retrieved from getDataAvailability in order to retrieve the available times
+							nar.util.toISOString(self.timeRange.startTime - 1000),
+							nar.util.toISOString(self.timeRange.endTime + 1000)
 						]
 					}
         		}];
