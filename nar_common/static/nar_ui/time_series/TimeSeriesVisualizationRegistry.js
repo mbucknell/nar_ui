@@ -113,11 +113,12 @@ nar.timeSeries.VisualizationRegistry = function(){
         var properlyDelimetedProcedure = strippedProcedure.replace('_', targetDelim).replace('_', targetDelim);
         var splitProcedure = properlyDelimetedProcedure.split(targetDelim);
         //if procedure has a modtype, remove it -- there is no modtype awareness in TsvIds
-        if(splitProcedure.length === 4){
+        if(!(strippedProcedure.endsWith('flow') || strippedProcedure.endsWith('discrete_concentration'))){
+        	//then the procedure ends with a modtype, so remove the modtype
         	properlyDelimetedProcedure = splitProcedure.to(splitProcedure.length -1).join(targetDelim);
         }
-        //just return this for now
-        return strippedObservedProperty + '/' + properlyDelimetedProcedure;
+        var timeSeriesVisualizationId = strippedObservedProperty + '/' + properlyDelimetedProcedure; 
+        return timeSeriesVisualizationId;
     };
 };
 
