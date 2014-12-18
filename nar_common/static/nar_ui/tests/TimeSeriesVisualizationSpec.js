@@ -6,10 +6,11 @@ describe('nar.timeSeries.Visualization, nar.timeSeries.VisualizationRegistry', f
 		var createId = newTsvRegistry.getTimeSeriesVisualizationId;
 		var observablePropertyId = 'TP';
 		var timestepDensity = 'annual'
-		var procedureCategory = 'concentration';
-		var procedureSubcategory = 'flow_weighted';
-		var simpleProcedureId = [timestepDensity, procedureCategory].join('_');
-		var complicatedProcedureId = [timestepDensity, procedureCategory, procedureSubcategory].join('_');
+		var procedureCategory = 'mass';
+		var procedureSubcategory = 'upper_95';
+		var modtype = 'REG';
+		var simpleProcedureId = [timestepDensity, procedureCategory].join('_') + '/' + modtype;
+		var complicatedProcedureId = [timestepDensity, procedureCategory, procedureSubcategory].join('_') + '/' + modtype;
 		var simpleTsvId = createId(observablePropertyId, simpleProcedureId);
 		var complicatedTsvId = createId(observablePropertyId, complicatedProcedureId);
 		
