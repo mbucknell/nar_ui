@@ -129,7 +129,8 @@ $(document).ready(function() {
 										{
 											observedProperty : props.observedProperty,
 											timeRange : timeRange,
-											procedure : props.procedure
+											procedure : props.procedure,
+											featureOfInterest : PARAMS.siteId
 										});
 								timeSeriesViz.timeSeriesCollection
 										.add(ancilSeries);

@@ -102,6 +102,9 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
             axisLabelPadding: 1,
             tickLength: 3,
             tickColor: '#000000',
+			tickFormatter : function(val, axis) {
+				return val.format(5).replace(/\.?0+$/,"");
+			},
             labelWidth: 50
         },
 		grid : {
