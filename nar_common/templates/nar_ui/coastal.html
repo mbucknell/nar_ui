@@ -9,7 +9,7 @@
 	
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 coastal_title">
 	
-		<h3>Nitrate Loads and Yields in Coastal Rivers</h3>
+		<h3>Coastal Rivers - Nitrate Loads and Yields</h3>
 					
 		<a href="{% url 'download' %}"><button id="coastalDownload" class="additional">Download Data</button></a>
 	
@@ -25,17 +25,17 @@
 		
 			<div id="coastal_info">
 			
-				<p>Hover over (or click) on a <i class="glyphicon glyphicon-play"></i> for site information</p>
+				<p>Select (or click) on a Region for load and yield graphs</p>
 			
 			</div>
 			
-			<a class="link_coastal_region" data-region="ne_inset" href="{% url 'coastal_region' %}?region=northeast"><button>Northeast</button></a>
+			<a class="link_coastal_region" data-region="ne_inset" href="{% url 'coastal_region' %}?region=northeast"><button>North and Middle Atlantic</button></a>
 			
-			<a class="link_coastal_region" data-region="se_inset" href="{% url 'coastal_region' %}?region=southeast"><button>Southeast</button></a>
+			<a class="link_coastal_region" data-region="se_inset" href="{% url 'coastal_region' %}?region=southeast"><button>South Atlantic</button></a>
 			
-			<a class="link_coastal_region" data-region="gulf_inset" href="{% url 'coastal_region' %}?region=gulf"><button>Gulf</button></a>
+			<a class="link_coastal_region" data-region="gulf_inset" href="{% url 'coastal_region' %}?region=gulf"><button>Gulf of Mexico</button></a>
 			
-			<a class="link_coastal_region" data-region="west_inset,westAKonly_inset" href="{% url 'coastal_region' %}?region=west"><button>West</button></a>
+			<a class="link_coastal_region" data-region="west_inset,westAKonly_inset" href="{% url 'coastal_region' %}?region=west"><button>Pacific</button></a>
 			
 			<ul>
 			
