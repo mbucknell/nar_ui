@@ -167,9 +167,25 @@ $(document).ready(function() {
 			}
 		};
 		
+		var addHelpPopover = function(id) {
+			var $link = $('#' + id);
+			$link.find('span').html(nar.definitions[id].term);
+			$link.find('a').popover({
+				content : nar.definitions[id].short_definition,
+				trigger : 'hover',
+				container : '.summary_info'
+			});
+		};
+		
 		addLink($('#realtime_link'), nar.siteHelpInfo.realtime_streamflow_link);
 		addLink($('#nwisweb_link'), nar.siteHelpInfo.nwisweb_link);
 		addLink($('#daily_flows_link'), nar.siteHelpInfo.flow_compared_to_historic_link);
+		
+		// Add help popovers
+		addHelpPopover('sampleConcentrations');
+		addHelpPopover('annualFlowNormalizedConcentrations');
+		addHelpPopover('annualLoad');
+		
 		$.when(getDataAvailabilityRequest).then(
 			successfulGetDataAvailability,
 			failedGetDataAvailability);
