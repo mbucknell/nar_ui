@@ -9,7 +9,7 @@ from django.db import models
 class MississippiYear(models.Model):
     value = models.CharField(max_length=32, unique=True)
     text = models.CharField(max_length=64)
-    is_range = models.BooleanField()
+    is_range = models.BooleanField(default=False)
     
     def __unicode__(self):
         return u'%s' %self.value
