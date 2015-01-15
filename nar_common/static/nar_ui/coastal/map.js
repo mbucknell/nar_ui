@@ -93,7 +93,7 @@ nar.coastal.map = (function() {
 		Object.keys(me.REGION_LAYER, function (k,v) {
 			var inset = v.inset;
 			var layer =  new OpenLayers.Layer.WMS(
-	        		inset,
+					inset,
 					GEOSERVER_URL,
 					{
 						layers: inset,
@@ -104,7 +104,7 @@ nar.coastal.map = (function() {
 						isBaseLayer : false,
 						singleTile : true
 					}
-	        );
+			);
 			layers.push(layer);
 		});
 		
@@ -125,7 +125,6 @@ nar.coastal.map = (function() {
 					isBaseLayer : false,
 					singleTile : true
 				}
-        		
         );
 	};
 	
@@ -185,15 +184,19 @@ nar.coastal.map = (function() {
 						new OpenLayers.Control.Navigation(),
 						new OpenLayers.Control.Zoom(),
 						new nar.SiteIdentificationControl({
-					    	layers : [alaskaSitesLayer],
-					    	popupAnchor : '#' + coastalMapId
-					    })
+							layers : [alaskaSitesLayer],
+							popupAnchor : '#' + coastalMapId,
+							vendorParams : {
+								buffer : 8,
+								'CQL_FILTER' : "site_type = 'Coastal Rivers'"
+							}
+						})
 					],
 			layers : [
-			          me.createBaseLayer(),
-			          me.createStatesLayer(),
-			          me.createStreamsLayer(),
-			         ].concat(me.createBasinLayers()).concat([me.createSitesLayer()])
+				me.createBaseLayer(),
+				me.createStatesLayer(),
+				me.createStreamsLayer(),
+			].concat(me.createBasinLayers()).concat([me.createSitesLayer()])
 		});
 	};
 
@@ -210,41 +213,44 @@ nar.coastal.map = (function() {
 						geodesic : true
 					}),
 					new nar.SiteIdentificationControl({
-				    	layers : [alaskaSitesLayer],
-				    	popupAnchor : '#' + coastalMapId,
-				    	popupWidth : $('#' + coastalMapId).width() / 1.5
-				    })
+						layers : [alaskaSitesLayer],
+						popupAnchor : '#' + coastalMapId,
+						popupWidth : $('#' + coastalMapId).width() / 1.5,
+						vendorParams : {
+							buffer : 8,
+							'CQL_FILTER' : "site_type = 'Coastal Rivers'"
+						}
+					}),
 			],
 			layers : [
-		          me.createBaseLayer(),
-		          new OpenLayers.Layer.WMS(
-	        		  "Alaska",
-		        		  GEOSERVER_URL,
-		        		  {
-		        			  layers : me.NAR_NS + 'AK_AKalb',
-		        			  transparent : true,
-		        			  styles: 'ms_grey_outline',
-		        		  }, {
-		        			  visibility : false,
-		        			  isBaseLayer : false,
-		        			
-	        		  }
-		          ),
-		          new OpenLayers.Layer.WMS(
-		        		  "Alaska Major Streams",
-		        		  GEOSERVER_URL,
-		        		  {
-		        			  layers: me.NAR_NS + 'AK_major_AKalb',
-		        			  transparent : true,
-		        			  styles : 'streams'
-		        		  },
-		        		  {
-		        			  isBaseLayer : false,
-		        		  }
-		          ),
-		          me.createAlaskaBasinLayer(),
-		          alaskaSitesLayer
-		]
+				me.createBaseLayer(),
+				new OpenLayers.Layer.WMS(
+					"Alaska",
+					GEOSERVER_URL,
+					{
+						layers : me.NAR_NS + 'AK_AKalb',
+						transparent : true,
+						styles: 'ms_grey_outline',
+					}, {
+						visibility : false,
+						isBaseLayer : false,			
+					}
+				),
+				new OpenLayers.Layer.WMS(
+						"Alaska Major Streams",
+						GEOSERVER_URL,
+						{
+							layers: me.NAR_NS + 'AK_major_AKalb',
+							transparent : true,
+							styles : 'streams'
+						},
+						{
+							isBaseLayer : false,
+						}
+				),
+				me.createAlaskaBasinLayer(),
+				alaskaSitesLayer
+			]
 		});
 	};
 	
