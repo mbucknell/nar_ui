@@ -20,7 +20,7 @@ nar.plots = nar.plots || {};
 			constituentName = nar.plots.PlotUtils.getConstituentNameAndColors(tsViz).name.toLowerCase();
 			
 			plotConfig = {
-					yaxisLabel : 'Annual flow-weighted<br/> ' + constituentName + ' concentration,<br/>in milligrams per liter',
+					yaxisLabel : 'Annual flow-normalized<br/> ' + constituentName + ' concentration,<br/>in milligrams per liter',
 					showLongTermMean : true,
 					showLongTermMeanHover : true
 			};

@@ -43,11 +43,11 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
 					topLevel = 'Sample concentrations';
 				}
 				else {// must be annual flow weighted
-					topLevel = 'Annual flow-normalized concentrations';
+					topLevel = 'Annual concentrations';
 				}
 			}
 			else if (timeSeriesIdComponents.category === 'mass' && timeSeriesIdComponents.timestepDensity === 'annual'){
-				topLevel = 'Annual mean load';
+				topLevel = 'Annual load';
 			}
 			else{
 				console.dir(timeSeriesIdComponents);
