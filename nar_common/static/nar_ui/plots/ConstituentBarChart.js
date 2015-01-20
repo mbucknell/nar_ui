@@ -61,10 +61,11 @@ nar.plots = nar.plots || {};
 					align: 'center',
 					show: true,
 					fill: true,
-					fillColor: color
+					fillColor: color,
+					lineWidth : 1
 				},
 				yaxis : 1,
-				color : color
+				color : '#0F0F0F'
 			};
         };
         

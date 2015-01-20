@@ -17,6 +17,22 @@ describe('nar.plots.PlotUtils', function() {
 			expect(testFunc(0.0100)).toBe('0.01');
 		});
 	});
+	describe('logTicks', function() {
+		var testFunc = nar.plots.PlotUtils.logTicks;
+		
+		it('Expects an array of log ticks returned', function() {
+			var axis = {min : 0.026, max : 20.2};
+			expect(testFunc(axis, -3)).toEqual([0.01, 0.1, 1.0, 10.0, 100.0]);
+			
+			axis = {min : 0.9, max : 8.43};
+			expect(testFunc(axis, -3)).toEqual([0.1, 1.0, 10.0]);
+		});
+		
+		it('Expects the minimumLog parameter to be used if axis.min is zero', function() {
+			var axis = {min : 0.0, max : 54.3};
+			expect(testFunc(axis, -3)).toEqual([0.001, 0.01, 0.1, 1.0, 10.0, 100.0]);
+		});
+	});
 	describe('utcDatePlotHoverFormatter', function() {
 		var testFunc = nar.plots.PlotUtils.utcDatePlotHoverFormatter;
 		it('should be ISO date with correct value', function() {
