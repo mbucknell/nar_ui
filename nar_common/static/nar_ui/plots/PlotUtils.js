@@ -168,8 +168,8 @@ nar.plots = nar.plots || {};
             var formatted = dateStr + " : " + y;
             return formatted;
         },
-        waterYearPlotHoverFormatter : function(x, y, yPrecision) {
-        	return nar.WaterYearUtils.convertDateToWaterYear(x) + ' : ' + y.format(yPrecision);        	
+		waterYearPlotHoverFormatter : function(x, y, yPrecision) {
+			return nar.WaterYearUtils.convertDateToWaterYear(x) + ' : ' + y.format(yPrecision);
 		},
         /**
          * Pulling out tick formatter for testing it
@@ -183,6 +183,30 @@ nar.plots = nar.plots || {};
             var tickDecimals = (roundedLog > 0) ? 0 : -roundedLog;
             return val.toFixed(tickDecimals);
         },
+        /**
+         * @param Object axis - the axis object passed to the flots tick function
+         * @param Integer minimumLog - if axis.min is 0, this will be the minimum tick.
+         * @returns Array[String] - of ticks to use
+         */
+		logTicks : function (axis, minimumLog) {
+			var minLog, maxLog;
+			var ticks = [];
+			var i;
+			
+			if (axis.min === 0) {
+				axis.min = 0.001; // Needed to do this so axis starts at 0.001. Otherwise data can fall below the axis.
+				minLog = minimumLog;
+			}
+			else {
+				minLog = Math.floor(log10(axis.min));
+			}
+			maxLog = Math.ceil(log10(axis.max));
+		
+			for (i = minLog; i <= maxLog; i++) {
+				ticks.push(Math.pow(10, i));
+			}
+			return ticks;
+		},
         /**
          * Use to format time series axis when you want the ticks to represent a year. 
          * Can be assigned to the ticks property for an axis.
