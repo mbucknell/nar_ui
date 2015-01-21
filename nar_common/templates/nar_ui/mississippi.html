@@ -40,10 +40,8 @@
 			<select name="load">
 			
 				<option value="">--Select Load Type--</option>
-				<option data-year="range" value="long_term_wy">Long-term Annual Load</option>
-				<option data-year="range" value="long_term_may">Long-term May Load</option>
-				<option data-year="discrete" value="wy">Annual Load</option>
-				<option data-year="discrete" value="may">May Load</option>							
+				<option value="wy">Annual Load</option>
+				<option value="may">May Load</option>							
 			</select>
 			
 			<select name="chemical">
@@ -72,10 +70,8 @@
 			<select name="load">
 			
 				<option value="">--Select Load Type--</option>
-				<option data-year="range" value="long_term_wy">Long-term Annual Load</option>
-				<option data-year="range" value="long_term_may">Long-term May Load</option>
-				<option data-year="discrete" value="wy">Annual Load</option>
-				<option data-year="discrete" value="may">May Load</option>	
+				<option value="wy">Annual Load</option>
+				<option value="may">May Load</option>	
 				
 			</select>
 			
@@ -164,7 +160,7 @@
 <script type="text/javascript" src="{% static 'nar_ui/mississippi/GraphPopup.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/mississippi/map.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/mississippi/main.js' %}"></script>
-<script type="text/javascript" src="{% static 'nar_ui/mississippi/loadSelect.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/mississippi/LoadLayer.js' %}"></script>
 
 <script type="text/javascript">
 	nar.loadDefinitions(CONFIG.definitionsUrl);

@@ -3,56 +3,42 @@
  */
 var nar = nar || {};
 nar.mississippi = nar.mississippi || {};
+
 (function(){
-	/**
-	 * @class nar.mississippi.FiltersState
-	 * @property load
-	 * @property chemical
-	 * @property year
+	/* Wrapper around Subject. The code assumes that all observers take an object containing the filter data with
+	 * properties load, chemical, and year.
 	 * 
+	 * @param $load - jquery element representing the load
+	 * @param $chemical - jquery element representing the chemical
+	 * @param $year - jquery element representig the year (this can be a range)
+	 * @returns object containing functions to addObserver, removeObserver, getFilterData, and to notifyObservers
 	 */
-	nar.mississippi.FiltersState = function(load, chemical, year){
+	nar.mississippi.FiltersSubject = function($load, $chemical, $year) {
 		var self = this;
-		self.load = load;
-		self.chemical = chemical;
-		self.year = year;
-	};
-	
-	/**
-	 * @class nar.mississipi.FiltersSubject
-	 * Returns a Subject whose observers are called 
-	 * with a nar.mississippi.FiltersState object.
-	 */
-	/**
-	 * @param {jQuery} filters - the parent of several form elements
-	 */
-	nar.mississippi.FiltersSubject = function(filters){
-		var subject = new nar.commons.Subject();
-		subject.mostRecentNotification = new nar.mississippi.FiltersState();
-		var filterInputs = filters.find(':input');
 		
-		var getNameValuePairFromFormElement = function(element){
-			element = $(element);
-			var nameValuePair = {};
-			nameValuePair.name = element.attr('name');
-			if(!nameValuePair.name){
-				throw new Error('No field name defined for map filter form control');
-			}
-			nameValuePair.value = element.val();
-			return nameValuePair;
+		var subject = new nar.commons.Subject();
+		
+		
+		self.addObserver = function (newObserver) {
+			subject.observe(newObserver);
+		};
+		self.removeObserver = function (deleteObserver) {
+			subject.unobserve(deleteObserver);
 		};
 		
-		filterInputs.change(function(event){
-			var tempFiltersState = {};
-			filterInputs.map(function(index, input){
-				nameValuePair = getNameValuePairFromFormElement(input);
-				tempFiltersState[nameValuePair.name] = nameValuePair.value;
-			});
-			
-			var filtersState = new nar.mississippi.FiltersState(tempFiltersState.load, tempFiltersState.chemical, tempFiltersState.year);
-			subject.mostRecentNotification=filtersState;
-			subject.notify(filtersState);
-		});
-		return subject;
+		self.getFilterData = function() {
+			return {
+				load: $load.val(),
+				chemical : $chemical.val(),
+				year : $year.val()
+			};
+		};
+		
+		self.notifyObservers = function() {
+			subject.notify(self.getFilterData());
+		};
+		
+		return self;
 	};
+	
 }());
