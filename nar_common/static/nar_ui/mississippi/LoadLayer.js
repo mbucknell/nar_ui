@@ -16,6 +16,10 @@ nar.mississippi.LoadLayer = function() {
 			isBaseLayer : false
 		}
 	);
+	var currentLayer = '';
+	var currentStyle = '';
+	
+	var LEGEND_URL = CONFIG.endpoint.geoserver + 'NAR/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&FORMAT=image%2Fpng&WIDTH=20&HEIGHT=20&legend_options=forceLabels:on';
 	
 	self.addToMap = function(map) {
 		map.addLayer(loadLayer);
@@ -23,9 +27,11 @@ nar.mississippi.LoadLayer = function() {
 	
 	self.updateLayer = function(data) {
 		if (data.load && data.chemical && data.year) {
+			currentLayer = 'NAR:missrivout_' + data.year;
+			currentStyle = data.chemical + '_' + data.load;
 			loadLayer.mergeNewParams({
-				layers : 'NAR:missrivout_' + data.year,
-				styles : data.chemical + '_' + data.load
+				layers : currentLayer,
+				styles : currentStyle
 			});
 			loadLayer.setVisibility(true);
 		}
@@ -33,6 +39,11 @@ nar.mississippi.LoadLayer = function() {
 			loadLayer.setVisibility(false);
 		}		
 	};
+	
+	self.getLegendGraphicUrl = function() {
+		return LEGEND_URL + '&layer=' + currentLayer + '&style=' + currentStyle; 
+	};
+	
 	
 	return self;
 };

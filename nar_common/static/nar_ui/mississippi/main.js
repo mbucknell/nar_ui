@@ -285,6 +285,10 @@ $(document).ready(function() {
 	var leftLoadLayer = new nar.mississippi.LoadLayer();
 	leftFiltersSubject.addObserver(function(filterData) {
 		leftLoadLayer.updateLayer(filterData);
+		// This assumes that the sld only varies with load type and that the left and right always have the same load type.
+		$('#map-legend-container img').each(function() {
+			$(this).attr('src', leftLoadLayer.getLegendGraphicUrl() + '&RULE=' + $(this).data('rule'));
+		});
 		updateLeftContributionDisplay(filterData);
 	});
 	
@@ -327,12 +331,6 @@ $(document).ready(function() {
 				$toggle.attr('title', 'Show');
 			}
 		});
-	});
-	
-	// Initialize legend
-	var GET_LEGEND_GRAPHIC_URL = CONFIG.endpoint.geoserver + "NAR/wms?TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&STYLE=no23_wy&FORMAT=image%2Fpng&LAYER=NAR%3Amissrivout_2005&WIDTH=20&HEIGHT=20&legend_options=forceLabels:on";
-	$('#map-legend-container img').each(function() {
-		$(this).attr('src', GET_LEGEND_GRAPHIC_URL + '&RULE=' + $(this).data('rule'));
 	});
 	
 	// Add legend help
