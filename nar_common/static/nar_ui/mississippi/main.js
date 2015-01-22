@@ -49,9 +49,7 @@ $(document).ready(function() {
 			nar.ContributionDisplay.create({
 				containerSelector : containerSelector,
 				placement : placement,
-				parameters : selections,
-				width : 250,
-				height : 200
+				parameters : selections
 			});
 		}
 		else {
@@ -75,11 +73,9 @@ $(document).ready(function() {
 		});
 	};
 	
-	$('#link-chart-contribution').on('click', function () {
-		updateLeftContributionDisplay (leftFiltersSubject.getFilterData());
-		updateRightContributionDisplay(rightFiltersSubject.getFilterData());
-	});
-	
+	updateLeftContributionDisplay (leftFiltersSubject.getFilterData());
+	updateRightContributionDisplay(rightFiltersSubject.getFilterData());
+
 	// Code which creates maps and controls
 	var leftMapName = 'left-map',
 		rightMapName = 'right-map',
@@ -289,17 +285,13 @@ $(document).ready(function() {
 	var leftLoadLayer = new nar.mississippi.LoadLayer();
 	leftFiltersSubject.addObserver(function(filterData) {
 		leftLoadLayer.updateLayer(filterData);
-		if (nar.ContributionDisplay.isVisible('#left-pie-chart-container')) {
-			updateLeftContributionDisplay(filterData);
-		}
+		updateLeftContributionDisplay(filterData);
 	});
 	
 	var rightLoadLayer = new nar.mississippi.LoadLayer();
 	rightFiltersSubject.addObserver(function(filterData) {
 		rightLoadLayer.updateLayer(filterData);
-		if (nar.ContributionDisplay.isVisible('#right-pie-chart-container')) {
-			updateRightContributionDisplay(filterData);
-		}
+		updateRightContributionDisplay(filterData);
 	});
 	
 	// Initialize observers for the filter data
@@ -335,6 +327,18 @@ $(document).ready(function() {
 				$toggle.attr('title', 'Show');
 			}
 		});
+	});
+	
+	// Initialize legend
+	var GET_LEGEND_GRAPHIC_URL = CONFIG.endpoint.geoserver + "NAR/wms?TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&STYLE=no23_wy&FORMAT=image%2Fpng&LAYER=NAR%3Amissrivout_2005&WIDTH=20&HEIGHT=20&legend_options=forceLabels:on";
+	$('#map-legend-container img').each(function() {
+		$(this).attr('src', GET_LEGEND_GRAPHIC_URL + '&RULE=' + $(this).data('rule'));
+	});
+	
+	// Add legend help
+	$('#map-legend-container a').popover({
+		trigger : "hover",
+		container : '#auxillary-info'
 	});
 	
 });

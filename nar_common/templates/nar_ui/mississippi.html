@@ -13,20 +13,6 @@
 	
 		<h3>Mississippi River Basin Summary - Relative Nutrient Loading from Tributaries</h3>
 		
-		<h6>The width of each river shows its relative contribution to nutrient loading 
-		
-		<a href="#" id="link-chart-contribution">( Show percent contributions 
-		
-		<i class="icon-large">
-		
-		<img src="{% static 'nar_ui/images/pie-chart-icon.png' %}" alt="piechart"/>
-		
-		</i> )
-		
-		</a>
-		
-		</h6>
-
 		<a href="{% url 'help' %}"><button id="help">Help?</button></a>
 		
 		<button id="toggle" >Toggle Sites <i class="glyphicon glyphicon-play"></i></button>
@@ -110,10 +96,24 @@
 		
 		
 		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="right-map"></div>
-		
-		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="left-pie-chart-container"></div>
-		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="right-pie-chart-container"></div>
-		
+		<div class="col-sm-12" id="auxillary-info">
+		  <div class="col-xs-5" id="left-pie-chart-container" style="color"></div>
+		  <div class="col-xs-2">
+			  <div id="map-legend-container">
+			      <span>Nutrient Loading&nbsp;</span>
+			      <a href="#" data-toggle="popover" 
+			       data-content="The width of each river shows its relative contribution to nutrient loading">?</a>
+			      <img data-rule="na" />
+		          <br />
+		          <img data-rule="minimum" />
+		          <br />
+			      <img data-rule="middle" />
+		          <br />
+		          <img data-rule="maximum" />
+		    </div>
+		</div>
+		<div class="col-xs-5" id="right-pie-chart-container"></div>
+		</div>
 	
 	</div><!--mississippi_maps-->
 	
