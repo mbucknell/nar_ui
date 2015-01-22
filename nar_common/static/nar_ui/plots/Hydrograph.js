@@ -213,7 +213,7 @@ nar.plots = nar.plots || {};
 		plot = $.plot(flowDurationDiv, [ flowSeries, sampleSeries ], {
 			canvas : true,
 			xaxis : {
-				axisLabel : 'Percent of time exceeded',
+				axisLabel : 'Percent of time exceeded in ' + CONFIG.currentWaterYear,
 				axisLabelUseCanvas : true,
 				axisLabelFontSizePixels : 12,
 				axisLabelFontFamily : "Verdana, Arial, Helvetica, Tahoma, sans-serif",
