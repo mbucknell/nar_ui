@@ -17,13 +17,13 @@ $(document).ready(function() {
 	var rightFiltersSubject = new nar.mississippi.FiltersSubject($rightLoad, $rightChemical, $rightYear);
 	
 	// Default the selection menu
-	$leftFilters.find('option[value="wy"]').attr('selected', 'selected');
-	$leftFilters.find('option[value="no23"]').attr('selected', 'selected');
-	$leftFilters.find('option[value="1993_2012"]').attr('selected', 'selected');
+	$leftFilters.find('option[value="wy"]').prop('selected', true);
+	$leftFilters.find('option[value="no23"]').prop('selected', true);
+	$leftFilters.find('option[value="1993_2012"]').prop('selected', true);
 	
-	$rightFilters.find('option[value="wy"]').attr('selected', 'selected');
-	$rightFilters.find('option[value="no23"]').attr('selected', 'selected');
-	$rightFilters.find('option[value="2013"]').attr('selected', 'selected');
+	$rightFilters.find('option[value="wy"]').prop('selected', true);
+	$rightFilters.find('option[value="no23"]').prop('selected', true);
+	$rightFilters.find('option[value="2013"]').prop('selected', true);
 	
 	//Call observers when filters change
 	$leftFilters.find(':input').change(function() {
