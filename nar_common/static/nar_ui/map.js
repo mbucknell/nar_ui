@@ -12,10 +12,6 @@ var map;
     options.theme = nar.commons.map.theme;
     options.controls = [
         new OpenLayers.Control.Navigation(),
-        new OpenLayers.Control.MousePosition({
-            numDigits: 2,
-            displayProjection: nar.commons.map.geographicProjection
-        }),
         new OpenLayers.Control.ScaleLine({
             geodesic: true
         }),

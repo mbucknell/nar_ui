@@ -123,7 +123,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
     
     // If no data for year, add a label on the chart.
     if (series.yearValue === 0) {
-		var NO_DATA = 'No data';
+		var NO_DATA = 'Loads not calculated';
 
 		var ctx = plot.getCanvas().getContext("2d");
 		var xaxis = plot.getAxes().xaxis;
@@ -136,7 +136,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
 		ctx.save();
 		ctx.translate(tx, ty);
 		ctx.rotate(-0.5 * Math.PI);
-		ctx.fillText("No data", -metrics.width / 2, 4);
+		ctx.fillText(NO_DATA, -metrics.width / 2, 4);
 		ctx.restore();
 	}
 	

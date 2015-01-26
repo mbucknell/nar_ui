@@ -13,8 +13,8 @@
           <sld:Abstract>A blue fill with an 13 pixel size</sld:Abstract>
           <ogc:Filter>
             <ogc:PropertyIsEqualTo>
-              <ogc:PropertyName>river_name</ogc:PropertyName>
-              <ogc:Literal>Brazos River</ogc:Literal>
+              <ogc:PropertyName>qw_id</ogc:PropertyName>
+              <ogc:Literal>08116650</ogc:Literal>
             </ogc:PropertyIsEqualTo>
           </ogc:Filter>
           <sld:PointSymbolizer>
@@ -58,8 +58,8 @@
           <sld:Title>Blue Triangle</sld:Title>
           <ogc:Filter>
             <ogc:PropertyIsEqualTo>
-              <ogc:PropertyName>river_name</ogc:PropertyName>
-              <ogc:Literal>Rio Grande</ogc:Literal>
+              <ogc:PropertyName>qw_id</ogc:PropertyName>
+              <ogc:Literal>08475000</ogc:Literal>
             </ogc:PropertyIsEqualTo>
           </ogc:Filter>
           <sld:PointSymbolizer>
@@ -103,8 +103,8 @@
           <sld:Title>Atchafayla</sld:Title>
           <ogc:Filter>
             <ogc:PropertyIsEqualTo>
-              <ogc:PropertyName>river_name</ogc:PropertyName>
-              <ogc:Literal>Lower Atchafalaya River</ogc:Literal>
+              <ogc:PropertyName>qw_id</ogc:PropertyName>
+              <ogc:Literal>07381495</ogc:Literal>
             </ogc:PropertyIsEqualTo>
           </ogc:Filter>
           <sld:PointSymbolizer>
@@ -136,7 +136,7 @@
                   <sld:AnchorPointY>0.0</sld:AnchorPointY>
                 </sld:AnchorPoint>
                 <sld:Displacement>
-                  <sld:DisplacementX>-50.0</sld:DisplacementX>
+                  <sld:DisplacementX>-45.0</sld:DisplacementX>
                   <sld:DisplacementY>-10.0</sld:DisplacementY>
                 </sld:Displacement>
               </sld:PointPlacement>
@@ -150,8 +150,8 @@
           <sld:Title>Mississippi</sld:Title>
           <ogc:Filter>
             <ogc:PropertyIsEqualTo>
-              <ogc:PropertyName>river_name</ogc:PropertyName>
-              <ogc:Literal>Mississippi River</ogc:Literal>
+              <ogc:PropertyName>qw_id</ogc:PropertyName>
+              <ogc:Literal>07373420</ogc:Literal>
             </ogc:PropertyIsEqualTo>
           </ogc:Filter>
           <sld:PointSymbolizer>
@@ -182,8 +182,8 @@
                   <sld:AnchorPointY>0.0</sld:AnchorPointY>
                 </sld:AnchorPoint>
                 <sld:Displacement>
-                  <sld:DisplacementX>-10.0</sld:DisplacementX>
-                  <sld:DisplacementY>-35.0</sld:DisplacementY>
+                  <sld:DisplacementX>0.0</sld:DisplacementX>
+                  <sld:DisplacementY>-40.0</sld:DisplacementY>
                 </sld:Displacement>
               </sld:PointPlacement>
             </sld:LabelPlacement>
@@ -196,8 +196,8 @@
           <sld:Title>Mobile</sld:Title>
           <ogc:Filter>
             <ogc:PropertyIsEqualTo>
-              <ogc:PropertyName>river_name</ogc:PropertyName>
-              <ogc:Literal>Mobile River</ogc:Literal>
+              <ogc:PropertyName>qw_id</ogc:PropertyName>
+              <ogc:Literal>02470500</ogc:Literal>
             </ogc:PropertyIsEqualTo>
           </ogc:Filter>
           <sld:PointSymbolizer>
@@ -241,8 +241,8 @@
           <sld:Title>Appalachicola</sld:Title>
           <ogc:Filter>
             <ogc:PropertyIsEqualTo>
-              <ogc:PropertyName>river_name</ogc:PropertyName>
-              <ogc:Literal>Apalachicola River</ogc:Literal>
+              <ogc:PropertyName>qw_id</ogc:PropertyName>
+              <ogc:Literal>02359170</ogc:Literal>
             </ogc:PropertyIsEqualTo>
           </ogc:Filter>
           <sld:PointSymbolizer>

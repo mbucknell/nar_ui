@@ -632,23 +632,7 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
  .mississippi_title a:hover{text-decoration:underline;
  							color:#428bca;}
  							
- #download{
- 	background:@boxColor;
- 	width:110px;
-	font-size:1em;
-	padding:0 0 0 0;
-	margin:7px 0 0 0;
-	height:25px;
-	border-radius:5px;
-  	border:@borderDark;
-  	position:absolute;
-  	right:15px;
-  	top:10px;}
-  						
-#download:hover{
-	background:@primaryColor;
- 	color:#fff;}
- 								
+ 		
  #toggle{position:absolute;
  		right:5px;
  		bottom:10px;
@@ -722,6 +706,17 @@ select.last{margin-right:0;}
 					background:@boxColor;
 					margin:0;
 					position:relative;}
+					
+#auxillary-info {
+    background: @siteBackground;
+    border-top: @borderDark;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+#map-legend-label{
+    font-size: 1.2em;
+    margin-bottom: 8px;
+}
 					
 #mississippi_info{
 	border-bottom:@borderDark;
@@ -1200,6 +1195,11 @@ ul#relativeLinks{
 .stream h6,
 .human h6{padding-left:50px;}
 
+.stream #sf_and_wq_help {
+    text-align: left;
+    font-size: 1.1em;
+}
+
 .link-popover-anchor {
 	border-bottom: 1px dashed #003366;
 }
@@ -1640,7 +1640,7 @@ ul#relativeLinks{
 	.jqplot-xaxis-label{
 		margin-top:20px;}
 	
-	.graphContainer,
+	.graphContainer
 	{width:31.8%;}
 	
 	.human{
@@ -1784,13 +1784,13 @@ ul#relativeLinks{
 	 #mississippi_info{padding:2px 0 2px 5px;}
 	 
 	 #toggle,
-	 #download{width:70px;
+	 #legend_toggle{width:70px;
 	 		height:38px;
 	 		text-align:center;
 	 		font-size:.9em;
 	 }
 	 
-	 #download{right:10px;
+	 #legend_toggle{right:10px;
 	 			top:-3px;
 	 }
 	 		
@@ -2000,14 +2000,13 @@ ul#relativeLinks{
 	 					padding:2px 0 2px 5px;
 	 }
 	 
-	 #toggle,
-	 #download{width:70px;
+	 #toggle, #legend_toggle{width:70px;
 	 		height:38px;
 	 		text-align:center;
 	 		font-size:.9em;
 	 }
 	 
-	 #download{right:10px;
+	 #legend_toggle{right:10px;
 	 			top:-3px;
 	 }
 	 		

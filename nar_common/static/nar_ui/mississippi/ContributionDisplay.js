@@ -118,14 +118,11 @@ nar.ContributionDisplay = (function() {
 			width = args.width,
 			height = args.height,
 			zIndex = 1006,
-			paddingRight = 15,
+			paddingRight = 5,
 			parameters = args.parameters,
 			sortedData = me.createLegendData(data,parameters),
 			chartContainerClass = 'chart-miss-pie',
 			legendContainerClass = 'chart-miss-legend',
-			$closeLinkRow = $('<tr />').attr('colspan', '2'),
-			$closeLinkCell = $('<td />').attr('colspan', '2').addClass('text-right'),
-			$closeLink = $('<div />').addClass('glyphicon glyphicon-remove chart-miss-legend-link-close'),
 			$chartDiv = $('<div />')
 				.addClass(chartContainerClass)
 				.css({
@@ -197,10 +194,7 @@ nar.ContributionDisplay = (function() {
 				clickable : true
 			}
 		});
-		
-		$closeLinkRow.append($closeLinkCell.append($closeLink));
-		$legendContainer.find('tbody').prepend($closeLinkRow);
-		
+				
 		$chartDiv.on('plothover', function(event, pos, obj) {
 			var $legend,
 				$label,
@@ -217,10 +211,6 @@ nar.ContributionDisplay = (function() {
 				$legend.find('table tr').css('font-weight', '');
 				$(event.target.getElementsByClassName('pieLabel')).find('div').css('opacity', '0.2');
 			}
-		});
-		
-		$closeLink.on('click', function() {
-			me.removePieChart(containerSelector);
 		});
 		
 		$( document ).tooltip();
