@@ -1,0 +1,328 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+{% load compress %}
+
+
+
+{% block content %}
+
+	<div class="about_content">
+	
+		<div id="wrapper">
+		
+		<h1>A River-Basin Perspective on Monitoring Water Quality</h1>
+		
+		<div class="feed-div">
+			   <blockquote>
+			   <p>Rivers integrate the landscape through which they flow. Water chemistry measured at any one point in a river reflects a complex combination of natural processes and human activities that occur upstream. By measuring the amount of chemicals and sediment that flow past stations on the Nation's largest rivers, NASQAN provides the data needed to:</p>
+					<div>
+						<ul>
+							<li>characterize large sub-basins of these rivers,
+							<li>determine regional source areas for these materials, and
+							<li>assess the effects of human influences on observed concentrations and amounts of these materials.
+						</ul>
+			
+					</div>
+					<p>Because these large rivers typically coincide with state and international boundaries, monitoring these rivers primarily is a Federal responsibility.</p>
+					<center>
+						<h2><img alt="Columbia River at Bonneville Dam" src="{% static 'nar_ui/images/bonneville.dam.jpeg' %}" width="144" height="90" align="bottom" >
+							<img alt="Colorado River at Lees Ferry, Arizona" src="{% static 'nar_ui/images/lee.ferry.jpeg' %}" width="144" height="90" align="BOTTOM" >
+							<img alt="confluence of the Mississippi and Missouri River" src="{% static 'nar_ui/images/ms.mo.3.jpeg' %}" width="144" height="90" align="BOTTOM" ></h2>
+					</center>
+					<center>
+						<blockquote>
+							<p><i>Three scenes of large rivers sampled by NASQAN depicting the variety of land forms contained within these basins. From the left, Columbia River at Bonneville Dam; Colorado River at Lees Ferry, Arizona; and the confluence of the Mississippi and Missouri River.</i></p>
+			
+						</blockquote>
+					</center>
+					<h2>Sampling Concepts</h2>
+					<p>NASQAN stations are sampled frequently enough to characterize variations in chemical and sediment concentrations that occur during a year, particularly the variation that occurs between low and high flows, during different seasons of a year, and during different hydrologic regimes-such as periods when snowmelt dominates river discharge. By sampling a river under these different conditions, the amount of material that passes a station, known as the mass flux of a constituent (expressed as tons per day), can be reliably determined by multiplying the concentration of a constituent by the stream discharge.</p>
+					<p>Constituent mass fluxes can be compared among stations and across spatial scales. For example, yields of contaminants (expressed as tons per square mile) can be compared between stations; gains or losses in a river reach can be determined between any two stations; and amounts of materials delivered to a reservoir or estuary can be calculated. The ability to determine these three values-source, transport, and delivery of constituents-enables a broad range of scientific and policy issues to be addressed.</p>
+					<p>For example, NASQAN data are critical to understand the cause of low oxygen (hypoxia) that develop each spring and summer in the Gulf of Mexico, and that harm the fisheries in this area. Some scientists believe that the severity and extent of the hypoxia may be controlled by nutrients from the Mississippi River (Rabalais and others, 1996).</p>
+					<p>NASQAN data can be used to answer the following questions:</p>
+			
+					<div>
+						<ul>
+							<li>How do nutrient fluxes from the Mississippi change from year to year and season to season? This variation can be compared with variation in the extent of the hypoxic zone of the Gulf to determine whether a correlation exists.
+							<li>Where are nutrients coming from within the Mississippi River Basin? Controlling nutrient contributions from the river basin requires knowledge of the chemical source.
+							<li>In what chemical form are the nutrients present and how do the forms change along the river system? The biological availability of these nutrients-and hence, their effect on plants and animals-depends upon their chemical form.
+						</ul>
+					</div>
+					<p>NASQAN is the only large-scale program in the Nation that can provide this information.</p>
+					<p>By using mass flux, a river network can be treated as an integrated system--as shown for water (<a href="{% static 'nar_ui/images/fig1a.gif' %}">figure 1a</a>) and suspended sediment (<a href="{% static 'nar_ui/images/fig1b.gif' %}">figure 1b</a>) in figure 1. Water carries with it dissolved constituents (such as nitrate and calcium) and suspended sediment; the suspended sediment itself carries chemicals such as trace elements and phosphorus. Note the regional differences in source areas for water and sediment in the Mississippi River Basin--water comes primarily from the eastern part and sediment comes primarily from the western part of the river basin. Regional differences exist for many chemicals, such as fertilizers and pesticides. NASQAN data, together with other data collected by the USGS at a smaller scale, will permit diagrams, such as figure 1, to be constructed for a wide variety of chemical constituents.</p>
+			
+					<p>The flux-based approach to water-quality monitoring provides information on the workings of these large river basins. However, the design 
+					cannot address issues that concern local water-quality conditions along the major rivers. For example, there are insufficient stations and 
+					constituents measured at each station to ensure that water-quality criteria for swimming are met along the river courses or whether the water 
+					at different locations is suitable as a raw supply for drinking water. These primarily are state and local concerns.<br>
+					</p>
+					<h2>Operation of NASQAN</h2>
+					<h3>Station Selection</h3>
+					<p>Ranked by their total drainage area, the largest river basins in the United States are the Mississippi (1,200,000 square miles (mi<sup>2</sup>)), the Great Lakes/ St. Lawrence (396,000 mi<sup>2</sup>), the Rio Grande (336,000 mi<sup>2</sup>), the Yukon (328,000 mi<sup>2</sup>), the Columbia (258,000 mi<sup>2</sup>), and the Colorado (250,000 mi<sup>2</sup>). Because the next largest river basin is less than 20 percent the size of the Colorado, these larger six river basins were considered for study by the NASQAN program.</p>
+			
+					<p>Two of these basins present special difficulties for sampling. The inaccessibility of the Yukon makes it very expensive to sample. Typical 
+					sample-collection costs for the Yukon are two to three times greater than those for basins in the conterminous 48 states. The Great Lakes/St. 
+					Lawrence system also presents logistical difficulties for sampling (access to the connecting channels is difficult) and conceptual problems 
+					(residence time of water in this system is much longer than in the other river basins). Although both of these river basins should be monitored, 
+					the USGS decided to focus the limited NASQAN resources on the Mississippi, the Rio Grande, the Colorado, and the Columbia River Basins.</p>
+					<p>NASQAN stations, shown in <a href="{% static 'nar_ui/images/fig2.gif' %}">figure 2</a>, are located on major tributaries in the four river 
+					basins, along the mainstem of rivers where there is a large increase in flow, and upstream and downstream from reservoirs having average 
+					residence time greater than one year. Such reservoirs serve as sinks for nutrients and sediment. In some cases, sets of reservoirs are 
+					treated as a single unit. For example, the outflow from Lake Sakakawea in North Dakota is measured, but the inflow to Lake Oahe is not 
+					measured because there is little additional streamflow draining the areas between the lakes. The subbasins defined by the NASQAN stations, 
+					also shown in <a href="{% static 'nar_ui/images/fig2.gif' %}">figure 2</a>, average about 70,000 mi2 in the Mississippi River Basin; 40,000 mi2 in the Columbia 
+					River Basin; 30,000 mi2 in the Colorado River Basin; and 23,000 mi2 in the Rio Grande Basin. The smaller subbasins in the Colorado and Rio 
+					Grande result from the requirement to measure inflows and outflows from large reservoirs on these rivers, such as Lake Mead and Amistad 
+					International Reservoir.</p>
+					<h3>Stream-Discharge Data</h3>
+					<p>To calculate mass flux, which is the central concern of NASQAN, a continuous record of streamflow must be available. At most NASQAN stations, the USGS already is measuring discharge for other purposes, such as navigation and water supply. Funding to the USGS for this work comes from direct appropriation by Congress; from other Federal agencies-such as the U.S. Army Corps of Engineers (Corps)-and through cooperative agreements with state and interstate agencies. At a few NASQAN stations, the USGS does not measure stream discharge. In the lower Mississippi River, the measurements are made by the Corps; and in the Rio Grande, measurements are made by the International Boundary and Water Commission, a joint United States/Mexican authority. The cost of collecting these data exceeds $400,000 per year.</p>
+					<h3>Constituents Measured</h3>
+			
+					<p>In NASQAN, a broad range of chemical constituents are measured for which well-established collection and analytical protocols exist (table 1). About 100 dissolved constituents and 30 suspended constituents are measured in every sample. An extensive quality-assurance/quality-control program enables constituents present in very low concentrations (parts per billion) to be measured with definable accuracy and precision.</p>
+					<p><blockquote>
+					<table width="45%" border="1" cellspacing="0" cellpadding="2">
+						<caption>
+							Table 1. Physical and chemical measurement made at NASQAN stations
+						</caption>
+						<tr>
+							<td width="30%">
+								<center>
+									<p><b>Measurement Class</b></center>
+							</td>
+							<td width="70%">
+								<center>
+									<p><b>Examples</b></center>
+							</td>
+						</tr>
+						<tr>
+							<td width="30%">
+								<p>Carbon</td>
+							<td width="70%">
+								<p>dissolved and suspended organic carbon and dissolved inorganic carbon</td>
+						</tr>
+						<tr>
+			
+							<td width="30%">
+								<p>Major Ions</td>
+							<td width="70%">
+								<p>calcium, sulfate, and chloride</td>
+						</tr>
+						<tr>
+							<td width="30%">
+								<p>Nutrients</td>
+			
+							<td width="70%">
+								<p>total and dissolved forms of nitrogen and phosphorus</td>
+						</tr>
+						<tr>
+							<td width="30%">
+								<p>Pesticides</td>
+							<td width="70%">
+								<p>47 common water-soluble pesticides, including atrazine and metalochlor</td>
+			
+						</tr>
+						<tr>
+							<td width="30%">
+								<p>Support variables</td>
+							<td width="70%">
+								<p>stream discharge, temperature, pH, dissolved oxygen, conductivity</td>
+						</tr>
+						<tr>
+			
+							<td width="30%">
+								<p>Suspended sediment</td>
+							<td width="70%">
+								<p>sediment concentration of fine and coarse particles</td>
+						</tr>
+						<tr>
+							<td width="30%">
+								<p>Suspended and dissolved trace elements</td>
+			
+							<td width="70%">
+							<p>lead, cadmium, and zinc</td>
+						</tr>
+					</table></blockquote>
+					<p>
+					<h3>Sampling Strategy</h3>
+					<p>Sampling frequency at individual NASQAN stations varies from 6 samples per year downstream from reservoirs, where concentration variation 
+					is expected to be low, to 15 samples per year at sites on freely flowing sections of a river. The intent of having different sampling 
+					frequencies at different stations is to achieve an equivalent precision in the mass-flux estimate at each station. Additional samples may be 
+					collected beyond the planned number during unusually large floods. Initial sampling frequencies are based upon a combination of available data 
+					and professional judgement. Sampling strategies will be modified over time as more is learned about concentration variation at each NASQAN 
+					station.</p>
+			
+					<h2>History of NASQAN</h2>
+					<p>NASQAN today, as described in the preceding section, is markedly different from the program that was operated before 1995. NASQAN was 
+					begun in 1973 to provide nationally comparable information on water quality. Consistent with the design of the national streamflowgaging 
+					network, water-quality measurements were made at stations at the downstream end of most <i>hydrologic accounting units</i>; hence, the term 
+					<i>accounting </i>in the network name. At its greatest extent, the network was funded at $5 million annually and included more than 500 
+					stations that were sampled monthly for suspended sediment, major ions (such as sulfate and chloride), trace elements (such as lead), 
+					nutrients (such as nitrate), sanitary indicators (such as fecal coliform), and limited biological information (such as chlorophyll-<i>a</i>). 
+					These data were intended to provide general purpose information on the status and trends of water quality.</p>
+					<p>NASQAN data were used by state agencies to document ambient water quality (in 305(b) reports required by the Clean Water Act), by the U.S. 
+					Environmental Protection Agency (USEPA, 1996) for the first National Water Indicators report, and by the National Oceanic and Atmospheric 
+					Administration (NOAA) to estimate fluvial input to estuaries. Subsequent interpretation of these data, beyond a comparison with water-quality 
+					standards, has been limited to trend analyses (for example, Smith and others, 1987). However, the inability to explain the reasons for the 
+					presence or absence of trends led the USGS to initiate the National Water Quality Assessment program (NAWQA), a more comprehensive program than 
+					NASQAN.</p>
+					<p>NAWQA seeks to determine not only water-quality status and trends but also to identify and explain, where possible, the major causes of 
+					observed conditions and changes (Hirsch and others, 1988). As planned, NAWQA includes, on a rotational basis, 60 study &quot;units&quot; 
+					(most, but not all, are river basins) with an average area of 20,000 mi2 (<a href="{% static 'nar_ui/images/fig3.gif' %}">fig. 3</a>). Many of the original NASQAN 
+					stations are contained within NAWQA study units.</p>
+			
+					<p>Because of budget cuts and losses in purchasing power from inflation, samples collected at NASQAN stations declined 
+					(<a href="{% static 'nar_ui/images/fig4.gif' %}">fig. 4</a>) as a result of decreased sampling frequency and discontinuation of stations. By 1993, fewer 
+					than 300 stations were operated with a bimonthly or quarterly sampling frequency. Furthermore, the suite of constituents was reduced to 
+					include only major ions, nutrients, suspended sediment, and sanitary indicators. Faced with a further funding reduction from $4.2 million to 
+					$3.3 million in 1994, NASQAN could no longer be operated as originally designed.</p>
+					<p>Consequently, the USGS decided that NASQAN should focus on the Nation's largest rivers for the following reasons:</p>
+					<div>
+						<ul>
+							<li>program objectives could not be achieved with available funding because of a low and rapidly decreasing number of stations and insufficient sampling frequency.
+							<li>water-quality issues had changed over the years. NASQAN needed to expand the constituent coverage to include societally important chemicals, such as pesticides and trace elements. Inclusion of these chemicals required improved (and more expensive) sampling protocols, as well as additional laboratory analysis.
+							<li>NAWQA achieved the objectives of NASQAN in small to medium river basins, but NAWQA does not include the Nation's largest rivers.
+						</ul>
+			
+					</div>
+					<p>During the redesign of the NASQAN program, the principles developed by the Intergovernmental Task Force on Monitoring Water Quality (1995) were implemented. After an 18-month development period, the concepts behind the redesign of NASQAN were supported by a review committee that consisted of representatives from the USEPA, NOAA, state environmental agencies, university researchers, and USGS scientists. The new NASQAN program was fully implemented on October 1, 1996.</p>
+					<h2>Utility of NASQAN</h2>
+					<p>River basins at the NASQAN scale drain areas of vastly different climate, geology, hydrology, land use, and population. Currently (1997), it is not clearly understood how these factors combine to produce the concentrations and fluxes of materials observed in river systems. Although NASQAN does not have the resources to perform a detailed waterquality assessment of these large rivers, data collected by this program can be used to address important policy issues directly and indirectly as part of more detailed studies. The following sections provide examples of how the source, transport, and delivery of chemicals can be used to address policy and scientific questions.</p>
+					<h3>Regional Issues</h3>
+					<p>NASQAN data address five major regional issues. The first three are direct applications of the data; the last two are indirect, and rely on data collected as part of other programs.</p>
+			
+					<div>
+						<ol>
+							<li><i>Describing and comparing yields of nonpoint-source contaminants among large regional basins</i>Large-scale land uses, such as agriculture in the humid East, rangeland in the more arid West, and mining operations can have important water-quality implications. In agricultural areas, large amounts of pesticides and fertilizers are applied. Some of these materials are transported to river systems as nonpoint-source contaminants.
+							<li><i>Describing long-term trends in the mass flux and concentration of constituents at key locations.</i> The higher sampling frequency in the redesigned NASQAN will record water-quality changes in mass flux and concentration better than the past NASQAN sampling, which relied on less frequent, fixed-time-interval sampling. Also, NAWQA provides more detailed information that improves the interpretability of trends observed in NASQAN data.
+							<li><i>Calculating loads to receiving waters. </i>Reservoirs and estuaries are heavily affected by riverine input of contaminants. NASQAN provides information about estuarine loadings for two major rivers-the Mississippi and Columbia, which are large by continental standards; and the Rio Grande, which is locally important to the Laguna Madre area of the Gulf of Mexico. On the Colorado River, NASQAN provides information on the quality of water being delivered to Mexico. In addition, inputs of nutrients, sediments, and trace elements to major reservoirs is provided for the four river basins.
+							<li><i>Framework for more detailed assessments. </i>Data from NASQAN can be used to define the boundary conditions for assessments of river reaches, such as the Colorado River as it flows through the Grand Canyon between Lake Powell and Lake Mead. Reservoir studies also require information on inputs to and outputs from the reservoirs that NASQAN measures.
+							<li><i>Testing regional models that concern the influence of land use on water quality.</i>To test the transferability of findings from NAWQA studies beyond its 60-study unit area, computer models are being developed that relate water quality and land use (Battaglin and Goolsby, in press). NASQAN stations provide validation data sets needed to test these models at a large river-basin scale.
+						</ol>
+			
+					</div>
+					<h3>Examples of Specific Questions</h3>
+					<p>Work plans for each of the four NASQAN river basins have been developed and are updated annually. Specific questions to be answered are included in each work plan. These questions provide a framework for interpreting the collected data that goes beyond a basic characterization of large rivers. Examples include:</p>
+					<h4>Mississippi River Basin</h4>
+					<div>
+						<ul>
+							<li>What is the annual load of nitrogen and phosphorus transported from the Mississippi River Basin to the Gulf of Mexico?
+							<li>Which are the predominant subbasins that produce these nutrients, and what is the relation between the yields of these nutrients and human influences, such as type and intensity of agriculture and urbanization?
+						</ul>
+			
+					</div>
+					<h4>Rio Grande Basin</h4>
+					<div>
+						<ul>
+							<li>What are the sources for the high salinity in the Rio Grande Basin? Are the ongoing salinity-control projects within the basin having an effect?
+						</ul>
+					</div>
+					<h4>Colorado River Basin</h4>
+			
+					<div>
+						<ul>
+							<li>What are the dissolved and suspended trace elements in water discharged from the major subbasins in the Colorado River Basin? Do the concentrations of dissolved or suspended trace elements indicate contamination that is attributable to mining or agriculture or do they simply reflect the local geology?
+							<li>What are the effects of Lake Powell and Lake Mead on the annual flux of nutrients and carbon?
+						</ul>
+					</div>
+					<h4>Columbia River Basin</h4>
+					<div>
+						<ul>
+			
+							<li>Which of the measured pesticides can be detected at NASQAN stations in the Columbia River Basin? How do frequency of pesticide detections, concentrations, and flux vary in response to land and water use, season, and climatic and hydrologic factors in the various subbasins? What proportion of pesticides applied in the various subbasins is delivered to the Columbia River Estuary?
+						</ul>
+					</div>
+					<h2>Products of NASQAN</h2>
+					<p>NASQAN data are included in USGS annual water-data reports on a state-by-state basis. In addition, NASQAN measurements and the associated quality-control data are released electronically on the World Wide Web (http://water.usgs.gov/nasqan). Each year, mass-flux estimates for NASQAN stations, together with estimates of precision, are published in tabular and graphical form.</p>
+					<p>In addition to the data products, four levels of interpretation are anticipated on the basis of available mass-flux information. Each level is more complex than the previous, with greater uncertainty for a successful outcome.</p>
+					<div>
+						<ul>
+			
+							<li><i>Occurrence</i>-Where do contaminants come from? For example, what is the proportional contribution of the different subbasins within the Mississippi River Basin to the total load of nitrate delivered to the Gulf of Mexico?
+							<li><i>Correlation</i>-What is the relation between observed differences in subbasin yields or fluxes to such factors as fertilizer applications, population, or soil properties?
+							<li><i>Mass Transfer</i>-Where and at what rate are chemical constituents gained or lost through the river basins? This is determined by comparison of successive downstream mass fluxes. These patterns may allude to the importance of instream processes and nonpoint-source contribution to contaminants.
+							<li><i>Prediction</i>-Can mass fluxes at NASQAN stations be predicted from information gained from NAWQA study units? This most complex level of analysis attempts to gain insight into how contaminants are processed and transformed across spatial scales.
+						</ul>
+					</div>
+					<h2>Role of NASQAN within a National Strategy for Water- Quality Monitoring</h2>
+					<h3>Within the USGS</h3>
+			
+					<p>NASQAN stations collect data from rivers that drain the largest land areas in the Nation (with the notable exception of the Yukon River and Great Lakes/St. Lawrence River system). Interpretation of these data is supported by the more detailed water-quality assessments conducted by NAWQA, whose study units are nested within NASQAN subbasins, as indicated in table 2.</p>
+					<div>
+						<blockquote>
+						<table class="table2" width="60%" border="1" cellspacing="0" cellpadding="2">
+							<caption>
+								Table 2. Basin types and spatial scales defined by NAWQA and NASQAN surface-water stations</caption>
+							<tr>
+								<th>Type</th><th>Area (square miles)</th>
+							</tr>
+							<tr>
+								<td>NAWQA homogeneous land use</td>
+								<td>10 to 50</td>
+							</tr>
+							<tr>
+								<td>NAWQA mixed land use</td>
+								<td>50 to 50,000</td>
+							</tr>
+							<tr>
+								<td>NASQAN subbasins</td>
+								<td>20,000 to 70,000</td>
+							</tr>
+							<tr>
+								<td>NASQAN basins</td>
+								<td>200,000 to 1,200,000</td>
+							</tr>
+						</table></blockquote>
+						<p>
+					</div>
+					<p>Sampling in NAWQA study units alternates between 3 years of intensive sampling and 6 years of &quot;low intensity&quot; sampling. Station selection, sampling frequency, and sampling strategy for the low-intensity phase are being coordinated with NASQAN to ensure compatibility between the programs.</p>
+					<p>Collectively, NASQAN and NAWQA provide an integrated body of surface-water-quality data that are collected in conformance with a uniform national protocol. By employing a mass-flux approach, these data can be integrated across spatial scales to provide a comprehensive picture of water quality in the four river basins. For example, a number of NAWQA study units within the upper Mississippi River subbasin began in 1994 and are being intensively sampled from 1996 to 1998. Combined with data from NASQAN stations, a detailed characterization of agricultural chemical movement through this part of the Mississippi River basin will be obtained.</p>
+			
+					<p>Some NASQAN stations also will be used by the USGS Biological Resources Division (BRD) as locations for sampling by the Biomonitoring of Environmental Status and Trends (BEST) program. In addition, a new methodology for collection of insoluble organic chemicals (including potential endocrine disrupters) developed by BRD is being explored for use within NASQAN. The method involves sorption of chemicals into small bags of pure lipids that are suspended in flowing waters. This provides data on the occurrence of chemicals, and in some cases, their concentration.</p>
+					<h3>Within the Federal Government</h3>
+					<p>The redesign of NASQAN is consistent with the goals of the Environmental Monitoring and Research Task Force (EMRT), constituted by the Committee on Environmental and Natural Resources of the White House Office of Science and Technology Policy. The EMRT has developed a monitoring framework that seeks to link and mutually reinforce research and monitoring activities. NASQAN provides the data at the largest spatial scale of that framework.</p>
+					<h2>Evolution of NASQAN</h2>
+					<p>After an adequate number of years of data collection to establish baseline conditions for the measured consti-tuents, data collection in each basin will be tailored to address water-quality questions and issues that are of concern within the basin. Periodically, samples will be collected to determine that conditions have not changed. Sample collection will be adjusted accordingly on the basis of detailed data analyses and after consultation with other Federal and state agencies that use the data. The objective of this approach is to focus limited funds on the most critical issues in each river basin.</p>
+					<p>This approach is a significant departure from the past operation of NASQAN, which sought to provide general purpose water-quality data. Although the new NASQAN design can provide information that answers many questions, it is not a general purpose network. The high cost of sample collection and laboratory analysis precludes the collection of water-quality data with sufficient temporal and spatial density to be truly general purpose. Current design of water-quality networks focuses on achieving specific objectives.</p>
+			
+					<p>The redesign of NASQAN resulted in a reduction in the number of stations and produced major gaps in water-quality monitoring. One of the most important is in the coastal zones of the conterminous United States. The USGS is working with USEPA and NOAA to design a nationwide monitoring program to measure fluvial inputs to estuaries.</p>
+					<p>Any future expansion of the NASQAN program to improve the spatial resolution of the existing network, to monitor additional river basins-such as those not included in NAWQA or to include the coastal zone-would provide a more complete description of the Nation's water resources. Expansion of the NASQAN program would emphasize the mass-flux approach to address specific questions.</p>
+					<p style="font-size:.85em;"><i>-By Richard P. Hooper, Donald A. Goolsby, David A.Rickert, and Stuart W. McKenzie</i> </p>
+					<h2>References Cited</h2>
+					<p style="font-size:.85em;">Battaglin, W.A., and Goolsby, D.A., in press, Statistical modeling of agricultural chemical occurrence in midwestern rivers: Journal of Hydrology. </p>
+					<p style="font-size:.85em;">Hirsch, R.M., Alley, W.M., and Wilber, W.G., 1988, Concepts for a national water-quality assessment program: U.S. Geological Survey Circular 1021, 42 p. </p>
+			
+					<p style="font-size:.85em;">Intergovernmental Task Force on Monitoring Water Quality, 1995, The strategy for improving water-quality monitoring in the United States: Reston, Va., final report published by U.S. Geological Survey, Office of Water Data Coordination, 25 p. </p>
+					<p style="font-size:.85em;">Meade, R.H., 1995, Contaminants in the Mississippi River: U.S. Geological Survey Circular 1133, 140 p. </p>
+					<p style="font-size:.85em;">Rabalais, N.N., Turner, R.E., Dortch, Quay, Wiseman, W.J., Jr., and Gupta, B.K.S., 1996, Nutrient changes in the Mississippi River and system responses on the adjacent continental shelf: Estuaries, v. 19, no. 2b, p. 386-407. </p>
+					<p style="font-size:.85em;">Smith, R.A., Alexander, R.B., and Wolman, M.G., 1987, Water-quality trends in the Nation's rivers: Science, v. 235, p. 1,607-1,615. </p>
+					<p style="font-size:.85em;">U.S. Environmental Protection Agency, 1996, National Waters Indicators Report: Washington, D.C., EPA 841-R-96-002, 25 p.</p>
+					<center>
+			
+						<p style="font-size:.85em;"><br>
+						<i>For further information, contact</i>:<br>
+						Chief, Office of Water Quality<br>
+						U.S. Geological Survey<br>
+						National Center, Mail Stop 412<br>
+						12201 Sunrise Valley Drive<br>
+			
+						Reston, VA 20192<br>
+						
+						<hr>
+						<p>
+					<center>
+						<p>Fact Sheet FS-055-97
+						<hr>
+						<p>
+			
+					</center>
+						<p>
+			   </blockquote>
+   
+   			</div>
+		
+		</div>
+	
+	
+	</div>
+
+{% endblock %}

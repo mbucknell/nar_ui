@@ -51,7 +51,33 @@ class CoastalRegionView(TemplateView):
 class DownloadView(TemplateView):
     template_name = 'nar_ui/download.html'
     
+class Nasqan1996View(TemplateView):
+    template_name = 'nar_ui/nasqan_1996_stations.html'
     
+class natFactView(TemplateView):
+    template_name = 'nar_ui/nat_fact_sheet.html'
+    
+class missFactView(TemplateView):
+    template_name = 'nar_ui/miss_fact_sheet.html'
+    
+class coFactView(TemplateView):
+    template_name = 'nar_ui/co_fact_sheet.html'
+    
+class clmbFactView(TemplateView):
+    template_name = 'nar_ui/clmb_fact_sheet.html'
+    
+class riogrndFactView(TemplateView):
+    template_name = 'nar_ui/riogrnd_fact_sheet.html'
+    
+class Nasqan2001View(TemplateView):
+    template_name = 'nar_ui/2001_2007_station_list.html'
+    
+class YukonFactView(TemplateView):
+    template_name = 'nar_ui/yukon_fact_sheet.html'
+    
+class representativeSamplingView(TemplateView):
+    template_name = 'nar_ui/representative_sampling.html'
+        
 class AlaskaSldView(TemplateView):
     content_type = "text/xml; charset=utf-8"
     template_name = 'nar_ui/slds/alaska_sites.sld'
