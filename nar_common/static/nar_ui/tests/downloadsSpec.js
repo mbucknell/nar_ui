@@ -73,6 +73,17 @@ describe('nar.downloads', function() {
 	});
 });
 
+describe('nar.downloads.getFilteredStates', function() {
+	it("returns only states that are in the feature data and in the correct order", function() {
+		var states = nar.downloads.getFilteredStates(DOWNLOAD_TEST_DATA.MOCK_SITE_DATA_FROM_OWS);
+		expect(states).toEqual({
+			"AL": "Alabama",
+			"AK": "Alaska",
+			"MS": "Mississippi"
+		});
+	});
+});
+
 describe('nar.downloads.getFilteredSiteTypeOptions', function() {
 	var countKeys = function(json) {
 		var num = 0;
@@ -332,7 +343,7 @@ describe("nar.downloads.initDownloadPage", function(){
 	});
 	
 	it("loaded state, site type, and station drop downs with correct filtering behavior between the fields", function(){
-		expect($("#state").find('option').length).toBe(59); //TODO expect the state list to change
+		expect($("#state").find('option').length).toBe(3);
 		expect($("#siteType").find('option').length).toBe(3); 
 		expect($("#stationId").find('option').length).toBe(3); 
 		

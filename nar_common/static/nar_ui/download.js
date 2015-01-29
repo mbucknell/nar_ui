@@ -95,6 +95,21 @@ nar.downloads = (function() {
 		select2El.select2('val', previousValues).trigger("change");
 	};
 	
+	pubMembers.getFilteredStates = function(stationData) {
+		var i;
+		var addList = [];
+		var thisState;
+		
+		for (i = 0; i < stationData.features.length; i++) {
+			thisState = stationData.features[i].properties.state;
+			if (Object.has(STATE_LIST, thisState) && (addList.indexOf(thisState) === -1)) {
+				addList.push(thisState);
+			}
+		}
+				
+		return Object.select(STATE_LIST, addList);
+	};
+	
 	pubMembers.getFilteredSiteTypeOptions = function(stationData, selectedStates){
 		//loop through features collecting  site types
 		var siteTypes = {};
@@ -109,7 +124,7 @@ nar.downloads = (function() {
 				}
 				
 				if(props[MS_SITE_ATTR_NAME] === MS_SITE_VALUE) {
-					mrbIncluded = true
+					mrbIncluded = true;
 				}
 			}
 		}
@@ -135,7 +150,7 @@ nar.downloads = (function() {
 			var props = stationData.features[i].properties;
 			if(!stations[props[STATION_ID_PROPERTY]] //only add to values object if property hasn't already been added
 				&& (!selectedStates || selectedStates.length <= 0 || selectedStates.some(props[STATE_PROPERTY])) //only add if has state prop in state list (if state list exists)
-				&& (!selectedSiteTypes || selectedSiteTypes.length <= 0 || selectedSiteTypes.some(props[SITE_TYPE_PROPERTY]))//only add if site type prop in site type list (if site type list exists)
+				&& (!selectedSiteTypes || selectedSiteTypes.length <= 0 || selectedSiteTypes.some(props[SITE_TYPE_PROPERTY])) //only add if site type prop in site type list (if site type list exists)
 				) {
 				if(mrbSelected) {
 					//only add station if it is flagged as MS
@@ -215,8 +230,10 @@ nar.downloads = (function() {
 			dataType: "json",
 			success: function(data) {
 				STATION_DATA = data; //save to singleton
-				
-				//get initial drop down states to render
+				// Filter states to show only those in the data
+				//get initial drop down of states to render
+				pubMembers.updateSelect2Options($("#state"), pubMembers.getFilteredStates(STATION_DATA), "Select a State (optional)", true);
+
 				var selectedStates = $("#state").select2('val');
 				var selectedSiteTypes = $("#siteType").select2('val');
 				pubMembers.filterSiteTypesByState(STATION_DATA, selectedStates);
