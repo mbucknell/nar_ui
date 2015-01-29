@@ -66,6 +66,7 @@ nar.plots = nar.plots || {};
 	                    label: constituentName,
 	                    data: [[nar.plots.PlotUtils.YEAR_NINETEEN_HUNDRED,criteriaLineValue],
 	                           [nar.plots.PlotUtils.ONE_YEAR_IN_THE_FUTURE,criteriaLineValue]],
+	                    color: criteriaLineColor,
 	                    lines: {
 	                        show: true,
 	                        fillColor: criteriaLineColor,
