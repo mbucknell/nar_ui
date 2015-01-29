@@ -7,12 +7,13 @@ nar.plots = nar.plots || {};
      */
     
     nar.plots.SampleConcentrationPlot = function(tsViz){
+        var CENSOR_TYPE = {NON : "", GREATERTHAN : ">", LESSTHAN : "<"};
+        
         var plotContainer = tsViz.plotContainer;
         var splitData = nar.plots.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(tsViz.timeSeriesCollection.getDataMerged());
-        var previousYearsData = splitData.previousYearsData;
-        var currentYearData = splitData.currentYearData;  
+        var censoredSplitData = nar.plots.PlotUtils.getDataSplitByCensored(splitData);
         var miscConstituentInfo = nar.plots.PlotUtils.getConstituentNameAndColors(tsViz);
-        var constituentName =miscConstituentInfo.name; 
+        var constituentName =miscConstituentInfo.name;
         var previousYearsColor = miscConstituentInfo.colors.previousYears;
         var currentYearColor= miscConstituentInfo.colors.currentYear;
         var criteriaLineColor = miscConstituentInfo.colors.criteriaLine;
@@ -21,25 +22,36 @@ nar.plots = nar.plots || {};
         var useCriteriaLine = constituentId === 'nitrate';
         var constituentToCriteria;
         
-        var makeSeriesConfig = function(dataSet, color){
+        var makeSeriesConfig = function(dataSet, color, censorType){
+            var fill = (censorType === CENSOR_TYPE.NON);
             return {
                 label: constituentName,
                 data: dataSet,
+                color: color,
                 points: {
                     radius: 3,
                     show: true,
-                    fill: true,
+                    fill: fill,
                     fillColor: color
                 },
-                shadowSize: 0
-            };   
+                shadowSize: 0,
+                censorLabel: censorType
+            };
         };
         
-        var previousYearsSeries = makeSeriesConfig(previousYearsData, previousYearsColor);
-        var currentYearSeries = makeSeriesConfig(currentYearData, currentYearColor);
+        var previousYearsSeriesNoncensored = makeSeriesConfig(censoredSplitData.previousYearsData.noncensored, previousYearsColor, CENSOR_TYPE.NON);
+        var previousYearsSeriesLessThan = makeSeriesConfig(censoredSplitData.previousYearsData.lessThan, previousYearsColor, CENSOR_TYPE.LESSTHAN);
+        var previousYearsSeriesGreaterThan = makeSeriesConfig(censoredSplitData.previousYearsData.greaterThan, previousYearsColor, CENSOR_TYPE.GREATERTHAN);
+        var currentYearSeriesNoncensored = makeSeriesConfig(censoredSplitData.currentYearData.noncensored, currentYearColor, CENSOR_TYPE.NON);
+        var currentYearSeriesLessThan = makeSeriesConfig(censoredSplitData.currentYearData.lessThan, currentYearColor, CENSOR_TYPE.LESSTHAN);
+        var currentYearSeriesGreaterThan = makeSeriesConfig(censoredSplitData.currentYearData.greaterThan, currentYearColor, CENSOR_TYPE.GREATERTHAN);
         var series = [
-          previousYearsSeries,
-          currentYearSeries
+          previousYearsSeriesNoncensored,
+          previousYearsSeriesLessThan,
+          previousYearsSeriesGreaterThan,
+          currentYearSeriesNoncensored,
+          currentYearSeriesLessThan,
+          currentYearSeriesGreaterThan
         ];
         
         if (useCriteriaLine) {
@@ -107,7 +119,6 @@ nar.plots = nar.plots || {};
             legend: {
                    show: false
             },
-            colors:[previousYearsColor, currentYearColor, criteriaLineColor],
             grid:{
                 hoverable: true
             }

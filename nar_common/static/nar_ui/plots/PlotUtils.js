@@ -130,8 +130,9 @@ nar.plots = nar.plots || {};
             $(plotContainer).bind("plothover", function (event, pos, item) {
                 if (item) {
                     var x = item.datapoint[0],
-                        y = item.datapoint[1];
-                    var hoverText = formatter(x, y);
+                        y = item.datapoint[1],
+                        censorLabel = item.series.censorLabel;
+                    var hoverText = formatter(x, censorLabel + y);
                     
                     $(toolTipElt).html(hoverText)
                         .css({top: item.pageY+5, left: item.pageX+5, 'z-index' : 760})
@@ -279,6 +280,35 @@ nar.plots = nar.plots || {};
             var logValue = log10(value);
             var factor = func(logValue);
             return Math.pow(10, factor);
+        },
+        /**
+         * Split a single series into three, one for non-censored, one for
+         * &gt; one for &lt;
+         * @param {Object} data - object containing arrays of data
+         */
+        getDataSplitByCensored : function(data) {
+            var finalSplit = {};
+            var dataSeries = Object.keys(data);
+            dataSeries.each(function(seriesName) {
+                finalSplit[seriesName] = {
+                    noncensored: [],
+                    lessThan: [],
+                    greaterThan: []
+                };
+                data[seriesName].each(function(point) {
+                    var newPoint = point;
+                    if (point[1].startsWith('<')) {
+                        newPoint[1] = point[1].remove('<');
+                        finalSplit[seriesName].lessThan.push(newPoint);
+                    } else if (point[1].startsWith('>')) {
+                        newPoint[1] = point[1].remove('>');
+                        finalSplit[seriesName].greaterThan.push(newPoint);
+                    } else {
+                        finalSplit[seriesName].noncensored.push(newPoint);
+                    }
+                });
+            });
+            return finalSplit;
         }
     };
 }());
