@@ -74,9 +74,12 @@ nar.downloads = (function() {
 		"WY": "Wyoming"
 	};
 	
-	pubMembers.updateSelect2Options = function(select2El, values, placeHolderText, displayKey) {
+	pubMembers.updateSelect2Options = function(select2El, values, placeHolderText, displayKey, triggerChange) {
 		var previousValues = select2El.select2('val');
 		select2El.find('option') .remove();
+		if (!select2El.prop('multiple')) {
+			select2El.append('<option></option>');
+		}
 		for(var val in values) {
 			var opt = $('<option>');
 			opt.attr('value', val);
@@ -92,7 +95,9 @@ nar.downloads = (function() {
 			placeholder: placeHolderText,
 			allowClear: true
 		});
-		select2El.select2('val', previousValues).trigger("change");
+		if (triggerChange) {
+			select2El.select2('val', previousValues).trigger("change");
+		};
 	};
 	
 	pubMembers.getFilteredStates = function(stationData) {
@@ -207,7 +212,8 @@ nar.downloads = (function() {
 				$("#siteType"), 
 				pubMembers.getFilteredSiteTypeOptions(stationData, selectedStates), 
 				"Select a Site Type (optional)",
-				false
+				false,
+				true
 				);
 	};
 	
@@ -216,6 +222,7 @@ nar.downloads = (function() {
 				$("#stationId"), 
 				pubMembers.getFilteredStationIdsOptions(stationData, selectedStates, selectedSiteTypes), 
 				"Select a Station (optional)",
+				true,
 				true
 				);
 	};
@@ -232,7 +239,7 @@ nar.downloads = (function() {
 				STATION_DATA = data; //save to singleton
 				// Filter states to show only those in the data
 				//get initial drop down of states to render
-				pubMembers.updateSelect2Options($("#state"), pubMembers.getFilteredStates(STATION_DATA), "Select a State (optional)", true);
+				pubMembers.updateSelect2Options($("#state"), pubMembers.getFilteredStates(STATION_DATA), "Select a State (optional)", true, true);
 
 				var selectedStates = $("#state").select2('val');
 				var selectedSiteTypes = $("#siteType").select2('val');
@@ -254,30 +261,77 @@ nar.downloads = (function() {
 	};
 	
 	pubMembers.initDownloadPage = function() {
-		var defaultDateLimits = {
-			minDate : "-" + NUMBER_OF_YEARS_BACK + "Y",
-			maxDate: "+0D",
+		// Create water year lists, initialize select2s, and register change handlers to update the other year select2
+		var YearLimits = {
+			minYear : 1980,
+			maxYear: CONFIG.currentWaterYear
 		};
 		
-		var datepickerOptions = defaultDateLimits;
-		$.extend(datepickerOptions, {
-			yearRange: "-" + NUMBER_OF_YEARS_BACK + "Y:+0D",
-			changeMonth: true,
-			changeYear: true
+		var START_YEARS_LIST = {};
+		var END_YEARS_LIST = {};
+		var i;
+		for (i = YearLimits.minYear; i <= YearLimits.maxYear; i++) {
+			START_YEARS_LIST['10/01/' + (i -1)] = i + '';
+			END_YEARS_LIST['09/30/' + i] = i + '';
+		}
+		 
+		pubMembers.updateSelect2Options($('#startDateTime'), START_YEARS_LIST, 'Start Water Year (optional)', false, false);
+		pubMembers.updateSelect2Options($('#endDateTime'), END_YEARS_LIST, 'End Water Year (optional)', false, false);
+		
+		$('#startDateTime').on('change', function(e) {
+			var i;
+			var startYear;
+			var endYear = $('#endDateTime').select2('data');
+			var newEndYearList = {};
+			if (Object.has(e, 'added')) {
+				startYear = parseInt(e.added.text);
+
+				for (i = startYear; i <= YearLimits.maxYear; i++) {
+					newEndYearList['09/30/' + i] = i + '';
+				}
+				
+				pubMembers.updateSelect2Options($('#endDateTime'), newEndYearList, 'End Water Year (optional)', false, false);
+
+				if ((endYear) && (parseInt(endYear.text) >= startYear)) {
+					$('#endDateTime').select2('data', endYear);
+				}
+			}
+			else {
+				newEndYearList = Object.clone(END_YEARS_LIST);
+				pubMembers.updateSelect2Options($('#endDateTime'), newEndYearList, 'End Water Year (optional)', false, false);
+
+				$('#endDateTime').select2('data', endYear);
+			}
 		});
 		
-		$("#startDateTime").datepicker(datepickerOptions);
-		$("#endDateTime").datepicker(datepickerOptions);
-		
-		$("#startDateTime").change(function() {
-			$('#endDateTime').datepicker('option', 'minDate', $(this).datepicker('getDate'));
-		});
-		$('#endDateTime').change(function() {
-			$('#startDateTime').datepicker('option', 'maxDate', $(this).datepicker('getDate'));
+		$('#endDateTime').on('change', function(e) {
+			var i;
+			var startYear = $('#startDateTime').select2('data');
+			var endYear;
+			var newStartYearList = {};
+			if (Object.has(e, 'added')) {
+				endYear = parseInt(e.added.text);
+
+				for (i = YearLimits.minYear; i <= endYear; i++) {
+					newStartYearList['10/01/' + i] = i + '';
+				}
+				
+				pubMembers.updateSelect2Options($('#startDateTime'), newStartYearList, 'Start Water Year (optional)', false, false);
+
+				if ((startYear) && (parseInt(startYear.text) <= endYear)) {
+					$('#startDateTime').select2('data', startYear);
+				}
+			}
+			else {
+				newStartYearList = Object.clone(START_YEARS_LIST);
+				pubMembers.updateSelect2Options($('#startDateTime'), newStartYearList, 'Start Water Year (optional)', false, false);
+
+				$('#startDateTime').select2('data', startYear);
+			}
 		});
 		
 		//populate html, then init select 2
-		pubMembers.updateSelect2Options($("#state"), STATE_LIST, "Select a State (optional)", true);
+		pubMembers.updateSelect2Options($("#state"), STATE_LIST, "Select a State (optional)", true, true);
 		
 		//will hold a one time fetch of all station data
 		pubMembers.loadAndRenderSiteFilters();

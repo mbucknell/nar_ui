@@ -244,13 +244,14 @@ describe("nar.downloads.updateSelect2Options", function(){
 	it("creates and updates select2 with the correct options from a json map", function(){
 		var testSelect = $('<select>');
 		testSelect.attr('id', 'testSelect');
+		testSelect.attr('multiple', 'multiple');
 		$('body').append(testSelect);
 		
 		//ensure default state
 		expect($('#testSelect').length).toBe(1); 
 		expect($('#testSelect').find('option').length).toBe(0);
 		
-		nar.downloads.updateSelect2Options(testSelect, test_data, "Placeholder", false); 
+		nar.downloads.updateSelect2Options(testSelect, test_data, "Placeholder", false, true); 
 		expect($('#testSelect').length).toBe(1); 
 		expect($('#testSelect').find('option').length).toBe(2);
 		expect($('#testSelect').find('option').get(0).value).toBe('opt1');
@@ -261,14 +262,14 @@ describe("nar.downloads.updateSelect2Options", function(){
 		//select a value to show it is maintained on update
 		$('#testSelect').val('opt2').trigger('change');
 		
-		nar.downloads.updateSelect2Options(testSelect, test_data, "Placeholder", true); 
+		nar.downloads.updateSelect2Options(testSelect, test_data, "Placeholder", true, true); 
 		expect($('#testSelect').length).toBe(1); 
 		expect($('#testSelect').find('option').length).toBe(2);
 		expect($('#testSelect').find('option').get(0).value).toBe('opt1');
 		expect($('#testSelect').find('option').get(1).value).toBe('opt2');
 		expect($('#testSelect').find('option').get(0).text).toBe('opt1 - opt1 display value');
 		expect($('#testSelect').find('option').get(1).text).toBe('opt2 - opt2 display value');
-		expect($('#testSelect').val()).toBe('opt2'); //value 2 is maintained
+		expect($('#testSelect').val()).toEqual(['opt2']); //value 2 is maintained
 		
 
 		$('#testSelect').val('').trigger('change');
@@ -318,8 +319,8 @@ describe("nar.downloads.initDownloadPage", function(){
 		formEl = $('<form>');
 		formEl.attr('id', 'downloadForm');
 		$('body').append(formEl);
-		addElement(formEl, "input", "startDateTime");
-		addElement(formEl, "input", "endDateTime");
+		addElement(formEl, "select", "startDateTime");
+		addElement(formEl, "select", "endDateTime");
 		addElement(formEl, "select", "state");
 		addElement(formEl, "select", "siteType");
 		addElement(formEl, "select", "stationId");
@@ -343,9 +344,9 @@ describe("nar.downloads.initDownloadPage", function(){
 	});
 	
 	it("loaded state, site type, and station drop downs with correct filtering behavior between the fields", function(){
-		expect($("#state").find('option').length).toBe(3);
-		expect($("#siteType").find('option').length).toBe(3); 
-		expect($("#stationId").find('option').length).toBe(3); 
+		expect($("#state").find('option').length).toBe(4);
+		expect($("#siteType").find('option').length).toBe(4); 
+		expect($("#stationId").find('option').length).toBe(4); 
 		
 		//TODO make sure all filters/select2s get updated with correct filtered options
 	});
