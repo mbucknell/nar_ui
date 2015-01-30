@@ -1,0 +1,274 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+{% load compress %}
+
+
+
+{% block content %}
+
+	<div class="about_content">
+	
+		<div id="wrapper">
+		
+		<h1>Monitoring the Water Quality of the Nation's Large Rivers</h1>
+		
+		<div class="feed-div">
+
+   <blockquote>
+   <h2>Columbia River NASQAN Program</h2>
+	<p>In 1995, the U.S. Geological Survey's (USGS) National Stream Quality Accounting Network (NASQAN) Program began monitoring the water quality of the Columbia River Basin, applying a basinwide approach in order to understand
+water quality on a regional scale. A primary objective of the Columbia NASQAN Program is to provide an ongoing characterization of the concentrations and mass flux (amount of material or load passing a location per unit time,
+generally expressed as tons per day) of sediment and chemicals at key locations in the basin. These data can then be used to determine regional source areas for these materials, and to assess the effect of human influences on observed
+concentrations and constituent loads. NASQAN complements the ongoing USGS National Water Quality Assessment (NAWQA) Program, which is performing a detailed assessment in three subbasins of the Columbia River Basin. NASQAN
+monitors the larger rivers in the basin, downstream of NAWQA study units.</p>
+
+      <h3><a name="pgfId=1002794"></a>Environmental Setting</h3>
+<p><a name="pgfId=1002795"></a>The Columbia River (<a href="{% static 'nar_ui/images/clmb_images/fig01.gif' %}">figure 1</a>) is a vital cultural
+and economic resource in the Pacific Northwest. The waters of the Columbia
+River Basin provide spawning grounds for Pacific salmon, a cornerstone of
+the regional identity. In addition, hydroelectric projects on the river
+produce nearly 70 percent of the region's electric power. The river also
+supplies irrigation water for millions of otherwise nonarable acres in the
+dry interior basin, a navigation channel that extends inland for 465 miles,
+water-supply and waste-disposal sites for an expanding urban population,
+and considerable recreational opportunities and wildlife habitat.</p>
+<p><table align="center" width="450" border="0" cellspacing="0" cellpadding="3">
+<caption align="top">Scenes along the Columbia River (Photographs courtesy of the U.S. Army Corps
+of Engineers, Portland District)</caption>
+<tr>
+<th width="33%"><img alt="Columbia River Photo 1" src="{% static 'nar_ui/images/clmb_images/photo01.jpeg' %}" width="180" height="120" align="bottom" ></th>
+<td width="33%"><img alt="Columbia River Photo 2" src="{% static 'nar_ui/images/clmb_images/photo02.jpeg' %}" width="180" height="120" align="bottom" ></td>
+<td width="34%"><img alt="Columbia River Photo 3" src="{% static 'nar_ui/images/clmb_images/photo03.jpeg' %}" width="180" height="120" align="bottom" ></td></tr>
+</table>
+<p>
+
+<h3>Water Quality Issues</h3>
+<p>Water quality in the main-stem Columbia River has historically been perceived to be good, largely because of the dilution effect of the nearly pristine
+snowmelt that constitutes the bulk of streamflow. Within the last 10 years, however, evidence has been accumulating that hazardous chemicals present
+a significant threat to wildlife and potentially to human health. In the upper basin, elevated concentrations of trace elements such as cadmium,
+arsenic, lead, mercury, and zinc have been observed in fish tissue and bed sediments in Lake Roosevelt. Concentrations of trace elements such as copper,
+lead, and zinc that violate State water quality standards have been observed in the Willamette River and in water and sediment samples collected throughout
+the Columbia River Estuary, an important component of the central Pacific Ocean coastal ecosystem.</p>
+
+<p>In the lower Columbia River Basin, contamination by organochlorine pesticides and PCBs has been found in tissues of mink and river otter, and eggs of
+the bald eagle, currently listed as a threatened species. Fish advisories have been issued throughout the basin. Dioxin also has been identified as
+a concern, resulting in the establishment of a TMDL (Total Maximum Daily Load) for dioxin in 1991 for the entire Columbia River Basin by the U.S. Environmental Protection Agency.</p>
+
+<h3>Measuring Flux</h3>
+
+<p>Because flux measurement is the primary objective in NASQAN, a relatively high sampling frequency is required. Additionally, the emphasis on flux
+characterization dictates that more samples must be collected during periods of higher streamflow. The water chemistry measured at any one point in the
+river reflects a complex combination of natural processes and human activities that occur upstream. The flux-based approach allows the river network to
+be treated as an integrated system, providing data to describe and compare yields of nonpoint-source contaminants across large regional basins, calculate
+loads to receiving waters, including off-continent flux, and test regional models of the influence of land use on water quality. Because of the small
+number of samples collected during low flow, however, the data may not satisfy regulatory requirements during the most critical conditions of the year
+for aquatic biota.</p>
+
+<h3><a name="pgfId=1000245"></a>Station Selection</h3>
+<p> Six NASQAN sampling stations were selected at critical locations in the river system to provide the essential framework for evaluating flux of materials
+within the basin and to the ocean. An important consideration was the influence of the extensive reservoir system, especially the centrally coordinated
+system of large-scale Federal projects that extend throughout all but a small fraction of the main-stem Columbia River. Construction of dams and
+reservoirs has transformed the river from a system characterized by swift-flowing rapids and spectacular waterfalls to a series of quiet pools, carefully
+managed to reduce the potential for flooding and to provide maximum benefit for hydropower, navigation, irrigation, and recreation. The annual pattern
+of streamflow in the Columbia River has been significantly altered by the operation of the dams, as illustrated by mean monthly streamflow at The
+Dalles during the pre- and post-dam periods (<a href="{% static 'nar_ui/images/clmb_images/fig02.gif' %}">figure 2</a>).</p>
+
+
+<p><table width="577" border="1" cellspacing="0" cellpadding="2" >
+<caption align="top">Table 1: Description of NASQAN sampling stations and subbasins in the Columbia River Basin</caption>
+
+<tr>
+<th width="11%" style="vertical-align:bottom">Map Number</th>
+<th width="24%" style="vertical-align:bottom">Sampling Station</th>
+<th width="14%" style="vertical-align:bottom">Drainage area (square miles)</th>
+<th width="17%" style="vertical-align:bottom">Incremental Increase in drainage area (square miles)</th>
+<th width="16%" style="vertical-align:bottom">Mean streamflow (cubic feet per second)</th>
+<th width="18%" style="vertical-align:bottom">Incremental Increase in streamflow (cubic feet per second)</th></tr>
+<tr>
+<td><p align="center">1</td>
+<td>Columbia River at Northport, Washington</td>
+
+<td><p align="center">60,200</td>
+<td><p align="center">60,200</td>
+<td><p align="center">99,100</td>
+<td><p align="center">99,100</td></tr>
+<tr>
+<td><p align="center">2</td>
+<td>Columbia River at Vernita Bridge near Priest Rapids Dam, Washington</td>
+<td><p align="center">96,000</td>
+<td><p align="center">35,800</td>
+
+<td><p align="center">118,600</td>
+<td><p align="center">19,500</td></tr>
+<tr>
+<td><p align="center">3</td>
+<td>Snake River at Burbank, Washington</td>
+<td><p align="center">108,800</td>
+<td><p align="center">108,800</td>
+<td><p align="center">57,700</td>
+<td><p align="center">57,700</td></tr>
+
+<tr>
+<td><p align="center">4</td>
+<td>Columbia River at Warrendale, Washington</td>
+<td><p align="center">240,000</td>
+<td><p align="center">35,500</td>
+<td><p align="center">202,600</td>
+<td><p align="center">26,300</td></tr>
+<tr>
+<td><p align="center">5</td>
+<td>Willamette River at Portland, Oregon</td>
+
+<td><p align="center">11,100</td>
+<td><p align="center">11,100</td>
+<td><p align="center">38,000</td>
+<td><p align="center">38,000</td></tr>
+<tr>
+<td><p align="center">6</td>
+<td>Columbia River at Beaver Army Terminal near Quincy, Oregon</td>
+<td><p align="center">257,000</td>
+<td><p align="center">5,500</td>
+
+<td><p align="center">270,000</td>
+<td><p align="center">29,400</td></tr>
+</table><p>
+<p>Because of the focus on regional scale in NASQAN, the station network was not designed to assess the influence of each main-stem reservoir separately.
+Instead, a series of reservoirs is treated as a &quot;black box&quot; and their influence is evaluated as a single unit. Generally, stations were
+selected where significant changes in mass flux were expected, or at the lower ends of reservoir reaches.</p>
+<dir>
+  <li><b>Columbia River at Northport</b>. This site monitors the inflow to Lake Roosevelt, water that originates primarily in Canada and represents
+  a large component of both the drainage area and streamflow at the river mouth. 
+  <li><b>Columbia River at Vernita Bridge</b>. This site does not represent a large incremental increase in either drainage area or streamflow, but
+  it is located below a series of seven reservoirs and just upstream of a free-flowing reach. This station provides a measure of the sediment and
+  chemicals removed by the reservoirs.
+  <li><b>Snake River at Burbank</b>. This site is located at the mouth of the large and hydrologically complex Snake River Basin, which represents
+  a significant portion of the drainage area in the Columbia River Basin.  
+  <li><b>Columbia River at Warrendale</b>. This site is located downstream of the lowermost reservoir series on the main-stem river and upstream of
+  major industrial and urban areas. 
+  <li><b>Willamette River at Portland</b>. This site is operated in collaboration with the USGS NAWQA program. The Willamette River is a major source of
+  trace elements and organic chemicals, and contributes a significant portion of streamflow during the winter rainfall season. 
+  <li><b>Columbia River at Beaver Army Terminal</b>. This site is located at the mouth of the river, and monitors the inflow into the Columbia Estuary.
+</dir>
+
+<h3><a name="pgfId=1000257"></a>Sampling Strategy</h3>
+
+<p><a name="pgfId=1000268"></a>A broad range of chemical constituents is measured in the NASQAN program. These include 47 water-soluble pesticides, suspended and dissolved trace
+elements, major nutrients, carbon, and suspended sediment. Samples are collected 12 to 15 times per year, depending on the local site characteristics. In
+the Columbia River Basin, runoff patterns fall into two general categories: snowmelt-dominated, in the interior portions of the basin 
+(<a href="{% static 'nar_ui/images/clmb_images/fig02.gif' %}">figure 2</a>), and rainfall-dominated, in the coastal region (<a href="{% static 'nar_ui/images/clmb_images/fig03.gif' %}">figure 3</a>). Sampling strategies are structured differently in these different
+regions and will be modified in an iterative process as more is learned about patterns of concentration and flux in the basin.</p>
+
+<p><p><table width="450" border="1" cellspacing="0" cellpadding="2">
+<caption align="top">Table 2: Constituents measured in the NASQAN program</caption>
+<tr>
+<th width="32%" height="17">Measurement Class</th>
+
+<th width="68%">&nbsp;Examples</th></tr>
+<tr>
+<td height="17">Suspended sediment</td>
+<td>Concentration of fine and coarse sediment particles</td></tr>
+<tr>
+<td height="17">Pesticides</td>
+<td>Common water-soluble pesticides, including atrazine and metalochlor</td></tr>
+<tr>
+<td height="17">Suspended and dissolved trace elements</td>
+<td>Lead, cadmium, copper, and zinc</td></tr>
+
+<tr>
+<td height="17">Carbon</td>
+<td>Dissolved and suspended organic carbon; dissolved inorganic carbon</td></tr>
+<tr>
+<td height="17">Nutrients</td>
+<td>Total and dissolved nitrogen and phosphorus</td></tr>
+<tr>
+<td height="17">Major Ions</td>
+<td>Calcium, sulfate, and chloride</td></tr>
+<tr>
+<td height="17">Support Variables</td>
+
+<td>Stream discharge, temperature, pH, dissolved oxygen, conductivity</td></tr>
+</table><p>
+
+<h3>Examples of questions to be addressed</h3>
+<p>Specific questions that can be answered by NASQAN data in the Columbia Basin include the following:</p>
+<dir>
+  <li>Which pesticides can be detected in the Columbia River? How do frequency of detections, concentrations, and flux of pesticides vary in response
+  to land and water use, season, and climatic and hydrologic factors in the various subbasins? What proportion of pesticides applied in the various
+  subbasins is delivered to the Columbia River Estuary?<br>  
+  <li>What is the effect of land and water use (such as mining, smelting operations, and urban activities), reservoir regulation, season, and streamflow
+  on the flux of trace elements from the the various subbasins? What are the dominant modes of transport, suspended or dissolved, for trace elements
+  in the Columbia River? <br>
+  <li>Do concentrations of dissolved trace elements and pesticides exceed established standards and health advisories at key locations in the Columbia
+  River Basin? If so, what are the associated seasonal and hydrologic factors?
+</dir>
+
+<h3>National NASQAN program</h3>
+
+<p>The Columbia River Basin NASQAN program is part of a national program that was redesigned in 1995 to focus on monitoring water quality in four
+of the Nation's largest rivers-the Mississippi (including the Missouri and Ohio), the Colorado, the Rio Grande, and the Columbia. In these four basins,
+the USGS currently operates a network of 40 NASQAN stations, applying a consistent flux-based river basin approach to characterize the transport
+of selected chemicals through the river systems. </p>
+
+<p>Together, NASQAN and NAWQA provide water-quality information on both large and small river basins. A central feature of NAWQA is the examination
+of the role of land use on water quality. Because comparable data are collected by both programs, findings from NAWQA may be used in the development of
+regional models describing the influence of land use on water quality in NASQAN basins.</p>
+
+<h3>Products of the NASQAN program</h3>
+
+<p>Data from the NASQAN program are published annually in USGS data reports issued by each State in the network. Additionally, NASQAN data are being
+released electronically on the World Wide Web (<a href="http://water.usgs.gov/nasqan">http://water.usgs.gov/nasqan</A>);
+flux estimates for selected constituents at NASQAN stations will also be published periodically.</p>
+
+<p>In addition, interpretive products for the NASQAN program are planned, based upon four levels of analysis of the data. These levels progressively
+increase in complexity, beginning with a simple description of relative occurrence of contaminants in different subbasins. The next step is to determine
+the correlation between subbasin fluxes or yields and various governing factors, both hydrologic and anthropogenic. Additionally, comparison of
+successive downstream fluxes will provide information about the characteristics of mass transfer of material within a river system, and possibly allow inferences
+about the relative importance of instream processes and nonpoint-source contributions. Finally, the most complex level of analysis will include
+an investigation of how contaminants are processed and transformed as they flow through the basin.</p>
+
+<h3>Evolution of NASQAN in the Columbia River Basin</h3>
+
+<p>After the initial 3 to 5 years of data collection have been completed and baseline conditions have been established for the measured constituents
+in the basin, the Columbia River Basin NASQAN program may be altered to more closely address specific water-quality issues. Of particular concern
+is the occurence and distribution of organochlorine compounds in the basin, which are relatively insoluble in water and tend to accumulate in sediments
+and biological tissue. These compounds are not presently included in the suite of NASQAN constituents because they are difficult to sample in water
+using conventional sampling methods. </p>
+
+<p>In 1997-1998, the Columbia River Basin NASQAN and Lower Columbia River Estuary Program are jointly funding a special study that employs a new sampling
+technology utilizing semipermeable membrane devices (SPMDs). These devices will be used to collect time-weighted samples for hydrophobic organic compounds
+at NASQAN stations in the basin. Also, fish tissue and bed sediment samples will be collected at selected NASQAN stations, providing a comparison of
+results from the different sampling media. Additional sampling using SPMDs may be incorporated into the Columbia River Basin NASQAN program in the
+future, depending on the results from this study.</p>
+
+<p>In addition, the Columbia National Estuary Program is developing an interagency long-term monitoring plan for the Columbia River Basin in conjunction with
+the USGS and the NASQAN program, as well as with many other Federal and State agencies. The issues identified as major priorities for monitoring
+as part of this long-term plan will also provide essential guidance for the evolution of the Columbia NASQAN program in the future.</p>
+
+<p><i>-By Valerie J. Kelly and Richard P. Hooper</i></p>
+
+<p align="center"><i>For additional copies of this report, or for more information
+about the Columbia NASQAN program, please contact-</i></p>
+
+<p align="center">NASQAN Columbia Basin Coordinator<br>
+10615 SE Cherry Blossom Drive<br>
+Portland, OR 97216<br>
+(503) 251-3200</p>
+
+<p align="center"><hr><p>
+
+<p align="center">Fact Sheet FS-004-98<hr><p>
+<p align="center">This page maintained by <a href="mailto:rphooper@usgs.gov">rphooper</a>.<br>
+Last updated December 27, 1998<br>
+URL: <i>http://water.usgs.gov/nasqan/clmbfact/clmbfact.html</i>
+
+
+   </blockquote>
+   
+   		</div>
+		
+	</div>
+	
+	
+	</div>
+
+{% endblock %}
