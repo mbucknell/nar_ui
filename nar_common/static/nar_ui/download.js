@@ -80,6 +80,7 @@ nar.downloads = (function() {
 		if (!select2El.prop('multiple')) {
 			select2El.append('<option></option>');
 		}
+		
 		for(var val in values) {
 			var opt = $('<option>');
 			opt.attr('value', val);
@@ -97,7 +98,7 @@ nar.downloads = (function() {
 		});
 		if (triggerChange) {
 			select2El.select2('val', previousValues).trigger("change");
-		};
+		}
 	};
 	
 	pubMembers.getFilteredStates = function(stationData) {
@@ -212,8 +213,7 @@ nar.downloads = (function() {
 				$("#siteType"), 
 				pubMembers.getFilteredSiteTypeOptions(stationData, selectedStates), 
 				"Select a Site Type (optional)",
-				false,
-				true
+				false
 				);
 	};
 	
@@ -222,7 +222,6 @@ nar.downloads = (function() {
 				$("#stationId"), 
 				pubMembers.getFilteredStationIdsOptions(stationData, selectedStates, selectedSiteTypes), 
 				"Select a Station (optional)",
-				true,
 				true
 				);
 	};
@@ -239,7 +238,7 @@ nar.downloads = (function() {
 				STATION_DATA = data; //save to singleton
 				// Filter states to show only those in the data
 				//get initial drop down of states to render
-				pubMembers.updateSelect2Options($("#state"), pubMembers.getFilteredStates(STATION_DATA), "Select a State (optional)", true, true);
+				pubMembers.updateSelect2Options($("#state"), pubMembers.getFilteredStates(STATION_DATA), "Select a State (optional)", true);
 
 				var selectedStates = $("#state").select2('val');
 				var selectedSiteTypes = $("#siteType").select2('val');
@@ -261,77 +260,81 @@ nar.downloads = (function() {
 	};
 	
 	pubMembers.initDownloadPage = function() {
-		// Create water year lists, initialize select2s, and register change handlers to update the other year select2
-		var YearLimits = {
+		// Create water year lists and initialize select2s. Using the query parameter of select2
+		// to limit the selections so that start water year can not exceed end water year and
+		// end water year can not be less that start water year.
+		var yearLimits = {
 			minYear : 1980,
 			maxYear: CONFIG.currentWaterYear
 		};
 		
-		var START_YEARS_LIST = {};
-		var END_YEARS_LIST = {};
+		var START_YEARS_LIST = [];
+		var END_YEARS_LIST = [];
 		var i;
-		for (i = YearLimits.minYear; i <= YearLimits.maxYear; i++) {
-			START_YEARS_LIST['10/01/' + (i -1)] = i + '';
-			END_YEARS_LIST['09/30/' + i] = i + '';
+		for (i = yearLimits.minYear; i <= yearLimits.maxYear; i++) {
+			START_YEARS_LIST.push({
+				id : '10/01/' + (i - 1),
+				text : i + ''
+			});
+			END_YEARS_LIST.push({
+				id : '09/30/' + i,
+				text : i + ''
+			});
 		}
+		
+		$('#startDateTime').select2({
+			data : START_YEARS_LIST,
+			width: 'copy',
+			query : function(options) {
+				var endDate = parseInt($('#endDateTime').select2('data').text);
+				var results = [];
+						
+				var thisValue;
+				var i = 0;
+				do {
+					thisValue = START_YEARS_LIST[i].text;
+					if (!(options.term) || thisValue.has(options.term)) {
+						results.push(START_YEARS_LIST[i]);
+					}
+					i = i + 1;
+				}
+				while (parseInt(thisValue) < endDate);
+				
+				options.callback ({
+					results : results
+				});
+			}			
+		});
+		$('#startDateTime').select2('data', START_YEARS_LIST.first());
+		
+		$('#endDateTime').select2({
+			data : END_YEARS_LIST,
+			width: 'copy',
+			query : function(options) {
+				var startDate = parseInt($('#startDateTime').select2('data').text);;
+				var results = [];
+						
+				var thisValue;
+				var i;
+				var beginIndex = END_YEARS_LIST.findIndex(function(n) {
+					return parseInt(n.text) === startDate;
+				});
+				for (i = beginIndex; i < END_YEARS_LIST.length; i++){
+					thisValue = END_YEARS_LIST[i].text;
+					if (!(options.term) || thisValue.has(options.term)) {
+						results.push(END_YEARS_LIST[i]);
+					}
+				}
+				
+				return options.callback ({
+					results : results
+				});
+			}			
+		});
+		$('#endDateTime').select2('data', END_YEARS_LIST.last());
 		 
-		pubMembers.updateSelect2Options($('#startDateTime'), START_YEARS_LIST, 'Start Water Year (optional)', false, false);
-		pubMembers.updateSelect2Options($('#endDateTime'), END_YEARS_LIST, 'End Water Year (optional)', false, false);
-		
-		$('#startDateTime').on('change', function(e) {
-			var i;
-			var startYear;
-			var endYear = $('#endDateTime').select2('data');
-			var newEndYearList = {};
-			if (Object.has(e, 'added')) {
-				startYear = parseInt(e.added.text);
-
-				for (i = startYear; i <= YearLimits.maxYear; i++) {
-					newEndYearList['09/30/' + i] = i + '';
-				}
-				
-				pubMembers.updateSelect2Options($('#endDateTime'), newEndYearList, 'End Water Year (optional)', false, false);
-
-				if ((endYear) && (parseInt(endYear.text) >= startYear)) {
-					$('#endDateTime').select2('data', endYear);
-				}
-			}
-			else {
-				newEndYearList = Object.clone(END_YEARS_LIST);
-				pubMembers.updateSelect2Options($('#endDateTime'), newEndYearList, 'End Water Year (optional)', false, false);
-
-				$('#endDateTime').select2('data', endYear);
-			}
-		});
-		
-		$('#endDateTime').on('change', function(e) {
-			var i;
-			var startYear = $('#startDateTime').select2('data');
-			var endYear;
-			var newStartYearList = {};
-			if (Object.has(e, 'added')) {
-				endYear = parseInt(e.added.text);
-
-				for (i = YearLimits.minYear; i <= endYear; i++) {
-					newStartYearList['10/01/' + i] = i + '';
-				}
-				
-				pubMembers.updateSelect2Options($('#startDateTime'), newStartYearList, 'Start Water Year (optional)', false, false);
-
-				if ((startYear) && (parseInt(startYear.text) <= endYear)) {
-					$('#startDateTime').select2('data', startYear);
-				}
-			}
-			else {
-				newStartYearList = Object.clone(START_YEARS_LIST);
-				pubMembers.updateSelect2Options($('#startDateTime'), newStartYearList, 'Start Water Year (optional)', false, false);
-
-				$('#startDateTime').select2('data', startYear);
-			}
-		});
-		
 		//populate html, then init select 2
-		pubMembers.updateSelect2Options($("#state"), STATE_LIST, "Select a State (optional)", true, true);
+		pubMembers.updateSelect2Options($("#state"), STATE_LIST, "Select a State (optional)", true);
 		
 		//will hold a one time fetch of all station data
 		pubMembers.loadAndRenderSiteFilters();

@@ -308,6 +308,7 @@ describe("nar.downloads.initDownloadPage", function(){
 	};
 	
 	beforeEach(function() {
+		CONFIG.currentWaterYear = 2013
 		server = sinon.fakeServer.create();//created needed dom
 		server.respondWith([
 		    				200,
@@ -319,8 +320,8 @@ describe("nar.downloads.initDownloadPage", function(){
 		formEl = $('<form>');
 		formEl.attr('id', 'downloadForm');
 		$('body').append(formEl);
-		addElement(formEl, "select", "startDateTime");
-		addElement(formEl, "select", "endDateTime");
+		addElement(formEl, "input", "startDateTime", "startDateTime", { type : "hidden" });
+		addElement(formEl, "input", "endDateTime", "endDateTime", { type : "hidden" });
 		addElement(formEl, "select", "state");
 		addElement(formEl, "select", "siteType");
 		addElement(formEl, "select", "stationId");

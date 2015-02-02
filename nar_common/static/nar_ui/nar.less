@@ -1449,17 +1449,25 @@ ul#relativeLinks{
 				
 #downloadTop p{font-size:.9em;}
 
-#s2id_startDateTime,
-#s2id_endDateTime{
+#dateTimeDiv
+        {
         font-size: 100%;
-		width:49% !important;
 		text-align : left;
-		padding-top:0;}
-		
-#s2id_startDateTime{float:left;}
-#s2id_endDateTime{float:right;
+		padding-top: 0px;
+		}
+#dateTimeDiv label {
+    margin-top: 5px;
+    margin-right: 10px;
+    width: auto;
 }
-
+#downloadForm #dateTimeDiv > .select2-container {
+    width: 15%;
+    margin-top : 0px;
+}
+#s2id_startDateTime {
+    margin-right: 60px;
+}
+		
 #downloadForm .select2-container {		
     width:100%;
 	margin-top:15px;
