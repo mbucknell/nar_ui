@@ -85,25 +85,14 @@ nar.timeSeries.VisualizationRegistry = function(){
     self.stripUrlPrefix = function(url, urlPrefix){
         return url.replace(urlPrefix, '');
     };
+    
     /**
-     * Some Visualizations have just one TimeSeries. In this case, the Visualization id is the observedProperty of the TimeSeries 
-     * minus self.urlPrefix.
-     * Other TVisualizations have multiple TimeSeries. In that case, the Visualization id is be a string representative of 
-     * the visualized time series. 
-     * @param {string} observedProperty - the full uri for the SOS observedProperty
-     * @param {string} procedure - the full uri for the SOS procedure
-     * @returns {string} visualization id
-     *  
+     * Parses the tail end of an sos procedure url into a fragment of a TSV id
+     * @param {String} strippedProcedure - the end of a url. Can be acquired by passing a full sos 
+     * procedure url through TimeSeriesVisualizationRegistry#stripUrlPrefix()
      */
-    self.getTimeSeriesVisualizationId= function(observedProperty, procedure){
-        var strippedObservedProperty = self.stripUrlPrefix(observedProperty, self.urlPrefix + 'property/');
-        //@todo check striped property id to see if it corresponds to a category
-        //where multiple time series correspond to a single visualization
-               
-        //@todo failing id lookup by category, also check strippedObservedPropertyToVizIdMap to see if  
-        //it maps to an id
+    self.strippedProcedureToTsvIdFragment = function(strippedProcedure){
         
-        var strippedProcedure = self.stripUrlPrefix(procedure, self.urlPrefix + 'procedure/');
         
         //The sos procedure names are set up to contain underscore-delimeted tokens. The first token is timestep density,
         //one of (discrete, annual, monthly, daily). The second token is category, one of (flow, concentration).
@@ -117,6 +106,24 @@ nar.timeSeries.VisualizationRegistry = function(){
         	//then the procedure ends with a modtype, so remove the modtype
         	properlyDelimetedProcedure = splitProcedure.to(splitProcedure.length -1).join(targetDelim);
         }
+        return properlyDelimetedProcedure;
+    };
+    /**
+     * the Visualization id is a string representative of the visualized time series. 
+     * @param {string} observedProperty - the full uri for the SOS observedProperty
+     * @param {string} procedure - the full uri for the SOS procedure
+     * @returns {string} visualization id
+     *  
+     */
+    self.getTimeSeriesVisualizationId= function(observedProperty, procedure){
+        var strippedObservedProperty = self.stripUrlPrefix(observedProperty, self.urlPrefix + 'property/');
+        //@todo check striped property id to see if it corresponds to a category
+        //where multiple time series correspond to a single visualization
+        var strippedProcedure = self.stripUrlPrefix(procedure, self.urlPrefix + 'procedure/');
+        //@todo failing id lookup by category, also check strippedObservedPropertyToVizIdMap to see if  
+        //it maps to an id
+        
+        var properlyDelimetedProcedure = self.strippedProcedureToTsvIdFragment(strippedProcedure);
         var timeSeriesVisualizationId = strippedObservedProperty + '/' + properlyDelimetedProcedure; 
         return timeSeriesVisualizationId;
     };
