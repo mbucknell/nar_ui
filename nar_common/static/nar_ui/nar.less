@@ -1454,16 +1454,25 @@ ul#relativeLinks{
 				
 #downloadTop p{font-size:.9em;}
 
-#startDateTime,
-#endDateTime{font-family:@baseFontFamily;
-		font-size:1.2em;
-		width:49% !important;
-		padding-top:0;}
-		
-#startDateTime{float:left;}
-#endDateTime{float:right;
+#dateTimeDiv
+        {
+        font-size: 100%;
+		text-align : left;
+		padding-top: 0px;
+		}
+#dateTimeDiv label {
+    margin-top: 5px;
+    margin-right: 10px;
+    width: auto;
 }
-
+#downloadForm #dateTimeDiv > .select2-container {
+    width: 15%;
+    margin-top : 0px;
+}
+#s2id_startDateTime {
+    margin-right: 60px;
+}
+		
 #downloadForm .select2-container {		
     width:100%;
 	margin-top:15px;
@@ -1472,7 +1481,7 @@ ul#relativeLinks{
 #s2id_streamFlowType{margin-bottom:20px;}
 		
 		
-#select2-drop{font-family:@baseFontFamily;}
+.select2-drop{font-family:@baseFontFamily;}
 						
 .select2-choice{border-radius:1px;
 				}

@@ -1,4 +1,4 @@
-Django==1.7.3
+Django==1.7.4
 astroid==1.2.0
 beautifulsoup4==4.3.2
 coverage==3.7.1

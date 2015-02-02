@@ -20,11 +20,14 @@
 </div>
 <!--downloadTop-->
 
-<form id="downloadForm" method="get" >
+<form id="downloadForm" class="form-inline" method="get" >
 	
-	<input id="startDateTime" class="" tabindex="-1" name="startDateTime" placeholder="Start Date (optional)"/>
-	<input id="endDateTime" class="" tabindex="-1" name="endDateTime" placeholder="End Date (optional)"/>
-	
+	<div id="dateTimeDiv">
+        <label  for="startDateTime">Start Water Year:</label>
+		<input  id="startDateTime" type="hidden" class="" tabindex="-1" name="startDateTime" placeholder="Start Water Year (optional)">
+        <label  for="endDateTime">End Water Year:</label>
+	    <input  type="hidden" id="endDateTime" class="" tabindex="-1" name="endDateTime">
+	</div>
 	<select multiple="multiple" id="state" class="populate select2-offscreen"
 		tabindex="-1"  name="state">
 	</select> 
@@ -48,19 +51,16 @@
 	
 	<select multiple="multiple" id="constituent" class="populate select2-offscreen"
 		tabindex="-1"  name="constituent">
-		<option value="NH3">NH3, ammonia as N</option>
-		<option value="NO23">NO23, nitrate plus nitrite as N</option>
-		<option value="OP">OP, orthophosphate as P</option>
-		<option value="SI">SI, silica as SiO2</option>
-		<option value="SSC">SSC, suspended-sediment concentration</option>
-		<option value="TN">TN, total nitrogen as N</option>
-		<option value="TP">TP, total phosphorus as P</option>
+		<option value="TN">Total Nitrogen</option>
+		<option value="NO23">Nitrite plus Nitrate</option>
+		<option value="TP">Total Phosphorus</option>
+		<option value="SSC">Suspended Sediment</option>
 	</select> 
 	
 	<select multiple="multiple" id="qwDataType" class="populate select2-offscreen"
 		tabindex="-1"  name="qwDataType">
-		<option value="annualLoad">Annual load</option>
-		<option value="mayLoad">May load</option>
+		<option value="annualLoad">Annual Load</option>
+		<option value="mayLoad">May Load and Flow Conditions</option>
 		<option value="sampleConcentrations">Sample Concentrations</option>
 	</select>
 	<select multiple="multiple" id="streamFlowType" class="populate select2-offscreen" tabindex="-1" name="streamFlowType">

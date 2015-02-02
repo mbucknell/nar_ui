@@ -74,9 +74,13 @@ nar.downloads = (function() {
 		"WY": "Wyoming"
 	};
 	
-	pubMembers.updateSelect2Options = function(select2El, values, placeHolderText, displayKey) {
+	pubMembers.updateSelect2Options = function(select2El, values, placeHolderText, displayKey, triggerChange) {
 		var previousValues = select2El.select2('val');
 		select2El.find('option') .remove();
+		if (!select2El.prop('multiple')) {
+			select2El.append('<option></option>');
+		}
+		
 		for(var val in values) {
 			var opt = $('<option>');
 			opt.attr('value', val);
@@ -92,7 +96,24 @@ nar.downloads = (function() {
 			placeholder: placeHolderText,
 			allowClear: true
 		});
-		select2El.select2('val', previousValues).trigger("change");
+		if (triggerChange) {
+			select2El.select2('val', previousValues).trigger("change");
+		}
+	};
+	
+	pubMembers.getFilteredStates = function(stationData) {
+		var i;
+		var addList = [];
+		var thisState;
+		
+		for (i = 0; i < stationData.features.length; i++) {
+			thisState = stationData.features[i].properties.state;
+			if (Object.has(STATE_LIST, thisState) && (addList.indexOf(thisState) === -1)) {
+				addList.push(thisState);
+			}
+		}
+				
+		return Object.select(STATE_LIST, addList);
 	};
 	
 	pubMembers.getFilteredSiteTypeOptions = function(stationData, selectedStates){
@@ -109,7 +130,7 @@ nar.downloads = (function() {
 				}
 				
 				if(props[MS_SITE_ATTR_NAME] === MS_SITE_VALUE) {
-					mrbIncluded = true
+					mrbIncluded = true;
 				}
 			}
 		}
@@ -135,7 +156,7 @@ nar.downloads = (function() {
 			var props = stationData.features[i].properties;
 			if(!stations[props[STATION_ID_PROPERTY]] //only add to values object if property hasn't already been added
 				&& (!selectedStates || selectedStates.length <= 0 || selectedStates.some(props[STATE_PROPERTY])) //only add if has state prop in state list (if state list exists)
-				&& (!selectedSiteTypes || selectedSiteTypes.length <= 0 || selectedSiteTypes.some(props[SITE_TYPE_PROPERTY]))//only add if site type prop in site type list (if site type list exists)
+				&& (!selectedSiteTypes || selectedSiteTypes.length <= 0 || selectedSiteTypes.some(props[SITE_TYPE_PROPERTY])) //only add if site type prop in site type list (if site type list exists)
 				) {
 				if(mrbSelected) {
 					//only add station if it is flagged as MS
@@ -215,8 +236,10 @@ nar.downloads = (function() {
 			dataType: "json",
 			success: function(data) {
 				STATION_DATA = data; //save to singleton
-				
-				//get initial drop down states to render
+				// Filter states to show only those in the data
+				//get initial drop down of states to render
+				pubMembers.updateSelect2Options($("#state"), pubMembers.getFilteredStates(STATION_DATA), "Select a State (optional)", true);
+
 				var selectedStates = $("#state").select2('val');
 				var selectedSiteTypes = $("#siteType").select2('val');
 				pubMembers.filterSiteTypesByState(STATION_DATA, selectedStates);
@@ -237,28 +260,79 @@ nar.downloads = (function() {
 	};
 	
 	pubMembers.initDownloadPage = function() {
-		var defaultDateLimits = {
-			minDate : "-" + NUMBER_OF_YEARS_BACK + "Y",
-			maxDate: "+0D",
+		// Create water year lists and initialize select2s. Using the query parameter of select2
+		// to limit the selections so that start water year can not exceed end water year and
+		// end water year can not be less that start water year.
+		var yearLimits = {
+			minYear : 1980,
+			maxYear: CONFIG.currentWaterYear
 		};
 		
-		var datepickerOptions = defaultDateLimits;
-		$.extend(datepickerOptions, {
-			yearRange: "-" + NUMBER_OF_YEARS_BACK + "Y:+0D",
-			changeMonth: true,
-			changeYear: true
-		});
+		var START_YEARS_LIST = [];
+		var END_YEARS_LIST = [];
+		var i;
+		for (i = yearLimits.minYear; i <= yearLimits.maxYear; i++) {
+			START_YEARS_LIST.push({
+				id : '10/01/' + (i - 1),
+				text : i + ''
+			});
+			END_YEARS_LIST.push({
+				id : '09/30/' + i,
+				text : i + ''
+			});
+		}
 		
-		$("#startDateTime").datepicker(datepickerOptions);
-		$("#endDateTime").datepicker(datepickerOptions);
-		
-		$("#startDateTime").change(function() {
-			$('#endDateTime').datepicker('option', 'minDate', $(this).datepicker('getDate'));
+		$('#startDateTime').select2({
+			data : START_YEARS_LIST,
+			width: 'copy',
+			query : function(options) {
+				var endDate = parseInt($('#endDateTime').select2('data').text);
+				var results = [];
+						
+				var thisValue;
+				var i = 0;
+				do {
+					thisValue = START_YEARS_LIST[i].text;
+					if (!(options.term) || thisValue.has(options.term)) {
+						results.push(START_YEARS_LIST[i]);
+					}
+					i = i + 1;
+				}
+				while (parseInt(thisValue) < endDate);
+				
+				options.callback ({
+					results : results
+				});
+			}			
 		});
-		$('#endDateTime').change(function() {
-			$('#startDateTime').datepicker('option', 'maxDate', $(this).datepicker('getDate'));
-		});
+		$('#startDateTime').select2('data', START_YEARS_LIST.first());
 		
+		$('#endDateTime').select2({
+			data : END_YEARS_LIST,
+			width: 'copy',
+			query : function(options) {
+				var startDate = parseInt($('#startDateTime').select2('data').text);;
+				var results = [];
+						
+				var thisValue;
+				var i;
+				var beginIndex = END_YEARS_LIST.findIndex(function(n) {
+					return parseInt(n.text) === startDate;
+				});
+				for (i = beginIndex; i < END_YEARS_LIST.length; i++){
+					thisValue = END_YEARS_LIST[i].text;
+					if (!(options.term) || thisValue.has(options.term)) {
+						results.push(END_YEARS_LIST[i]);
+					}
+				}
+				
+				return options.callback ({
+					results : results
+				});
+			}			
+		});
+		$('#endDateTime').select2('data', END_YEARS_LIST.last());
+		 
 		//populate html, then init select 2
 		pubMembers.updateSelect2Options($("#state"), STATE_LIST, "Select a State (optional)", true);
 		
