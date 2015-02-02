@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+{% load compress %}
+
+
+
+{% block content %}
+
+	<div class="about_content">
+	
+		<div id="wrapper">
+		
+		<h1>Representative Sampling</h1>
+		
+		<div class="feed-div">
+		
+    <blockquote>
+    <p>The spatial variability of a constituent in a stream cross-section is dependent upon a number of factors. If the constituent is in the dissolved phase 
+    its distribution in the stream cross-section depends on how well mixed the stream is and where the source of entry to the stream of the constituent is 
+    located. If the constituent is associated with the particulate phase, then in addition to the factors affecting constituents in the dissolved phase there 
+    is also the vertical distribution due to sinking of the particulate matter. This has implications for the calculation of flux (the mass of the constituent 
+    transported by the river in a given amount of time), for if the constituent concentration changes in the stream either horizontally or vertically or both, 
+    then where and how the sample is collected will affect the concentration used to calculate the flux.</p>
+    <p>For example the collection of a representative sample from the Ohio River near its confluence with the Mississippi River can be difficult (fig. 1). The 
+    concentration of constituents can vary quite considerably across the stream as the Cumberland and the Tennessee Rivers enter the Ohio from the south and the 
+    Wabash enters from the north above the sampling site. The water quality of the Wabash reflects its intensive agricultural landuse, whereas the Tennessee and 
+    the Cumberland have more mountainous and forest landuse. This can be seen in the concentration of the herbicide metolachlor in the Ohio River during July 1999 
+    (fig. 2). The concentration of metolachlor in the stream nearly doubles from the south side of the river to the north side.</p>
+    <img alt="Figure 1. Schematic diagram illustrating contribution of tributary inflows to the Ohio River downstream of the Tennesee River confluence near Paducah, Kentucky (from Crain, A.S., 2002, The loads of selected herbicides in the Ohio River basin, 1997-2000: U.S. Geological Survey Fact Sheet 089-02)." 
+    src="{% static 'nar_ui/images/rep_samp_fig1.jpg' %}">
+    <p>Figure 1. Schematic diagram illustrating contribution of tributary inflows to the Ohio River downstream of the Tennesee River confluence near Paducah, Kentucky (from <a title="Link to The loads of selected herbicides in the Ohio River basin, 1997-2000: U.S. Geological Survey Fact Sheet 089-02" href="http://pubs.er.usgs.gov/publication/fs08902">Crain, A.S., 2002</a>, 
+    The loads of selected herbicides in the Ohio River basin, 1997-2000: U.S. Geological Survey Fact Sheet 089-02).</p>
+    <img alt="Figure 2. Concentration of metolacholor in individual sampling verticals in the Ohio River near Grand Chain, IL, July, 1999. (modified from Crain, A.S., 2002, The loads of selected herbicides in the Ohio River basin, 1997-2000: U.S. Geological Survey Fact Sheet 089-02)."
+    src="{% static 'nar_ui/images/rep_samp_fig2.jpg' %}">
+    <p>Figure 2. Concentration of metolacholor in individual sampling verticals in the Ohio River near Grand Chain, IL, July, 1999. (modified from <a title="Link to The loads of selected herbicides in the Ohio River basin, 1997-2000: U.S. Geological Survey Fact Sheet 089-02" href="http://pubs.er.usgs.gov/publication/fs08902">Crain, A.S., 2002</a>, The loads of selected herbicides in the Ohio River basin, 1997-2000: U.S. Geological Survey Fact Sheet 089-02).</p>
+    <p>See the chapter <a href="http://pubs.usgs.gov/circ/circ1133/big-sample.html">Sampling the Big Rivers</a> in USGS Circular 1133 or <a href="http://www.sciencedirect.com/science?_ob=ArticleURL&_udi=B6V78-48XT1WS-HH&_user=696292&_rdoc=1&_fmt=&_orig=search&_sort=d&view=c&_acct=C000038819&_version=1&_urlVersion=0&_userid=696292&md5=9ca1eb0a0341721bd93bf3f2aa3e65e4">Strategies and Equipment for Sampling Suspended Sediment and Associated Toxic Chemicals in Large Rivers</a> for more information on representative sampling of large rivers.
+    <p>
+
+</blockquote>
+   
+   			</div>
+		
+		</div>
+	
+	
+	</div>
+
+{% endblock %}

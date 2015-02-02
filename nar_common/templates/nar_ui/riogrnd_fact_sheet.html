@@ -1,0 +1,409 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+{% load compress %}
+
+
+
+{% block content %}
+
+	<div class="about_content">
+	
+		<div id="wrapper">
+		
+		<h1>Monitoring the Water Quality of the Nation's Large Rivers</h1>
+		
+		<div class="feed-div">
+
+   <blockquote>
+   <h2>Rio Grande NASQAN Program</h2>
+<p>The U.S. Geological Survey (USGS) has monitored the water quality in the Rio Grande Basin as part of the redesigned National Stream Quality
+Accounting Network (NASQAN) since 1995 (Hooper and others, 1997). The NASQAN program was designed to characterize the concentrations and transport of
+sediment and selected chemical constituents found in the Nation's large rivers-including the Mississippi, Colorado, and Columbia in addition to
+the Rio Grande. In these four basins, the USGS currently (1998) operates a network of 40 NASQAN sites, with an emphasis on quantifying the mass flux
+for each constituent (the amount of material moving past the site, expressed in tons per day).</p>
+
+<p>By applying a consistent flux-based approach in the Rio Grande Basin, the NASQAN program is generating the information needed to identify regional
+sources for a variety of constituents, including agricultural chemicals and trace elements, in the basin. The effect of the large reservoirs on
+the Rio Grande can be observed as constituent fluxes are routed downstream. The analysis of constituent fluxes on a basin-wide scale will provide the
+means to assess the influence of human activity on water-quality conditions in the Rio Grande.</p>
+
+<h3>Environmental Setting</h3>
+
+<p>The Rio Grande originates in the San Juan Mountains of southern Colorado and follows a 1,885-mile course before it flows into the Gulf of Mexico
+(<a href="{% static 'nar_ui/images/riogrnd_images/fig1.gif' %}">fig. 1</a>). Along the way, the river and its tributaries drain a land area of 182,200 square miles. This drainage encompasses a widely
+varied landscape in the United States and Mexico, including mountains, forests, and deserts. The basin is home to diverse native plants and wildlife as
+well as some 10 million people-8 million in Mexico alone. For approximately two-thirds of its course, the river also serves as the boundary between
+the United States and Mexico.</p>
+
+<p>In this mostly arid to semiarid region, the absence of flow in the river as well as the presence of flow determines the basin's character. Many of
+the river tributaries are intermittent streams. Much of the flow is controlled by numerous reservoirs in the basin. Throughout the basin, an extensive
+system of water structures captures and controls the flow of water in the subbasins to meet regional needs for flood control, power generation, and
+storage for domestic, agricultural, and industrial purposes. Irrigation withdrawals from the Rio Grande (in the lower Rio Grande Valley, which comprises
+Cameron, Hildalgo, Starr, and Willacy Counties) accounted for about 44 percent of the surface-water irrigation withdrawals in Texas during 1994 (Texas
+Water Development Board, 1996).</p>
+
+<p><table width="50%" border="0" cellspacing="0" cellpadding="2">
+<caption align="top">Scenes from the Rio Grande Basin</caption>
+<tr>
+<td width="50%"><p><img alt="Irrigation in the Lower Rio Grande Valley (photo courtesy of TNRCC)" src="{% static 'nar_ui/images/riogrnd_images/irrig.jpeg' %}" width="267" height="173" align="bottom" ></p>
+
+<p>Irrigation in the Lower Rio Grande Valley (photo courtesy of TNRCC)</td>
+<td width="50%"><p><img alt="Elephant Butte Reservoir on the Rio Grande, New Mexico" src="{% static 'nar_ui/images/riogrnd_images/eleph.jpeg' %}" width="256" height="173" align="bottom" ></p>
+
+<p>Elephant Butte Reservoir on the Rio Grande, New Mexico</td></tr>
+</table>
+
+<p>
+
+<h3>Site Selection</h3>
+
+<p>Eight NASQAN sampling sites (<a href="{% static 'nar_ui/images/riogrnd_images/fig1.gif' %}">fig. 1</a>, table 1)
+were selected in the Rio Grande Basin to monitor the fluxes from subbasins.
+Sites were located specifically to measure inflow and outflow of material
+from the two main-stem reservoirs (Amistad International and Falcon International)
+that strongly affect the flux of chemical constituents and sediment in the
+Rio Grande. Land use in the subbasins is dominated by rangeland, with forest,
+agricultural, and urban areas constituting the remainder (Texas Natural
+Resource Conservation Commission, 1994, fig. 1.2). In descriptions of each
+site below, the numbers in parentheses correspond to site numbers in <a href="{% static 'nar_ui/images/riogrnd_images/fig1.gif' %}">figure 1</a> and table 1.</p>
+
+<p>
+<blockquote><table width="60%" border="1" cellspacing="0" cellpadding="2" >
+<caption align="top"><b>Table 1. </b>Description of NASQAN sampling sites in the Rio Grande Basin
+<br>
+
+[--, not applicable]</caption>
+<tr>
+<th style="vertical-align:bottom" width="10%" height="70">Site No. (<a href="{% static 'nar_ui/images/riogrnd_images/fig1.gif' %}">fig. 1</a>)</th>
+<th style="vertical-align:bottom" width="25%">Name</th>
+<th style="vertical-align:bottom" width="11%">Drainage Area (sq. miles)</th>
+<th style="vertical-align:bottom" width="17%">Incremental Increase in drainage area (sq. miles)</th>
+<th style="vertical-align:bottom" width="17%">Mean streamflow (cubic feet per second)</th>
+<th style="vertical-align:bottom" width="20%">Incremental increase/decrease in streamflow (cubic feet per second)</th></tr>
+
+<tr>
+<td height="17"><p align="center">1</td>
+<td><font size=-1>Rio Grande at El Paso, TX</font></td>
+<td><p align="center">29,267</td>
+<td><p align="center">29,267</td>
+<td><p align="center">640</td>
+<td><p align="center">640</td></tr>
+<tr>
+<td height="29"><p align="center">2</td>
+<td><font size=-1>Rio Grande at Foster Ranch near Langtry, TX</font></td>
+
+<td><p align="center">80,742</td>
+<td><p align="center">51,475</td>
+<td><p align="center">1,946</td>
+<td><p align="center">1,306</td></tr>
+<tr>
+<td height="17"><p align="center">3</td>
+<td><font size=-1>Pecos River near Langtry, TX</font></td>
+<td><p align="center">35,179</td>
+<td><p align="center">35,179</td>
+
+<td><p align="center">262</td>
+<td><p align="center">262</td></tr>
+<tr>
+<td height="29"><p align="center">4</td>
+<td><font size=-1>Rio Grande below Amistad Dam near Del Rio, TX</font></td>
+<td><p align="center">123,143</td>
+<td><p align="center">42,401</td>
+<td><p align="center">2,510</td>
+<td><p align="center">302</td></tr>
+
+<tr>
+<td height="17"><p align="center">5</td>
+<td><font size=-1>Rio Grande below Laredo, TX</font></td>
+<td><p align="center">132,578</td>
+<td><p align="center">9,435</td>
+<td><p align="center">3,433</td>
+<td><p align="center">923</td></tr>
+<tr>
+<td height="29"><p align="center">6</td>
+<td><font size=-1>Rio Grande below Falcon Dam, TX</font></td>
+
+<td><p align="center">159,270</td>
+<td><p align="center">26,692</td>
+<td><p align="center">3,223</td>
+<td><p align="center">-210</td></tr>
+<tr>
+<td height="30"><p align="center">7</td>
+<td><font size=-1>Arroyo Colorado at Harlingen, TX</font></td>
+<td><p align="center">182</td>
+<td><p align="center">--</td>
+
+<td><p align="center">247</td>
+<td><p align="center">--</td></tr>
+<tr>
+<td height="30"><p align="center">8</td>
+<td><font size=-1>Rio Grande near Brownsville, TX</font></td>
+<td><p align="center">176,333</td>
+<td><p align="center">17,063</td>
+<td><p align="center">2,226</td>
+<td><p align="center">-997</td></tr>
+
+</table>
+<p>
+
+<p><b>Rio Grande at El Paso</b> (1) reflects drainage of the entire Rio
+Grande main stem in Colorado and New Mexico. The site at El Paso is 125
+river miles downstream of Elephant Butte Reservoir in New Mexico and 1.7
+miles upstream of the American Dam at El Paso. Streamflow in the Rio Grande
+at El Paso is controlled largely by releases from Elephant Butte Reservoir.
+At American Dam, much of the flow in the Rio Grande is diverted for irrigation
+and municipal uses to the American Canal in Texas and the Acequia Madre
+Canal in Mexico. Downstream of El Paso/Ciudad Ju&aacute;rez, the Rio Grande
+has little or no flow until the waters of the R&iacute;o Conchos, which
+originates in the Sierra Madre Occidental in Mexico, join the river near
+Presidio/Ojinaga.</p>
+
+<p><b>Rio Grande at Foster Ranch near Langtry </b>(2) is approximately 600
+miles downstream of El Paso and 300 miles downstream of the confluence of
+the Rio Grande and R&iacute;o Conchos. Because much of the water reaching
+El Paso is diverted, streamflow at Foster Ranch is largely from the R&iacute;o
+Conchos. This site, in conjunction with the Pecos River site, provides data
+to describe the flux of constituents and sediment into Amistad International
+Reservoir.</p>
+
+<p><b>Pecos River near Langtry</b> (3) is on the Pecos River approximately
+15 miles upstream of its confluence with the Rio Grande. The Pecos River
+is the major tributary to the Rio Grande within the United States. The Pecos
+River originates in the mountains of northern New Mexico, flows southward
+through eastern New Mexico, and empties into Red Bluff Reservoir at the
+Texas-New Mexico border. The flow of the Pecos River at Langtry has been
+regulated by this reservoir since 1937. The Pecos River joins the Rio Grande
+at the upstream end of Amistad International Reservoir.</p>
+
+<p><b>Rio Grande below Amistad Dam near Del Rio</b> (4). Water in Amistad
+International Reservoir has a mean residence time of about 1.6 years, which
+allows for numerous chemical, physical, and biological processes to alter
+the quality of the inflowing water. These processes include deposition of
+sediment, evaporative concentration of solutes, and biological removal of
+nutrients. This site provides data on the outflow from the reservoir, which
+can be compared to data on the inflow to assess the effect of retention
+and transformation of material within the reservoir.</p>
+
+<p><b>Rio Grande below Laredo</b> (5). About 37 percent of the water that
+discharges from the Rio Grande Basin enters the river between the Amistad
+International Reservoir and Laredo. This reach also has large centers of
+population and industry that could affect water quality. This site provides
+data to account for the inflow of chemical constituents and sediment from
+this major subbasin to the Rio Grande and to describe the quality of inflow
+to Falcon International Reservoir.</p>
+
+<p><b>Rio Grande below Falcon Dam</b> (6) is 2.5 miles downstream of Falcon
+Dam. The R&iacute;o Salado in Mexico, which joins the Rio Grande at the
+upstream end of Falcon International Reservoir, is the major tributary to
+this reach. This site provides data on the retention and transformation
+of materials transported into Falcon International Reservoir.</p>
+
+<p><b>Arroyo Colorado at Harlingen</b> (7) and <b>Rio Grande near Brownsville</b>
+(8) reflect the total outflow of the Rio Grande to the Laguna Madre and
+the Gulf of Mexico. These sites reflect runoff from the principal agricultural
+area in the Rio Grande Basin. At Anzalduas Dam near Mission, Tex., much
+of the flow in the Rio Grande is diverted into the Anzalduas Canal for irrigation.
+On the U.S. side of the basin downstream of Anzalduas Dam, almost all the
+water withdrawn from the Arroyo Colorado or the Rio Grande for irrigation
+and municipal purposes is returned to the Arroyo Colorado. The Arroyo Colorado
+drains into the Laguna Madre, which effectively becomes an estuary for the
+Rio Grande during spring and summer irrigation seasons.</p></blockquote>
+
+<h3>Sampling Strategy</h3>
+
+<p>Constituents measured as a part of the NASQAN program include major nutrients
+and carbon, suspended and dissolved trace elements such as copper, lead,
+and zinc, many common water-soluble pesticides such as atrazine and metalochlor,
+and suspended sediment. Frequency of sampling ranges from 6 to 10 times
+per year depending on local site characteristics. In the upper Rio Grande
+Basin, flow generally peaks in the early summer. In the middle and lower
+regions of the basin, flow is controlled primarily by releases from Amistad
+International and Falcon International Reservoirs. Because these reservoir
+releases are dictated largely by irrigation needs, streamflow in the middle
+and lower basin tends to be more evenly distributed than that in the upper
+basin and peak flows typically occur in the late summer and early fall.
+The sampling strategy is to assess water-quality conditions throughout the
+range of flows, with an emphasis on high flows. The strategy will be adjusted
+as the program progresses in an iterative process as more is learned about
+patterns of concentrations and fluxes throughout the basin.</p>
+
+<h3>Water-Quality Issues</h3>
+
+<p>Until recently, few studies had examined the water quality of the entire
+Rio Grande Basin in detail. In general, the water is of good quality in
+the upper parts of the basin, but the quality decreases as the water moves
+downstream.The decrease in downstream quality of water generally is associated
+with large quantities of agricultural return flow, a lack of effective wastewater
+treatment, and extensive year-round agriculture in the lower basin.</p>
+
+<p>Salinity has long been recognized as a major water-quality problem throughout
+the Rio Grande Basin. In some places, the water is not suitable for drinking
+or for irrigation. A common measure of salinity is the concentration of
+dissolved solids, which is large (generally greater than 1,000 milligrams
+per liter) below El Paso. These large concentrations can be attributed to
+natural saline springs, irrigation return flows, and evaporation during
+the summer months.</p>
+
+<p>Metals also could be present in the Rio Grande because of extensive mining
+in New Mexico and in the R&iacute;o Conchos Basin in Mexico. The rapid development
+of <I>maquiladoras</I> (assembly plants in Mexico) also could contribute
+to trace element concentrations in the lower Rio Grande Basin (Texas Natural
+Resource Conservation Commission, 1994). Historical data for riverbed sediments
+in the Rio Grande indicate increasing temporal trends in more trace elements
+in the reaches of the river near El Paso and Laredo than in other reaches,
+which could be related to human activities within the subbasins upstream
+of El Paso and Laredo (Lee and Wilson, 1997).</p>
+
+<p>Numerous pesticides could be present in the waters of the lower Rio Grande
+Basin. The presence of pesticides would be a likely consequence of the large
+variety of crops grown year-round in the basin and the fact that irrigation
+water commonly returns to the streams.</p>
+
+<H4>Questions NASQAN Data Might Answer</H4>
+
+<p>Specific questions regarding the Rio Grande Basin that NASQAN data might
+answer include:</p>
+
+<ul>
+  <li>What are the sources for the high salinity in the Rio Grande Basin?
+  Are the salinity-control programs developed by the Texas Natural Resource
+  Conservation Commission (TNRCC) and Pecos River Commission (Texas Natural
+  Resource Conservation Commission, 1994) helping to decrease the dissolved
+  solids concentrations in the Pecos River?
+  <li>What pesticides are present in the waters of the Rio Grande Basin?
+  What are the major source areas for the pesticides? Do observed concentrations
+  exceed or approach health advisories or maximum contaminant levels established
+  by the U.S. Environmental Protection Agency?
+  <li>What associations can be observed between mining and industrial activities
+  in the Rio Grande Basin and concentrations of trace elements within the
+  river system?
+</ul>
+
+<h3>Relation to other USGS Water-Quality Programs</h3>
+
+<p>The NASQAN program and the USGS NAWQA (National Water-Quality Assessment)
+program, which involves intensive water-quality studies in smaller areas
+called study units, are complementary (Hooper and others, 1997). Comparable
+data are collected in both programs. A central feature of the NAWQA program
+is an examination of the effect of land use on water quality. The USGS recently
+has completed a high-intensity sampling phase for the NAWQA in the upper
+Rio Grande Basin (upstream of El Paso) (Levings and others, 1998). The Upper
+Rio Grande NAWQA, with its study of cause-and-effect relations between land
+use and water quality within a part of the larger regional NASQAN setting,
+exemplifies the complementary nature of the NASQAN and NAWQA programs. Findings
+from NAWQA studies might be used to develop regional models that address
+the influence of land use on water quality in NASQAN basins.</p>
+
+<p>Work is being done by the USGS in cooperation with the TNRCC Clean Rivers
+Program to study the occurrence and distribution of dissolved hydrophobic
+organic compounds such as organochlorine pesticides and polychlorinated
+biphenyls (PCBs) within the Rio Grande Basin (J.B. Moring, U.S. Geological
+Survey, written commun., 1998). A new method, the semi-permeable membrane
+device (SPMD), is being used to assess the occurrence of selected organic
+compounds in streams. SPMDs simulate the exposure to and passive uptake
+of highly lipid-soluble organic compounds by biological membranes and concentrate
+such compounds above ambient concentrations in water. The small concentrations
+of the compounds in streams might not be detected by traditional sampling
+methods.</p>
+
+<p>The USGS has included the Rio Grande Basin as one of the study areas
+for the Biomonitoring of Environmental Status and Trends (BEST) program
+(Tim Bartish, U.S. Geological Survey, written commun., 1997). Fish tissues
+and fluid were collected during fall 1997 at all eight Rio Grande NASQAN
+sites for biomarker assessment. Biomarkers are physiological changes in
+an organism that indicate exposure to a chemical. The information from the
+BEST program will indicate how fish are affected by water quality in various
+reaches of the basin (Tim Bartish, U.S. Geological Survey, written commun.,
+1997).</p>
+
+<p>In 1995, the USGS, in cooperation with various State and local agencies,
+collected bottom-sediment cores from Elephant Butte, Amistad International,
+and Falcon International Reservoirs as part of a study to assess historical
+changes in surface-water quality in the Rio Grande Basin (Van Metre and
+others, 1997). Concentrations of trace elements and some persistent pesticides
+and organic compounds in bottom sediments, in many cases, can provide a
+partial historical record of water quality.</p>
+
+<h3>Products of the NASQAN Program</h3>
+
+<p>Data from the Rio Grande NASQAN are published annually in the USGS water
+resources data for Texas reports (for example, Gandara and others, 1997).
+Additionally, NASQAN data from the Rio Grande Basin (and the Mississippi,
+Colorado, and Columbia Basins) are being released electronically on the
+World Wide Web at http://water.usgs.gov/nasqan.</p>
+
+<p>After the initial 3 to 5 years of data collection have been completed
+and baseline concentrations have been established for the measured constituents
+in the basin, the Rio Grande NASQAN program might be altered to more closely
+examine specific water-quality issues.</p>
+
+<h3>Selected References</h3>
+
+<p>Anderholm, S.K., Radell, M.J., and Richey, S.F., 1995, Water-quality assessment of the Rio Grande Valley study unit, Colorado, New Mexico, and
+  Texas-Analysis of selected nutrient, suspended-sediment and pesticide data: U.S. Geological Survey Water-Resources Investigations Report 94-4061,
+  203 p.</p>
+  
+  <p>Ellis, S.R., 1991, National Water-Quality Assessment Program-The Rio Grande Valley: U.S. Geological Survey Open-File Report 91-160, 2 p.</p>
+  
+  <p>Gandara, S.C., Gibbons, W.J., Andrews, F.L., Jones, R.E., and Barbie, D.L., 1997, Water resources data, Texas, water year 1996: U.S. Geological
+  Survey Water-Data Report TX-96-3, 347 p.</p>
+
+  
+  <p>Hooper, R.P., Goolsby, D.A., Rickert, D.A., and McKenzie, S.W., 1997, <a href="../natfact/natfactsheet.html">NASQAN-A program to monitor the
+  water quality of the Nation's large rivers</a>: U.S. Geological Survey Fact Sheet FS-055-97, 6 p.</p>
+  
+  <p>International Boundary and Water Commission, United States and Mexico, 1994, Flow of the Rio Grande and related data: Water Bulletin 64, 131 p.</p>
+  
+  <p>______1994, Binational study regarding the presence of toxic substances in the Rio Grande/R&iacute;o Bravo and its tributaries along the boundary
+  portion between the United States and Mexico-Final report, September 1994: 246 p.</p>
+  
+  <p>Kelly, V.J., 1998, <a href="../clmbfact/clmbfactsheet.html">Columbia River Basin NASQAN Program-Monitoring the water quality of the Nation's large
+  rivers</a>: U.S. Geological Survey Fact Sheet FS-004-98.</p>
+
+  
+  <p>Lee, R.W., and Wilson, J.T., 1997, Trace elements and organic compounds associated with riverbed sediments in the Rio Grande/R&iacute;o Bravo Basin,
+  Mexico and Texas: U.S. Geological Survey Fact Sheet FS-098-97,
+  6 p.</p>
+  
+  <p>Levings, G.W., Healy, D.F., Richey, S.F., and Carter, L.F., 1998, Water quality in the Rio Grande Valley, Colorado, New Mexico, and Texas, 1995-95:
+  U.S. Geological Survey Circular 1162, 39 p.</p>
+  <p>Texas Natural Resource Conservation Commission, 1994, Regional assessment of water quality in the Rio Grande Basin: Austin, Tex., Watershed Management
+  Division, Texas Natural Resource Conservation Commission Publication AS-34, 377 p.</p>
+  
+  <p>Texas Water Development Board, 1996, Surveys of irrigation in Texas 1958, 1964, 1969, 1974, 1979, 1984, 1989, and 1994: Austin, Tex., 59 p.</p>
+  
+  <p>Van Metre, P.C., Mahler, B.J., and Calender, Edward, 1997, Water-quality trends in the Rio Grande/R&iacute;o Bravo Basin using sediment cores from
+  reservoirs: U.S. Geological Survey Fact Sheet FS-221-96, 8 p.
+  </p><hr align=left>
+
+
+<p>Any use of trade, product, or firm names is for descriptive purposes
+only and does not imply endorsement by the U.S. Government.</p>
+
+<hr align=left>
+<p>For additional copies of this report or more information
+about the Rio Grande NASQAN program, please contact-</p>
+
+<p>NASQAN Rio Grande Basin Coordinator<br>
+8011 Cameron Rd.<br>
+Austin, TX 78754-3898<br>
+(512) 873-3071</p>
+
+<p><i><font size=-1>By D.L. Lurry, D.C. Reutter, and F.C. Wells</font></i></p>
+<hr align=left>
+<p></p>
+
+<p>USGS Fact Sheet FS-083-98</p>
+
+<p><hr align=left>
+
+</blockquote>
+   
+   		</div>
+		
+	</div>
+	
+	
+	</div>
+
+{% endblock %}

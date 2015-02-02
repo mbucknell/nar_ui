@@ -1,0 +1,487 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+{% load compress %}
+
+
+
+{% block content %}
+
+	<div class="about_content">
+	
+		<div id="wrapper">
+		
+		<h1>Monitoring the Water Quality of the Nation's Large Rivers</h1>
+		
+		<div class="feed-div">
+			
+   <blockquote>
+   <h2>Mississippi River Basin NASQAN Program</h2>
+	<p>The U.S. Geological Survey (USGS) has monitored water quality in the Mississippi River Basin as part of the National Stream Quality Accounting
+      Network (NASQAN) since 1995, applying a basinwide perspective to understanding water quality on a regional scale (Hooper and others, 1997). 
+      The objectives of the Mississippi River Basin NASQAN Program are to provide an ongoing characterization of the concentrations and mass fluxes of 
+      sediment and chemicals at key locations in the basin, to determine regional source areas for these materials, and to assess the effect of human influences
+      on observed concentrations and fluxes. NASQAN complements the ongoing USGS National Water-Quality Assessment (NAWQA) Program, which is performing a detailed 
+      assessment in 23 subbasins within the Mississippi River Basin (Hirsch and others, 1988). NASQAN monitors the large rivers in the Mississippi River Basin, 
+      downstream of NAWQA study units. NASQAN, in conjunction with NAWQA, can provide the data and information needed by other USGS programs, Federal and State 
+      agencies, other segments of the scientific community, and by the public to address the present and future status of water quality in the Mississippi River 
+      Basin.</p>
+      <h3><a name="pgfId=1002794"></a>Environmental Setting</h3>
+<p><a name="pgfId=1002795"></a>The Mississippi River Basin, which drains about 41 percent of the conterminous United States, is the largest river basin in North 
+America (fig.1). It is the third largest river basin in the world, smaller than only the Amazon River Basin in South America and the Congo River Basin in Africa. 
+More than 72 million people reside in the Mississippi River Basin. In addition, the Mississippi River Basin contains one of the most productive farming regions in 
+the world which produces the majority of the corn, soybeans, wheat, cattle, and hogs, as well as a significant amount of the cotton and rice grown in the United 
+States. Furthermore, the majority of all pesticides and fertilizers used in the United States are applied to cropland in the Mississippi River Basin. As a result 
+of rainfall runoff and ground-water discharge, streams in the Mississippi River Basin carry suspended sediment, naturally occurring chemicals weathered
+from the soil, and contaminants from human activities. These streams, and much of the dissolved and suspended material in them, eventually flow into the 
+Mississippi River and ultimately are discharged to the Gulf of Mexico. The water quality of the Mississippi River and its tributaries is an important regional 
+and national issue. The land use and cultural changes that have occurred in the Mississippi River Basin in the 1900's have had measurable effects on the quality 
+of water in the Mississippi River Basin. Because changes in land use and water quality likely will continue to occur in the Mississippi River Basin as agriculture 
+production increases in response to the growing worldwide demand for food and fiber, it is important that a long-term program of monitoring, data analysis, 
+interpretation, and reporting be implemented for the Mississippi River Basin.</p>
+
+<p><table align="center" width="450" border="0" cellspacing="0"
+cellpadding="3">
+  <caption align="top"><b>Sampling in the Mississippi River Basin</b></caption>
+  <tr>
+    <td width="33%">
+      <p><img src="{% static 'nar_ui/images/pic1.jpeg' %}" alt="Bridge sampling on Platte River near Louisville, Nebraska. (R.H. Coupe, photo)" width="176" height="115" align="bottom"
+      border="0" ></p>
+      <p>Bridge sampling on Platte River near Louisville, Nebraska. (R.H. Coupe, photo)
+    </td>
+    <td width="33%">
+      <p><img src="{% static 'nar_ui/images/pic2.jpeg' %}" alt="Cableway sampling on Missouri River near Pierre, South Dakota. (R.H. Coupe, photo)" width="173" height="115" align="bottom"
+      border="0" ></p>
+      <p>Cableway sampling on Missouri River near Pierre, South Dakota. (R.H. Coupe, photo)
+    </td>
+    <td width="34%">
+      <p><img src="{% static 'nar_ui/images/pic3.jpeg' %}" alt="Boat sampling on Missouri River near Omaha, Nebraska. (R.H. Coupe, photo)" width="173" height="115" align="bottom"
+      border="0" ></p>
+      <p>Boat sampling on Missouri River near Omaha, Nebraska. (R.H. Coupe, photo)
+    </td>
+  </tr>
+</table><p>
+
+<h3><a name="pgfId=1000244"></a>Measuring Mass Flux</h3>
+
+<p><a name="pgfId=1000254"></a>The choice of measuring mass flux (the amount of material that passes a set point) as the
+primary objective in the NASQAN program requires a relatively high sampling frequency. Additionally, the emphasis on flux characterization
+dictates that more samples must be collected during periods of higher streamflow. </p>
+
+<p>  The flux-based approach allows for the treatment of a river network as an integrated system. This approach provides data to describe and compare yields of 
+non-pointsource contaminants across large regional basins, calculate loads to receiving waters, including off-continent flux, and test regional models of the 
+influence of land use on water quality. </p>
+
+<p><table align="center" width="450" border="0" cellspacing="0" cellpadding="10">
+  <tr>
+    <td width="50%">
+      <p><img src="{% static 'nar_ui/images/fig01.gif' %}" alt="Figure 1. The Mississippi River Basin and the location of NAWQA study units." width="350" height="306" align="bottom" border="0" ></p>
+      <p>Figure 1. The Mississippi River Basin and the location of NAWQA study units.
+    </td>
+    <td width="50%">
+      <p>&nbsp;<img src="{% static 'nar_ui/images/fig02.gif' %}" alt="Figure 2.  Subbasins defined by NASQAN stations" width="368" height="312" align="bottom"
+      border="0" ></p>
+      <p>Figure 2.  Subbasins defined by NASQAN stations
+    </td>
+  </tr>
+</table><p>
+
+<h3><a name="pgfId=1000245"></a>Station Selection</h3>
+<p><a name="pgfId=1000261"></a>Eighteen NASQAN sampling stations (fig. 2, table 1) were selected at critical junctures within the Mississippi River Basin to provide
+ the essential framework for understanding fluxes of materials within the basin and to the Gulf of Mexico. An important consideration for station selection was the 
+ influence of varying land use, the presence of major reservoirs, and input from major tributaries. Generally, stations were selected where significant changes in 
+ mass flux were expected, such as at confluences of major tributaries or at the downstream end of
+major reservoirs.</p>
+
+<p><table class="miss-table1" width="65%" border="1" cellspacing="0" cellpadding="2">
+  <caption align="top">Table 1: Description of NASQAN sampling stations in the Mississippi River Basin<br>
+[Mean discharge: From 1980 to 1996, mi2, square miles; ft3/s, cubic feet per second]</caption>
+  <tr>
+    <td style="vertical-align:bottom;text-align:center" width="8%">
+      Map<br> no.
+    </td>
+    <td style="vertical-align:bottom;text-align:center" width="33%">
+      Sampling station	</td>
+    <td style="vertical-align:bottom;text-align:center" width="14%">
+      Drainage<br>area<br>(mi2) 	</td>
+    <td style="vertical-align:bottom;text-align:center" width="13%">
+      Mean discharge<br>(ft3/s) 		</td>
+    <td style="vertical-align:bottom;text-align:center" width="17%">
+      Incremental increase in drainage area <br>
+      (mi2)</td>
+
+    <td style="vertical-align:bottom;text-align:center" width="15%">
+     Incremental<br>
+       increase in streamflow<br>
+      (ft3/s) </td>
+  </tr>
+  <tr>
+    <td colspan="6">
+      <p align=center><i>Mississippi River Basin above Missouri River</i></td>
+  </tr>
+  <tr>
+    <td align="center">1</td>
+    <td>Mississippi R. at Clinton, IA</td>
+    <td align="right">85,600</td>
+    <td align="right">56,300</td>
+    <td align="right">85,600</td>
+    <td align="right">56,300</td>
+  </tr>
+  <tr>
+    <td align="center">2</td>
+    <td>Mississippi River at Grafton, IL</td>
+    <td align="right">171,300</td>
+
+    <td align="right">130,200	</td>
+    <td align="right">85,700</td>
+    <td align="right">73,900</td>
+  </tr>
+  <tr>
+    <td colspan="6">
+      <p align=center>&nbsp;<i>Missouri River Basin</i></td>
+
+  </tr>
+  <tr>
+    <td align="center">3</td>
+    <td>Yellowstone River near Sydney, MT	</td>
+    <td align="right">69,100</td>
+    <td align="right">11,090</td>
+    <td align="right">69,100</td>
+
+    <td align="right">11,090</td>
+  </tr>
+  <tr>
+    <td align="center">4</td>
+    <td>Missouri River near Culbertson, MT</td>
+    <td align="right">91,600</td>
+    <td align="right">9,500</td>
+
+    <td align="right">91,600</td>
+    <td align="right">9,500</td>
+  </tr>
+  <tr>
+    <td align="center">5</td>
+    <td>Missouri River below Garrison Dam, ND</td>
+    <td align="right">181,400</td>
+
+    <td align="right">19,600</td>
+    <td align="right">20,700</td>
+    <td align="right">-990</td>
+  </tr>
+  <tr>
+    <td align="center">6</td>
+    <td>Missouri River at Pierre, SD</td>
+
+    <td align="right">243,500</td>
+    <td align="right">23,700</td>
+    <td align="right">62,100</td>
+    <td align="right">4,100</td>
+  </tr>
+  <tr>
+    <td align="center">7</td>
+
+    <td>Missouri River at Omaha, NE</td>
+    <td align="right">322,800	</td>
+    <td align="right">35,800</td>
+    <td align="right">79,300</td>
+    <td align="right">12,100</td>
+  </tr>
+
+  <tr>
+    <td align="center">8</td>
+    <td>Platte River at Louisville, NE</td>
+    <td align="right">85,800</td>
+    <td align="right">8,800</td>
+    <td align="right">85,800</td>
+
+    <td align="right">8,800</td>
+  </tr>
+  <tr>
+    <td align="center">9</td>
+    <td>Missouri River at Hermann, MO</td>
+    <td align="right">524,200</td>
+    <td align="right">98,100</td>
+
+    <td align="right">115,600</td>
+    <td align="right">53,500</td>
+  </tr>
+  <tr>
+    <td colspan="6">
+      <p align=center> <i> Mississippi River Basin below the Missouri
+      River and the<br>
+
+        Mississippi  River at Grafton</i></td>
+  </tr>
+  <tr>
+    <td align="center">10</td>
+    <td>Mississippi River at Thebes, IL</td>
+    <td align="right">713,200</td>
+    <td align="right">243,400</td>
+
+    <td align="right">17,700</td>
+    <td align="right">15,100</td>
+  </tr>
+  <tr>
+    <td colspan="6">
+      <p align=center><i>Ohio River Basin</i></td>
+  </tr>
+
+  <tr>
+    <td align="center">11</td>
+    <td>Ohio River at Greenup, KY</td>
+    <td align="right">62,000</td>
+    <td align="right">88,600</td>
+    <td align="right">62,000</td>
+
+    <td align="right">&nbsp;88,600</td>
+  </tr>
+  <tr>
+    <td align="center">12</td>
+    <td>Ohio River at Cannelton Dam, KY</td>
+    <td align="right">97,000</td>
+    <td align="right">127,800</td>
+
+    <td align="right">35,000</td>
+    <td align="right">39,200</td>
+  </tr>
+  <tr>
+    <td align="center">13</td>
+    <td>Wabash River at New Harmony, IN</td>
+    <td align="right">29,200</td>
+
+    <td align="right">31,300*</td>
+    <td align="right">29,200</td>
+    <td align="right">31,300</td>
+  </tr>
+  <tr>
+    <td align="center">14</td>
+    <td>Tennessee River at Paducah, KY</td>
+
+    <td align="right">40,300</td>
+    <td align="right">60,400</td>
+    <td align="right">40,300</td>
+    <td align="right">60,400</td>
+  </tr>
+  <tr>
+    <td align="center">15</td>
+
+    <td>Ohio River at Grand Chain, IL</td>
+    <td align="right">203,000</td>
+    <td align="right">295,900</td>
+    <td align="right">37,100</td>
+    <td align="right">76,400</td>
+  </tr>
+
+  <tr>
+    <td colspan="6">
+      <p align=center><i>Lower Mississippi River</i></td>
+  </tr>
+  <tr>
+    <td align="center">16</td>
+    <td>Arkansas River at David Terry Dam, below Little
+      Rock, AR</td>
+
+    <td align="right">158,300</td>
+    <td align="right">51,100</td>
+    <td align="right">158,300</td>
+    <td align="right">51,100</td>
+  </tr>
+  <tr>
+    <td align="center">17</td>
+
+    <td>Atchafalaya River at Melville, LA</td>
+    <td align="right">93,300#</td>
+    <td align="right">233,000&amp;</td>
+    <td align="right">93,300</td>
+    <td align="right">varies</td>
+  </tr>
+
+  <tr>
+    <td align="center">18</td>
+    <td>Mississippi River near <br>
+      St. Francisville, LA</td>
+    <td align="right">1,125,300</td>
+    <td align="right">543,400</td>
+
+    <td align="right">50,800</td>
+    <td align="right">varies</td>
+  </tr>
+  <tr>
+    <td colspan="6">*Discharge from the Wabash at Mt. Carmel, IN<br>
+      # Excludes contribution from Mississippi River Basin<br>
+      &amp;Includes Mississippi River Diversion.</td>
+
+  </tr>
+</table><p>
+
+<h3><a name="pgfId=1000257"></a>Sampling Strategy</h3>
+
+<p><a name="pgfId=1000268"></a>The chemical constituents measured in the NASQAN Program (table 2) include 47 water-soluble pesticides, suspended and dissolved trace
+ elements, major ions, nutrients, carbon, and suspended sediment. Samples are collected from 6 to 15 times per year. The number of samples collected at each 
+ station reflects the overall importance of thatstation to the flux or the predicated variability in water quality. For example, those stations downstream of 
+ major reservoirs are not sampled as often as others because the long residence times
+in the reservoirs result in the water being thoroughly mixed, thus dampening any seasonal effects.</p>
+
+<p><table width="50%" border="1" cellspacing="0"
+cellpadding="2">
+  <caption align="top">Table 2: Constituents measured in the NASQAN program</caption>
+   
+  <tr>
+    <th width="32%">Measurement Class</th> 
+    <th width="68%">&nbsp;Examples</th>
+
+  </tr> 
+  <tr>
+    <td>Suspended sediment</td> 
+    <td>Concentration of fine and coarse sediment particles</td>
+  </tr> 
+  <tr>
+    <td>Pesticides</td> 
+    <td>Common water-soluble pesticides, including atrazine and metalochlor</td>
+  </tr> 
+  <tr>
+
+    <td>Suspended and dissolved trace elements</td> 
+    <td>Lead, cadmium, copper, and zinc</td>
+  </tr> 
+  <tr>
+    <td>Carbon</td> 
+    <td>Dissolved and suspended organic carbon; dissolved inorganic
+      carbon</td>
+  </tr> 
+  <tr>
+    <td>Nutrients</td> 
+    <td>Total and dissolved nitrogen and phosphorus</td>
+
+  </tr> 
+  <tr>
+    <td>Major Ions</td> 
+    <td>Calcium, sulfate, and chloride</td>
+  </tr> 
+  <tr>
+    <td>Support Variables</td> 
+    <td>Stream discharge, temperature, pH, dissolved oxygen, conductivity</td>
+  </tr> 
+
+</table><p>
+
+<h3><a name="pgfId=1000276"></a>Water Quality Issues</h3>
+
+<p><a name="pgfId=1000279"></a>The climate, land use, soils, physiography, and population vary widely across the Mississippi River Basin. The annual runoff ranges 
+from less than 2 inches per year in the western part of the basin to more than 50 inches per year in the southeastern part. Most of the fertilizer and pesticides 
+used in the United States are applied to cropland in a 10-state area known as the corn belt (all or part of Illinois, Indiana, Iowa, Kansas, Minnesota, Missouri, 
+Nebraska, Ohio, South Dakota, and Wisconsin).This area is used primarily for cropland and produces most of the corn, soybeans, wheat, and sorghum grown in the 
+United States. In some drainage basins, particularly in Iowa, Illinois, and Indiana, more than 50 percent of all land is used for growing crops. Large numbers of 
+livestock and poultry also are produced in the central part of the basin (Battaglin and Goolsby, 1995). Furthermore, most of the basin's population
+of 72 million people reside in the eastern half of the basin. Contaminants, including sediment, nitrogen, phosphorus, pesticides, trace elements, industrial 
+organic compounds, and sewage, originate from these many different uses of land and can have substantial effects on water quality in the Mississippi River Basin 
+and the Gulf of Mexico (Goolsby and others, 1997; Meade, 1995).</p>
+
+<p><table align="center" width="450" border="0" cellspacing="0" cellpadding="3">
+  <caption align="top"><b>Floods in the Mississippi River Basin</b></caption>
+  <tr>
+    <td width="33%">
+     <img src="{% static 'nar_ui/images/pic4.jpeg' %}" alt="Mississippi  River at St. Louis on July 30, 1993" width="175" height="115" align="bottom" border="0" >
+      <p>Mississippi  River at St. Louis on July 30, 1993. Lighter brown colors indicate areas of higher suspended sediment. (Strenco
+      Photography, used with permission)
+    </td>
+    <td width="33%" Valign="top">
+      <img src="{% static 'nar_ui/images/pic5.jpeg' %}" alt="Wabash River flooding in the spring of 1997" width="175" height="115" align="bottom" border="0" >
+      <p>Wabash River flooding in the spring of 1997. (G.K. McCombs, photo)
+    </td>
+    <td width="34%" Valign="top">
+      <img src="{% static 'nar_ui/images/pic6.jpeg' %}" alt="Overflow of the Missouri River in 1997 on  Route 19 near Hermann,
+      Missouri" width="175" height="115" align="bottom" border="0" >
+      <p>Overflow of the Missouri River in 1997 on  Route 19 near Hermann,
+      Missouri. (R.R. Holmes, photo)
+    </td>
+  </tr>
+</table><p>
+
+<h3><a name="pgfId=1000284"></a>Examples of questions to be addressed by NASQAN</h3>
+<p><a name="pgfId=1000288"></a>Specific questions that can be answered by NASQAN data in the Mississippi River Basin include the following:</p>
+<ul>
+  <li><a name="pgfId=1002870"></a>What is the annual transport of nitrogen and phosphorus from the Mississippi River Basin to the Gulf of Mexico? Which are the predominant subbasins that produce these nutrients and what is the relation
+  between the yields of these nutrients and human influences such as type and intensity of agriculture and urbanization?
+  <li><a name="pgfId=1002871"></a>What currently-used herbicides and insecticides are present in runoff from the major subbasins within the Mississippi River system? What are the concentrations
+  of these chemicals and how are the concentrations and fluxes distributed in time and among subbasins?
+  <li><a name="pgfId=1000776"></a>How do long-term increases in population, large-scale changes in land use and agricultural practices, and changes in the use of agricultural
+  chemicals affect the concentrations and flux of nitrate and pesticides within the Mississippi River Basin and to the Gulf of Mexico?
+  <li><a name="pgfId=1000777"></a>What are the dominant forms (organic or inorganic) and dominant chemical species in which carbon, nitrogen, and phosphorus are transported
+  in the Mississippi River Basin? What is the predominant phase (dissolved or particulate) in which each of these elements is transported at key locations within the basin and into the Gulf
+  of Mexico? Are significant in-stream transformations occurring among the forms of carbon and nitrogen as these elements are transported through the Mississippi River Basin to the Gulf of
+  Mexico?
+  <li><a name="pgfId=1002878"></a>How do long-term climatic cycles such as long dry periods (droughts) or long wet periods affect the annual flux of nutrients (carbon, nitrogen,
+  phosphorus, silica) and other solutes?
+  <li><a name="pgfId=1002879"></a>What is the yield of dissolved and suspended trace elements from major subbasins within the Mississippi River Basin? How do ratios of the fluxes
+  of dissolved to suspended trace elements vary among subbasins, and do the flux ratios or trace element concentrations indicate enrichment attributable to human activities? Which major subbasins
+  most indicate trace-element enrichment, which trace elements are enriched, and what are potential sources or causes of the enrichment?
+  <li><a name="pgfId=1000780"></a>What are the annual fluxes of dissolved material and suspended sediment from major subbasins within the Mississippi River Basin and what
+  are the annual fluxes of these materials to the Gulf of Mexico? What fraction of the total mass of material transported from the major subbasins is in the dissolved phase? How much is in
+  the suspended phase?
+</ul>
+
+<h3 align="center"><img src="{% static 'nar_ui/images/pic7.jpeg' %}" alt="The Missouri River near Culbertson, Montana" width="539" height="253" align="bottom" border="0" ></h3>
+<p align="center">The Missouri River near Culbertson, Montana. (R.H. Coupe, photo)</p>
+
+<h3><a name="pgfId=1000292"></a>Preliminary Results</h3>
+
+<p><a name="pgfId=1000796"></a>Fluxes of total nitrogen and total phosphorus for 1995 and 1996 from the Mississippi River Basin into the Gulf of Mexico show a distinct seasonality (fig.
+3), corresponding with spring rains in the basin and the annual application of fertilizers to agricultural lands. The fluxes of
+total nitrogen and total phosphorus are similar in distribution, although the total nitrogen peaks are sharper, and are controlled
+by flow. Disproportionately large quantities of total nitrogen and total phosphorus discharging into the Gulf of Mexico originate
+in the Upper Mississippi and the Ohio River Basins. The two subbasins contribute approximately 75 percent of the annual total nitrogen
+flux and 61 percent of the annual total phosphorus flux to the Gulf of Mexico (fig. 4). Yet these two basins together only represent
+32 percent of the drainage area in the Mississippi River Basin and 52 percent of the annual flow of the Mississippi River into
+the Gulf of Mexico. Further subdivision would be possible using data from all 18 NASQAN stations and would further identify source areas for these constituents.</p>
+
+<p><img src="{% static 'nar_ui/images/fig03.gif' %}" alt="Figure 3. Total nitrogen (A), total phosphorus
+(B), and flow (C), discharged to the Gulf of Mexico from the Mississippi
+and Atchafalaya Rivers in 1995 and 1996." width="531" height="617" align="bottom" border="0" ></p>
+
+<p><b>Figure 3. </b>Total nitrogen (A), total phosphorus
+(B), and flow (C), discharged to the Gulf of Mexico from the Mississippi
+and Atchafalaya Rivers in 1995 and 1996.</p>
+
+<p align="center"><img src="{% static 'nar_ui/images/fig04.gif' %}" alt="Figure 4.</b> Percent flux of total nitrogen and total phosphorus into the Gulf of Mexico from the Mississippi
+and Atchafalaya Rivers by subbasin, 1995-96" width="356" height="337" align="bottom" border="0" ></p>
+<p><b>Figure 4.</b> Percent flux of total nitrogen
+and total phosphorus into the Gulf of Mexico from the Mississippi
+and Atchafalaya Rivers by subbasin, 1995-96</p>
+
+<h3><a name="pgfId=1000889"></a>National NASQAN Program</h3>
+
+<p><a name="pgfId=1000884"></a>The Mississippi River Basin NASQAN Program is part of a national program that was redesigned in 1995 to focus on monitoring water quality in four of the Nation's
+largest rivers-the Mississippi (including the Missouri and Ohio), the Colorado, the Columbia, and the Rio Grande. In these four basins, the USGS currently operates a network of 40 NASQAN stations,
+and applies a consistent flux-based approach to characterize the transport of selected chemicals through the river systems.</p>
+
+<h3><a name="pgfId=1002892"></a>Products of the NASQAN Program</h3>
+
+<p><a name="pgfId=1002893"></a>Data from the NASQAN Program are published annually in USGS data reports issued by each State in the network. Additionally, NASQAN data are being
+released electronically on the World Wide Web (<a href="http://water.usgs.gov/nasqan">http://water.usgs.gov/nasqan</a>),
+and flux estimates for selected constituents at NASQAN stations
+will be published periodically.</p>
+		<h2>References Cited</h2>
+		<p>Battaglin, W.A., and Goolsby, D.A., 1995, Spatial data in geographic information system format on agricultural chemical use, land use, and cropping practices in the United States: U.S. Geological Survey Open-File Report 94-4176, 87 p.</p>
+		<p>Goolsby, D.A., Battaglin, W.A., and Hooper, R.P., 1997, Sources and transport of nitrogen in the Mississippi River Basin: online at: <a href="http://co.water.usgs.gov/midconherb/html/st.louis.hypoxia.html">http://co.water.usgs.gov/midconherb/html/st.louis.hypoxia.html</a>. </p>
+		<p>Hirsch, R.M., Alley, W.M., and Wilber, W.G., 1988, Concepts for a national water-quality assessment program: U.S. Geological Survey Circular 1021, 42 p.</p>
+		<p>Hooper, R.P., Goolsby, D.A., Rickert, D.A., and McKenzie, S.W., 1997, NASQAN-A program to monitor the water quality of the Nation's large Rivers: <a href="../natfact/natfactsheet.html">U.S. Geological Survey Factsheet FS-055-97</a>, 6 p.</p>
+		<p>Meade, R.H., 1995, Contaminants in the Mississippi River: U.S. Geological Survey Circular 1133, 140 p.</p>
+		<p><br>
+			<i>For further information, contact</i>:<br>
+			Chief, Office of Water Quality<br>
+			U.S. Geological Survey<br>
+			National Center, Mail Stop 412<br>
+			12201 Sunrise Valley Drive<br>
+			Reston, VA 20192
+			</p>
+<p><i>by Richard H. Coupe Jr., and Donald A. Goolsby. Layout by Mark V. Bonito</i></p>
+   </blockquote>		   
+   
+   			</div>
+		
+		</div>
+	
+	
+	</div>
+
+{% endblock %}
