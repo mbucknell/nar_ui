@@ -98,15 +98,26 @@ nar.timeSeries.VisualizationRegistry = function(){
         //one of (discrete, annual, monthly, daily). The second token is category, one of (flow, concentration).
         //The third token, if present, is a subcategory, one of (mass_L95/*, mass_U95/*, flow_weighted/*, mean/*)
         //where '*' denotes any modtype.
-        var targetDelim = '/';
-        var properlyDelimetedProcedure = strippedProcedure.replace('_', targetDelim).replace('_', targetDelim);
-        var splitProcedure = properlyDelimetedProcedure.split(targetDelim);
-        //if procedure has a modtype, remove it -- there is no modtype awareness in TsvIds
-        if(!(strippedProcedure.endsWith('flow') || strippedProcedure.endsWith('discrete_concentration'))){
-        	//then the procedure ends with a modtype, so remove the modtype
-        	properlyDelimetedProcedure = splitProcedure.to(splitProcedure.length -1).join(targetDelim);
-        }
-        return properlyDelimetedProcedure;
+    	
+    	var sourceModtypeDelim = '/';
+    	var procedureNameAndModtype = strippedProcedure.split(sourceModtypeDelim);
+    	var procedureName = procedureNameAndModtype[0];
+    	var modType = procedureNameAndModtype[1];
+    	
+    	//separates timestep density, category and optional subcategory
+    	var procedureNameDelim = '_';
+    	var splitProcedureName = procedureName.split(procedureNameDelim);
+
+		//delimeter for the token this function produces
+		var targetDelim = '/';
+
+    	if(2 === splitProcedureName.length){
+    		return splitProcedureName.join(targetDelim);
+    	}
+    	else{
+    		return procedureName.replace('_', targetDelim).replace('_', targetDelim);
+    	}
+    	
     };
     /**
      * the Visualization id is a string representative of the visualized time series. 
