@@ -25,13 +25,18 @@ nar.timeSeries.TimeSeries = function(config){
     
     self.parseSosGetResultResponse = function(response){
         var errorMessage ='error retrieving data';
-        var dataToReturn = null;
+        var dataToReturn = [];
         if(response.exception){
             console.dir(response.exception);
             alert(errorMessage);
         }
         else{
-            if(response.resultValues){
+        	var type = typeof response.resultValues; 
+            if(type === 'undefined'){
+                console.dir(response);
+                alert(errorMessage);
+            }
+            else if(type === 'string' && response.resultValues.length){
                 var rows = response.resultValues.split('@');
                 //the first row is just the record count. Throw it away.
                 rows = rows.from(1);
@@ -44,10 +49,6 @@ nar.timeSeries.TimeSeries = function(config){
                     tokens[dateIndex] = timeStamp;
                     return tokens;
                 });
-            }
-            else{
-                console.dir(response);
-                alert(errorMessage);
             }
         }
         return dataToReturn;
