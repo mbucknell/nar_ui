@@ -85,11 +85,49 @@ nar.timeSeries.VisualizationRegistry = function(){
     self.stripUrlPrefix = function(url, urlPrefix){
         return url.replace(urlPrefix, '');
     };
+    
     /**
-     * Some Visualizations have just one TimeSeries. In this case, the Visualization id is the observedProperty of the TimeSeries 
-     * minus self.urlPrefix.
-     * Other TVisualizations have multiple TimeSeries. In that case, the Visualization id is be a string representative of 
-     * the visualized time series. 
+     * Parses the tail end of an sos procedure url into a fragment of a TSV id
+     * @param {String} strippedProcedure - the end of a url. Can be acquired by passing a full sos 
+     * procedure url through TimeSeriesVisualizationRegistry#stripUrlPrefix()
+     */
+    self.strippedProcedureToTsvIdFragment = function(strippedProcedure){
+        
+        /**
+         * The stripped sos procedure name will contain one or more underscore-delimited tokens. If the 
+         * stripped sos procedure name has a modtype, the underscore-delimited tokens will be followed by a '/',
+         * followed by a modtype. The modtype may contain any characters, including underscores. Underscores in
+         * the modtype are not delimiters.
+    	 *
+         * for the underscore-delimited tokens: 
+         * > The first token is timestep density, one of (discrete, annual, monthly, daily).
+    	 * > The second token is category, one of (flow, concentration).
+    	 * > The third token, if present, is a subcategory. Subcategories can contain any characters, including
+    	 * underscores. Underscores in a subcategory are not delimiters.
+    	 */
+    	
+    	var sourceModtypeDelim = '/';
+    	var procedureNameAndModtype = strippedProcedure.split(sourceModtypeDelim);
+    	var procedureName = procedureNameAndModtype[0];
+    	var modType = procedureNameAndModtype[1];
+    	
+    	//separates timestep density, category and optional subcategory
+    	var procedureNameDelim = '_';
+    	var splitProcedureName = procedureName.split(procedureNameDelim);
+
+		//delimeter for the token this function produces
+		var targetDelim = '/';
+
+    	if(2 === splitProcedureName.length){
+    		return splitProcedureName.join(targetDelim);
+    	}
+    	else{
+    		return procedureName.replace('_', targetDelim).replace('_', targetDelim);
+    	}
+    	
+    };
+    /**
+     * the Visualization id is a string representative of the visualized time series. 
      * @param {string} observedProperty - the full uri for the SOS observedProperty
      * @param {string} procedure - the full uri for the SOS procedure
      * @returns {string} visualization id
@@ -99,24 +137,11 @@ nar.timeSeries.VisualizationRegistry = function(){
         var strippedObservedProperty = self.stripUrlPrefix(observedProperty, self.urlPrefix + 'property/');
         //@todo check striped property id to see if it corresponds to a category
         //where multiple time series correspond to a single visualization
-               
+        var strippedProcedure = self.stripUrlPrefix(procedure, self.urlPrefix + 'procedure/');
         //@todo failing id lookup by category, also check strippedObservedPropertyToVizIdMap to see if  
         //it maps to an id
         
-        var strippedProcedure = self.stripUrlPrefix(procedure, self.urlPrefix + 'procedure/');
-        
-        //The sos procedure names are set up to contain underscore-delimeted tokens. The first token is timestep density,
-        //one of (discrete, annual, monthly, daily). The second token is category, one of (flow, concentration).
-        //The third token, if present, is a subcategory, one of (mass_L95/*, mass_U95/*, flow_weighted/*, mean/*)
-        //where '*' denotes any modtype.
-        var targetDelim = '/';
-        var properlyDelimetedProcedure = strippedProcedure.replace('_', targetDelim).replace('_', targetDelim);
-        var splitProcedure = properlyDelimetedProcedure.split(targetDelim);
-        //if procedure has a modtype, remove it -- there is no modtype awareness in TsvIds
-        if(!(strippedProcedure.endsWith('flow') || strippedProcedure.endsWith('discrete_concentration'))){
-        	//then the procedure ends with a modtype, so remove the modtype
-        	properlyDelimetedProcedure = splitProcedure.to(splitProcedure.length -1).join(targetDelim);
-        }
+        var properlyDelimetedProcedure = self.strippedProcedureToTsvIdFragment(strippedProcedure);
         var timeSeriesVisualizationId = strippedObservedProperty + '/' + properlyDelimetedProcedure; 
         return timeSeriesVisualizationId;
     };

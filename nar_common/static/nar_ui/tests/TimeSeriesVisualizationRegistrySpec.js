@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	describe('nar.timeSeries.VisualizationRegistry', function(){
 		CONFIG = {
-				sosDefsBaseUrl : 'http:/test/nar/'
+				sosDefsBaseUrl : 'http://test/nar/'
 		};
 		var tsvRegistry,
 		tsv,
@@ -52,6 +52,27 @@ $(document).ready(function(){
 				var urlSuffix = 'a';
 				var mockUrl = self.urlPrefix + urlSuffix;
 				expect(tsvRegistry.stripUrlPrefix(mockUrl)).toBe(urlSuffix);
+			});
+			it('correctly parses the tail end of an sos procedure url into a TSV ID fragment', function(){
+				
+				var inputToExpectedOutput = {
+						//category, no subcategory, modtype with underscore:
+						'annual_mass/REG_4' : 'annual/mass',
+						//category, no subcategory, modtype without underscore
+						'annual_mass/DAILY' : 'annual/mass',
+						//category, no subcategory, no modtypes:
+						'daily_flow' : 'daily/flow',
+						'discrete_concentration' : 'discrete/concentration',
+						'monthly_flow' : 'monthly/flow',
+						//category, subcategory, modtype without underscore:
+						'annual_concentration_flow_weighted/COMP' : 'annual/concentration/flow_weighted',
+						//category, subcategory, modtype with underscore:
+						'annual_concentration_flow_weighted/REG_4' : 'annual/concentration/flow_weighted'
+				};
+				Object.keys(inputToExpectedOutput, function(input, expectedOutput){
+					var output = tsvRegistry.strippedProcedureToTsvIdFragment(input); 
+					expect(output).toBe(expectedOutput);
+				});
 			});
 	});
 });
