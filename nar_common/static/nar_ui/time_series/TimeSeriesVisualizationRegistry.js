@@ -93,11 +93,18 @@ nar.timeSeries.VisualizationRegistry = function(){
      */
     self.strippedProcedureToTsvIdFragment = function(strippedProcedure){
         
-        
-        //The sos procedure names are set up to contain underscore-delimeted tokens. The first token is timestep density,
-        //one of (discrete, annual, monthly, daily). The second token is category, one of (flow, concentration).
-        //The third token, if present, is a subcategory, one of (mass_L95/*, mass_U95/*, flow_weighted/*, mean/*)
-        //where '*' denotes any modtype.
+        /**
+         * The stripped sos procedure name will contain one or more underscore-delimited tokens. If the 
+         * stripped sos procedure name has a modtype, the underscore-delimited tokens will be followed by a '/',
+         * followed by a modtype. The modtype may contain any characters, including underscores. Underscores in
+         * the modtype are not delimiters.
+    	 *
+         * for the underscore-delimited tokens: 
+         * > The first token is timestep density, one of (discrete, annual, monthly, daily).
+    	 * > The second token is category, one of (flow, concentration).
+    	 * > The third token, if present, is a subcategory. Subcategories can contain any characters, including
+    	 * underscores. Underscores in a subcategory are not delimiters.
+    	 */
     	
     	var sourceModtypeDelim = '/';
     	var procedureNameAndModtype = strippedProcedure.split(sourceModtypeDelim);
