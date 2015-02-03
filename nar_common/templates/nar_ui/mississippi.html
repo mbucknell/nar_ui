@@ -11,25 +11,9 @@
 <div class=" row mississippi_holder">
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mississippi_title">
 	
-		<h3>Nutrient Loads in the Mississippi-Atchafalaya River Basin</h3>
+		<h3>Mississippi River Basin Summary - Relative Nutrient Loading from Tributaries</h3>
 		
-		<h6>The width of each river shows its relative contribution to nutrient loading 
-		
-		<a href="#" id="link-chart-contribution">( Show percent contributions 
-		
-		<i class="icon-large">
-		
-		<img src="{% static 'nar_ui/images/pie-chart-icon.png' %}" alt="piechart"/>
-		
-		</i> )
-		
-		</a>
-		
-		</h6>
-
 		<a href="{% url 'help' %}"><button id="help">Help?</button></a>
-		
-		<a href="{% url 'download' %}"><button id="download">Download Data</button></a>
 		
 		<button id="toggle" >Toggle Sites <i class="glyphicon glyphicon-play"></i></button>
 
@@ -42,10 +26,8 @@
 			<select name="load">
 			
 				<option value="">--Select Load Type--</option>
-				<option data-year="range" value="long_term_wy">Long-term Annual Load</option>
-				<option data-year="range" value="long_term_may">Long-term May Load</option>
-				<option data-year="discrete" value="wy">Annual Load</option>
-				<option data-year="discrete" value="may">May Load</option>							
+				<option value="wy">Annual Load</option>
+				<option value="may">May Load</option>							
 			</select>
 			
 			<select name="chemical">
@@ -74,10 +56,8 @@
 			<select name="load">
 			
 				<option value="">--Select Load Type--</option>
-				<option data-year="range" value="long_term_wy">Long-term Annual Load</option>
-				<option data-year="range" value="long_term_may">Long-term May Load</option>
-				<option data-year="discrete" value="wy">Annual Load</option>
-				<option data-year="discrete" value="may">May Load</option>	
+				<option value="wy">Annual Load</option>
+				<option value="may">May Load</option>	
 				
 			</select>
 			
@@ -116,10 +96,26 @@
 		
 		
 		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="right-map"></div>
-		
-		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="left-pie-chart-container"></div>
-		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="right-pie-chart-container"></div>
-		
+		<div class="col-sm-12" id="auxillary-info">
+		  <div class="col-xs-5" id="left-pie-chart-container" style="color"></div>
+		  <div class="col-xs-2">
+			  <div id="map-legend-container">
+			     <div id="map-legend-label">
+			      <span>Nutrient Loading&nbsp;</span>
+			      <a href="#" data-toggle="popover" 
+			       data-content="The width of each river in the maps above shows its relative amount of constituent load delivered from that river to the Gulf of Mexico. The pie charts illustrate nutrient contributions for the major sub-basins within the Mississippi/Atchafalaya River Basin.">?</a>
+                 </div>
+			      <img data-rule="na" />
+		          <br />
+		          <img data-rule="minimum" />
+		          <br />
+			      <img data-rule="middle" />
+		          <br />
+		          <img data-rule="maximum" />
+		    </div>
+		</div>
+		<div class="col-xs-5" id="right-pie-chart-container"></div>
+		</div>
 	
 	</div><!--mississippi_maps-->
 	
@@ -166,7 +162,7 @@
 <script type="text/javascript" src="{% static 'nar_ui/mississippi/GraphPopup.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/mississippi/map.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/mississippi/main.js' %}"></script>
-<script type="text/javascript" src="{% static 'nar_ui/mississippi/loadSelect.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/mississippi/LoadLayer.js' %}"></script>
 
 <script type="text/javascript">
 	nar.loadDefinitions(CONFIG.definitionsUrl);

@@ -1,0 +1,280 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+{% load compress %}
+
+
+
+{% block content %}
+
+	<div class="about_content">
+	
+		<div id="wrapper">
+		
+		<h1>Monitoring the Water Quality of the Nation's Large Rivers</h1>
+		
+		<div class="feed-div">
+			
+   <blockquote>
+   <h2>Colorado River NASQAN Program</h2>
+	<p>Since 1995, the National Stream Quality Accounting Network (NASQAN) of the U.S. Geological Survey (USGS) has focused on monitoring the
+water quality of the Nation's largest rivers including the Colorado, Columbia, Mississippi, and Rio Grande. The NASQAN program in the Colorado River
+Basin consists of eight stations that span seven basin States including Colorado, Wyoming, Utah, New Mexico, Arizona, Nevada, and California. Data
+collected from these stations are used to quantify the transport of chemical constituents and evaluate trends in water quality of the river. Currently,
+the NASQAN program in the Colorado River Basin is providing necessary data and information required by the resource manager of the river who are responsible
+for meeting long-standing legal agreements that regulate the flow and quality of the river water.</p>
+      <h3><a name="pgfId=1002794"></a>Environmental Setting</h3>
+<p><a name="pgfId=1002795"></a>The Colorado River often is described as the most controversial and regulated river in the United States. The river
+currently provides 25 million people with drinking water and also provides enough water to keep 3.5 million acres of farmland in production. Other
+uses include industrial, recreational, and electric power generation. The river is highly regulated with 83 reservoirs in the upper basin and 10
+reservoirs in the lower basin that are capable of storing 4 years of flow. Twelve legal agreements, compacts, contracts, and State and Federal legislation
+apportion and regulate the use, management, and quality of water among the seven States in the basin and Mexico (Newcom, 1998).</p>
+<p align="center"><img alt="Figure 1. Location of Colorado River Basin, subbasins, NASQAN sites, and diversion points.  
+NASQAN sites are at or near streamflow-gaging stations shown" style="border:1px solid;" src="{% static 'nar_ui/images/fig1.gif' %}" width="547" height="452"></p>
+<p> The Colorado River drains about 250,000 square miles (fig. 1). Annual flows in the river fluctuated greatly before the big dams were
+built on the river because of winter snowmelt and summer thunderstorms. Water, sediment and chemical transport from the upper basin are greatest in
+June. Daily fluctuations in the lower basin are caused by irrigation and water-supply diversions, power generation, losses to evaporation and
+transpiration from riparian vegetation, and irrigation return flows (fig. 2).</p>
+<p align="center"><img style="border:1px solid;" alt="Figure 2. Daily mean discharge at Colorado River above Imperial Dam, Arizona-California, 
+1995-1998 water years" src="{% static 'nar_ui/images/cofig2.gif' %}" width="361" height="283"></p>
+<p></p>
+<h3>Water Quality Issues</h3>
+<p>Salinity of the Colorado River probably is the biggest water-quality issue in the basin. The major sources of salinity are the saline soils of the Colorado Plateau and agricultural irrigation-return
+flows. Salinity concentrations in the headwaters of the basin generally are less than 50 milligrams per liter but increase in concentration to about 900 milligrams per liter at the international boundary between the United States and
+Mexico. Urbanization, population growth, mining, agricultural practices, and recreation affect the salinity concentrations in the Colorado River.</p>
+
+<p align="center"><img style="border:1px solid;" alt="Figure 3. Daily Mean discharge at Colorado River at Lees Ferry, Arizona, 1942 and 1996 water years" 
+src="{% static 'nar_ui/images/cofig3.gif' %}" width="347" height="237"></p>
+<p>River modifications, such as dams and irrigation diversions, probably are the most significant factors that affect the quality of the Colorado River system. Reservoirs potentially harbor many chemicals in
+their sediments and water can retain chemical constituents for years (retention time). Dams have reduced sediment transport from the system, have contributed to the decline or loss of native fish species, and affected physical
+properties such as flow (fig. 3) and water temperature (fig. 4). Alteration to the natural system generally has been unfavorable to native fish such as the humpback chub. Cold, clear waters below the reservoirs
+generally provide good habitat for nonnative fish such as the rainbow trout.</p>
+
+<p align="center"><img style="border:1px solid;" alt="Figure 4. Daily instantaneous water temperature at Colorado River at Lees Ferry, Arizona, 1950-1975" 
+src="{% static 'nar_ui/images/cofig4.gif' %}" width="344" height="226"></p>
+
+<h3><a name="pgfId=1000245"></a>Site Selection</h3>
+<p> Eight streamflow-gaging and water-quality stations in the NASQAN program provide flow and water-quality data for the Colorado River Basin. These sites were selected to provide information on the transport
+of chemical constituents and sediment through the river system. Sites upstream and downstream from Lakes Powell and Mead are used to measure inflows to and outflows from these major reservoirs. Subwatershed characteristics
+also were important site-selection factors. A description of each site follows in downstream order (fig. 1 and Table 1).</p>
+
+<p> Colorado River near Cisco, Utah, provides data on inflows to Lake Powell.</p>
+<p> Green River at Green River, Utah, is a major tributary to the Colorado River and provides data on inflows to the Colorado River upstream from Lake Powell.</p>
+<p> San Juan River near Bluff, Utah, is a major tributary to the Colorado River and also provides data on inflows to Lake Powell. This site and the sites at Cisco and Green River can have sediment-laden flows
+because of storm runoff.</p>
+<p> Colorado River at Lees Ferry, Arizona, represents outflow from Lake Powell and is used to determine flows for the Colorado River Compact Point of 1922, which defines the dividing point between the upper and lower
+basins. The flow at this site is clear and cold.</p>
+<p> Colorado River above Diamond Creek, Arizona, measures inflow to Lake Mead and also provides information on the 250-mile reach of the river between Lake Powell and Lake Mead. Unlike Lees Ferry, the flow at
+this site can be sediment-laden because of storm runoff.</p>
+
+<p> Colorado River below Hoover Dam, Nevada, represents outflow from Lake Mead. The flow is cold and clear at this site.</p>
+<p> Colorado River above Imperial Dam, Arizona, is upstream from the diversion to the All-American Canal and diversions for other water needs. Flow in the Colorado River below his site and into Mexico is
+greatly reduced because of these diversions.</p>
+<p> Colorado River at the northerly international boundary represents outflow to Mexico. At this point, the United States is required under treaties with Mexico to deliver 1.5 million acre-feet of water to Mexico
+during a typical water year (October 1 to September 30). The quality of water delivered to Mexico also is monitored at this site (U.S. Environmental Protection Agency, 1999).</p>
+
+
+<p><b>Table 1</b>. <i>Description of NASQAN sampling stations in the Colorado River Basin</i></p>
+<table border="1" cellpadding="2" cellspacing="0" width="100%" class="cotable-1">
+  <tr>
+    <th>Station Number</tH>
+    <th>Station Name and Location</th>
+    <th>Period of Record<sup>1</sup></th>
+    <th>Square Miles</th>
+    <th>Percentage of Total Drainage Area</th>
+    <th>Incremental Decrease in Drainage Area (sq. miles)</th>
+    <th>Mean Stream Flow (ft<sup>3</sup>/sec)</th>
+  </tr>
+  <tr>
+    <td width="11%">09180500</td>
+
+    <td width="36%">Colorado River near Cisco, Utah</td>
+    <td width="14%">1922-present</td>
+    <td width="10%" align="right">24,100</td>
+    <td width="12%" align="right">10</td>
+    <td width="13%" align="right">0</td>
+    <td width="8%" align="right">19,200</td>
+  </tr>
+  <tr>
+    <td width="11%">09315000</td>
+    <td width="36%">Green River at Green River, Utah</td>
+    <td width="14%">1905-present</td>
+    <td width="10%" align="right">40,590</td>
+    <td width="12%" align="right">17</td>
+
+    <td width="13%" align="right">0</td>
+    <td width="8%" align="right">15,400</td>
+  </tr>
+  <tr>
+    <td width="11%">09379500</td>
+    <td width="36%">San Juan River near Bluff, Utah</td>
+    <td width="14%">1928-present</td>
+
+    <td width="10%" align="right">23,000</td>
+    <td width="12%" align="right">10</td>
+    <td width="13%" align="right">0</td>
+    <td width="8%" align="right">5,280</td>
+  </tr>
+  <tr>
+    <td width="11%">09380000</td>
+
+    <td width="36%">Colorado River at Lees Ferry, AZ</td>
+    <td width="14%">1895-present</td>
+    <td width="10%" align="right">107,800</td>
+    <td width="12%" align="right">45</td>
+    <td width="13%" align="right">83,700</td>
+    <td width="8%" align="right">30,900</td>
+
+  </tr>
+  <tr>
+    <td width="11%">09404200</td>
+    <td width="36%">Colorado River above Diamond Creek, Arizona</td>
+    <td width="14%">1989-present</td>
+    <td width="10%" align="right">144,600</td>
+    <td width="12%" align="right">60</td>
+
+    <td width="13%" align="right">36,860</td>
+    <td width="8%" align="right">19,500</td>
+  </tr>
+  <tr>
+    <td width="11%">09421500</td>
+    <td width="36%">Colorado River below Hoover Dam, Nevada-Arizona</td>
+    <td width="14%">1934-present</td>
+
+    <td width="10%" align="right">167,700</td>
+    <td width="12%" align="right">69</td>
+    <td width="13%" align="right">22,400</td>
+    <td width="8%" align="right">13,900</td>
+  </tr>
+  <tr>
+    <td width="11%">09429490</td>
+
+    <td width="36%">Colorado River above Imperial Dam, Arizona-California</td>
+    <td width="14%">1934-present</td>
+    <td width="10%" align="right">184,500</td>
+    <td width="12%" align="right">76</td>
+    <td width="13%" align="right">16,800</td>
+    <td width="8%" align="right">11,100</td>
+
+  </tr>
+  <tr>
+    <td width="11%">09522000</td>
+    <td width="36%">Colorado River at Northerly International Boundary</td>
+    <td width="14%">1950-present</td>
+    <td width="10%" align="right">242,700</td>
+    <td width="12%" align="right">100</td>
+
+    <td width="13%" align="right">58,200</td>
+    <td width="8%" align="right">5,040</td>
+  </tr>
+</table><p>
+<p style="font-size:.85em;"><sup>1</sup> Some miscellaneous records exist for most
+stations before the period of record.</p>
+<h3><a name="pgfId=1000257"></a>Sampling Strategy</h3>
+
+<p><a name="pgfId=1000268"></a>A broad range of chemical constituents is measured at the eight stations in the network. These constituents include water-soluble
+pesticides, suspended and dissolved trace elements, major ions, nutrients, carbon, trihalomethanes, and suspended sediment (table 2). Samples are
+collected 6 to 10 times per year, depending on the local site characteristics. At the upper-basin sites, samples are collected on the basis of reservoir releases to cover a broad range of river discharge.</p>
+
+<p><b>Table 2.</b> Physical and chemical measurements made at NASQAN stations in the Colorado River Basin</p>
+<table class="cotable-1" border="1" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <th>Measurement Class</th>
+    <th>Examples</th>
+  </tr>
+  <tr>
+    <td width="38%">Pesticides</td>
+    <td width="62%">Water-soluble pesticides such as atrazine</td>
+  </tr>
+  <tr>
+    <td width="38%">Suspended and dissolved trace elements</td>
+    <td width="62%">Including but not limited to lead, uranium, cadmium, and selenium</td>
+  </tr>
+
+  <tr>
+    <td width="38%">Major ions</td>
+    <td width="62%">Calcium, sulfate, and chloride</td>
+  </tr>
+  <tr>
+    <td width="38%">Nutrients</td>
+    <td width="62%">Total and dissolved nitrogen and phosphorus</td>
+
+  </tr>
+  <tr>
+    <td width="38%">Carbon</td>
+    <td width="62%">Dissolved and suspended organic carbon, dissolved inorganic carbon by incremental alkalinity titration</td>
+  </tr>
+  <tr>
+    <td width="38%">Trihalomethanes</td>
+
+    <td width="62%">Byproducts of disinfection of drinking water</td>
+  </tr>
+  <tr>
+    <td width="38%">Suspended sediment</td>
+    <td width="62%">Concentration of fine sediment particles</td>
+  </tr>
+  <tr>
+
+    <td width="38%">Support variables</td>
+    <td width="62%">Water temperature, specific conductance, pH, dissolved oxygen, and alkalinity</td>
+  </tr>
+</table><p>
+
+<h3>Questions To Be Answered</h3>
+<p> Specific local questions that can be answered using NASQAN data include:</p>
+<p> 1. What are the effects of Lakes Powell and Mead on the sediment and chemical concentrations and fluxes downstream from these lakes? Chemical-flux calculations made at NASQAN sites above and
+below Lakes Powell and Mead provide this information on an annual and possibly seasonal basis.</p>
+
+<p> 2. What are the contributions of subbasins to the sediment and chemical concentrations and fluxes to Lakes Powell and Mead? Trend analysis of specific constituents yield information on storm-runoff
+characteristics of each subbasin and human and natural activities characteristics of each subbasin.</p>
+<p> 3. What water-quality criteria for public supply and aquatic life are exceeded and if so, where? The network and frequency of sampling provides information to resource managers and regulatory agencies on
+this important question.</p>
+<h3>National NASQAN Program</h3>
+<p> The NASQAN program in the Colorado River Basin is part of a national program that was redesigned in 1995 to focus on monitoring water quality in four of the Nation's largest rivers - the Columbia, Colorado,
+Mississippi, Rio Grande. About 40 streamflow-gaging stations in the program are used to determine the transport of selected chemical constituents and sediment through the river systems. NASQAN, together with the National
+Water-Quality Assessment (NAWQA) program, provide water-quality information on both large and small rivers. NAWQA is focused on the smaller basins with an emphasis on the effects of land use on water quality. The programs use comparable data; therefore, regional hydrologic models can be developed from the
+information collected.</p>
+
+<h3>Products and the Evolution of the NASQAN Program</h3>
+<p> Each year, data collected and analyzed for the NASQAN program are published in State basic-data reports published by the USGS. Recently, NASQAN data have been made available through the World Wide Web at URL
+<a href="http://water.usgs.gov/nasqan">http://water.usgs.gov/nasqan</a>. Future products for the Colorado River Basin may include annual fact sheets that will describe specific water-quality issues and related data analysis.</p>
+<p> As of 1999, data are being analyzed for the Colorado River that may result in modification of the existing program to better meet the information needs of the basin. Chemical-flux calculations are being made
+at each site along with interpretations of reservoir effects on mass transfer of chemicals within the river system. Results for each constituent are being evaluated to determine the importance of the constituents in the program, and
+new constituents and site-specific studies may be added.</p>
+
+<h2>References Cited</h2>
+<p>Newcom, Josh, 1998, Layperson's guide to the Colorado River: Sacramento, California, Water Education Foundation, 28 p.</p>
+
+<p>U.S. Environmental Protection Agency, 1999, Office of Water, Current drinking water standards, accessed July 21, 1999, at URL <a href="http://www.epa.gov/ogwdw/wot/appa.html">http://www.epa.gov/ogwdw/wot/appa.html</a>.</p>
+
+<p></p>
+<p></p>
+
+<p><i>-By Robert J. Hart and Richard P. Hooper</i></p>
+
+<p><i>For additional copies of this report, or for more information about the Colorado NASQAN program, please contact-</i></p>
+
+<p align="center">NASQAN Colorado River Basin Coordinator<br>
+2255 N. Gemini Drive<br>
+Flagstaff, Arizona 86001<br>
+(520) 556-7136</p>
+
+<p align="center">E-mail: <a href="mailto:bhart@usgs.gov"> bhart@usgs.gov</a></p>
+
+<p align="center"><HR>
+
+<p align="center">Fact Sheet FS-014-00<HR>
+
+<p class="Address"><I>Last modified June 20, 2000. Page maintained by <a href="mailto:rphooper@usgs.gov">rphooper</a></I>
+
+<p align="center">
+
+   </blockquote>
+   
+   		</div>
+		
+	</div>
+	
+	
+	</div>
+
+{% endblock %}

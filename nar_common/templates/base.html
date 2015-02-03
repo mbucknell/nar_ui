@@ -32,7 +32,8 @@
 <link href="{% static 'nar_ui/ie_fix.css' %} rel="stylesheet" type="text/css">
 		<div id="block">
 <h1>We apologize, but this site does not support Internet Explorer versions lower than 9.0</h1>
-<p>If using IE 10 or 11 please make sure Compatibility View is turned off.</p>
+<p>If using IE 10 or 11 please make sure Compatibility View is turned off by clicking on ‘Tools’ 
+from the top menu bar, selecting ‘Compatibility view settings’, uncheck boxes, and click ‘Close’.</p>
 <p>Other supported browsers are Firefox, Chrome, and Safari.</p>
 </div>
 	<![endif]-->
@@ -87,6 +88,18 @@
 	
 	
 		</script>
+		
+		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()
+			{ (i[r].q=i[r].q||[]).push(arguments)}
+			,i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+			ga('create', 'UA-58841817-1', 'auto');
+			ga('set', 'anonymizeIp', true);
+			ga('send', 'pageview');
+		</script>
+		<script type="application/javascript" src="http://www.usgs.gov/scripts/analytics/usgs-analytics.js"></script>
 		
 
 
@@ -152,16 +165,16 @@
         	<li class="small">Data
             
             	 <div class="menu-item">
-      <h4><a href="{% url 'site' %}">Streams and Rivers Across the United States</a></h4>
+      <h4><a href="{% url 'site' %}">Streams and Rivers Across the United States - Water Quality Summaries</a></h4>
       
     </div>                      
                      <div class="menu-item">
-      <h4><a href="{% url 'mississippi' %}">Mississippi River Basin</a></h4>
+      <h4><a href="{% url 'mississippi' %}">Mississippi River Basin Summary - Relative Nutrient Loading from Tributaries</a></h4>
       
     </div>
     
     <div class="menu-item">
-      <h4><a href="{% url 'coastal' %}">Nitrate in Coastal Rivers</a></h4>
+      <h4><a href="{% url 'coastal' %}">Coastal Rivers - Nitrate Loads and Yields</a></h4>
      
     </div>
     
@@ -181,11 +194,7 @@
       <div class="menu-item">
       <h4><a href="{% url 'fixed_site_network' %}">Objectives</a></h4>
     </div>
-    
-    <div class="menu-item">
-      <h4><a href="{% url 'network_site_list' %}">Network Site List</a></h4>
-    </div>
-       
+           
     <div class="menu-item">
       <h4><a href="{% url 'technical_information' %}">Technical Information and Glossary</a></h4>
     </div>
@@ -215,7 +224,7 @@
 
 <div class="row show">
 	
-	<div id="show_hide">Hide Header/Footer</div>
+	<div id="show_hide">Toggle Header/Footer</div>
 
 </div>
 

@@ -12,10 +12,6 @@ var map;
     options.theme = nar.commons.map.theme;
     options.controls = [
         new OpenLayers.Control.Navigation(),
-        new OpenLayers.Control.MousePosition({
-            numDigits: 2,
-            displayProjection: nar.commons.map.geographicProjection
-        }),
         new OpenLayers.Control.ScaleLine({
             geodesic: true
         }),
@@ -27,17 +23,25 @@ var map;
     
     var sitesLayer = nar.commons.mapUtils.createSitesLayer();
     var mapLayers = [].add(nar.commons.mapUtils.createBaseLayers())
-    	.add(nar.commons.mapUtils.createNlcdLayers())
+		.add(nar.commons.mapUtils.createNlcdLayers())
 		.add(sitesLayer);
     
     options.layers = mapLayers;
     
+    // Updates the cql_filter for the control. Assumes that this represents a getFeatureInfo control
+    var updateCqlFilter = function() {
+		this.vendorParams.cql_filter = nar.siteFilter.writeCQLFilter();
+    };
+    
     // Add an on-hover site identification control
-    options.controls.push(new nar.SiteIdentificationControl({
-    	layers : [sitesLayer],
-    	popupAnchor : '#' + id
-    }));
+    var siteIdControl = new nar.SiteIdentificationControl({
+		layers : [sitesLayer],
+		popupAnchor : '#' + id
+	});
+    options.controls.push(siteIdControl);
+    siteIdControl.events.register('beforegetfeatureinfo', siteIdControl, updateCqlFilter);
 
+    // Add control to navigate to the site's summary report
     var getFeatureInfoControl = new OpenLayers.Control.WMSGetFeatureInfo({
         title: 'site-identify-control',
         hover: false,
@@ -52,8 +56,11 @@ var map;
             buffer: 8
         },
         id: 'sites',
-        autoActivate: true
+        autoActivate: true,
     });
+    
+    getFeatureInfoControl.events.register('beforegetfeatureinfo', getFeatureInfoControl, updateCqlFilter);
+    
     var getFeatureInfoHandler = function(response) {
         var realFeatures = response.features[0].features;
         if(realFeatures.length) {
@@ -82,15 +89,15 @@ var map;
     //adjust map to fit site info popup at top
     map.pan(20,-20);
     sitesLayer.events.register("loadend", {}, function() {
-    	map.updateSize();
-    });
+		map.updateSize();
+	});
     
     var insetControl = new nar.inset({});
     map.addControl(insetControl, new OpenLayers.Pixel(0, map.getSize().h - 240));
     insetControl.activate();
     
     nar.siteFilter.addChangeHandler(function setupFiltering() {
-    	var cqlFilter = nar.siteFilter.writeCQLFilter();
-    	sitesLayer.mergeNewParams({cql_filter: cqlFilter});
-    });
+		var cqlFilter = nar.siteFilter.writeCQLFilter();
+		sitesLayer.mergeNewParams({cql_filter: cqlFilter});
+	});
 }());

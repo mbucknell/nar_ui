@@ -210,6 +210,9 @@ ul.toc-indentation li{
 
 ul.toc-indentation li ul li{font-size:.85em;}
 
+blockquote{
+	border-left:none;}
+
 /*###########################technical_info_end####################### */
 
  /*###########################home_start####################### */
@@ -251,9 +254,16 @@ ul.toc-indentation li ul li{font-size:.85em;}
  					border:1px solid rgb(174,174,174);
  					margin-right:10px;}
  					
- .home_icon_holder h4{padding-top:5px;
- 					font-size:1.1em;}
- 
+ .home_icon_holder h4{
+	 font-size:1.1em;
+	 margin-bottom:-15px;
+	 line-height:1.4em;}
+	 
+ .home_icon_holder em{
+	 font-size:.9em;
+	 font-style:normal;
+	 font-weight:normal;}
+	 
  .last{margin-right:0;}
  
  .inside{background:#fff;
@@ -377,6 +387,8 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
                  
 .statement i{-webkit-transform:rotate(270deg);
 			-moz-transform:rotate(270deg);
+			-ms-transform:rotate(270deg);
+			transform:rotate(270deg);
 			color:rgb(7,7,251);
 }
         
@@ -620,29 +632,15 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
  .mississippi_title a:hover{text-decoration:underline;
  							color:#428bca;}
  							
- #download{
- 	background:@boxColor;
- 	width:110px;
-	font-size:1em;
-	padding:0 0 0 0;
-	margin:7px 0 0 0;
-	height:25px;
-	border-radius:5px;
-  	border:@borderDark;
-  	position:absolute;
-  	right:15px;
-  	top:10px;}
-  						
-#download:hover{
-	background:@primaryColor;
- 	color:#fff;}
- 								
+ 		
  #toggle{position:absolute;
  		right:5px;
  		bottom:10px;
  		width:110px;}
  		
- #toggle i{font-size:.9em;}
+ #toggle i{
+	 font-size:.9em;
+	 color:#00f;}
  		
 #help{position:absolute;
 	left:10px;
@@ -654,7 +652,9 @@ tr.clickableRow:hover{color:rgb(0,102,153);}
  					
  #mississippi_info i,
   #toggle i{-webkit-transform:rotate(270deg);
-			-moz-transform:rotate(270deg);}
+			-moz-transform:rotate(270deg);
+			-ms-transform:rotate(270deg);
+			color:#00f;}
 			
 			
 .mississippi_buttons{height:30px;
@@ -706,6 +706,17 @@ select.last{margin-right:0;}
 					background:@boxColor;
 					margin:0;
 					position:relative;}
+					
+#auxillary-info {
+    background: @siteBackground;
+    border-top: @borderDark;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+#map-legend-label{
+    font-size: 1.2em;
+    margin-bottom: 8px;
+}
 					
 #mississippi_info{
 	border-bottom:@borderDark;
@@ -908,7 +919,7 @@ select.last{margin-right:0;}
  						height:42px;
  						border-radius:5px;
  						margin-top:20px;
- 						font-size:1.7em;
+ 						font-size:1em;
  						font-family:@baseFontFamily;
  						outline:none;}
  						
@@ -1184,6 +1195,10 @@ ul#relativeLinks{
 .stream h6,
 .human h6{padding-left:50px;}
 
+.stream #sf_and_wq_help {
+    font-size: 1.1em;
+}
+
 .link-popover-anchor {
 	border-bottom: 1px dashed #003366;
 }
@@ -1337,21 +1352,30 @@ ul#relativeLinks{
 
 #plotToggleTree{
 				overflow:auto;
-				height:620px;
-				width:100%;}
+				height:490px;
+				width:100%;
+				margin-bottom:60px;
+}
+#plotHelpDiv ul {
+    list-style: none;
+    padding: 5px 0 0 10px;
+}
+#plotHelpDiv li a {
+    margin-left: 5px
+}
 				
 #siteDataLinkDiv{background:none;
 				text-align:center;
 }
 
-#siteDataLinkDiv ul{list-style:none;
-					padding:5px 0 0 18px;
-					font-size:.8em;
+#siteDataLinkDiv ul{list-style: none;
+					padding: 0px 0 0 10px;
+					font-size: .8em;
 }
 
-#siteDataLinkDiv ul li{float:left;
-						margin-right:10px;
-						text-align:center;
+#siteDataLinkDiv ul li{
+    float: left;
+	margin-right: 10px;
 }
 
 .flow_data_inner_plot .legendColorBox div div {
@@ -1363,6 +1387,10 @@ ul#relativeLinks{
 	border-bottom: 10px solid red !important; /* bottom, add background color here */
 	font-size: 0 !important;
 	line-height: 0 !important;
+}
+
+.helpHint {
+	font-size: 0.7em;
 }
 
 /*###########################full_report_end####################### */
@@ -1426,16 +1454,25 @@ ul#relativeLinks{
 				
 #downloadTop p{font-size:.9em;}
 
-#startDateTime,
-#endDateTime{font-family:@baseFontFamily;
-		font-size:1.2em;
-		width:49% !important;
-		padding-top:0;}
-		
-#startDateTime{float:left;}
-#endDateTime{float:right;
+#dateTimeDiv
+        {
+        font-size: 100%;
+		text-align : left;
+		padding-top: 0px;
+		}
+#dateTimeDiv label {
+    margin-top: 5px;
+    margin-right: 10px;
+    width: auto;
 }
-
+#downloadForm #dateTimeDiv > .select2-container {
+    width: 15%;
+    margin-top : 0px;
+}
+#s2id_startDateTime {
+    margin-right: 60px;
+}
+		
 #downloadForm .select2-container {		
     width:100%;
 	margin-top:15px;
@@ -1444,7 +1481,7 @@ ul#relativeLinks{
 #s2id_streamFlowType{margin-bottom:20px;}
 		
 		
-#select2-drop{font-family:@baseFontFamily;}
+.select2-drop{font-family:@baseFontFamily;}
 						
 .select2-choice{border-radius:1px;
 				}
@@ -1554,8 +1591,10 @@ ul#relativeLinks{
 	 					height:310px;
 	 					margin-right:10px;}
 	 					
-	 .home_icon_holder h4{font-size:.9em;}
-	 
+	 .home_icon_holder h4{
+		 font-size:.9em;
+		 }
+		 
 	 .inside{width:270px;
 	 		height:238px;}
 	 
@@ -1614,7 +1653,7 @@ ul#relativeLinks{
 	.jqplot-xaxis-label{
 		margin-top:20px;}
 	
-	.graphContainer,
+	.graphContainer
 	{width:31.8%;}
 	
 	.human{
@@ -1656,8 +1695,8 @@ ul#relativeLinks{
 	  .back_to_report i{margin-top:7px;}
 	  
 	#plotToggleTree{
-					height:570px;}
-			
+		margin-bottom:40px;
+		}	
 			
 }/*media query end */
 	
@@ -1681,15 +1720,21 @@ ul#relativeLinks{
 	 			font-size:1em;
 	 }
 	 
-	.center{width:725px;
+	.center{
+		width:725px;
+		margin-left:13px;
 	}
 	 
 	 .home_icon_holder{width:235px;
 	 					height:260px;
 	 					margin-right:10px;}
 	 					
-	 .home_icon_holder h4{font-size:1.2em;
-	 }
+	 .home_icon_holder h4{
+		 font-size:.9em;
+		 }
+
+	.home_icon_holder h4.last-h4{
+	margin-bottom:10px;}
 	 
 	 
 	 .inside{
@@ -1752,13 +1797,13 @@ ul#relativeLinks{
 	 #mississippi_info{padding:2px 0 2px 5px;}
 	 
 	 #toggle,
-	 #download{width:70px;
+	 #legend_toggle{width:70px;
 	 		height:38px;
 	 		text-align:center;
 	 		font-size:.9em;
 	 }
 	 
-	 #download{right:10px;
+	 #legend_toggle{right:10px;
 	 			top:-3px;
 	 }
 	 		
@@ -1867,7 +1912,9 @@ ul#relativeLinks{
 	 }
 	 
 	 #plotToggleTree{
-					height:575px;}
+		margin-bottom:40px;
+		}
+	 
 	
 }/*query end */
 
@@ -1894,7 +1941,17 @@ ul#relativeLinks{
 	 					margin-right:10px;
 	 					}
 	 					
-	 .home_icon_holder h4{font-size:1.2em;}
+	 .home_icon_holder h4{
+		 font-size:.9em;
+		 }
+		 
+	.home_icon_holder h4.first-h4{
+	padding-top:5px;
+	margin-bottom:-3px;}
+	
+	.home_icon_holder h4.last-h4{
+	margin-bottom:10px;}
+	 
 	 
 	 
 	 .inside{width:200px;
@@ -1958,14 +2015,13 @@ ul#relativeLinks{
 	 					padding:2px 0 2px 5px;
 	 }
 	 
-	 #toggle,
-	 #download{width:70px;
+	 #toggle, #legend_toggle{width:70px;
 	 		height:38px;
 	 		text-align:center;
 	 		font-size:.9em;
 	 }
 	 
-	 #download{right:10px;
+	 #legend_toggle{right:10px;
 	 			top:-3px;
 	 }
 	 		
@@ -2046,6 +2102,10 @@ ul#relativeLinks{
 	 }
 	
 	.full_site h2{font-size:1.6em;}
+	
+	#plotToggleTree{
+		margin-bottom:40px;
+		}
  
 
 }/*query end */

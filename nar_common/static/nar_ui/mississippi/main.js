@@ -1,14 +1,55 @@
 $(document).ready(function() {
 	"use strict";
 	
+	var leftFiltersName = '.left_filter';
+	var $leftFilters = $(leftFiltersName);
+	var $leftLoad = $leftFilters.find('select[name="load"]');
+	var $leftChemical = $leftFilters.find('select[name="chemical"]');
+	var $leftYear = $leftFilters.find('select[name="year"]');
+	
+	var rightFiltersName = '.right_filter';
+	var $rightFilters= $(rightFiltersName);
+	var $rightLoad = $rightFilters.find('select[name="load"]');
+	var $rightChemical = $rightFilters.find('select[name="chemical"]');
+	var $rightYear = $rightFilters.find('select[name="year"]');
+	
+	var leftFiltersSubject = new nar.mississippi.FiltersSubject($leftLoad, $leftChemical, $leftYear);
+	var rightFiltersSubject = new nar.mississippi.FiltersSubject($rightLoad, $rightChemical, $rightYear);
+	
+	// Default the selection menu
+	$leftFilters.find('option[value="wy"]').prop('selected', true);
+	$leftFilters.find('option[value="no23"]').prop('selected', true);
+	$leftFilters.find('option[value="1993_2012"]').prop('selected', true);
+	
+	$rightFilters.find('option[value="wy"]').prop('selected', true);
+	$rightFilters.find('option[value="no23"]').prop('selected', true);
+	$rightFilters.find('option[value="2013"]').prop('selected', true);
+	
+	//Call observers when filters change
+	$leftFilters.find(':input').change(function() {
+		leftFiltersSubject.notifyObservers();
+	});
+	$rightFilters.find(':input').change(function() {
+		rightFiltersSubject.notifyObservers();
+	});
+	
+	// Tie the right and left load filters together so that they always show the same selected option.
+	$leftLoad.change(function() {
+		$rightLoad.val($(this).val());
+		rightFiltersSubject.notifyObservers();
+	});
+	$rightLoad.change(function() {
+		$leftLoad.val($(this).val());
+		leftFiltersSubject.notifyObservers();
+	});
+	
+	// Updates contribution display with selections
 	var updateContributionDisplay = function(containerSelector, placement, selections) {
 		if (selections.parameter_type && selections.constituent && selections.water_year) {
 			nar.ContributionDisplay.create({
 				containerSelector : containerSelector,
 				placement : placement,
-				parameters : selections,
-				width : 250,
-				height : 200
+				parameters : selections
 			});
 		}
 		else {
@@ -16,32 +57,26 @@ $(document).ready(function() {
 		}
 	};
 	
-	var updateLeftContributionDisplay = function(selections) {
-		updateContributionDisplay ('#left-pie-chart-container', 'bl', selections);
+	var updateLeftContributionDisplay = function(data) {
+		updateContributionDisplay ('#left-pie-chart-container', 'bl', {
+			parameter_type : data.load,
+			constituent : data.chemical,
+			water_year : data.year
+		});
 	};
 	
-	var updateRightContributionDisplay = function(selections) {
-		updateContributionDisplay('#right-pie-chart-container', 'br', selections);
+	var updateRightContributionDisplay = function(data) {
+		updateContributionDisplay('#right-pie-chart-container', 'br', {
+			parameter_type : data.load,
+			constituent : data.chemical,
+			water_year : data.year
+		});
 	};
 	
-	$('#link-chart-contribution').on('click', function () {
-		var loadTypeSelectCtrls = $('select[name="load"]'),
-			nutrientTypeSelectCtrls = $('select[name="chemical"]'),
-			yearRangeSelectCtrls = $('select[name="year"]'),
-			leftSelections = {
-				parameter_type : loadTypeSelectCtrls[0].value.split('_').last(),
-				constituent : nutrientTypeSelectCtrls[0].value,
-				water_year : yearRangeSelectCtrls[0].value
-			},
-			rightSelections = {
-				parameter_type : loadTypeSelectCtrls[1].value.split('_').last(),
-				constituent : nutrientTypeSelectCtrls[1].value,
-				water_year : yearRangeSelectCtrls[1].value
-			};
-		updateLeftContributionDisplay (leftSelections);
-		updateRightContributionDisplay(rightSelections);
-	});
-	
+	updateLeftContributionDisplay (leftFiltersSubject.getFilterData());
+	updateRightContributionDisplay(rightFiltersSubject.getFilterData());
+
+	// Code which creates maps and controls
 	var leftMapName = 'left-map',
 		rightMapName = 'right-map',
 		leftMap = nar.mississippi.map.createMap({
@@ -93,9 +128,9 @@ $(document).ready(function() {
 						var filtersChangeHandler = function(filtersState){
 							dialog.updateConstituent(filtersState.chemical);
 						};
-						filtersSubject.observe(filtersChangeHandler);
+						filtersSubject.addObserver(filtersChangeHandler);
 						var onClose = function(){
-							filtersSubject.unobserve(filtersChangeHandler);
+							filtersSubject.removeObserver(filtersChangeHandler);
 						};
 						var dialog = nar.GraphPopup.create({
 							feature : feature,
@@ -125,7 +160,7 @@ $(document).ready(function() {
 								link = $(link);
 								var feature = link.data('feature');
 								link.click(
-									makeGraphClickHandler('may', feature, filtersSubject.mostRecentNotification.chemical)
+									makeGraphClickHandler('may', feature, filtersSubject.getFilterData().chemical)
 								);
 							});
 							var annualGraphLinks = linkParent.find('.' + annualLoadGraphLinkClass);
@@ -133,7 +168,7 @@ $(document).ready(function() {
 								link = $(link);
 								var feature = link.data('feature');
 								link.click(
-									makeGraphClickHandler('annual', feature, filtersSubject.mostRecentNotification.chemical)
+									makeGraphClickHandler('annual', feature, filtersSubject.getFilterData().chemical)
 								);
 							});
 						}
@@ -167,10 +202,10 @@ $(document).ready(function() {
 						
 						$annualLoadGraphsLink.
 							attr('href', '#').
-							click('click', makeGraphClickHandler('annual', loadGraphData, filtersSubject.mostRecentNotification.chemical));
+							click('click', makeGraphClickHandler('annual', loadGraphData, filtersSubject.getFilterData().chemical));
 						$mayLoadGraphsLink.
 							attr('href', '#').
-							on('click', makeGraphClickHandler('may', loadGraphData, filtersSubject.mostRecentNotification.chemical));
+							on('click', makeGraphClickHandler('may', loadGraphData, filtersSubject.getFilterData().chemical));
 						$summaryGraphsLink.attr('href', CONFIG.baseUrl + 'site/' + id + '/summary-report');
 						$detailedGraphsLink.attr('href',CONFIG.baseUrl + 'site/' + id + '/full-report');
 						$downloadLink.attr('href', CONFIG.baseUrl + 'download');
@@ -201,14 +236,6 @@ $(document).ready(function() {
 					}
 				});
 			
-			//We don't store a reference to this observer because we don't need it to unobserve the filters subject later;
-			//the controls are created once on page load and are not destroyed except when leaving the page.
-			//Observers will not persist between page loads, so no cleanup needed!
-			filtersSubject.observe(function(filtersState){
-				var linkParent = $('#' + control.siteIdentificationPopupContainerId);
-				control.updateConstituent(filtersState.chemical, linkParent);
-			});
-			
 			return control;
 		},
 		leftMarbLayer = createMarblayer(),
@@ -218,37 +245,7 @@ $(document).ready(function() {
 		rightSiteIdentificationControl,rightFakeSiteIdentificationControl,
 		leftSiteIdentificationControl, leftFakeSiteIdentificationControl;	
 		
-	var leftFiltersName = '.left_filter';
-	var leftFilters = $(leftFiltersName);
-	var rightFiltersName = '.right_filter';
-	var rightFilters= $(rightFiltersName);
-	
-	nar.mississippi.createLoadSelect(leftMap, leftFilters, function(selections) {
-		if (nar.ContributionDisplay.isVisible('#left-pie-chart-container')) {
-			updateLeftContributionDisplay(selections);
-		}
-	});
-	nar.mississippi.createLoadSelect(rightMap, rightFilters, function(selections) {
-		if (nar.ContributionDisplay.isVisible('#right-pie-chart-container')) {
-			updateRightContributionDisplay(selections);
-		}
-	});
-	
-	var leftFiltersSubject = new nar.mississippi.FiltersSubject(leftFilters);
-	var rightFiltersSubject = new nar.mississippi.FiltersSubject(rightFilters);
-	
-	// Default the selection menu
-	leftFilters.find('option[value="long_term_wy"]').attr('selected', 'selected');
-	leftFilters.find('option[value="no23"]').attr('selected', 'selected');
-	leftFilters.find('option[value="1993_2012"]').attr('selected', 'selected');
-	leftFilters.find(':input').change();
-	
-	rightFilters.find('option[value="wy"]').attr('selected', 'selected');
-	rightFilters.find('option[value="no23"]').attr('selected', 'selected');
-	rightFilters.find('option[value="2013"]').attr('selected', 'selected');
-	rightFilters.find(':input').change();
-	
-	// Now that the layers are in the map, I want to add the identification
+	// Now that the layers have been created, add the identification
 	// control for them
 	rightSiteIdentificationControl = createSiteIdentificationControl({
 		layer : rightMarbLayer,
@@ -284,6 +281,30 @@ $(document).ready(function() {
 		virtualSite: true
 	});
 	
+	// Create load layers and add observers to update the load layer and the contribution display	
+	var leftLoadLayer = new nar.mississippi.LoadLayer();
+	leftFiltersSubject.addObserver(function(filterData) {
+		leftLoadLayer.updateLayer(filterData);
+		// This assumes that the sld only varies with load type and that the left and right always have the same load type.
+		$('#map-legend-container img').each(function() {
+			$(this).attr('src', leftLoadLayer.getLegendGraphicUrl() + '&RULE=' + $(this).data('rule'));
+		});
+		updateLeftContributionDisplay(filterData);
+	});
+	
+	var rightLoadLayer = new nar.mississippi.LoadLayer();
+	rightFiltersSubject.addObserver(function(filterData) {
+		rightLoadLayer.updateLayer(filterData);
+		updateRightContributionDisplay(filterData);
+	});
+	
+	// Initialize observers for the filter data
+	leftFiltersSubject.notifyObservers();
+	rightFiltersSubject.notifyObservers();
+	
+	leftLoadLayer.addToMap(leftMap);
+	rightLoadLayer.addToMap(rightMap);
+	
 	rightMap.addControls([rightSiteIdentificationControl, rightFakeSiteIdentificationControl]);
 	leftMap.addControls([leftSiteIdentificationControl, leftFakeSiteIdentificationControl]);
 	
@@ -291,7 +312,7 @@ $(document).ready(function() {
 	leftMap.addLayers([leftMarbLayer,leftFakeLayer]);
 	rightMap.addLayers([rightMarbLayer,rightFakeLayer]);
 	
-	// Init sites layer toggle to off.
+	// Initialize sites layer toggle to off.
 	var $msInfo = $('#mississippi_info');
 	var $toggle = $('#toggle');
 	$msInfo.hide();
@@ -310,6 +331,12 @@ $(document).ready(function() {
 				$toggle.attr('title', 'Show');
 			}
 		});
+	});
+	
+	// Add legend help
+	$('#map-legend-container a').popover({
+		trigger : "hover",
+		container : '#auxillary-info'
 	});
 	
 });

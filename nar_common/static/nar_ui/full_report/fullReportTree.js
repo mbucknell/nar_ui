@@ -6,7 +6,8 @@ nar.fullReport = nar.fullReport || {};
  */
 nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphToggleElt){
     var self = this;
-    var treeNodeIds = {}; //psuedo-set; keys are string TimeSeriesVisualization ids. Values are meaningless.
+    
+    var treeNodeIds = {}; //pseudo-set; keys are string TimeSeriesVisualization ids. Values are meaningless.
     //make new root node to enable a select all
     var treeNodes = [{
 		icon: "glyphicon glyphicon-ok",
@@ -32,32 +33,21 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
 				topLevel = 'Annual';
 			}
 			else if (timeSeriesIdComponents.timestepDensity === 'daily'){
-				topLevel = 'Hydrograph\\Flow Duration';
+				topLevel = 'Hydrograph\\Flow duration';
 			}
 		}
 		else{
 			//non-flow constituents
 			if(timeSeriesIdComponents.category === 'concentration'){
-				topLevel = 'Concentrations';
-				if(timeSeriesIdComponents.timestepDensity === 'discrete'){
-					bottomLevel = 'Sample';
+				if (timeSeriesIdComponents.timestepDensity === 'discrete') {
+					topLevel = 'Sample concentrations';
 				}
-				else{
-					bottomLevel = timeSeriesIdComponents.subcategory.split('_').map(function(str){return str.capitalize();}).join(' ');
-					if(timeSeriesIdComponents.timestepDensity === 'annual'){
-						bottomLevel += " Annual";
-					}
+				else {// must be annual flow weighted
+					topLevel = 'Annual concentrations';
 				}
 			}
-			else if (timeSeriesIdComponents.category === 'mass'){
-				topLevel = 'Loads';
-				if(timeSeriesIdComponents.timestepDensity === 'annual'){
-					bottomLevel = 'Annual';
-				}
-				else{
-					console.dir(timeSeriesIdComponents);
-					throw Error("Can't place time series visualization in tree hierarchy");
-				}
+			else if (timeSeriesIdComponents.category === 'mass' && timeSeriesIdComponents.timestepDensity === 'annual'){
+				topLevel = 'Annual load';
 			}
 			else{
 				console.dir(timeSeriesIdComponents);
@@ -85,7 +75,7 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
     };
     
     self.createTreeNode = function(id, displayHierarchy){
-    	var text = displayHierarchy.split(self.displayHierarchyDelim).last();
+		var text = displayHierarchy.split(self.displayHierarchyDelim).last();
         return {
           type: id,
           id: id,
@@ -167,17 +157,67 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
         }
     });
     
+    // The order that the constituents will appear in the tree. This property represents the nodeID
+    var TREE_SORT_ORDER = {
+		'Streamflow' : 1,
+		'Total Nitrogen' : 2,
+		'Nitrate' : 3,
+		'Total Phosphorus' : 4,
+		'Suspended Sediment' : 5
+    };
+    // The order that the graph type will appear in the nodes for a constituent
+    var LEAF_SORT_ORDER = {
+		'annual/flow' : 1,
+		'daily/flow' : 2,
+		'discrete/concentration' : 3,
+		'annual/concentration/flow_weighted' : 4,
+		'annual/mass' : 5
+    };
+
     $.jstree.defaults.sort = function(nodeAid, nodeBid){
-    	var nodeA = this.get_node(nodeAid);
-    	var nodeB = this.get_node(nodeBid);
-    	//sort hydrograph (daily flow) before others 
-    	if('Q/daily/flow' === nodeA.id){
-    		return 1;
-    	}
-    	else if('Q/daily/flow' === nodeB.id){
-    		return -1;
-    	}
-    	return 0;
+		var nodeA = this.get_node(nodeAid);
+		var nodeB = this.get_node(nodeBid);
+		// Branches
+		if (nodeA.parent === 'root')
+			if (Object.has(TREE_SORT_ORDER, nodeAid)) {
+				if (Object.has(TREE_SORT_ORDER, nodeBid)) {
+					if (TREE_SORT_ORDER[nodeAid] > TREE_SORT_ORDER[nodeBid]) {
+						return 1;
+					} else 
+						return -1;
+				}
+				else {
+					return 1;
+				}
+			}
+			else if (Object.has(TREE_SORT_ORDER, nodeBid)) {
+				return -1;
+			}
+			else {
+				return nodeAid > nodeBid ? 1 : -1;
+			}
+		else {// Leafs
+			var leafAid = nodeAid.from(nodeAid.indexOf('/') + 1);
+			var leafBid = nodeBid.from(nodeBid.indexOf('/') + 1);
+			if (Object.has(LEAF_SORT_ORDER, leafAid)) {
+				if (Object.has(LEAF_SORT_ORDER, leafBid)) {
+					if (LEAF_SORT_ORDER[leafAid] > LEAF_SORT_ORDER[leafBid]) {
+						return 1;
+					}
+					else
+						return -1;
+				}
+				else {
+					return 1;
+				}
+			}
+			else if (Object.has(LEAF_SORT_ORDER, leafBid)) {
+				return -1;
+			}
+			else {
+				return leafAid > leafBid ? 1 : -1;
+			}
+		}
     };
     
     graphToggleElt.jstree({
