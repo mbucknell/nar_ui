@@ -131,8 +131,13 @@ nar.plots = nar.plots || {};
 					if (item) {
 						var x = item.datapoint[0],
 						y = item.datapoint[1],
-						censorLabel = item.series.censorLabel;
-						var hoverText = formatter(x, censorLabel + y);
+						hoverText;
+						if (Object.has(item.series, 'censorLabel')) {
+							hoverText = formatter(x, item.series.censorLabel + y);
+						}
+						else {
+							hoverText = formatter(x, y);
+						}
 
 						$(toolTipElt).html(hoverText)
 						.css({top: item.pageY+5, left: item.pageX+5, 'z-index' : 760})
