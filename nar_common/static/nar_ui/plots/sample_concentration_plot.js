@@ -152,8 +152,6 @@ nar.plots = nar.plots || {};
 			var criteriaLineDescription = 'EPA MCL = '
 					+ constituentToCriteria[constituentId]
 					+ ' mg/L as N. See technical information for details.';
-
-			nar.plots.PlotUtils.setPlotHoverFormatter(plotContainer, nar.plots.PlotUtils.utcDatePlotHoverFormatter);
 			nar.plots.PlotUtils.setLineHoverFormatter(plotContainer, criteriaLineValue, criteriaLineDescription);
 		}
 
