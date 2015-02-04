@@ -182,15 +182,7 @@ nar.coastal.map = (function() {
 							geodesic: true
 						}),
 						new OpenLayers.Control.Navigation(),
-						new OpenLayers.Control.Zoom(),
-						new nar.SiteIdentificationControl({
-							layers : [alaskaSitesLayer],
-							popupAnchor : '#' + coastalMapId,
-							vendorParams : {
-								buffer : 8,
-								'CQL_FILTER' : "site_type = 'Coastal Rivers'"
-							}
-						})
+						new OpenLayers.Control.Zoom()
 					],
 			layers : [
 				me.createBaseLayer(),
@@ -211,16 +203,7 @@ nar.coastal.map = (function() {
 			controls : [
 					new OpenLayers.Control.ScaleLine({
 						geodesic : true
-					}),
-					new nar.SiteIdentificationControl({
-						layers : [alaskaSitesLayer],
-						popupAnchor : '#' + coastalMapId,
-						popupWidth : $('#' + coastalMapId).width() / 1.5,
-						vendorParams : {
-							buffer : 8,
-							'CQL_FILTER' : "site_type = 'Coastal Rivers'"
-						}
-					}),
+					})
 			],
 			layers : [
 				me.createBaseLayer(),
