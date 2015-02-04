@@ -167,10 +167,10 @@ $(document).ready(function() {
 			}
 		};
 		
-		var addHelpPopover = function(id) {
+		var addHelpPopover = function(id, additionalContent) {
 			var $link = $('#' + id);
 			$link.find('a').popover({
-				content : nar.definitions[id].short_definition,
+				content : nar.definitions[id].short_definition + additionalContent,
 				trigger : 'hover',
 				container : '.summary_info'
 			});
@@ -181,7 +181,7 @@ $(document).ready(function() {
 		addLink($('#daily_flows_link'), nar.siteHelpInfo.flow_compared_to_historic_link);
 		
 		// Add help popovers
-		addHelpPopover('sampleConcentrations');
+		addHelpPopover('sampleConcentrations', '. Open circle symbols in the graphs are samples with concentrations less than the laboratory reporting level.');
 		addHelpPopover('annualFlowNormalizedConcentrations');
 		addHelpPopover('annualLoad');
 		
