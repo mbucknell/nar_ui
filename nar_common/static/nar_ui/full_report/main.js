@@ -169,6 +169,8 @@ $(document).ready(function() {
 		
 		var addHelpPopover = function(id, additionalContent) {
 			var $link = $('#' + id);
+			
+			additionalContent = additionalContent || '';
 			$link.find('a').popover({
 				content : nar.definitions[id].short_definition + additionalContent,
 				trigger : 'hover',
