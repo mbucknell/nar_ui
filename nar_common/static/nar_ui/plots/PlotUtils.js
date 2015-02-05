@@ -208,6 +208,14 @@ nar.plots = nar.plots || {};
 				}
 				maxLog = Math.ceil(log10(axis.datamax));
 				
+				// The following code prevents data points from being plotted on the axis of the graph.
+				if (Math.pow(10, minLog) === axis.datamin) {
+					minLog = minLog - 1;
+				}
+				if (Math.pow(10, maxLog) === axis.datamax) {
+					maxLog = maxLog + 1;
+				}
+				
 				// Adjust axis.min and axis.max to reflect the axis min and max that we are using.
 				axis.min = Math.pow(10, minLog);
 				axis.max = Math.pow(10, maxLog);

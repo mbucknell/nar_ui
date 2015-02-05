@@ -38,6 +38,13 @@ describe('nar.plots.PlotUtils', function() {
 			expect(axis.min).toEqual(0.001);
 			expect(axis.max).toEqual(100.0);
 		});
+		
+		it('Expects the ticks returned to not have ticks mapped to axis.datamin or axis.datamx', function() {
+			var axis = {min : 0.09, max : 10.1, datamin : 0.1, datamax : 10};
+			expect(testFunc(axis, -3)).toEqual([[0.01, '0.01'], [0.1, '0.1'], [1.0, '1'], [10.0, '10'], [100.0, '100']]);
+			expect(axis.min).toEqual(0.01);
+			expect(axis.max).toEqual(100);
+		});
 	});
 	describe('utcDatePlotHoverFormatter', function() {
 		var testFunc = nar.plots.PlotUtils.utcDatePlotHoverFormatter;
