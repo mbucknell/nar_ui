@@ -92,7 +92,7 @@ nar.plots = nar.plots || {};
 		sharedFlowData = sharedFlowData || tsViz.timeSeriesCollection.getData();
 		// get the last x value from hydrograph data as year
 		var waterYear = Date.create(sharedFlowData[0].last()[0]).getFullYear();
-		
+		var series = [];
 		var flowSeries = {
 			data: sharedFlowData[0],
 			color: 'black',
@@ -103,10 +103,12 @@ nar.plots = nar.plots || {};
 				fillColor: 'lightgrey'
 			}
 		};
+		series.push(flowSeries);
 		
 		var sampleDates = nar.plots.PlotUtils.createPinnedPointData(sharedFlowData[1], sharedFlowData[0]);
 		
-		var tnSeries = {
+		if(0 !== sampleDates.length){
+		var sampleSeries = {
 			label: 'Water-quality sample',
 			data: sampleDates,
 			color: 'red',
@@ -118,8 +120,10 @@ nar.plots = nar.plots || {};
 				symbol: 'triangle'
 			}
 		};
+		series.push(sampleSeries);
+		}
 
-		plot = $.plot(hydrographDiv, [ flowSeries, tnSeries ], {
+		plot = $.plot(hydrographDiv, series, {
 			canvas : true,
 			xaxis : {
 				axisLabel : waterYear,
@@ -187,6 +191,7 @@ nar.plots = nar.plots || {};
 		});
 		
 		var sampleDates = nar.plots.PlotUtils.createPinnedPointData(swappedSampleDates, exceedanceDatesRemoved);
+		var series = [];
 		
 		var flowSeries = {
 			data: exceedanceDatesRemoved,
@@ -196,21 +201,24 @@ nar.plots = nar.plots || {};
 				lineWidth: 1
 			}
 		};
-
-		var sampleSeries = {
-			label: 'Water-quality sample',
-			data: sampleDates,
-			color: 'red',
-			points: {
-				show: true,
-				fill: true,
-				fillColor: 'red',
-				radius: 3,
-				symbol: 'triangle'
-			}
-		};
+		series.push(flowSeries);
+		if(0 !== sampleDates.length){
+			var sampleSeries = {
+				label: 'Water-quality sample',
+				data: sampleDates,
+				color: 'red',
+				points: {
+					show: true,
+					fill: true,
+					fillColor: 'red',
+					radius: 3,
+					symbol: 'triangle'
+				}
+			};
+			series.push(sampleSeries);
+		}
 		
-		plot = $.plot(flowDurationDiv, [ flowSeries, sampleSeries ], {
+		plot = $.plot(flowDurationDiv, series, {
 			canvas : true,
 			xaxis : {
 				axisLabel : 'Percent of time exceeded in ' + CONFIG.currentWaterYear,
