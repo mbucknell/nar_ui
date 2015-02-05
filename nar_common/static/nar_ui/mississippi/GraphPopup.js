@@ -267,8 +267,8 @@ nar.GraphPopup = (function() {
 						timeRange = me.timeSeriesViz.timeSeriesCollection.getTimeRange();
 						// Adjust the axis so the bars are inside the plot
 						options.xaxes.each(function(axis) {
-							axis.min = timeRange.startTime - YEAR_MS;
-							axis.max = timeRange.endTime + YEAR_MS;
+							axis.min = timeRange.startTime;
+							axis.max = timeRange.endTime;
 						});
 						options.legend.show = false;
 

@@ -133,9 +133,8 @@ describe('nar.plots.PlotUtils', function() {
 			getUtcTime = function(year, month, day) {
 				return (new Date(year, month, day)).getTime();
 			};
-			tickGenerator = jasmine.createSpy('tickGenerator');
-			
-		})
+			tickGenerator = jasmine.createSpy('tickGenerator');			
+		});
 		
 		it('Should use the results from tickGenerator if the range of years if larger than the number of results', function() {
 			var axis;
@@ -157,7 +156,7 @@ describe('nar.plots.PlotUtils', function() {
 			
 			axis = {
 				min : (new Date(2008, 0, 1)).getTime(),
-				max : (new Date(2010, 0, 1)).getTime(),
+				max : (new Date(2009, 0, 1)).getTime(),
 				tickGenerator : tickGenerator
 			};
 			expect(nar.plots.PlotUtils.getTicksByYear(axis)).toEqual([getUtcTime(2008, 0, 1), getUtcTime(2009, 0, 1)]);

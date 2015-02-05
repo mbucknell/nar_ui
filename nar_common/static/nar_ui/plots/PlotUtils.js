@@ -229,10 +229,19 @@ nar.plots = nar.plots || {};
 			 * Use to format time series axis when you want the ticks to represent a year. 
 			 * Can be assigned to the ticks property for an axis.
 			 * @ return Array of utc time.
+			 * side effect is that it updates axis.min to the start of the water year 
+			 * and axis.max to the end of the water year.
 			 */
 			getTicksByYear : function(axis) {
 				var tFirstYear, tLastYear;
 				var thisDate, maxDate;
+
+				// Adjust axis.min and axis.max so that complete bars are shown.
+				var minWy = nar.WaterYearUtils.convertDateToWaterYear(axis.min);
+				var maxWy = nar.WaterYearUtils.convertDateToWaterYear(axis.max);
+				
+				axis.min = nar.WaterYearUtils.getWaterYearStart(minWy, true);
+				axis.max = nar.WaterYearUtils.getWaterYearEnd(maxWy, true);
 
 				var result = axis.tickGenerator(axis);
 				if (result.length > 1) {
