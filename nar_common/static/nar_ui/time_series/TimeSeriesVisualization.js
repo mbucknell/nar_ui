@@ -237,7 +237,7 @@ nar.timeSeries.Visualization.types = function(components) {
 					ancillary : [{
 						// @todo We will want to store these somewhere so this can just be nar .discrete.nitrogen
 						procedure : CONFIG.sosDefsBaseUrl + "procedure/discrete_concentration",
-						observedProperty : CONFIG.sosDefsBaseUrl + "property/TN"
+						observedProperty : CONFIG.sosDefsBaseUrl + "property/NO23"
 					}],
 					allowTimeSlider : false
 				};
