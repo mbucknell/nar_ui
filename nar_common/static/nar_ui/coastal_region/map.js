@@ -87,7 +87,7 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 				transparent : true,
 				version: '1.1.1',
 				'SLD_BODY' : sld,
-				'CQL_FILTER' : "site_type = 'Coastal Rivers'"
+				'CQL_FILTER' : "site_type = 'Coastal Rivers' AND coast_repo = '" + region + "'"
 			}, {
 				isBaseLayer : false,
 				singleTile : true,
@@ -188,13 +188,23 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 	
 	me.createRegionMap = function(mapDiv, akInsetMapDiv) {
 		// Retrieve sld
-		var map = new OpenLayers.Map(mapDiv, createDefaultMapOptions());;
+		var map = new OpenLayers.Map(mapDiv, createDefaultMapOptions());
 		$.ajax({
 			url : REGION[region].sites_sld,
 			type : 'GET',
 			dataType : 'text',
 			success : function(data) {
-				map.addLayer(createSitesLayer(data));
+				var sitesLayer = createSitesLayer(data);
+				map.addLayer(sitesLayer);
+				map.addControl(new nar.SiteIdentificationControl({
+					layers : [sitesLayer],
+					popupAnchor : '#' + mapDiv,
+					popupWidth : '400',
+					vendorParams : {
+						buffer : 8,
+						'CQL_FILTER' : "site_type = 'Coastal Rivers' AND coast_repo = '" + region + "'"
+					}
+				}));
 			}
 		});
 		var akMap;
@@ -206,9 +216,20 @@ nar.coastalRegion.map = function(geoserverEndpoint, region) {
 				type : 'GET',
 				dataType : 'text',
 				success : function(data) {
-					akMap.addLayer(createSitesLayer(data));
+					var sitesLayer = createSitesLayer(data);
+					akMap.addLayer(sitesLayer);
+					akMap.addControl(new nar.SiteIdentificationControl({
+						layers : [sitesLayer],
+						popupAnchor : '#' + mapDiv,
+						popupWidth : '400',
+						vendorParams : {
+							buffer : 8,
+							'CQL_FILTER' : "site_type = 'Coastal Rivers' AND coast_repo = '" + region + "'"
+						}
+					}));
 				}
 			});
+			
 			akMap.zoomToExtent(REGION.alaska.extent);
 		}
 		else { // Make sure inset map is not visible

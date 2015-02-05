@@ -5,6 +5,7 @@
 {% block style %}
     {{ block.super }}
     
+    <link rel="stylesheet" href="{% static 'nar_ui/js_lib/jquery-ui/css/ui-lightness/jquery-ui.min.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'nar_ui/js_lib/jqplot/src/jquery.jqplot.css' %}" />
 {% endblock %}
 
@@ -64,6 +65,7 @@
 
 <script type="text/javascript" src="{% static 'nar_ui/js_lib/OpenLayers/OpenLayers.debug.js' %}"></script>
 {% compress js %}
+<script type="text/javascript" src="{% static 'nar_ui/js_lib/jquery-ui/jquery-ui.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/jquery.jqplot.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.barRenderer.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/js_lib/jqplot/src/plugins/jqplot.categoryAxisRenderer.js' %}"></script>
@@ -80,6 +82,8 @@
 <script type="text/javascript" src="{% static 'nar_ui/plots/PlotUtils.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/Constituents.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/plots/coastalBasinPlot.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/commons/sitePopup.js' %}"></script>
+<script type="text/javascript" src="{% static 'nar_ui/commons/SiteIdentificationControl.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/coastal_region/map.js' %}"></script>
 <script type="text/javascript" src="{% static 'nar_ui/coastal_region/main.js' %}"></script>
 {% endcompress %}

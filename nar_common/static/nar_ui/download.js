@@ -267,6 +267,8 @@ nar.downloads = (function() {
 			minYear : 1980,
 			maxYear: CONFIG.currentWaterYear
 		};
+		var DEFAULT_START_YEAR = 1993;
+		var defaultStartDate = {};
 		
 		var START_YEARS_LIST = [];
 		var END_YEARS_LIST = [];
@@ -276,10 +278,14 @@ nar.downloads = (function() {
 				id : '10/01/' + (i - 1),
 				text : i + ''
 			});
+			if (i === DEFAULT_START_YEAR) {
+				defaultStartDate = START_YEARS_LIST.last();
+			}
 			END_YEARS_LIST.push({
 				id : '09/30/' + i,
 				text : i + ''
 			});
+			
 		}
 		
 		$('#startDateTime').select2({
@@ -305,7 +311,7 @@ nar.downloads = (function() {
 				});
 			}			
 		});
-		$('#startDateTime').select2('data', START_YEARS_LIST.first());
+		$('#startDateTime').select2('data', defaultStartDate);
 		
 		$('#endDateTime').select2({
 			data : END_YEARS_LIST,

@@ -131,11 +131,13 @@ nar.plots = nar.plots || {};
 					if (item) {
 						var x = item.datapoint[0],
 						y = item.datapoint[1],
-						censorLabel = item.series.censorLabel;
-						//protect against undefined censor labels
-						censorLabel = 'string' === typeof censorLabel ? censorLabel : 0; 
-						var hoverText = formatter(x, censorLabel + y);
-
+						hoverText;
+						if (Object.has(item.series, 'censorLabel')) {
+							hoverText = formatter(x, item.series.censorLabel + y);
+						}
+						else {
+							hoverText = formatter(x, y);
+						}
 						$(toolTipElt).html(hoverText)
 						.css({top: item.pageY+5, left: item.pageX+5, 'z-index' : 760})
 						.fadeIn(200);
@@ -188,25 +190,38 @@ nar.plots = nar.plots || {};
 			},
 			/**
 			 * @param Object axis - the axis object passed to the flots tick function
-			 * @param Integer minimumLog - if axis.min is 0, this will be the minimum tick.
-			 * @returns Array[String] - of ticks to use
+			 * @param Integer minimumLog - if axis.datamin is 0, this will be the minimum tick.
+			 * @returns Array[Array of [Number, String]] - of ticks to use. 
+			 * Side effect is that axis.min and axis.max are adjusted to what is used in the returned array.
 			 */
 			logTicks : function (axis, minimumLog) {
 				var minLog, maxLog;
 				var ticks = [];
-				var i;
+				var i, tickVal;
 
-				if (axis.min === 0) {
-					axis.min = 0.001; // Needed to do this so axis starts at 0.001. Otherwise data can fall below the axis.
+				if (axis.datamin === 0) {
 					minLog = minimumLog;
 				}
 				else {
-					minLog = Math.floor(log10(axis.min));
+					minLog = Math.floor(log10(axis.datamin));
 				}
-				maxLog = Math.ceil(log10(axis.max));
+				maxLog = Math.ceil(log10(axis.datamax));
+				
+				// The following code prevents data points from being plotted on the axis of the graph.
+				if (Math.pow(10, minLog) === axis.datamin) {
+					minLog = minLog - 1;
+				}
+				if (Math.pow(10, maxLog) === axis.datamax) {
+					maxLog = maxLog + 1;
+				}
+				
+				// Adjust axis.min and axis.max to reflect the axis min and max that we are using.
+				axis.min = Math.pow(10, minLog);
+				axis.max = Math.pow(10, maxLog);
 
 				for (i = minLog; i <= maxLog; i++) {
-					ticks.push(Math.pow(10, i));
+					tickVal = Math.pow(10, i);
+					ticks.push([tickVal, nar.plots.PlotUtils.logTickFormatter(tickVal)]);
 				}
 				return ticks;
 			},

@@ -42,7 +42,10 @@
 		// After basin info is retrieved, determine data availability, and then retrieve the
 		// desired data
 		getBasinFeatureInfoPromise.then(function(response) {
-			var basinFeatures = response;
+			// Need to do this to collapse basins that are using the same site id for the graphs.
+			var basinFeatures = response.unique (function(obj) {
+				return obj.attributes[CONFIG.siteIdAttribute];
+			});
 			var basinSiteIds = basinFeatures.map(function(value) {
 				return value.attributes[CONFIG.siteIdAttribute];
 			});
