@@ -12,7 +12,15 @@ nar.plots = nar.plots || {};
 			showLongTermMean : true,
 			showLongTermMeanHover : true,
 			plotHoverFormatter : function(x, y) {
-				return nar.plots.PlotUtils.waterYearPlotHoverFormatter(x, y / 1000000, 3);
+				y = y / 1000000;
+				var yPrecision = 0;
+				if(100 >= y && 1 <= y){
+					yPrecision = 1;
+				}
+				else if(y < 1){
+					yPrecision = 2;
+				}
+				return nar.plots.PlotUtils.waterYearPlotHoverFormatter(x, y, yPrecision);
 			}
 		});
 	};

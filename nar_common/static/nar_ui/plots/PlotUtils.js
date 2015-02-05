@@ -132,6 +132,8 @@ nar.plots = nar.plots || {};
 						var x = item.datapoint[0],
 						y = item.datapoint[1],
 						censorLabel = item.series.censorLabel;
+						//protect against undefined censor labels
+						censorLabel = 'string' === typeof censorLabel ? censorLabel : 0; 
 						var hoverText = formatter(x, censorLabel + y);
 
 						$(toolTipElt).html(hoverText)
