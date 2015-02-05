@@ -21,16 +21,22 @@ describe('nar.plots.PlotUtils', function() {
 		var testFunc = nar.plots.PlotUtils.logTicks;
 		
 		it('Expects an array of log ticks returned', function() {
-			var axis = {min : 0.026, max : 20.2};
-			expect(testFunc(axis, -3)).toEqual([0.01, 0.1, 1.0, 10.0, 100.0]);
+			var axis = {min : 0.026, max : 20.2, datamin : 0.02, datamax : 22.2};
+			expect(testFunc(axis, -3)).toEqual([[0.01, '0.01'], [0.1, '0.1'], [1.0, '1'], [10.0, '10'], [100.0, '100']]);
+			expect(axis.min).toEqual(0.01);
+			expect(axis.max).toEqual(100.0);
 			
-			axis = {min : 0.9, max : 8.43};
-			expect(testFunc(axis, -3)).toEqual([0.1, 1.0, 10.0]);
+			axis = {min : 0, max : 80.43, datamin : 1.2, datamax : 85.5};
+			expect(testFunc(axis, -3)).toEqual([[1.0, '1'], [10.0, '10'], [100.0, '100']]);
+			expect(axis.min).toEqual(1.0);
+			expect(axis.max).toEqual(100.0);
 		});
 		
-		it('Expects the minimumLog parameter to be used if axis.min is zero', function() {
-			var axis = {min : 0.0, max : 54.3};
-			expect(testFunc(axis, -3)).toEqual([0.001, 0.01, 0.1, 1.0, 10.0, 100.0]);
+		it('Expects the minimumLog parameter to be used if axis.data is zero', function() {
+			var axis = {min : 0.0, max : 54.3, datamin: 0, datamax : 85.0};
+			expect(testFunc(axis, -3)).toEqual([[0.001, '0.001'], [0.01, '0.01'], [0.1, '0.1'], [1.0, '1'], [10.0, '10'], [100.0, '100']]);
+			expect(axis.min).toEqual(0.001);
+			expect(axis.max).toEqual(100.0);
 		});
 	});
 	describe('utcDatePlotHoverFormatter', function() {

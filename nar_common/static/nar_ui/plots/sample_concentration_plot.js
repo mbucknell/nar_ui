@@ -120,7 +120,6 @@ nar.plots = nar.plots || {};
 									return nar.plots.PlotUtils.logTicks(axis,
 											-3);
 								},
-								tickFormatter : nar.plots.PlotUtils.logTickFormatter,
 								tickLength : 10,
 								transform : function(value) {
 									if (0 >= value) {
