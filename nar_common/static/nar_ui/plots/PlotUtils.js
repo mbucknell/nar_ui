@@ -138,7 +138,6 @@ nar.plots = nar.plots || {};
 						else {
 							hoverText = formatter(x, y);
 						}
-
 						$(toolTipElt).html(hoverText)
 						.css({top: item.pageY+5, left: item.pageX+5, 'z-index' : 760})
 						.fadeIn(200);
