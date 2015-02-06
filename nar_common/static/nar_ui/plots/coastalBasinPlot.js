@@ -12,6 +12,11 @@ nar.plots = nar.plots || {};
  * @return jqplot
  */
 nar.plots.createCoastalBasinPlot = function (config){
+	// For the Rio Grande river we are showing the value in the label if it is not null. This is 
+	// because the Rio Grande data values are so small compared to the other gulf rivers that they
+	// do not render any pixels on the bar graph.
+	
+	var RIO_GRANDE = '08475000';
 	var avgData = [];
 	var currentYearData = [];
 	
@@ -30,6 +35,8 @@ nar.plots.createCoastalBasinPlot = function (config){
 	// Create data series for each collection for the avg up to the current water year and the current year.
 	config.tsCollections.forEach(function(tsC) {
 		var sortedData = tsC.getDataMerged();
+		var timeSeries = tsC.getAll();
+		
 		var splitData = nar.plots.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(sortedData);
 		
 		if (splitData.previousYearsData.length === 0) {
@@ -38,15 +45,26 @@ nar.plots.createCoastalBasinPlot = function (config){
 		}
 		else {
 			avgData.push(splitData.previousYearsData.average(dataValue));
-			avgLabels.push('');
+			if (timeSeries.first().featureOfInterest === RIO_GRANDE) {
+				avgLabels.push(splitData.previousYearsData.average(dataValue) + '');
+			}
+			else {
+				avgLabels.push('');
+			}
 		}
+		
 		if (splitData.currentYearData.length === 0) {
 			currentYearData.push(0);
 			curLabels.push('NA');
 		}
 		else {
 			currentYearData.push(dataValue(splitData.currentYearData.first()));
-			curLabels.push('');
+			if (timeSeries.first().featureOfInterest === RIO_GRANDE) {
+				curLabels.push(dataValue(splitData.currentYearData).first() + '');
+			}
+			else {
+				curLabels.push('');
+			}
 		}
 	});
 	
