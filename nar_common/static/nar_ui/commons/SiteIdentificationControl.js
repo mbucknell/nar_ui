@@ -69,9 +69,9 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 				$titleRow.html(title);
 				$stationIdRow.html('Station ID: ' + id);
 				
-				$summaryGraphsLink.attr('href', CONFIG.baseUrl + 'site/' + id + '/summary-report');
-				$detailedGraphsLink.attr('href',CONFIG.baseUrl + 'site/' + id + '/full-report');
-				$downloadLink.attr('href', CONFIG.baseUrl + 'download');
+				$summaryGraphsLink.attr('href', CONFIG.summarySiteUrl(id));
+				$detailedGraphsLink.attr('href', CONFIG.detailSiteUrl(id));
+				$downloadLink.attr('href', CONFIG.downloadPageUrl);
 				
 				$summaryGraphsLinkContainer.append($summaryGraphsLink);
 				$detailedGraphsLinkContainer.append($detailedGraphsLink);

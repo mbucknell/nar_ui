@@ -10,7 +10,9 @@ describe('nar.siteFilter.Site', function() {
 });
 describe('nar.siteFilter.buildRow', function() {
 	var site = new nar.siteFilter.Site(2, 'siteB', 'urban');
-	CONFIG = {baseUrl : 'test/'};
+	CONFIG = {summarySiteUrl : function(siteid) {
+		return 'test/site/' + siteid + '/summaryreport';
+	}};
 	var $row = nar.siteFilter.buildRow(site);
 	describe('row', function() {
 		it('should be good dom', function() {
@@ -20,7 +22,7 @@ describe('nar.siteFilter.buildRow', function() {
 			expect($row.children().last().html()).toBe('urban');
 		});
 		it('should have good href', function() {
-			expect($row.attr('href')).toBe('test/site/2/summary-report');
+			expect($row.attr('href')).toBe('test/site/2/summaryreport');
 		});
 		it('should have necessary attrs', function() {
 			expect($row.is('.clickableRow')).toBe(true);

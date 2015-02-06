@@ -45,8 +45,7 @@ var nar = nar || {};
 			$("input[name='" + siteFilterName + "']").change(fn);
 		},
 		buildRow : function(site) {
-			var $tableRow = $('<tr />').addClass('clickableRow').attr('href',
-				CONFIG.baseUrl + 'site/' + site.id + '/summary-report');
+			var $tableRow = $('<tr />').addClass('clickableRow').attr('href', CONFIG.summarySiteUrl(site.id));
 			$tableRow.append(makeTd(site.id)).append(makeTd(site.name)).append(
 				makeTd(site.type));
 			$tableRow.click(function() {

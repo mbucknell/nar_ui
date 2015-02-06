@@ -1,5 +1,4 @@
 from django.conf.urls import patterns, include, url
-from django.conf.urls.static import static
 
 from nar_ui.views import *
 from helpcontent.views import DefinitionsView, AboutView, NationalFixedSiteNetworkView, NetworkSiteListView, \
@@ -67,8 +66,8 @@ urlpatterns = patterns('',
     url(r'^coastal$', CoastalView.as_view(), name="coastal"),
     url(r'^coastal_region$', CoastalRegionView.as_view(), name="coastal_region"),
     url(r'^download$', DownloadView.as_view(), name="download"),
-    url(r'^site/(?P<site_id>\d*)/summary-report$', SiteSummaryReportView.as_view()),
-    url(r'^site/(?P<site_id>\d*)/full-report$', SiteFullReportView.as_view()),
+    url(r'^site/(?P<site_id>\d*)/summarygraphs$', SiteSummaryReportView.as_view(), name="summary_graphs"),
+    url(r'^site/(?P<site_id>\d*)/detailedgraphs$', SiteFullReportView.as_view(), name="detailed_graphs"),
     url(r'^nasqan_1996_stations$', Nasqan1996View.as_view(), name="nasqan_1996"),
     url(r'^nat_fact_sheet$', natFactView.as_view(), name="nat_fact"),
     url(r'^miss_fact_sheet$', missFactView.as_view(), name="miss_fact"),
@@ -84,4 +83,3 @@ urlpatterns = patterns('',
 #     url(r'^index/', 'nar_ui.views.index', name='index')
 
 )
-urlpatterns += static(settings.STATIC_URL)

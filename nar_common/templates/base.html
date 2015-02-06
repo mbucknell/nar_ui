@@ -53,8 +53,7 @@ from the top menu bar, selecting ‘Compatibility view settings’, uncheck boxe
 	<script type="text/javascript">
 		//global config object
 		var CONFIG = {
-			baseUrl : '{{ settings.BASE_URL|escapejs }}',
-			staticUrl : '{{ STATIC_URL|escapejs }}',
+			staticUrl : '{% static '' %}',			
 			endpoint : {
 				geoserver: 'http://' + '{{ settings.GEOSERVER_HOST_NAME|escapejs }}' + '{{ settings.GEOSERVER_PATH|escapejs}}',
 				sos: 'http://' + '{{ settings.SOS_HOST_NAME|escapejs }}' + '{{ settings.SOS_PATH|escapejs}}',
@@ -66,8 +65,19 @@ from the top menu bar, selecting ‘Compatibility view settings’, uncheck boxe
 			siteInfoUrl : "{% url 'helpcontent-site_info' %}",
 			techInfoUrl : "{% url 'technical_information' %}#TechnicalInformationandGlossary-MethodsUsedtoProduceGraphics",
             siteAveTargetUrl : "{% url 'nar_values-site_averages_and_targets' %}",
-            gulfHypoxicExtentUrl : "{% url 'nar_values-gulf_hypoxic_extent' %}"
+            gulfHypoxicExtentUrl : "{% url 'nar_values-gulf_hypoxic_extent' %}",
+            mrbSubBasinContributionsUrl : "{% url 'nar_values-mrbSubBasinContributions' %}",
+            downloadPageUrl : "{% url 'download' %}",
+            detailPageUrl : "{% url 'detailed_graphs' '' %}",
+            detailSiteUrl : function(siteid) {
+                return CONFIG.detailPageUrl.replace('//', '/' + siteid + '/');                
+            },
+            summaryPageUrl : "{% url 'summary_graphs' '' %}",
+            summarySiteUrl : function(siteid) {
+                return CONFIG.summaryPageUrl.replace('//', '/' + siteid + '/');
+            }
 		};
+		
 		
 	</script>
 	
