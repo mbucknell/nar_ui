@@ -206,9 +206,9 @@ $(document).ready(function() {
 						$mayLoadGraphsLink.
 							attr('href', '#').
 							on('click', makeGraphClickHandler('may', loadGraphData, filtersSubject.getFilterData().chemical));
-						$summaryGraphsLink.attr('href', CONFIG.baseUrl + 'site/' + id + '/summary-report');
-						$detailedGraphsLink.attr('href',CONFIG.baseUrl + 'site/' + id + '/full-report');
-						$downloadLink.attr('href', CONFIG.baseUrl + 'download');
+						$summaryGraphsLink.attr('href', CONFIG.summarySiteUrl(id));
+						$detailedGraphsLink.attr('href', CONFIG.detailSiteUrl(id));
+						$downloadLink.attr('href', CONFIG.downloadPageUrl);
 						
 						$annualLoadGraphsLinkContainer.append($annualLoadGraphsLink);
 						$mayLoadGraphsLinkContainer.append($mayLoadGraphsLink);

@@ -33,9 +33,7 @@ if not RUNNING_TESTS:
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
-BASE_URL = '/'
-
-STATIC_URL = BASE_URL + 'static/'
+STATIC_URL =  '/static/'
 
 SOS_HOST_NAME = 'cida-eros-nardev.er.usgs.gov'
 
