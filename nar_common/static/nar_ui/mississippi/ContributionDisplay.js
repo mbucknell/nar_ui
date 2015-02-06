@@ -53,7 +53,7 @@ nar.ContributionDisplay = (function() {
 		var callbacks = args.callbacks,
 			parameters = args.parameters;
 		
-		$.ajax(CONFIG.baseUrl + 'values/mrbSubBasinContributions/', {
+		$.ajax(CONFIG.mrbSubBasinContributionsUrl, {
 			data : parameters,
 			scope : me,
 			success : callbacks.success,
@@ -202,7 +202,7 @@ nar.ContributionDisplay = (function() {
 			if (obj) {
 				$(event.target.getElementsByClassName('pieLabel')).find('div').css('opacity', '0.2');
 				obj.series.pie.legendContainer.find('table tr').css('font-weight', '');
-				$(obj.series.pie.legendContainer.find('table tr')[obj.seriesIndex + 1]).css('font-weight', 'bold');
+				$(obj.series.pie.legendContainer.find('table tr')[obj.seriesIndex]).css('font-weight', 'bold');
 				$labels = $(event.target.getElementsByClassName('pieLabel')).find('div');
 				$label = $($labels.get(obj.seriesIndex));
 				$label.css('opacity', '1');
