@@ -28,6 +28,17 @@ nar.plots.createCoastalBasinPlot = function (config){
 	var avgLabels = [];
 	var curLabels = [];
 	
+	// This is highly specific to the values that are being displayed for RIO Grande. When
+	// data changes or is updated this may need to be changed.
+	var formatRioGrande = function(value) {
+		if (value < 1.0) {
+			return value.format(3);
+		}
+		else {
+			return value.toPrecision(3);
+		}
+	};
+	
 	if (Object.has(config, 'yaxisFormatter')) {
 		yTickOptions.formatter = config.yaxisFormatter;
 	}
@@ -46,7 +57,7 @@ nar.plots.createCoastalBasinPlot = function (config){
 		else {
 			avgData.push(splitData.previousYearsData.average(dataValue));
 			if (timeSeries.first().featureOfInterest === RIO_GRANDE) {
-				avgLabels.push(splitData.previousYearsData.average(dataValue) + '');
+				avgLabels.push(formatRioGrande(splitData.previousYearsData.average(dataValue)));
 			}
 			else {
 				avgLabels.push('');
@@ -60,7 +71,7 @@ nar.plots.createCoastalBasinPlot = function (config){
 		else {
 			currentYearData.push(dataValue(splitData.currentYearData.first()));
 			if (timeSeries.first().featureOfInterest === RIO_GRANDE) {
-				curLabels.push(dataValue(splitData.currentYearData).first() + '');
+				curLabels.push(formatRioGrande(dataValue(splitData.currentYearData).first()));
 			}
 			else {
 				curLabels.push('');
