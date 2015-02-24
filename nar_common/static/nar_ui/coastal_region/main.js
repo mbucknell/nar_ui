@@ -109,7 +109,7 @@
 								title : 'Load',
 								yaxisFormatter : function(format, value) {
 									if (Object.isNumber(value)) {
-										return value.format(0);
+										return value.toPrecision(3).toNumber() + '';
 									}
 									else {
 										return value;
