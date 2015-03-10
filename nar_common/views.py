@@ -8,7 +8,7 @@ from django.views.generic import View
 from helpcontent.models import Definition
 
 
-class NarHealthServiceView(View):
+class NarDBHealthServiceView(View):
     
     def get(self, request, *args, **kwargs):
         try:
@@ -39,6 +39,7 @@ class GeoserverHealthServiceView(View):
         
         
 class SosHealthServiceView(View):
+    
     def get(self, request, *args, **kwargs):
         url = 'http://' + settings.SOS_HOST_NAME + settings.SOS_PATH
         req = requests.get(url, params = {
@@ -50,3 +51,4 @@ class SosHealthServiceView(View):
             return HttpResponse('{"status" : "good"}', content_type='application/json')
         else:
             return HttpResponseServerError(url + ' returned ' + str(req.status_code))
+        
