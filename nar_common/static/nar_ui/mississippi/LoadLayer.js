@@ -19,7 +19,7 @@ nar.mississippi.LoadLayer = function() {
 	var currentLayer = '';
 	var currentStyle = '';
 	
-	var LEGEND_URL = CONFIG.endpoint.geoserver + 'NAR/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&FORMAT=image%2Fpng&WIDTH=30&HEIGHT=30&legend_options=forceLabels:on';
+	var LEGEND_URL = CONFIG.endpoint.geoserver + 'NAR/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&FORMAT=image%2Fpng&WIDTH=50&HEIGHT=50&legend_options=forceLabels:on';
 	
 	self.addToMap = function(map) {
 		map.addLayer(loadLayer);
