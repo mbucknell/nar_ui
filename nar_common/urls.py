@@ -4,7 +4,7 @@ from nar_ui.views import *
 from helpcontent.views import DefinitionsView, AboutView, NationalFixedSiteNetworkView, NetworkSiteListView, \
     QualityControlView, PreviousNetworkInformationView, LaboratoryView, TechnicalInformationView,\
     SampleCollectionView, ConstituentView, ContactsAndCitationsView, MrbReportHelpInfoView
-from views import NarHealthServiceView
+from views import NarHealthServiceView, GeoserverHealthServiceView, SosHealthServiceView
 
 
 urlpatterns = patterns('',
@@ -84,5 +84,7 @@ urlpatterns = patterns('',
     
     # Health check urls
     url(r'^health/nar_ui$', NarHealthServiceView.as_view(), name="nar_ui_health"),
+    url(r'^health/geoserver$', GeoserverHealthServiceView.as_view(), name="nar_geoserver_health"),
+    url(r'^health/sosserver$', SosHealthServiceView.as_view(), name="nar_sos_health"),
 
 )
