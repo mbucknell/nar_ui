@@ -253,7 +253,6 @@ nar.plots = nar.plots || {};
 				var MAY = 4;
 				var mayAlignedTicks = yearAlignedTicks.map(function(yearTick){
 					var offsetDate = (new Date(yearTick)).set({month: MAY}, true);
-					console.log(offsetDate.toString());
 					return offsetDate.getTime();
 				});
 				return mayAlignedTicks;
