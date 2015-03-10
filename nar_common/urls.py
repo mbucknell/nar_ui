@@ -4,6 +4,7 @@ from nar_ui.views import *
 from helpcontent.views import DefinitionsView, AboutView, NationalFixedSiteNetworkView, NetworkSiteListView, \
     QualityControlView, PreviousNetworkInformationView, LaboratoryView, TechnicalInformationView,\
     SampleCollectionView, ConstituentView, ContactsAndCitationsView, MrbReportHelpInfoView
+from views import NarHealthServiceView
 
 
 urlpatterns = patterns('',
@@ -79,7 +80,9 @@ urlpatterns = patterns('',
     url(r'^representative_sampling$', representativeSamplingView.as_view(), name="representative_sampling"),
     
     url(r'^helpcontent/', include('helpcontent.urls')),
-    url(r'^values/', include('nar_values.urls'))
-#     url(r'^index/', 'nar_ui.views.index', name='index')
+    url(r'^values/', include('nar_values.urls')),
+    
+    # Health check urls
+    url(r'^health/nar_ui$', NarHealthServiceView.as_view(), name="nar_ui_health"),
 
 )
