@@ -97,7 +97,7 @@ describe('nar.plots.PlotUtils', function() {
 		
 		var yearAndRndRandomNumber = [];
 		for (var year = 1980;year <= CONFIG.currentWaterYear ;year++) {
-			yearAndRndRandomNumber.push([new Date(year,'0','1','0','0','0').getTime(), Math.floor(Math.random() * 10) + 1]);
+			yearAndRndRandomNumber.push([new Date(year - 1,'10','1','0','0','0').getTime(), Math.floor(Math.random() * 10) + 1]);
 		}
 
 		var result = nar.plots.PlotUtils.getDataSplitIntoCurrentAndPreviousYears(yearAndRndRandomNumber);
