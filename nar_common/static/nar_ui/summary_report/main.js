@@ -45,9 +45,11 @@ $(document).ready(
 				}
 				else {
 					var ans = (exceedCount / resultCount) * 100;
+					var precision = (ans < 10) ? 2 : 1;
+					
 					return {
 						value : ans,
-						label : ans.format(2)
+						label : ans.format(precision)
 					};
 				}
 			};
