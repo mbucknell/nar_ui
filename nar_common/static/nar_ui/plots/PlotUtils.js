@@ -52,7 +52,7 @@ nar.plots = nar.plots || {};
 			 */
 			getDataSplitIntoCurrentAndPreviousYears: function(data) {
 				//must use string for year
-				var startOfCurrentYearTimestamp = Date.UTC(CONFIG.currentWaterYear, 0, 1);
+				var startOfCurrentYearTimestamp = nar.WaterYearUtils.getWaterYearStart(CONFIG.currentWaterYear, true);
 
 				var indexOfFirstDataPointInCurrentYear = data.findIndex(function(dataPoint){
 					var timestamp = getXcoord(dataPoint);
