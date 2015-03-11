@@ -74,15 +74,24 @@ nar.downloads = (function() {
 		"WY": "Wyoming"
 	};
 	
-	pubMembers.updateSelect2Options = function(select2El, values, placeHolderText, displayKey, triggerChange) {
+	pubMembers.updateSelect2Options = function(select2El, values, placeHolderText, displayKey, triggerChange, sortKeys) {
 		var previousValues = select2El.select2('val');
 		select2El.find('option') .remove();
 		if (!select2El.prop('multiple')) {
 			select2El.append('<option></option>');
 		}
 		
-		for(var val in values) {
+		// Need to do this so that the pick list can be sorted by the keys when desired. Specifically
+		// TODO: consider sending in values as an array of objects with id and text properties.
+		var keys = Object.keys(values);
+		if (sortKeys) {
+			keys.sort();
+		}
+		
+		for(var i = 0; i < keys.length; i++) {
+			var val = keys[i];
 			var opt = $('<option>');
+			
 			opt.attr('value', val);
 			if(displayKey) {
 				opt.html(val + " - " + values[val]);
@@ -222,6 +231,8 @@ nar.downloads = (function() {
 				$("#stationId"), 
 				pubMembers.getFilteredStationIdsOptions(stationData, selectedStates, selectedSiteTypes), 
 				"Select a Station (optional)",
+				true,
+				false,
 				true
 				);
 	};
