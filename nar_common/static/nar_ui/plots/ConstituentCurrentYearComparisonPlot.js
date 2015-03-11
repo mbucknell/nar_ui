@@ -100,6 +100,7 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
             axisLabel: series.displayUnitOnYAxis ? series.constituentUnit : null,
             axisLabelUseCanvas: true,
             axisLabelPadding: 1,
+            min : 0,
             tickLength: 3,
             tickColor: '#000000',
 			tickFormatter : function(val, axis) {
