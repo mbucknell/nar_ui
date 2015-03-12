@@ -99,6 +99,7 @@ from the top menu bar, selecting ‘Compatibility view settings’, uncheck boxe
 	
 		</script>
 		
+		{% if not settings.DEBUG %}
 		<script>
 			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()
 			{ (i[r].q=i[r].q||[]).push(arguments)}
@@ -109,8 +110,9 @@ from the top menu bar, selecting ‘Compatibility view settings’, uncheck boxe
 			ga('set', 'anonymizeIp', true);
 			ga('send', 'pageview');
 		</script>
-		<script type="application/javascript" src="http://www.usgs.gov/scripts/analytics/usgs-analytics.js"></script>
 		
+		<script type="application/javascript" src="http://www.usgs.gov/scripts/analytics/usgs-analytics.js"></script>
+		{% endif %}
 
 
 {% endblock %}
