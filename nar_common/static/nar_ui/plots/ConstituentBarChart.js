@@ -13,6 +13,8 @@ nar.plots = nar.plots || {};
 	 * 		timeSeries data or 2 if plotted on a separate axis
 	 * @property {jqueryFlot axis } secondaryYaxis - Only used if auxData is defined
 	 * @property {Function} yaxisTickFormatter - function takes tick val and axis object, return String. (optional)
+	 * @property {Function} xticks - function for flotChart option 'xaxis.ticks'. Function accepts a flot axis as an arg 
+	 * and returns an array of tick values. If no function is specified, nar.plots.PlotUtils.getTicksByYear is used. 
 	 * @param {TimeSeriesVisualization} tsViz
 	 * @param {nar.plotConstituentBarChartConfig} config
 	 */
@@ -110,7 +112,7 @@ nar.plots = nar.plots || {};
                 mode: 'time',
                 timeformat: "%Y",
                 tickLength: 10,
-                ticks : nar.plots.PlotUtils.getTicksByYear
+                ticks : config.xticks || nar.plots.PlotUtils.getTicksByYear
             },
             yaxes : yaxes,
             legend: {

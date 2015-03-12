@@ -127,7 +127,9 @@ nar.plots = nar.plots || {};
 			if (Object.has(tsViz.auxData, 'movingAverage') && tsViz.auxData.movingAverage.length > 0) {
 				plotConfig.auxData.push(makeMovingAveConfig(tsViz.auxData.movingAverage));
 			}
-			
+			if('monthly' === tsViz.getComponentsOfId().timestepDensity){
+				plotConfig.xticks = nar.plots.PlotUtils.getMayTicks;
+			}
 			if (Object.has(tsViz.auxData, 'gulfHypoxicExtent')) {
 				plotConfig.auxData.push(makeHypoxicExtentConfig(tsViz.auxData.gulfHypoxicExtent)); 
 				plotConfig.secondaryYaxis = {
