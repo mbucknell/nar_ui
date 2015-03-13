@@ -45,7 +45,15 @@ $(document).ready(
 				}
 				else {
 					var ans = (exceedCount / resultCount) * 100;
-					var precision = (ans < 10) ? 2 : 1;
+					var precision;
+					if (ans >= 10) {
+						precision = 0;
+					} else if (ans >= 0.1) {
+						precision = 1;
+					}
+					else {
+						precision = 2;
+					}
 					
 					return {
 						value : ans,
