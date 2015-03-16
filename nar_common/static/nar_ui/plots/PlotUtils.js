@@ -226,22 +226,48 @@ nar.plots = nar.plots || {};
 				return ticks;
 			},
 			/**
-			 * Use to format time series axis when you want the ticks to represent a year. 
-			 * Can be assigned to the ticks property for an axis.
-			 * @ return Array of utc time.
-			 * side effect is that it updates axis.min to the start of the water year 
-			 * and axis.max to the end of the water year.
+			 * Helper function used by other custom tick functions. Updates axis.min to the 
+			 * start of the water year and axis.max to the end of the water year.
+			 * @param axis
+			 * @returns null 
 			 */
-			getTicksByYear : function(axis) {
-				var tFirstYear, tLastYear;
-				var thisDate, maxDate;
-
+			alignAxisToWaterYears : function(axis){
 				// Adjust axis.min and axis.max so that complete bars are shown.
 				var minWy = nar.WaterYearUtils.convertDateToWaterYear(axis.min);
 				var maxWy = nar.WaterYearUtils.convertDateToWaterYear(axis.max);
 				
 				axis.min = nar.WaterYearUtils.getWaterYearStart(minWy, true);
 				axis.max = nar.WaterYearUtils.getWaterYearEnd(maxWy, true);
+				
+				//emphasize that object passed in is modified by returning null
+				return null;
+			},
+			/**
+			 * Use to format time series axis when you want the ticks to represent a year,
+			 * but offset into may of that year. Can be assigned to the ticks property for an axis.
+			 * @return {Array<Number>} of utc timestamps
+			 * side effect is that it aligns the axis extremes to water years
+			 */
+			getMayTicks : function(axis){
+				var yearAlignedTicks = nar.plots.PlotUtils.getTicksByYear(axis);
+				var MAY = 4;
+				var mayAlignedTicks = yearAlignedTicks.map(function(yearTick){
+					var offsetDate = (new Date(yearTick)).set({month: MAY}, true);
+					return offsetDate.getTime();
+				});
+				return mayAlignedTicks;
+			},
+			/**
+			 * Use to format time series axis when you want the ticks to represent a year. 
+			 * Can be assigned to the ticks property for an axis.
+			 * @ return {Array<Number>} of utc timestamps
+			 * side effect is that it aligns the axis extremes to water years
+			 */
+			getTicksByYear : function(axis) {
+				var tFirstYear, tLastYear;
+				var thisDate, maxDate;
+
+				nar.plots.PlotUtils.alignAxisToWaterYears(axis);
 
 				var result = axis.tickGenerator(axis);
 				if (result.length > 1) {
