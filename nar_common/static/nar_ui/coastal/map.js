@@ -4,7 +4,7 @@ nar.coastal = nar.coastal || {};
 nar.coastal.map = (function() {
 	"use strict";
 	
-	var GEOSERVER_URL = CONFIG.endpoint.geoserver + 'NAR/wms';
+	var GEOSERVER_URL = CONFIG.endpoint.geoserver + '/wms';
 	var me = {};
 	var alaskaSitesLayer;
 	var coastalMapId = 'coastal_map';
