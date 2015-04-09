@@ -16,12 +16,13 @@
 <div id="downloadTop">
 
 	<h2>Download Data</h2>
-
 </div>
 <!--downloadTop-->
 
 <form id="downloadForm" class="form-inline" method="get" >
-	
+	<div id="downloadLimitWarning">
+		<p class="text-info">Large datasets cannot currently be downloaded. <br/> Please limit the number of sites in your data downloads until this issue is resolved.</p>
+	</div>
 	<div id="dateTimeDiv">
         <label  for="startDateTime">Start Water Year:</label>
 		<input  id="startDateTime" type="hidden" class="" tabindex="-1" name="startDateTime" placeholder="Start Water Year (optional)">
@@ -60,7 +61,7 @@
 	<select multiple="multiple" id="qwDataType" class="populate select2-offscreen"
 		tabindex="-1"  name="qwDataType">
 		<option value="annualLoad">Annual Load</option>
-		<option value="mayLoad">May Load and Flow Conditions</option>
+		<option value="mayLoad">May Load and Flow Conditions (Mississippi River Basin sites)</option>
 		<option value="sampleConcentrations">Sample Concentrations</option>
 	</select>
 	<select multiple="multiple" id="streamFlowType" class="populate select2-offscreen" tabindex="-1" name="streamFlowType">
