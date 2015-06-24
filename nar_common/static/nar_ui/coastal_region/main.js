@@ -67,16 +67,16 @@
 					'featureOfInterest' : basinSiteIds
 				})
 			});
-			
+
 			$.when(getDataAvailability)
 				.then(
 					function(availability) {
 						var loadDataAvailability = availability.dataAvailability.filter(function(value) {
-							return (value.procedure.has('annual_mass/') && !value.procedure.has('COMP'));
+							return (value.procedure.has('annual_mass/') && !nar.util.stringContainsIgnoredModtype(value.procedure));
 						});
 						
 						var yieldDataAvailability = availability.dataAvailability.filter(function(value) {
-							return (value.procedure.has('annual_yield/') && !value.procedure.has('COMP'));
+							return (value.procedure.has('annual_yield/') && !nar.util.stringContainsIgnoredModtype(value.procedure));
 						});
 						
 						var loadTSCollections = [];

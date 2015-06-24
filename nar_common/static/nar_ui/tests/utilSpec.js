@@ -78,4 +78,23 @@ describe('Tests for nar.util', function() {
 			expect(objectHasKeysAndValues(base, noSharedBase)).toBe(false);
 		});
 	});
+	describe('stringContainsIgnoredModtype', function(){
+		it('should return false if string does not contain any ignored modtypes', function(){
+			expect(nar.util.stringContainsIgnoredModtype('a')).toBe(false);
+		});
+		it('should return true if string does contain any ignored modtypes', function(){
+			//it should detect strings containing only the ignored modtypes
+			var dataWithIgnoredModtypes = [].concat(nar.util.ignoredModtypes);
+			dataWithIgnoredModtypes.each(function(aString){
+				expect(nar.util.stringContainsIgnoredModtype(aString)).toBe(true);
+			});
+			//it should detect the ignored modtypes even if they are embedded in other strings
+			dataWithIgnoredModtypes = nar.util.ignoredModtypes.map(function(ignoredModtype){
+				return 'a' + ignoredModtype + 'b';
+			});
+			dataWithIgnoredModtypes.each(function(aString){
+				expect(nar.util.stringContainsIgnoredModtype(aString)).toBe(true);
+			});
+		});
+	});
 });
