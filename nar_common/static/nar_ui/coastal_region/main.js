@@ -53,7 +53,7 @@
 				return value.attributes[CONFIG.riverNameAttribute].replace('River', '\nRiver');
 			});
 			
-			// Make dataAvailability call for all sites for NO23
+			// Make dataAvailability call for all sites for nitrate and nitrite
 			var getDataAvailability = $.ajax({
 				url : CONFIG.endpoint.sos,
 				contentType : 'application/json',
@@ -63,7 +63,7 @@
 					'request' : 'GetDataAvailability',
 					'service' : 'SOS',
 					'version' : '2.0.0',
-					'observedProperty' : CONFIG.sosDefsBaseUrl + 'property/NO23',
+					'observedProperty' : CONFIG.sosDefsBaseUrl + 'property/NO3_NO2',
 					'featureOfInterest' : basinSiteIds
 				})
 			});
