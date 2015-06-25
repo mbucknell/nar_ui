@@ -127,7 +127,7 @@ var getPlotContainer = function(plotContainerId){
 // public static properties:
 
 nar.timeSeries.Visualization.serverToClientConstituentIdMap = {
-    'no23': 'nitrate',
+    'no3_no2': 'nitrate',
     'ssc':'sediment',
     'tn' : 'nitrogen',
     'tp':'phosphorus',
@@ -237,7 +237,7 @@ nar.timeSeries.Visualization.types = function(components) {
 					ancillary : [{
 						// @todo We will want to store these somewhere so this can just be nar .discrete.nitrogen
 						procedure : CONFIG.sosDefsBaseUrl + "procedure/discrete_concentration",
-						observedProperty : CONFIG.sosDefsBaseUrl + "property/NO23"
+						observedProperty : CONFIG.sosDefsBaseUrl + "property/NO3_NO2"
 					}],
 					allowTimeSlider : false
 				};

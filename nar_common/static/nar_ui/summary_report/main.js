@@ -160,7 +160,7 @@ $(document).ready(
 						return;//continue
 					}
 					else if (procedure.endsWith('discrete_concentration') &&
-							observedProperty.endsWith('NO23')) {
+							observedProperty.endsWith('NO3_NO2')) {
 
 						var timeSeries = new nar.timeSeries.TimeSeries(
 						{
@@ -193,7 +193,7 @@ $(document).ready(
 						streamflowDataAvailability.push(dataAvailability);						
                     }
 					else if (procedure.has('annual_mass/') &&
-							(observedProperty.endsWith('NO23'))) {
+							(observedProperty.endsWith('NO3_NO2'))) {
 						
 						nitrateDataAvailability.push(dataAvailability);						
 					}	
