@@ -68,9 +68,9 @@ nar.util = {};
         var msg = errorMsg.replace(/Uncaught .*Error: /, '');
         nar.util.error(msg);
     };
-	nar.util.ignoredModtypes = ['COMP', 'CONTIN'];
+	nar.util.IGNORED_MODTYPES = ['COMP', 'CONTIN'];
 	nar.util.stringContainsIgnoredModtype = function(myString){
-		return nar.util.ignoredModtypes.some(function(ignoredModtype){
+		return nar.util.IGNORED_MODTYPES.some(function(ignoredModtype){
 			return myString.has(ignoredModtype);
 		});
 	};

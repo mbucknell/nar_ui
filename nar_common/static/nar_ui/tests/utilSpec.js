@@ -84,12 +84,12 @@ describe('Tests for nar.util', function() {
 		});
 		it('should return true if string does contain any ignored modtypes', function(){
 			//it should detect strings containing only the ignored modtypes
-			var dataWithIgnoredModtypes = [].concat(nar.util.ignoredModtypes);
+			var dataWithIgnoredModtypes = [].concat(nar.util.IGNORED_MODTYPES);
 			dataWithIgnoredModtypes.each(function(aString){
 				expect(nar.util.stringContainsIgnoredModtype(aString)).toBe(true);
 			});
 			//it should detect the ignored modtypes even if they are embedded in other strings
-			dataWithIgnoredModtypes = nar.util.ignoredModtypes.map(function(ignoredModtype){
+			dataWithIgnoredModtypes = nar.util.IGNORED_MODTYPES.map(function(ignoredModtype){
 				return 'a' + ignoredModtype + 'b';
 			});
 			dataWithIgnoredModtypes.each(function(aString){
