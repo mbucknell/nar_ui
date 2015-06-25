@@ -155,8 +155,8 @@ $(document).ready(
 				dataAvailability.each(function(dataAvailability) {
 					var observedProperty = dataAvailability.observedProperty;
 					var procedure = dataAvailability.procedure;
-					//ignore MODTYPE = 'COMP'
-					if(procedure.endsWith('COMP')){
+					//ignore some MODTYPEs
+					if(nar.util.stringContainsIgnoredModtype(procedure)){
 						return;//continue
 					}
 					else if (procedure.endsWith('discrete_concentration') &&

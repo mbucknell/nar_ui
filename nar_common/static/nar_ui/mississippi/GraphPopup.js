@@ -65,7 +65,7 @@ nar.GraphPopup = (function() {
 		$.when(getDataAvailability).then(function(dataAvailability){
 			
 			var relevantDataAvailability = dataAvailability.dataAvailability.filter(function(datumAvailability){
-				return datumAvailability.procedure.has(mrbToSos.loadTypeToDataType[loadType]) && !datumAvailability.procedure.has('COMP'); 
+				return datumAvailability.procedure.has(mrbToSos.loadTypeToDataType[loadType]) && !nar.util.stringContainsIgnoredModtype(datumAvailability.procedure); 
 			});
 			if(0 === relevantDataAvailability.length){
 				throw Error('No data available for this constituent at this site');
