@@ -28,8 +28,6 @@ nar.GraphPopup = (function() {
 	 *     constituent : String - the constituent to graph
 	 *     loadType : String - the load type (annual or may)
 	 *     target : The div element where the graph will be created.
-	 *     clientIdToServerIdConstituentMap : Object whose keys are client-side constituent ids and whose values are server-side constituent ids
-	 *     clientIdToServerIdLoadMap : Object whose keys are client-side load type ids and whose values are server-side load type ids
 	 * @ return a promise. The promise is resolved when the visualization has been created.
 	 */
 	me.createLoadGraphDisplay = function(args){
@@ -38,10 +36,6 @@ nar.GraphPopup = (function() {
 		mrbConstituent = args.constituent,
 		loadType = args.loadType,
 		target = args.target,
-		mrbToSos = {
-			constituentToConstituentId : args.clientIdToServerIdConstituentMap,
-			loadTypeToDataType : args.clientIdToServerIdLoadMap				
-		},
 		observedPropertyBaseUrl = CONFIG.sosDefsBaseUrl+ 'property/';
 		var vizDeferred = $.Deferred();
 		var promise = vizDeferred.promise();

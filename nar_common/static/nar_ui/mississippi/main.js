@@ -1,17 +1,6 @@
 $(document).ready(function() {
 	"use strict";
 	
-	var clientIdToServerIdConstituentMap = {
-		'tn' : 'TN',
-		'nitrateAndNitrite': 'NO3_NO2',
-		'tp' : 'TP',
-	};
-	
-	var clientIdToServerIdLoadMap = {
-		'annual' : 'annual_mass/',
-		'may' : 'monthly_mass/'
-	};
-	
 	var leftFiltersName = '.left_filter';
 	var $leftFilters = $(leftFiltersName);
 	var $leftLoad = $leftFilters.find('select[name="load"]');
@@ -143,13 +132,12 @@ $(document).ready(function() {
 						var onClose = function(){
 							filtersSubject.removeObserver(filtersChangeHandler);
 						};
-						
 						var dialog = nar.GraphPopup.create({
 							feature : feature,
 							width : width,
 							popupAnchor : graphContainer,
-							type : clientIdToServerIdLoadMap[type],
-							constituent: clientIdToServerIdConstituentMap[chemical] 
+							type : type,
+							constituent: chemical
 						}).on('dialogclose', onClose);
 
 					};
