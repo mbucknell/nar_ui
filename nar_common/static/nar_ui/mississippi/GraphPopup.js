@@ -12,7 +12,7 @@ nar.GraphPopup = (function() {
 	var mrbToSos = {
 			constituentToConstituentId : {
 				'tn' : 'TN',
-				'nitrateAndNitrite': 'NO3_NO2',
+				'no3_no2': 'NO3_NO2',
 				'tp' : 'TP',
 			},
 			loadTypeToDataType : {
