@@ -308,7 +308,7 @@ describe("nar.downloads.initDownloadPage", function(){
 	};
 	
 	beforeEach(function() {
-		CONFIG.currentWaterYear = 2013
+		CONFIG.currentWaterYear = 2014
 		server = sinon.fakeServer.create();//created needed dom
 		server.respondWith([
 		    				200,
