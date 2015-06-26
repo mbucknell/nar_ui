@@ -9,6 +9,17 @@ nar.GraphPopup = (function() {
 	var tsvRegistry = new nar.timeSeries.VisualizationRegistry();
 	me.popup = undefined;
 	me.timeSeriesViz = undefined;
+	var mrbToSos = {
+			constituentToConstituentId : {
+				'tn' : 'TN',
+				'nitrateAndNitrite': 'NO3_NO2',
+				'tp' : 'TP',
+			},
+			loadTypeToDataType : {
+				'annual' : 'annual_mass/',
+				'may' : 'monthly_mass/'
+			}
+	};
 	
 	/**
 	 * Creates the load graph  
@@ -35,7 +46,7 @@ nar.GraphPopup = (function() {
 		else{
 			target.removeClass(partialHeightClass);
 		}
-		var constituentId = nar.mrbToSos.constituentToConstituentId[mrbConstituent];
+		var constituentId = mrbToSos.constituentToConstituentId[mrbConstituent];
 		var observedProperty = observedPropertyBaseUrl + constituentId;
 		var getDataAvailability = $.ajax({
 			url: CONFIG.endpoint.sos,
@@ -54,7 +65,7 @@ nar.GraphPopup = (function() {
 		$.when(getDataAvailability).then(function(dataAvailability){
 			
 			var relevantDataAvailability = dataAvailability.dataAvailability.filter(function(datumAvailability){
-				return datumAvailability.procedure.has(nar.mrbToSos.loadTypeToDataType[loadType]) && !nar.util.stringContainsIgnoredModtype(datumAvailability.procedure); 
+				return datumAvailability.procedure.has(mrbToSos.loadTypeToDataType[loadType]) && !nar.util.stringContainsIgnoredModtype(datumAvailability.procedure); 
 			});
 			if(0 === relevantDataAvailability.length){
 				throw Error('No data available for this constituent at this site');
@@ -82,7 +93,7 @@ nar.GraphPopup = (function() {
 					url : CONFIG.siteAveTargetUrl,
 					data : {
 						site_id : siteId,
-						constituent : nar.mrbToSos.constituentToConstituentId[mrbConstituent]
+						constituent : mrbToSos.constituentToConstituentId[mrbConstituent]
 					},
 					contentType : 'application/json',
 					success : function(response) {
