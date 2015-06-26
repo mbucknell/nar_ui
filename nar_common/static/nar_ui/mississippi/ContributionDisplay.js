@@ -225,7 +225,7 @@ nar.ContributionDisplay = (function() {
 		height = args.height || 200,
 		attributeKeys = Object.keys(me.attributeColorMap),
 		parameters = args.parameters;
-		
+		parameters.constituent = nar.mrbToSos.constituentToConstituentId[parameters.constituent];
 		me.getConstituentData({
 			parameters : parameters,
 			callbacks : {

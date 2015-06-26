@@ -1,3 +1,18 @@
+var nar = nar || {};
+(function(){
+	nar.mrbToSos = {
+		constituentToConstituentId : {
+			'tn' : 'TN',
+			'nitrateAndNitrite': 'NO3_NO2',
+			'tp' : 'TP',
+		},
+		loadTypeToDataType : {
+			'annual' : 'annual_mass/',
+			'may' : 'monthly_mass/'
+		}
+	};
+}());
+
 $(document).ready(function() {
 	"use strict";
 	
@@ -284,6 +299,7 @@ $(document).ready(function() {
 	// Create load layers and add observers to update the load layer and the contribution display	
 	var leftLoadLayer = new nar.mississippi.LoadLayer();
 	leftFiltersSubject.addObserver(function(filterData) {
+		filterData.chemical = nar.mrbToSos.constituentToConstituentId[filterData.chemical];
 		leftLoadLayer.updateLayer(filterData);
 		// This assumes that the sld only varies with load type and that the left and right always have the same load type.
 		$('#map-legend-container img').each(function() {
@@ -294,6 +310,7 @@ $(document).ready(function() {
 	
 	var rightLoadLayer = new nar.mississippi.LoadLayer();
 	rightFiltersSubject.addObserver(function(filterData) {
+		filterData.chemical = nar.mrbToSos.constituentToConstituentId[filterData.chemical];
 		rightLoadLayer.updateLayer(filterData);
 		updateRightContributionDisplay(filterData);
 	});
