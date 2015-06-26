@@ -1,6 +1,6 @@
 describe('Tests for nar.plots.createCoastalBasinPlot', function() {
 	CONFIG = {
-			currentWaterYear : 2013,
+			currentWaterYear : 2014,
 			startWaterYear : 1993
 	};
 	beforeEach(function() {
