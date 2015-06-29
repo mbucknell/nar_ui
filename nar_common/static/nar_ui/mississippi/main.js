@@ -19,7 +19,7 @@ $(document).ready(function() {
 	// Default the selection menu
 	$leftFilters.find('option[value="wy"]').prop('selected', true);
 	$leftFilters.find('option[value="no3_no2"]').prop('selected', true);
-	$leftFilters.find('option[value="1993_' + CONFIG.currentWaterYear +'"]').prop('selected', true);
+	$leftFilters.find('option[value="1993_' + (CONFIG.currentWaterYear - 1) +'"]').prop('selected', true);
 	
 	$rightFilters.find('option[value="wy"]').prop('selected', true);
 	$rightFilters.find('option[value="no3_no2"]').prop('selected', true);
