@@ -45,7 +45,7 @@ $(document).ready(function() {
 	
 	// Updates contribution display with selections
 	var updateContributionDisplay = function(containerSelector, placement, selections) {
-		if (selections.parameter_type && selections.constituent && selections.water_year) {
+		if (selections.parameter_type && 'may' !== selections.parameter_type && selections.constituent && selections.water_year) {
 			nar.ContributionDisplay.create({
 				containerSelector : containerSelector,
 				placement : placement,
