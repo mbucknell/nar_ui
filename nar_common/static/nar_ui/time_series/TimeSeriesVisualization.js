@@ -63,8 +63,16 @@ nar.timeSeries.Visualization = function(config){
                     var plotter = nar.timeSeries.Visualization.getPlotterById(self.id);
                     var plotContent;
                     if(plotter){
-                        self.plot = plotter(self);
-                        plotContent = self.plot;
+                    	try{
+                    		self.plot = plotter(self);
+                            plotContent = self.plot;
+                    	}
+                    	catch(e){
+                    		var message = "Error plotting " + self.id + ". Details logged to the browser console";
+                    		nar.util.error(message);
+                    		console.error(e);
+                    	}
+
                         //storePlotAtTypePath(plotContent, typePath);
                     }
                     else{
