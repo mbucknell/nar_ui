@@ -102,7 +102,7 @@ $(document).ready(function() {
 	var successfulGetDataAvailability = function(data,
 			textStatus, jqXHR) {
 		var dataAvailability = data.dataAvailability;
-				
+		//populate the tsvRegistry with tsvs created from the GetDataAvailability response 
 		dataAvailability.each(function(dataAvailability) {
 			var observedProperty = dataAvailability.observedProperty;
 			var procedure = dataAvailability.procedure;
@@ -133,7 +133,9 @@ $(document).ready(function() {
 								});
 						tsvRegistry.register(timeSeriesViz);
 					}
-		
+					
+					//Use the default time ranger for now. Override the hydrograph's time range 
+					//later if both of its time series overlap with the most recent water year.
 					var timeRange = nar.timeSeries.DataAvailabilityTimeRange(dataAvailability);
 					var timeSeries = new nar.timeSeries.TimeSeries(
 							{
@@ -161,7 +163,7 @@ $(document).ready(function() {
 			}
 		});
 		
-		//Now, since every visualizable constituent and modtype is available in the tsvRegistry,
+		//Now, since every non-ignored constituent and modtype is available in the tsvRegistry,
 		//and every one in the registry is about to be visualized, check to see if the hydrograph 
 		//should be removed. If it shouldn't be removed, override it's time range.
 		var hydrographAndFlowDurationTsvId = 'Q/daily/flow';
