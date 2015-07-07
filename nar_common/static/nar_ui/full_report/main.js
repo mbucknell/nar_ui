@@ -86,11 +86,8 @@ $(document).ready(function() {
 		var tsvCollection = tsv.timeSeriesCollection;
 		if(tsvCollection){
 			valid = tsvCollection.getAll().every(function(timeSeries){
-				var tsvRange = timeSeries.timeRange;
-				var dateRange = Date.range(tsvRange.startTime, tsvRange.endTime);
-				var intersection = dateRange.intersect(lastWaterYearRange);
-				var tsvRangeAndLastWaterYearRangeIntersect = intersection.isValid();
-				return tsvRangeAndLastWaterYearRangeIntersect;
+				var data = timeSeries.data;
+				return undefined != data;
 			});
 		}
 		else{
@@ -134,9 +131,7 @@ $(document).ready(function() {
 						tsvRegistry.register(timeSeriesViz);
 					}
 		
-					var timeRange = timeSeriesViz
-							.ranger(dataAvailability);
-		
+					var timeRange = nar.timeSeries.DataAvailabilityTimeRange(dataAvailability);
 					var timeSeries = new nar.timeSeries.TimeSeries(
 							{
 								observedProperty : observedProperty,
@@ -163,10 +158,15 @@ $(document).ready(function() {
 			}
 		});
 		
-		
+		//handle hydrograph special case
 		var hydrographAndFlowDurationTsvId = 'Q/daily/flow';
 		var hydrographAndFlowDurationTsv = tsvRegistry.get(hydrographAndFlowDurationTsvId);
-		if(!isValidHydrographAndFlowDurationTimeSeriesVis(hydrographAndFlowDurationTsv)){
+		if(isValidHydrographAndFlowDurationTimeSeriesVis(hydrographAndFlowDurationTsv)){
+			//if valid, restrict data's time range to the current water year 
+			hydrographAndFlowDurationTsv.timeSeriesCollection.getAll().each(function(timeSeries){
+				timeSeries.timeRange = nar.timeSeries.WaterYearTimeRange(CONFIG.currentWaterYear);
+			});
+		} else {
 			tsvRegistry.deregister(hydrographAndFlowDurationTsvId);
 		}
 		

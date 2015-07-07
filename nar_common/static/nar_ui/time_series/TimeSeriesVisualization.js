@@ -21,7 +21,6 @@ nar.timeSeries.Visualization = function(config){
     self.allPlotsWrapperElt = config.allPlotsWrapperElt;
     self.treeDisplayHierarchy = config.treeDisplayHierarchy || '';
     self.plotter = config.plotter;
-    self.ranger = nar.timeSeries.Visualization.getCustomizationById(self.id, 'range', nar.util.Unimplemented);
     self.ancillaryData = nar.timeSeries.Visualization.getCustomizationById(self.id, 'ancillary', []);
     self.auxData = config.auxData || {};
     self.allowTimeSlider = nar.timeSeries.Visualization.getCustomizationById(self.id, 'allowTimeSlider', true);
@@ -207,14 +206,12 @@ nar.timeSeries.Visualization.types = function(components) {
 			if (components.subcategory === 'mean' || components.subcategory === 'flow_weighted') {
 				return {
 					plotter : nar.plots.createConcentrationPlot,
-					range : nar.timeSeries.DataAvailabilityTimeRange,
 					ancillary : [],
 					allowTimeSlider : true
 				};
 			}
 			else return {
 				plotter : nar.plots.SampleConcentrationPlot,
-				range : nar.timeSeries.DataAvailabilityTimeRange,
 				ancillary : [],
 				allowTimeSlider : true
 			};
@@ -222,7 +219,6 @@ nar.timeSeries.Visualization.types = function(components) {
 		else if (components.category === 'mass') {
 			return {
 				plotter : nar.plots.LoadPlot,
-				range : nar.timeSeries.DataAvailabilityTimeRange,
 				ancillary : [],
 				allowTimeSlider : true
 			};
@@ -231,7 +227,6 @@ nar.timeSeries.Visualization.types = function(components) {
 			if (components.timestepDensity === 'annual') {
 				return {
 					plotter : nar.plots.createFlowPlot,
-					range : nar.timeSeries.DataAvailabilityTimeRange,
 					ancillary : [],
 					allowTimeSlider : true
 				};
@@ -239,9 +234,7 @@ nar.timeSeries.Visualization.types = function(components) {
 			else {
 				return {
 					plotter : nar.plots.FlowWrapper,
-					range : function() {
-						return nar.timeSeries.WaterYearTimeRange(CONFIG.currentWaterYear);
-					},
+
 					ancillary : [{
 						// @todo We will want to store these somewhere so this can just be nar .discrete.nitrogen
 						procedure : CONFIG.sosDefsBaseUrl + "procedure/discrete_concentration",
