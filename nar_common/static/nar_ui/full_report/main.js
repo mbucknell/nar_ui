@@ -74,18 +74,17 @@ $(document).ready(function() {
 		return ignore;
 	};
 	
+	var LAST_WATER_YEAR_RANGE = Date.range(nar.WaterYearUtils.getWaterYearStart(CONFIG.currentWaterYear), nar.WaterYearUtils.getWaterYearEnd(CONFIG.currentWaterYear));
 	/**
 	 * Checks to make sure that the data underlying the series cover the
 	 * most recent year.
-	 * @param {nar.timeSeries.Visualization}
+	 * @param {nar.timeSeries.TimeSeriesCollection}
 	 * @returns Boolean - True if valid, false otherwise
 	 */
-	var LAST_WATER_YEAR_RANGE = Date.range(nar.WaterYearUtils.getWaterYearStart(CONFIG.currentWaterYear), nar.WaterYearUtils.getWaterYearEnd(CONFIG.currentWaterYear));
-	var isValidHydrographAndFlowDurationTimeSeriesVis = function(tsv){
+	var isValidHydrographAndFlowDurationTimeSeriesCollection = function(timeSeriesCollection){
 		var valid = true;
-		var tsvCollection = tsv.timeSeriesCollection;
-		if(tsvCollection){
-			valid = tsvCollection.getAll().every(function(timeSeries){
+		if(timeSeriesCollection){
+			valid = timeSeriesCollection.getAll().every(function(timeSeries){
 				var tsvRange = timeSeries.timeRange;
 				var dateRange = Date.range(tsvRange.startTime, tsvRange.endTime);
 				var intersection = dateRange.intersect(LAST_WATER_YEAR_RANGE);
@@ -169,7 +168,7 @@ $(document).ready(function() {
 		var HYDROGRAPH_AND_FLOW_DURATION_TSV_ID = 'Q/daily/flow';
 		var hydrographAndFlowDurationTsv = tsvRegistry.get(HYDROGRAPH_AND_FLOW_DURATION_TSV_ID);
 		if(hydrographAndFlowDurationTsv){
-			if(isValidHydrographAndFlowDurationTimeSeriesVis(hydrographAndFlowDurationTsv)){
+			if(isValidHydrographAndFlowDurationTimeSeriesCollection(hydrographAndFlowDurationTsv.timeSeriesCollection)){
 				//if valid, restrict data's time range to the current water year 
 				hydrographAndFlowDurationTsv.timeSeriesCollection.getAll().each(function(timeSeries){
 					timeSeries.timeRange = nar.timeSeries.WaterYearTimeRange(CONFIG.currentWaterYear);

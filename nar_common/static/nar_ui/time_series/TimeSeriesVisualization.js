@@ -6,7 +6,7 @@ nar.timeSeries  = nar.timeSeries || {};
  * @typedef nar.timeSeries .TimeSeriesVisualizationConfig
  * @property {string} id
  * @property {Function} plotter
- * @property {nar.timeSeries .TimeSeriesCollection} timeSeriesCollection
+ * @property {nar.timeSeries.TimeSeriesCollection} timeSeriesCollection
  * @property {String} treeDisplayHierarchy optional param describing location of time series in a tree
  * @property {jQuery} allPlotsWrapperElt
  */
