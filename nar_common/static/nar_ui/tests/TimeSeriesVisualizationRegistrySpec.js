@@ -74,5 +74,18 @@ $(document).ready(function(){
 					expect(output).toBe(expectedOutput);
 				});
 			});
+			it('returns false if user calls deregister() with a key that has not yet been registered', function(){
+				expect(tsvRegistry.deregister('mockId')).toBe(false);
+			});
+			it('returns true if user calls deregister() with a key that has not yet been registered', function(){
+				tsvRegistry.register(tsv);
+				var wasRegistered = tsvRegistry.deregister(tsv.id);
+				expect(wasRegistered).toBe(true);
+			});
+			it('"get()" should return undefined for an id after "deregister()" is called with that id', function(){
+				tsvRegistry.register(tsv);
+				tsvRegistry.deregister(tsv.id);
+				expect(tsvRegistry.get(tsv.id)).toBeUndefined();
+			});
 	});
 });

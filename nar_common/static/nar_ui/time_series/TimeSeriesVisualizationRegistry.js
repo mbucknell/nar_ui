@@ -59,6 +59,18 @@ nar.timeSeries.VisualizationRegistry = function(){
         }
     };
     /**
+     * @param {String Time Series Visualization Id}
+     * @returns Boolean - true if the requested id was registered, false otherwise 
+     */
+    self.deregister = function(timeSeriesVisualizationId){
+    	var wasRegistered = false;
+    	if(Object.has(entries, timeSeriesVisualizationId)){
+    		wasRegistered = true;
+    		delete entries[timeSeriesVisualizationId];
+    	}
+    	return wasRegistered;
+    };
+    /**
      * Return all registered time series visualizations
      * @returns {Array<nar.timeSeries.Visualization>}
      */

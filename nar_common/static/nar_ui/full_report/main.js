@@ -74,6 +74,30 @@ $(document).ready(function() {
 		return ignore;
 	};
 	
+	/**
+	 * Checks to make sure that the data underlying the series cover the
+	 * most recent year.
+	 * @param {nar.timeSeries.Visualization}
+	 * @returns Boolean - True if valid, false otherwise
+	 */
+	var lastWaterYearRange = Date.range(nar.WaterYearUtils.getWaterYearStart(CONFIG.currentWaterYear), nar.WaterYearUtils.getWaterYearEnd(CONFIG.currentWaterYear));
+	var isValidHydrographAndFlowDurationTimeSeriesVis = function(tsv){
+		var valid = true;
+		var tsvCollection = tsv.timeSeriesCollection;
+		if(tsvCollection){
+			valid = tsvCollection.getAll().every(function(timeSeries){
+				var tsvRange = timeSeries.timeRange;
+				var dateRange = Date.range(tsvRange.startTime, tsvRange.endTime);
+				var intersection = dateRange.intersect(lastWaterYearRange);
+				var tsvRangeAndLastWaterYearRangeIntersect = intersection.isValid();
+				return tsvRangeAndLastWaterYearRangeIntersect;
+			});
+		}
+		else{
+			valid = false;
+		}
+		return valid;
+	};
 	var tsvRegistry = nar.timeSeries.VisualizationRegistryInstance;
 	var successfulGetDataAvailability = function(data,
 			textStatus, jqXHR) {
@@ -138,6 +162,13 @@ $(document).ready(function() {
 				}
 			}
 		});
+		
+		
+		var hydrographAndFlowDurationTsvId = 'Q/daily/flow';
+		var hydrographAndFlowDurationTsv = tsvRegistry.get(hydrographAndFlowDurationTsvId);
+		if(!isValidHydrographAndFlowDurationTimeSeriesVis(hydrographAndFlowDurationTsv)){
+			tsvRegistry.deregister(hydrographAndFlowDurationTsvId);
+		}
 		
 		var allTimeSeriesVizualizations = tsvRegistry.getAll();
 		var timeSlider = nar.timeSeries.TimeSlider(selectorElementPairs.timeSlider.element);
