@@ -161,16 +161,20 @@ $(document).ready(function() {
 			}
 		});
 		
-		//handle hydrograph special case
+		//Now, since every visualizable constituent and modtype is available in the tsvRegistry,
+		//and every one in the registry is about to be visualized, check to see if the hydrograph 
+		//should be removed. If it shouldn't be removed, override it's time range.
 		var hydrographAndFlowDurationTsvId = 'Q/daily/flow';
 		var hydrographAndFlowDurationTsv = tsvRegistry.get(hydrographAndFlowDurationTsvId);
-		if(isValidHydrographAndFlowDurationTimeSeriesVis(hydrographAndFlowDurationTsv)){
-			//if valid, restrict data's time range to the current water year 
-			hydrographAndFlowDurationTsv.timeSeriesCollection.getAll().each(function(timeSeries){
-				timeSeries.timeRange = nar.timeSeries.WaterYearTimeRange(CONFIG.currentWaterYear);
-			});
-		} else {
-			tsvRegistry.deregister(hydrographAndFlowDurationTsvId);
+		if(hydrographAndFlowDurationTsv){
+			if(isValidHydrographAndFlowDurationTimeSeriesVis(hydrographAndFlowDurationTsv)){
+				//if valid, restrict data's time range to the current water year 
+				hydrographAndFlowDurationTsv.timeSeriesCollection.getAll().each(function(timeSeries){
+					timeSeries.timeRange = nar.timeSeries.WaterYearTimeRange(CONFIG.currentWaterYear);
+				});
+			} else {
+				tsvRegistry.deregister(hydrographAndFlowDurationTsvId);
+			}
 		}
 		
 		var allTimeSeriesVizualizations = tsvRegistry.getAll();
