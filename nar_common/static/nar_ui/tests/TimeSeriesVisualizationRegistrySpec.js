@@ -77,7 +77,7 @@ $(document).ready(function(){
 			it('returns false if user calls deregister() with a key that has not yet been registered', function(){
 				expect(tsvRegistry.deregister('mockId')).toBe(false);
 			});
-			it('returns true if user calls deregister() with a key that has not yet been registered', function(){
+			it('returns true if user calls deregister() with a key that has been registered', function(){
 				tsvRegistry.register(tsv);
 				var wasRegistered = tsvRegistry.deregister(tsv.id);
 				expect(wasRegistered).toBe(true);
