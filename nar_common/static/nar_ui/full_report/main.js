@@ -86,8 +86,11 @@ $(document).ready(function() {
 		var tsvCollection = tsv.timeSeriesCollection;
 		if(tsvCollection){
 			valid = tsvCollection.getAll().every(function(timeSeries){
-				var data = timeSeries.data;
-				return undefined != data;
+				var tsvRange = timeSeries.timeRange;
+				var dateRange = Date.range(tsvRange.startTime, tsvRange.endTime);
+				var intersection = dateRange.intersect(lastWaterYearRange);
+				var tsvRangeAndLastWaterYearRangeIntersect = intersection.isValid();
+				return tsvRangeAndLastWaterYearRangeIntersect;
 			});
 		}
 		else{
