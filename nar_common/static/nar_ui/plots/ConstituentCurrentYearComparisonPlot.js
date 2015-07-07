@@ -74,7 +74,8 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
                 show: true,
                 barWidth: 4,
                 align: "left",
-                fillColor: series.yearColor
+                fillColor: series.yearColor,
+                lineWidth: 0
             }
     };
 	
@@ -85,7 +86,8 @@ var ConstituentCurrentYearComparisonPlot = function(plotContainerSelector, serie
 			show : true,
 			barWidth : 4,
 			align : "right",
-			fillColor: averageColor
+			fillColor: averageColor,
+			lineWidth: 0
 		}
     };
 	
