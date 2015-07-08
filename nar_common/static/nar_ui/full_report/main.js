@@ -19,7 +19,7 @@ $(document).ready(function() {
 	};
 	nar.timeSeries.VisualizationRegistryInstance = new nar.timeSeries.VisualizationRegistry();
 
-	var getDataAvailabilityUri = CONFIG.endpoint.sos + '/json';
+	var GET_DATA_AVAILABILITY_URL = CONFIG.endpoint.sos + '/json';
 	var getDataAvailabilityParams = {
 		"request" : "GetDataAvailability",
 		"service" : "SOS",
@@ -28,12 +28,12 @@ $(document).ready(function() {
 	};
 
 	var getDataAvailabilityRequest = $.ajax({
-		url : getDataAvailabilityUri,
+		url : GET_DATA_AVAILABILITY_URL,
 		data : JSON.stringify(getDataAvailabilityParams),
 		type : 'POST',
 		contentType : 'application/json'
 	});
-	var acceptableComponentsGroup = [
+	var ACCEPTABLE_COMPONENTS_GROUP = [
           {
     	  	  timestepDensity: 'discrete',
         	  category: 'concentration'
@@ -56,7 +56,7 @@ $(document).ready(function() {
         	  subcategory: undefined
           }
     ];
-	var constituentsToKeep = ['nitrogen', 'nitrate', 'streamflow', 'phosphorus', 'sediment'];
+	var CONSTITUENTS_TO_KEEP = ['nitrogen', 'nitrate', 'streamflow', 'phosphorus', 'sediment'];
 	/**
 	 * Determines if 'components' should be displayed on the client or not
 	 * @param {nar.timeSeries.Visualization.IdComponents} components, as returned by nar.TimeSeries.Visualization.getComponentsOfId 
@@ -74,11 +74,34 @@ $(document).ready(function() {
 		return ignore;
 	};
 	
+	var LAST_WATER_YEAR_RANGE = Date.range(nar.WaterYearUtils.getWaterYearStart(CONFIG.currentWaterYear), nar.WaterYearUtils.getWaterYearEnd(CONFIG.currentWaterYear));
+	/**
+	 * Checks to make sure that the data underlying the series cover the
+	 * most recent year.
+	 * @param {nar.timeSeries.TimeSeriesCollection}
+	 * @returns Boolean - True if valid, false otherwise
+	 */
+	var isValidHydrographAndFlowDurationTimeSeriesCollection = function(timeSeriesCollection){
+		var valid = true;
+		if(timeSeriesCollection){
+			valid = timeSeriesCollection.getAll().every(function(timeSeries){
+				var tsvRange = timeSeries.timeRange;
+				var dateRange = Date.range(tsvRange.startTime, tsvRange.endTime);
+				var intersection = dateRange.intersect(LAST_WATER_YEAR_RANGE);
+				var tsvRangeAndLastWaterYearRangeIntersect = intersection.isValid();
+				return tsvRangeAndLastWaterYearRangeIntersect;
+			});
+		}
+		else{
+			valid = false;
+		}
+		return valid;
+	};
 	var tsvRegistry = nar.timeSeries.VisualizationRegistryInstance;
 	var successfulGetDataAvailability = function(data,
 			textStatus, jqXHR) {
 		var dataAvailability = data.dataAvailability;
-				
+		//populate the tsvRegistry with tsvs created from the GetDataAvailability response 
 		dataAvailability.each(function(dataAvailability) {
 			var observedProperty = dataAvailability.observedProperty;
 			var procedure = dataAvailability.procedure;
@@ -92,8 +115,8 @@ $(document).ready(function() {
 						.getTimeSeriesVisualizationId(observedProperty, procedure);
 				var timeSeriesIdComponents = nar.timeSeries.Visualization.getComponentsOfId(timeSeriesVizId);
 				
-				if(		!constituentsToKeep.some(timeSeriesIdComponents.constituent) 
-						|| componentsAreIgnorable(timeSeriesIdComponents, acceptableComponentsGroup)){
+				if(		!CONSTITUENTS_TO_KEEP.some(timeSeriesIdComponents.constituent) 
+						|| componentsAreIgnorable(timeSeriesIdComponents, ACCEPTABLE_COMPONENTS_GROUP)){
 					return;//continue
 				}
 				else{
@@ -109,10 +132,10 @@ $(document).ready(function() {
 								});
 						tsvRegistry.register(timeSeriesViz);
 					}
-		
-					var timeRange = timeSeriesViz
-							.ranger(dataAvailability);
-		
+					
+					//Use the default time ranger for now. Override the hydrograph's time range 
+					//later if both of its time series overlap with the most recent water year.
+					var timeRange = nar.timeSeries.DataAvailabilityTimeRange(dataAvailability);
 					var timeSeries = new nar.timeSeries.TimeSeries(
 							{
 								observedProperty : observedProperty,
@@ -138,6 +161,22 @@ $(document).ready(function() {
 				}
 			}
 		});
+		
+		//Now, since every non-ignored constituent and modtype is available in the tsvRegistry,
+		//and every one in the registry is about to be visualized, check to see if the hydrograph 
+		//should be removed. If it shouldn't be removed, override it's time range.
+		var HYDROGRAPH_AND_FLOW_DURATION_TSV_ID = 'Q/daily/flow';
+		var hydrographAndFlowDurationTsv = tsvRegistry.get(HYDROGRAPH_AND_FLOW_DURATION_TSV_ID);
+		if(hydrographAndFlowDurationTsv){
+			if(isValidHydrographAndFlowDurationTimeSeriesCollection(hydrographAndFlowDurationTsv.timeSeriesCollection)){
+				//if valid, restrict data's time range to the current water year 
+				hydrographAndFlowDurationTsv.timeSeriesCollection.getAll().each(function(timeSeries){
+					timeSeries.timeRange = nar.timeSeries.WaterYearTimeRange(CONFIG.currentWaterYear);
+				});
+			} else {
+				tsvRegistry.deregister(HYDROGRAPH_AND_FLOW_DURATION_TSV_ID);
+			}
+		}
 		
 		var allTimeSeriesVizualizations = tsvRegistry.getAll();
 		var timeSlider = nar.timeSeries.TimeSlider(selectorElementPairs.timeSlider.element);
