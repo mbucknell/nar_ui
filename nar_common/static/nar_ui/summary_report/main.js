@@ -11,7 +11,7 @@ $(document).ready(
 				nar.WaterYearUtils.getWaterYearEnd(CONFIG.currentWaterYear, true));
 		var ConstituentCurrentYearComparisonPlot = nar.plots.ConstituentCurrentYearComparisonPlot;
 		var ExceedancePlot = nar.plots.ExceedancePlot;            
-
+		var NUMBER_OF_SIGNIFICANT_FIGURES = 3;
 		nar.informativePopup({
 			$anchor : $('#link-hover-benchmark-human'),
 			content : '<div class="popover-benchmark-content">\
@@ -99,7 +99,7 @@ $(document).ready(
 						avgData.push(0);
 					}
 					else {
-						avgData.push(splitData.previousYearsData.average(dataValue));
+						avgData.push(splitData.previousYearsData.average(dataValue).toPrecision(NUMBER_OF_SIGNIFICANT_FIGURES));
 					}
 					if (splitData.currentYearData.length === 0) {
 						currentYearData.push(0);
