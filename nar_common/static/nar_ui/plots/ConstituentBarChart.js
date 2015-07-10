@@ -95,7 +95,9 @@ nar.plots = nar.plots || {};
 		
 		
 		if (config.showLongTermMean) {
-			longTermMean = nar.plots.PlotUtils.calculateLongTermAverage(tsViz);
+			longTermMean = tsViz.timeSeriesCollection.getDataMerged().average(function(point){
+				return parseFloat(point[1]);//y-value
+			});
 			series.push(makeLongTermMeanSeries(longTermMean, constituentInfo.colors.longTermMean, 'Long-term mean'));
 		}
 		

@@ -100,19 +100,6 @@ nar.plots = nar.plots || {};
 				};
 			},
 			/**
-			 * This will probably eventually come from a service, but for now I'm just going to calculate
-			 */
-			calculateLongTermAverage: function(timeSeriesVisualization) {
-				var allData = timeSeriesVisualization.timeSeriesCollection.map(function(timeSeries){
-					return timeSeries.data;
-				});
-				var data = allData[0];
-				var avg = data.average(function(n){
-					return parseFloat(getYcoord(n));
-				});
-				return avg;
-			},
-			/**
 			 * @callback plotHoverFormatter
 			 * @param x
 			 * @param y
