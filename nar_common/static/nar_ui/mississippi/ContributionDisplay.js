@@ -8,7 +8,7 @@ nar.ContributionDisplay = (function() {
 	me.attributeColorMap = {
 		"ATCHAFALAYA" : {
 			"color" : "#B3A6A3",
-			"title" : "Atchafalaya River",
+			"title" : "Red River",
 			"shpAttr" : "atch"
 		},
 		"MISSOURI" : {
