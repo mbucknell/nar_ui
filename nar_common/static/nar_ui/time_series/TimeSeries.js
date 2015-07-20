@@ -91,12 +91,15 @@ nar.timeSeries.TimeSeries = function(config){
 		}
         
         var deferred = $.Deferred();
+        
+        var resultParamString = JSON.stringify(getResultParams);
 
         var dataRetrieval = $.ajax({
-            url: CONFIG.endpoint.sos + '/json',
+            url: CONFIG.endpoint.sos + '/json?id=' + nar.util.getHashCode(resultParamString),
             type: 'POST',
-            data: JSON.stringify(getResultParams),
+            data: resultParamString,
             contentType:'application/json',
+            dataType : 'json',
             success: function(response, textStatus, jqXHR){
                 self.data = self.parseSosGetResultResponse(response);
                 if (!self.timeRange) {

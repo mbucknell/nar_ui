@@ -26,10 +26,12 @@ $(document).ready(function() {
 		"version" : "2.0.0",
 		"featureOfInterest" : PARAMS.siteId
 	};
+	
+	var requestParamsString = JSON.stringify(getDataAvailabilityParams);
 
 	var getDataAvailabilityRequest = $.ajax({
-		url : GET_DATA_AVAILABILITY_URL,
-		data : JSON.stringify(getDataAvailabilityParams),
+		url : GET_DATA_AVAILABILITY_URL + '?id=' + nar.util.getHashCode(requestParamsString),
+		data : requestParamsString,
 		type : 'POST',
 		contentType : 'application/json'
 	});
