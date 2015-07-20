@@ -52,20 +52,21 @@
 			var tickLabels = basinFeatures.map(function(value) {
 				return value.attributes[CONFIG.riverNameAttribute].replace('River', '\nRiver');
 			});
+			var requestParamsString = JSON.stringify({
+				'request' : 'GetDataAvailability',
+				'service' : 'SOS',
+				'version' : '2.0.0',
+				'observedProperty' : CONFIG.sosDefsBaseUrl + 'property/NO3_NO2',
+				'featureOfInterest' : basinSiteIds
+			});
 			
 			// Make dataAvailability call for all sites for nitrate and nitrite
 			var getDataAvailability = $.ajax({
-				url : CONFIG.endpoint.sos,
+				url : CONFIG.endpoint.sos + '?id=' + nar.util.getHashCode(requestParamsString),
 				contentType : 'application/json',
 				type: 'POST',
 				dataType : 'json',
-				data : JSON.stringify({
-					'request' : 'GetDataAvailability',
-					'service' : 'SOS',
-					'version' : '2.0.0',
-					'observedProperty' : CONFIG.sosDefsBaseUrl + 'property/NO3_NO2',
-					'featureOfInterest' : basinSiteIds
-				})
+				data : requestParamsString
 			});
 
 			$.when(getDataAvailability)

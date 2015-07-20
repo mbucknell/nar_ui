@@ -129,18 +129,19 @@ $(document).ready(
 						barChart, series);
 			};
 
+			var requestParamsString = JSON.stringify({
+				'request' : 'GetDataAvailability',
+				'service' : 'SOS',
+				'version' : '2.0.0',
+				'featureOfInterest' : id
+			});
 			//find out what data is available for the site
 			var getDataAvailability = $.ajax({
-				url : CONFIG.endpoint.sos + '/json',
+				url : CONFIG.endpoint.sos + '/json?id=' + nar.util.getHashCode(requestParamsString),
 				contentType : 'application/json',
 				type: 'POST',
 				dataType : 'json',
-				data : JSON.stringify({
-					'request' : 'GetDataAvailability',
-					'service' : 'SOS',
-					'version' : '2.0.0',
-					'featureOfInterest' : id
-				})
+				data : requestParamsString
 			});
 
 			var streamflowDataAvailability = [];
