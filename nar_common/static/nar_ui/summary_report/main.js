@@ -127,21 +127,15 @@ $(document).ready(
 
 				var graph = ConstituentCurrentYearComparisonPlot(
 						barChart, series);
-			};
+			};		
+			var queryString = 'timeseries/availability/' + id + "?" + nar.util.getIgnoredModtypeString();
 
-			var requestParamsString = JSON.stringify({
-				'request' : 'GetDataAvailability',
-				'service' : 'SOS',
-				'version' : '2.0.0',
-				'featureOfInterest' : id
-			});
 			//find out what data is available for the site
 			var getDataAvailability = $.ajax({
-				url : CONFIG.endpoint.sos + '/json?id=' + nar.util.getHashCode(requestParamsString),
+				url : CONFIG.endpoint.nar_webservice + queryString + '&id=' + nar.util.getHashCode(queryString),
 				contentType : 'application/json',
-				type: 'POST',
-				dataType : 'json',
-				data : requestParamsString
+				type: 'GET',
+				dataType : 'json'
 			});
 
 			var streamflowDataAvailability = [];
@@ -151,7 +145,7 @@ $(document).ready(
 			
 			var successfulGetDataAvailability = function(data, textStatus, jqXHR) {
 
-				var dataAvailability = data.dataAvailability;
+				var dataAvailability = nar.util.translateToSosGetDataAvailability(data);
         				
 				dataAvailability.each(function(dataAvailability) {
 					var observedProperty = dataAvailability.observedProperty;
@@ -193,17 +187,17 @@ $(document).ready(
 
 						streamflowDataAvailability.push(dataAvailability);						
                     }
-					else if (procedure.has('annual_mass/') &&
+					else if (procedure.endsWith('annual_mass') &&
 							(observedProperty.endsWith('NO3_NO2'))) {
 						
 						nitrateDataAvailability.push(dataAvailability);						
 					}	
-					else if (procedure.has('annual_mass/') &&
+					else if (procedure.endsWith('annual_mass') &&
 							(observedProperty.endsWith('TP'))) {
 						
 						phosphorusDataAvailability.push(dataAvailability);						
 					}	
-					else if (procedure.has('annual_mass/') &&
+					else if (procedure.endsWith('annual_mass') &&
 							(observedProperty.endsWith('SSC'))) {
 						
 						sedimentDataAvailability.push(dataAvailability);						
