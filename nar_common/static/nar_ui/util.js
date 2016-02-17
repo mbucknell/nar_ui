@@ -86,4 +86,49 @@ nar.util = {};
 		return hash;
 	};
     
+	/**
+	 * Given members from a nar custom web service availability response,
+	 * create an sos procedure url that represents the same thing.
+	 * @param timeSeriesCategory
+	 * @param timeStepDensity
+	 * @returns {String}
+	 */
+	nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity = function (timeSeriesCategory, timeStepDensity) {
+		var procedure = timeStepDensity.toLowerCase() + '_';
+		timeSeriesCategory = timeSeriesCategory.toLowerCase();
+		if('load' === timeSeriesCategory){
+			procedure += 'mass';
+		} else {
+			procedure += timeSeriesCategory;
+		}
+		return procedure;
+	};
+	
+	/**
+	 * 
+	 * Given a response from a nar custom web service availability call,
+	 * translate it to a SosGetDataAvailability Response
+	 * @param response
+	 */
+	nar.util.translateToSosGetDataAvailability = function(response){
+		var sosGetDataAvailabilityResponse = [];
+		
+		//some responses from the NAR availability API will generate multiple
+		//SOS Data Availability objects
+		response.each(function(entry){
+			sosGetDataAvailabilityResponse.push({
+				observedProperty : entry.constit,
+				procedure : nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity(entry.timeSeriesCategory, entry.timeStepDensity),
+				phenomenonTime : [entry.startTime, entry.endTime]
+			});
+			if('load' === entry.timeSeriesCategory.toLowerCase()){
+				sosGetDataAvailabilityResponse.push({
+					observedProperty : entry.constit,
+					procedure : nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity('concentration_flow_weighted', entry.timeStepDensity),
+					phenomenonTime : [entry.startTime, entry.endTime]
+				});
+			}
+		});
+		return sosGetDataAvailabilityResponse;
+	}
 }());

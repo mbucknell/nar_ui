@@ -97,4 +97,99 @@ describe('Tests for nar.util', function() {
 			});
 		});
 	});
+	describe('getSosProcedureForTimeSeriesCategoryAndTimeStepDensity', function(){
+		it('should correctly convert "load" timeSeriesCategory values to "mass" in the sos procedure', function(){
+			var expected = 'annual_mass';
+			var result = nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity('LOAD', 'ANNUAL')
+			expect(expected).toBe(result);
+		});
+		it('should put timeSeriesCategory values that aren\'t "load" into the sos procedure without conversion', function(){
+			var expected = 'daily_concentration_flow_weighted';
+			var result = nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity('CONCENTRATION_FLOW_WEIGHTED', 'DAILY');
+			expect(expected).toBe(result);
+		});
+	});
+	describe('translateToSosGetDataAvailability', function(){
+		it('should create a "mass" and a "flow_weighted_concentration" sos data availability object for each response entry with timeSeriesCategory=="load"', function(){
+			
+			//construct input
+			
+			var firstConstituent = 'firsty',
+			firstTimeStepDensity = 'annual',
+			firstStartTime = '1916-02-17T20:39:56.053Z',
+			firstEndTime = '2016-02-17T20:39:56.053Z',
+			secondConstituent = 'secondy',
+			secondTimeStepDensity = 'daily'
+			secondStartTime = '1915-02-17T20:39:56.053Z',
+			secondEndTime = '2015-02-17T20:39:56.053Z',
+			timeSeriesCategory = 'load',
+			extraProcedure = 'concentration_flow_weighted';
+				
+			
+			var narAvailabilityResponse = [
+			                               {
+			                            	   timeSeriesCategory : timeSeriesCategory,
+			                            	   timeStepDensity : firstTimeStepDensity,
+			                            	   constit : firstConstituent,
+			                            	   startTime : firstStartTime,
+			                            	   endTime : firstEndTime
+			                               },
+			                               {
+			                            	   timeSeriesCategory : timeSeriesCategory,
+			                            	   timeStepDensity : secondTimeStepDensity,
+			                            	   constit : secondConstituent,
+			                            	   startTime : secondStartTime,
+			                            	   endTime : secondEndTime
+			                               }
+            ];
+			
+			//construct expected output
+			var expectedSosGetDataAvailability = [
+                  {
+                	  procedure : firstTimeStepDensity + '_mass',
+                	  observedProperty: firstConstituent,
+                	  phenomenonTime : [
+    	                    firstStartTime,
+    	                    firstEndTime
+                      ],
+                  },
+                  {
+                	  procedure : firstTimeStepDensity + '_' + extraProcedure,
+                	  observedProperty: firstConstituent,
+                	  phenomenonTime : [
+    	                    firstStartTime,
+    	                    firstEndTime
+                      ],
+                  },
+                  {
+                	  procedure : secondTimeStepDensity + '_mass',
+                	  observedProperty: secondConstituent,
+                	  phenomenonTime : [
+    	                    secondStartTime,
+    	                    secondEndTime
+                      ],
+                  },
+                  {
+                	  procedure : secondTimeStepDensity + '_' + extraProcedure,
+                	  observedProperty: secondConstituent,
+                	  phenomenonTime : [
+    	                    secondStartTime,
+    	                    secondEndTime
+                      ],
+                  }
+            ];
+			
+			//get actual
+			var actualSosGetDataAvailability = nar.util.translateToSosGetDataAvailability(narAvailabilityResponse);
+			
+			//verify
+			expect(expectedSosGetDataAvailability.length).toBe(actualSosGetDataAvailability.length);
+			expectedSosGetDataAvailability.zip(actualSosGetDataAvailability).each(function(expectedActualPair){
+				var expected = expectedActualPair[0],
+				actual = expectedActualPair[1];
+				expect(Object.equal(expected, actual)).toBe(true);
+			});
+		});
+	});
+	
 });
