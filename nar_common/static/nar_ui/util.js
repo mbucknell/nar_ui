@@ -74,7 +74,11 @@ nar.util = {};
 			return myString.has(ignoredModtype);
 		});
 	};
-	
+	nar.util.getIgnoredModtypeString = function (){
+		return nar.util.IGNORED_MODTYPES.map(function(ignoredModtype){
+			return $.param({'excludeModtype':ignoredModtype});
+		}).join('&');
+	}
 	nar.util.getHashCode = function(str) {
 		var hash = 0, i, chr, len;
 		if (str.length === 0) return hash;
@@ -105,6 +109,15 @@ nar.util = {};
 	};
 	
 	/**
+	 * Given a constituent from a nar custom web service availability response,
+	 * create an sos observed property url that represents the same thing.
+	 * @param constit
+	 * @returns {String}
+	 */
+	nar.util.getSosObservedPropertyForConstituent = function (constit) {
+		return constit || 'Q';
+	};
+	/**
 	 * 
 	 * Given a response from a nar custom web service availability call,
 	 * translate it to a SosGetDataAvailability Response
@@ -117,13 +130,13 @@ nar.util = {};
 		//SOS Data Availability objects
 		response.each(function(entry){
 			sosGetDataAvailabilityResponse.push({
-				observedProperty : entry.constit,
+				observedProperty : nar.util.getSosObservedPropertyForConstituent(entry.constit),
 				procedure : nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity(entry.timeSeriesCategory, entry.timeStepDensity),
 				phenomenonTime : [entry.startTime, entry.endTime]
 			});
 			if('load' === entry.timeSeriesCategory.toLowerCase()){
 				sosGetDataAvailabilityResponse.push({
-					observedProperty : entry.constit,
+					observedProperty : nar.util.getSosObservedPropertyForConstituent(entry.constit),
 					procedure : nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity('concentration_flow_weighted', entry.timeStepDensity),
 					phenomenonTime : [entry.startTime, entry.endTime]
 				});
