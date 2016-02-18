@@ -144,9 +144,12 @@ $(document).ready(
 			var sedimentDataAvailability = [];
 			
 			var successfulGetDataAvailability = function(data, textStatus, jqXHR) {
-
+				data = data.map(function(entry){
+					entry.featureOfInterest = id;
+					return entry;
+				});
 				var dataAvailability = nar.util.translateToSosGetDataAvailability(data);
-        				
+
 				dataAvailability.each(function(dataAvailability) {
 					var observedProperty = dataAvailability.observedProperty;
 					var procedure = dataAvailability.procedure;
