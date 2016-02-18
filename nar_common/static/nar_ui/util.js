@@ -117,6 +117,14 @@ nar.util = {};
 	nar.util.getSosObservedPropertyForConstituent = function (constit) {
 		return constit || 'Q';
 	};
+	
+	/**
+	 * The inverse of nar.util.getSosObservedPropertyForConstituent
+	 */
+	nar.util.getConstituentForSosObservedProperty = function(sosObservedProperty) {
+		return sosObservedProperty == 'Q' ? undefined : sosObservedProperty;
+	};
+	
 	/**
 	 * 
 	 * Given a response from a nar custom web service availability call,
@@ -132,16 +140,32 @@ nar.util = {};
 			sosGetDataAvailabilityResponse.push({
 				observedProperty : nar.util.getSosObservedPropertyForConstituent(entry.constit),
 				procedure : nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity(entry.timeSeriesCategory, entry.timeStepDensity),
-				phenomenonTime : [entry.startTime, entry.endTime]
+				phenomenonTime : [entry.startTime, entry.endTime],
+				featureOfInterest : entry.featureOfInterest
 			});
 			if('load' === entry.timeSeriesCategory.toLowerCase()){
 				sosGetDataAvailabilityResponse.push({
 					observedProperty : nar.util.getSosObservedPropertyForConstituent(entry.constit),
 					procedure : nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity('concentration_flow_weighted', entry.timeStepDensity),
-					phenomenonTime : [entry.startTime, entry.endTime]
+					phenomenonTime : [entry.startTime, entry.endTime],
+					featureOfInterest : entry.featureOfInterest
 				});
 			}
 		});
 		return sosGetDataAvailabilityResponse;
 	}
+	
+
+	var sosProcedureToCustomRetrievalEndpoint = {
+			'annual_mass' : 'aloads',
+			'annual_concentration_flow_weighted' : 'aloads',
+			'monthly_mass' : 'mloads',
+			'monthly_flow' : 'mflow',
+			'daily_flow' : 'dflow',
+			'annual_flow' : 'aflow',
+			'discrete_concentration' : 'discqw'
+	};
+	nar.util.translateSosProcedureToRetrievalEndpoint = function(sosProcedure) {
+		return sosProcedureToCustomRetrievalEndpoint[sosProcedure];
+	};
 }());

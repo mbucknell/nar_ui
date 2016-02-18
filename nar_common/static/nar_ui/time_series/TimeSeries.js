@@ -58,48 +58,25 @@ nar.timeSeries.TimeSeries = function(config){
      * @returns {jQuery.promise} -- the promise callbacks are called with this TimeSeries
      */
     self.retrieveData = function(){
-        var getResultParams = {
-            "request": "GetResult",
-            "service": "SOS",
-            "version": "2.0.0",
-            "offering" : self.procedure,
-            "observedProperty" : self.observedProperty,
-            "featureOfInterest" : self.featureOfInterest,
-        };
-        if (self.timeRange) {
-        	if(self.timeRange.startTime === self.timeRange.endTime){
-        		getResultParams.temporalFilter = [{
-        	      "equals" : {
-        	          "ref": "om:phenomenonTime",
-        	          "value": nar.util.toISOString(self.timeRange.endTime)
-        	        }
-        		}];
-        	}
-        	else{
-        		getResultParams.temporalFilter = [{
-					"during" : {
-						"ref" : "om:phenomenonTime",
-						"value" : [
-					         //the time filters exclude the range extremes, but getDataAvailability range is inclusive, so pad the start
-					         //and end times retrieved from getDataAvailability in order to retrieve the available times
-							nar.util.toISOString(self.timeRange.startTime - 1000),
-							nar.util.toISOString(self.timeRange.endTime + 1000)
-						]
-					}
-        		}];
-        	}
-		}
-        
+    	var endpoint = nar.util.translateSosProcedureToRetrievalEndpoint(self.procedure);
+    	var constit = nar.util.getConstituentForSosObservedProperty(self.observedProperty);
+    	var modtypeFilter = nar.util.getIgnoredModtypeString();
+      	var startTime = nar.util.toISOString(self.timeRange.startTime);
+      	var endTime = nar.util.toISOString(self.timeRange.endTime)
+                
         var deferred = $.Deferred();
         
-        var resultParamString = JSON.stringify(getResultParams);
+        var endpointAndQueryString = endpoint + '/site/' + self.featureOfInterest + '?';
+        if(constit){
+        	endpointAndQueryString += 'constit=' + constit + '&'; 
+        }
+        
+        endpointAndQueryString += modtypeFilter + '&startTime=' + startTime + '&endTime=' + endTime;
 
         var dataRetrieval = $.ajax({
-            url: CONFIG.endpoint.sos + '/json?id=' + nar.util.getHashCode(resultParamString),
-            type: 'POST',
-            data: resultParamString,
+            url: CONFIG.endpoint.nar_webservice + 'timeseries/' + endpointAndQueryString + '&jsonid=' + nar.util.getHashCode(endpointAndQueryString),
+            type: 'GET',
             contentType:'application/json',
-            dataType : 'json',
             success: function(response, textStatus, jqXHR){
                 self.data = self.parseSosGetResultResponse(response);
                 if (!self.timeRange) {
