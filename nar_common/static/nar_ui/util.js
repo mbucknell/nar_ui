@@ -33,6 +33,11 @@ nar.util = {};
             dateObj.getUTCSeconds().pad(2) + 'Z';
     };
     
+    nar.util.toISODate = function(dateLike) {
+    	var dateObj = Date.create(dateLike);
+    	return dateObj.format(Date.ISO8601_DATE);
+    };
+    
     nar.util.Unimplemented = function() {
         throw Error('This functionality is not yet implemented');
     };
@@ -168,4 +173,41 @@ nar.util = {};
 	nar.util.translateSosProcedureToRetrievalEndpoint = function(sosProcedure) {
 		return sosProcedureToCustomRetrievalEndpoint[sosProcedure];
 	};
+	
+	//specify the names of the value properties. They are joined together as strings from left to right in order of listing.
+	var sosProcedureToValueProperties = {
+			'annual_mass' : ['tons'],
+			'annual_concentration_flow_weighted' : ['fws'],
+			'monthly_mass' : ['tons'],
+			'monthly_flow' : ['flow'],
+			'daily_flow' : ['flow'],
+			'annual_flow' : ['flow'],
+			'discrete_concentration' : ['remark', 'concentration']
+	};
+	
+	nar.util.getValueForResponseRow = function(responseRow, procedure){
+		var valueProperties = sosProcedureToValueProperties[procedure];
+		//value can be comprised of multiple fields. Join fields together in order.
+		var value = valueProperties.reduce(function(accumulation, current){
+			//if attribute is missing, use blank string
+			return accumulation + '' + (responseRow[current] || '');
+		}, '');
+		
+		return value;
+	};
+	
+	nar.util.getTimestampForResponseRow = function(responseRow){
+		var theDate;
+		if(responseRow.date){
+			theDate = Date.create(responseRow.date);
+		} else {
+			if(responseRow.month) {
+				theDate = Date.create(responseRow.wy + '-' + responseRow.month);
+			} else {
+				theDate = Date.create('' + responseRow.wy);
+			} 
+		}
+		return theDate.getTime();
+	};
+	
 }());
