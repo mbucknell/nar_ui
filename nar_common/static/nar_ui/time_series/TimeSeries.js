@@ -22,51 +22,51 @@ nar.timeSeries.TimeSeries = function(config){
     self.timeRange = config.timeRange || null;
     self.featureOfInterest = config.featureOfInterest;
     self.data = undefined;
-      
+
     self.parseResultRetrievalResponse = function(response){
         var dataToReturn;
-    	if(Object.isArray(response)){
-	        var dataToReturn = response.map(function(row){
-	            var dateAndValues = [
-	                nar.util.getTimestampForResponseRow(row),
-	                nar.util.getValueForResponseRow(row, self.procedure)
-	            ];
-	            return dateAndValues;
-	        });
+        if (Object.isArray(response)){
+	            dataToReturn = response.map(function(row) {
+	                var dateAndValues = [
+	                    nar.util.getTimestampForResponseRow(row),
+	                    nar.util.getValueForResponseRow(row, self.procedure)
+	                ];
+	                return dateAndValues;
+	            });
         } else {
-        	throw Exception('error retrieving data');
+            throw 'error retrieving data';
         }
-    	return dataToReturn;
+        return dataToReturn;
     };
-    
+
     /**
      * Retrieve data and run callback. Does not check to see if data is already present.
      * @returns {jQuery.promise} -- the promise callbacks are called with this TimeSeries
      */
-    self.retrieveData = function(){
-    	var endpoint = nar.util.translateSosProcedureToRetrievalEndpoint(self.procedure);
-    	var constit = nar.util.getConstituentForSosObservedProperty(self.observedProperty);
-    	var modtypeFilter = nar.util.getIgnoredModtypeString();
-      	var startTime = nar.util.toISODate(self.timeRange.startTime);
-      	var endTime = nar.util.toISODate(self.timeRange.endTime);
-                
+    self.retrieveData = function() {
+       var endpoint = nar.util.translateSosProcedureToRetrievalEndpoint(self.procedure);
+       var constit = nar.util.getConstituentForSosObservedProperty(self.observedProperty);
+       var modtypeFilter = nar.util.getIgnoredModtypeString();
+       var startTime = nar.util.toISODate(self.timeRange.startTime);
+       var endTime = nar.util.toISODate(self.timeRange.endTime);
+
         var deferred = $.Deferred();
-        
+
         var endpointAndQueryString = endpoint + '/site/' + self.featureOfInterest + '?';
-        if(constit){
-        	endpointAndQueryString += 'constit=' + constit + '&'; 
+        if (constit){
+               endpointAndQueryString += 'constit=' + constit + '&';
         }
-        
+
         endpointAndQueryString += modtypeFilter + '&startTime=' + startTime + '&endTime=' + endTime;
 
         var dataRetrieval = $.ajax({
-            url: CONFIG.endpoint.nar_webservice + 'timeseries/' + endpointAndQueryString + '&jsonid=' + nar.util.getHashCode(endpointAndQueryString),
-            type: 'GET',
-            contentType:'application/json',
-            success: function(response, textStatus, jqXHR){
+            url : CONFIG.endpoint.nar_webservice + 'timeseries/' + endpointAndQueryString + '&jsonid=' + nar.util.getHashCode(endpointAndQueryString),
+            type : 'GET',
+            contentType : 'application/json',
+            success : function(response, textStatus, jqXHR) {
                 self.data = self.parseResultRetrievalResponse(response);
                 if (!self.timeRange) {
-                    self.timeRange = new nar.timeSeries.TimeRange(self.data[0] [0], self.data[self.data.length - 1] [0]);
+                    self.timeRange = new nar.timeSeries.TimeRange(self.data[0][0], self.data[self.data.length - 1][0]);
                 }
                 // pass this entire object to the callback
                 deferred.resolve(self);
@@ -78,7 +78,7 @@ nar.timeSeries.TimeSeries = function(config){
         var promise = deferred.promise();
         return promise;
     };
-    
+
 };
 
 nar.timeSeries.DataAvailabilityTimeRange = function(dataAvailability, useOriginalTimes) {
@@ -88,13 +88,13 @@ nar.timeSeries.DataAvailabilityTimeRange = function(dataAvailability, useOrigina
         dataAvailability.phenomenonTime[startTimeIndex],
         dataAvailability.phenomenonTime[endTimeIndex]
     );
-    
+
     // Unless otherwise specified, cut off the start date to the
     if (!useOriginalTimes) {
-    	timeRange.trimStartTime();
+       timeRange.trimStartTime();
         timeRange.trimEndTime();
     }
-    
+
     return timeRange;
 };
 
