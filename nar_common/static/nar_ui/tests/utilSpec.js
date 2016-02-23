@@ -114,7 +114,8 @@ describe('Tests for nar.util', function() {
 			
 			//construct input
 			
-			var firstConstituent = 'firsty',
+			var featureOfInterest = '007', 
+			firstConstituent = 'firsty',
 			firstTimeStepDensity = 'annual',
 			firstStartTime = '1916-02-17T20:39:56.053Z',
 			firstEndTime = '2016-02-17T20:39:56.053Z',
@@ -132,20 +133,23 @@ describe('Tests for nar.util', function() {
 			                            	   timeStepDensity : firstTimeStepDensity,
 			                            	   constit : firstConstituent,
 			                            	   startTime : firstStartTime,
-			                            	   endTime : firstEndTime
+			                            	   endTime : firstEndTime,
+			                            	   featureOfInterest: featureOfInterest
 			                               },
 			                               {
 			                            	   timeSeriesCategory : timeSeriesCategory,
 			                            	   timeStepDensity : secondTimeStepDensity,
 			                            	   constit : secondConstituent,
 			                            	   startTime : secondStartTime,
-			                            	   endTime : secondEndTime
+			                            	   endTime : secondEndTime,
+			                            	   featureOfInterest: featureOfInterest,
 			                               }
             ];
 			
 			//construct expected output
 			var expectedSosGetDataAvailability = [
                   {
+                	  featureOfInterest: featureOfInterest,
                 	  procedure : firstTimeStepDensity + '_mass',
                 	  observedProperty: firstConstituent,
                 	  phenomenonTime : [
@@ -154,6 +158,7 @@ describe('Tests for nar.util', function() {
                       ],
                   },
                   {
+                	  featureOfInterest: featureOfInterest,
                 	  procedure : firstTimeStepDensity + '_' + extraProcedure,
                 	  observedProperty: firstConstituent,
                 	  phenomenonTime : [
@@ -162,6 +167,7 @@ describe('Tests for nar.util', function() {
                       ],
                   },
                   {
+                	  featureOfInterest: featureOfInterest,
                 	  procedure : secondTimeStepDensity + '_mass',
                 	  observedProperty: secondConstituent,
                 	  phenomenonTime : [
@@ -170,6 +176,7 @@ describe('Tests for nar.util', function() {
                       ],
                   },
                   {
+                	  featureOfInterest: featureOfInterest,
                 	  procedure : secondTimeStepDensity + '_' + extraProcedure,
                 	  observedProperty: secondConstituent,
                 	  phenomenonTime : [
@@ -191,5 +198,26 @@ describe('Tests for nar.util', function() {
 			});
 		});
 	});
-	
+	describe('getTimestampForResponseRow', function(){
+		it('should create the correct timestamp when only a numeric water year is provided', function(){
+			var input = {wy: 1990};
+			var expected = new Date(1990, 0, 1).getTime();
+			var actual = nar.util.getTimestampForResponseRow(input);
+			expect(expected).toBe(actual);
+		});
+		
+		it('should create the correct timestamp when a numeric water year and month are provided', function(){
+			var input = {wy: 1990, month: 1};
+			var expected = new Date(1990, 0, 1).getTime();
+			var actual = nar.util.getTimestampForResponseRow(input);
+			expect(expected).toBe(actual);
+		});
+		
+		it('should create the correct timestamp when a full string date is provided', function(){
+			var input = {date: "1990-01-01"};
+			var expected = new Date(1990, 0, 1).getTime();
+			var actual = nar.util.getTimestampForResponseRow(input);
+			expect(expected).toBe(actual);
+		});
+	});
 });
