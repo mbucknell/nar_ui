@@ -22,88 +22,51 @@ nar.timeSeries.TimeSeries = function(config){
     self.timeRange = config.timeRange || null;
     self.featureOfInterest = config.featureOfInterest;
     self.data = undefined;
-    
-    self.parseSosGetResultResponse = function(response){
-        var errorMessage ='error retrieving data';
-        var dataToReturn = [];
-        if(response.exception){
-            console.dir(response.exception);
-            alert(errorMessage);
-        }
-        else{
-        	var type = typeof response.resultValues; 
-            if(type === 'undefined'){
-                console.dir(response);
-                alert(errorMessage);
-            }
-            else if(type === 'string' && response.resultValues.length){
-                var rows = response.resultValues.split('@');
-                //the first row is just the record count. Throw it away.
-                rows = rows.from(1);
-                var dateIndex = 0;
-                var rowSplitToken = ',';
-                dataToReturn = rows.map(function(row){
-                    var tokens = row.split(rowSplitToken);
-                    var timeStamp = Date.create(tokens[dateIndex]).getTime();
-                    //overwrite
-                    tokens[dateIndex] = timeStamp;
-                    return tokens;
-                });
-            }
+
+    self.parseResultRetrievalResponse = function(response){
+        var dataToReturn;
+        if (Object.isArray(response)){
+	            dataToReturn = response.map(function(row) {
+	                var dateAndValues = [
+	                    nar.util.getTimestampForResponseRow(row),
+	                    nar.util.getValueForResponseRow(row, self.procedure)
+	                ];
+	                return dateAndValues;
+	            });
+        } else {
+            throw 'error retrieving data';
         }
         return dataToReturn;
     };
+
     /**
      * Retrieve data and run callback. Does not check to see if data is already present.
      * @returns {jQuery.promise} -- the promise callbacks are called with this TimeSeries
      */
-    self.retrieveData = function(){
-        var getResultParams = {
-            "request": "GetResult",
-            "service": "SOS",
-            "version": "2.0.0",
-            "offering" : self.procedure,
-            "observedProperty" : self.observedProperty,
-            "featureOfInterest" : self.featureOfInterest,
-        };
-        if (self.timeRange) {
-        	if(self.timeRange.startTime === self.timeRange.endTime){
-        		getResultParams.temporalFilter = [{
-        	      "equals" : {
-        	          "ref": "om:phenomenonTime",
-        	          "value": nar.util.toISOString(self.timeRange.endTime)
-        	        }
-        		}];
-        	}
-        	else{
-        		getResultParams.temporalFilter = [{
-					"during" : {
-						"ref" : "om:phenomenonTime",
-						"value" : [
-					         //the time filters exclude the range extremes, but getDataAvailability range is inclusive, so pad the start
-					         //and end times retrieved from getDataAvailability in order to retrieve the available times
-							nar.util.toISOString(self.timeRange.startTime - 1000),
-							nar.util.toISOString(self.timeRange.endTime + 1000)
-						]
-					}
-        		}];
-        	}
-		}
-        
+    self.retrieveData = function() {
+       var endpoint = nar.util.translateSosProcedureToRetrievalEndpoint(self.procedure);
+       var constit = nar.util.getConstituentForSosObservedProperty(self.observedProperty);
+       var modtypeFilter = nar.util.getIgnoredModtypeString();
+       var startTime = nar.util.toISODate(self.timeRange.startTime);
+       var endTime = nar.util.toISODate(self.timeRange.endTime);
+
         var deferred = $.Deferred();
-        
-        var resultParamString = JSON.stringify(getResultParams);
+
+        var endpointAndQueryString = endpoint + '/site/' + self.featureOfInterest + '?';
+        if (constit){
+               endpointAndQueryString += 'constit=' + constit + '&';
+        }
+
+        endpointAndQueryString += modtypeFilter + '&startTime=' + startTime + '&endTime=' + endTime;
 
         var dataRetrieval = $.ajax({
-            url: CONFIG.endpoint.sos + '/json?id=' + nar.util.getHashCode(resultParamString),
-            type: 'POST',
-            data: resultParamString,
-            contentType:'application/json',
-            dataType : 'json',
-            success: function(response, textStatus, jqXHR){
-                self.data = self.parseSosGetResultResponse(response);
+            url : CONFIG.endpoint.nar_webservice + 'timeseries/' + endpointAndQueryString + '&jsonid=' + nar.util.getHashCode(endpointAndQueryString),
+            type : 'GET',
+            contentType : 'application/json',
+            success : function(response, textStatus, jqXHR) {
+                self.data = self.parseResultRetrievalResponse(response);
                 if (!self.timeRange) {
-                    self.timeRange = new nar.timeSeries.TimeRange(self.data[0] [0], self.data[self.data.length - 1] [0]);
+                    self.timeRange = new nar.timeSeries.TimeRange(self.data[0][0], self.data[self.data.length - 1][0]);
                 }
                 // pass this entire object to the callback
                 deferred.resolve(self);
@@ -115,7 +78,7 @@ nar.timeSeries.TimeSeries = function(config){
         var promise = deferred.promise();
         return promise;
     };
-    
+
 };
 
 nar.timeSeries.DataAvailabilityTimeRange = function(dataAvailability, useOriginalTimes) {
@@ -125,13 +88,13 @@ nar.timeSeries.DataAvailabilityTimeRange = function(dataAvailability, useOrigina
         dataAvailability.phenomenonTime[startTimeIndex],
         dataAvailability.phenomenonTime[endTimeIndex]
     );
-    
+
     // Unless otherwise specified, cut off the start date to the
     if (!useOriginalTimes) {
-    	timeRange.trimStartTime();
+       timeRange.trimStartTime();
         timeRange.trimEndTime();
     }
-    
+
     return timeRange;
 };
 

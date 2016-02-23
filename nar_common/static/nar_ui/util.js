@@ -33,6 +33,11 @@ nar.util = {};
             dateObj.getUTCSeconds().pad(2) + 'Z';
     };
     
+    nar.util.toISODate = function(dateLike) {
+    	var dateObj = Date.create(dateLike);
+    	return dateObj.format(Date.ISO8601_DATE);
+    };
+    
     nar.util.Unimplemented = function() {
         throw Error('This functionality is not yet implemented');
     };
@@ -74,7 +79,11 @@ nar.util = {};
 			return myString.has(ignoredModtype);
 		});
 	};
-	
+	nar.util.getIgnoredModtypeString = function (){
+		return nar.util.IGNORED_MODTYPES.map(function(ignoredModtype){
+			return $.param({'excludeModtype':ignoredModtype});
+		}).join('&');
+	}
 	nar.util.getHashCode = function(str) {
 		var hash = 0, i, chr, len;
 		if (str.length === 0) return hash;
@@ -86,4 +95,119 @@ nar.util = {};
 		return hash;
 	};
     
+	/**
+	 * Given members from a nar custom web service availability response,
+	 * create an sos procedure url that represents the same thing.
+	 * @param timeSeriesCategory
+	 * @param timeStepDensity
+	 * @returns {String}
+	 */
+	nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity = function (timeSeriesCategory, timeStepDensity) {
+		var procedure = timeStepDensity.toLowerCase() + '_';
+		timeSeriesCategory = timeSeriesCategory.toLowerCase();
+		if('load' === timeSeriesCategory){
+			procedure += 'mass';
+		} else {
+			procedure += timeSeriesCategory;
+		}
+		return procedure;
+	};
+	
+	/**
+	 * Given a constituent from a nar custom web service availability response,
+	 * create an sos observed property url that represents the same thing.
+	 * @param constit
+	 * @returns {String}
+	 */
+	nar.util.getSosObservedPropertyForConstituent = function (constit) {
+		return constit || 'Q';
+	};
+	
+	/**
+	 * The inverse of nar.util.getSosObservedPropertyForConstituent
+	 */
+	nar.util.getConstituentForSosObservedProperty = function(sosObservedProperty) {
+		return sosObservedProperty == 'Q' ? undefined : sosObservedProperty;
+	};
+	
+	/**
+	 * 
+	 * Given a response from a nar custom web service availability call,
+	 * translate it to a SosGetDataAvailability Response
+	 * @param response
+	 */
+	nar.util.translateToSosGetDataAvailability = function(response){
+		var sosGetDataAvailabilityResponse = [];
+		
+		//some responses from the NAR availability API will generate multiple
+		//SOS Data Availability objects
+		response.each(function(entry){
+			sosGetDataAvailabilityResponse.push({
+				observedProperty : nar.util.getSosObservedPropertyForConstituent(entry.constit),
+				procedure : nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity(entry.timeSeriesCategory, entry.timeStepDensity),
+				phenomenonTime : [entry.startTime, entry.endTime],
+				featureOfInterest : entry.featureOfInterest
+			});
+			if('load' === entry.timeSeriesCategory.toLowerCase()){
+				sosGetDataAvailabilityResponse.push({
+					observedProperty : nar.util.getSosObservedPropertyForConstituent(entry.constit),
+					procedure : nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity('concentration_flow_weighted', entry.timeStepDensity),
+					phenomenonTime : [entry.startTime, entry.endTime],
+					featureOfInterest : entry.featureOfInterest
+				});
+			}
+		});
+		return sosGetDataAvailabilityResponse;
+	}
+	
+
+	var sosProcedureToCustomRetrievalEndpoint = {
+			'annual_mass' : 'aloads',
+			'annual_concentration_flow_weighted' : 'aloads',
+			'monthly_mass' : 'mloads',
+			'monthly_flow' : 'mflow',
+			'daily_flow' : 'dflow',
+			'annual_flow' : 'aflow',
+			'discrete_concentration' : 'discqw'
+	};
+	nar.util.translateSosProcedureToRetrievalEndpoint = function(sosProcedure) {
+		return sosProcedureToCustomRetrievalEndpoint[sosProcedure];
+	};
+	
+	//specify the names of the value properties. They are joined together as strings from left to right in order of listing.
+	var sosProcedureToValueProperties = {
+			'annual_mass' : ['tons'],
+			'annual_concentration_flow_weighted' : ['fws'],
+			'monthly_mass' : ['tons'],
+			'monthly_flow' : ['flow'],
+			'daily_flow' : ['flow'],
+			'annual_flow' : ['flow'],
+			'discrete_concentration' : ['remark', 'concentration']
+	};
+	
+	nar.util.getValueForResponseRow = function(responseRow, procedure){
+		var valueProperties = sosProcedureToValueProperties[procedure];
+		//value can be comprised of multiple fields. Join fields together in order.
+		var value = valueProperties.reduce(function(accumulation, current){
+			//if attribute is missing, use blank string
+			return accumulation + '' + (responseRow[current] || '');
+		}, '');
+		
+		return value;
+	};
+	
+	nar.util.getTimestampForResponseRow = function(responseRow){
+		var theDate;
+		if(responseRow.date){
+			theDate = Date.create(responseRow.date);
+		} else {
+			if(responseRow.month) {
+				theDate = Date.create(responseRow.wy + '-' + responseRow.month);
+			} else {
+				theDate = Date.create('' + responseRow.wy);
+			} 
+		}
+		return theDate.getTime();
+	};
+	
 }());
