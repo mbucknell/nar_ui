@@ -177,7 +177,7 @@ nar.util = {};
 	//specify the names of the value properties. They are joined together as strings from left to right in order of listing.
 	var sosProcedureToValueProperties = {
 			'annual_mass' : ['tons'],
-			'annual_concentration_flow_weighted' : ['fws'],
+			'annual_concentration_flow_weighted' : ['fwc'],
 			'monthly_mass' : ['tons'],
 			'monthly_flow' : ['flow'],
 			'daily_flow' : ['flow'],
