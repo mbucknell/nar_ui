@@ -134,8 +134,7 @@ $(document).ready(
 			var getDataAvailability = $.ajax({
 				url : CONFIG.endpoint.nar_webservice + queryString + '&id=' + nar.util.getHashCode(queryString),
 				contentType : 'application/json',
-				type: 'GET',
-				dataType : 'json'
+				type: 'GET'
 			});
 
 			var streamflowDataAvailability = [];
