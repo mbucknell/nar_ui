@@ -1,6 +1,6 @@
 //@requires nar.fullReport.Tree, nar.timeSeries.VisualizationRegistry, nar.timeSeries.Visualization
 $(document).ready(function() {
-
+	var siteId = PARAMS.siteId;
 	var selectorElementPair = function(selector) {
 		var jqElt = $(selector);
 		nar.util.assert_selector_present(jqElt);
@@ -19,22 +19,14 @@ $(document).ready(function() {
 	};
 	nar.timeSeries.VisualizationRegistryInstance = new nar.timeSeries.VisualizationRegistry();
 
-	var GET_DATA_AVAILABILITY_URL = CONFIG.endpoint.sos + '/json';
-	var getDataAvailabilityParams = {
-		"request" : "GetDataAvailability",
-		"service" : "SOS",
-		"version" : "2.0.0",
-		"featureOfInterest" : PARAMS.siteId
-	};
+	var queryString = 'timeseries/availability/' + siteId + "?" + nar.util.getIgnoredModtypeString();
 	
-	var requestParamsString = JSON.stringify(getDataAvailabilityParams);
-
 	var getDataAvailabilityRequest = $.ajax({
-		url : GET_DATA_AVAILABILITY_URL + '?id=' + nar.util.getHashCode(requestParamsString),
-		data : requestParamsString,
-		type : 'POST',
+		url : CONFIG.endpoint.nar_webservice + queryString + '&id=' + nar.util.getHashCode(queryString),
+		type : 'GET',
 		contentType : 'application/json'
 	});
+	
 	var ACCEPTABLE_COMPONENTS_GROUP = [
           {
     	  	  timestepDensity: 'discrete',
@@ -102,7 +94,7 @@ $(document).ready(function() {
 	var tsvRegistry = nar.timeSeries.VisualizationRegistryInstance;
 	var successfulGetDataAvailability = function(data,
 			textStatus, jqXHR) {
-		var dataAvailability = data.dataAvailability;
+		var dataAvailability = nar.util.translateToSosGetDataAvailability(data);
 		//populate the tsvRegistry with tsvs created from the GetDataAvailability response 
 		dataAvailability.each(function(dataAvailability) {
 			var observedProperty = dataAvailability.observedProperty;
