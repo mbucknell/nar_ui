@@ -155,6 +155,12 @@ nar.util = {};
 					phenomenonTime : [entry.startTime, entry.endTime],
 					featureOfInterest : entry.featureOfInterest
 				});
+				sosGetDataAvailabilityResponse.push({
+					observedProperty : nar.util.getSosObservedPropertyForConstituent(entry.constit),
+					procedure : nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity('yield', entry.timeStepDensity),
+					phenomenonTime : [entry.startTime, entry.endTime],
+					featureOfInterest : entry.featureOfInterest
+				});
 			}
 		});
 		return sosGetDataAvailabilityResponse;
@@ -164,6 +170,7 @@ nar.util = {};
 	var sosProcedureToCustomRetrievalEndpoint = {
 			'annual_mass' : 'aloads',
 			'annual_concentration_flow_weighted' : 'aloads',
+			'annual_yield' : 'aloads',
 			'monthly_mass' : 'mloads',
 			'monthly_flow' : 'mflow',
 			'daily_flow' : 'dflow',
@@ -178,6 +185,7 @@ nar.util = {};
 	var sosProcedureToValueProperties = {
 			'annual_mass' : ['tons'],
 			'annual_concentration_flow_weighted' : ['fwc'],
+			'annual_yield' : ['yield'],
 			'monthly_mass' : ['tons'],
 			'monthly_flow' : ['flow'],
 			'daily_flow' : ['flow'],
@@ -212,11 +220,15 @@ nar.util = {};
 	
 	/**
 	 * 
-	 * @param siteId {String} site id
+	 * @param siteId {String} mandatory site id
+	 * @param constit {String} optional constituent
 	 * @returns $.Deferred
 	 */
-	nar.util.getDataAvailability = function(siteId){
+	nar.util.getDataAvailability = function(siteId, constit){
 		var queryString = 'timeseries/availability/' + siteId + "?" + nar.util.getIgnoredModtypeString();
+		if(constit){
+			queryString += '&constit=' + constit;
+		}
 
 		//find out what data is available for the site
 		var getDataAvailability = $.ajax({
@@ -224,6 +236,7 @@ nar.util = {};
 			contentType : 'application/json',
 			type: 'GET'
 		});
+
 		return getDataAvailability;
 	};
 	

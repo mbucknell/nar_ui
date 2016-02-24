@@ -110,7 +110,7 @@ describe('Tests for nar.util', function() {
 		});
 	});
 	describe('translateToSosGetDataAvailability', function(){
-		it('should create a "mass" and a "flow_weighted_concentration" sos data availability object for each response entry with timeSeriesCategory=="load"', function(){
+		it('should create a "mass", "yield", and a "flow_weighted_concentration" sos data availability object for each response entry with timeSeriesCategory=="load"', function(){
 			
 			//construct input
 			
@@ -124,7 +124,8 @@ describe('Tests for nar.util', function() {
 			secondStartTime = '1915-02-17T20:39:56.053Z',
 			secondEndTime = '2015-02-17T20:39:56.053Z',
 			timeSeriesCategory = 'load',
-			extraProcedure = 'concentration_flow_weighted';
+			firstExtraProcedure = 'concentration_flow_weighted',
+			secondExtraProcedure = 'yield';
 				
 			
 			var narAvailabilityResponse = [
@@ -159,7 +160,16 @@ describe('Tests for nar.util', function() {
                   },
                   {
                 	  featureOfInterest: featureOfInterest,
-                	  procedure : firstTimeStepDensity + '_' + extraProcedure,
+                	  procedure : firstTimeStepDensity + '_' + firstExtraProcedure,
+                	  observedProperty: firstConstituent,
+                	  phenomenonTime : [
+    	                    firstStartTime,
+    	                    firstEndTime
+                      ],
+                  },
+                  {
+                	  featureOfInterest: featureOfInterest,
+                	  procedure : firstTimeStepDensity + '_' + secondExtraProcedure,
                 	  observedProperty: firstConstituent,
                 	  phenomenonTime : [
     	                    firstStartTime,
@@ -177,7 +187,16 @@ describe('Tests for nar.util', function() {
                   },
                   {
                 	  featureOfInterest: featureOfInterest,
-                	  procedure : secondTimeStepDensity + '_' + extraProcedure,
+                	  procedure : secondTimeStepDensity + '_' + firstExtraProcedure,
+                	  observedProperty: secondConstituent,
+                	  phenomenonTime : [
+    	                    secondStartTime,
+    	                    secondEndTime
+                      ],
+                  },
+                  {
+                	  featureOfInterest: featureOfInterest,
+                	  procedure : secondTimeStepDensity + '_' + secondExtraProcedure,
                 	  observedProperty: secondConstituent,
                 	  phenomenonTime : [
     	                    secondStartTime,
