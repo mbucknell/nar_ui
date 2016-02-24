@@ -33,6 +33,10 @@ nar.timeSeries.TimeSeries = function(config){
 	                ];
 	                return dateAndValues;
 	            });
+	            dataToReturn = dataToReturn.sortBy(function(datum){
+	            	//return timestamp
+	            	return datum[0];
+	            });
         } else {
             throw 'error retrieving data';
         }
@@ -47,8 +51,6 @@ nar.timeSeries.TimeSeries = function(config){
        var endpoint = nar.util.translateSosProcedureToRetrievalEndpoint(self.procedure);
        var constit = nar.util.getConstituentForSosObservedProperty(self.observedProperty);
        var modtypeFilter = nar.util.getIgnoredModtypeString();
-       var startTime = nar.util.toISODate(self.timeRange.startTime);
-       var endTime = nar.util.toISODate(self.timeRange.endTime);
 
         var deferred = $.Deferred();
 
@@ -57,10 +59,16 @@ nar.timeSeries.TimeSeries = function(config){
                endpointAndQueryString += 'constit=' + constit + '&';
         }
 
-        endpointAndQueryString += modtypeFilter + '&startTime=' + startTime + '&endTime=' + endTime;
+        endpointAndQueryString += modtypeFilter;
+        
+        if(self.timeRange){
+ 	       var startTime = nar.util.toISODate(self.timeRange.startTime);
+	       var endTime = nar.util.toISODate(self.timeRange.endTime);
+        	endpointAndQueryString  += '&startTime=' + startTime + '&endTime=' + endTime;
+        }
 
         var dataRetrieval = $.ajax({
-            url : CONFIG.endpoint.nar_webservice + 'timeseries/' + endpointAndQueryString + '&jsonid=' + nar.util.getHashCode(endpointAndQueryString),
+            url : CONFIG.endpoint.nar_webservice + 'timeseries/' + endpointAndQueryString,
             type : 'GET',
             contentType : 'application/json',
             success : function(response, textStatus, jqXHR) {
