@@ -16,8 +16,8 @@ nar.GraphPopup = (function() {
 				'tp' : 'TP',
 			},
 			loadTypeToDataType : {
-				'annual' : 'annual_mass/',
-				'may' : 'monthly_mass/'
+				'annual' : 'annual_mass',
+				'may' : 'monthly_mass'
 			}
 	};
 	
@@ -35,8 +35,7 @@ nar.GraphPopup = (function() {
 		isVirtual = args.isVirtual,
 		mrbConstituent = args.constituent,
 		loadType = args.loadType,
-		target = args.target,
-		observedPropertyBaseUrl = CONFIG.sosDefsBaseUrl+ 'property/';
+		target = args.target;
 		var vizDeferred = $.Deferred();
 		var promise = vizDeferred.promise();
 		var partialHeightClass = 'partial_height';
@@ -47,25 +46,14 @@ nar.GraphPopup = (function() {
 			target.removeClass(partialHeightClass);
 		}
 		var constituentId = mrbToSos.constituentToConstituentId[mrbConstituent];
-		var observedProperty = observedPropertyBaseUrl + constituentId;
-		var requestParamsString = JSON.stringify({
-			"request": "GetDataAvailability",
-			"service": "SOS",
-			"version": "2.0.0",
-			"observedProperty": observedProperty,
-			"featureOfInterest": siteId
-		});
-		var getDataAvailability = $.ajax({
-			url: CONFIG.endpoint.sos + '?id=' + nar.util.getHashCode(requestParamsString),
-			contentType : 'application/json',
-			type: 'POST',
-			dataType: 'json',
-			data: requestParamsString
-		});
+		var observedProperty = constituentId;
+		
+		var getDataAvailability = nar.util.getDataAvailability(siteId, constituentId);
 		
 		$.when(getDataAvailability).then(function(dataAvailability){
+			dataAvailability = nar.util.translateToSosGetDataAvailability(dataAvailability);
 			
-			var relevantDataAvailability = dataAvailability.dataAvailability.filter(function(datumAvailability){
+			var relevantDataAvailability = dataAvailability.filter(function(datumAvailability){
 				return datumAvailability.procedure.has(mrbToSos.loadTypeToDataType[loadType]) && !nar.util.stringContainsIgnoredModtype(datumAvailability.procedure); 
 			});
 			if(0 === relevantDataAvailability.length){
