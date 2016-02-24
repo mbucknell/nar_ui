@@ -52,32 +52,39 @@
 			var tickLabels = basinFeatures.map(function(value) {
 				return value.attributes[CONFIG.riverNameAttribute].replace('River', '\nRiver');
 			});
-			var requestParamsString = JSON.stringify({
-				'request' : 'GetDataAvailability',
-				'service' : 'SOS',
-				'version' : '2.0.0',
-				'observedProperty' : CONFIG.sosDefsBaseUrl + 'property/NO3_NO2',
-				'featureOfInterest' : basinSiteIds
-			});
 			
 			// Make dataAvailability call for all sites for nitrate and nitrite
-			var getDataAvailability = $.ajax({
-				url : CONFIG.endpoint.sos + '?id=' + nar.util.getHashCode(requestParamsString),
-				contentType : 'application/json',
-				type: 'POST',
-				dataType : 'json',
-				data : requestParamsString
+			var getDataAvailabilityDeferreds = basinSiteIds.map(function(basinSiteId){
+				var getDataAvailabilityDeferred = nar.util.getDataAvailability(basinSiteId, 'NO3_NO2');
+				
+				//Add a siteId property to the request so that handlers can know which 
+				//site a response is associated with.
+				getDataAvailabilityDeferred.customData = {};
+				getDataAvailabilityDeferred.customData.siteId = basinSiteId;
+				return getDataAvailabilityDeferred;
 			});
 
-			$.when(getDataAvailability)
+			$.when.apply(null, getDataAvailabilityDeferreds)
 				.then(
-					function(availability) {
-						var loadDataAvailability = availability.dataAvailability.filter(function(value) {
-							return (value.procedure.has('annual_mass/') && !nar.util.stringContainsIgnoredModtype(value.procedure));
+					function() {
+						
+						var availability = Array.create(arguments).map(function(argument){
+							var response = argument[0],
+							request = argument[2],
+							siteId = request.customData.siteId;
+							var sosResponse = nar.util.translateToSosGetDataAvailability(response);
+							sosResponse.each(function(singleAvailabilityEntry){
+								singleAvailabilityEntry.featureOfInterest = siteId;
+							});
+							return sosResponse;
+						}).flatten();
+						
+						var loadDataAvailability = availability.filter(function(value) {
+							return (value.procedure.has('annual_mass') && !nar.util.stringContainsIgnoredModtype(value.procedure));
 						});
 						
-						var yieldDataAvailability = availability.dataAvailability.filter(function(value) {
-							return (value.procedure.has('annual_yield/') && !nar.util.stringContainsIgnoredModtype(value.procedure));
+						var yieldDataAvailability = availability.filter(function(value) {
+							return (value.procedure.has('annual_yield') && !nar.util.stringContainsIgnoredModtype(value.procedure));
 						});
 						
 						var loadTSCollections = [];
