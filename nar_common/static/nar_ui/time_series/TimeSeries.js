@@ -33,10 +33,6 @@ nar.timeSeries.TimeSeries = function(config){
 	                ];
 	                return dateAndValues;
 	            });
-	            dataToReturn = dataToReturn.sortBy(function(datum){
-	            	//return timestamp
-	            	return datum[0];
-	            });
         } else {
             throw 'error retrieving data';
         }
