@@ -22,7 +22,7 @@ $(document).ready(function() {
 	var queryString = 'timeseries/availability/' + siteId + "?" + nar.util.getIgnoredModtypeString();
 	
 	var getDataAvailabilityRequest = $.ajax({
-		url : CONFIG.endpoint.nar_webservice + queryString + '&id=' + nar.util.getHashCode(queryString),
+		url : CONFIG.endpoint.nar_webservice + queryString,
 		type : 'GET',
 		contentType : 'application/json'
 	});

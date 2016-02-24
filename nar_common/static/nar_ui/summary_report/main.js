@@ -132,7 +132,7 @@ $(document).ready(
 
 			//find out what data is available for the site
 			var getDataAvailability = $.ajax({
-				url : CONFIG.endpoint.nar_webservice + queryString + '&id=' + nar.util.getHashCode(queryString),
+				url : CONFIG.endpoint.nar_webservice + queryString,
 				contentType : 'application/json',
 				type: 'GET'
 			});
