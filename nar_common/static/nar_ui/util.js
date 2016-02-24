@@ -210,4 +210,21 @@ nar.util = {};
 		return theDate.getTime();
 	};
 	
+	/**
+	 * 
+	 * @param siteId {String} site id
+	 * @returns $.Deferred
+	 */
+	nar.util.getDataAvailability = function(siteId){
+		var queryString = 'timeseries/availability/' + siteId + "?" + nar.util.getIgnoredModtypeString();
+
+		//find out what data is available for the site
+		var getDataAvailability = $.ajax({
+			url : CONFIG.endpoint.nar_webservice + queryString,
+			contentType : 'application/json',
+			type: 'GET'
+		});
+		return getDataAvailability;
+	};
+	
 }());

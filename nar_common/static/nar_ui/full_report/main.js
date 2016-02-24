@@ -18,14 +18,8 @@ $(document).ready(function() {
 		graphToggle : selectorElementPair('#plotToggleTree')
 	};
 	nar.timeSeries.VisualizationRegistryInstance = new nar.timeSeries.VisualizationRegistry();
-
-	var queryString = 'timeseries/availability/' + siteId + "?" + nar.util.getIgnoredModtypeString();
 	
-	var getDataAvailabilityRequest = $.ajax({
-		url : CONFIG.endpoint.nar_webservice + queryString,
-		type : 'GET',
-		contentType : 'application/json'
-	});
+	var getDataAvailabilityRequest = nar.util.getDataAvailability(siteId);
 	
 	var ACCEPTABLE_COMPONENTS_GROUP = [
           {

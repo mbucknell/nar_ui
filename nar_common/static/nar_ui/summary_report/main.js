@@ -128,14 +128,9 @@ $(document).ready(
 				var graph = ConstituentCurrentYearComparisonPlot(
 						barChart, series);
 			};		
-			var queryString = 'timeseries/availability/' + id + "?" + nar.util.getIgnoredModtypeString();
-
+			
 			//find out what data is available for the site
-			var getDataAvailability = $.ajax({
-				url : CONFIG.endpoint.nar_webservice + queryString,
-				contentType : 'application/json',
-				type: 'GET'
-			});
+			var getDataAvailability = nar.util.getDataAvailability(id);
 
 			var streamflowDataAvailability = [];
 			var nitrateDataAvailability = [];
