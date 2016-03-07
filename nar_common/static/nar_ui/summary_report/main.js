@@ -280,7 +280,36 @@ $(document).ready(
 							nar.Constituents.sediment.color,
 							'#barChart4');											
 				});
+				
+				var loadPesticidePromises = [];
+				var serviceURL = CONFIG.endpoint.nar_webservice + 'pesticides/summary/site/' + id;
+				
+				// Retrieve data for each time series collection
+				loadPesticidePromises = loadPesticidePromises.concat($.get(serviceURL));
+				
+				
+				// Sort the data once received and plot.
+				$.when.apply(null, loadPesticidePromises).then(function(data) {
+			
+					var context = data[0];
+					
+					if(data.length < 1){
+						$('#noPesticideData').css('display', 'block');
+						$('#pesticide').css('display', 'none');
+					}else{
+						$.get('../../static/nar_ui/handlebars/pesticides.handlebars', function(template){
+							var compiledTemplate = Handlebars.compile(template);
+							var html = compiledTemplate(context);
+							//Places mustache file in correct location
+							$('#pesticide').html(html);
+							if($('.emptyString').length < 1){
+								return '0';
+							}
+						});
+					}	
+				});
 			};
+			
 			var failedGetDataAvailability = function(data, textStatus,jqXHR) {
 				var msg = 'Could not determine data availability for this site';
 				// Errors are caught by window and alert is displayed

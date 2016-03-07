@@ -26,6 +26,7 @@
 	{% compress css %}
 		<link rel="stylesheet" type="text/less" media="all" href="{% static 'nar_ui/common.less' %}"/>
 		<link rel="stylesheet" type="text/less" media="all" href="{% static 'nar_ui/nar.less' %}"/>
+		<link rel="stylesheet" type="text/less" media="all" href="{% static 'nar_ui/summary.less' %}"/>
 	{% endcompress %}
 	
 	<!--[if lt IE 9]>
@@ -46,8 +47,8 @@ from the top menu bar, selecting ‘Compatibility view settings’, uncheck boxe
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/sugar.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/select2.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/util.js' %}"></script>
-
 	{% endcompress %}
+		
 	
 	{# we will skip minification on the configuration script #}
 	<script type="text/javascript">
