@@ -40,6 +40,7 @@
 		<script type="text/javascript" src="{% static 'nar_ui/plots/ExceedancePlot.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/summary_report/main.js' %}"></script>
 	{% endcompress %}
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.js"></script>
 	<script type="text/javascript">
 		nar.loadSiteHelpInfo(CONFIG.siteInfoUrl);
 	</script>
@@ -85,13 +86,11 @@
 	
 		
 	
-		<div class="col-lg-4 graphContainer stream col-sm-12 col-xs-12">
-		
-			<div class="row stream_row">
-				<h3>Streamflow and Water Quality</h3>
-			</div>
+		<div class="stream">
 			
-			<div class="row bar_row">
+			<h4>Streamflow and Water Quality</h4>
+			
+			<div class="bar_row">
 				<div id="barChart1"
 					class="rightBorder comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
 
@@ -105,7 +104,7 @@
 					class="comparisonGraph col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
 			</div>
 			
-			<div class="row unit_row">
+			<div class="unit_row">
 				<div class="unitLabel unit1 col-lg-3 col-md-3 col-sm-3 col-xs-3">Million
 					Acre-Feet</div>
 				<div
@@ -119,12 +118,17 @@
 			
 			
 		</div><!--streams-->
+		
+		<div id="pesticide"></div>
+		<div id="noPesticideData">
+			<h3>No Pesticide Data Available</h3>
+		</div>
 
 		<div class="col-lg-4 human col-sm-12 col-xs-12">
-			<div class="row human_row">
-				<h3>Comparisons to Human-Health<br/><span id="link-hover-benchmark-human" class="link-popover-anchor">Benchmarks</span></h3>
+			<div class="human_row">
+				<h4>Comparisons to Human-Health<br/><span id="link-hover-benchmark-human" class="link-popover-anchor">Benchmarks</span></h4>
 			</div>
-			<div class="row">
+			<div>
 				<div id="humanHealthExceedances" class="exceedancePlot"></div>
 			</div>
 		</div><!--human-->
