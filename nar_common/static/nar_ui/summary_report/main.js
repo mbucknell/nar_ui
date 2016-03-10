@@ -281,6 +281,14 @@ $(document).ready(
 							'#barChart4');											
 				});
 				
+				Handlebars.registerHelper('pesticideExceed', function(exceed, opt){
+					if(exceed > 0){
+						return opt.fn(this);	
+					}else{
+						return opt.inverse(this);
+					}
+				});
+				
 				var loadPesticidePromises = [];
 				var serviceURL = CONFIG.endpoint.nar_webservice + 'pesticides/summary/site/' + id;
 				
@@ -302,13 +310,24 @@ $(document).ready(
 							var html = compiledTemplate(context);
 							//Places mustache file in correct location
 							$('#pesticide').html(html);
-							if($('.emptyString').length < 1){
-								return '0';
-							}
+							var stats = $('#aquaticExceedances').text();
+							var arr = stats.split(",");
+							var stats2 = $('#humanExceedances').text();
+							var arr2 = stats2.split(",");
+							$('#aquaticExceedances').html('');
+							$('#humanExceedances').html('');
+							$.each(arr, function(i, val){
+								$('#aquaticExceedances').append('<p>' + val + '</p>');
+							});
+							$.each(arr2, function(i, val){
+								$('#humanExceedances').append('<p>' + val + '</p>');
+							});
 						});
-					}	
+					}
 				});
 			};
+			
+			
 			
 			var failedGetDataAvailability = function(data, textStatus,jqXHR) {
 				var msg = 'Could not determine data availability for this site';

@@ -42,13 +42,27 @@
 <div class="pesticideDoubles">
 
 	<div class="pesticideChartSection">
-		{{nHh}}
-		<p>Pesticides exceeded human-health benchmarks</p>
+		{{nHh3}}
+		{{#pesticideExceed nHh3}}
+			<p class="clickForHuman">Pesticides exceeded human-health benchmarks</p>
+		{{else}}
+			<p>Pesticides exceeded human-health benchmarks</p>
+		{{/pesticideExceed}}
+		<div id="humanExceedances">
+			<p>{{pest3ExceedHh}}</p>
+		</div>
 	</div>
 	
 	<div class="pesticideChartSection">
 		{{nAq}}
-		<p>Pesticides exceeded aquatic-life benchmarks</p>
+		{{#pesticideExceed nAq}}
+			<p class="clickForAquatic">Pesticides exceeded aquatic-life benchmarks</p>
+		{{else}}
+			<p>Pesticides exceeded aquatic-life benchmarks</p>
+		{{/pesticideExceed}}
+		<div id="aquaticExceedances">
+			<p>{{pestNewExceedAq}}</p>
+		</div>
 	</div>
 	
 </div>
