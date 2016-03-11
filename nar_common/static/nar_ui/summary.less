@@ -88,6 +88,32 @@
 }
 
 /*Graph CSS*/
+
+.clickForHuman,
+.clickForAquatic{
+	color:dodgerBlue;
+	cursor:pointer;
+}
+
+.clickForAquatic:hover + #aquaticExceedances{
+	display:block;
+}
+
+.clickForHuman:hover + #humanExceedances{
+	display:block;
+}
+
+#aquaticExceedances,
+#humanExceedances{
+	display:none;
+	position:absolute;
+	width:88%;
+	min-height:35px;
+	padding:10px 0 0 0;
+	background:#fff;
+	border:1px solid #4d4d4d;;
+	word-wrap:break-word;
+}
 .graphs{
 		min-height:510px;
 		padding:15px 10px;
@@ -155,6 +181,7 @@
 	padding:10px;
 	border-radius:10px;
 	margin:0 auto 0 auto;
+	position:relative;
 }
 
 .human{
