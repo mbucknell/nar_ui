@@ -135,6 +135,7 @@ nar.util = {};
 	 * Given a response from a nar custom web service availability call,
 	 * translate it to a SosGetDataAvailability Response
 	 * @param response
+	 * @returns {array<Object>} where each object has two keys: "custom" for the NAR web service response, and "sos" for the translated object.  
 	 */
 	nar.util.translateToSosGetDataAvailability = function(response){
 		var sosGetDataAvailabilityResponse = [];
@@ -143,23 +144,32 @@ nar.util = {};
 		//SOS Data Availability objects
 		response.each(function(entry){
 			sosGetDataAvailabilityResponse.push({
-				observedProperty : nar.util.getSosObservedPropertyForConstituent(entry.constit),
-				procedure : nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity(entry.timeSeriesCategory, entry.timeStepDensity),
-				phenomenonTime : [entry.startTime, entry.endTime],
-				featureOfInterest : entry.featureOfInterest
+				custom: entry,
+				sos : {	
+					observedProperty : nar.util.getSosObservedPropertyForConstituent(entry.constit),
+					procedure : nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity(entry.timeSeriesCategory, entry.timeStepDensity),
+					phenomenonTime : [entry.startTime, entry.endTime],
+					featureOfInterest : entry.featureOfInterest
+				}
 			});
 			if('load' === entry.timeSeriesCategory.toLowerCase()){
 				sosGetDataAvailabilityResponse.push({
-					observedProperty : nar.util.getSosObservedPropertyForConstituent(entry.constit),
-					procedure : nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity('concentration_flow_weighted', entry.timeStepDensity),
-					phenomenonTime : [entry.startTime, entry.endTime],
-					featureOfInterest : entry.featureOfInterest
+					custom: entry,
+					sos : {	
+						observedProperty : nar.util.getSosObservedPropertyForConstituent(entry.constit),
+						procedure : nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity('concentration_flow_weighted', entry.timeStepDensity),
+						phenomenonTime : [entry.startTime, entry.endTime],
+						featureOfInterest : entry.featureOfInterest
+					}
 				});
 				sosGetDataAvailabilityResponse.push({
-					observedProperty : nar.util.getSosObservedPropertyForConstituent(entry.constit),
-					procedure : nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity('yield', entry.timeStepDensity),
-					phenomenonTime : [entry.startTime, entry.endTime],
-					featureOfInterest : entry.featureOfInterest
+					custom: entry,
+					sos: {
+						observedProperty : nar.util.getSosObservedPropertyForConstituent(entry.constit),
+						procedure : nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity('yield', entry.timeStepDensity),
+						phenomenonTime : [entry.startTime, entry.endTime],
+						featureOfInterest : entry.featureOfInterest
+					}
 				});
 			}
 		});

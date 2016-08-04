@@ -100,8 +100,8 @@ $(document).ready(function() {
 		var dataAvailability = nar.util.translateToSosGetDataAvailability(data);
 		//populate the tsvRegistry with tsvs created from the GetDataAvailability response 
 		dataAvailability.each(function(dataAvailability) {
-			var observedProperty = dataAvailability.observedProperty;
-			var procedure = dataAvailability.procedure;
+			var observedProperty = dataAvailability.sos.observedProperty;
+			var procedure = dataAvailability.sos.procedure;
 			//ignore some MODTYPEs
 			if(nar.util.stringContainsIgnoredModtype(procedure)){
 				return;//continue
@@ -109,7 +109,7 @@ $(document).ready(function() {
 			else{
 				
 				var timeSeriesVizId = tsvRegistry
-						.getTimeSeriesVisualizationId(observedProperty, procedure);
+						.getTimeSeriesVisualizationId(observedProperty, procedure, dataAvailability.custom.constit);
 				var timeSeriesIdComponents = nar.timeSeries.Visualization.getComponentsOfId(timeSeriesVizId);
 				
 				if(		!CONSTITUENTS_TO_KEEP.some(timeSeriesIdComponents.constituent) 
@@ -132,7 +132,7 @@ $(document).ready(function() {
 					
 					//Use the default time ranger for now. Override the hydrograph's time range 
 					//later if both of its time series overlap with the most recent water year.
-					var timeRange = nar.timeSeries.DataAvailabilityTimeRange(dataAvailability);
+					var timeRange = nar.timeSeries.DataAvailabilityTimeRange(dataAvailability.sos);
 					var timeSeries = new nar.timeSeries.TimeSeries(
 							{
 								observedProperty : observedProperty,
