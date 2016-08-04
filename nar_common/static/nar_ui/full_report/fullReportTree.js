@@ -36,6 +36,9 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
 				topLevel = 'Hydrograph\\Flow duration';
 			}
 		}
+		else if ('pesticide' === constituentId){
+			topLevel = timeSeriesIdComponents.category;
+		}
 		else{
 			//non-flow constituents
 			if(timeSeriesIdComponents.category === 'concentration'){

@@ -133,12 +133,21 @@ var getPlotContainer = function(plotContainerId){
 
 // public static properties:
 
-nar.timeSeries.Visualization.serverToClientConstituentIdMap = {
+var serverToClientConstituentIdMap = {
     'no3_no2': 'nitrate',
     'ssc':'sediment',
     'tn' : 'nitrogen',
     'tp':'phosphorus',
     'q':'streamflow'
+};
+
+
+/**
+ * @param {string} serverConstituentId
+ * @returns String client side constituent id 
+ */
+nar.timeSeries.Visualization.mapServerToClientConstituentId = function(serverConstituentId){
+	return serverToClientConstituentIdMap[serverConstituentId];
 };
 
 /**
@@ -156,17 +165,26 @@ nar.timeSeries.Visualization.serverToClientConstituentIdMap = {
  */
 nar.timeSeries.Visualization.getComponentsOfId = function(id) {
     var splitId = id.split('/');
-
-    var serverConstituentId = splitId[0];
-    var clientConstituentId = nar.timeSeries.Visualization.serverToClientConstituentIdMap[serverConstituentId
-            .toLowerCase()];
-    var components = {
-	    constituent : clientConstituentId,
-	    timestepDensity : splitId[1],
-	    category : splitId[2],
-	    subcategory : splitId[3],
-
-	};
+    var components;
+    var serverConstituentId = splitId[0].toLowerCase();
+    if(-1 === serverConstituentId.indexOf('pesticide')){
+	    var clientConstituentId = nar.timeSeries.Visualization.mapServerToClientConstituentId(serverConstituentId.toLowerCase());
+	    components = {
+		    constituent : clientConstituentId,
+		    timestepDensity : splitId[1],
+		    category : splitId[2],
+		    subcategory : splitId[3],
+	
+		};
+	} else {
+		//if pesticide
+		components = {
+				constituent : 'pesticide',
+				timestepDensity : 'discrete',
+				category : splitId[1].toLowerCase() + ' concentration',
+				subcategory : splitId[2]
+		};
+	}
     return components;
 };
 
@@ -202,7 +220,7 @@ nar.timeSeries.Visualization.getPlotterById = function(id){
  * Some configuration for which category of data gets which graph
  */
 nar.timeSeries.Visualization.types = function(components) {
-		if (components.category === 'concentration') {
+		if (-1 !== components.category.indexOf('concentration')) {
 			if (components.subcategory === 'mean' || components.subcategory === 'flow_weighted') {
 				return {
 					plotter : nar.plots.createConcentrationPlot,

@@ -46,6 +46,10 @@ var nar = nar || {};
             color : '#0000CD',
             //R-Color:mediumblue
             name : 'Streamflow'
+        },
+        pesticide : {
+        	color : '#ff00ff',
+        	name : 'Pesticide'
         }
     };
 

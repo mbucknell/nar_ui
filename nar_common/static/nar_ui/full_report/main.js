@@ -42,9 +42,18 @@ $(document).ready(function() {
         	  timestepDensity: 'annual',
         	  category: 'mass',
         	  subcategory: undefined
-          }
+          },
+          {
+    	  	  timestepDensity: 'discrete',
+        	  category: 'herbicide concentration'
+          },
+          {
+    	  	  timestepDensity: 'discrete',
+        	  category: 'non_herbicide concentration'
+          },
+          
     ];
-	var CONSTITUENTS_TO_KEEP = ['nitrogen', 'nitrate', 'streamflow', 'phosphorus', 'sediment'];
+	var CONSTITUENTS_TO_KEEP = ['nitrogen', 'nitrate', 'streamflow', 'phosphorus', 'sediment', 'pesticide'];
 	/**
 	 * Determines if 'components' should be displayed on the client or not
 	 * @param {nar.timeSeries.Visualization.IdComponents} components, as returned by nar.TimeSeries.Visualization.getComponentsOfId 
