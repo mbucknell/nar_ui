@@ -300,6 +300,7 @@ $(document).ready(
 				$.when.apply(null, loadPesticidePromises).then(function(data) {
 			
 					var context = data[0];
+					context.previousWaterYear = CONFIG.currentWaterYear - 1;
 					
 					if(data.length < 1){
 						$('#noPesticideData').css('display', 'block');
