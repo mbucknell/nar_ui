@@ -311,16 +311,16 @@ $(document).ready(
 							var html = compiledTemplate(context);
 							//Places mustache file in correct location
 							$('#pesticide').html(html);
-							var stats = $('#aquaticExceedances').text();
-							var arr = stats.split(",");
-							var stats2 = $('#humanExceedances').text();
-							var arr2 = stats2.split(",");
+							var aquaticExceedancesString = $('#aquaticExceedances').text();
+							var aquaticExceedances = aquaticExceedancesString.split(",");
+							var humanExceedancesString = $('#humanExceedances').text();
+							var humanExceedances = humanExceedancesString.split(",");
 							$('#aquaticExceedances').html('');
 							$('#humanExceedances').html('');
-							$.each(arr, function(i, val){
+							$.each(aquaticExceedances, function(i, val){
 								$('#aquaticExceedances').append('<p>' + val + '</p>');
 							});
-							$.each(arr2, function(i, val){
+							$.each(humanExceedances, function(i, val){
 								$('#humanExceedances').append('<p>' + val + '</p>');
 							});
 						});
