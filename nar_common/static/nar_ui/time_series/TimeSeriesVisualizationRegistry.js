@@ -154,14 +154,9 @@ nar.timeSeries.VisualizationRegistry = function(){
         //@todo failing id lookup by category, also check strippedObservedPropertyToVizIdMap to see if  
         //it maps to an id
         var timeSeriesVisualizationId;
-        //if constituent is defined and constituent contains 'pesticide'
-        if(undefined !== constituent && -1 !== constituent.indexOf('pesticide')){
-        	var splitConstituent = constituent.split('/'); 
-	        timeSeriesVisualizationId = 'Pesticide' + '/' + splitConstituent[1]; 
-        } else {
-        	var properlyDelimetedProcedure = self.strippedProcedureToTsvIdFragment(strippedProcedure);
-	        timeSeriesVisualizationId = strippedObservedProperty + '/' + properlyDelimetedProcedure;
-        }
+    	var properlyDelimetedProcedure = self.strippedProcedureToTsvIdFragment(strippedProcedure);
+        timeSeriesVisualizationId = strippedObservedProperty + '/' + properlyDelimetedProcedure;
+
         return timeSeriesVisualizationId;
     };
 };

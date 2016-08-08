@@ -53,7 +53,7 @@ $(document).ready(function() {
           },
           
     ];
-	var CONSTITUENTS_TO_KEEP = ['nitrogen', 'nitrate', 'streamflow', 'phosphorus', 'sediment', 'pesticide'];
+	var CONSTITUENTS_TO_KEEP = ['nitrogen', 'nitrate', 'streamflow', 'phosphorus', 'sediment'];
 	/**
 	 * Determines if 'components' should be displayed on the client or not
 	 * @param {nar.timeSeries.Visualization.IdComponents} components, as returned by nar.TimeSeries.Visualization.getComponentsOfId 
@@ -94,6 +94,21 @@ $(document).ready(function() {
 		}
 		return valid;
 	};
+	/**
+	 * @param {object} timeSeriesId
+	 * @param {object} customNarInfo the object returned from NAR get data availablity calls
+	 * @returns {boolean} true if ok to skip, false if it should be visualized
+	 */
+	var skipTimeSeries = function(timeSeriesIdComponents, customNarInfo){
+		//always let pesticide time series through
+		if("pesticide_concentration" === customNarInfo.timeSeriesCategory.toLowerCase()){
+			return false;
+		} else {
+		//otherwise, filter on constituent and other components
+			return !CONSTITUENTS_TO_KEEP.some(timeSeriesIdComponents.constituent) 
+				|| componentsAreIgnorable(timeSeriesIdComponents, ACCEPTABLE_COMPONENTS_GROUP);
+		}
+	};
 	var tsvRegistry = nar.timeSeries.VisualizationRegistryInstance;
 	var successfulGetDataAvailability = function(data,
 			textStatus, jqXHR) {
@@ -112,8 +127,7 @@ $(document).ready(function() {
 						.getTimeSeriesVisualizationId(observedProperty, procedure, dataAvailability.custom.constit);
 				var timeSeriesIdComponents = nar.timeSeries.Visualization.getComponentsOfId(timeSeriesVizId);
 				
-				if(		!CONSTITUENTS_TO_KEEP.some(timeSeriesIdComponents.constituent) 
-						|| componentsAreIgnorable(timeSeriesIdComponents, ACCEPTABLE_COMPONENTS_GROUP)){
+				if(skipTimeSeries(timeSeriesIdComponents, dataAvailability.custom)){
 					return;//continue
 				}
 				else{
@@ -128,6 +142,8 @@ $(document).ready(function() {
 									plotter : nar.util.Unimplemented
 								});
 						tsvRegistry.register(timeSeriesViz);
+					} else {
+						throw Error("WOW, it didn't have one!");
 					}
 					
 					//Use the default time ranger for now. Override the hydrograph's time range 

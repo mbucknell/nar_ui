@@ -120,13 +120,25 @@ nar.util = {};
 	 * @returns {String}
 	 */
 	nar.util.getSosObservedPropertyForConstituent = function (constit) {
-		return constit || 'Q';
+		var delim = '/';
+		if(undefined == constit) {
+			return 'Q';
+		} else if(-1 !== constit.indexOf(delim)){
+			return constit.split(delim).last();
+		} else {
+			return constit;
+		}
 	};
 	
 	/**
 	 * The inverse of nar.util.getSosObservedPropertyForConstituent
 	 */
 	nar.util.getConstituentForSosObservedProperty = function(sosObservedProperty) {
+		if('Q' === sosObservedProperty){
+			return undefined;
+		} else if(-1 !== sosObservedProperty.toLowerCase().indexOf('pesticide')){
+			splitObservedProperty = sosObe
+		}
 		return sosObservedProperty == 'Q' ? undefined : sosObservedProperty;
 	};
 	
@@ -185,7 +197,8 @@ nar.util = {};
 			'monthly_flow' : 'mflow',
 			'daily_flow' : 'dflow',
 			'annual_flow' : 'aflow',
-			'discrete_concentration' : 'discqw'
+			'discrete_concentration' : 'discqw',
+			'discrete_pesticide_concentration' : 'pesticide'
 	};
 	nar.util.translateSosProcedureToRetrievalEndpoint = function(sosProcedure) {
 		return sosProcedureToCustomRetrievalEndpoint[sosProcedure];
@@ -200,7 +213,8 @@ nar.util = {};
 			'monthly_flow' : ['flow'],
 			'daily_flow' : ['flow'],
 			'annual_flow' : ['flow'],
-			'discrete_concentration' : ['remark', 'concentration']
+			'discrete_concentration' : ['remark', 'concentration'],
+			'discrete_pesticide_concentration' : ['remark', 'concentration']
 	};
 	
 	nar.util.getValueForResponseRow = function(responseRow, procedure){

@@ -179,9 +179,9 @@ nar.timeSeries.Visualization.getComponentsOfId = function(id) {
 	} else {
 		//if pesticide
 		components = {
-				constituent : 'Pesticide',
+				constituent : 'pesticide',
 				timestepDensity : 'discrete',
-				category : 'concentration',
+				category : 'pesticide_concentration',
 				subcategory : splitId[1].toLowerCase()
 		};
 	}
