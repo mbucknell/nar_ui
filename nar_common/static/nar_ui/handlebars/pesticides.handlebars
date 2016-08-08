@@ -1,15 +1,15 @@
 
-<h4>Pesticides - 2013</h4>
+<h4>Pesticides - {{ previousWaterYear }}</h4>
 
 <div class="pesticideChartSection">
-	{{n3}}
+	{{npestNew}}
 	<p>Pesticides Analyzed</p>
 </div>
 
 <div class="downLine"></div>
 
 <div class="pesticideChartSection">
-	{{ndets3}}
+	{{ndetsNew}}
 	<p>Pesticides Detected</p>
 </div>
 
@@ -20,12 +20,12 @@
 <div class="pesticideDoubles">
 
 	<div class="pesticideChartSection">
-		{{npest3Hh}}
+		{{ndetsHh}}
 		<p>Pesticides with human-health benchmarks</p>
 	</div>
 	
 	<div class="pesticideChartSection">
-		{{nAq3}}
+		{{ndetsAq}}
 		<p>Pesticides with aquatic-life benchmarks</p>
 	</div>
 	
@@ -42,8 +42,8 @@
 <div class="pesticideDoubles">
 
 	<div class="pesticideChartSection">
-		{{nHh3}}
-		{{#pesticideExceed nHh3}}
+		{{nHh}}
+		{{#pesticideExceed nHh}}
 			<p class="clickForHuman">Pesticides exceeded human-health benchmarks</p>
 		{{else}}
 			<p>Pesticides exceeded human-health benchmarks</p>
