@@ -254,7 +254,7 @@ nar.plots = nar.plots || {};
 					} else if ( y < 0) {
 						return -1 * Math.log(-1 * y);
 					} else {
-						return 1e-10;
+						return 0;
 					}
 				},
 				inverseTransform : function(y) {
