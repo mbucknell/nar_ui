@@ -297,12 +297,12 @@ $(document).ready(
 				
 				
 				// Sort the data once received and plot.
-				$.when.apply(null, loadPesticidePromises).then(function(data) {
+				$.when.apply(null, loadPesticidePromises).then(function(summary) {
 			
-					var context = data[0];
+					var context = summary[0];
 					context.previousWaterYear = CONFIG.currentWaterYear - 1;
 					
-					if(data.length < 1){
+					if(summary.length < 1){
 						$('#noPesticideData').css('display', 'block');
 						$('#pesticide').css('display', 'none');
 					}else{
@@ -325,9 +325,112 @@ $(document).ready(
 							});
 						});
 					}
+					
+					//Benchmark Pesticides Comparisons
+					
+					var hhBenchmarkComparison = function(selector, summaryData, type, benchmark){
+						//Deciding which x axis values to use
+						var getXAxisBounds;
+						var getBenchmarkColor;
+						//Maps type and benchmark to service data
+						var crossWalk = function(data, type, benchmark){
+							var slots = [];
+							if(type === '%' && benchmark === 'human'){
+								slots = ['percHhOld', 'percHh3', 'percHh'];
+							}
+							else if(type === 'number' && benchmark === 'human'){
+								slots = ['nHhOld', 'npest3Hh', 'npestNewHh'];
+							}
+							else if(type === '%' && benchmark === 'aquatic'){
+								slots = ['percAqOld', 'percAq3', 'percAq'];
+							}
+							else if(type === 'number' && benchmark === 'aquatic'){
+								slots = ['nAqOld', 'nAq3', 'nNewAq'];
+							}
+							//Expects an array of an array
+							return slots.map(function(slot){
+								return data[slot];
+							});
+						}
+						
+						var data = crossWalk(summaryData, type, benchmark)
+						//Sets X axis numbers
+						if(type === '%'){
+							getXAxisBounds = function(){
+								return {min:0, max:100};
+							}
+						}
+						else if(type === 'number'){
+							getXAxisBounds = function(data){
+								if(data.max() < 10){
+									return{
+										min: 0,
+										max: 10
+									}
+								}else{
+									return {
+										min:0, 
+										max: data.max() + 15
+									};
+								}
+							}
+						}
+						//Deciding which BG and Bar Color a chart will get
+						if(benchmark === 'human'){
+							getBenchmarkColor = function(){
+								return {
+									BG: '#eaf1dd',
+									Bar:'#b1d274'
+								}
+							}
+						}else if(benchmark === 'aquatic'){
+							getBenchmarkColor = function(){
+								return {
+									BG: '#dae5f1',
+									Bar: '#4f81bd'
+								}
+							}
+						}
+						
+						
+						//Giving the charts their design
+						var ticks = ['1992-2012 (Annual average)', '2013', '2014'];
+						$.jqplot(selector, [data],  {
+							axes:{
+								xaxis:getXAxisBounds(data),
+								yaxis:{
+									renderer: $.jqplot.CategoryAxisRenderer,
+									ticks: ticks
+								}
+							},
+							grid:{
+								background: getBenchmarkColor().BG
+							},
+							seriesDefaults:{
+								renderer:$.jqplot.BarRenderer,
+								shadow:false,
+								color: getBenchmarkColor().Bar,
+								rendererOptions:{
+									barDirection:'horizontal',
+									barMargin: 25
+								},
+								pointLabels:{
+									show:true, stackedValue:true
+								}
+							}		
+						});
+					}
+					
+					hhBenchmarkComparison('percentHuman', context, '%', 'human');
+					
+					hhBenchmarkComparison('numberHuman', context, 'number', 'human');
+					
+					hhBenchmarkComparison('percentAquatic', context, '%', 'aquatic');
+					
+					hhBenchmarkComparison('numberAquatic', context, 'number', 'aquatic');
+					
 				});
 			};
-			
 			
 			
 			var failedGetDataAvailability = function(data, textStatus,jqXHR) {
