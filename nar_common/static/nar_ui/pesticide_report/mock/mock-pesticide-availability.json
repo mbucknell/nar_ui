@@ -1,0 +1,170 @@
+[
+{
+	"category":"concentration",
+	"timestepDensity": "discrete",
+	"startTime": "2001-01-01T12:00:00",
+	"endTime": "2001-12-01T12:00:00",
+	"constit":{
+		"name": "somehrbicide",
+		"category": "pesticide",
+		"subcategory": "herbicide"
+	},
+	"aggregationType":"NONE",
+	"comparisonCategory":"ABSOLUTE",
+	"comparisonOrder": 1
+},
+{
+	"category":"concentration",
+	"timestepDensity": "discrete",
+	"startTime": "2001-01-01T12:00:00",
+	"endTime": "2001-12-01T12:00:00",
+	"constit":{
+		"name": "somefngicide",
+		"category": "pesticide",
+		"subcategory": "non_herbicide"
+	},
+	"aggregationType":"NONE",
+	"comparisonCategory":"ABSOLUTE",
+	"comparisonOrder": 1
+},
+{
+	"category":"concentration",
+	"timestepDensity": "discrete",
+	"startTime": "2001-01-01T12:00:00",
+	"endTime": "2001-12-01T12:00:00",
+	"constit":{
+		"name": "metacide",
+		"category": "pesticide",
+		"subcategory": null
+	},
+	"aggregationType":"NONE",
+	"comparisonCategory":"HUMAN_HEALTH",
+	"comparisonOrder": 1
+},
+{
+	"category":"concentration",
+	"timestepDensity": "annual",
+	"startTime": "2001-01-01T12:00:00",
+	"endTime": "2001-12-01T12:00:00",
+	"constit":{
+		"name": "peskycide",
+		"category": "pesticide",
+		"subcategory": null
+	},
+	"aggregationType":"TIME_WEIGHTED_MEAN",
+	"comparisonCategory":"HUMAN_HEALTH",
+	"comparisonOrder": 1
+},
+{
+	"category":"concentration",
+	"timestepDensity": "discrete",
+	"startTime": "2001-01-01T12:00:00",
+	"endTime": "2001-12-01T12:00:00",
+	"constit":{
+		"name": "metacide",
+		"category": "pesticide",
+		"subcategory": null
+	},
+	"aggregationType":"NONE",
+	"comparisonCategory":"AQUATIC_LIFE",
+	"comparisonOrder": 1
+},
+{
+	"category":"concentration",
+	"timestepDensity": "EVERY_21_DAYS",
+	"startTime": "2001-01-01T12:00:00",
+	"endTime": "2001-12-01T12:00:00",
+	"constit":{
+		"name": "peskycide",
+		"category": "pesticide",
+		"subcategory": null
+	},
+	"aggregationType":"MOVING_AVERAGE",
+	"comparisonCategory":"AQUATIC_LIFE",
+	"comparisonOrder": 1
+},
+{
+	"category":"concentration",
+	"timestepDensity": "EVERY_60_DAYS",
+	"startTime": "2001-01-01T12:00:00",
+	"endTime": "2001-12-01T12:00:00",
+	"constit":{
+		"name": "peskycide",
+		"category": "pesticide",
+		"subcategory": null
+	},
+	"aggregationType":"MOVING_AVERAGE",
+	"comparisonCategory":"AQUATIC_LIFE",
+	"comparisonOrder": 1
+},
+{
+	"category":"concentration",
+	"timestepDensity": "discrete",
+	"startTime": "2001-01-01T12:00:00",
+	"endTime": "2001-12-01T12:00:00",
+	"constit":{
+		"name": "metacide",
+		"category": "pesticide",
+		"subcategory": null
+	},
+	"aggregationType":"NONE",
+	"comparisonCategory":"HUMAN_HEALTH",
+	"comparisonOrder": 2
+},
+{
+	"category":"concentration",
+	"timestepDensity": "annual",
+	"startTime": "2001-01-01T12:00:00",
+	"endTime": "2001-12-01T12:00:00",
+	"constit":{
+		"name": "peskycide",
+		"category": "pesticide",
+		"subcategory": null
+	},
+	"aggregationType":"TIME_WEIGHTED_MEAN",
+	"comparisonCategory":"HUMAN_HEALTH",
+	"comparisonOrder": 2
+},
+{
+	"category":"concentration",
+	"timestepDensity": "discrete",
+	"startTime": "2001-01-01T12:00:00",
+	"endTime": "2001-12-01T12:00:00",
+	"constit":{
+		"name": "metacide",
+		"category": "pesticide",
+		"subcategory": null
+	},
+	"aggregationType":"NONE",
+	"comparisonCategory":"AQUATIC_LIFE",
+	"comparisonOrder": 2
+},
+{
+	"category":"concentration",
+	"timestepDensity": "EVERY_21_DAYS",
+	"startTime": "2001-01-01T12:00:00",
+	"endTime": "2001-12-01T12:00:00",
+	"constit":{
+		"name": "peskycide",
+		"category": "pesticide",
+		"subcategory": null
+	},
+	"aggregationType":"MOVING_AVERAGE",
+	"comparisonCategory":"AQUATIC_LIFE",
+	"comparisonOrder": 2
+},
+{
+	"category":"concentration",
+	"timestepDensity": "EVERY_60_DAYS",
+	"startTime": "2001-01-01T12:00:00",
+	"endTime": "2001-12-01T12:00:00",
+	"constit":{
+		"name": "peskycide",
+		"category": "pesticide",
+		"subcategory": null
+	},
+	"aggregationType":"MOVING_AVERAGE",
+	"comparisonCategory":"AQUATIC_LIFE",
+	"comparisonOrder": 2
+}
+]

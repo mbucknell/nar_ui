@@ -19,7 +19,11 @@ $(document).ready(function() {
 	};
 	nar.timeSeries.VisualizationRegistryInstance = new nar.timeSeries.VisualizationRegistry();
 	
-	var getDataAvailabilityRequest = nar.util.getDataAvailability(siteId);
+	var getDataAvailabilityRequest = $.ajax({
+		url : '../../../static/nar_ui/pesticide_report/mock/mock-pesticide-availability.json',
+		contentType : 'application/json',
+		type: 'GET'
+	});
 	
 	var ACCEPTABLE_COMPONENTS_GROUP = [
           {
