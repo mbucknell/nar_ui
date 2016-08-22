@@ -19,103 +19,19 @@ $(document).ready(function() {
 	};
 	nar.timeSeries.VisualizationRegistryInstance = new nar.timeSeries.VisualizationRegistry();
 	
-	var getDataAvailabilityRequest = $.ajax({
-		url : '../../../static/nar_ui/pesticide_report/mock/mock-pesticide-availability.json',
-		contentType : 'application/json',
-		type: 'GET'
-	});
+	var getDataAvailabilityRequest = nar.util.getDataAvailability(siteId);
 	
-	var ACCEPTABLE_COMPONENTS_GROUP = [
-          {
-    	  	  timestepDensity: 'discrete',
-        	  category: 'concentration'
-          },
-          {
-        	  timestepDensity: 'annual',
-        	  category: 'flow',
-          },
-          {
-        	  timestepDensity: 'daily',
-        	  category: 'flow',
-          },
-          {
-        	  timestepDensity: 'annual',
-        	  category: 'concentration',
-          },
-          {
-        	  timestepDensity: 'annual',
-        	  category: 'mass',
-        	  subcategory: undefined
-          }
-    ];
-	var CONSTITUENTS_TO_KEEP = ['nitrogen', 'nitrate', 'streamflow', 'phosphorus', 'sediment'];
-	/**
-	 * Determines if 'components' should be displayed on the client or not
-	 * @param {nar.timeSeries.Visualization.IdComponents} components, as returned by nar.TimeSeries.Visualization.getComponentsOfId 
-	 * @param {array<nar.timeSeries.Visualization.IdComponents>} acceptableComponentsGroup
-	 * @returns Boolean - True if ignorable, false otherwise
-	 */
-	var componentsAreIgnorable = function(components, acceptableComponentsGroup){
-		var ignore = true;
-		acceptableComponentsGroup.each(function(acceptableComponents){
-			if(nar.util.objectHasAllKeysAndValues(components, acceptableComponents)){
-				ignore = false;
-				return false; //break
-			};
-		});
-		return ignore;
-	};
 	
 	var LAST_WATER_YEAR_RANGE = Date.range(nar.WaterYearUtils.getWaterYearStart(CONFIG.currentWaterYear), nar.WaterYearUtils.getWaterYearEnd(CONFIG.currentWaterYear));
-	/**
-	 * Checks to make sure that the data underlying the series cover the
-	 * most recent year.
-	 * @param {nar.timeSeries.TimeSeriesCollection}
-	 * @returns Boolean - True if valid, false otherwise
-	 */
-	var isValidHydrographAndFlowDurationTimeSeriesCollection = function(timeSeriesCollection){
-		var valid = true;
-		if(timeSeriesCollection){
-			valid = timeSeriesCollection.getAll().every(function(timeSeries){
-				var tsvRange = timeSeries.timeRange;
-				var dateRange = Date.range(tsvRange.startTime, tsvRange.endTime);
-				var intersection = dateRange.intersect(LAST_WATER_YEAR_RANGE);
-				var tsvRangeAndLastWaterYearRangeIntersect = intersection.isValid();
-				return tsvRangeAndLastWaterYearRangeIntersect;
-			});
-		}
-		else{
-			valid = false;
-		}
-		return valid;
-	};
-	var tsvRegistry = nar.timeSeries.VisualizationRegistryInstance;
+
 	var successfulGetDataAvailability = function(data,
 			textStatus, jqXHR) {
-		var dataAvailability = nar.util.translateToSosGetDataAvailability(data);
+		var dataAvailability = data.filter(function(datumAvailability){
+			return datumAvailability.constituentCategorization && 'PESTICIDE' === datumAvailability.constituentCategorization;
+		});
 		//populate the tsvRegistry with tsvs created from the GetDataAvailability response 
 		dataAvailability.each(function(dataAvailability) {
-			var observedProperty = dataAvailability.observedProperty;
-			var procedure = dataAvailability.procedure;
-			//ignore some MODTYPEs
-			if(nar.util.stringContainsIgnoredModtype(procedure)){
-				return;//continue
-			}
-			else{
-				
-				var timeSeriesVizId = tsvRegistry
-						.getTimeSeriesVisualizationId(observedProperty, procedure);
-				var timeSeriesIdComponents = nar.timeSeries.Visualization.getComponentsOfId(timeSeriesVizId);
-				
-				if(		!CONSTITUENTS_TO_KEEP.some(timeSeriesIdComponents.constituent) 
-						|| componentsAreIgnorable(timeSeriesIdComponents, ACCEPTABLE_COMPONENTS_GROUP)){
-					return;//continue
-				}
-				else{
-					var timeSeriesViz = tsvRegistry
-							.get(timeSeriesVizId);
-					if (!timeSeriesViz) {
-						timeSeriesViz = new nar.timeSeries.Visualization(
+						timeSeriesViz = new nar.pesticide.timeSeries.Visualization(
 								{
 									id : timeSeriesVizId,
 									allPlotsWrapperElt : selectorElementPairs.allPlotsWrapper.element,
