@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+{% load compress %}
+
+{% block style %}
+	{{ block.super }}
+	<link rel="stylesheet" href="{% static 'nar_ui/js_lib/jstree/themes/default/style.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'nar_ui/js_lib/jquery-ui/css/ui-lightness/jquery-ui.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'nar_ui/js_lib/jquery-ui-slider-pips/jquery-ui-slider-pips.css' %}"/>
+{% endblock %}
+
+{% block scripts %}
+	{{ block.super }}
+	
+	<script type="text/javascript">
+			var PARAMS = {
+				'siteId' : '{{ site_id|escapejs}}'
+			};
+	</script>
+	{% compress js %}
+		{# third-party #}
+        <script type="text/javascript" src="{% static 'nar_ui/js_lib/jquery-ui/jquery-ui.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'nar_ui/js_lib/jquery-ui-slider-pips/jquery-ui-slider-pips.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.js' %}"></script>
+        <script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.canvas.js' %}"></script>
+        <script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.resize.js' %}"></script>
+        <script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.categories.js' %}"></script>
+        <script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.time.js' %}"></script>
+        <script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.selection.js' %}"></script>
+        <script type="text/javascript" src="{% static 'nar_ui/js_lib/flot/jquery.flot.symbol.js' %}"></script>
+        <script type="text/javascript" src="{% static 'nar_ui/js_lib/flot_plugins/jquery.flot.axislabels.js' %}"></script>
+        <script type="text/javascript" src="{% static 'nar_ui/js_lib/flot_plugins/jquery.flot.tooltip.js' %}"></script>
+        <script type="text/javascript" src="{% static 'nar_ui/js_lib/flot_plugins/jquery.flot.canvasLegend.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/js_lib/flot_plugins/jquery.flot.canvasLegend.layouts.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/js_lib/flot_plugins/jquery.flot.canvasLegend.renderersAndSizers.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/js_lib/jstree/jstree.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/js_lib/TinyColor/tinycolor.js' %}"></script>
+		
+		{# local #}
+		<script type="text/javascript" src="{% static 'nar_ui/commons/WaterYearUtils.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/Constituents.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/Definitions.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/SiteInfo.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/plots/PlotUtils.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/plots/sample_concentration_plot.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/plots/ConstituentBarChart.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/plots/LoadPlot.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/plots/ConcentrationPlot.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/plots/FlowPlot.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/plots/Hydrograph.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/time_series/TimeSeries.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/time_series/TimeRange.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/time_series/TimeSeriesCollection.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/time_series/TimeSeriesVisualization.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/time_series/TimeSeriesVisualizationRegistry.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/time_series/TimeSeriesVisualizationController.js' %}"></script>
+        <script type="text/javascript" src="{% static 'nar_ui/time_series/TimeSlider.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/pesticide_report/tree.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/pesticide_report/main.js' %}"></script>
+
+    	<script type="text/javascript">
+	       	nar.loadDefinitions(CONFIG.definitionsUrl);
+		    nar.loadSiteHelpInfo(CONFIG.siteInfoUrl);
+	   </script>
+    {% endcompress %}
+		
+{% endblock %}
+
+{% block content %}
+
+<div class="row summary_info">
+
+	
+	<div class="col-lg-12 full_site col-md-12 col-sm-12 col-xs-12">
+		<h2>{{ site_name }}</h2>
+		<h3>Station ID: {{ site_id }}</h3>
+		
+		<a href="{% url 'download' %}"><button id="fullDownload">Download Data</button></a>
+		
+		<div class="col-lg-1 back_to_report col-md-1 col-sm-1 col-xs-1">
+		
+			<ul>
+				
+				<li><a href="{% url 'summary_graphs' site_id %}"><i class="glyphicon glyphicon-arrow-left"></i>Summary Graphs</a></li>
+				
+			</ul>
+		
+		</div>
+		
+		<a href="{% url 'site' %}"><div class="col-lg-1 back_to_site_right">Back to Map</div></a>
+		
+	</div>
+
+
+	<div class="report_filter col-lg-3 col-md-3 col-sm-3 col-xs-3">
+		<div id="plotToggleTree"></div>
+		<div id="plotHelpDiv">
+		  <ul>
+		      <li id="sampleConcentrations"><span class="plotHelpTerm">Sample concentrations</span><a href="#" data-toggle="popover">?</a></li>
+		 </ul>
+		</div>
+		<div id="siteDataLinkDiv">
+			<ul>
+				<li><a id="realtime_link">Real-time Information</a></li>
+				<li><a id="nwisweb_link">NWISWeb</a></li>
+				<li><a id="daily_flows_link">Water Watch</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="col-lg-9 full_report_graphs col-md-9 col-sm-9 col-xs-9">
+	
+		<div id="plotsWrapper" class="col-lg-12 wrapper col-md-12 col-sm-12 col-xs-12">
+			<div id="instructions" class="row full_report_instructions jumbotron">
+			    <div class="col-xs-2">
+			     <i class="glyphicon glyphicon-arrow-left"></i>
+			    </div>
+			    <div class="col-xs-10">
+			     <h2>Select one or more concepts on the left to view graphs</h2>
+			    </div>
+				
+			</div>
+		
+			</div><!--wrapper-->
+		<div class="row">
+		  <div id="timeSlider" class="col-lg-12 slider col-md-12 col-sm-12 col-xs-12">
+		  </div>
+		</div>
+	
+	</div>
+		
+</div><!--summary_info-->
+
+{% endblock %}

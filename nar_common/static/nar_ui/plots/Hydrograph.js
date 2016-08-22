@@ -249,7 +249,13 @@ nar.plots = nar.plots || {};
 			},
 			yaxis : {
 				transform : function(y) {
-					return Math.log(y);
+					if(y > 0){
+						return Math.log(y);
+					} else if ( y < 0) {
+						return -1 * Math.log(-1 * y);
+					} else {
+						return 0;
+					}
 				},
 				inverseTransform : function(y) {
 					return Math.exp(y);
