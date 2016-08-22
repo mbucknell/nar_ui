@@ -103,9 +103,16 @@ var plotIdSuffix = '_' + plotContainerClass;
 /**
  * Given viz metadata, make a selector for a plot container
  * 
- * This is like a hash function. Collision can occur
- * on values assigned to the same key when one is an integer, 
- * and the other is the string concatenation of integer character codes. 
+ * This is like a hash function, but the result is not practically bounded in length.
+ * Numbers are converted to Strings, so it is possible for a collision to 
+ * occur between two non-equal objects if a value assigned to a key in one object
+ * is a number, and the value  assigned to the same key in another object is a 
+ * String representation of the same number.
+ *  
+ * Collision example:
+ * makePlotContainerId({'someKey':'123'}) === '/someKey123' === makePlotContainerId({'someKey': 123})
+ * 
+ * Currently, this is an acceptable risk.
  * 
  * @param {nar.pestTimeSeries.Visualization.metadata}
  * @returns {string} id for a plot
@@ -116,6 +123,7 @@ var makePlotContainerId = function(vizMetadata){
 };
 
 var recursivelyConcatenateKeysAndValues = function(object){
+	//be sure to sort the keys so that a consistent ordering is achieved
 	var tokens = Object.keys(vizMetadata).sort().map(function(key){
 		var value = object[key];
 		var strValue;
@@ -126,6 +134,8 @@ var recursivelyConcatenateKeysAndValues = function(object){
 			//base case
 			//don't let all of the UTF-8 chars into the css selector, just concatenate the integer char codes
 			strValue = value.codes().join('');
+		} else if(Object.isNumber(value)){
+			strValue = (''+ value).codes().join('');
 		} else {
 			//base case
 			strValue = strValue;
