@@ -120,13 +120,14 @@ nar.pesticideReport.Tree = function(timeSeriesVisualizations, tsvController, gra
     self.createTreeNode = function(id, displayHierarchy){
 		var text = displayHierarchy.split(self.displayHierarchyDelim).last();
         return {
-          type: id,
-          id: id,
+          type: id,//used to look up the TimeSeriesVisualization in the TimeSeriesVisualizationRegistry
+          id: displayHierarchy,
           text: text
         };
     };
     self.displayHierarchyDelim = '/';
     self.idDelim = '/';
+    
     /**
      * Given a hierarchical id, return the ids of all parents
      * in order of nearest parent to farthest parent.
@@ -201,60 +202,67 @@ nar.pesticideReport.Tree = function(timeSeriesVisualizations, tsvController, gra
     });
     
     // The order that the constituents will appear in the tree. This property represents the nodeID
-    var TREE_SORT_ORDER = {
-		'Streamflow' : 1,
-		'Total Nitrogen' : 2,
-		'Nitrate' : 3,
-		'Total Phosphorus' : 4,
-		'Suspended Sediment' : 5
+    var TOP_LEVEL_SORT_ORDER = {
+		'most frequently detected' : 1,
+		'closest to benchmarks' : 2,
+		'2nd closest to benchmarks' : 3,
+		'3rd closest to benchmarks' : 4,
     };
     // The order that the graph type will appear in the nodes for a constituent
-    var LEAF_SORT_ORDER = {
-		'annual/flow' : 1,
-		'daily/flow' : 2,
-		'discrete/concentration' : 3,
-		'annual/concentration/flow_weighted' : 4,
-		'annual/mass' : 5
+    
+    var MID_AND_LOWER_LEVEL_SORT_ORDER = {
+		'sample concentration' : 10,
+		'herbicide sample concentration' : 20,
+		'non-herbicide sample concentration' : 30,
+		'human health' : 100,
+		'aquatic life' : 110
     };
 
     $.jstree.defaults.sort = function(nodeAid, nodeBid){
 		var nodeA = this.get_node(nodeAid);
 		var nodeB = this.get_node(nodeBid);
+		var lcaseNodeAId = nodeAid.toLowerCase();
+		var lcaseNodeBId = nodeBid.toLowerCase();
 		// Branches
 		if (nodeA.parent === 'root')
-			if (Object.has(TREE_SORT_ORDER, nodeAid)) {
-				if (Object.has(TREE_SORT_ORDER, nodeBid)) {
-					if (TREE_SORT_ORDER[nodeAid] > TREE_SORT_ORDER[nodeBid]) {
+			if (Object.has(TOP_LEVEL_SORT_ORDER, lcaseNodeAId)) {
+				if (Object.has(TOP_LEVEL_SORT_ORDER, lcaseNodeBId)) {
+					if (TOP_LEVEL_SORT_ORDER[lcaseNodeAId] > TOP_LEVEL_SORT_ORDER[lcaseNodeBId]) {
 						return 1;
-					} else 
+					} else {
 						return -1;
+					}
 				}
 				else {
 					return 1;
 				}
 			}
-			else if (Object.has(TREE_SORT_ORDER, nodeBid)) {
+			else if (Object.has(TOP_LEVEL_SORT_ORDER, lcaseNodeBId)) {
 				return -1;
 			}
 			else {
 				return nodeAid > nodeBid ? 1 : -1;
 			}
 		else {// Leafs
-			var leafAid = nodeAid.from(nodeAid.indexOf('/') + 1);
-			var leafBid = nodeBid.from(nodeBid.indexOf('/') + 1);
-			if (Object.has(LEAF_SORT_ORDER, leafAid)) {
-				if (Object.has(LEAF_SORT_ORDER, leafBid)) {
-					if (LEAF_SORT_ORDER[leafAid] > LEAF_SORT_ORDER[leafBid]) {
+			var leafAid = nodeAid.from(nodeAid.lastIndexOf('/') + 1);
+			var leafBid = nodeBid.from(nodeBid.lastIndexOf('/') + 1);
+			
+			var lcaseLeafAid = leafAid.toLowerCase();
+			var lcaseLeafBid = leafBid.toLowerCase();
+			if (Object.has(MID_AND_LOWER_LEVEL_SORT_ORDER, lcaseLeafAid)) {
+				if (Object.has(MID_AND_LOWER_LEVEL_SORT_ORDER, lcaseLeafBid)) {
+					if (MID_AND_LOWER_LEVEL_SORT_ORDER[lcaseLeafAid] > MID_AND_LOWER_LEVEL_SORT_ORDER[lcaseLeafBid]) {
 						return 1;
 					}
-					else
+					else {
 						return -1;
+					}
 				}
 				else {
 					return 1;
 				}
 			}
-			else if (Object.has(LEAF_SORT_ORDER, leafBid)) {
+			else if (Object.has(MID_AND_LOWER_LEVEL_SORT_ORDER, lcaseLeafBid)) {
 				return -1;
 			}
 			else {
