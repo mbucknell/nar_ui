@@ -1,30 +1,31 @@
-//@requires nar.timeSeries.TimeSeriesCollection
+//@requires nar.timeSeries.TimeSeriesCollection, objectHash
 var nar = nar || {};
-nar.timeSeries  = nar.timeSeries || {};
+nar.pestTimeSeries  = nar.pestTimeSeries || {};
 (function(){
 /**
- * @typedef nar.timeSeries .TimeSeriesVisualizationConfig
- * @property {string} id
+ * @typedef nar.pestTimeSeries.TimeSeriesVisualizationConfig
+ * @property {Object} metadata - metadata about the time series viz as returned by the server
  * @property {Function} plotter
  * @property {nar.timeSeries.TimeSeriesCollection} timeSeriesCollection
- * @property {String} treeDisplayHierarchy optional param describing location of time series in a tree
  * @property {jQuery} allPlotsWrapperElt
  */
 
 /**
  * @class
- * @param {nar.timeSeries .TimeSeriesVisualizationConfig} config
+ * @param {nar.pestTimeSeries.TimeSeriesVisualizationConfig} config
  */
-nar.timeSeries.Visualization = function(config){
+nar.pestTimeSeries.Visualization = function(config){
     var self = this;
+    self.metadata = Object.clone(config.metadata, true);
     self.allPlotsWrapperElt = config.allPlotsWrapperElt;
-    self.treeDisplayHierarchy = config.treeDisplayHierarchy || '';
     self.plotter = config.plotter;
     self.auxData = config.auxData || {};
     self.allowTimeSlider = true;
     self.timeSeriesCollection = config.timeSeriesCollection;
     self.plot = undefined;
     self.plotContainer = undefined;
+    self.id = nar.pestTimeSeries.Visualization.makeId(self);
+    
     /**
      * asynchronously retrieves and plots all of the time series in the 
      * `this.timeSeriesCollection` using `this.plotter`
@@ -32,7 +33,7 @@ nar.timeSeries.Visualization = function(config){
      */
     self.visualize = function(){
         
-        var plotContainerId = makePlotContainerId(self);
+        var plotContainerId = makePlotContainerId();
         var plotContainer = getPlotContainer(plotContainerId);
         var plotContainerMissing = plotContainer.length === 0;
         var vizDeferred = $.Deferred();
@@ -49,7 +50,7 @@ nar.timeSeries.Visualization = function(config){
             //after all retrieval promises have been resolved
             $.when.apply(null, retrievalPromises).then(
                 function(){
-                    var plotter = nar.timeSeries.Visualization.getPlotterById(self.id);
+                    var plotter = nar.pestTimeSeries.Visualization.getPlotterById(self.id);
                     var plotContent;
                     if(plotter){
                     	try{
@@ -95,56 +96,21 @@ nar.timeSeries.Visualization = function(config){
 };
 
 // private static properties:
-var plotContainerClass = 'full_report_plot'; 
+var plotContainerClass = 'pesticide_report_plot'; 
 var plotIdSuffix = '_' + plotContainerClass;
 
 // private static methods:
 
 /**
- * Given viz metadata, make a selector for a plot container
+ * Given vizId, make a selector for a plot container
  * 
- * This is like a hash function, but the result is not practically bounded in length.
- * Numbers are converted to Strings, so it is possible for a collision to 
- * occur between two non-equal objects if a value assigned to a key in one object
- * is a number, and the value  assigned to the same key in another object is a 
- * String representation of the same number.
- *  
- * Collision example:
- * makePlotContainerId({'someKey':'123'}) === '/someKey123' === makePlotContainerId({'someKey': 123})
- * 
- * Currently, this is an acceptable risk.
- * 
- * @param {nar.pestTimeSeries.Visualization.metadata}
+ * @param {nar.pestTimeSeries.Visualization}
  * @returns {string} id for a plot
  */
-var makePlotContainerId = function(vizMetadata){
-	var stringifiedMetadata = recursivelyConcatenateKeysAndValues(vizMetadata);
-	return stringifiedMetadata + plotIdSuffix;
+var makePlotContainerId = function(tsv){	
+	return tsv.id + plotIdSuffix;
 };
 
-var recursivelyConcatenateKeysAndValues = function(object){
-	//be sure to sort the keys so that a consistent ordering is achieved
-	var tokens = Object.keys(vizMetadata).sort().map(function(key){
-		var value = object[key];
-		var strValue;
-		if(Object.isObject(value)){
-			//recursive case
-			strValue = recursivelyConcatenateKeysAndValues(value);
-		} else if(Object.isString(value)){
-			//base case
-			//don't let all of the UTF-8 chars into the css selector, just concatenate the integer char codes
-			strValue = value.codes().join('');
-		} else if(Object.isNumber(value)){
-			strValue = (''+ value).codes().join('');
-		} else {
-			//base case
-			strValue = strValue;
-		}
-		
-		return key + strValue;
-	}).join('/');
-	return '/' + tokens;
-}
 /**
  * Given a plot container id (NOT a viz ID), safely look up
  * the plot container. See also: makePlotContainerId()
@@ -160,7 +126,7 @@ var getPlotContainer = function(plotContainerId){
 
 // public static properties:
 
-nar.timeSeries.Visualization.serverToClientConstituentIdMap = {
+nar.pestTimeSeries.Visualization.serverToClientConstituentIdMap = {
     'no3_no2': 'nitrate',
     'ssc':'sediment',
     'tn' : 'nitrogen',
@@ -168,34 +134,6 @@ nar.timeSeries.Visualization.serverToClientConstituentIdMap = {
     'q':'streamflow'
 };
 
-/**
- * @typedef nar.timeSeries.Visualization.IdComponents
- * @property {string} constituent
- * @property {string} timestepDensity
- * @property {string} category
- * @property {string} subcategory 
- * @property {string} modtype
- */
-
-/**
- * @param {string} id
- * @returns {nar.timeSeries.Visualization.IdComponents} a simple map of component name to value 
- */
-nar.timeSeries.Visualization.getComponentsOfId = function(id) {
-    var splitId = id.split('/');
-
-    var serverConstituentId = splitId[0];
-    var clientConstituentId = nar.timeSeries.Visualization.serverToClientConstituentIdMap[serverConstituentId
-            .toLowerCase()];
-    var components = {
-	    constituent : clientConstituentId,
-	    timestepDensity : splitId[1],
-	    category : splitId[2],
-	    subcategory : splitId[3],
-
-	};
-    return components;
-};
 
 /**
  * @param {string} id - a Visualization id
@@ -203,10 +141,10 @@ nar.timeSeries.Visualization.getComponentsOfId = function(id) {
  * @param {Function|Array} defaultValue - default return if id doesn't have customization
  * @returns {Function|Array} Custom configuration for plot
  */
-nar.timeSeries.Visualization.getCustomizationById = function(id, field, defaultValue) {
+nar.pestTimeSeries.Visualization.getCustomizationById = function(id, field, defaultValue) {
     var result;
-    var components = nar.timeSeries.Visualization.getComponentsOfId(id);
-    var vizType = nar.timeSeries.Visualization.types(components);
+    var components = nar.pestTimeSeries.Visualization.getComponentsOfId(id);
+    var vizType = nar.pestTimeSeries.Visualization.types(components);
     if (vizType) {
         result = vizType[field];
     } else {
@@ -221,14 +159,14 @@ nar.timeSeries.Visualization.getCustomizationById = function(id, field, defaultV
  *  the element to insert the plot into,
  *  the data to plot
  */
-nar.timeSeries.Visualization.getPlotterById = function(id){
-    return nar.timeSeries.Visualization.getCustomizationById(id, 'plotter', nar.util.Unimplemented);
+nar.pestTimeSeries.Visualization.getPlotterById = function(id){
+    return nar.pestTimeSeries.Visualization.getCustomizationById(id, 'plotter', nar.util.Unimplemented);
 };
 
 /**
  * Some configuration for which category of data gets which graph
  */
-nar.timeSeries.Visualization.types = function(components) {
+nar.pestTimeSeries.Visualization.types = function(components) {
 		if (components.category === 'concentration') {
 			if (components.subcategory === 'mean' || components.subcategory === 'flow_weighted') {
 				return {
@@ -271,5 +209,14 @@ nar.timeSeries.Visualization.types = function(components) {
 				};
 			}
 		}
+};
+
+/**
+ * Given a tsv, create an id
+ * @param {nar.pestTimeSeries.TimeSeriesVisualization}
+ * @return {String} id
+ */
+nar.pestTimeSeries.Visualization.makeId = function(tsv){
+	return objectHash(tsv.metadata);
 };
 }());

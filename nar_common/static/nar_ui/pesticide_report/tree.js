@@ -1,10 +1,10 @@
 var nar = nar || {};
-nar.fullReport = nar.fullReport || {};
+nar.pesticideReport = nar.pesticideReport || {};
 /**
- * @param {array<nar.TimeSeries.Visualization>} timeSeriesVisualizations - an array of all possible tsv's
- * @param {nar.timeSeries.VisualizationController} tsvController - all currently visualized tsv's
+ * @param {array<nar.pestTimeSeries.Visualization>} timeSeriesVisualizations - an array of all possible tsv's
+ * @param {nar.pestTimeSeries.VisualizationController} tsvController - all currently visualized tsv's
  */
-nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphToggleElt){
+nar.pesticideReport.Tree = function(timeSeriesVisualizations, tsvController, graphToggleElt){
     var self = this;
     
     var treeNodeIds = {}; //pseudo-set; keys are string TimeSeriesVisualization ids. Values are meaningless.
@@ -19,47 +19,59 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
     var mostRecentlyCreatedTimeSeriesVizId;
     
     /**
+     * @param {Number} order - comparison order from ComparisonCategorization.order
+     * @returns {String} for tree display
+     */
+    var getBenchmarkComparisonTreeIdFragment = function(order){
+    	var strOrder = '' + order;
+		var orderMap = {'1' : '', '2': '2nd ', '3': '3rd '};
+		var prefix = orderMap[strOrder];
+		var benchmarkComparisonFragment = prefix + 'Closest to Benchmarks';
+		return benchmarkComparisonFragment;
+    };
+    
+    /**
+     * @param {Object} comparisonCategorization - an object with keys 'category' and 'order'
+     * @returns {String} a tree id fragment. Will not contain leading or trailing delims.
+     * May contain delims within the string.
+     */
+    var comparisonCategorizationToTreeIdFragment = function(comparisonCategorization){
+    	var treeIdFragment;
+    	if('ABSOLUTE' === comparisonCategorization.category){
+    		treeIdFragment = 'Most Frequently Detected'
+			if(1 !== comparisonCategorization.order){
+				throw Error('Order "' + comparisonCategorization.order + '" is unexpected. Expected "1"');
+			}
+    	} else {
+    		treeIdFragment = getBenchmarkComparisonTreeIdFragment(comparisonCategorization.order);
+    		if ('HUMAN_HEALTH' === comparisonCategorization.category) {
+    			treeIdFragment += self.displayHierarchyDelim + 'Human Health';
+    		} else if ('AQUATIC_LIFE' === comparisonCategorization.category){
+    			treeIdFragment += self.displayHierarchyDelim + 'Aquatic Life';
+    		}
+    	}
+    	return treeIdFragment;
+    };
+    
+    /**
 	 * Given time series visualization components, return a hierarchical id that will produce a tree like the one in the mockups
-	 *  @param {nar.timeSeries.Visualization.IdComponents} timeSeriesIdComponents
+	 *  @param {nar.pestTimeSeries.Visualization.metadata} metadata
 	 *  @returns {String}, a '/'-delimited string denoting tree display hierarchy
 	 */
-	var getTreeDisplayHierarchy = function(timeSeriesIdComponents){
-		var constituentId = timeSeriesIdComponents.constituent;
-		var constituent = nar.Constituents[constituentId];
-		var constituentName = constituent.name;
-		var topLevel, bottomLevel;
-		if('streamflow' === constituentId){
-			if(timeSeriesIdComponents.timestepDensity === 'annual'){
-				topLevel = 'Annual';
+	var getTreeDisplayHierarchy = function(metadata){
+		var displayHierarchy = '';
+		var comparisonCategorizationFragment = comparisonCategorizationToTreeIdFragment(metadata.comparisonCategorization);
+		displayHierarchy += comparisonCategorizationFragment;
+		if(metadata.comparisonCategorization.category === 'ABSOLUTE'){
+			displayHierarchy += self.displayHierarchyDelim;
+			if(null != metadata.constituentCategorization.subcategory){
+				displayHierarchy += metadata.constituentCategorization.subcategory.replace('_', '-').capitalize();
+			} else {
+				throw Error('Absolute comparisons must have a subcategory defined');
 			}
-			else if (timeSeriesIdComponents.timestepDensity === 'daily'){
-				topLevel = 'Hydrograph\\Flow duration';
-			}
+			displayHierarchy += ' Sample Concentration';
 		}
-		else{
-			//non-flow constituents
-			if(timeSeriesIdComponents.category === 'concentration'){
-				if (timeSeriesIdComponents.timestepDensity === 'discrete') {
-					topLevel = 'Sample concentrations';
-				}
-				else {// must be annual flow weighted
-					topLevel = 'Annual concentrations';
-				}
-			}
-			else if (timeSeriesIdComponents.category === 'mass' && timeSeriesIdComponents.timestepDensity === 'annual'){
-				topLevel = 'Annual load';
-			}
-			else{
-				console.dir(timeSeriesIdComponents);
-				throw Error("Can't place time series visualization in tree hierarchy");
-			}
-		}
-		var newIdElements =[constituentName, topLevel];
-		if(bottomLevel){
-			newIdElements.push(bottomLevel);
-		}
-		var newId = newIdElements.join('/');
-		return newId;
+		return displayHierarchy;
 	};
     
     self.createLeafNode = function(id, displayHierarchy){
@@ -124,7 +136,7 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
     //construction
     timeSeriesVisualizations.each(function(timeSeriesVisualization){
         var id = timeSeriesVisualization.id;
-        var displayHierarchy = getTreeDisplayHierarchy(timeSeriesVisualization.getComponentsOfId());
+        var displayHierarchy = getTreeDisplayHierarchy(timeSeriesVisualization.metadata);
         //add id to set of already created tree node ids
         treeNodeIds[displayHierarchy] = true;
 
@@ -253,7 +265,7 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
     
     var getTimeSeriesVisualizationsForNode = function(leafNode){
         var tsvId = leafNode.original.type;
-        var timeSeriesVisualization = nar.timeSeries.VisualizationRegistryInstance.get(tsvId);
+        var timeSeriesVisualization = nar.pestTimeSeries.VisualizationRegistryInstance.get(tsvId);
         return timeSeriesVisualization;
     };
     

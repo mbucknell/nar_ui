@@ -17,7 +17,8 @@ $(document).ready(function() {
 		timeSlider : selectorElementPair('#timeSlider'),
 		graphToggle : selectorElementPair('#plotToggleTree')
 	};
-	nar.timeSeries.VisualizationRegistryInstance = new nar.timeSeries.VisualizationRegistry();
+	var tsvRegistry = new nar.pestTimeSeries.VisualizationRegistry();
+	nar.pestTimeSeries.VisualizationRegistryInstance = tsvRegistry;
 	
 	var getDataAvailabilityRequest = nar.util.getDataAvailability(siteId);
 	
@@ -27,71 +28,33 @@ $(document).ready(function() {
 	var successfulGetDataAvailability = function(data,
 			textStatus, jqXHR) {
 		var dataAvailability = data.filter(function(datumAvailability){
-			return datumAvailability.constituentCategorization && 'PESTICIDE' === datumAvailability.constituentCategorization;
+			return datumAvailability.constituentCategorization && datumAvailability.constituentCategorization.category &&'PESTICIDE' === datumAvailability.constituentCategorization.category;
 		});
 		//populate the tsvRegistry with tsvs created from the GetDataAvailability response 
 		dataAvailability.each(function(dataAvailability) {
-						timeSeriesViz = new nar.pesticide.timeSeries.Visualization(
+					var timeSeriesViz = new nar.pestTimeSeries.Visualization(
 								{
-									id : timeSeriesVizId,
 									allPlotsWrapperElt : selectorElementPairs.allPlotsWrapper.element,
 									timeSeriesCollection : new nar.timeSeries.Collection(),
+									metadata: dataAvailability,
 									plotter : nar.util.Unimplemented
 								});
-						tsvRegistry.register(timeSeriesViz);
-					}
-					
-					//Use the default time ranger for now. Override the hydrograph's time range 
-					//later if both of its time series overlap with the most recent water year.
-					var timeRange = nar.timeSeries.DataAvailabilityTimeRange(dataAvailability);
-					var timeSeries = new nar.timeSeries.TimeSeries(
-							{
-								observedProperty : observedProperty,
-								timeRange : timeRange,
-								procedure : procedure,
-								featureOfInterest: PARAMS.siteId
-							});
+					tsvRegistry.register(timeSeriesViz);
+					var timeSeries = new nar.pestTimeSeries.TimeSeries(
+						{
+							metadata: dataAvailability,
+							site: PARAMS.siteId
+						});
 					timeSeriesViz.timeSeriesCollection
 							.add(timeSeries);
-		
-					timeSeriesViz.ancillaryData
-							.each(function(props) {
-								var ancilSeries = new nar.timeSeries.TimeSeries(
-										{
-											observedProperty : props.observedProperty,
-											timeRange : timeRange,
-											procedure : props.procedure,
-											featureOfInterest : PARAMS.siteId
-										});
-								timeSeriesViz.timeSeriesCollection
-										.add(ancilSeries);
-							});
-				}
-			}
 		});
-		
-		//Now, since every non-ignored constituent and modtype is available in the tsvRegistry,
-		//and every one in the registry is about to be visualized, check to see if the hydrograph 
-		//should be removed. If it shouldn't be removed, override it's time range.
-		var HYDROGRAPH_AND_FLOW_DURATION_TSV_ID = 'Q/daily/flow';
-		var hydrographAndFlowDurationTsv = tsvRegistry.get(HYDROGRAPH_AND_FLOW_DURATION_TSV_ID);
-		if(hydrographAndFlowDurationTsv){
-			if(isValidHydrographAndFlowDurationTimeSeriesCollection(hydrographAndFlowDurationTsv.timeSeriesCollection)){
-				//if valid, restrict data's time range to the current water year 
-				hydrographAndFlowDurationTsv.timeSeriesCollection.getAll().each(function(timeSeries){
-					timeSeries.timeRange = nar.timeSeries.WaterYearTimeRange(CONFIG.currentWaterYear);
-				});
-			} else {
-				tsvRegistry.deregister(HYDROGRAPH_AND_FLOW_DURATION_TSV_ID);
-			}
-		}
 		
 		var allTimeSeriesVizualizations = tsvRegistry.getAll();
 		var timeSlider = nar.timeSeries.TimeSlider(selectorElementPairs.timeSlider.element);
 		var tsvController = new nar.timeSeries.VisualizationController(
 				timeSlider, selectorElementPairs.instructions.element);
 
-		var tree = new nar.fullReport.Tree(
+		var tree = new nar.pesticideReport.Tree(
 				allTimeSeriesVizualizations, tsvController,
 				selectorElementPairs.graphToggle.element);
 	};
