@@ -29,6 +29,9 @@ class SiteSummaryReportView(SiteReportView):
 class SiteFullReportView(SiteReportView):
     template_name = 'nar_ui/full_report.html'
     
+class SitePesticideFullReportView(SiteReportView):
+    template_name = 'nar_ui/pesticide_report.html'
+    
 class SiteView(TemplateView):
     template_name = 'nar_ui/site.html'
     
