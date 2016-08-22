@@ -54,6 +54,35 @@ nar.pesticideReport.Tree = function(timeSeriesVisualizations, tsvController, gra
     };
     
     /**
+     * @param {nar.pestTimeSeries.Visualization.metadata.aggregationType}
+     * @param {nar.pestTimeSeries.Visualization.metadata.timeStepDensity}
+     * @returns {String} a tree id fragment. Will not contain leading or trailing delims.
+     * May contain delims within the string.
+     */
+    var aggregationTypeAndTimeStepDensityToTreeIdFragment = function(aggregationType, timeStepDensity){
+    	var treeIdFragment = '';
+    	if('DISCRETE' === timeStepDensity && 'NONE' === aggregationType) {
+    		treeIdFragment = 'Sample Concentration';
+    	} else if('MOVING_AVERAGE' === aggregationType){
+    		var timeStepDensityMap = {
+				'EVERY_21_DAYS' : '21 day',
+				'EVERY_60_DAYS' : '60 day'
+    		};
+    		if(Object.has(timeStepDensityMap, timeStepDensity)){
+    			treeIdFragment = timeStepDensityMap[timeStepDensity];
+    		} else {
+    			throw Error('Could not translate timeStepDensity "' + timeStepDensity + '" into a human-facing tree node name.');
+    		}
+    		treeIdFragment += ' Moving Average';
+    	} else if('TIME_WEIGHTED_MEAN' === aggregationType && 'ANNUAL' === timeStepDensity){
+    		treeIdFragment = 'Time-Weighted Annual Mean';
+    	} else {
+    		throw Error('Could not translate timeStepDensity "' + timeStepDensity + '" and aggregationType "' + aggregationType + '" into a human-facing tree node name.');
+    	}
+    	return treeIdFragment;
+    };
+    
+    /**
 	 * Given time series visualization components, return a hierarchical id that will produce a tree like the one in the mockups
 	 *  @param {nar.pestTimeSeries.Visualization.metadata} metadata
 	 *  @returns {String}, a '/'-delimited string denoting tree display hierarchy
@@ -70,6 +99,8 @@ nar.pesticideReport.Tree = function(timeSeriesVisualizations, tsvController, gra
 				throw Error('Absolute comparisons must have a subcategory defined');
 			}
 			displayHierarchy += ' Sample Concentration';
+		} else {
+			displayHierarchy += self.displayHierarchyDelim + aggregationTypeAndTimeStepDensityToTreeIdFragment(metadata.aggregationType, metadata.timeStepDensity);
 		}
 		return displayHierarchy;
 	};
