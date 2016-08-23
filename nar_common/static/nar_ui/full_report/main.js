@@ -42,7 +42,16 @@ $(document).ready(function() {
         	  timestepDensity: 'annual',
         	  category: 'mass',
         	  subcategory: undefined
-          }
+          },
+          {
+    	  	  timestepDensity: 'discrete',
+        	  category: 'herbicide concentration'
+          },
+          {
+    	  	  timestepDensity: 'discrete',
+        	  category: 'non_herbicide concentration'
+          },
+          
     ];
 	var CONSTITUENTS_TO_KEEP = ['nitrogen', 'nitrate', 'streamflow', 'phosphorus', 'sediment'];
 	/**
@@ -85,14 +94,34 @@ $(document).ready(function() {
 		}
 		return valid;
 	};
+	/**
+	 * @param {object} timeSeriesId
+	 * @param {object} customNarInfo the object returned from NAR get data availablity calls
+	 * @returns {boolean} true if ok to skip, false if it should be visualized
+	 */
+	var skipTimeSeries = function(timeSeriesIdComponents, customNarInfo){
+		//always let pesticide time series through
+		if("pesticide_concentration" === customNarInfo.timeSeriesCategory.toLowerCase()){
+			return false;
+		} else {
+		//otherwise, filter on constituent and other components
+			return !CONSTITUENTS_TO_KEEP.some(timeSeriesIdComponents.constituent) 
+				|| componentsAreIgnorable(timeSeriesIdComponents, ACCEPTABLE_COMPONENTS_GROUP);
+		}
+	};
 	var tsvRegistry = nar.timeSeries.VisualizationRegistryInstance;
 	var successfulGetDataAvailability = function(data,
 			textStatus, jqXHR) {
-		var dataAvailability = nar.util.translateToSosGetDataAvailability(data);
+		
+		var dataAvailability = data.filter(function(datumAvailability){
+			return !(datumAvailability.constituentCategorization && datumAvailability.constituentCategorization.category &&'PESTICIDE' === datumAvailability.constituentCategorization.category);
+		});
+
+		dataAvailability = nar.util.translateToSosGetDataAvailability(dataAvailability);
 		//populate the tsvRegistry with tsvs created from the GetDataAvailability response 
 		dataAvailability.each(function(dataAvailability) {
-			var observedProperty = dataAvailability.observedProperty;
-			var procedure = dataAvailability.procedure;
+			var observedProperty = dataAvailability.sos.observedProperty;
+			var procedure = dataAvailability.sos.procedure;
 			//ignore some MODTYPEs
 			if(nar.util.stringContainsIgnoredModtype(procedure)){
 				return;//continue
@@ -100,11 +129,10 @@ $(document).ready(function() {
 			else{
 				
 				var timeSeriesVizId = tsvRegistry
-						.getTimeSeriesVisualizationId(observedProperty, procedure);
+						.getTimeSeriesVisualizationId(observedProperty, procedure, dataAvailability.custom.constit);
 				var timeSeriesIdComponents = nar.timeSeries.Visualization.getComponentsOfId(timeSeriesVizId);
 				
-				if(		!CONSTITUENTS_TO_KEEP.some(timeSeriesIdComponents.constituent) 
-						|| componentsAreIgnorable(timeSeriesIdComponents, ACCEPTABLE_COMPONENTS_GROUP)){
+				if(skipTimeSeries(timeSeriesIdComponents, dataAvailability.custom)){
 					return;//continue
 				}
 				else{
@@ -123,7 +151,7 @@ $(document).ready(function() {
 					
 					//Use the default time ranger for now. Override the hydrograph's time range 
 					//later if both of its time series overlap with the most recent water year.
-					var timeRange = nar.timeSeries.DataAvailabilityTimeRange(dataAvailability);
+					var timeRange = nar.timeSeries.DataAvailabilityTimeRange(dataAvailability.sos);
 					var timeSeries = new nar.timeSeries.TimeSeries(
 							{
 								observedProperty : observedProperty,

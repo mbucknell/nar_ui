@@ -1,10 +1,10 @@
 var nar = nar || {};
-nar.fullReport = nar.fullReport || {};
+nar.pesticideReport = nar.pesticideReport || {};
 /**
- * @param {array<nar.TimeSeries.Visualization>} timeSeriesVisualizations - an array of all possible tsv's
- * @param {nar.timeSeries.VisualizationController} tsvController - all currently visualized tsv's
+ * @param {array<nar.pestTimeSeries.Visualization>} timeSeriesVisualizations - an array of all possible tsv's
+ * @param {nar.pestTimeSeries.VisualizationController} tsvController - all currently visualized tsv's
  */
-nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphToggleElt){
+nar.pesticideReport.Tree = function(timeSeriesVisualizations, tsvController, graphToggleElt){
     var self = this;
     
     var treeNodeIds = {}; //pseudo-set; keys are string TimeSeriesVisualization ids. Values are meaningless.
@@ -19,47 +19,90 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
     var mostRecentlyCreatedTimeSeriesVizId;
     
     /**
+     * @param {Number} order - comparison order from ComparisonCategorization.order
+     * @returns {String} for tree display
+     */
+    var getBenchmarkComparisonTreeIdFragment = function(order){
+    	var strOrder = '' + order;
+		var orderMap = {'1' : '', '2': '2nd ', '3': '3rd '};
+		var prefix = orderMap[strOrder];
+		var benchmarkComparisonFragment = prefix + 'Closest to Benchmarks';
+		return benchmarkComparisonFragment;
+    };
+    
+    /**
+     * @param {Object} comparisonCategorization - an object with keys 'category' and 'order'
+     * @returns {String} a tree id fragment. Will not contain leading or trailing delims.
+     * May contain delims within the string.
+     */
+    var comparisonCategorizationToTreeIdFragment = function(comparisonCategorization){
+    	var treeIdFragment;
+    	if('ABSOLUTE' === comparisonCategorization.category){
+    		treeIdFragment = 'Most Frequently Detected'
+			if(1 !== comparisonCategorization.order){
+				throw Error('Order "' + comparisonCategorization.order + '" is unexpected. Expected "1"');
+			}
+    	} else {
+    		treeIdFragment = getBenchmarkComparisonTreeIdFragment(comparisonCategorization.order);
+    		if ('HUMAN_HEALTH' === comparisonCategorization.category) {
+    			treeIdFragment += self.displayHierarchyDelim + 'Human Health';
+    		} else if ('AQUATIC_LIFE' === comparisonCategorization.category){
+    			treeIdFragment += self.displayHierarchyDelim + 'Aquatic Life';
+    		}
+    	}
+    	return treeIdFragment;
+    };
+    
+    /**
+     * @param {nar.pestTimeSeries.Visualization.metadata.aggregationType}
+     * @param {nar.pestTimeSeries.Visualization.metadata.timeStepDensity}
+     * @returns {String} a tree id fragment. Will not contain leading or trailing delims.
+     * May contain delims within the string.
+     */
+    var aggregationTypeAndTimeStepDensityToTreeIdFragment = function(aggregationType, timeStepDensity){
+    	var treeIdFragment = '';
+    	if('DISCRETE' === timeStepDensity && 'NONE' === aggregationType) {
+    		treeIdFragment = 'Sample Concentration';
+    	} else if('MOVING_AVERAGE' === aggregationType){
+    		var timeStepDensityMap = {
+				'EVERY_21_DAYS' : '21 day',
+				'EVERY_60_DAYS' : '60 day'
+    		};
+    		if(Object.has(timeStepDensityMap, timeStepDensity)){
+    			treeIdFragment = timeStepDensityMap[timeStepDensity];
+    		} else {
+    			throw Error('Could not translate timeStepDensity "' + timeStepDensity + '" into a human-facing tree node name.');
+    		}
+    		treeIdFragment += ' Moving Average';
+    	} else if('TIME_WEIGHTED_MEAN' === aggregationType && 'ANNUAL' === timeStepDensity){
+    		treeIdFragment = 'Time-Weighted Annual Mean';
+    	} else {
+    		throw Error('Could not translate timeStepDensity "' + timeStepDensity + '" and aggregationType "' + aggregationType + '" into a human-facing tree node name.');
+    	}
+    	return treeIdFragment;
+    };
+    
+    /**
 	 * Given time series visualization components, return a hierarchical id that will produce a tree like the one in the mockups
-	 *  @param {nar.timeSeries.Visualization.IdComponents} timeSeriesIdComponents
+	 *  @param {nar.pestTimeSeries.Visualization.metadata} metadata
 	 *  @returns {String}, a '/'-delimited string denoting tree display hierarchy
 	 */
-	var getTreeDisplayHierarchy = function(timeSeriesIdComponents){
-		var constituentId = timeSeriesIdComponents.constituent;
-		var constituent = nar.Constituents[constituentId];
-		var constituentName = constituent.name;
-		var topLevel, bottomLevel;
-		if('streamflow' === constituentId){
-			if(timeSeriesIdComponents.timestepDensity === 'annual'){
-				topLevel = 'Annual';
+	var getTreeDisplayHierarchy = function(metadata){
+		var displayHierarchy = '';
+		var comparisonCategorizationFragment = comparisonCategorizationToTreeIdFragment(metadata.comparisonCategorization);
+		displayHierarchy += comparisonCategorizationFragment;
+		if(metadata.comparisonCategorization.category === 'ABSOLUTE'){
+			displayHierarchy += self.displayHierarchyDelim;
+			if(null != metadata.constituentCategorization.subcategory){
+				displayHierarchy += metadata.constituentCategorization.subcategory.replace('_', '-').capitalize();
+			} else {
+				throw Error('Absolute comparisons must have a subcategory defined');
 			}
-			else if (timeSeriesIdComponents.timestepDensity === 'daily'){
-				topLevel = 'Hydrograph\\Flow duration';
-			}
+			displayHierarchy += ' Sample Concentration';
+		} else {
+			displayHierarchy += self.displayHierarchyDelim + aggregationTypeAndTimeStepDensityToTreeIdFragment(metadata.aggregationType, metadata.timeStepDensity);
 		}
-		else{
-			//non-flow constituents
-			if(timeSeriesIdComponents.category === 'concentration'){
-				if (timeSeriesIdComponents.timestepDensity === 'discrete') {
-					topLevel = 'Sample concentrations';
-				}
-				else {// must be annual flow weighted
-					topLevel = 'Annual concentrations';
-				}
-			}
-			else if (timeSeriesIdComponents.category === 'mass' && timeSeriesIdComponents.timestepDensity === 'annual'){
-				topLevel = 'Annual load';
-			}
-			else{
-				console.dir(timeSeriesIdComponents);
-				throw Error("Can't place time series visualization in tree hierarchy");
-			}
-		}
-		var newIdElements =[constituentName, topLevel];
-		if(bottomLevel){
-			newIdElements.push(bottomLevel);
-		}
-		var newId = newIdElements.join('/');
-		return newId;
+		return displayHierarchy;
 	};
     
     self.createLeafNode = function(id, displayHierarchy){
@@ -77,13 +120,14 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
     self.createTreeNode = function(id, displayHierarchy){
 		var text = displayHierarchy.split(self.displayHierarchyDelim).last();
         return {
-          type: id,
-          id: id,
+          type: id,//used to look up the TimeSeriesVisualization in the TimeSeriesVisualizationRegistry
+          id: displayHierarchy,
           text: text
         };
     };
     self.displayHierarchyDelim = '/';
     self.idDelim = '/';
+    
     /**
      * Given a hierarchical id, return the ids of all parents
      * in order of nearest parent to farthest parent.
@@ -124,7 +168,7 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
     //construction
     timeSeriesVisualizations.each(function(timeSeriesVisualization){
         var id = timeSeriesVisualization.id;
-        var displayHierarchy = getTreeDisplayHierarchy(timeSeriesVisualization.getComponentsOfId());
+        var displayHierarchy = getTreeDisplayHierarchy(timeSeriesVisualization.metadata);
         //add id to set of already created tree node ids
         treeNodeIds[displayHierarchy] = true;
 
@@ -158,60 +202,67 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
     });
     
     // The order that the constituents will appear in the tree. This property represents the nodeID
-    var TREE_SORT_ORDER = {
-		'Streamflow' : 1,
-		'Total Nitrogen' : 2,
-		'Nitrate' : 3,
-		'Total Phosphorus' : 4,
-		'Suspended Sediment' : 5
+    var TOP_LEVEL_SORT_ORDER = {
+		'most frequently detected' : 1,
+		'closest to benchmarks' : 2,
+		'2nd closest to benchmarks' : 3,
+		'3rd closest to benchmarks' : 4,
     };
     // The order that the graph type will appear in the nodes for a constituent
-    var LEAF_SORT_ORDER = {
-		'annual/flow' : 1,
-		'daily/flow' : 2,
-		'discrete/concentration' : 3,
-		'annual/concentration/flow_weighted' : 4,
-		'annual/mass' : 5
+    
+    var MID_AND_LOWER_LEVEL_SORT_ORDER = {
+		'sample concentration' : 10,
+		'herbicide sample concentration' : 20,
+		'non-herbicide sample concentration' : 30,
+		'human health' : 100,
+		'aquatic life' : 110
     };
 
     $.jstree.defaults.sort = function(nodeAid, nodeBid){
 		var nodeA = this.get_node(nodeAid);
 		var nodeB = this.get_node(nodeBid);
+		var lcaseNodeAId = nodeAid.toLowerCase();
+		var lcaseNodeBId = nodeBid.toLowerCase();
 		// Branches
 		if (nodeA.parent === 'root')
-			if (Object.has(TREE_SORT_ORDER, nodeAid)) {
-				if (Object.has(TREE_SORT_ORDER, nodeBid)) {
-					if (TREE_SORT_ORDER[nodeAid] > TREE_SORT_ORDER[nodeBid]) {
+			if (Object.has(TOP_LEVEL_SORT_ORDER, lcaseNodeAId)) {
+				if (Object.has(TOP_LEVEL_SORT_ORDER, lcaseNodeBId)) {
+					if (TOP_LEVEL_SORT_ORDER[lcaseNodeAId] > TOP_LEVEL_SORT_ORDER[lcaseNodeBId]) {
 						return 1;
-					} else 
+					} else {
 						return -1;
+					}
 				}
 				else {
 					return 1;
 				}
 			}
-			else if (Object.has(TREE_SORT_ORDER, nodeBid)) {
+			else if (Object.has(TOP_LEVEL_SORT_ORDER, lcaseNodeBId)) {
 				return -1;
 			}
 			else {
 				return nodeAid > nodeBid ? 1 : -1;
 			}
 		else {// Leafs
-			var leafAid = nodeAid.from(nodeAid.indexOf('/') + 1);
-			var leafBid = nodeBid.from(nodeBid.indexOf('/') + 1);
-			if (Object.has(LEAF_SORT_ORDER, leafAid)) {
-				if (Object.has(LEAF_SORT_ORDER, leafBid)) {
-					if (LEAF_SORT_ORDER[leafAid] > LEAF_SORT_ORDER[leafBid]) {
+			var leafAid = nodeAid.from(nodeAid.lastIndexOf('/') + 1);
+			var leafBid = nodeBid.from(nodeBid.lastIndexOf('/') + 1);
+			
+			var lcaseLeafAid = leafAid.toLowerCase();
+			var lcaseLeafBid = leafBid.toLowerCase();
+			if (Object.has(MID_AND_LOWER_LEVEL_SORT_ORDER, lcaseLeafAid)) {
+				if (Object.has(MID_AND_LOWER_LEVEL_SORT_ORDER, lcaseLeafBid)) {
+					if (MID_AND_LOWER_LEVEL_SORT_ORDER[lcaseLeafAid] > MID_AND_LOWER_LEVEL_SORT_ORDER[lcaseLeafBid]) {
 						return 1;
 					}
-					else
+					else {
 						return -1;
+					}
 				}
 				else {
 					return 1;
 				}
 			}
-			else if (Object.has(LEAF_SORT_ORDER, leafBid)) {
+			else if (Object.has(MID_AND_LOWER_LEVEL_SORT_ORDER, lcaseLeafBid)) {
 				return -1;
 			}
 			else {
@@ -253,7 +304,7 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
     
     var getTimeSeriesVisualizationsForNode = function(leafNode){
         var tsvId = leafNode.original.type;
-        var timeSeriesVisualization = nar.timeSeries.VisualizationRegistryInstance.get(tsvId);
+        var timeSeriesVisualization = nar.pestTimeSeries.VisualizationRegistryInstance.get(tsvId);
         return timeSeriesVisualization;
     };
     

@@ -35,6 +35,7 @@
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/flot_plugins/jquery.flot.canvasLegend.renderersAndSizers.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/jstree/jstree.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/js_lib/TinyColor/tinycolor.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/js_lib/object_hash/object_hash.js' %}"></script>
 		
 		{# local #}
 		<script type="text/javascript" src="{% static 'nar_ui/commons/WaterYearUtils.js' %}"></script>
@@ -42,19 +43,21 @@
 		<script type="text/javascript" src="{% static 'nar_ui/Definitions.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/SiteInfo.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/plots/PlotUtils.js' %}"></script>
-		<script type="text/javascript" src="{% static 'nar_ui/plots/sample_concentration_plot.js' %}"></script>
+		<script type="text/javascript" src="{% static 'nar_ui/plots/sample_concentration_comparison_plot.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/plots/ConstituentBarChart.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/plots/LoadPlot.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/plots/ConcentrationPlot.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/plots/FlowPlot.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/plots/Hydrograph.js' %}"></script>
-		<script type="text/javascript" src="{% static 'nar_ui/time_series/TimeSeries.js' %}"></script>
+		<!-- Original Time Series classes -->
 		<script type="text/javascript" src="{% static 'nar_ui/time_series/TimeRange.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/time_series/TimeSeriesCollection.js' %}"></script>
-		<script type="text/javascript" src="{% static 'nar_ui/time_series/TimeSeriesVisualization.js' %}"></script>
-		<script type="text/javascript" src="{% static 'nar_ui/time_series/TimeSeriesVisualizationRegistry.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/time_series/TimeSeriesVisualizationController.js' %}"></script>
         <script type="text/javascript" src="{% static 'nar_ui/time_series/TimeSlider.js' %}"></script>
+        <!-- New Pesticide Time Series classes -->
+        <script type="text/javascript" src="{% static 'nar_ui/pestTimeSeries/TimeSeries.js' %}"></script>
+        <script type="text/javascript" src="{% static 'nar_ui/pestTimeSeries/TimeSeriesVisualization.js' %}"></script>
+        <script type="text/javascript" src="{% static 'nar_ui/pestTimeSeries/TimeSeriesVisualizationRegistry.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/pesticide_report/tree.js' %}"></script>
 		<script type="text/javascript" src="{% static 'nar_ui/pesticide_report/main.js' %}"></script>
 

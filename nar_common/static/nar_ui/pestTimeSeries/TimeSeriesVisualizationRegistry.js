@@ -1,9 +1,9 @@
-//@requires nar.timeSeries.TimeSeriesVisualization
+//@requires nar.pestTimeSeries.TimeSeriesVisualization
 var nar = nar || {};
 
 (function(){
 
-nar.timeSeries = nar.timeSeries || {};
+nar.pestTimeSeries = nar.pestTimeSeries || {};
 
 /**
  * @class
@@ -19,12 +19,12 @@ nar.timeSeries = nar.timeSeries || {};
 //private class variable
 var alreadyBeenInstantiated = false;
 
-nar.timeSeries.VisualizationRegistry = function(){
+nar.pestTimeSeries.VisualizationRegistry = function(){
     if(alreadyBeenInstantiated){
     	console.warn(
 			'This object should be treated as a singleton unless testing.' + 
 			'You are instatiating an object that is meant to be used as a singleton, and it has already been instantiated.'+
-    		'Did you mean "nar.timeSeries.VisualizationRegistryInstance" ?.'
+    		'Did you mean "nar.pestTimeSeries.VisualizationRegistryInstance" ?.'
 		);
     }
     else{
@@ -38,14 +38,14 @@ nar.timeSeries.VisualizationRegistry = function(){
     /**
      * Get the Visualization for a given id if it has already been registered. Return undefined if no such id is registered.
      * @param {string} id - the Visualization id
-     * @returns {nar.timeSeries.Visualization|undefined} - undefined if not present 
+     * @returns {nar.pestTimeSeries.Visualization|undefined} - undefined if not present 
      */
     self.get = function(id){
         var existingTimeSeriesViz = entries[id]; 
         return existingTimeSeriesViz;
     };
     /**
-     * @param {nar.timeSeries.Visualization} timeSeriesVisualization
+     * @param {nar.pestTimeSeries.Visualization} timeSeriesVisualization
      * @throws Error if already registered 
      */
     self.register = function(timeSeriesVisualization){
@@ -72,7 +72,7 @@ nar.timeSeries.VisualizationRegistry = function(){
     };
     /**
      * Return all registered time series visualizations
-     * @returns {Array<nar.timeSeries.Visualization>}
+     * @returns {Array<nar.pestTimeSeries.Visualization>}
      */
     self.getAll = function(){
       return Object.values(entries);
@@ -80,7 +80,7 @@ nar.timeSeries.VisualizationRegistry = function(){
     /**
      * Convenience method
      * @param {String} observedProperty
-     * @returns {nar.timeSeries.Visualization
+     * @returns {nar.pestTimeSeries.Visualization
      */
     self.getByObservedPropertyAndProcedure = function(observedProperty, procedure){
         var vizId = self.getTimeSeriesVisualizationId(observedProperty, procedure);
@@ -142,21 +142,19 @@ nar.timeSeries.VisualizationRegistry = function(){
      * the Visualization id is a string representative of the visualized time series. 
      * @param {string} observedProperty - the full uri for the SOS observedProperty
      * @param {string} procedure - the full uri for the SOS procedure
-     * @param {string} constituent - the constituent according to the NAR custom web services, not from SOS. 
      * @returns {string} visualization id
      *  
      */
-    self.getTimeSeriesVisualizationId= function(observedProperty, procedure, constituent){
+    self.getTimeSeriesVisualizationId= function(observedProperty, procedure){
         var strippedObservedProperty = self.stripUrlPrefix(observedProperty, self.urlPrefix + 'property/');
         //@todo check striped property id to see if it corresponds to a category
         //where multiple time series correspond to a single visualization
         var strippedProcedure = self.stripUrlPrefix(procedure, self.urlPrefix + 'procedure/');
         //@todo failing id lookup by category, also check strippedObservedPropertyToVizIdMap to see if  
         //it maps to an id
-        var timeSeriesVisualizationId;
-    	var properlyDelimetedProcedure = self.strippedProcedureToTsvIdFragment(strippedProcedure);
-        timeSeriesVisualizationId = strippedObservedProperty + '/' + properlyDelimetedProcedure;
-
+        
+        var properlyDelimetedProcedure = self.strippedProcedureToTsvIdFragment(strippedProcedure);
+        var timeSeriesVisualizationId = strippedObservedProperty + '/' + properlyDelimetedProcedure; 
         return timeSeriesVisualizationId;
     };
 };
