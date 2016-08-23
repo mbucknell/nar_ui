@@ -26,48 +26,40 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
 	var getTreeDisplayHierarchy = function(timeSeriesIdComponents){
 		var constituentId = timeSeriesIdComponents.constituent;
 		var constituent = nar.Constituents[constituentId];
-		if(constituent){
-			var constituentName = constituent.name;
-			var topLevel, bottomLevel;
-			if('streamflow' === constituentId){
-				if(timeSeriesIdComponents.timestepDensity === 'annual'){
-					topLevel = 'Annual';
+		var constituentName = constituent.name;
+		var topLevel, bottomLevel;
+		if('streamflow' === constituentId){
+			if(timeSeriesIdComponents.timestepDensity === 'annual'){
+				topLevel = 'Annual';
+			}
+			else if (timeSeriesIdComponents.timestepDensity === 'daily'){
+				topLevel = 'Hydrograph\\Flow duration';
+			}
+		}
+		else{
+			//non-flow constituents
+			if(timeSeriesIdComponents.category === 'concentration'){
+				if (timeSeriesIdComponents.timestepDensity === 'discrete') {
+					topLevel = 'Sample concentrations';
 				}
-				else if (timeSeriesIdComponents.timestepDensity === 'daily'){
-					topLevel = 'Hydrograph\\Flow duration';
+				else {// must be annual flow weighted
+					topLevel = 'Annual concentrations';
 				}
 			}
-			else if ('pesticide' === constituentId){
-				topLevel = timeSeriesIdComponents.category;
+			else if (timeSeriesIdComponents.category === 'mass' && timeSeriesIdComponents.timestepDensity === 'annual'){
+				topLevel = 'Annual load';
 			}
 			else{
-				//non-flow constituents
-				if(timeSeriesIdComponents.category === 'concentration'){
-					if (timeSeriesIdComponents.timestepDensity === 'discrete') {
-						topLevel = 'Sample concentrations';
-					}
-					else {// must be annual flow weighted
-						topLevel = 'Annual concentrations';
-					}
-				}
-				else if (timeSeriesIdComponents.category === 'mass' && timeSeriesIdComponents.timestepDensity === 'annual'){
-					topLevel = 'Annual load';
-				}
-				else{
-					console.dir(timeSeriesIdComponents);
-					throw Error("Can't place time series visualization in tree hierarchy");
-				}
+				console.dir(timeSeriesIdComponents);
+				throw Error("Can't place time series visualization in tree hierarchy");
 			}
-			var newIdElements =[constituentName, topLevel];
-			if(bottomLevel){
-				newIdElements.push(bottomLevel);
-			}
-			var newId = newIdElements.join('/');
-			return newId;
-		} else {
-			console.warn("No plottable constituent definied for " + constituentId);
-			return '';
 		}
+		var newIdElements =[constituentName, topLevel];
+		if(bottomLevel){
+			newIdElements.push(bottomLevel);
+		}
+		var newId = newIdElements.join('/');
+		return newId;
 	};
     
     self.createLeafNode = function(id, displayHierarchy){
@@ -86,7 +78,6 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
 		var text = displayHierarchy.split(self.displayHierarchyDelim).last();
         return {
           type: id,
-          attr: {a: "blah", c: 42, d: function(a){return a + 1;}},
           id: id,
           text: text
         };
@@ -172,8 +163,7 @@ nar.fullReport.Tree = function(timeSeriesVisualizations, tsvController, graphTog
 		'Total Nitrogen' : 2,
 		'Nitrate' : 3,
 		'Total Phosphorus' : 4,
-		'Suspended Sediment' : 5,
-		'Pesticides' : 6
+		'Suspended Sediment' : 5
     };
     // The order that the graph type will appear in the nodes for a constituent
     var LEAF_SORT_ORDER = {
