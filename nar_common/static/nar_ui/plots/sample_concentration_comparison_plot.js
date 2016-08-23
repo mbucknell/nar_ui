@@ -97,13 +97,7 @@ nar.plots = nar.plots || {};
 
 		var logBase = 10;
 		var logFactor = Math.log(logBase);
-		
-		series.each(function(siri){
-		    siri.data.each(function(datum){
-		         console.log(datum[0] + ',' + datum[1]);
-		    });
-		});
-		
+
 		var plot = $
 				.plot(
 						plotContainer,
