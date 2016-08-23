@@ -201,7 +201,7 @@ nar.plots = nar.plots || {};
 								hoverable : true
 							},
 							hooks : {
-//								'drawOverlay' : [getPlotOverlayHandler(title)]
+								'drawOverlay' : [getPlotOverlayHandler(title)]
 							}
 						});
 
