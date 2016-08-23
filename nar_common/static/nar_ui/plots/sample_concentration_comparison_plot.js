@@ -159,10 +159,10 @@ nar.plots = nar.plots || {};
 						series,
 						{
 							xaxis : {
-//								axisLabel: title,
-//								axisLabelFontSizePixels : 10,
-//								axisLabelFontFamily : "Verdana, Arial, Helvetica, Tahoma, sans-serif",
-//								axisLabelPadding : 5,
+								axisLabel: title,
+								axisLabelFontSizePixels : 10,
+								axisLabelFontFamily : "Verdana, Arial, Helvetica, Tahoma, sans-serif",
+								axisLabelPadding : 5,
 								mode : 'time',
 								timeformat : "%m/%Y",
 								tickLength : 10,
