@@ -94,7 +94,62 @@ nar.plots = nar.plots || {};
 			});
 			
 		}
-
+		/**
+		 * Create the 'nth' version of a number.
+		 * But return blank for 1
+		 * @param {Number} 1, 2, 3, etc
+		 * @returns {String} '', '2nd', '3rd', etc
+		 */
+		var ordinalize = function(num){
+			var map = {
+					'1' : '',
+					'2' : '2nd-',
+					'3' : '3rd-'
+			};
+			var strNum = '' + num;
+			var result = map[strNum];
+			return result;
+		};
+		
+		/**
+		 * @param {nar.pestTimeSeries.Visualization.metadata} 
+		 * @returns {String}
+		 */
+		var getPlotTitle = function(metadata){
+			var title = '';
+			if(metadata.constituentCategorization){
+				if(metadata.constituentCategorization.category === 'PESTICIDE'){
+					if(metadata.comparisonCategorization){
+						if( 'ABSOLUTE' === metadata.comparisonCategorization.category){
+							title = 'Most Frequently Detected ';
+							var constituentSubcategory = metadata.constituentCategorization.subcategory.replace('_', '-').toLowerCase().capitalize();
+							title += constituentSubcategory;
+							title += ' in ' + CONFIG.currentWaterYear;
+						} else if ('HUMAN_HEALTH' === metadata.comparisonCategorization.category){
+							var orderStr = ordinalize(metadata.comparisonCategorization.order); 
+							title = orderStr + 'Closest Pesticide to Acute Human Health Benchmarks';
+						} else if ('AQUATIC_LIFE' === metadata.comparisonCategorization.category){
+							var orderStr = ordinalize(metadata.comparisonCategorization.order); 
+							title = orderStr + 'Closest Pesticide to Acute Aquatic Life Benchmarks';
+						}
+					}
+				}
+				//likely will add more
+			}
+			return title;
+		};
+		var title = getPlotTitle(tsViz.metadata);
+		
+		var getPlotOverlayHandler = function(title){
+			return function(plot, context) {
+				var offset = plot.getPlotOffset();
+				var cx = (plot.width() / 2) + offset.left;
+				var text = title;
+				context.font="15px Arial";
+				context.textAlign = 'center';
+				context.fillText(text,cx,25);
+			};
+		}
 		var logBase = 10;
 		var logFactor = Math.log(logBase);
 
@@ -104,6 +159,10 @@ nar.plots = nar.plots || {};
 						series,
 						{
 							xaxis : {
+//								axisLabel: title,
+//								axisLabelFontSizePixels : 10,
+//								axisLabelFontFamily : "Verdana, Arial, Helvetica, Tahoma, sans-serif",
+//								axisLabelPadding : 5,
 								mode : 'time',
 								timeformat : "%m/%Y",
 								tickLength : 10,
@@ -140,14 +199,15 @@ nar.plots = nar.plots || {};
 							},
 							grid : {
 								hoverable : true
+							},
+							hooks : {
+//								'drawOverlay' : [getPlotOverlayHandler(title)]
 							}
 						});
 
 		var hoverFormatter = nar.plots.PlotUtils.utcDatePlotHoverFormatter;
 		nar.plots.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
-
-
-
+		
 		return plot;
 	};
 }());
