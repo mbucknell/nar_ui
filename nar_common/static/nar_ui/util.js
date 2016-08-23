@@ -120,25 +120,13 @@ nar.util = {};
 	 * @returns {String}
 	 */
 	nar.util.getSosObservedPropertyForConstituent = function (constit) {
-		var delim = '/';
-		if(undefined == constit) {
-			return 'Q';
-		} else if(-1 !== constit.indexOf(delim)){
-			return constit.split(delim).last();
-		} else {
-			return constit;
-		}
+		return constit || 'Q';
 	};
 	
 	/**
 	 * The inverse of nar.util.getSosObservedPropertyForConstituent
 	 */
 	nar.util.getConstituentForSosObservedProperty = function(sosObservedProperty) {
-		if('Q' === sosObservedProperty){
-			return undefined;
-		} else if(-1 !== sosObservedProperty.toLowerCase().indexOf('pesticide')){
-			splitObservedProperty = sosObe
-		}
 		return sosObservedProperty == 'Q' ? undefined : sosObservedProperty;
 	};
 	
@@ -147,7 +135,6 @@ nar.util = {};
 	 * Given a response from a nar custom web service availability call,
 	 * translate it to a SosGetDataAvailability Response
 	 * @param response
-	 * @returns {array<Object>} where each object has two keys: "custom" for the NAR web service response, and "sos" for the translated object.  
 	 */
 	nar.util.translateToSosGetDataAvailability = function(response){
 		var sosGetDataAvailabilityResponse = [];
@@ -156,32 +143,23 @@ nar.util = {};
 		//SOS Data Availability objects
 		response.each(function(entry){
 			sosGetDataAvailabilityResponse.push({
-				custom: entry,
-				sos : {	
-					observedProperty : nar.util.getSosObservedPropertyForConstituent(entry.constit),
-					procedure : nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity(entry.timeSeriesCategory, entry.timeStepDensity),
-					phenomenonTime : [entry.startTime, entry.endTime],
-					featureOfInterest : entry.featureOfInterest
-				}
+				observedProperty : nar.util.getSosObservedPropertyForConstituent(entry.constit),
+				procedure : nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity(entry.timeSeriesCategory, entry.timeStepDensity),
+				phenomenonTime : [entry.startTime, entry.endTime],
+				featureOfInterest : entry.featureOfInterest
 			});
 			if('load' === entry.timeSeriesCategory.toLowerCase()){
 				sosGetDataAvailabilityResponse.push({
-					custom: entry,
-					sos : {	
-						observedProperty : nar.util.getSosObservedPropertyForConstituent(entry.constit),
-						procedure : nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity('concentration_flow_weighted', entry.timeStepDensity),
-						phenomenonTime : [entry.startTime, entry.endTime],
-						featureOfInterest : entry.featureOfInterest
-					}
+					observedProperty : nar.util.getSosObservedPropertyForConstituent(entry.constit),
+					procedure : nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity('concentration_flow_weighted', entry.timeStepDensity),
+					phenomenonTime : [entry.startTime, entry.endTime],
+					featureOfInterest : entry.featureOfInterest
 				});
 				sosGetDataAvailabilityResponse.push({
-					custom: entry,
-					sos: {
-						observedProperty : nar.util.getSosObservedPropertyForConstituent(entry.constit),
-						procedure : nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity('yield', entry.timeStepDensity),
-						phenomenonTime : [entry.startTime, entry.endTime],
-						featureOfInterest : entry.featureOfInterest
-					}
+					observedProperty : nar.util.getSosObservedPropertyForConstituent(entry.constit),
+					procedure : nar.util.getSosProcedureForTimeSeriesCategoryAndTimeStepDensity('yield', entry.timeStepDensity),
+					phenomenonTime : [entry.startTime, entry.endTime],
+					featureOfInterest : entry.featureOfInterest
 				});
 			}
 		});
@@ -197,8 +175,7 @@ nar.util = {};
 			'monthly_flow' : 'mflow',
 			'daily_flow' : 'dflow',
 			'annual_flow' : 'aflow',
-			'discrete_concentration' : 'discqw',
-			'discrete_pesticide_concentration' : 'pesticide'
+			'discrete_concentration' : 'discqw'
 	};
 	nar.util.translateSosProcedureToRetrievalEndpoint = function(sosProcedure) {
 		return sosProcedureToCustomRetrievalEndpoint[sosProcedure];
@@ -213,23 +190,19 @@ nar.util = {};
 			'monthly_flow' : ['flow'],
 			'daily_flow' : ['flow'],
 			'annual_flow' : ['flow'],
-			'discrete_concentration' : ['remark', 'concentration'],
-			'discrete_pesticide_concentration' : ['remark', 'concentration']
+			'discrete_concentration' : ['remark', 'concentration']
 	};
 	
 	nar.util.getValueForResponseRow = function(responseRow, procedure){
 		var valueProperties = sosProcedureToValueProperties[procedure];
 		//value can be comprised of multiple fields. Join fields together in order.
-		var values = nar.util.concatenatePropertyValues(responseRow, valueProperties);
-		return values;
-	};
-	nar.util.concatenatePropertyValues = function(object, propertyKeys){
-		var values = propertyKeys.reduce(function(accumulation, current){
+		var value = valueProperties.reduce(function(accumulation, current){
 			//if attribute is missing, use blank string
-			return accumulation + '' + (object[current] || '');
+			return accumulation + '' + (responseRow[current] || '');
 		}, '');
-		return values;
-	}
+		
+		return value;
+	};
 	
 	nar.util.getTimestampForResponseRow = function(responseRow){
 		var theDate;
