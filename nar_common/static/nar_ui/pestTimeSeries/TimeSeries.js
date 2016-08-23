@@ -54,7 +54,7 @@ nar.pestTimeSeries.TimeSeries = function(config){
     var getAdditionalFields= function(metadata){
     	var additionalFields = [];
     	if(metadata.comparisonCategorization && metadata.comparisonCategorization.category) {
-    		if('HUMAN_HELATH' === metadata.comparisonCategorization.category ){
+    		if('HUMAN_HEALTH' === metadata.comparisonCategorization.category ){
     			if('DISCRETE' === metadata.timeStepDensity){
     				additionalFields = ['hhAcute'];
     			} else if ('ANNUAL' === metadata.timeStepDensity){

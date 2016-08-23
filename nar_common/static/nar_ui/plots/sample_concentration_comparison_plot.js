@@ -20,13 +20,11 @@ nar.plots = nar.plots || {};
 		var constituentName = tsViz.metadata.constit;
 		var currentYearColor = '#e87928';
 		var previousYearsColor = tinycolor.lighten(tinycolor(currentYearColor), 30).toRgbString();
-		var longTermMeanColor = tinycolor.lighten(tinycolor.gray, 75).toRgbString();
-		var criteriaLineColor = tinycolor.lighten(tinycolor.gray, 75).toRgbString();
+		var benchmarkLineColor = tinycolor.lighten(tinycolor.gray, 75).toRgbString();
 
 		var constituentId = tsViz.metadata.constit;
-		// We only show a criteria line on sample reports if the constituent is Nitrate
-		var useBenchmarkLines = 'HUMAN_HEALTH' === tsViz.metadata.comparisonCategorization || 'AQUATIC_LIFE' === tsViz.metadata.comparisonCategorization; 
-		var constituentToCriteria;
+		// We only show a benchmark line on sample reports if the constituent is Nitrate
+		var useBenchmarkLines = 'HUMAN_HEALTH' === tsViz.metadata.comparisonCategorization.category || 'AQUATIC_LIFE' === tsViz.metadata.comparisonCategorization.category; 
 
 		var makeSeriesConfig = function(dataSet, color, censorType) {
 			var fill = (censorType === CENSOR_TYPE.NON);
@@ -69,25 +67,25 @@ nar.plots = nar.plots || {};
 				currentYearSeriesGreaterThan ];
 
 		if (useBenchmarkLines) {
-			var criteriaLineValue = allData[0][2];
-			var criteriaLineSeries = {
+			var benchmarkLineValue = allData[0][2];
+			var benchmarkLineSeries = {
 				label : constituentName,
 				data : [
 							[ nar.plots.PlotUtils.YEAR_NINETEEN_HUNDRED,
-								criteriaLineValue ],
+							  benchmarkLineValue ],
 							[ nar.plots.PlotUtils.ONE_YEAR_IN_THE_FUTURE,
-								criteriaLineValue ]
+							  benchmarkLineValue ]
 						],
-				color : criteriaLineColor,
+				color : benchmarkLineColor,
 				lines : {
 					show : true,
-					fillColor : criteriaLineColor,
+					fillColor : benchmarkLineColor,
 					lineWidth : 1
 				},
 				shadowSize : 0
 			};
 
-			series.add(criteriaLineSeries);
+			series.add(benchmarkLineSeries);
 		}
 
 		var logBase = 10;
@@ -147,11 +145,9 @@ nar.plots = nar.plots || {};
 		var hoverFormatter = nar.plots.PlotUtils.utcDatePlotHoverFormatter;
 		nar.plots.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
 
-		if (useCriteriaLine && criteriaLineValue) {
-			var criteriaLineDescription = 'EPA MCL = '
-					+ constituentToCriteria[constituentId]
-					+ ' mg/L as N. See technical information for details.';
-			nar.plots.PlotUtils.setLineHoverFormatter(plotContainer, criteriaLineValue, criteriaLineDescription);
+		if (useBenchmarkLines && benchmarkLineValue) {
+			var benchmarkLineDescription = 'Benchmark value: ' + benchmarkLineValue;
+			nar.plots.PlotUtils.setLineHoverFormatter(plotContainer, benchmarkLineValue, benchmarkLineDescription);
 		}
 
 		return plot;
