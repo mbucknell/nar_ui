@@ -19,7 +19,7 @@ nar.plots = nar.plots || {};
 		
 		var constituentName = tsViz.metadata.constit;
 		var currentYearColor = '#e87928';
-		var previousYearsColor = tinycolor.lighten(tinycolor(currentYearColor), 30).toRgbString();
+		var previousYearsColor = tinycolor.lighten(tinycolor(currentYearColor), 20).toRgbString();
 		var benchmarkLineColor = tinycolor.lighten(tinycolor.gray, 75).toRgbString();
 
 		var constituentId = tsViz.metadata.constit;
@@ -67,25 +67,32 @@ nar.plots = nar.plots || {};
 				currentYearSeriesGreaterThan ];
 
 		if (useBenchmarkLines) {
-			var benchmarkLineValue = allData[0][2];
-			var benchmarkLineSeries = {
-				label : constituentName,
-				data : [
-							[ nar.plots.PlotUtils.YEAR_NINETEEN_HUNDRED,
-							  benchmarkLineValue ],
-							[ nar.plots.PlotUtils.ONE_YEAR_IN_THE_FUTURE,
-							  benchmarkLineValue ]
-						],
-				color : benchmarkLineColor,
-				lines : {
-					show : true,
-					fillColor : benchmarkLineColor,
-					lineWidth : 1
-				},
-				shadowSize : 0
-			};
+			var benchmarks = tsViz.timeSeriesCollection.getAll()[0].benchmarks;
+			Object.keys(benchmarks).map(function(humanName){
+				var benchmarkLineValue = benchmarks[humanName];
 
-			series.add(benchmarkLineSeries);
+				var benchmarkLineSeries = {
+					label : constituentName,
+					data : [
+								[ nar.plots.PlotUtils.YEAR_NINETEEN_HUNDRED,
+								  benchmarkLineValue ],
+								[ nar.plots.PlotUtils.ONE_YEAR_IN_THE_FUTURE,
+								  benchmarkLineValue ]
+							],
+					color : benchmarkLineColor,
+					lines : {
+						show : true,
+						fillColor : benchmarkLineColor,
+						lineWidth : 1
+					},
+					shadowSize : 0
+				};
+
+				series.add(benchmarkLineSeries);
+				var benchmarkLineDescription = humanName + ' Benchmark Value: ' + benchmarkLineValue;
+				nar.plots.PlotUtils.setLineHoverFormatter(plotContainer, benchmarkLineValue, benchmarkLineDescription);
+			});
+			
 		}
 
 		var logBase = 10;
@@ -145,10 +152,7 @@ nar.plots = nar.plots || {};
 		var hoverFormatter = nar.plots.PlotUtils.utcDatePlotHoverFormatter;
 		nar.plots.PlotUtils.setPlotHoverFormatter(plotContainer, hoverFormatter);
 
-		if (useBenchmarkLines && benchmarkLineValue) {
-			var benchmarkLineDescription = 'Benchmark value: ' + benchmarkLineValue;
-			nar.plots.PlotUtils.setLineHoverFormatter(plotContainer, benchmarkLineValue, benchmarkLineDescription);
-		}
+
 
 		return plot;
 	};

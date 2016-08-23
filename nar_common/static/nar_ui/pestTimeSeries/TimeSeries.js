@@ -30,6 +30,7 @@ nar.pestTimeSeries.TimeSeries = function(config){
     
     self.site = config.site;
     self.data = undefined;
+    self.benchmarks = {};//map of human-facing String to number
     
     /**
      * Get row field names whose values should be joined into a single string
@@ -48,33 +49,37 @@ nar.pestTimeSeries.TimeSeries = function(config){
     };
     
     /**
-     * returns an array of field names that should be added
-     * as separate array entries in each time step
+     * returns a map of String row field keys to a String human-facing name
      */
-    var getAdditionalFields= function(metadata){
-    	var additionalFields = [];
+    self.getBenchmarkFields= function(){
+    	var metadata = self.metadata;
+    	var additionalFields = {};
     	if(metadata.comparisonCategorization && metadata.comparisonCategorization.category) {
     		if('HUMAN_HEALTH' === metadata.comparisonCategorization.category ){
     			if('DISCRETE' === metadata.timeStepDensity){
-    				additionalFields = ['hhAcute'];
+    				additionalFields = {'hhAcute': 'Acute Human Health'};
     			} else if ('ANNUAL' === metadata.timeStepDensity){
-    				additionalFields = ['hhChronic']
+    				additionalFields = {'hhChronic': 'Chronic Human Health'};
     			}
     		} else if('AQUATIC_LIFE' === metadata.comparisonCategorization.category){
     			if('DISCRETE' === metadata.timeStepDensity){
-    				additionalFields = ['acuteFish', 'acuteInvert', 'plant'];
+    				additionalFields = {
+						'acuteFish': 'Acute Fish Life',
+						'acuteInvert': 'Acute Invertebrate Life',
+    				};
     			} else if('EVERY_21_DAYS' === metadata.timeStepDensity){
-    				additionalFields = ['chronicInvert'];
+    				additionalFields = {'chronicInvert': 'Chronic Invertebrate Life'};
     			} else if('EVERY_60_DAYS' === metadata.timeStepDensity){
-    				additionalFields = ['chronicFish'];
+    				additionalFields = {'chronicFish' : 'Chronic Fish Life'};
     			}
     		}
     	}
     	return additionalFields;
     };
+    
     /**
-     * Some values are flagged with 'E' (Estimated). We want to display them 
-     * the same as non-estimated values.
+     * Some values are flagged with 'E' (Estimated). Casey Lee says we want 
+     * to display them the same as non-estimated values.
      * @param {String} value - a String representation of a number
      * @returns {String}
      */
@@ -84,9 +89,25 @@ nar.pestTimeSeries.TimeSeries = function(config){
     	}
     	return value;
     };
+    
+    /**
+     * @param {Object} firstRow - an Object as returned from the web service.
+     * 		We only need the first row because the benchmark values are time-invariant
+     * @param {Object} benchmarkFields - an Object as returned from self.getBenchmarkFields()
+     * @returns {Object} map of String human-facing name to numeric benchmark
+     */
+    var parseBenchmarkValues = function(firstRow, benchmarkFields){
+    	var values = {};
+    	Object.keys(benchmarkFields).forEach(function(rowFieldKey){
+    		var humanName = benchmarkFields[rowFieldKey];
+    		var benchmarkValue =firstRow[rowFieldKey]; 
+    		values[humanName] = benchmarkValue;
+    	});
+    	return values;
+    };
+    
     self.parseResultRetrievalResponse = function(response){
     	var rowFieldsToJoinTogether = getRowFieldsToJoinForMetadata(self.metadata);
-    	var additionalFields = getAdditionalFields(self.metadata);
         var dataToReturn;
         if(Object.isArray(response)){
             dataToReturn = response.map(function(row) {
@@ -94,16 +115,17 @@ nar.pestTimeSeries.TimeSeries = function(config){
                     nar.util.getTimestampForResponseRow(row),
                     nar.util.concatenatePropertyValues(row, rowFieldsToJoinTogether)
                 ].map(removeLetterE);
-                var additionalValues = additionalFields.map(function(fieldName){
-                	return row[fieldName];
-                });
-                dateAndValues = dateAndValues.add(additionalValues);
                 
                 return dateAndValues;
             });
         } else {
             throw 'error retrieving data';
         }
+        
+        var benchmarkFields = self.getBenchmarkFields();
+        self.benchmarks = parseBenchmarkValues(response.first(), benchmarkFields);
+        
+        
         return dataToReturn;
     };
 
