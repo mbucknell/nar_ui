@@ -27,8 +27,9 @@ $(document).ready(function() {
 
 	var successfulGetDataAvailability = function(data,
 			textStatus, jqXHR) {
+		//exclude pesticides
 		var dataAvailability = data.filter(function(datumAvailability){
-			return datumAvailability.constituentCategorization && datumAvailability.constituentCategorization.category &&'PESTICIDE' === datumAvailability.constituentCategorization.category;
+			return datumAvailability.constituentCategorization && datumAvailability.constituentCategorization.category && 'PESTICIDE' === datumAvailability.constituentCategorization.category;
 		});
 		//populate the tsvRegistry with tsvs created from the GetDataAvailability response 
 		dataAvailability.each(function(dataAvailability) {

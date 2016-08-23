@@ -220,13 +220,16 @@ nar.util = {};
 	nar.util.getValueForResponseRow = function(responseRow, procedure){
 		var valueProperties = sosProcedureToValueProperties[procedure];
 		//value can be comprised of multiple fields. Join fields together in order.
-		var value = valueProperties.reduce(function(accumulation, current){
-			//if attribute is missing, use blank string
-			return accumulation + '' + (responseRow[current] || '');
-		}, '');
-		
-		return value;
+		var values = nar.util.concatenatePropertyValues(responseRow, valueProperties);
+		return values;
 	};
+	nar.util.concatenatePropertyValues = function(object, propertyKeys){
+		var values = propertyKeys.reduce(function(accumulation, current){
+			//if attribute is missing, use blank string
+			return accumulation + '' + (object[current] || '');
+		}, '');
+		return values;
+	}
 	
 	nar.util.getTimestampForResponseRow = function(responseRow){
 		var theDate;

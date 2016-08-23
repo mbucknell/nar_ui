@@ -16,29 +16,91 @@ nar.pestTimeSeries = nar.pestTimeSeries || {};
  */
 nar.pestTimeSeries.TimeSeries = function(config){
     var self = this;
-    self.metadata = Object.clone(config.metadata, true) || {};
-    self.metadata.timeRange = new nar.timeSeries.TimeRange(
-          config.metadata.startTime,
-          config.metadata.endTime
+    
+    self.timeRange = new nar.timeSeries.TimeRange(
+        config.metadata.startTime,
+        config.metadata.endTime
     );
+    
+    self.metadata = Object.clone(config.metadata, true) || {};
     //delete these string attributes so that there is no confusion about whether they
-    //are in synch or not.
+    //are in synch with the TimeRange object or not.
     delete self.metadata.startTime;
     delete self.metadata.endTime;
     
     self.site = config.site;
     self.data = undefined;
-
+    
+    /**
+     * Get row field names whose values should be joined into a single string
+     */
+    var getRowFieldsToJoinForMetadata= function(metadata){
+    	var rowKeys;
+    	if('PESTICIDE' === metadata.constituentCategorization.category && 'DISCRETE' === metadata.timeStepDensity && 'PESTICIDE_CONCENTRATION' === metadata.timeSeriesCategory){
+    		rowKeys = ['remark', 'concentration'];
+//    		if('AQUATIC_LIFE' === metadata.comparisonCategorization.category){
+//    			rowKeys.append(['acuteFish', 'acuteInvert']);
+//    		} else if ('HUMAN_HEALTH' === metadata.comparisonCategorization.category){
+//    			rowKeys.append(['hhAcute']);
+//    		}
+    	}
+    	return rowKeys;
+    };
+    
+    /**
+     * returns an array of field names that should be added
+     * as separate array entries in each time step
+     */
+    var getAdditionalFields= function(metadata){
+    	var additionalFields = [];
+    	if(metadata.comparisonCategorization && metadata.comparisonCategorization.category) {
+    		if('HUMAN_HELATH' === metadata.comparisonCategorization.category ){
+    			if('DISCRETE' === metadata.timeStepDensity){
+    				additionalFields = ['hhAcute'];
+    			} else if ('ANNUAL' === metadata.timeStepDensity){
+    				additionalFields = ['hhChronic']
+    			}
+    		} else if('AQUATIC_LIFE' === metadata.comparisonCategorization.category){
+    			if('DISCRETE' === metadata.timeStepDensity){
+    				additionalFields = ['acuteFish', 'acuteInvert', 'plant'];
+    			} else if('EVERY_21_DAYS' === metadata.timeStepDensity){
+    				additionalFields = ['chronicInvert'];
+    			} else if('EVERY_60_DAYS' === metadata.timeStepDensity){
+    				additionalFields = ['chronicFish'];
+    			}
+    		}
+    	}
+    	return additionalFields;
+    };
+    /**
+     * Some values are flagged with 'E' (Estimated). We want to display them 
+     * the same as non-estimated values.
+     * @param {String} value - a String representation of a number
+     * @returns {String}
+     */
+    var removeLetterE = function(value){
+    	if(Object.isString(value)){
+    		return value.replace('E','');
+    	}
+    	return value;
+    };
     self.parseResultRetrievalResponse = function(response){
+    	var rowFieldsToJoinTogether = getRowFieldsToJoinForMetadata(self.metadata);
+    	var additionalFields = getAdditionalFields(self.metadata);
         var dataToReturn;
-        if (Object.isArray(response)){
-	            dataToReturn = response.map(function(row) {
-	                var dateAndValues = [
-	                    nar.util.getTimestampForResponseRow(row),
-	                    nar.util.getValueForResponseRow(row, self.procedure)
-	                ];
-	                return dateAndValues;
-	            });
+        if(Object.isArray(response)){
+            dataToReturn = response.map(function(row) {
+                var dateAndValues = [
+                    nar.util.getTimestampForResponseRow(row),
+                    nar.util.concatenatePropertyValues(row, rowFieldsToJoinTogether)
+                ].map(removeLetterE);
+                var additionalValues = additionalFields.map(function(fieldName){
+                	return row[fieldName];
+                });
+                dateAndValues = dateAndValues.add(additionalValues);
+                
+                return dateAndValues;
+            });
         } else {
             throw 'error retrieving data';
         }
@@ -50,13 +112,13 @@ nar.pestTimeSeries.TimeSeries = function(config){
      * @returns {jQuery.promise} -- the promise callbacks are called with this TimeSeries
      */
     self.retrieveData = function() {
-       var endpoint = 'pesticides';
-       var constit = nar.util.getConstituentForSosObservedProperty(self.observedProperty);
+       var endpoint = 'pestsamp';
+       var constit = self.metadata.constit;
        var modtypeFilter = nar.util.getIgnoredModtypeString();
 
         var deferred = $.Deferred();
 
-        var endpointAndQueryString = endpoint + '/site/' + self.featureOfInterest + '?';
+        var endpointAndQueryString = endpoint + '/site/' + self.site + '?';
         if (constit){
                endpointAndQueryString += 'constit=' + constit + '&';
         }

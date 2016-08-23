@@ -112,7 +112,12 @@ $(document).ready(function() {
 	var tsvRegistry = nar.timeSeries.VisualizationRegistryInstance;
 	var successfulGetDataAvailability = function(data,
 			textStatus, jqXHR) {
-		var dataAvailability = nar.util.translateToSosGetDataAvailability(data);
+		
+		var dataAvailability = data.filter(function(datumAvailability){
+			return !(datumAvailability.constituentCategorization && datumAvailability.constituentCategorization.category &&'PESTICIDE' === datumAvailability.constituentCategorization.category);
+		});
+
+		dataAvailability = nar.util.translateToSosGetDataAvailability(dataAvailability);
 		//populate the tsvRegistry with tsvs created from the GetDataAvailability response 
 		dataAvailability.each(function(dataAvailability) {
 			var observedProperty = dataAvailability.sos.observedProperty;
@@ -142,8 +147,6 @@ $(document).ready(function() {
 									plotter : nar.util.Unimplemented
 								});
 						tsvRegistry.register(timeSeriesViz);
-					} else {
-						throw Error("WOW, it didn't have one!");
 					}
 					
 					//Use the default time ranger for now. Override the hydrograph's time range 

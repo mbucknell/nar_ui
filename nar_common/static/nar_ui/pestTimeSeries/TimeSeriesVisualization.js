@@ -33,7 +33,7 @@ nar.pestTimeSeries.Visualization = function(config){
      */
     self.visualize = function(){
         
-        var plotContainerId = makePlotContainerId();
+        var plotContainerId = makePlotContainerId(self);
         var plotContainer = getPlotContainer(plotContainerId);
         var plotContainerMissing = plotContainer.length === 0;
         var vizDeferred = $.Deferred();
@@ -50,7 +50,7 @@ nar.pestTimeSeries.Visualization = function(config){
             //after all retrieval promises have been resolved
             $.when.apply(null, retrievalPromises).then(
                 function(){
-                    var plotter = nar.pestTimeSeries.Visualization.getPlotterById(self.id);
+                    var plotter = nar.pestTimeSeries.Visualization.getPlotter(self.metadata);
                     var plotContent;
                     if(plotter){
                     	try{
@@ -136,15 +136,14 @@ nar.pestTimeSeries.Visualization.serverToClientConstituentIdMap = {
 
 
 /**
- * @param {string} id - a Visualization id
+ * @param {nar.pestTime.TimeSeriesVisualization.metadata} id - a Visualization id
  * @param {string} field - customization field
  * @param {Function|Array} defaultValue - default return if id doesn't have customization
  * @returns {Function|Array} Custom configuration for plot
  */
-nar.pestTimeSeries.Visualization.getCustomizationById = function(id, field, defaultValue) {
+nar.pestTimeSeries.Visualization.getCustomization = function(metadata, field, defaultValue) {
     var result;
-    var components = nar.pestTimeSeries.Visualization.getComponentsOfId(id);
-    var vizType = nar.pestTimeSeries.Visualization.types(components);
+    var vizType = nar.pestTimeSeries.Visualization.types(metadata);
     if (vizType) {
         result = vizType[field];
     } else {
@@ -154,61 +153,29 @@ nar.pestTimeSeries.Visualization.getCustomizationById = function(id, field, defa
 };
 
 /**
- * @param {string} id - a Visualization id
+ * @param {nar.pestTimeSeries.Visualization.metadata} id - a Visualization id
  * @returns {function} a plot constructor accepting two arguments: 
  *  the element to insert the plot into,
  *  the data to plot
  */
-nar.pestTimeSeries.Visualization.getPlotterById = function(id){
-    return nar.pestTimeSeries.Visualization.getCustomizationById(id, 'plotter', nar.util.Unimplemented);
+nar.pestTimeSeries.Visualization.getPlotter = function(metadata){
+    return nar.pestTimeSeries.Visualization.getCustomization(metadata, 'plotter', nar.util.Unimplemented);
 };
 
 /**
  * Some configuration for which category of data gets which graph
+ * @param {nar.pestTimeSeries.Visualization.metadata}
+ * @return {Object} of viz types
  */
-nar.pestTimeSeries.Visualization.types = function(components) {
-		if (components.category === 'concentration') {
-			if (components.subcategory === 'mean' || components.subcategory === 'flow_weighted') {
-				return {
-					plotter : nar.plots.createConcentrationPlot,
-					ancillary : [],
-					allowTimeSlider : true
-				};
-			}
-			else return {
-				plotter : nar.plots.SampleConcentrationPlot,
-				ancillary : [],
-				allowTimeSlider : true
-			};
+nar.pestTimeSeries.Visualization.types = function(metadata) {
+	
+	if('PESTICIDE' === metadata.constituentCategorization.category && 'DISCRETE' === metadata.timeStepDensity && 'PESTICIDE_CONCENTRATION' === metadata.timeSeriesCategory){
+		return {
+			plotter : nar.plots.SampleConcentrationComparisonPlot,
+			ancillary: [],
+			allowTimeSlider : true
 		}
-		else if (components.category === 'mass') {
-			return {
-				plotter : nar.plots.LoadPlot,
-				ancillary : [],
-				allowTimeSlider : true
-			};
-		}
-		else { // Must be flow
-			if (components.timestepDensity === 'annual') {
-				return {
-					plotter : nar.plots.createFlowPlot,
-					ancillary : [],
-					allowTimeSlider : true
-				};
-			}
-			else {
-				return {
-					plotter : nar.plots.FlowWrapper,
-
-					ancillary : [{
-						// @todo We will want to store these somewhere so this can just be nar .discrete.nitrogen
-						procedure : "discrete_concentration",
-						observedProperty : "NO3_NO2"
-					}],
-					allowTimeSlider : false
-				};
-			}
-		}
+	}
 };
 
 /**
