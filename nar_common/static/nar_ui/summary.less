@@ -185,6 +185,7 @@
 }
 
 .human{
+	margin-bottom:15px;
 	
 	h4{
 		color:@primaryColor;
@@ -192,11 +193,14 @@
 	}
 } 
 
+#humanHealthExceedances .jqplot-xaxis-label{
+	top:20px;
+}
+
 #pesticideComparisonContainer{
-	float:right;
-	width:65%;
 	text-align:center;
 	color:@primaryColor;
+	clear:both;
 	
 	h4{
 		clear:both;
@@ -208,14 +212,101 @@
 }
 
 .percentExceedingBenchmark{
-	width:45%;
+	width:47%;
 	float:left;
-	margin-bottom:10px;
+	margin:0 0 10px 10px;
 }
 
 .numberExceedingBenchmark{
-	width:45%;
+	width:47%;
 	float:right;
+}
+
+#pesticideComparisonContainer .jqplot-yaxis{
+	font-size:.9em;
+	left:-10px !important;	
+}
+
+#pesticideComparisonContainer .jqplot-point-label{
+	cursor:pointer;
+	left:65px;
+}
+
+.jqplot-point-label{
+	z-index:9000;
+}
+
+#pesticideComparisonContainer .comparisonPopUp,
+#pesticideComparisonContainer .yearPopUp{
+	background:#fff;
+	min-height:30px;
+	border:1px solid #000;
+	position:absolute;
+	z-index:10000;
+	padding:10px;
+	
+	p{
+		margin:0 0 0 0;
+		line-height:1.5em;
+		}
+}
+
+#pesticideComparisonContainer .comparisonPopUp{
+	text-align:center;
+}
+
+#pesticideComparisonContainer .yearPopUp{
+	text-align:left;
+	
+	p:first-child{
+		margin:0 0 10px 0;
+		}
+}
+
+#pesticideComparisonContainer .jqplot-yaxis-tick{
+	z-index:9500;
+	cursor:pointer;
+	font-weight:bold;
+}
+
+.year2014,
+.year2013,
+.year1992{
+	left:50px;
+}
+
+.year2014{
+	top:18px;
+}
+
+.year2013{
+	bottom:118px;
+}
+
+.year1992{
+	bottom:28px;
+}
+
+.rowComparison-0,
+.rowComparison-1,
+.rowComparison-2{
+	left:100px;
+}
+
+.rowComparison-0{
+	bottom:45px;
+}
+
+.rowComparison-1{
+	bottom:125px;
+}
+
+.rowComparison-2{
+	top:30px;
+}
+
+.moveLeft{
+	left:65px !important;
 }
 
 @media screen and (min-width:991px){
@@ -242,5 +333,22 @@
 	
 	.human{
 		clear:left;
+		float:left;
+		width:30%;
+	}
+	
+	#pesticideComparisonContainer{
+		clear:none;
+		float:right;
+		width:65%;
+	}
+	
+	.percentExceedingBenchmark{
+		width:45%;
+		margin:0 0 10px 0;
+	}
+
+	.numberExceedingBenchmark{
+		width:45%;
 	}
 }

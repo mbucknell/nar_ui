@@ -297,15 +297,14 @@ $(document).ready(
 				
 				
 				// Sort the data once received and plot.
-				$.when.apply(null, loadPesticidePromises).then(function(summary) {
-			
-					var context = summary[0];
-					context.previousWaterYear = CONFIG.currentWaterYear - 1;
-					
+				$.when.apply(null, loadPesticidePromises).then(function(summary) {			
 					if(summary.length < 1){
 						$('#noPesticideData').css('display', 'block');
 						$('#pesticide').css('display', 'none');
+						$('#pesticideComparisonContainer').css('display', 'none');
 					}else{
+						var context = summary[0];
+						context.previousWaterYear = CONFIG.currentWaterYear - 1;
 						$.get('../../static/nar_ui/handlebars/pesticides.handlebars', function(template){
 							var compiledTemplate = Handlebars.compile(template);
 							var html = compiledTemplate(context);
@@ -327,33 +326,71 @@ $(document).ready(
 					}
 					
 					//Benchmark Pesticides Comparisons
-					
 					var hhBenchmarkComparison = function(selector, summaryData, type, benchmark){
-						//Deciding which x axis values to use
 						var getXAxisBounds;
 						var getBenchmarkColor;
+						
 						//Maps type and benchmark to service data
 						var crossWalk = function(data, type, benchmark){
-							var slots = [];
+							var result = {};
+							var mapping = {
+									values: [], 
+									analyzed: [],
+									wBenchmarks: [],
+									exceedances: []
+							};
+							
 							if(type === '%' && benchmark === 'human'){
-								slots = ['percHhOld', 'percHh3', 'percHh'];
+								mapping.values = ['percHhOld', 'percHh3', 'percHh'];
+								mapping.analyzed = ['nOldAve', 'n3', 'nNew'];
+								mapping.wBenchmarks = ['nOldHh', 'npest3Hh', 'npestNewHh'];
 							}
 							else if(type === 'number' && benchmark === 'human'){
-								slots = ['nHhOld', 'npest3Hh', 'npestNewHh'];
+								mapping.values = ['nHhOld', 'nHh3', 'nHh'];
+								mapping.exceedances = ['pestOldExceedHh', 'pest3ExceedHh', 'pestNewExceedHh'];
+								mapping.analyzed = ['nOldAve', 'n3', 'nNew'];
+								mapping.wBenchmarks = ['nOldHh', 'npest3Hh', 'npestNewHh'];
 							}
 							else if(type === '%' && benchmark === 'aquatic'){
-								slots = ['percAqOld', 'percAq3', 'percAq'];
+								mapping.values = ['percAqOld', 'percAq3', 'percAq'];
+								mapping.analyzed = ['nOldAve', 'n3', 'nNew'];
+								mapping.wBenchmarks = ['nOldAq', 'nAq3', 'nNewAq'];
 							}
 							else if(type === 'number' && benchmark === 'aquatic'){
-								slots = ['nAqOld', 'nAq3', 'nNewAq'];
+								mapping.values = ['nAqOld', 'nAq3', 'nAq'];
+								mapping.exceedances = ['pestOldExceedAq', 'pest3ExceedAq', 'pestNewExceedAq'];
+								mapping.analyzed = ['nOldAve', 'n3', 'nNew'];
+								mapping.wBenchmarks = ['nOldAq', 'nAq3', 'nNewAq'];
 							}
 							//Expects an array of an array
-							return slots.map(function(slot){
+							result.values = mapping.values.map(function(slot){
 								return data[slot];
 							});
-						}
+							result.analyzed = mapping.analyzed.map(function(slot){
+								return data[slot];
+							});
+							result.wBenchmarks = mapping.wBenchmarks.map(function(slot){
+								return data[slot];
+							});
+							result.exceedances = mapping.exceedances.map(function(slot){
+								return data[slot];
+							});
+							
+							return result;
+						};
 						
-						var data = crossWalk(summaryData, type, benchmark)
+						var data = crossWalk(summaryData, type, benchmark);
+						
+						//Checking For 0 and switching it for message
+						$.each(data.values, function(index, value){
+							if(value === 0 && index !== 2){
+								data.values[index] = 'No Exceedances';
+							}
+							else if(value === 0 && index === 2){
+								data.values[index] = 'No Data Available';
+							}
+						});
+					
 						//Sets X axis numbers
 						if(type === '%'){
 							getXAxisBounds = function(){
@@ -361,8 +398,9 @@ $(document).ready(
 							}
 						}
 						else if(type === 'number'){
-							getXAxisBounds = function(data){
-								if(data.max() < 10){
+							getXAxisBounds = function(){
+								var xAxisNumbers = crossWalk(summaryData, type, benchmark);
+								if(xAxisNumbers.values.max() < 10){
 									return{
 										min: 0,
 										max: 10
@@ -370,11 +408,12 @@ $(document).ready(
 								}else{
 									return {
 										min:0, 
-										max: data.max() + 15
+										max: xAxisNumbers.values.max() + 25
 									};
 								}
 							}
 						}
+						
 						//Deciding which BG and Bar Color a chart will get
 						if(benchmark === 'human'){
 							getBenchmarkColor = function(){
@@ -392,12 +431,11 @@ $(document).ready(
 							}
 						}
 						
-						
 						//Giving the charts their design
 						var ticks = ['1992-2012 (Annual average)', '2013', '2014'];
-						$.jqplot(selector, [data],  {
+						$.jqplot(selector, [data.values],  {
 							axes:{
-								xaxis:getXAxisBounds(data),
+								xaxis: getXAxisBounds(),
 								yaxis:{
 									renderer: $.jqplot.CategoryAxisRenderer,
 									ticks: ticks
@@ -415,10 +453,72 @@ $(document).ready(
 									barMargin: 25
 								},
 								pointLabels:{
-									show:true, stackedValue:true
+									show:true, 
+									formatString: '%s'
 								}
 							}		
 						});
+						
+						//Creating the popup for benchmark exceedances
+						$.each(data.exceedances, function(index, value){
+							var labelClick = $('#' + selector + ' .jqplot-point-' + index);
+							var popUpExceedances = value.split(",");
+							labelClick.on('click', function(e){
+								if(value !== ''){
+									$('.yearPopUp').remove();
+									$('.comparisonPopUp').remove();
+									//Stops Document click preventing popUp appearing
+									e.stopPropagation();
+									//Appends PopUp
+									$('#' + selector).append('<div class="comparisonPopUp ' + 'rowComparison-' + index +'"></div>');
+									//Goes through array of strings and splits them into individual paragraph elements
+									$.each(popUpExceedances, function(i, val){
+										$('.comparisonPopUp').append('<p>' + val + '</p>');
+									});
+								}
+							});
+							$(document).on('click', function(){
+								if($('.comparisonPopUp').css('display', 'block')){
+									$('.comparisonPopUp').remove();
+								}
+							});
+						});
+						
+						//Creating the popup of pesticides analyzed
+						var labelClick = $('#' + selector + ' .jqplot-yaxis-tick');
+						$.each(data.analyzed, function(index, value){
+							var numAnalyzed = data.analyzed[index];
+							var numWBenchmark = data.wBenchmarks[index];
+							$(labelClick[index]).on('click', function(e){
+								var popUpText = '';
+								//Hides any existing popUp
+								$('.comparisonPopUp').remove();
+								$('.yearPopUp').remove();
+								//Stops Document click preventing popUp appearing
+								e.stopPropagation();
+								//Creates year popup
+								if(value !== ''){
+									popUpText += '<p>' + numAnalyzed + ' samples analyzed</p>';
+									popUpText += '<p>' + numWBenchmark + ' pesticides with acute or chronic ALBs</p>';
+									$('#' + selector).append('<div class="yearPopUp">' + popUpText + '</div>');
+								}
+								//Checks label index and adds class
+								if(index === 2){
+									$('.yearPopUp').addClass('year2014');
+								}
+								else if(index === 1){
+									$('.yearPopUp').addClass('year2013');
+								}else{
+									$('.yearPopUp').addClass('year1992');
+								}
+							});
+							$(document).on('click', function(){
+								if($('.yearPopUp').css('display', 'block')){
+									$('.yearPopUp').remove();
+								}
+							});
+						});
+						
 					}
 					
 					hhBenchmarkComparison('percentHuman', context, '%', 'human');
