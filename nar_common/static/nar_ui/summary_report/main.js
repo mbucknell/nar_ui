@@ -500,16 +500,7 @@ $(document).ready(
 								if(value !== ''){
 									popUpText += '<p>' + numAnalyzed + ' samples analyzed</p>';
 									popUpText += '<p>' + numWBenchmark + ' pesticides with acute or chronic ALBs</p>';
-									$('#' + selector).append('<div class="yearPopUp">' + popUpText + '</div>');
-								}
-								//Checks label index and adds class
-								if(index === 2){
-									$('.yearPopUp').addClass('year2014');
-								}
-								else if(index === 1){
-									$('.yearPopUp').addClass('year2013');
-								}else{
-									$('.yearPopUp').addClass('year1992');
+									$('#' + selector).append('<div class="yearPopUp ' + 'yearComparison-' + index + '">' + popUpText + '</div>');
 								}
 							});
 							$(document).on('click', function(){
