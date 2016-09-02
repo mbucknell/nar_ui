@@ -197,6 +197,7 @@
 	top:20px;
 }
 
+/*Pesticide Comparison Graph*/
 #pesticideComparisonContainer{
 	text-align:center;
 	color:@primaryColor;
@@ -309,6 +310,216 @@
 	left:65px !important;
 }
 
+/*Detection Frequency and Use Graph*/
+#freqUseGraphContainer{
+	min-height:100px;
+	clear:both;
+	position:relative;
+	padding-bottom:40px;
+	
+	h4{
+		font-size: .9em;
+		margin:0 10px 0 0;
+		padding-top:14px;
+		}
+}
+
+#freqUseGraphContainer #graphTitle{
+	text-align:center;
+	color:@primaryColor;
+	font-size:18px;
+}
+
+#freqUseLengend{
+	width:200px;
+	height:30px;
+	margin:5px auto -5px auto;
+}
+
+.legendItem{
+	float:left;
+	margin-right:10px;
+}
+
+.legendColorSquare{
+	width:10px;
+	height:10px;
+	float:left;
+	margin:5px 5px 0 0;
+	border:1px solid #000;
+}
+
+#brown{
+	background:#8b7500;
+}
+
+#yellow{
+	background:#eec900;
+}
+
+#gray{
+	background:#bebebe;
+}
+
+.freqUseChart{
+	height:50px;
+	margin:15px 0 0 0;
+}
+
+.pesticideName{
+	width:20%;
+	text-align:right;
+	float:left;
+	height:100%;
+}
+
+.freqUseBars{
+	height:100%;
+	width:80%;
+	float:left;
+}
+
+.barSamples{
+	float:left;
+	width:4.5%;
+	height:100%;
+	text-align:right;
+	padding-right:.5%;
+}
+
+.upperBar{
+	height:25px;
+	float:left;
+	width:95%;
+	position:relative;
+	border-top:1px solid #000;
+	border-right:1px solid #000;
+	border-left:1px solid #000;
+	border-bottom:1px solid #000;
+}
+
+.lowerBar{
+	height:25px;
+	float:left;
+	width:95%;
+	position:relative;
+	border-right:1px solid #000;
+	border-left:1px solid #000;
+	border-bottom:1px solid #000;
+}
+
+.upperBar p,
+.lowerBar p{
+	padding:2px 5px;
+}
+
+.ugL{
+	height:100%;
+	float:left;
+	background:#bebebe;
+	position:absolute;
+	left:0;
+	border-right:1px solid #000;
+	
+	&:hover{
+		background:#737373;
+	}
+}
+
+.previousWaterYear,
+.oldWaterYear{
+	height:100%;
+	float:left;
+}
+
+.previousWaterYear{
+	background:#8b7500;	
+	
+	&:hover{
+		background:#544700;	
+	}
+}
+
+.oldWaterYear{
+	background:#eec900;
+	
+	&:hover{
+		background:#ae9300;	
+	}
+}
+
+#percentageScale{
+	height:1px;
+	width:76%;
+	float:right;
+	margin:10px 3px 0 0;
+	border-top:1px solid #000;
+	position:relative;
+	
+	p{
+		font-weight:bold;
+		text-align:center;
+		margin-top:25px;
+	}
+}
+
+.scaleMark{
+	height:5px;
+	width:1px;
+	background:#000;
+	position:absolute;
+}
+
+.scaleNumber{
+	position:absolute;
+	top:3px;
+}
+
+#scaleZero{
+	left:-3px;
+}
+
+#twentyPercent{
+	left:20%;
+}
+
+#scaleTwenty{
+	left:18.7%;
+}
+
+#fourtyPercent{
+	left:40%;
+}
+
+#scaleFourty{
+	left:38.7%;
+}
+
+#sixtyPercent{
+	left:60%;
+}
+
+#scaleSixty{
+	left:58.7%;
+}
+
+#eightyPercent{
+	left:80%;
+}
+
+#scaleEighty{
+	left:78.7%;
+}
+
+#oneHundredPercent{
+	right:0;
+}
+
+#scaleHundred{
+	right:-3px;
+}
+
+
 @media screen and (min-width:991px){
 
 	.stream{
@@ -336,7 +547,7 @@
 		float:left;
 		width:30%;
 	}
-	
+/*Pesticide Comparison Graph*/
 	#pesticideComparisonContainer{
 		clear:none;
 		float:right;
@@ -351,4 +562,33 @@
 	.numberExceedingBenchmark{
 		width:45%;
 	}
+	
+	#freqUseGraphContainer h4{
+		font-size: 1.1em;
+	}
+	
+	#percentageScale{
+		margin:10px 5px 0 0;	
+	}
+	
+	#scaleTwenty{
+		left:19.2%;
+	}
+	
+	#scaleFourty{
+		left:39.2%;
+	}
+	
+	#scaleSixty{
+		left:59.2%;
+	}
+	
+	#scaleEighty{
+		left:79.2%;
+	}
+	
+	#scaleHundred{
+		right:-7px;
+	}
+
 }
