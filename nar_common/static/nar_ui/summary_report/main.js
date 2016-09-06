@@ -323,6 +323,59 @@ $(document).ready(
 								$('#humanExceedances').append('<p>' + val + '</p>');
 							});
 						});
+						$.get('../../static/nar_ui/handlebars/freqUse.handlebars', function(template){
+							var compiledTemplate = Handlebars.compile(template);
+							var createFreqChart = function(n){
+								var items = {
+								            	 pestName: context['ndet' + n + 'Pname'],
+								            	 topSample: context['nsamp' + n + '3'],
+								            	 bottomSample: context['nsamp' + n + 'Old'],
+								            	 upperUgl: context['perc' + n + '3Com'],
+								            	 previousWaterYear: context['perc' + n + '3'],
+								            	 lowerUgl: context['perc' + n + 'OldCom'],
+								            	 oldWaterYear: context['perc' + n + 'Old'] 
+								             }
+								return items;
+							};
+							//No samples analyzed message maker
+							var notAnalyzed = function(className, barSamples){
+								$(className).each(function(){
+									var capture;
+									if($(this).width() === 0){
+										$(this).parent().html('<p>Not Analyzed</p>');
+										capture = $(this);
+										$(barSamples).each(function(){
+											if($(this).text() !== '0' && $(capture).width() === 0){
+												$(capture).parent().html('<p>No Detections</p>');
+											}
+										});
+									}
+								});
+							}
+							//Gets rid of ugL border if it does not exist
+							var ugLBorder = function(ugL){
+								$(ugL).each(function(){
+									if($(this).width() === 0){
+										$(this).css('display', 'none');
+									}
+								});
+							}; 
+							
+							//Cycles through the webservice to create the graphs
+							var hbarData = [];
+							for (var i=1; i<=10; i++) {
+								hbarData[i] = createFreqChart(i);
+							}
+							
+							//Handlebars template
+							var html = compiledTemplate(hbarData);
+							//Places mustache file in correct location
+							$('#freqUseGraphContainer').html(html);
+							
+							notAnalyzed('.previousWaterYear', '.topSample');
+							notAnalyzed('.oldWaterYear', '.bottomSample');
+							ugLBorder('.ugL');
+						});
 					}
 					
 					//Benchmark Pesticides Comparisons
@@ -509,7 +562,7 @@ $(document).ready(
 								}
 							});
 						});
-						
+					
 					}
 					
 					hhBenchmarkComparison('percentHuman', context, '%', 'human');
