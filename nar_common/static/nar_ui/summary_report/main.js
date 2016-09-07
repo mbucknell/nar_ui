@@ -338,20 +338,23 @@ $(document).ready(
 								return items;
 							};
 							//No samples analyzed message maker
-							var notAnalyzed = function(className, barSamples){
+							var notAnalyzed = function(className){
 								$(className).each(function(){
-									var capture;
 									if($(this).width() === 0){
 										$(this).parent().html('<p>Not Analyzed</p>');
-										capture = $(this);
-										$(barSamples).each(function(){
-											if($(this).text() !== '0' && $(capture).width() === 0){
-												$(capture).parent().html('<p>No Detections</p>');
-											}
-										});
 									}
 								});
 							}
+							
+							//No Detections Label
+							var noDetections = function(className, barSample, barText){
+							    $('.freqUseChart').each(function(){
+							        if($(this).find(barSample).text() !== '0' && $(this).find(className).length === 0){
+							            $(this).find(barText).html('<p>No Detections</p>');
+							        }
+							    });
+							}
+							
 							//Gets rid of ugL border if it does not exist
 							var ugLBorder = function(ugL){
 								$(ugL).each(function(){
@@ -372,8 +375,10 @@ $(document).ready(
 							//Places mustache file in correct location
 							$('#freqUseGraphContainer').html(html);
 							
-							notAnalyzed('.previousWaterYear', '.topSample');
-							notAnalyzed('.oldWaterYear', '.bottomSample');
+							notAnalyzed('.previousWaterYear');
+							notAnalyzed('.oldWaterYear');
+							noDetections('.previousWaterYear', '.topSample', '.upperBar');
+							noDetections('.oldWaterYear', '.bottomSample', '.lowerBar');
 							ugLBorder('.ugL');
 						});
 					}
