@@ -302,6 +302,7 @@ $(document).ready(
 						$('#noPesticideData').css('display', 'block');
 						$('#pesticide').css('display', 'none');
 						$('#pesticideComparisonContainer').css('display', 'none');
+						return;
 					}else{
 						var context = summary[0];
 						context.previousWaterYear = CONFIG.currentWaterYear - 1;
@@ -337,6 +338,18 @@ $(document).ready(
 								             }
 								return items;
 							};
+							
+							//Bar math
+							var barMath = function(bar, className, ugL){
+								$(bar).each(function(){
+									var classWidth = $(this).find(className).attr('title');
+									var uglWidth = $(this).find(ugL).attr('title');
+									
+									$(this).find(className).attr('title', classWidth - uglWidth + "%");
+									$(this).find(ugL).attr('title', uglWidth + "%");
+								});
+							}
+							
 							//No samples analyzed message maker
 							var notAnalyzed = function(className){
 								$(className).each(function(){
@@ -359,7 +372,7 @@ $(document).ready(
 							var ugLBorder = function(ugL){
 								$(ugL).each(function(){
 									if($(this).width() === 0){
-										$(this).css('display', 'none');
+										$(this).css('border', 'none');
 									}
 								});
 							}; 
@@ -375,6 +388,8 @@ $(document).ready(
 							//Places mustache file in correct location
 							$('#freqUseGraphContainer').html(html);
 							
+							barMath('.upperBar', '.previousWaterYear', '.ugL');
+							barMath('.lowerBar', '.oldWaterYear', '.ugL');
 							notAnalyzed('.previousWaterYear');
 							notAnalyzed('.oldWaterYear');
 							noDetections('.previousWaterYear', '.topSample', '.upperBar');
@@ -417,7 +432,7 @@ $(document).ready(
 							else if(type === 'number' && benchmark === 'aquatic'){
 								mapping.values = ['nAqOld', 'nAq3', 'nAq'];
 								mapping.exceedances = ['pestOldExceedAq', 'pest3ExceedAq', 'pestNewExceedAq'];
-								mapping.analyzed = ['nOldAve', 'n3', 'nNew'];
+								mapping.analyzed = ['nOldAve', 'npest3Aq', 'nNew'];
 								mapping.wBenchmarks = ['nOldAq', 'nAq3', 'nNewAq'];
 							}
 							//Expects an array of an array
