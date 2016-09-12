@@ -427,13 +427,13 @@ $(document).ready(
 							else if(type === '%' && benchmark === 'aquatic'){
 								mapping.values = ['percAqOld', 'percAq3', 'percAq'];
 								mapping.analyzed = ['nOldAve', 'n3', 'nNew'];
-								mapping.wBenchmarks = ['nOldAq', 'nAq3', 'nNewAq'];
+								mapping.wBenchmarks = ['nOldAq', 'npest3Aq', 'nNewAq'];
 							}
 							else if(type === 'number' && benchmark === 'aquatic'){
 								mapping.values = ['nAqOld', 'nAq3', 'nAq'];
 								mapping.exceedances = ['pestOldExceedAq', 'pest3ExceedAq', 'pestNewExceedAq'];
-								mapping.analyzed = ['nOldAve', 'npest3Aq', 'nNew'];
-								mapping.wBenchmarks = ['nOldAq', 'nAq3', 'nNewAq'];
+								mapping.analyzed = ['nOldAve', 'n3', 'nNew'];
+								mapping.wBenchmarks = ['nOldAq', 'npest3Aq', 'nNewAq'];
 							}
 							//Expects an array of an array
 							result.values = mapping.values.map(function(slot){
