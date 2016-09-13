@@ -287,6 +287,11 @@ blockquote{
  /*###########################home_end####################### */
 
  /*###########################site_start####################### */
+ 
+.site-identification-popup-content-detailed-pesticides-graph-link{
+	width:40%; 
+	margin:10px 0;
+}
 
 .content{background:none;
         min-height:100%;
@@ -302,7 +307,7 @@ blockquote{
 .site_title h3{
 	padding-top:25px;
  	margin:0 0 2px 0;
- 	font-size:1.6em;}
+ 	font-size:1.5em;}
      
 .site_map{background:@boxColor;
             height:@homePageContentHeight;
@@ -1072,13 +1077,17 @@ ul#relativeLinks{
   		
   }
   
- .site h2{	margin-bottom:-8px;
- 			font-size:1.8em;}
+ .site h2{	
+ 	font-size:1.6em;
+	width:65%;
+	margin:30px auto -10px auto;
+}
  
  .col-lg-1{padding-left:0;}
  
   
 .full_report,
+.pesticide_report,
 .back_to_report,
 .back_to_site,
 .back_to_site_right,
@@ -1096,47 +1105,63 @@ ul#relativeLinks{
  				
  #summaryDownload{text-align:center;
  					right:10px;
- 					bottom:55px;
+ 					bottom:90px;
  					color:#000;}
  				
- .full_report{right:10px;
- 				bottom:10px;}
+ .full_report{
+	right:10px;
+ 	bottom:50px;
+}
+
+.pesticide_report{
+	right:10px;
+	bottom:10px;
+}
  				
  .full_report:hover,
+ .pesticide_report:hover,
  .back_to_site:hover,
  .back_to_site_right:hover,
  #summaryDownload:hover,
  #fullDownload:hover{background:rgb(210,210,210);}
  
- .full_report ul{background:none;
-			list-style-type:none;
-			padding-left:0;
-			height:35px;
-			width:130px;
-			font-family:@baseFontFamily;
-			font-weight:@baseFontWeightReg;
-			float:left;
+ .full_report ul,
+ .pesticide_report ul{
+	background:none;
+	list-style-type:none;
+	padding-left:0;
+	height:35px;
+	width:130px;
+	font-family:@baseFontFamily;
+	font-weight:@baseFontWeightReg;
+	float:left;
 }
 
- .full_report ul li{background:none;
-				display:inline-block;
-				width:130px;
-				height:35px;
-				padding:4px 0 0 10px;
-				cursor:pointer;
-				margin-bottom:12px;
-				float:left;
+ .full_report ul li,
+ .pesticide_report ul li{
+	background:none;
+	display:inline-block;
+	width:130px;
+	height:34px;
+	padding:5px 0 0 10px;
+	cursor:pointer;
+	margin-bottom:12px;
+	float:left;
 				}
 
-.full_report ul li a{color:#000;
-						text-decoration:none;
-						font-size:1.1em;
+.full_report ul li a,
+.pesticide_report ul li a{
+	color:#000;
+	text-decoration:none;
+	font-size:1.1em;
 }
  
- .full_report i{margin-top:8px;
- 					position:absolute;
- 					right:10px;
- 					color:#000;
+ .full_report i,
+ .pesticide_report i{
+	margin-top:8px;
+	position:absolute;
+ 	right:10px;
+ 	color:#000;
  }
  
  .back_to_site,
@@ -1793,21 +1818,29 @@ ul#relativeLinks{
 	.site{height:140px;
 	  	border-bottom:@borderDark;}
 	  		
-	.site h2{font-size:1.6em;}
+	.site h2{
+		font-size:1.6em;
+		width:60%;
+		margin:10px auto -10px auto;
+	}
 	 
 	.site h3{font-size:1.4em;}
 	
-	#summaryDownload{bottom:50px;}
+	#summaryDownload{bottom:90px;}
 	
 	.full_report,
-	#summaryDownload{height:35px;
+	#summaryDownload,
+	.pesticide_report{height:35px;
 					width:140px;}
 	 				
-	 .full_report ul li{padding-top:5px;}
+	 .full_report ul li,
+	 .pesticide_report ul li{padding-top:5px;}
 	 				
-	 .full_report ul li a{font-size:1em;}
+	 .full_report ul li a,
+	 .pesticide_report ul li a{font-size:1em;}
 	 
-	 .full_report i{margin-top:8px;
+	 .full_report i,
+	 .pesticide_report i{margin-top:8px;
 	 				right:5px;
 	 }
 	
@@ -1978,20 +2011,30 @@ ul#relativeLinks{
 				
 	.graphs{height:100%;} 
 	
-	#summaryDownload{bottom:50px;}
+	#summaryDownload{bottom:90px;}
 	
 	.full_report,
-	#summaryDownload{height:35px;
-					width:140px;}
+	#summaryDownload,
+	.pesticide_report{
+		height:35px;
+		width:140px;
+	}
 	 				
-	 .full_report ul li{padding-top:5px;}
+	 .full_report ul li,
+	 .pesticide_report ul li{
+		padding-top:5px;
+	}
 	 				
-	 .full_report ul li a{font-size:1em !important;
-	 				padding-top:4px !important;
+	 .full_report ul li a,
+	 .pesticide_report ul li a{
+		font-size:1em !important;
+	 	padding-top:4px !important;
 	 }
 	 
-	 .full_report i{margin-top:8px;
-	 				right:10px;
+	 .full_report i,
+	 .pesticide_report i{
+		margin-top:8px;
+	 	right:10px;
 	 }
 	
 	/*###################################### */
