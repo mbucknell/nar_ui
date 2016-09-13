@@ -54,10 +54,12 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 					$reportsAndGraphsRow = $('<div />').addClass('row site-identification-popup-content-links-and-graphs'),
 					$summaryGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-summary-graph-link'),
 					$detailedGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-detailed-graph-link'),
+					$detailedPesticideGraphsLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-detailed-pesticides-graph-link'),
 					$downloadLinkContainer = $('<div />').addClass('col-xs-6 col-md-4 site-identification-popup-content-download-link'),
 					$summaryGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-th-list'),' Summary Graphs'),
 					$detailedGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'), ' Detailed Graphs'),
 					$downloadLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-save'),' Download Data'),
+					$detailedPesticdeGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'), ' Detailed Pesticide Graphs'),
 					// query-ui has a hierarchy of things it tries to auto-focus on. This hack has it auto-focus on a hidden span.
 					// Otherwise it trues to focus on the first link, which in some browsers will draw an outline around it. (ugly)
 					// http://api.jqueryui.com/dialog/
@@ -72,12 +74,14 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 				$summaryGraphsLink.attr('href', CONFIG.summarySiteUrl(id));
 				$detailedGraphsLink.attr('href', CONFIG.detailSiteUrl(id));
 				$downloadLink.attr('href', CONFIG.downloadPageUrl);
+				$detailedPesticdeGraphsLink.attr('href', CONFIG.detailPesticideSiteUrl(id));
 				
 				$summaryGraphsLinkContainer.append($summaryGraphsLink);
 				$detailedGraphsLinkContainer.append($detailedGraphsLink);
 				$downloadLinkContainer.append($downloadLink);
+				$detailedPesticideGraphsLinkContainer.append($detailedPesticdeGraphsLink);
 				
-				$reportsAndGraphsRow.append($summaryGraphsLinkContainer, $detailedGraphsLinkContainer, $downloadLinkContainer, $hiddenAutoFocus);
+				$reportsAndGraphsRow.append($summaryGraphsLinkContainer, $detailedGraphsLinkContainer, $downloadLinkContainer, $detailedPesticideGraphsLinkContainer, $hiddenAutoFocus);
 				
 				$container.append($titleRow, $stationIdRow, $reportsAndGraphsRow);
 				return $container;

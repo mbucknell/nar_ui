@@ -69,6 +69,10 @@ from the top menu bar, selecting ‘Compatibility view settings’, uncheck boxe
             gulfHypoxicExtentUrl : "{% url 'nar_values-gulf_hypoxic_extent' %}",
             mrbSubBasinContributionsUrl : "{% url 'nar_values-mrbSubBasinContributions' %}",
             downloadPageUrl : "{% url 'download' %}",
+            detailPesticidePageUrl : "{% url 'pesticide_graphs' '' %}",
+            detailPesticideSiteUrl : function(siteid) {
+                return CONFIG.detailPesticidePageUrl.replace('//', '/' + siteid + '/');                
+            },
             detailPageUrl : "{% url 'detailed_graphs' '' %}",
             detailSiteUrl : function(siteid) {
                 return CONFIG.detailPageUrl.replace('//', '/' + siteid + '/');                
