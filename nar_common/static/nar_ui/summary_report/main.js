@@ -597,6 +597,7 @@ $(document).ready(
 				});
 			};
 			
+			//Toggles the pesticide graphs
 			$('#pesticideToggleButton').on('click', function(){
 				$('#pesticide').toggle();
 				$('#pesticideComparisonContainer').toggle();
