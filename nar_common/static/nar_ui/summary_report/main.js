@@ -302,6 +302,7 @@ $(document).ready(
 						$('#noPesticideData').css('display', 'block');
 						$('#pesticide').css('display', 'none');
 						$('#pesticideComparisonContainer').css('display', 'none');
+						$('#summaryPesticideToggle').css('display', 'none');
 						return;
 					}else{
 						var context = summary[0];
@@ -595,6 +596,14 @@ $(document).ready(
 					
 				});
 			};
+			
+			//Toggles the pesticide graphs
+			$('#pesticideToggleButton').on('click', function(){
+				$('#pesticide').toggle();
+				$('#pesticideComparisonContainer').toggle();
+				$('#freqUseGraphContainer').toggle();
+				$('#clearLeft').toggleClass('spotme');
+			});
 			
 			
 			var failedGetDataAvailability = function(data, textStatus,jqXHR) {

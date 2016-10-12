@@ -47,6 +47,33 @@
 @insetWidth: 230px;
 
 @insetHeight: 230px;
+
+/*options bar*/
+.summaryOptionsBar{
+	min-height:30px;
+	padding:10px;
+	clear:both;
+	border-bottom:@borderDark;
+	text-align:right;
+	
+	button{
+		background:#fff;
+		border:@borderDark;	
+		padding:3px 10px;
+		border-radius:5px;
+		
+		&:hover{
+			background:@primaryColor;
+			color:#fff;	
+		}
+	}
+}
+
+.spotme{
+	clear:none !important;
+}
+
+
 /*No Pesticide Data CSS*/
 #noPesticideData{
 	background:rgb(240,240,240);
