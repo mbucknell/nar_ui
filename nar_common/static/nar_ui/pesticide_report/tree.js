@@ -24,9 +24,11 @@ nar.pesticideReport.Tree = function(timeSeriesVisualizations, tsvController, gra
      */
     var getBenchmarkComparisonTreeIdFragment = function(order){
     	var strOrder = '' + order;
-		var orderMap = {'1' : '', '2': '2nd ', '3': '3rd '};
+    	//Switch back to 2nd and 3rd
+		var orderMap = {'1' : '', '2': 'Second', '3': 'Third'};
 		var prefix = orderMap[strOrder];
-		var benchmarkComparisonFragment = prefix + 'Closest to Benchmarks';
+		//add spaces back
+		var benchmarkComparisonFragment = prefix + 'ClosesttoBenchmarks';
 		return benchmarkComparisonFragment;
     };
     
@@ -38,9 +40,7 @@ nar.pesticideReport.Tree = function(timeSeriesVisualizations, tsvController, gra
     var comparisonCategorizationToTreeIdFragment = function(comparisonCategorization){
     	var treeIdFragment;
     	if('ABSOLUTE' === comparisonCategorization.category){
-    		//Removed spaces so could use the generated CSS ID to hide it for the time being
-    		//when we want MostFrequentlyDetected back just add the spaces back and removes css in nar.less
-    		treeIdFragment = 'MostFrequentlyDetected'
+    		treeIdFragment = 'Most Frequently Detected'
 			if(1 !== comparisonCategorization.order){
 				throw Error('Order "' + comparisonCategorization.order + '" is unexpected. Expected "1"');
 			}
