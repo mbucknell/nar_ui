@@ -1093,7 +1093,6 @@ ul#relativeLinks{
 .back_to_site_right,
 #summaryDownload,
 #fullDownload{background:rgb(255,255,255);
-				height:35px;
  				width:160px;
  				position:absolute;
  				border:@fullReportBorder;
@@ -1102,20 +1101,33 @@ ul#relativeLinks{
  				font-size:1em;
  				border-radius:5px;
  				cursor:pointer;}
+				
+.full_report{
+	height:55px;
+}
+
+.pesticide_report,
+.back_to_report,
+.back_to_site,
+.back_to_site_right,
+#summaryDownload,
+#fullDownload{
+	height:35px;
+}
  				
  #summaryDownload{text-align:center;
  					right:10px;
- 					bottom:90px;
+ 					top:5px;
  					color:#000;}
  				
  .full_report{
 	right:10px;
- 	bottom:50px;
+ 	bottom:47px;
 }
 
 .pesticide_report{
 	right:10px;
-	bottom:10px;
+	bottom:5px;
 }
  				
  .full_report:hover,
@@ -1832,7 +1844,12 @@ ul#relativeLinks{
 	
 	#summaryDownload{bottom:90px;}
 	
-	.full_report,
+	.full_report{
+		height:50px;
+		bottom:44px;
+		width:140px;
+	}
+	
 	#summaryDownload,
 	.pesticide_report{height:35px;
 					width:140px;}
@@ -2017,7 +2034,13 @@ ul#relativeLinks{
 	
 	#summaryDownload{bottom:90px;}
 	
-	.full_report,
+	.full_report{
+		height:50px;
+		width:140px;
+		bottom:44px;
+	}
+	
+	
 	#summaryDownload,
 	.pesticide_report{
 		height:35px;
