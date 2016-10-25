@@ -312,6 +312,7 @@ $(document).ready(
 							var html = compiledTemplate(context);
 							//Places mustache file in correct location
 							$('#pesticide').html(html);
+							$('#flowChartHeader').text('Pesticides - ' + (CONFIG.currentWaterYear));
 							var aquaticExceedancesString = $('#aquaticExceedances').text();
 							var aquaticExceedances = aquaticExceedancesString.split(",");
 							var humanExceedancesString = $('#humanExceedances').text();
@@ -339,6 +340,7 @@ $(document).ready(
 								             }
 								return items;
 							};
+							
 							
 							//Bar math
 							var barMath = function(bar, className, ugL){
@@ -388,6 +390,7 @@ $(document).ready(
 							var html = compiledTemplate(hbarData);
 							//Places mustache file in correct location
 							$('#freqUseGraphContainer').html(html);
+							$('#currentWaterYear').text((CONFIG.currentWaterYear));
 							
 							barMath('.upperBar', '.previousWaterYear', '.ugL');
 							barMath('.lowerBar', '.oldWaterYear', '.ugL');
@@ -506,8 +509,13 @@ $(document).ready(
 						}
 						
 						//Giving the charts their design
-						var ticks = ['1992-2012 (Annual average)', '2013', '2014'];
+						var ticks = ['1992 - 2012 (Annual average)', '2013 - ' + (CONFIG.currentWaterYear - 1), (CONFIG.currentWaterYear)];
 						$.jqplot(selector, [data.values],  {
+							axesDefaults: {
+								tickOptions:{
+									formatString: '%d'
+								}
+							},
 							axes:{
 								xaxis: getXAxisBounds(),
 								yaxis:{
