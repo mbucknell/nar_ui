@@ -6,12 +6,14 @@ NAWQA Annual Reporting User Interface
 ## Installation
 
 ### On *nix:
+```
 dev_setup.sh
-
+```
 ### On Windows:
+```
 win_dev_setup.bat
 2_win_dev_setup.bat
-
+```
 ## Running HTTPS
 
 ```
