@@ -47,7 +47,7 @@ GEOSERVER_PATH = ':8445/quality/rivers/service/geoserver/'
 
 NAR_WEBSERVICE = 'cida-eros-nardev.er.usgs.gov'
 
-NAR_WEBSERVICE_PATH = ':8446/nar-webservices/service/'
+NAR_WEBSERVICE_PATH = ':8446/quality/rivers/webservices/service/'
 
 #this only needs to be defined on localhost, dev
 this_directory = os.path.dirname(os.path.realpath(__file__))
