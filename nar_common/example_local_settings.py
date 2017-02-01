@@ -51,5 +51,5 @@ NAR_WEBSERVICE_PATH = ':8446/quality/rivers/webservices/service/'
 
 #this only needs to be defined on localhost, dev
 this_directory = os.path.dirname(os.path.realpath(__file__))
-nardev_cert_path = os.path.join(this_directory, 'cida-eros-nardev.er.usgs.gov.pem')
+nardev_cert_path = os.path.join(this_directory, 'resources', 'cida-eros-nardev.er.usgs.gov.pem')
 CUSTOM_CA_BUNDLE = nardev_cert_path
