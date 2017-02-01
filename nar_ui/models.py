@@ -1,7 +1,5 @@
 import re
-from StringIO import StringIO
 import xml.etree.ElementTree as etree
-import requests
 
 from django.db import models
 from utils.safe_session import safe_session
