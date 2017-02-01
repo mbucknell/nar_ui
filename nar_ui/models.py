@@ -25,24 +25,24 @@ class SiteNotFoundException(Exception):
 # Create your models here.
 nar_namespaces = {'NAR': 'http://cida.usgs.gov/NAR'}
 def get_site_name(site_id, url):
-    filter = """
+    ogc_filter = """
     <ogc:Filter xmlns:ogc="https://www.opengis.net/ogc">
        <ogc:PropertyIsEqualTo>
         <ogc:PropertyName>NAR:qw_id</ogc:PropertyName>
         """
-    filter += '<ogc:Literal>' + site_id +'</ogc:Literal>' + """
+    ogc_filter += '<ogc:Literal>' + site_id +'</ogc:Literal>' + """
        </ogc:PropertyIsEqualTo>
     </ogc:Filter>
     """
     #kill all whitespace except for one-length whitespace like the spaces between xml tag names and attribute names
-    filter = re.sub(r'\s{2,}', '',  filter)
+    ogc_filter = re.sub(r'\s{2,}', '',  ogc_filter)
     
     params = {
               'service': 'WFS',
               'version': '2.0.0',
               'request': 'GetFeature',
               'typeName': 'NAR:JD_NFSN_sites',
-              'filter': filter,
+              'filter': ogc_filter,
     }
     session = safe_session()
     my_request = session.get(url, params=params)
