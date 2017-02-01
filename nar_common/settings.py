@@ -30,7 +30,7 @@ INSTALLED_APPS = (
     'utils',
     'helpcontent',
     'nar_values',
-    
+    'django_extensions',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -125,7 +125,7 @@ NAR_CURRENT_WATER_YEAR = 2015
 
 #This is injected unescaped into a single-quoted javascript string
 #This is done to fool the qa response rewrites that do a simple cida.usgs.gov -> cida-test.er.usgs.gov replacement
-NAR_SOS_DEFS_BASE_URL = "https://cida.'+ /* concatenating like this prevents this from being rewritten to a qa url by the apache frontend */ 'usgs.gov/def/NAR/"
+NAR_SOS_DEFS_BASE_URL = "http://cida.'+ /* concatenating like this prevents this from being rewritten to a qa url by the apache frontend */ 'usgs.gov/def/NAR/"
 
 TEST_RUNNER = 'nar_common.test_runner.ManagedModelTestRunner' 
 
