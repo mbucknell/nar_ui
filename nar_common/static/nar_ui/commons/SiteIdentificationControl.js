@@ -59,7 +59,7 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 					$summaryGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-th-list'),' Summary Graphs'),
 					$detailedGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'), ' Nutrient and Sediment Graphs'),
 					$downloadLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-save'),' Download Data'),
-					$detailedPesticdeGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'), ' Detailed Pesticide Graphs'),
+					$detailedPesticdeGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'), ' Pesticide Graphs'),
 					// query-ui has a hierarchy of things it tries to auto-focus on. This hack has it auto-focus on a hidden span.
 					// Otherwise it trues to focus on the first link, which in some browsers will draw an outline around it. (ugly)
 					// http://api.jqueryui.com/dialog/

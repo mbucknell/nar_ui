@@ -186,7 +186,7 @@ $(document).ready(function() {
 							$annualLoadGraphsLink = $('<a />').addClass(loadGraphLinkClass).addClass(annualLoadGraphLinkClass),
 							$mayLoadGraphsLink = $('<a />').addClass(loadGraphLinkClass).addClass(mayLoadGraphLinkClass),
 							$summaryGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-th-list'),' Summary Graphs'),
-							$detailedGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'), ' Detailed Graphs'),
+							$detailedGraphsLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-stats'), ' Nutrient Graphs'),
 							$downloadLink = $('<a />').append($('<span />').addClass('glyphicon glyphicon-save'),' Download Data'),
 							$hiddenAutoFocus = $('<span />').addClass('hidden').attr('autofocus', ''),
 							data = feature.data,
