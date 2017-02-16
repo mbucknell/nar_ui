@@ -166,13 +166,13 @@ $(document).ready(
 							function(response) {
 								//warning, this is broken, remark data not being handled! 											
 								var result = calculateExceedance(response.data);
-								var humanHealthExceedancePlot = ExceedancePlot('humanHealthExceedances', 
-								[
-									{constituent: nar.Constituents.nitrate, data: result.value, label: result.label},
-									{constituent: {color: '', name: ' '}, data: ' ', label: ['']}
-								],
-								exceedancesTitle
-								);
+								//var humanHealthExceedancePlot = ExceedancePlot('humanHealthExceedances', 
+								//[
+									//{constituent: nar.Constituents.nitrate, data: result.value, label: result.label},
+									//{constituent: {color: '', name: ' '}, data: ' ', label: ['']}
+								//],
+								//exceedancesTitle
+								//);
 		        			},
 	        				function(reject) {
 	        					throw Error ('Could not retrieve discrete data');
