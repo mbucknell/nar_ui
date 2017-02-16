@@ -166,6 +166,7 @@ $(document).ready(
 							function(response) {
 								//warning, this is broken, remark data not being handled! 											
 								var result = calculateExceedance(response.data);
+								//was causing an error on summary page, but didn't want to eliminate completely if its needed later
 								//var humanHealthExceedancePlot = ExceedancePlot('humanHealthExceedances', 
 								//[
 									//{constituent: nar.Constituents.nitrate, data: result.value, label: result.label},
@@ -607,7 +608,6 @@ $(document).ready(
 			
 			//Toggles the pesticide graphs
 			$('#pesticideToggleButton').on('click', function(){
-				$('#pesticide').toggle();
 				$('#pesticideComparisonContainer').toggle();
 				$('#freqUseGraphContainer').toggle();
 				$('#clearLeft').toggleClass('spotme');
