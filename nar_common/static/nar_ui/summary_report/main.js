@@ -304,6 +304,7 @@ $(document).ready(
 						$('#pesticide').css('display', 'none');
 						$('#pesticideComparisonContainer').css('display', 'none');
 						$('#summaryPesticideToggle').css('display', 'none');
+						$('.pesticide_report').css('display', 'none');
 						return;
 					}else{
 						var context = summary[0];
@@ -612,7 +613,6 @@ $(document).ready(
 				$('#freqUseGraphContainer').toggle();
 				$('#clearLeft').toggleClass('spotme');
 			});
-			
 			
 			var failedGetDataAvailability = function(data, textStatus,jqXHR) {
 				var msg = 'Could not determine data availability for this site';
