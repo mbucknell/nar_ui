@@ -119,7 +119,6 @@
 	font-size:1em;
 		}										
 .currentYearComparisonTitle {
-	font-size:.8em;
 	margin: 10px 0 0 10px;
 	height: 40px;
 	padding-left: 22%;
@@ -185,8 +184,17 @@ button{
 	outline:none;
 }
 
+.downloadsTextDiv{
+	background:@siteBackground;
+	border:@borderDark;
+	border-radius:@borderRadius;
+	width:300px;
+	margin:0 auto;
+	padding:10px;
+}
+
 .scienceBaseLink{
-	margin:50px auto 50px auto;
+	margin:10px auto 10px auto;
 	width:200px;
 	text-align:center;
 	
@@ -194,8 +202,8 @@ button{
 		padding:5px 10px;
 		width:100%;	
 		font-size:1.2em;
-		border-radius:5px;
-		background:rgb(240,240,240);
+		border-radius:@borderRadius;
+		background:@siteBackground;
 		border:@borderDark;
 		
 		&:hover{
@@ -251,10 +259,10 @@ blockquote{
  .tagline p{font-family:@baseFontFamily;
  			font-size:1.1em;}
  
-.center{margin:0 auto;
+.center{
+		margin:0 10px 0 18px;
 		width:1155px;
 		min-height:100px;
-		margin:0 10px 0 18px;
 		padding:0;
 }
  
@@ -1451,14 +1459,14 @@ ul#relativeLinks{
 	margin-bottom: 15px;
 	border-bottom:@borderDark;
 }
-#downloadTop{background:@siteBackground;
-			
-			height:55px;
-			padding:0 15px;
-			border-radius:10px 10px 0 0;
-			border-bottom:@borderDark;
-			.downloadMixin;
-			}
+#downloadTop{
+	background:@siteBackground;
+	height:55px;
+	padding:0 15px;
+	border-radius:10px 10px 0 0;
+	border-bottom:@borderDark;
+	.downloadMixin;
+}
 			
 #downloadForm{background:@boxColor;
 				min-height:410px;
@@ -1553,7 +1561,6 @@ ul#relativeLinks{
 #downloadButtons button{background:#fff;
 						color:@primaryColor;
 						font-weight:700;
-						border:none;
 						width:250px;
 						height:40px;
 						border-radius:5px;

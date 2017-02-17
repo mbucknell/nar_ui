@@ -166,13 +166,15 @@ $(document).ready(
 							function(response) {
 								//warning, this is broken, remark data not being handled! 											
 								var result = calculateExceedance(response.data);
-								var humanHealthExceedancePlot = ExceedancePlot('humanHealthExceedances', 
-								[
-									{constituent: nar.Constituents.nitrate, data: result.value, label: result.label},
-									{constituent: {color: '', name: ' '}, data: ' ', label: ['']}
-								],
-								exceedancesTitle
-								);
+								if($('#humanHealthExccendance').length > 0){
+									var humanHealthExceedancePlot = ExceedancePlot('humanHealthExceedances', 
+											[
+												{constituent: nar.Constituents.nitrate, data: result.value, label: result.label},
+												{constituent: {color: '', name: ' '}, data: ' ', label: ['']}
+											],
+											exceedancesTitle
+									);
+								}
 		        			},
 	        				function(reject) {
 	        					throw Error ('Could not retrieve discrete data');
@@ -303,6 +305,7 @@ $(document).ready(
 						$('#pesticide').css('display', 'none');
 						$('#pesticideComparisonContainer').css('display', 'none');
 						$('#summaryPesticideToggle').css('display', 'none');
+						$('.pesticide_report').css('display', 'none');
 						return;
 					}else{
 						var context = summary[0];
@@ -607,12 +610,10 @@ $(document).ready(
 			
 			//Toggles the pesticide graphs
 			$('#pesticideToggleButton').on('click', function(){
-				$('#pesticide').toggle();
 				$('#pesticideComparisonContainer').toggle();
 				$('#freqUseGraphContainer').toggle();
 				$('#clearLeft').toggleClass('spotme');
 			});
-			
 			
 			var failedGetDataAvailability = function(data, textStatus,jqXHR) {
 				var msg = 'Could not determine data availability for this site';

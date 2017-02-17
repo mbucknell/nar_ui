@@ -79,7 +79,10 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 				$summaryGraphsLinkContainer.append($summaryGraphsLink);
 				$detailedGraphsLinkContainer.append($detailedGraphsLink);
 				$downloadLinkContainer.append($downloadLink);
-				$detailedPesticideGraphsLinkContainer.append($detailedPesticdeGraphsLink);
+				//checks to see if its a reference site and if it is, does not put the pesticide button in pop up
+				if(data.site_type !== 'Reference'){
+					$detailedPesticideGraphsLinkContainer.append($detailedPesticdeGraphsLink);
+				}
 				
 				$reportsAndGraphsRow.append($summaryGraphsLinkContainer, $detailedGraphsLinkContainer, $downloadLinkContainer, $detailedPesticideGraphsLinkContainer, $hiddenAutoFocus);
 				
@@ -87,7 +90,7 @@ nar.SiteIdentificationControl = OpenLayers.Class(OpenLayers.Control.WMSGetFeatur
 				return $container;
 			};
 
-    	// Only care about this if user hoevered over an actual feature
+    	// Only care about this if user hovered over an actual feature
     	if (features.length > 0) {
     		// If more than one feature, create a list. Otherwise, just create a single div
 	    	for (var fInd = 0;fInd < features.length;fInd++) {
